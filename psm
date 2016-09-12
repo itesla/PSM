@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Optimize start JIT compilation in Java virtual machine for short run 
+export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+
+export MAIN_CLASS="org.power_systems_modelica.psm.tools.Main"
+mvn --debug exec:java --projects tools -Dexec.mainClass=$MAIN_CLASS -Dexec.args="$*" -Ditesla.config.dir=$PSM_DATA/test/cfg
+
+# Samples
+
+function mo2dyd {
+	# Extract dynamic data definitions (to set-up a dynamic data repository) from an existing Modelica file
+	SOURCE_MO=$PSM_DATA/test/ieee14/expected/ieee14bus_without_omegaRef.mo
+	TARGET_DDR=$PSM_DATA/test/ieee14
+	DYD_FILENAME=ieee14.dyd
+	PAR_FILENAME=ieee14.par
+	psm mo2dyd --modelica $SOURCE_MO --ddr $TARGET_DDR --dyd $DYD_FILENAME --par $PAR_FILENAME
+}

@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.power-systems-modelica.psm</groupId>
+		<artifactId>psm</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>dyd-files-from-modelica</artifactId>
+	<name>DYD files from Modelica </name>
+	<description>Tool to create DYD and PAR files from a Modelica .mo file</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.power-systems-modelica.psm</groupId>
+			<artifactId>modelica-network</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.power-systems-modelica.psm</groupId>
+			<artifactId>ddr-dyd-files</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.power-systems-modelica.psm</groupId>
+			<artifactId>modelica-parser</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

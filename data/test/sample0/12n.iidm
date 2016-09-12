@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<network xmlns="http://www.itesla_project.eu/schema/iidm/1_0" id="situ_12N" sourceFormat="CIM1" caseDate="2014-02-12T13:19:17+01:00" forecastDistance="0">
+  <substation id="CHAN5P7_S" name="CHAN5P7" country="FR" tso="RTE">
+    <voltageLevel id="CHAN5P7_S_VL7"  name="CHAN5P7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="CHAN5P7_S_VL7_TN2" v="406.609222" angle="-2.44373059"/>
+        <bus id="CHAN5P7_S_VL7_TN1" v="406.609222" angle="-2.44373059"/>
+        <switch id="CHAN5P7_SW_CHAN5___7COUPL____DJ" open="false" kind="BREAKER" retained="true" bus1="CHAN5P7_S_VL7_TN2" bus2="CHAN5P7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="CHAN5Y742_EC" name="CHAN5Y742" p0="83.966400146484375" q0="1.5283900499343872" p="83.966400146484375" q="1.5283900499343872" bus="CHAN5P7_S_VL7_TN2" connectableBus="CHAN5P7_S_VL7_TN2"/>
+      <load id="CHAN5L72LARCA_EC" name="CHAN5L72LARCA" p0="-370.36801147460938" q0="58.426799774169922" p="-370.36801147460938" q="58.426799774169922" bus="CHAN5P7_S_VL7_TN2" connectableBus="CHAN5P7_S_VL7_TN2"/>
+      <load id="CHAN5Y741_EC" name="CHAN5Y741" p0="83.9844970703125" q0="-9.0987100601196289" p="83.9844970703125" q="-9.0987100601196289" bus="CHAN5P7_S_VL7_TN1" connectableBus="CHAN5P7_S_VL7_TN1"/>
+      <load id="CHAN5L72QUINT_EC" name="CHAN5L72QUINT" p0="639.44500732421875" q0="-83.39739990234375" p="639.44500732421875" q="-83.39739990234375" bus="CHAN5P7_S_VL7_TN1" connectableBus="CHAN5P7_S_VL7_TN1"/>
+      <load id="CHAN5L71LARCA_EC" name="CHAN5L71LARCA" p0="-370.36801147460938" q0="58.426799774169922" p="-370.36801147460938" q="58.426799774169922" bus="CHAN5P7_S_VL7_TN1" connectableBus="CHAN5P7_S_VL7_TN1"/>
+      <load id="CHAN5L71QUINT_EC" name="CHAN5L71QUINT" p0="0" q0="0" connectableBus="CHAN5P7_S_VL7_TN2"/>
+    </voltageLevel>
+  </substation>
+  <substation id="CIVAUP7_S" name="CIVAUP7" country="FR" tso="RTE">
+    <voltageLevel id="CIVAUP7_S_VL7"  name="CIVAUP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="CIVAUP7_S_VL7_TN1" v="411.424011" angle="8.71410751"/>
+      </busBreakerTopology>
+      <generator id="CIVAU7CIVAU1_NGU_SM" name="CIVAU7CIVAU1" energySource="NUCLEAR" maxP="1498" minP="398" voltageRegulatorOn="1" targetP="1454.52001953125" targetQ="-69.646003723144531" targetV="411.42401123046875" p="-1454.52001953125" q="69.535552978515625" bus="CIVAUP7_S_VL7_TN1" connectableBus="CIVAUP7_S_VL7_TN1">
+        <reactiveCapabilityCurve>
+          <point p="398" minQ="-5" maxQ="360"/>
+          <point p="1498" minQ="-220" maxQ="200"/>
+        </reactiveCapabilityCurve>
+      </generator>
+      <load id="CIVAU7AUXIL1_EC" name="CIVAU7AUXIL1" p0="-1.1075400114059448" q0="-0.5976790189743042" p="-1.1075400114059448" q="-0.5976790189743042" bus="CIVAUP7_S_VL7_TN1" connectableBus="CIVAUP7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <substation id="DISTRP7_S" name="DISTRP7" country="FR" tso="RTE">
+    <voltageLevel id="DISTRP7_S_VL7"  name="DISTRP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="DISTRP7_S_VL7_TN3" v="405.204285" angle="-1.34999263"/>
+        <bus id="DISTRP7_S_VL7_TN2" v="405.204285" angle="-1.34999263"/>
+        <bus id="DISTRP7_S_VL7_TN1" v="405.204285" angle="-1.34999263"/>
+        <switch id="DISTRP7_SW_DISTR___7LIAIS12__DJ" open="false" kind="BREAKER" retained="true" bus1="DISTRP7_S_VL7_TN3" bus2="DISTRP7_S_VL7_TN1"/>
+        <switch id="DISTRP7_SW_DISTR___7COUPL____DJ" open="false" kind="BREAKER" retained="true" bus1="DISTRP7_S_VL7_TN2" bus2="DISTRP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="DISTRY766_EC" name="DISTRY766" p0="294.27999877929688" q0="-0.0073979999870061874" p="294.27999877929688" q="-0.0073979999870061874" bus="DISTRP7_S_VL7_TN3" connectableBus="DISTRP7_S_VL7_TN3"/>
+      <load id="DISTRL71PICOC_EC" name="DISTRL71PICOC" p0="111.16799926757812" q0="-68.25469970703125" p="111.16799926757812" q="-68.25469970703125" bus="DISTRP7_S_VL7_TN3" connectableBus="DISTRP7_S_VL7_TN3"/>
+      <load id="AVOI5L72DISTR_EC" name="AVOI5L72DISTR" p0="-750.53802490234375" q0="108.84500122070312" p="-750.53802490234375" q="108.84500122070312" bus="DISTRP7_S_VL7_TN3" connectableBus="DISTRP7_S_VL7_TN3"/>
+      <load id="DISTRY760_EC" name="DISTRY760" p0="296.76199340820312" q0="-4.1902198791503906" p="296.76199340820312" q="-4.1902198791503906" bus="DISTRP7_S_VL7_TN2" connectableBus="DISTRP7_S_VL7_TN2"/>
+      <load id="COR_PL71DISTR_EC" name="COR.PL71DISTR" p0="864.23297119140625" q0="-34.763900756835938" p="864.23297119140625" q="-34.763900756835938" bus="DISTRP7_S_VL7_TN2" connectableBus="DISTRP7_S_VL7_TN2"/>
+      <load id="AVOI5L71DISTR_EC" name="AVOI5L71DISTR" p0="-750.53802490234375" q0="108.84500122070312" p="-750.53802490234375" q="108.84500122070312" bus="DISTRP7_S_VL7_TN2" connectableBus="DISTRP7_S_VL7_TN2"/>
+      <load id="DISTRY765_EC" name="DISTRY765" p0="166.88699340820312" q0="-9.8486499786376953" p="166.88699340820312" q="-9.8486499786376953" bus="DISTRP7_S_VL7_TN1" connectableBus="DISTRP7_S_VL7_TN1"/>
+      <load id="DISTRY762_EC" name="DISTRY762" p0="195.17799377441406" q0="-1.4403899908065796" p="195.17799377441406" q="-1.4403899908065796" bus="DISTRP7_S_VL7_TN1" connectableBus="DISTRP7_S_VL7_TN1"/>
+      <load id="COR_PL72DISTR_EC" name="COR.PL72DISTR" p0="0" q0="0" connectableBus="DISTRP7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <substation id="EGUZOP7_S" name="EGUZOP7" country="FR" tso="RTE">
+    <voltageLevel id="EGUZOP7_S_VL7"  name="EGUZOP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="EGUZOP7_S_VL7_TN2" v="412.615143" angle="2.63835573"/>
+        <bus id="EGUZOP7_S_VL7_TN1" v="412.615143" angle="2.63835573"/>
+        <switch id="EGUZOP7_SW_EGUZO___7COUPL____DJ" open="false" kind="BREAKER" retained="true" bus1="EGUZOP7_S_VL7_TN2" bus2="EGUZOP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="EGUZOL71PLAUD_EC" name="EGUZOL71PLAUD" p0="-47.007801055908203" q0="-9.9078998565673828" p="-47.007801055908203" q="-9.9078998565673828" bus="EGUZOP7_S_VL7_TN2" connectableBus="EGUZOP7_S_VL7_TN2"/>
+      <load id="EGUZOL71MARMA_EC" name="EGUZOL71MARMA" p0="442.73599243164062" q0="-34.434501647949219" p="442.73599243164062" q="-34.434501647949219" bus="EGUZOP7_S_VL7_TN2" connectableBus="EGUZOP7_S_VL7_TN2"/>
+      <load id="EGUZOL71RUEYR_EC" name="EGUZOL71RUEYR" p0="118.47799682617188" q0="-54.443500518798828" p="118.47799682617188" q="-54.443500518798828" bus="EGUZOP7_S_VL7_TN1" connectableBus="EGUZOP7_S_VL7_TN1"/>
+      <load id="EGUZOY772_EC" name="EGUZOY772" p0="0" q0="0" connectableBus="EGUZOP7_S_VL7_TN1"/>
+      <load id="EGUZOY771_EC" name="EGUZOY771" p0="0" q0="0" connectableBus="EGUZOP7_S_VL7_TN2"/>
+    </voltageLevel>
+  </substation>
+  <substation id="GRANZP7_S" name="GRANZP7" country="FR" tso="RTE">
+    <voltageLevel id="GRANZP7_S_VL7"  name="GRANZP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="GRANZP7_S_VL7_TN4" v="407.492615" angle="3.22223163"/>
+        <bus id="GRANZP7_S_VL7_TN3" v="407.492615" angle="3.22223163"/>
+        <bus id="GRANZP7_S_VL7_TN2" v="407.492615" angle="3.22223163"/>
+        <bus id="GRANZP7_S_VL7_TN1" v="407.492615" angle="3.22223163"/>
+        <switch id="GRANZP7_SW_GRANZ___7TRO_2AB__DJ" open="false" kind="BREAKER" retained="true" bus1="GRANZP7_S_VL7_TN4" bus2="GRANZP7_S_VL7_TN3"/>
+        <switch id="GRANZP7_SW_GRANZ___7TRO_1AB__DJ" open="false" kind="BREAKER" retained="true" bus1="GRANZP7_S_VL7_TN2" bus2="GRANZP7_S_VL7_TN1"/>
+        <switch id="GRANZP7_SW_GRANZ___7COUPL_B__DJ" open="false" kind="BREAKER" retained="true" bus1="GRANZP7_S_VL7_TN4" bus2="GRANZP7_S_VL7_TN2"/>
+        <switch id="GRANZP7_SW_GRANZ___7COUPL_A__DJ" open="false" kind="BREAKER" retained="true" bus1="GRANZP7_S_VL7_TN3" bus2="GRANZP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="GRANZY761_EC" name="GRANZY761" p0="115.90200042724609" q0="3.5603899955749512" p="115.90200042724609" q="3.5603899955749512" bus="GRANZP7_S_VL7_TN3" connectableBus="GRANZP7_S_VL7_TN3"/>
+      <load id="GRANZL71PREGU_EC" name="GRANZL71PREGU" p0="-267.43301391601562" q0="41.088298797607422" p="-267.43301391601562" q="41.088298797607422" bus="GRANZP7_S_VL7_TN3" connectableBus="GRANZP7_S_VL7_TN3"/>
+      <load id="GRANZY763_EC" name="GRANZY763" p0="114.13999938964844" q0="3.3538401126861572" p="114.13999938964844" q="3.3538401126861572" bus="GRANZP7_S_VL7_TN2" connectableBus="GRANZP7_S_VL7_TN2"/>
+      <load id="GRANZY762_EC" name="GRANZY762" p0="115.90399932861328" q0="3.4711599349975586" p="115.90399932861328" q="3.4711599349975586" bus="GRANZP7_S_VL7_TN1" connectableBus="GRANZP7_S_VL7_TN1"/>
+      <load id="GRANZL72PREGU_EC" name="GRANZL72PREGU" p0="-269.79000854492188" q0="44.298801422119141" p="-269.79000854492188" q="44.298801422119141" bus="GRANZP7_S_VL7_TN1" connectableBus="GRANZP7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <substation id="JUMEAP7_S" name="JUMEAP7" country="FR" tso="RTE">
+    <voltageLevel id="JUMEAP7_S_VL7"  name="JUMEAP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="JUMEAP7_S_VL7_TN2" v="406.515717" angle="0"/>
+        <bus id="JUMEAP7_S_VL7_TN1" v="406.515717" angle="0"/>
+        <switch id="JUMEAP7_SW_Disj_Couplage_1_2" open="false" kind="BREAKER" retained="true" bus1="JUMEAP7_S_VL7_TN2" bus2="JUMEAP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="JUMEAY762_EC" name="JUMEAY762" p0="110.52200317382812" q0="-6.294990062713623" p="110.52200317382812" q="-6.294990062713623" bus="JUMEAP7_S_VL7_TN2" connectableBus="JUMEAP7_S_VL7_TN2"/>
+      <load id="JUMEAY761_EC" name="JUMEAY761" p0="97.943901062011719" q0="-4.9936199188232422" p="97.943901062011719" q="-4.9936199188232422" bus="JUMEAP7_S_VL7_TN1" connectableBus="JUMEAP7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <substation id="SSEA2P7_S" name="SSEA2P7" country="FR" tso="RTE">
+    <voltageLevel id="SSEA2P7_S_VL7"  name="SSEA2P7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="SSEA2P7_S_VL7_TN1" v="406.679993" angle="-2.66618896"/>
+        <bus id="SSEA2P7_S_VL7_TN2" v="406.679993" angle="-2.66618896"/>
+        <switch id="SSEA2P7_SW_SSEA2___7COUPL_1__DJ" open="false" kind="BREAKER" retained="true" bus1="SSEA2P7_S_VL7_TN1" bus2="SSEA2P7_S_VL7_TN2"/>
+      </busBreakerTopology>
+      <generator id="SSEA27SSEA21_NGU_SM" name="SSEA27SSEA21" energySource="NUCLEAR" maxP="917" minP="197" voltageRegulatorOn="1" targetP="398.2860107421875" targetQ="-258.7340087890625" targetV="406.67999267578125" p="-398.2860107421875" q="129.84466552734375" bus="SSEA2P7_S_VL7_TN1" connectableBus="SSEA2P7_S_VL7_TN1">
+        <reactiveCapabilityCurve>
+          <point p="197" minQ="-230" maxQ="320"/>
+          <point p="917" minQ="-300" maxQ="230"/>
+        </reactiveCapabilityCurve>
+      </generator>
+      <generator id="SSEA27SSEA22_NGU_SM" name="SSEA27SSEA22" energySource="NUCLEAR" maxP="917" minP="197" voltageRegulatorOn="1" targetP="398" targetQ="-258.7340087890625" targetV="406.67999267578125" p="-398" q="129" bus="SSEA2P7_S_VL7_TN2" connectableBus="SSEA2P7_S_VL7_TN2">
+        <reactiveCapabilityCurve>
+          <point p="197" minQ="-230" maxQ="320"/>
+          <point p="917" minQ="-300" maxQ="230"/>
+        </reactiveCapabilityCurve>
+      </generator>
+      <load id="SSEA27AUXIL1_EC" name="SSEA27AUXIL1" p0="0.86816400289535522" q0="-0.99414098262786865" p="0.86816400289535522" q="-0.99414098262786865" bus="SSEA2P7_S_VL7_TN1" connectableBus="SSEA2P7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <substation id="VALDIP7_S" name="VALDIP7" country="FR" tso="RTE">
+    <voltageLevel id="VALDIP7_S_VL7"  name="VALDIP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="VALDIP7_S_VL7_TN4" v="411.404663" angle="8.56582165"/>
+        <bus id="VALDIP7_S_VL7_TN3" v="411.404663" angle="8.56582165"/>
+        <bus id="VALDIP7_S_VL7_TN2" v="411.404663" angle="8.56582165"/>
+        <bus id="VALDIP7_S_VL7_TN1" v="411.404663" angle="8.56582165"/>
+        <switch id="VALDIP7_SW_VALDI___7TRO_2AB__DJ" open="false" kind="BREAKER" retained="true" bus1="VALDIP7_S_VL7_TN4" bus2="VALDIP7_S_VL7_TN3"/>
+        <switch id="VALDIP7_SW_VALDI___7TRO_1AB__DJ" open="false" kind="BREAKER" retained="true" bus1="VALDIP7_S_VL7_TN2" bus2="VALDIP7_S_VL7_TN1"/>
+        <switch id="VALDIP7_SW_VALDI___7COUPL_B__DJ" open="false" kind="BREAKER" retained="true" bus1="VALDIP7_S_VL7_TN4" bus2="VALDIP7_S_VL7_TN2"/>
+        <switch id="VALDIP7_SW_VALDI___7COUPL_A__DJ" open="false" kind="BREAKER" retained="true" bus1="VALDIP7_S_VL7_TN3" bus2="VALDIP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="VALDI7AUXIL2_EC" name="VALDI7AUXIL2" p0="0" q0="-0.97414600849151611" p="0" q="-0.97414600849151611" bus="VALDIP7_S_VL7_TN4" connectableBus="VALDIP7_S_VL7_TN4"/>
+      <load id="VALDIY762_EC" name="VALDIY762" p0="0" q0="0" p="0" q="0" bus="VALDIP7_S_VL7_TN1" connectableBus="VALDIP7_S_VL7_TN1"/>
+      <load id="VALDI7AUXIL1_EC" name="VALDI7AUXIL1" p0="5.1617398262023926" q0="-0.97414600849151611" p="5.1617398262023926" q="-0.97414600849151611" bus="VALDIP7_S_VL7_TN1" connectableBus="VALDIP7_S_VL7_TN1"/>
+      <load id="VALDIY771_EC" name="VALDIY771" p0="0" q0="0" connectableBus="VALDIP7_S_VL7_TN4"/>
+    </voltageLevel>
+  </substation>
+  <substation id="VERGEP7_S" name="VERGEP7" country="FR" tso="RTE">
+    <voltageLevel id="VERGEP7_S_VL7"  name="VERGEP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="VERGEP7_S_VL7_TN3" v="406.976562" angle="-2.83221078"/>
+        <bus id="VERGEP7_S_VL7_TN2" v="406.976562" angle="-2.83221078"/>
+        <bus id="VERGEP7_S_VL7_TN1" v="406.976562" angle="-2.83221078"/>
+        <switch id="VERGEP7_SW_VERGE___7LIAIS12__DJ" open="false" kind="BREAKER" retained="true" bus1="VERGEP7_S_VL7_TN3" bus2="VERGEP7_S_VL7_TN2"/>
+        <switch id="VERGEP7_SW_VERGE___7COUPL_2__DJ" open="false" kind="BREAKER" retained="true" bus1="VERGEP7_S_VL7_TN2" bus2="VERGEP7_S_VL7_TN1"/>
+        <switch id="VERGEP7_SW_VERGE___7COUPL_1__DJ" open="false" kind="BREAKER" retained="true" bus1="VERGEP7_S_VL7_TN3" bus2="VERGEP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="CHAINL71VERGE_EC" name="CHAINL71VERGE" p0="117.75800323486328" q0="-11.674699783325195" p="117.75800323486328" q="-11.674699783325195" bus="VERGEP7_S_VL7_TN3" connectableBus="VERGEP7_S_VL7_TN3"/>
+      <load id="DAMBRL71VERGE_EC" name="DAMBRL71VERGE" p0="448.7919921875" q0="-68.397003173828125" p="448.7919921875" q="-68.397003173828125" bus="VERGEP7_S_VL7_TN2" connectableBus="VERGEP7_S_VL7_TN2"/>
+      <load id="DAMBRL72VERGE_EC" name="DAMBRL72VERGE" p0="448.7919921875" q0="-68.397003173828125" p="448.7919921875" q="-68.397003173828125" bus="VERGEP7_S_VL7_TN1" connectableBus="VERGEP7_S_VL7_TN1"/>
+      <load id="CHAINL72VERGE_EC" name="CHAINL72VERGE" p0="117.91799926757812" q0="-11.695300102233887" p="117.91799926757812" q="-11.695300102233887" bus="VERGEP7_S_VL7_TN1" connectableBus="VERGEP7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <substation id="VLERBP7_S" name="VLERBP7" country="FR" tso="RTE">
+    <voltageLevel id="VLERBP7_S_VL7"  name="VLERBP7" nominalV="380"   topologyKind="BUS_BREAKER">
+      <busBreakerTopology>
+        <bus id="VLERBP7_S_VL7_TN2" v="407.33667" angle="-2.85334325"/>
+        <bus id="VLERBP7_S_VL7_TN1" v="407.33667" angle="-2.85334325"/>
+        <switch id="VLERBP7_SW_Disj_Couplage_1_2" open="false" kind="BREAKER" retained="true" bus1="VLERBP7_S_VL7_TN2" bus2="VLERBP7_S_VL7_TN1"/>
+      </busBreakerTopology>
+      <load id="VLERBY743_EC" name="VLERBY743" p0="71.591400146484375" q0="-11.694199562072754" p="71.591400146484375" q="-11.694199562072754" bus="VLERBP7_S_VL7_TN2" connectableBus="VLERBP7_S_VL7_TN2"/>
+      <load id="VLERBY741_EC" name="VLERBY741" p0="72.270401000976562" q0="-11.560600280761719" p="72.270401000976562" q="-11.560600280761719" bus="VLERBP7_S_VL7_TN1" connectableBus="VLERBP7_S_VL7_TN1"/>
+      <load id="PICOCL71VLERB_EC" name="PICOCL71VLERB" p0="-76.88189697265625" q0="1.9552299976348877" p="-76.88189697265625" q="1.9552299976348877" bus="VLERBP7_S_VL7_TN1" connectableBus="VLERBP7_S_VL7_TN1"/>
+    </voltageLevel>
+  </substation>
+  <line id="CHAN5L71DISTR_ACLS" name="CHAN5L71DISTR" r="2.3100099563598633" x="25.030000686645508" g1="0" b1="0.00014002750685904175" g2="0" b2="0.00014002750685904175" voltageLevelId1="DISTRP7_S_VL7" voltageLevelId2="CHAN5P7_S_VL7" bus1="DISTRP7_S_VL7_TN1" bus2="CHAN5P7_S_VL7_TN2" connectableBus1="DISTRP7_S_VL7_TN1" connectableBus2="CHAN5P7_S_VL7_TN2"/>
+  <line id="CHAN5L71VLERB_ACLS" name="CHAN5L71VLERB" r="1.9199999570846558" x="20.579999923706055" g1="0" b1="0.00011301950144115835" g2="0" b2="0.00011301950144115835" voltageLevelId1="VLERBP7_S_VL7" voltageLevelId2="CHAN5P7_S_VL7" bus1="VLERBP7_S_VL7_TN2" bus2="CHAN5P7_S_VL7_TN1" connectableBus1="VLERBP7_S_VL7_TN2" connectableBus2="CHAN5P7_S_VL7_TN1"/>
+  <line id="CIVAUL71VALDI_ACLS" name="CIVAUL71VALDI" r="0.019999999552965164" x="0.30000001192092896" g1="0" b1="2.0083100480405847e-06" g2="0" b2="2.0083100480405847e-06" voltageLevelId1="VALDIP7_S_VL7" voltageLevelId2="CIVAUP7_S_VL7" bus1="VALDIP7_S_VL7_TN4" bus2="CIVAUP7_S_VL7_TN1" connectableBus1="VALDIP7_S_VL7_TN4" connectableBus2="CIVAUP7_S_VL7_TN1"/>
+  <line id="DISTRL71JUMEA_ACLS" name="DISTRL71JUMEA" r="1.3950099945068359" x="14.154999732971191" g1="0" b1="8.7465501565020531e-05" g2="0" b2="8.7465501565020531e-05" voltageLevelId1="JUMEAP7_S_VL7" voltageLevelId2="DISTRP7_S_VL7" bus1="JUMEAP7_S_VL7_TN1" bus2="DISTRP7_S_VL7_TN2" connectableBus1="JUMEAP7_S_VL7_TN1" connectableBus2="DISTRP7_S_VL7_TN2"/>
+  <line id="DISTRL72JUMEA_ACLS" name="DISTRL72JUMEA" r="1.3899999856948853" x="14.140000343322754" g1="0" b1="8.8019500253722072e-05" g2="0" b2="8.8019500253722072e-05" voltageLevelId1="JUMEAP7_S_VL7" voltageLevelId2="DISTRP7_S_VL7" bus1="JUMEAP7_S_VL7_TN2" bus2="DISTRP7_S_VL7_TN1" connectableBus1="JUMEAP7_S_VL7_TN2" connectableBus2="DISTRP7_S_VL7_TN1"/>
+  <line id="EGUZOL71VALDI_ACLS" name="EGUZOL71VALDI" r="1.5199999809265137" x="19.989999771118164" g1="0" b1="0.0001650274934945628" g2="0" b2="0.0001650274934945628" voltageLevelId1="VALDIP7_S_VL7" voltageLevelId2="EGUZOP7_S_VL7" bus1="VALDIP7_S_VL7_TN4" bus2="EGUZOP7_S_VL7_TN1" connectableBus1="VALDIP7_S_VL7_TN4" connectableBus2="EGUZOP7_S_VL7_TN1"/>
+  <line id="EGUZOL71VERGE_ACLS" name="EGUZOL71VERGE" r="4.1699800491333008" x="45.849899291992188" g1="0" b1="0.00026298500597476959" g2="0" b2="0.00026298500597476959" voltageLevelId1="VERGEP7_S_VL7" voltageLevelId2="EGUZOP7_S_VL7" bus1="VERGEP7_S_VL7_TN3" bus2="EGUZOP7_S_VL7_TN1" connectableBus1="VERGEP7_S_VL7_TN3" connectableBus2="EGUZOP7_S_VL7_TN1"/>
+  <line id="EGUZOL72VALDI_ACLS" name="EGUZOL72VALDI" r="1.5200099945068359" x="19.969999313354492" g1="0" b1="0.0001650274934945628" g2="0" b2="0.0001650274934945628" voltageLevelId1="VALDIP7_S_VL7" voltageLevelId2="EGUZOP7_S_VL7" connectableBus1="VALDIP7_S_VL7_TN1" connectableBus2="EGUZOP7_S_VL7_TN2"/>
+  <line id="GRANZL71JUMEA_ACLS" name="GRANZL71JUMEA" r="2.3599998950958252" x="24.309999465942383" g1="0" b1="0.00015096949937287718" g2="0" b2="0.00015096949937287718" voltageLevelId1="JUMEAP7_S_VL7" voltageLevelId2="GRANZP7_S_VL7" bus1="JUMEAP7_S_VL7_TN1" bus2="GRANZP7_S_VL7_TN1" connectableBus1="JUMEAP7_S_VL7_TN1" connectableBus2="GRANZP7_S_VL7_TN1"/>
+  <line id="GRANZL71VALDI_ACLS" name="GRANZL71VALDI" r="2.0699999332427979" x="27.219999313354492" g1="0" b1="0.00022596950293518603" g2="0" b2="0.00022596950293518603" voltageLevelId1="VALDIP7_S_VL7" voltageLevelId2="GRANZP7_S_VL7" connectableBus1="VALDIP7_S_VL7_TN3" connectableBus2="GRANZP7_S_VL7_TN4"/>
+  <line id="GRANZL72JUMEA_ACLS" name="GRANZL72JUMEA" r="2.3600099086761475" x="24.319999694824219" g1="0" b1="0.00015096949937287718" g2="0" b2="0.00015096949937287718" voltageLevelId1="JUMEAP7_S_VL7" voltageLevelId2="GRANZP7_S_VL7" bus1="JUMEAP7_S_VL7_TN2" bus2="GRANZP7_S_VL7_TN3" connectableBus1="JUMEAP7_S_VL7_TN2" connectableBus2="GRANZP7_S_VL7_TN3"/>
+  <line id="GRANZL72VALDI_ACLS" name="GRANZL72VALDI" r="2.0699999332427979" x="27.219999313354492" g1="0" b1="0.00022596950293518603" g2="0" b2="0.00022596950293518603" voltageLevelId1="VALDIP7_S_VL7" voltageLevelId2="GRANZP7_S_VL7" bus1="VALDIP7_S_VL7_TN4" bus2="GRANZP7_S_VL7_TN2" connectableBus1="VALDIP7_S_VL7_TN4" connectableBus2="GRANZP7_S_VL7_TN2"/>
+  <line id="SSEA2L71VERGE_ACLS" name="SSEA2L71VERGE" r="0.039999999105930328" x="0.5899999737739563" g1="0" b1="4.0166200960811693e-06" g2="0" b2="4.0166200960811693e-06" voltageLevelId1="VERGEP7_S_VL7" voltageLevelId2="SSEA2P7_S_VL7" bus1="VERGEP7_S_VL7_TN3" bus2="SSEA2P7_S_VL7_TN1" connectableBus1="VERGEP7_S_VL7_TN3" connectableBus2="SSEA2P7_S_VL7_TN1"/>
+  <line id="VERGEL71VLERB_ACLS" name="VERGEL71VLERB" r="0.80999797582626343" x="8.1700000762939453" g1="0" b1="4.9999998736893758e-05" g2="0" b2="4.9999998736893758e-05" voltageLevelId1="VLERBP7_S_VL7" voltageLevelId2="VERGEP7_S_VL7" bus1="VLERBP7_S_VL7_TN2" bus2="VERGEP7_S_VL7_TN2" connectableBus1="VLERBP7_S_VL7_TN2" connectableBus2="VERGEP7_S_VL7_TN2"/>
+  <line id="VERGEL72VLERB_ACLS" name="VERGEL72VLERB" r="0.80999797582626343" x="8.1800003051757812" g1="0" b1="5.0969498261110857e-05" g2="0" b2="5.0969498261110857e-05" voltageLevelId1="VLERBP7_S_VL7" voltageLevelId2="VERGEP7_S_VL7" bus1="VLERBP7_S_VL7_TN1" bus2="VERGEP7_S_VL7_TN1" connectableBus1="VLERBP7_S_VL7_TN1" connectableBus2="VERGEP7_S_VL7_TN1"/>
+</network>

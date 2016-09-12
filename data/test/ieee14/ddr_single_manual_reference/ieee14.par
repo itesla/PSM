@@ -1,0 +1,833 @@
+<?xml version="1.0"?>
+<parameters>
+	<set id="44">
+		<par type="STRING" name="R" value="0.17092995"/>
+		<par type="STRING" name="X" value="0.34801987"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="45">
+		<par type="STRING" name="V_0" value="1.057674"/>
+		<par type="STRING" name="P_0" value="3.5"/>
+		<par type="STRING" name="Q_0" value="1.8"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-14.80906"/>
+	</set>
+	<set id="46">
+		<par type="STRING" name="SNREF" value="SNREF"/>
+		<par type="STRING" name="ur0" value="1.0371232045640353"/>
+		<par type="STRING" name="ui0" value="-0.26320204348450316"/>
+		<par type="STRING" name="transformerIncluded" value="false"/>
+		<par type="STRING" name="Saturated" value="true"/>
+		<par type="STRING" name="TX" value="0"/>
+		<par type="STRING" name="XPQ" value="0"/>
+		<par type="STRING" name="TPQ0" value="0"/>
+		<par type="STRING" name="init_theta" value="-0.2491728425631222"/>
+		<par type="STRING" name="init_omega" value="1.0"/>
+		<par type="STRING" name="init_efd" value="0.9137979532585252"/>
+		<par type="STRING" name="WLMDVPu" value="0.3981683145836558"/>
+		<par type="STRING" name="init_lambdaad" value="-1.088360366498992"/>
+		<par type="STRING" name="init_cm" value="0.0001444041874566966"/>
+		<par type="STRING" name="init_lambdaq1" value="2.467777795992708e-05"/>
+		<par type="STRING" name="init_lambdaq2" value="2.467777795992708e-05"/>
+		<par type="STRING" name="init_iq" value="9.199946319254915e-05"/>
+		<par type="STRING" name="init_id" value="0.1440015029604922"/>
+		<par type="STRING" name="init_lambdaaq" value="2.467777795992708e-05"/>
+		<par type="STRING" name="init_lambdad" value="-1.088360366498992"/>
+		<par type="STRING" name="init_lambdaf" value="-1.458803442290588"/>
+		<par type="STRING" name="PNALT" value="74.4"/>
+		<par type="STRING" name="IENR" value="3"/>
+		<par type="STRING" name="DIn" value="0.0"/>
+		<par type="STRING" name="HIn" value="4.975"/>
+		<par type="STRING" name="TSD0" value="0.04"/>
+		<par type="STRING" name="XPD" value="0.225"/>
+		<par type="STRING" name="TPD0" value="3.0"/>
+		<par type="STRING" name="rStatIn" value="0.004"/>
+		<par type="STRING" name="md" value="0.16"/>
+		<par type="STRING" name="TSQ0" value="0.06"/>
+		<par type="STRING" name="SN" value="80.0"/>
+		<par type="STRING" name="mq" value="0.16"/>
+		<par type="STRING" name="XSD" value="0.154"/>
+		<par type="STRING" name="snd" value="5.7"/>
+		<par type="STRING" name="XD" value="0.75"/>
+		<par type="STRING" name="lStatIn" value="0.102"/>
+		<par type="STRING" name="XSQ" value="0.154"/>
+		<par type="STRING" name="snq" value="5.7"/>
+		<par type="STRING" name="XQ" value="0.45"/>
+		<par type="STRING" name="PN" value="71.8"/>
+		<par type="STRING" name="IWLMDV" value="3"/>
+	</set>
+	<set id="47">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="80.0"/>
+		<par type="STRING" name="PN" value="71.8"/>
+		<par type="STRING" name="PNALT" value="74.4"/>
+		<par type="STRING" name="init_APREF" value="0.0"/>
+		<par type="STRING" name="T4" value="0.015"/>
+		<par type="STRING" name="T6" value="0."/>
+		<par type="STRING" name="VSTMIN" value="-0.1"/>
+		<par type="STRING" name="T7" value="2."/>
+		<par type="STRING" name="T8" value="0."/>
+		<par type="STRING" name="T9" value="0."/>
+		<par type="STRING" name="KS1" value="10."/>
+		<par type="STRING" name="VSI2MAX" value="999."/>
+		<par type="STRING" name="VSI1MAX" value="999."/>
+		<par type="STRING" name="KS3" value="1."/>
+		<par type="STRING" name="KS2" value="0.1564"/>
+		<par type="STRING" name="TW2" value="2."/>
+		<par type="STRING" name="TW1" value="2."/>
+		<par type="STRING" name="TW3" value="2."/>
+		<par type="STRING" name="T10" value="0."/>
+		<par type="STRING" name="VSTMAX" value="0.1"/>
+		<par type="STRING" name="T11" value="0."/>
+		<par type="STRING" name="VSI2MIN" value="-999."/>
+		<par type="STRING" name="VSI1MIN" value="-999."/>
+		<par type="STRING" name="T1" value="0.25"/>
+		<par type="STRING" name="T2" value="0.03"/>
+		<par type="STRING" name="T3" value=".1500000"/>
+	</set>
+	<set id="48">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="80.0"/>
+		<par type="STRING" name="PN" value="71.8"/>
+		<par type="STRING" name="PNALT" value="74.4"/>
+		<par type="STRING" name="init_EFD" value="0.9137979532585252"/>
+		<par type="STRING" name="init_VREF" value="1.07456892300909"/>
+		<par type="STRING" name="init_YLL" value="0.004568989766292626"/>
+		<par type="STRING" name="TE" value="0.05"/>
+		<par type="STRING" name="EFDMIN" value="-999."/>
+		<par type="STRING" name="KC" value="1."/>
+		<par type="STRING" name="EFDMAX" value="999."/>
+		<par type="STRING" name="K" value="200."/>
+		<par type="STRING" name="EMIN" value="0."/>
+		<par type="STRING" name="TA" value="3."/>
+		<par type="STRING" name="TB" value="10."/>
+		<par type="STRING" name="EMAX" value="4."/>
+	</set>
+	<set id="49">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="80.0"/>
+		<par type="STRING" name="PN" value="71.8"/>
+		<par type="STRING" name="PNALT" value="74.4"/>
+		<par type="STRING" name="init_REF" value="7.220209372834829e-06"/>
+		<par type="STRING" name="init_PMECH" value="0.0001444041874566966"/>
+		<par type="STRING" name="init_CM" value="0.0001444041874566966"/>
+		<par type="STRING" name="DT" value="0."/>
+		<par type="STRING" name="RR" value="0.05"/>
+		<par type="STRING" name="VMIN" value="0."/>
+		<par type="STRING" name="VMAX" value="1."/>
+		<par type="STRING" name="T1" value="0.5"/>
+		<par type="STRING" name="T2" value="3."/>
+		<par type="STRING" name="T3" value="10."/>
+	</set>
+	<set id="50">
+		<par type="STRING" name="r" value="1.0416667"/>
+		<par type="STRING" name="B0" value="0.0"/>
+		<par type="STRING" name="G0" value="0.0"/>
+		<par type="STRING" name="theta" value="0.0"/>
+		<par type="STRING" name="R" value="0.0"/>
+		<par type="STRING" name="X" value="0.5561794406894949"/>
+	</set>
+	<set id="51">
+		<par type="STRING" name="V_0" value="1.0699999"/>
+		<par type="STRING" name="angle_0" value="-14.239947"/>
+	</set>
+	<set id="52">
+		<par type="STRING" name="R" value="0.06701008"/>
+		<par type="STRING" name="X" value="0.17103004"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.006399998"/>
+	</set>
+	<set id="53">
+		<par type="STRING" name="V_0" value="1.0506507"/>
+		<par type="STRING" name="angle_0" value="-15.174943"/>
+	</set>
+	<set id="10">
+		<par type="STRING" name="V_0" value="1.0210903"/>
+		<par type="STRING" name="P_0" value="7.6"/>
+		<par type="STRING" name="Q_0" value="1.6"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-8.789777"/>
+	</set>
+	<set id="54">
+		<par type="STRING" name="R" value="0.066149965"/>
+		<par type="STRING" name="X" value="0.1302699"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="11">
+		<par type="STRING" name="R" value="0.0"/>
+		<par type="STRING" name="X" value="0.110009976"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="55">
+		<par type="STRING" name="r" value="1.0204082"/>
+		<par type="STRING" name="B0" value="0.0"/>
+		<par type="STRING" name="G0" value="0.0"/>
+		<par type="STRING" name="theta" value="0.0"/>
+		<par type="STRING" name="R" value="0.0"/>
+		<par type="STRING" name="X" value="0.20911993960205447"/>
+	</set>
+	<set id="12">
+		<par type="STRING" name="R" value="0.122910105"/>
+		<par type="STRING" name="X" value="0.25581023"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="56">
+		<par type="STRING" name="V_0" value="1.0450001"/>
+		<par type="STRING" name="angle_0" value="-4.9795055"/>
+	</set>
+	<set id="13">
+		<par type="STRING" name="V_0" value="1.0506507"/>
+		<par type="STRING" name="P_0" value="13.5"/>
+		<par type="STRING" name="Q_0" value="5.8"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-15.174943"/>
+	</set>
+	<set id="57">
+		<par type="STRING" name="V_0" value="1.0699999"/>
+		<par type="STRING" name="P_0" value="11.2"/>
+		<par type="STRING" name="Q_0" value="7.5"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-14.239947"/>
+	</set>
+	<set id="14">
+		<par type="STRING" name="R" value="0.12710984"/>
+		<par type="STRING" name="X" value="0.27038017"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="58">
+		<par type="STRING" name="V_0" value="1.0450001"/>
+		<par type="STRING" name="P_0" value="21.7"/>
+		<par type="STRING" name="Q_0" value="12.7"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-4.9795055"/>
+	</set>
+	<set id="15">
+		<par type="STRING" name="R" value="0.05811006"/>
+		<par type="STRING" name="X" value="0.17632009"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.017000008"/>
+	</set>
+	<set id="59">
+		<par type="STRING" name="V_0" value="1.0577213"/>
+		<par type="STRING" name="P_0" value="29.5"/>
+		<par type="STRING" name="Q_0" value="16.6"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-14.953522"/>
+	</set>
+	<set id="16">
+		<par type="STRING" name="V_0" value="1.057674"/>
+		<par type="STRING" name="angle_0" value="-14.80906"/>
+	</set>
+	<set id="17">
+		<par type="STRING" name="R" value="0.0"/>
+		<par type="STRING" name="X" value="0.10353704"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="18">
+		<par type="STRING" name="V_0" value="1.0184867"/>
+		<par type="STRING" name="angle_0" value="-10.3198395"/>
+	</set>
+	<set id="19">
+		<par type="STRING" name="V_0" value="1.09"/>
+		<par type="STRING" name="angle_0" value="-13.374935"/>
+	</set>
+	<set id="1">
+		<par type="STRING" name="R" value="0.054030035"/>
+		<par type="STRING" name="X" value="0.22303928"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.024600087"/>
+	</set>
+	<set id="2">
+		<par type="STRING" name="V_0" value="1.0553201"/>
+		<par type="STRING" name="angle_0" value="-15.092975"/>
+	</set>
+	<set id="3">
+		<par type="STRING" name="SNREF" value="SNREF"/>
+		<par type="STRING" name="ur0" value="1.0604361431362228"/>
+		<par type="STRING" name="ui0" value="-0.2521413474536128"/>
+		<par type="STRING" name="transformerIncluded" value="false"/>
+		<par type="STRING" name="Saturated" value="false"/>
+		<par type="STRING" name="TX" value="0"/>
+		<par type="STRING" name="md" value="0"/>
+		<par type="STRING" name="XPQ" value="0"/>
+		<par type="STRING" name="TPQ0" value="0"/>
+		<par type="STRING" name="mq" value="0"/>
+		<par type="STRING" name="snd" value="0"/>
+		<par type="STRING" name="snq" value="0"/>
+		<par type="STRING" name="init_theta" value="-0.2336569957365508"/>
+		<par type="STRING" name="init_omega" value="1.0"/>
+		<par type="STRING" name="init_efd" value="0.5586415725542784"/>
+		<par type="STRING" name="WLMDVPu" value="0.6682075874254081"/>
+		<par type="STRING" name="init_lambdaad" value="-1.096985602212581"/>
+		<par type="STRING" name="init_cm" value="1.666476401932118e-05"/>
+		<par type="STRING" name="init_lambdaq1" value="1.231336890260276e-05"/>
+		<par type="STRING" name="init_lambdaq2" value="1.231336890260276e-05"/>
+		<par type="STRING" name="init_iq" value="3.498116165510934e-05"/>
+		<par type="STRING" name="init_id" value="0.1587622573395195"/>
+		<par type="STRING" name="init_lambdaaq" value="1.231336890260276e-05"/>
+		<par type="STRING" name="init_lambdad" value="-1.096985602212581"/>
+		<par type="STRING" name="init_lambdaf" value="-1.295727988105895"/>
+		<par type="STRING" name="PNALT" value="228.0"/>
+		<par type="STRING" name="IENR" value="3"/>
+		<par type="STRING" name="DIn" value="0.0"/>
+		<par type="STRING" name="HIn" value="2.748"/>
+		<par type="STRING" name="TSD0" value="0.096"/>
+		<par type="STRING" name="XPD" value="0.31"/>
+		<par type="STRING" name="TPD0" value="8.4"/>
+		<par type="STRING" name="rStatIn" value="0.004"/>
+		<par type="STRING" name="TSQ0" value="0.1"/>
+		<par type="STRING" name="SN" value="250.0"/>
+		<par type="STRING" name="XSD" value="0.275"/>
+		<par type="STRING" name="XD" value="1.53"/>
+		<par type="STRING" name="lStatIn" value="0.11"/>
+		<par type="STRING" name="XSQ" value="0.346"/>
+		<par type="STRING" name="XQ" value="0.99"/>
+		<par type="STRING" name="PN" value="242.0"/>
+		<par type="STRING" name="IWLMDV" value="3"/>
+	</set>
+	<set id="4">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="250.0"/>
+		<par type="STRING" name="PN" value="242.0"/>
+		<par type="STRING" name="PNALT" value="228.0"/>
+		<par type="STRING" name="init_APREF" value="2.775557561562892e-18"/>
+		<par type="STRING" name="T4" value="0.015"/>
+		<par type="STRING" name="T6" value="0."/>
+		<par type="STRING" name="VSTMIN" value="-0.1"/>
+		<par type="STRING" name="T7" value="2."/>
+		<par type="STRING" name="T8" value="0."/>
+		<par type="STRING" name="T9" value="0."/>
+		<par type="STRING" name="KS1" value="10."/>
+		<par type="STRING" name="VSI2MAX" value="999."/>
+		<par type="STRING" name="VSI1MAX" value="999."/>
+		<par type="STRING" name="KS3" value="1."/>
+		<par type="STRING" name="KS2" value="0.1564"/>
+		<par type="STRING" name="TW2" value="2."/>
+		<par type="STRING" name="TW1" value="2."/>
+		<par type="STRING" name="TW3" value="2."/>
+		<par type="STRING" name="T10" value="0."/>
+		<par type="STRING" name="VSTMAX" value="0.1"/>
+		<par type="STRING" name="T11" value="0."/>
+		<par type="STRING" name="VSI2MIN" value="-999."/>
+		<par type="STRING" name="VSI1MIN" value="-999."/>
+		<par type="STRING" name="T1" value="0.25"/>
+		<par type="STRING" name="T2" value="0.03"/>
+		<par type="STRING" name="T3" value=".1500000"/>
+	</set>
+	<set id="5">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="250.0"/>
+		<par type="STRING" name="PN" value="242.0"/>
+		<par type="STRING" name="PNALT" value="228.0"/>
+		<par type="STRING" name="init_EFD" value="0.5586415725542784"/>
+		<par type="STRING" name="init_VREF" value="1.092793241241373"/>
+		<par type="STRING" name="init_YLL" value="0.002793207862771392"/>
+		<par type="STRING" name="TE" value="0.05"/>
+		<par type="STRING" name="EFDMIN" value="-999."/>
+		<par type="STRING" name="KC" value="1."/>
+		<par type="STRING" name="EFDMAX" value="999."/>
+		<par type="STRING" name="K" value="200."/>
+		<par type="STRING" name="EMIN" value="0."/>
+		<par type="STRING" name="TA" value="3."/>
+		<par type="STRING" name="TB" value="10."/>
+		<par type="STRING" name="EMAX" value="4."/>
+	</set>
+	<set id="6">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="250.0"/>
+		<par type="STRING" name="PN" value="242.0"/>
+		<par type="STRING" name="PNALT" value="228.0"/>
+		<par type="STRING" name="init_REF" value="8.332382009660589e-07"/>
+		<par type="STRING" name="init_PMECH" value="1.666476401932118e-05"/>
+		<par type="STRING" name="init_CM" value="1.666476401932118e-05"/>
+		<par type="STRING" name="DT" value="0."/>
+		<par type="STRING" name="RR" value="0.05"/>
+		<par type="STRING" name="VMIN" value="0."/>
+		<par type="STRING" name="VMAX" value="1."/>
+		<par type="STRING" name="T1" value="0.5"/>
+		<par type="STRING" name="T2" value="3."/>
+		<par type="STRING" name="T3" value="10."/>
+	</set>
+	<set id="7">
+		<par type="STRING" name="V_0" value="1.01"/>
+		<par type="STRING" name="angle_0" value="-12.716755"/>
+	</set>
+	<set id="8">
+		<par type="STRING" name="R" value="0.094980046"/>
+		<par type="STRING" name="X" value="0.19889992"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="9">
+		<par type="STRING" name="V_0" value="1.0620341"/>
+		<par type="STRING" name="angle_0" value="-13.374935"/>
+	</set>
+	<set id="60">
+		<par type="STRING" name="R" value="0.046989918"/>
+		<par type="STRING" name="X" value="0.19796997"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.021900006"/>
+	</set>
+	<set id="61">
+		<par type="STRING" name="V_0" value="1.0366782"/>
+		<par type="STRING" name="P_0" value="14.9"/>
+		<par type="STRING" name="Q_0" value="5.0"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-16.048328"/>
+	</set>
+	<set id="62">
+		<par type="STRING" name="V_0" value="1.0524737"/>
+		<par type="STRING" name="P_0" value="9.0"/>
+		<par type="STRING" name="Q_0" value="5.8"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-15.113293"/>
+	</set>
+	<set id="63">
+		<par type="STRING" name="SNREF" value="SNREF"/>
+		<par type="STRING" name="ur0" value="0.9852249044318535"/>
+		<par type="STRING" name="ui0" value="-0.22233278755735517"/>
+		<par type="STRING" name="transformerIncluded" value="true"/>
+		<par type="STRING" name="V2" value="69.0"/>
+		<par type="STRING" name="Saturated" value="true"/>
+		<par type="STRING" name="TX" value="0"/>
+		<par type="STRING" name="init_theta" value="-0.2219937331583718"/>
+		<par type="STRING" name="init_omega" value="1.0"/>
+		<par type="STRING" name="init_efd" value="0.3160225085854042"/>
+		<par type="STRING" name="WLMDVPu" value="0.7262486573072185"/>
+		<par type="STRING" name="init_lambdaad" value="-1.015252392938435"/>
+		<par type="STRING" name="init_cm" value="7.642939028554166e-07"/>
+		<par type="STRING" name="init_lambdaq1" value="1.46030494009004e-06"/>
+		<par type="STRING" name="init_lambdaq2" value="1.46030494009004e-06"/>
+		<par type="STRING" name="init_iq" value="1.082909823069134e-05"/>
+		<par type="STRING" name="init_id" value="0.2434399525528285"/>
+		<par type="STRING" name="init_lambdaaq" value="1.46030494009004e-06"/>
+		<par type="STRING" name="init_lambdad" value="-1.015252392938435"/>
+		<par type="STRING" name="init_lambdaf" value="-1.145275721480425"/>
+		<par type="STRING" name="PNALT" value="1485.0"/>
+		<par type="STRING" name="IENR" value="4"/>
+		<par type="STRING" name="DIn" value="0.0"/>
+		<par type="STRING" name="HIn" value="5.625"/>
+		<par type="STRING" name="TSD0" value="0.065"/>
+		<par type="STRING" name="XPD" value="0.509"/>
+		<par type="STRING" name="RTfoPu" value="0.0"/>
+		<par type="STRING" name="TPD0" value="10.041"/>
+		<par type="STRING" name="XTfoPu" value="0.1"/>
+		<par type="STRING" name="rStatIn" value="0.00316"/>
+		<par type="STRING" name="U1N" value="20.0"/>
+		<par type="STRING" name="md" value="0.05"/>
+		<par type="STRING" name="XPQ" value="0.601"/>
+		<par type="STRING" name="TSQ0" value="0.094"/>
+		<par type="STRING" name="SN" value="1650.0"/>
+		<par type="STRING" name="V1" value="20.0"/>
+		<par type="STRING" name="TPQ0" value="1.22"/>
+		<par type="STRING" name="mq" value="0.05"/>
+		<par type="STRING" name="XSD" value="0.354"/>
+		<par type="STRING" name="snd" value="9.285"/>
+		<par type="STRING" name="XD" value="2.81"/>
+		<par type="STRING" name="U2N" value="69.0"/>
+		<par type="STRING" name="SNtfo" value="1650.0"/>
+		<par type="STRING" name="lStatIn" value="0.256"/>
+		<par type="STRING" name="XSQ" value="0.377"/>
+		<par type="STRING" name="snq" value="9.285"/>
+		<par type="STRING" name="XQ" value="2.62"/>
+		<par type="STRING" name="PN" value="1485.0"/>
+		<par type="STRING" name="IWLMDV" value="3"/>
+	</set>
+	<set id="20">
+		<par type="STRING" name="R" value="0.22091998"/>
+		<par type="STRING" name="X" value="0.19987975"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="64">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1650.0"/>
+		<par type="STRING" name="PN" value="1485.0"/>
+		<par type="STRING" name="PNALT" value="1485.0"/>
+		<par type="STRING" name="init_APREF" value="0.0"/>
+		<par type="STRING" name="T4" value="0.015"/>
+		<par type="STRING" name="T6" value="0."/>
+		<par type="STRING" name="VSTMIN" value="-0.1"/>
+		<par type="STRING" name="T7" value="2."/>
+		<par type="STRING" name="T8" value="0."/>
+		<par type="STRING" name="T9" value="0."/>
+		<par type="STRING" name="KS1" value="10."/>
+		<par type="STRING" name="VSI2MAX" value="999."/>
+		<par type="STRING" name="VSI1MAX" value="999."/>
+		<par type="STRING" name="KS3" value="1."/>
+		<par type="STRING" name="KS2" value="0.1564"/>
+		<par type="STRING" name="TW2" value="2."/>
+		<par type="STRING" name="TW1" value="2."/>
+		<par type="STRING" name="TW3" value="2."/>
+		<par type="STRING" name="T10" value="0."/>
+		<par type="STRING" name="VSTMAX" value="0.1"/>
+		<par type="STRING" name="T11" value="0."/>
+		<par type="STRING" name="VSI2MIN" value="-999."/>
+		<par type="STRING" name="VSI1MIN" value="-999."/>
+		<par type="STRING" name="T1" value="0.25"/>
+		<par type="STRING" name="T2" value="0.03"/>
+		<par type="STRING" name="T3" value=".1500000"/>
+	</set>
+	<set id="21">
+		<par type="STRING" name="B" value="0.19000009587800412"/>
+		<par type="STRING" name="nsteps" value="1"/>
+	</set>
+	<set id="65">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1650.0"/>
+		<par type="STRING" name="PN" value="1485.0"/>
+		<par type="STRING" name="PNALT" value="1485.0"/>
+		<par type="STRING" name="init_EFD" value="0.3160225085854042"/>
+		<par type="STRING" name="init_VREF" value="1.013055496659479"/>
+		<par type="STRING" name="init_YLL" value="0.001580112542927021"/>
+		<par type="STRING" name="TE" value="0.05"/>
+		<par type="STRING" name="EFDMIN" value="-999."/>
+		<par type="STRING" name="KC" value="1."/>
+		<par type="STRING" name="EFDMAX" value="999."/>
+		<par type="STRING" name="K" value="200."/>
+		<par type="STRING" name="EMIN" value="0."/>
+		<par type="STRING" name="TA" value="3."/>
+		<par type="STRING" name="TB" value="10."/>
+		<par type="STRING" name="EMAX" value="4."/>
+	</set>
+	<set id="22">
+		<par type="STRING" name="V_0" value="1.0184867"/>
+		<par type="STRING" name="P_0" value="47.8"/>
+		<par type="STRING" name="Q_0" value="-3.9"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-10.3198395"/>
+	</set>
+	<set id="66">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1650.0"/>
+		<par type="STRING" name="PN" value="1485.0"/>
+		<par type="STRING" name="PNALT" value="1485.0"/>
+		<par type="STRING" name="init_REF" value="3.821469514277083e-08"/>
+		<par type="STRING" name="init_PMECH" value="7.642939028554166e-07"/>
+		<par type="STRING" name="init_CM" value="7.642939028554166e-07"/>
+		<par type="STRING" name="DT" value="0."/>
+		<par type="STRING" name="RR" value="0.05"/>
+		<par type="STRING" name="VMIN" value="0."/>
+		<par type="STRING" name="VMAX" value="1."/>
+		<par type="STRING" name="T1" value="0.5"/>
+		<par type="STRING" name="T2" value="3."/>
+		<par type="STRING" name="T3" value="10."/>
+	</set>
+	<set id="23">
+		<par type="STRING" name="R" value="0.05695001"/>
+		<par type="STRING" name="X" value="0.17388007"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.017299999"/>
+	</set>
+	<set id="24">
+		<par type="STRING" name="SNREF" value="SNREF"/>
+		<par type="STRING" name="ur0" value="1.059999942779541"/>
+		<par type="STRING" name="ui0" value="0.0"/>
+		<par type="STRING" name="transformerIncluded" value="true"/>
+		<par type="STRING" name="V2" value="69.0"/>
+		<par type="STRING" name="Saturated" value="true"/>
+		<par type="STRING" name="TX" value="0"/>
+		<par type="STRING" name="init_theta" value="0.3099274420089914"/>
+		<par type="STRING" name="init_omega" value="1.0"/>
+		<par type="STRING" name="init_efd" value="0.447517996150594"/>
+		<par type="STRING" name="WLMDVPu" value="0.6296504227510634"/>
+		<par type="STRING" name="init_lambdaad" value="-1.022795582023207"/>
+		<par type="STRING" name="init_cm" value="0.2132854180200577"/>
+		<par type="STRING" name="init_lambdaq1" value="0.2701049319060519"/>
+		<par type="STRING" name="init_lambdaq2" value="0.2701049319060519"/>
+		<par type="STRING" name="init_iq" value="2.137395441636327"/>
+		<par type="STRING" name="init_id" value="0.5134761542402783"/>
+		<par type="STRING" name="init_lambdaaq" value="0.2701049319060519"/>
+		<par type="STRING" name="init_lambdad" value="-1.022795582023207"/>
+		<par type="STRING" name="init_lambdaf" value="-1.182335698571067"/>
+		<par type="STRING" name="PNALT" value="1090.0"/>
+		<par type="STRING" name="IENR" value="4"/>
+		<par type="STRING" name="DIn" value="0.0"/>
+		<par type="STRING" name="HIn" value="5.4"/>
+		<par type="STRING" name="TSD0" value="0.08"/>
+		<par type="STRING" name="XPD" value="0.384"/>
+		<par type="STRING" name="RTfoPu" value="0.0"/>
+		<par type="STRING" name="TPD0" value="8.094"/>
+		<par type="STRING" name="XTfoPu" value="0.1"/>
+		<par type="STRING" name="rStatIn" value="0.002796"/>
+		<par type="STRING" name="U1N" value="24.0"/>
+		<par type="STRING" name="md" value="0.215"/>
+		<par type="STRING" name="XPQ" value="0.393"/>
+		<par type="STRING" name="TSQ0" value="0.084"/>
+		<par type="STRING" name="SN" value="1211.0"/>
+		<par type="STRING" name="V1" value="24.0"/>
+		<par type="STRING" name="TPQ0" value="1.572"/>
+		<par type="STRING" name="mq" value="0.215"/>
+		<par type="STRING" name="XSD" value="0.264"/>
+		<par type="STRING" name="snd" value="6.995"/>
+		<par type="STRING" name="XD" value="2.22"/>
+		<par type="STRING" name="U2N" value="69.0"/>
+		<par type="STRING" name="SNtfo" value="1211.0"/>
+		<par type="STRING" name="lStatIn" value="0.202"/>
+		<par type="STRING" name="XSQ" value="0.262"/>
+		<par type="STRING" name="snq" value="6.995"/>
+		<par type="STRING" name="XQ" value="2.22"/>
+		<par type="STRING" name="PN" value="1090.0"/>
+		<par type="STRING" name="IWLMDV" value="3"/>
+	</set>
+	<set id="25">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1211.0"/>
+		<par type="STRING" name="PN" value="1090.0"/>
+		<par type="STRING" name="PNALT" value="1090.0"/>
+		<par type="STRING" name="init_APREF" value="0.1918823616845583"/>
+		<par type="STRING" name="T4" value="0.015"/>
+		<par type="STRING" name="T6" value="0."/>
+		<par type="STRING" name="VSTMIN" value="-0.1"/>
+		<par type="STRING" name="T7" value="2."/>
+		<par type="STRING" name="T8" value="0."/>
+		<par type="STRING" name="T9" value="0."/>
+		<par type="STRING" name="KS1" value="10."/>
+		<par type="STRING" name="VSI2MAX" value="999."/>
+		<par type="STRING" name="VSI1MAX" value="999."/>
+		<par type="STRING" name="KS3" value="1."/>
+		<par type="STRING" name="KS2" value="0.1564"/>
+		<par type="STRING" name="TW2" value="2."/>
+		<par type="STRING" name="TW1" value="2."/>
+		<par type="STRING" name="TW3" value="2."/>
+		<par type="STRING" name="T10" value="0."/>
+		<par type="STRING" name="VSTMAX" value="0.1"/>
+		<par type="STRING" name="T11" value="0."/>
+		<par type="STRING" name="VSI2MIN" value="-999."/>
+		<par type="STRING" name="VSI1MIN" value="-999."/>
+		<par type="STRING" name="T1" value="0.25"/>
+		<par type="STRING" name="T2" value="0.03"/>
+		<par type="STRING" name="T3" value=".1500000"/>
+	</set>
+	<set id="26">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1211.0"/>
+		<par type="STRING" name="PN" value="1090.0"/>
+		<par type="STRING" name="PNALT" value="1090.0"/>
+		<par type="STRING" name="init_EFD" value="0.447517996150594"/>
+		<par type="STRING" name="init_VREF" value="1.061047354586989"/>
+		<par type="STRING" name="init_YLL" value="0.00223758998075297"/>
+		<par type="STRING" name="TE" value="0.05"/>
+		<par type="STRING" name="EFDMIN" value="-999."/>
+		<par type="STRING" name="KC" value="1."/>
+		<par type="STRING" name="EFDMAX" value="999."/>
+		<par type="STRING" name="K" value="200."/>
+		<par type="STRING" name="EMIN" value="0."/>
+		<par type="STRING" name="TA" value="3."/>
+		<par type="STRING" name="TB" value="10."/>
+		<par type="STRING" name="EMAX" value="4."/>
+	</set>
+	<set id="27">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1211.0"/>
+		<par type="STRING" name="PN" value="1090.0"/>
+		<par type="STRING" name="PNALT" value="1090.0"/>
+		<par type="STRING" name="init_REF" value="0.01066427090100288"/>
+		<par type="STRING" name="init_PMECH" value="0.2132854180200577"/>
+		<par type="STRING" name="init_CM" value="0.2132854180200577"/>
+		<par type="STRING" name="DT" value="0."/>
+		<par type="STRING" name="RR" value="0.05"/>
+		<par type="STRING" name="VMIN" value="0."/>
+		<par type="STRING" name="VMAX" value="1."/>
+		<par type="STRING" name="T1" value="0.5"/>
+		<par type="STRING" name="T2" value="3."/>
+		<par type="STRING" name="T3" value="10."/>
+	</set>
+	<set id="28">
+		<par type="STRING" name="V_0" value="1.0553201"/>
+		<par type="STRING" name="P_0" value="6.1"/>
+		<par type="STRING" name="Q_0" value="1.6"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-15.092975"/>
+	</set>
+	<set id="29">
+		<par type="STRING" name="r" value="1.0638298"/>
+		<par type="STRING" name="B0" value="0.0"/>
+		<par type="STRING" name="G0" value="0.0"/>
+		<par type="STRING" name="theta" value="0.0"/>
+		<par type="STRING" name="R" value="0.0"/>
+		<par type="STRING" name="X" value="0.25202059995597903"/>
+	</set>
+	<set id="30">
+		<par type="STRING" name="V_0" value="1.0210903"/>
+		<par type="STRING" name="angle_0" value="-8.789777"/>
+	</set>
+	<set id="31">
+		<par type="STRING" name="R" value="0.019380003"/>
+		<par type="STRING" name="X" value="0.059169922"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.026399983"/>
+	</set>
+	<set id="32">
+		<par type="STRING" name="V_0" value="1.0366782"/>
+		<par type="STRING" name="angle_0" value="-16.048328"/>
+	</set>
+	<set id="33">
+		<ref name="V_0" dataSource="IIDM" sourceName="pu(V)"/>
+		<par type="STRING" name="angle_0" value="-15.113293"/>
+	</set>
+	<set id="34">
+		<par type="STRING" name="V_0" value="1.0577213"/>
+		<par type="STRING" name="angle_0" value="-14.953522"/>
+	</set>
+	<set id="35">
+		<par type="STRING" name="R" value="0.082049996"/>
+		<par type="STRING" name="X" value="0.19206995"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="36">
+		<par type="STRING" name="V_0" value="1.06"/>
+		<par type="STRING" name="angle_0" value="0.0"/>
+	</set>
+	<set id="37">
+		<par type="STRING" name="R" value="0.03181002"/>
+		<par type="STRING" name="X" value="0.08450011"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="38">
+		<par type="STRING" name="V_0" value="1.01"/>
+		<par type="STRING" name="P_0" value="94.2"/>
+		<par type="STRING" name="Q_0" value="19.0"/>
+		<par type="STRING" name="alpha" value="1.5"/>
+		<par type="STRING" name="beta" value="2.5"/>
+		<par type="STRING" name="angle_0" value="-12.716755"/>
+	</set>
+	<set id="39">
+		<par type="STRING" name="R" value="0.013349989"/>
+		<par type="STRING" name="X" value="0.04211006"/>
+		<par type="STRING" name="G" value="0.0"/>
+		<par type="STRING" name="B" value="0.0"/>
+	</set>
+	<set id="40">
+		<par type="STRING" name="SNREF" value="SNREF"/>
+		<par type="STRING" name="ur0" value="1.0410560471935022"/>
+		<par type="STRING" name="ui0" value="-0.09070538052503815"/>
+		<par type="STRING" name="transformerIncluded" value="true"/>
+		<par type="STRING" name="V2" value="69.0"/>
+		<par type="STRING" name="Saturated" value="true"/>
+		<par type="STRING" name="TX" value="0"/>
+		<par type="STRING" name="init_theta" value="-0.0138530277141805"/>
+		<par type="STRING" name="init_omega" value="1.0"/>
+		<par type="STRING" name="init_efd" value="0.3860165611885247"/>
+		<par type="STRING" name="WLMDVPu" value="0.717262019773382"/>
+		<par type="STRING" name="init_lambdaad" value="-1.054574030794462"/>
+		<par type="STRING" name="init_cm" value="0.03969231358150358"/>
+		<par type="STRING" name="init_lambdaq1" value="0.06637748916565042"/>
+		<par type="STRING" name="init_lambdaq2" value="0.06637748916565042"/>
+		<par type="STRING" name="init_iq" value="0.3523243707642097"/>
+		<par type="STRING" name="init_id" value="0.4300612969312733"/>
+		<par type="STRING" name="init_lambdaaq" value="0.06637748916565042"/>
+		<par type="STRING" name="init_lambdad" value="-1.054574030794462"/>
+		<par type="STRING" name="init_lambdaf" value="-1.172334310290633"/>
+		<par type="STRING" name="PNALT" value="1008.0"/>
+		<par type="STRING" name="IENR" value="4"/>
+		<par type="STRING" name="DIn" value="0.0"/>
+		<par type="STRING" name="HIn" value="5.4"/>
+		<par type="STRING" name="TSD0" value="0.058"/>
+		<par type="STRING" name="XPD" value="0.407"/>
+		<par type="STRING" name="RTfoPu" value="0.0"/>
+		<par type="STRING" name="TPD0" value="9.651"/>
+		<par type="STRING" name="XTfoPu" value="0.1"/>
+		<par type="STRING" name="rStatIn" value="0.00357"/>
+		<par type="STRING" name="U1N" value="24.0"/>
+		<par type="STRING" name="md" value="0.084"/>
+		<par type="STRING" name="XPQ" value="0.454"/>
+		<par type="STRING" name="TSQ0" value="0.06"/>
+		<par type="STRING" name="SN" value="1120.0"/>
+		<par type="STRING" name="V1" value="24.0"/>
+		<par type="STRING" name="TPQ0" value="1.009"/>
+		<par type="STRING" name="mq" value="0.084"/>
+		<par type="STRING" name="XSD" value="0.3"/>
+		<par type="STRING" name="snd" value="5.57"/>
+		<par type="STRING" name="XD" value="2.57"/>
+		<par type="STRING" name="U2N" value="69.0"/>
+		<par type="STRING" name="SNtfo" value="1120.0"/>
+		<par type="STRING" name="lStatIn" value="0.219"/>
+		<par type="STRING" name="XSQ" value="0.301"/>
+		<par type="STRING" name="snq" value="5.57"/>
+		<par type="STRING" name="XQ" value="2.57"/>
+		<par type="STRING" name="PN" value="1008.0"/>
+		<par type="STRING" name="IWLMDV" value="3"/>
+	</set>
+	<set id="41">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1120.0"/>
+		<par type="STRING" name="PN" value="1008.0"/>
+		<par type="STRING" name="PNALT" value="1008.0"/>
+		<par type="STRING" name="init_APREF" value="0.03571428571428571"/>
+		<par type="STRING" name="T4" value="0.015"/>
+		<par type="STRING" name="T6" value="0."/>
+		<par type="STRING" name="VSTMIN" value="-0.1"/>
+		<par type="STRING" name="T7" value="2."/>
+		<par type="STRING" name="T8" value="0."/>
+		<par type="STRING" name="T9" value="0."/>
+		<par type="STRING" name="KS1" value="10."/>
+		<par type="STRING" name="VSI2MAX" value="999."/>
+		<par type="STRING" name="VSI1MAX" value="999."/>
+		<par type="STRING" name="KS3" value="1."/>
+		<par type="STRING" name="KS2" value="0.1564"/>
+		<par type="STRING" name="TW2" value="2."/>
+		<par type="STRING" name="TW1" value="2."/>
+		<par type="STRING" name="TW3" value="2."/>
+		<par type="STRING" name="T10" value="0."/>
+		<par type="STRING" name="VSTMAX" value="0.1"/>
+		<par type="STRING" name="T11" value="0."/>
+		<par type="STRING" name="VSI2MIN" value="-999."/>
+		<par type="STRING" name="VSI1MIN" value="-999."/>
+		<par type="STRING" name="T1" value="0.25"/>
+		<par type="STRING" name="T2" value="0.03"/>
+		<par type="STRING" name="T3" value=".1500000"/>
+	</set>
+	<set id="42">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1120.0"/>
+		<par type="STRING" name="PN" value="1008.0"/>
+		<par type="STRING" name="PNALT" value="1008.0"/>
+		<par type="STRING" name="init_EFD" value="0.3860165611885247"/>
+		<par type="STRING" name="init_VREF" value="1.050535708267707"/>
+		<par type="STRING" name="init_YLL" value="0.001930082805942623"/>
+		<par type="STRING" name="TE" value="0.05"/>
+		<par type="STRING" name="EFDMIN" value="-999."/>
+		<par type="STRING" name="KC" value="1."/>
+		<par type="STRING" name="EFDMAX" value="999."/>
+		<par type="STRING" name="K" value="200."/>
+		<par type="STRING" name="EMIN" value="0."/>
+		<par type="STRING" name="TA" value="3."/>
+		<par type="STRING" name="TB" value="10."/>
+		<par type="STRING" name="EMAX" value="4."/>
+	</set>
+	<set id="43">
+		<par type="STRING" name="SNREF" value="100.0"/>
+		<par type="STRING" name="SN" value="1120.0"/>
+		<par type="STRING" name="PN" value="1008.0"/>
+		<par type="STRING" name="PNALT" value="1008.0"/>
+		<par type="STRING" name="init_REF" value="0.001984615679075179"/>
+		<par type="STRING" name="init_PMECH" value="0.03969231358150358"/>
+		<par type="STRING" name="init_CM" value="0.03969231358150358"/>
+		<par type="STRING" name="DT" value="0."/>
+		<par type="STRING" name="RR" value="0.05"/>
+		<par type="STRING" name="VMIN" value="0."/>
+		<par type="STRING" name="VMAX" value="1."/>
+		<par type="STRING" name="T1" value="0.5"/>
+		<par type="STRING" name="T2" value="3."/>
+		<par type="STRING" name="T3" value="10."/>
+	</set>
+</parameters>

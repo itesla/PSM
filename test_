@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Maven log file can be configured in ${MAVEN_HOME}/conf/logging/simplelogger.properties
+
+# Optimize start JIT compilation in Java virtual machine for short run 
+export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+
+# Use two threads per core
+mvn --threads 2C clean install -Ditesla.config.dir=$PSM_DATA/test/cfg
+# Default execution
+#mvn clean install -Ditesla.config.dir=$PSM_DATA/test/cfg
+
+# Show summary if output has been sent to a log file
+# grep -B 1 -A 999 "Reactor Summary:" maven.log

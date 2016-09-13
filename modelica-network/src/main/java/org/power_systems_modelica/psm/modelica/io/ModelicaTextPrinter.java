@@ -38,15 +38,7 @@ public class ModelicaTextPrinter
 	private List<ModelicaModelInstantiation> sortedModels()
 	{
 		// Sort models by kind (predefined list) and then by model inside each kind
-		Ordering<String> kindOrdering = Ordering.explicit(
-				"bus",
-				"load",
-				"trafo",
-				"line",
-				"cap",
-				"gen",
-				"reg",
-				"other");
+		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKinds());
 		Comparator<ModelicaModelInstantiation> byKind, byId;
 		byKind = (m1, m2) -> (kindOrdering.compare(getKind(m1), getKind(m2)));
 		byId = (m1, m2) -> getModel(m1).compareTo(getModel(m2));
@@ -151,14 +143,7 @@ public class ModelicaTextPrinter
 
 		Comparator<ModelicaEquation> byType, byKind, byKey;
 		Ordering<ModelicaEquation> byOriginal = Ordering.explicit(eqs0);
-		Ordering<String> kindOrdering = Ordering.explicit(
-				"reg-gen",
-				"reg-reg",
-				"bus-line",
-				"bus-load",
-				"bus-cap",
-				"bus-gen",
-				"bus-trafo");
+		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKindPairs());
 		byType = (eq1, eq2) -> eq1.getClass().getName().compareTo(eq2.getClass().getName());
 		byKind = (eq1, eq2) -> kindOrdering.compare(getKind(eq1), getKind(eq2));
 		byKey = Comparator.comparing(ModelicaTextPrinter::getKey);

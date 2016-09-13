@@ -34,7 +34,12 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
+import eu.itesla_project.iidm.network.Line;
+import eu.itesla_project.iidm.network.Load;
+import eu.itesla_project.iidm.network.ShuntCompensator;
+import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 {
@@ -63,7 +68,18 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	public ModelicaModel getModelicaModel(Identifiable<?> e)
 	{
 		Model mdef = dynamicModels.getDynamicModelForId(validDynamicId(e.getId()));
-		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef);
+		if (mdef == null) mdef = dynamicModels.getDynamicModelForStaticType(getType(e));
+		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
+		return null;
+	}
+
+	private String getType(Identifiable<?> e)
+	{
+		if (e instanceof Bus) return "Bus";
+		else if (e instanceof Line) return "Line";
+		else if (e instanceof TwoWindingsTransformer) return "Transformer";
+		else if (e instanceof Load) return "Load";
+		else if (e instanceof ShuntCompensator) return "Shunt";
 		return null;
 	}
 
@@ -107,16 +123,17 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return id.replace('-', '_');
 	}
 
-	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef)
+	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
+			Identifiable<?> element)
 	{
-		ModelicaModel m = new ModelicaModel(mdef.getId());
-		m.setStaticId(mdef.getStaticId());
+		ModelicaModel m = new ModelicaModel(buildModelicaModelId(mdef, element));
+		m.setStaticId(buildModelicaModelStaticId(mdef, element));
 
 		List<ModelicaModelInstantiation> mis = new ArrayList<>();
 		for (Component mc : mdef.getComponents())
 		{
 			String type = mc.getName();
-			String name = mc.getId();
+			String name = buildModelicaModelInstantiationName(mdef, mc, element);
 			ParameterSetReference p = mc.getParameterSetReference();
 			List<ModelicaArgument> arguments = buildModelicaInstatiationArguments(p);
 			mis.add(new ModelicaModelInstantiation(type, name, arguments));
@@ -133,6 +150,30 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		m.addEquations(meqs);
 
 		return m;
+	}
+
+	private String buildModelicaModelId(Model m, Identifiable<?> element)
+	{
+		// If the model definition refers to a type build the identifier from the element identifier
+		if (m instanceof ModelForType) return ModelicaUtil.dynamicIdFromStaticId(element.getId());
+		return m.getId();
+	}
+
+	private String buildModelicaModelStaticId(Model mdef, Identifiable<?> element)
+	{
+		// If model definition does not provide a static identifier, return element identifier
+		if (mdef.getStaticId() == null || mdef.getStaticId().equals("")) return element.getId();
+		return mdef.getStaticId();
+	}
+
+	private String buildModelicaModelInstantiationName(
+			Model m,
+			Component c,
+			Identifiable<?> element)
+	{
+		// If the model definition refers to a type use a combination of component name and element id
+		if (m instanceof ModelForType) return ModelicaUtil.dynamicInstantiationIdFromStaticId(c.getName(), element.getId());
+		return c.getId();
 	}
 
 	private List<ModelicaArgument> buildModelicaInstatiationArguments(

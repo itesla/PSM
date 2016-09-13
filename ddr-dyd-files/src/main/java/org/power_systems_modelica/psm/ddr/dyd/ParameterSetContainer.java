@@ -7,6 +7,11 @@ import java.util.Map;
 
 public class ParameterSetContainer
 {
+	public ParameterSetContainer()
+	{
+		this.setCounter = 0;
+	}
+
 	public void setFilename(String filename)
 	{
 		this.filename = filename;
@@ -15,6 +20,12 @@ public class ParameterSetContainer
 	public String getFilename()
 	{
 		return filename;
+	}
+
+	public ParameterSet newParameterSet()
+	{
+		int id = ++setCounter;
+		return new ParameterSet("" + id);
 	}
 
 	public void add(ParameterSet parameterSet)
@@ -33,5 +44,7 @@ public class ParameterSetContainer
 	}
 
 	private String							filename;
+	private int								setCounter;
+
 	private final Map<String, ParameterSet>	parameterSets	= new HashMap<>();
 }

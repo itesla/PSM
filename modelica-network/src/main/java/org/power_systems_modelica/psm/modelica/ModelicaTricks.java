@@ -1,11 +1,18 @@
 package org.power_systems_modelica.psm.modelica;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class ModelicaTricks
 {
 	public static String getKind(String name)
 	{
 		String kind = name.substring(0, name.indexOf("_"));
 		if (kind == null) kind = "other";
+		if (!KINDS_SET.contains(kind)) return "other";
 		return kind;
 	}
 
@@ -82,5 +89,59 @@ public class ModelicaTricks
 		boolean isBusFrom = pBus == pBusFrom;
 
 		return isBusFrom ? conns[0] : conns[1];
+	}
+
+	public static String getStaticTypeFromDynamicType(String dtype)
+	{
+		switch (dtype)
+		{
+		case "iPSL.Electrical.Buses.Bus":
+			return "Bus";
+		case "iPSL.Electrical.Branches.PwLine_2":
+			return "Line";
+		case "iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer":
+			return "Transformer";
+		case "iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence":
+			return "Load";
+		case "iPSL.Electrical.Banks.PwCapacitorBank":
+			return "Shunt";
+		}
+		return null;
+	}
+
+	public static List<String> allKinds()
+	{
+		return ALL_KINDS;
+	}
+
+	public static List<String> allKindPairs()
+	{
+		return ALL_KIND_PAIRS;
+	}
+
+	private static final List<String>	KINDS			= Arrays.asList(
+			"bus",
+			"load",
+			"trafo",
+			"line",
+			"cap",
+			"gen",
+			"reg");
+	private static final List<String>	KIND_PAIRS		= Arrays.asList("reg-gen",
+			"reg-reg",
+			"bus-line",
+			"bus-load",
+			"bus-cap",
+			"bus-gen",
+			"bus-trafo");
+
+	private static final Set<String>	KINDS_SET		= new HashSet<>(KINDS);
+	private static final List<String>	ALL_KINDS		= new ArrayList<>(KINDS);
+	private static final List<String>	ALL_KIND_PAIRS	= new ArrayList<>(KIND_PAIRS);
+	static
+	{
+		ALL_KINDS.add("other");
+		ALL_KIND_PAIRS.add("other-other");
+		ALL_KIND_PAIRS.add("other-gen");
 	}
 }

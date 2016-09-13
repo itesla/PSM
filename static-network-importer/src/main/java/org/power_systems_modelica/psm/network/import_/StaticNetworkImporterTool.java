@@ -20,7 +20,7 @@ public class StaticNetworkImporterTool implements Tool
 		@Override
 		public String getName()
 		{
-			return "import";
+			return "cim2iidm";
 		}
 
 		@Override

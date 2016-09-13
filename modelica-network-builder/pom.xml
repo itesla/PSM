@@ -34,6 +34,10 @@
 			<artifactId>iidm-network-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>iidm-xml-import-export</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

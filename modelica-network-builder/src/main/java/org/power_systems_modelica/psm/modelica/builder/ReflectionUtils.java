@@ -15,6 +15,9 @@ public class ReflectionUtils
 		try
 		{
 			method = object.getClass().getMethod(methodName);
+			// To allow access to public members of package protected implementation classes
+			// Instead of setAccessible we could try to find the accessible method in one of the parent classes
+			method.setAccessible(true);
 		}
 		catch (NoSuchMethodException | SecurityException e)
 		{

@@ -69,7 +69,7 @@ public class Main
 			usage.append(theme != null ? theme : "Others").append(":\n");
 			for (Tool tool : tools)
 			{
-				usage.append(String.format("   %-30s %s", tool.getCommand().getName(),
+				usage.append(String.format("   %-20s %s", tool.getCommand().getName(),
 						tool.getCommand().getDescription())).append("\n");
 			}
 			usage.append("\n");

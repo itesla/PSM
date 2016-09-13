@@ -29,8 +29,8 @@ public class ComponentXml
 	public static void write(XMLStreamWriter w, Component c) throws XMLStreamException
 	{
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
-		w.writeAttribute("id", c.getId());
 		w.writeAttribute("name", c.getName());
+		if (c.getId() != null) w.writeAttribute("id", c.getId());
 
 		ParameterSetReference pref = c.getParameterSetReference();
 		if (c != null)

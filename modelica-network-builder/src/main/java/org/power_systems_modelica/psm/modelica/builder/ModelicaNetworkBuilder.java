@@ -76,8 +76,7 @@ public class ModelicaNetworkBuilder
 
 		// For every equipment in the main connected component of the Network,
 		// obtain the list of model instantiations and their equations
-		final Set<Identifiable<?>> visited = new HashSet<Identifiable<?>>(
-				network.getIdentifiables().size());
+		final Set<Identifiable<?>> visited = new HashSet<>(network.getIdentifiables().size());
 		final ConnectorResources connectors = new ConnectorResources();
 		for (Bus b : network.getBusBreakerView().getBuses())
 		{

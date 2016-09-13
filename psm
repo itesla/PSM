@@ -4,7 +4,8 @@
 export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
 export MAIN_CLASS="org.power_systems_modelica.psm.tools.Main"
-mvn --debug exec:java --projects tools -Dexec.mainClass=$MAIN_CLASS -Dexec.args="$*" -Ditesla.config.dir=$PSM_DATA/test/cfg
+# mvn --debug ...
+mvn exec:java --projects tools -Dexec.mainClass=$MAIN_CLASS -Dexec.args="$*" -Ditesla.config.dir=$PSM_DATA/test/cfg
 
 # Samples
 

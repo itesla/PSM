@@ -18,7 +18,12 @@ public class ModelicaUtil
 
 	public static String dynamicIdFromStaticId(String id)
 	{
-		return "DM_" + id;
+		return "DM" + id;
+	}
+	
+	public static String dynamicInstantiationIdFromStaticId(String name, String id)
+	{
+		return name.substring(name.lastIndexOf('.') + 1).concat(id);
 	}
 
 	private static final String	ID_VAR_SEPARATOR		= ".";

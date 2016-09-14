@@ -38,7 +38,9 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		running();
 		try
 		{
-			DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create(ddrType, ddrLocation);
+			DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create(
+					ddrType,
+					ddrLocation);
 			ddr.connect();
 			Network n = (Network) workflow.getResults("network");
 			ModelicaNetworkBuilder builder = new ModelicaNetworkBuilder(ddr, n);
@@ -53,7 +55,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		}
 	}
 
-	private String	ddrType;
-	private String	ddrLocation;
-	private boolean	onlyMainConnectedComponent;
+	private String				ddrType;
+	private String				ddrLocation;
+	private boolean				onlyMainConnectedComponent;
 }

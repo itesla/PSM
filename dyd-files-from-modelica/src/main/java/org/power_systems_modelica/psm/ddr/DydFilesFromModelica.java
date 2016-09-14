@@ -13,6 +13,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
+import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.ModelProvider;
@@ -85,25 +86,39 @@ public class DydFilesFromModelica
 			ModelProvider dyd,
 			ParameterSetContainer par)
 	{
+		String type = whichType(mo);
+		if (type == null) return null;
+
+		Model mdef = dyd.getDynamicModelForStaticType(type);
+		if (mdef != null) return mdef;
+
+		return buildModelDefinitionForType(type, mo, dyd, par);
+	}
+
+	private static String whichType(ModelicaModel mo)
+	{
 		// Only if the dynamic model has a single model instantiation with no equations
 		if (mo.getModelInstantiations().size() > 1 || mo.getEquations().size() > 0) return null;
 
 		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
 		String dtype = mi.getType();
 		String stype = ModelicaTricks.getStaticTypeFromDynamicType(dtype);
-		if (stype == null) return null;
+		return stype;
+	}
 
-		Model mdef = dyd.getDynamicModelForStaticType(stype);
-		if (mdef != null) return mdef;
-
-		System.out.println("MT checking dynamic model definition based on type");
-		System.out.println("MT     dynamic type = " + dtype);
-		System.out.println("MT     static type  = " + stype);
-		System.out.println("MT     trying to make a model definition ...");
-
-		mdef = new ModelForType(stype);
+	private static Model buildModelDefinitionForType(
+			String stype,
+			ModelicaModel mo,
+			ModelProvider dyd,
+			ParameterSetContainer par)
+	{
+		Model mdef = new ModelForType(stype);
+		boolean generic = true;
+		mdef.addConnectors(createConnectors(mo, generic));
 
 		// We only process the first (unique) model instantiation
+		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
+
 		ParameterSet pset = par.newParameterSet();
 		par.add(pset);
 		ParameterSetReference pref = new ParameterSetReference(par.getFilename(), pset.getId());
@@ -111,16 +126,16 @@ public class DydFilesFromModelica
 		mdefc.setParameterSetReference(pref);
 		mdef.addComponent(mdefc);
 
-		System.out.println("MT     These are the arguments");
 		for (ModelicaArgument a : mo.getModelInstantiations().get(0).getArguments())
 		{
 			String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
-			System.out.printf("MT         %-10s --> %-10s%n", a.getName(), iidmAttribute);
 			if (iidmAttribute != null)
 				pset.add(new ParameterReference(a.getName(), "IIDM", iidmAttribute));
-			else pset.add(new ParameterValue("STRING", a.getName(), a.getValue()));
+			else
+				pset.add(new ParameterValue("STRING", a.getName(), a.getValue()));
 		}
-		if (mdef != null) dyd.add(mdef);
+
+		dyd.add(mdef);
 		return mdef;
 	}
 
@@ -138,6 +153,9 @@ public class DydFilesFromModelica
 		}
 
 		Model mdef = new Model(id, staticId);
+		boolean generic = false;
+		mdef.addConnectors(createConnectors(mo, generic));
+
 		for (ModelicaModelInstantiation mi : mo.getModelInstantiations())
 		{
 			String idc = mi.getName();
@@ -149,7 +167,8 @@ public class DydFilesFromModelica
 				for (ModelicaArgument a : mi.getArguments())
 					pset.add(new ParameterValue("STRING", a.getName(), a.getValue()));
 				par.add(pset);
-				ParameterSetReference pref = new ParameterSetReference(par.getFilename(),
+				ParameterSetReference pref = new ParameterSetReference(
+						par.getFilename(),
 						pset.getId());
 				mdefc.setParameterSetReference(pref);
 			}
@@ -170,6 +189,42 @@ public class DydFilesFromModelica
 			}
 		}
 		return mdef;
+	}
+
+	private static List<Connector> createConnectors(ModelicaModel mo, boolean generic)
+	{
+		String name = mo.getModelInstantiations().get(0).getName();
+		boolean isBranch = name.startsWith("line_")
+				|| name.startsWith("trafo_")
+				|| name.startsWith("Line_")
+				|| name.startsWith("Transformer");
+		boolean isGenerator = name.startsWith("gen_");
+		boolean isBus = name.startsWith("bus_")
+				|| name.startsWith("Bus_");
+
+		// Only branches have two connectors
+		Connector[] connectors = new Connector[isBranch ? 2 : 1];
+
+		String id = generic ? "" : name;
+		String pin;
+		boolean reusable;
+
+		// Connector 1
+		pin = "p";
+		if (isGenerator) pin = "sortie";
+		reusable = false;
+		if (isBus) reusable = true;
+		connectors[0] = new Connector(id, pin, reusable);
+
+		// Connector 2
+		if (isBranch)
+		{
+			pin = "n";
+			reusable = false;
+			connectors[1] = new Connector(id, pin, reusable);
+		}
+
+		return Arrays.asList(connectors);
 	}
 
 	private static Collection<ModelicaModel> groupInModelsByStaticId(ModelicaDocument mo)

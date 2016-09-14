@@ -27,6 +27,12 @@ public class ModelicaModel
 		return this.staticId;
 	}
 
+	public void setConnectors(List<ModelicaConnector> connectors)
+	{
+		this.connectors = new ModelicaConnector[connectors.size()];
+		this.connectors = connectors.toArray(this.connectors);
+	}
+
 	public void addModelInstantiations(List<ModelicaModelInstantiation> modelInstantiations)
 	{
 		if (modelInstantiations != null) this.modelInstantiations.addAll(modelInstantiations);
@@ -52,8 +58,14 @@ public class ModelicaModel
 		return Collections.unmodifiableList(equations);
 	}
 
+	public ModelicaConnector[] getConnectors()
+	{
+		return connectors;
+	}
+
 	private String								name;
 	private String								staticId;
 	private List<ModelicaModelInstantiation>	modelInstantiations	= new ArrayList<>();
 	private List<ModelicaEquation>				equations			= new ArrayList<>();
+	private ModelicaConnector[]					connectors;
 }

@@ -4,8 +4,9 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
+import org.power_systems_modelica.psm.ddr.dyd.Connection;
+import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 
@@ -34,13 +35,11 @@ public class ModelXml
 		if (m instanceof ModelForType) w.writeAttribute("type", ((ModelForType) m).getType());
 
 		for (Component mc : m.getComponents())
-		{
 			ComponentXml.write(w, mc);
-		}
-		for (Connection mc : m.getConnections())
-		{
-			ConnectionXml.write(w, mc);
-		}
+		for (Connector mcr : m.getConnectors())
+			ConnectorXml.write(w, mcr);
+		for (Connection mcn : m.getConnections())
+			ConnectionXml.write(w, mcn);
 
 		w.writeEndElement();
 	}

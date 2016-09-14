@@ -152,6 +152,7 @@ public class ModelicaNetworkBuilderTest
 		assertEquals(expected, converted);
 	}
 
+	@SuppressWarnings("unused")
 	public static Network createTestNetwork()
 	{
 		Network network = NetworkFactory.create("network1", "test");

@@ -88,7 +88,7 @@ public class ModelicaNetworkBuilder
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
-				public void visitEquipment(Connectable e)
+				public void visitEquipment(Connectable<?> e)
 				{
 					ModelicaModel de = ddr.getModelicaModel(e);
 					if (de == null) return;
@@ -104,7 +104,10 @@ public class ModelicaNetworkBuilder
 					}
 					catch (ConnectorException x)
 					{
-						LOG.warn(x.getMessage());
+						LOG.warn("could not add connection between bus {} and element {}, reason '{}'",
+								b.getId(),
+								e.getId(),
+								x.getMessage());
 					}
 				}
 			};
@@ -227,7 +230,8 @@ public class ModelicaNetworkBuilder
 			ModelicaModel other,
 			ConnectorResources connectors) throws ConnectorException
 	{
-		ModelicaConnector[] conns = ddr.getModelicaConnectors(m);
+		ModelicaConnector[] conns = m.getConnectors();
+		if (conns.length == 0) throw new ConnectorException("no connectors found");
 		ModelicaConnector conn = conns[0];
 		if (conns.length > 1) conn = preferredConnector(m, other, conns);
 		conn = acquireConnector(conn, connectors);

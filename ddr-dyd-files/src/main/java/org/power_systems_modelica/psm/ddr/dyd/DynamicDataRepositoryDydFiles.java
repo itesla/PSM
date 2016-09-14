@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -21,11 +22,11 @@ import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ModelContainerXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParameterSetContainerXml;
+import org.power_systems_modelica.psm.modelica.ModelicaArgument;
+import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
-import org.power_systems_modelica.psm.modelica.ModelicaArgument;
-import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
 import org.power_systems_modelica.psm.modelica.ModelicaParameter;
@@ -83,44 +84,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return null;
 	}
 
-	@Override
-	public ModelicaConnector[] getModelicaConnectors(ModelicaModel m)
-	{
-		// FIXME connector references should be defined in the DYD for every model
-
-		String name = m.getModelInstantiations().get(0).getName();
-		boolean isBranch = name.startsWith("line_")
-				|| name.startsWith("trafo_")
-				|| name.startsWith("Line_")
-				|| name.startsWith("Transformer");
-		boolean isGenerator = name.startsWith("gen_");
-		boolean isBus = name.startsWith("bus_")
-				|| name.startsWith("Bus_");
-
-		// Only branches have two connectors
-		ModelicaConnector[] connectors = new ModelicaConnector[isBranch ? 2 : 1];
-
-		String pin;
-		boolean reusable;
-
-		// Connector 1
-		pin = "p";
-		if (isGenerator) pin = "sortie";
-		reusable = false;
-		if (isBus) reusable = true;
-		connectors[0] = new ModelicaConnector(name, pin, reusable);
-		
-		// Connector 2
-		if (isBranch)
-		{
-			pin = "n";
-			reusable = false;
-			connectors[1] = new ModelicaConnector(name, pin, reusable);
-		}
-
-		return connectors;
-	}
-
 	private String validDynamicId(String id)
 	{
 		// Some characters are not allowed in dynamic model identifiers
@@ -143,6 +106,18 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			mis.add(new ModelicaModelInstantiation(type, name, arguments));
 		}
 		m.addModelInstantiations(mis);
+
+		m.setConnectors(mdef.getConnectors()
+				.stream()
+				.map(c -> new ModelicaConnector(
+						// FIXME If the connector identifier is empty, assign it the id of the first instantiation
+						// This is right because we only have generic connectors on models with only one component
+						// The general solution should be: the connector has a relative id to the components
+						// And the exact id can be resolved after all components have been instantiated
+						c.getId().isEmpty() ? mis.get(0).getName() : c.getId(),
+						c.getPin(),
+						c.isReusable()))
+				.collect(Collectors.toList()));
 
 		List<ModelicaEquation> meqs = new ArrayList<>(mdef.getConnections().size());
 		for (Connection c : mdef.getConnections())

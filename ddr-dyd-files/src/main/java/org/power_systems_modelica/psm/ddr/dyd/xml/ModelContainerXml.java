@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.events.XMLEvent;
 
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
+import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
@@ -54,6 +55,10 @@ public class ModelContainerXml
 				case ComponentXml.ROOT_ELEMENT_NAME:
 					Component component = ComponentXml.read(r);
 					m.addComponent(component);
+					break;
+				case ConnectorXml.ROOT_ELEMENT_NAME:
+					Connector connector = ConnectorXml.read(r);
+					m.addConnector(connector);
 					break;
 				case ConnectionXml.ROOT_ELEMENT_NAME:
 					Connection connection = ConnectionXml.read(r);

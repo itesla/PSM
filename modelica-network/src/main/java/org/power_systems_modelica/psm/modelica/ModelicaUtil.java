@@ -21,9 +21,12 @@ public class ModelicaUtil
 		return "DM" + id;
 	}
 	
-	public static String dynamicInstantiationIdFromStaticId(String name, String id)
+	public static String dynamicInstantiationIdFromStaticId(String type, String name, String id)
 	{
-		return name.substring(name.lastIndexOf('.') + 1).concat(id);
+		//return name.substring(name.lastIndexOf('.') + 1).concat(id);
+		// FIXME only to ease the comparison with existing mo's
+		type = ModelicaTricks.legacyType(type);
+		return type.concat("_").concat(id);
 	}
 
 	private static final String	ID_VAR_SEPARATOR		= ".";

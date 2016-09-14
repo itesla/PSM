@@ -109,6 +109,25 @@ public class ModelicaTricks
 		return null;
 	}
 
+	public static String legacyType(String type)
+	{
+		switch (type)
+		{
+		case "Bus":
+			return "bus";
+		case "Line":
+			return "line";
+		case "Transformer":
+			return "trafo";
+		case "Load":
+			return "load";
+		case "Shunt":
+			return "cap";
+		default:
+			return "";
+		}
+	}
+
 	public static List<String> allKinds()
 	{
 		return ALL_KINDS;
@@ -121,19 +140,31 @@ public class ModelicaTricks
 
 	private static final List<String>	KINDS			= Arrays.asList(
 			"bus",
+			"Bus",
 			"load",
+			"Load",
 			"trafo",
+			"Transformer",
 			"line",
+			"Line",
 			"cap",
+			"Shunt",
 			"gen",
+			"Generator",
 			"reg");
-	private static final List<String>	KIND_PAIRS		= Arrays.asList("reg-gen",
+	private static final List<String>	KIND_PAIRS		= Arrays.asList(
+			"reg-gen",
 			"reg-reg",
 			"bus-line",
+			"Bus-Line",
 			"bus-load",
+			"Bus-Load",
 			"bus-cap",
+			"Bus-Shunt",
 			"bus-gen",
-			"bus-trafo");
+			"Bus-gen",
+			"bus-trafo",
+			"Bus-Transformer");
 
 	private static final Set<String>	KINDS_SET		= new HashSet<>(KINDS);
 	private static final List<String>	ALL_KINDS		= new ArrayList<>(KINDS);

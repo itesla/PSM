@@ -86,11 +86,18 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public ModelicaConnector[] getModelicaConnectors(ModelicaModel m)
 	{
-		// FIXME connector references should be defined in the DYD for every model:
+		// FIXME connector references should be defined in the DYD for every model
 
 		String name = m.getModelInstantiations().get(0).getName();
-		boolean isBranch = name.startsWith("line_") || name.startsWith("trafo_");
+		boolean isBranch = name.startsWith("line_")
+				|| name.startsWith("trafo_")
+				|| name.startsWith("Line_")
+				|| name.startsWith("Transformer");
+		boolean isGenerator = name.startsWith("gen_");
+		boolean isBus = name.startsWith("bus_")
+				|| name.startsWith("Bus_");
 
+		// Only branches have two connectors
 		ModelicaConnector[] connectors = new ModelicaConnector[isBranch ? 2 : 1];
 
 		String pin;
@@ -98,15 +105,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 		// Connector 1
 		pin = "p";
-		if (name.startsWith("gen_"))
-		{
-			pin = "sortie";
-		}
+		if (isGenerator) pin = "sortie";
 		reusable = false;
-		if (name.startsWith("bus_")) reusable = true;
+		if (isBus) reusable = true;
 		connectors[0] = new ModelicaConnector(name, pin, reusable);
-
-		// Connector 2, only branches have more than one connector
+		
+		// Connector 2
 		if (isBranch)
 		{
 			pin = "n";
@@ -172,7 +176,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			Identifiable<?> element)
 	{
 		// If the model definition refers to a type use a combination of component name and element id
-		if (m instanceof ModelForType) return ModelicaUtil.dynamicInstantiationIdFromStaticId(c.getName(), element.getId());
+		if (m instanceof ModelForType)
+			return ModelicaUtil.dynamicInstantiationIdFromStaticId(
+					((ModelForType) m).getType(),
+					c.getName(),
+					element.getId());
 		return c.getId();
 	}
 

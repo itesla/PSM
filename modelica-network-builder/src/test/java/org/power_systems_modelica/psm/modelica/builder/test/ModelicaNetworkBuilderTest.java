@@ -123,7 +123,6 @@ public class ModelicaNetworkBuilderTest
 				Arrays.asList(V, A));
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
 		String bid = firstBus.getVoltageLevel().getId() + "::" + firstBus.getId();
-		System.out.println("first bus staticId = " + bid);
 		dbus.setStaticId(bid);
 		dbus.addModelInstantiations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus

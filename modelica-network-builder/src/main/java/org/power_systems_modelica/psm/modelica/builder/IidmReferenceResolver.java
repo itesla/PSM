@@ -7,6 +7,11 @@ import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Line;
 import eu.itesla_project.iidm.network.Load;
 import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.PhaseTapChanger;
+import eu.itesla_project.iidm.network.PhaseTapChangerStep;
+import eu.itesla_project.iidm.network.RatioTapChanger;
+import eu.itesla_project.iidm.network.RatioTapChangerStep;
+import eu.itesla_project.iidm.network.ShuntCompensator;
 import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 import eu.itesla_project.iidm.network.VoltageLevel;
 
@@ -69,13 +74,9 @@ public class IidmReferenceResolver implements ReferenceResolver
 			switch (name)
 			{
 			case "pu(V)":
-				float V = Float.NaN;
-				if (!Float.isNaN(b.getV())) V = b.getV() / b.getVoltageLevel().getNominalV();
-				return V;
+				return b.getV() / b.getVoltageLevel().getNominalV();
 			case "rad(angle)":
-				float angle = Float.NaN;
-				if (!Float.isNaN(b.getAngle())) angle = (float) Math.toRadians(b.getAngle());
-				return angle;
+				return (float) Math.toRadians(b.getAngle());
 			case "V":
 				return b.getV();
 			case "angle":
@@ -90,19 +91,35 @@ public class IidmReferenceResolver implements ReferenceResolver
 			{
 			case "pu(V)":
 				float V = Float.NaN;
-				if (b != null && !Float.isNaN(b.getV()))
-					V = b.getV() / l.getTerminal().getVoltageLevel().getNominalV();
+				if (b != null) V = b.getV() / l.getTerminal().getVoltageLevel().getNominalV();
 				return V;
 			case "rad(angle)":
 				float angle = Float.NaN;
-				if (b != null && !Float.isNaN(b.getAngle()))
-					angle = (float) Math.toRadians(b.getAngle());
+				if (b != null) angle = (float) Math.toRadians(b.getAngle());
 				return angle;
+			case "V":
+				return (b != null ? b.getV() : Float.NaN);
+			case "angle":
+				return (b != null ? b.getAngle() : Float.NaN);
 			// P0 and Q0 references should be solved using reflection ...
 			// case "P0":
 			// return l.getP0();
 			// case "Q0":
 			// return l.getQ0();
+			}
+		}
+		else if (element instanceof ShuntCompensator)
+		{
+			ShuntCompensator s = (ShuntCompensator) element;
+			switch (name)
+			{
+			case "pu(B)":
+				float sectionB = s.getMaximumB() / s.getMaximumSectionCount();
+				float B = sectionB * s.getCurrentSectionCount();
+				// As a reactive injection at the nominal voltage
+				float V = s.getTerminal().getVoltageLevel().getNominalV();
+				B = B * V * V;
+				return B / SNREF;
 			}
 		}
 		else if (element instanceof Line)
@@ -118,9 +135,9 @@ public class IidmReferenceResolver implements ReferenceResolver
 			case "pu(X)":
 				return l.getX() / Z;
 			case "pu(G1)":
-				return l.getG1() / Z;
+				return l.getG1() * Z;
 			case "pu(B1)":
-				return l.getB1() / Z;
+				return l.getB1() * Z;
 			}
 		}
 		else if (element instanceof TwoWindingsTransformer)
@@ -129,23 +146,48 @@ public class IidmReferenceResolver implements ReferenceResolver
 
 			// FIXME review code (take into account impedance modification of tap changers) and organize
 			// Compute only data that is needed for answering the value of the queried property
-			float t1NomV = tx.getTerminal1().getVoltageLevel().getNominalV();
-			float t2NomV = tx.getTerminal2().getVoltageLevel().getNominalV();
-			float U1nom = Float.isNaN(t1NomV) == false ? t1NomV : 0;
-			float U2nom = Float.isNaN(t2NomV) == false ? t2NomV : 0;
-			float V1 = Float.isNaN(tx.getRatedU1()) == false ? tx.getRatedU1() : 0;
-			float V2 = Float.isNaN(tx.getRatedU2()) == false ? tx.getRatedU2() : 0;
-			float Zbase = (float) Math.pow(U2nom, 2) / SNREF;
+			float nominalV1 = tx.getTerminal1().getVoltageLevel().getNominalV();
+			float nominalV2 = tx.getTerminal2().getVoltageLevel().getNominalV();
+			if (Float.isNaN(nominalV1)) nominalV1 = 0;
+			if (Float.isNaN(nominalV2)) nominalV2 = 0;
+			float V1 = tx.getRatedU1();
+			float V2 = tx.getRatedU2();
+			if (Float.isNaN(V1)) V1 = 0;
+			if (Float.isNaN(V2)) V2 = 0;
+			float Zbase = (float) Math.pow(nominalV2, 2) / SNREF;
 
 			float r = tx.getR() / Zbase;
 			float x = tx.getX() / Zbase;
 			float g = tx.getG() * Zbase;
 			float b = tx.getB() * Zbase;
 
+			float dx = 0, dr = 0;
+			RatioTapChanger rtc = tx.getRatioTapChanger();
+			PhaseTapChanger ptc = tx.getPhaseTapChanger();
+			if (rtc != null)
+			{
+				RatioTapChangerStep rtcs = rtc.getCurrentStep();
+				V1 /= rtcs.getRho();
+				dr += rtcs.getR();
+				dx += rtcs.getX();
+			}
+			float theta = 0.0f;
+			if (ptc != null)
+			{
+				PhaseTapChangerStep ptcs = ptc.getCurrentStep();
+				// FIXME review how Rho for phase tap changer should be used
+				// V1 /= ptcs.getRho();
+				dr += ptcs.getR();
+				dx += ptcs.getX();
+				theta = ptcs.getAlpha();
+			}
+			r *= (1 + dr / 100);
+			x *= (1 + dx / 100);
+			
 			// FIXME ratio computed according to helmflow (legacy comment)
-			float Vend_pu = V1 / U1nom;
-			float Vsource_pu = V2 / U2nom;
-			float ratio = Vsource_pu / Vend_pu;
+			float endV = V1 / nominalV1;
+			float sourceV = V2 / nominalV2;
+			float ratio = sourceV / endV;
 
 			switch (name)
 			{
@@ -159,6 +201,8 @@ public class IidmReferenceResolver implements ReferenceResolver
 				return b;
 			case "ratio":
 				return ratio;
+			case "theta":
+				return theta;
 			}
 		}
 		return null;

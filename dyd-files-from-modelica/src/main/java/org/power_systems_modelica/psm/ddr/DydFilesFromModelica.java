@@ -88,7 +88,7 @@ public class DydFilesFromModelica
 		// Only if the dynamic model has a single model instantiation with no equations
 		if (mo.getModelInstantiations().size() > 1 || mo.getEquations().size() > 0) return null;
 
-		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0); 
+		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
 		String dtype = mi.getType();
 		String stype = ModelicaTricks.getStaticTypeFromDynamicType(dtype);
 		if (stype == null) return null;
@@ -102,7 +102,7 @@ public class DydFilesFromModelica
 		System.out.println("MT     trying to make a model definition ...");
 
 		mdef = new ModelForType(stype);
-		
+
 		// We only process the first (unique) model instantiation
 		ParameterSet pset = par.newParameterSet();
 		par.add(pset);
@@ -110,11 +110,11 @@ public class DydFilesFromModelica
 		Component mdefc = new Component(null, mi.getType());
 		mdefc.setParameterSetReference(pref);
 		mdef.addComponent(mdefc);
-		
+
 		System.out.println("MT     These are the arguments");
 		for (ModelicaArgument a : mo.getModelInstantiations().get(0).getArguments())
 		{
-			String iidmAttribute = getIidmNameForModelicaArgument(stype, a.getName());
+			String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
 			System.out.printf("MT         %-10s --> %-10s%n", a.getName(), iidmAttribute);
 			if (iidmAttribute != null)
 				pset.add(new ParameterReference(a.getName(), "IIDM", iidmAttribute));
@@ -132,7 +132,7 @@ public class DydFilesFromModelica
 		String staticId = mo.getStaticId();
 		if (staticId == null)
 		{
-			String reason = "staticId is empty, only know how to create dyd for specific elements";
+			String reason = "staticId is empty and we are trying to create a DYD item for a specific element";
 			LOG.warn("Ignored ModelicaModel {}: {}", mo.getName(), reason);
 			return null;
 		}
@@ -172,68 +172,6 @@ public class DydFilesFromModelica
 		return mdef;
 	}
 
-	private static String getIidmNameForModelicaArgument(String stype, String mname)
-	{
-		switch (stype)
-		{
-		case "Bus":
-			switch (mname)
-			{
-			case "V_0":
-				return "pu(V)";
-			case "angle_0":
-				return "rad(angle)";
-			}
-		case "Line":
-			switch (mname)
-			{
-			case "R":
-				return "pu(R)";
-			case "X":
-				return "pu(X)";
-			case "G":
-				return "pu(G1)";
-			case "B":
-				return "pu(B1)";
-			}
-		case "Load":
-			switch (mname)
-			{
-			case "V_0":
-				return "pu(V)";
-			case "P_0":
-				return "P0";
-			case "Q_0":
-				return "Q0";
-			case "angle_0":
-				return "rad(angle)";
-			}
-		case "Shunt":
-			switch (mname)
-			{
-			case "B":
-				return "bPerSection";
-			case "nsteps":
-				return "CurrentSectionCount";
-			}
-		case "Transformer":
-			switch (mname)
-			{
-			case "r":
-				return "ratio";
-			case "G0":
-				return "pu(G)";
-			case "B0":
-				return "pu(B)";
-			case "R":
-				return "pu(R)";
-			case "X":
-				return "pu(X)";
-			}
-		}
-		return null;
-	}
-
 	private static Collection<ModelicaModel> groupInModelsByStaticId(ModelicaDocument mo)
 	{
 		Map<String, ModelicaModel> models = new HashMap<>();
@@ -246,7 +184,7 @@ public class DydFilesFromModelica
 			if (m != null) m.addModelInstantiations(Arrays.asList(mi));
 			else
 			{
-				System.err.printf("ignored model instantiation %s%n", mi.getName());
+				LOG.warn("ignored model instantiation {}", mi.getName());
 			}
 		}
 		for (ModelicaEquation eq : eqs)
@@ -256,7 +194,7 @@ public class DydFilesFromModelica
 			else
 			{
 				String reason = "connects between different model components are not captured as dynamic model definitions";
-				LOG.warn("ignored equation '{}', {}", eq.toString(), reason);
+				LOG.debug("ignored equation '{}', {}", eq.toString(), reason);
 			}
 		}
 		return models.values();

@@ -12,7 +12,7 @@ public class IidmNames
 			case "V_0":
 				return "pu(V)";
 			case "angle_0":
-				return "Angle";
+				return "A";
 			}
 		case "Line":
 			switch (mname)
@@ -36,7 +36,7 @@ public class IidmNames
 			case "Q_0":
 				return "Q0";
 			case "angle_0":
-				return "angle";
+				return "A";
 			}
 		case "Shunt":
 			switch (mname)
@@ -59,6 +59,16 @@ public class IidmNames
 				return "pu(R)";
 			case "X":
 				return "pu(X)";
+			}
+		case "Generator":
+			switch(mname)
+			{
+			case "ur0":
+				return "re(u0)";
+			case "ui0":
+				return "im(u0)";
+			case "V2":
+				return "Vnom";
 			}
 		}
 		return null;

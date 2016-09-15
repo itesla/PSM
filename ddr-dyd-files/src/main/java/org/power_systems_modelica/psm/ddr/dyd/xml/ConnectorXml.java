@@ -23,7 +23,7 @@ public class ConnectorXml
 			throws XMLStreamException
 	{
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
-		w.writeAttribute("id", c.getId());
+		if (c.getId() != null) w.writeAttribute("id", c.getId());
 		w.writeAttribute("pin", c.getPin());
 		w.writeAttribute("reusable", Boolean.toString(c.isReusable()));
 	}

@@ -105,6 +105,8 @@ public class ModelicaTricks
 			return "Load";
 		case "iPSL.Electrical.Banks.PwCapacitorBank":
 			return "Shunt";
+		case "iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S":
+			return "Generator";
 		}
 		return null;
 	}

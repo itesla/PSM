@@ -1,17 +1,20 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.complex.ComplexUtils;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 
 import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Generator;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Line;
-import eu.itesla_project.iidm.network.Load;
 import eu.itesla_project.iidm.network.Network;
 import eu.itesla_project.iidm.network.PhaseTapChanger;
 import eu.itesla_project.iidm.network.PhaseTapChangerStep;
 import eu.itesla_project.iidm.network.RatioTapChanger;
 import eu.itesla_project.iidm.network.RatioTapChangerStep;
 import eu.itesla_project.iidm.network.ShuntCompensator;
+import eu.itesla_project.iidm.network.SingleTerminalConnectable;
 import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 import eu.itesla_project.iidm.network.VoltageLevel;
 
@@ -75,40 +78,53 @@ public class IidmReferenceResolver implements ReferenceResolver
 			{
 			case "pu(V)":
 				return b.getV() / b.getVoltageLevel().getNominalV();
-			case "rad(angle)":
+			case "rad(A)":
 				return (float) Math.toRadians(b.getAngle());
 			case "V":
 				return b.getV();
-			case "angle":
+			case "A":
 				return b.getAngle();
 			}
 		}
-		else if (element instanceof Load)
+		if (element instanceof SingleTerminalConnectable<?>)
 		{
-			Load l = (Load) element;
-			Bus b = l.getTerminal().getBusView().getBus();
+			SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) element;
+			Bus b = e.getTerminal().getBusView().getBus();
 			switch (name)
 			{
 			case "pu(V)":
-				float V = Float.NaN;
-				if (b != null) V = b.getV() / l.getTerminal().getVoltageLevel().getNominalV();
-				return V;
-			case "rad(angle)":
-				float angle = Float.NaN;
-				if (b != null) angle = (float) Math.toRadians(b.getAngle());
-				return angle;
+				float v = Float.NaN;
+				if (b != null) v = b.getV() / e.getTerminal().getVoltageLevel().getNominalV();
+				return v;
+			case "rad(A)":
+				float a = Float.NaN;
+				if (b != null) a = (float) Math.toRadians(b.getAngle());
+				return a;
 			case "V":
 				return (b != null ? b.getV() : Float.NaN);
-			case "angle":
+			case "A":
 				return (b != null ? b.getAngle() : Float.NaN);
-			// P0 and Q0 references should be solved using reflection ...
-			// case "P0":
-			// return l.getP0();
-			// case "Q0":
-			// return l.getQ0();
+			case "Vnom":
+				return e.getTerminal().getVoltageLevel().getNominalV();
+			case "P":
+				return e.getTerminal().getP();
+			case "-P":
+				return -e.getTerminal().getP();
+			case "Q":
+				return e.getTerminal().getQ();
+			case "-Q":
+				return -e.getTerminal().getQ();
+			case "pu(P)":
+				return e.getTerminal().getP() / SNREF;
+			case "-pu(P)":
+				return -e.getTerminal().getP() / SNREF;
+			case "pu(Q)":
+				return e.getTerminal().getQ() / SNREF;
+			case "-pu(Q)":
+				return -e.getTerminal().getQ() / SNREF;
 			}
 		}
-		else if (element instanceof ShuntCompensator)
+		if (element instanceof ShuntCompensator)
 		{
 			ShuntCompensator s = (ShuntCompensator) element;
 			switch (name)
@@ -122,7 +138,26 @@ public class IidmReferenceResolver implements ReferenceResolver
 				return B / SNREF;
 			}
 		}
-		else if (element instanceof Line)
+		if (element instanceof Generator)
+		{
+			Generator g = (Generator) element;
+			Bus b = g.getTerminal().getBusView().getBus();
+
+			float v = Float.NaN;
+			if (b != null) v = b.getV() / g.getTerminal().getVoltageLevel().getNominalV();
+			float a = Float.NaN;
+			if (b != null) a = (float) Math.toRadians(b.getAngle());
+			Complex u = ComplexUtils.polar2Complex(v, a);
+
+			switch (name)
+			{
+			case "re(u0)":
+				return u.getReal();
+			case "im(u0)":
+				return u.getImaginary();
+			}
+		}
+		if (element instanceof Line)
 		{
 			Line l = (Line) element;
 			float nominalV = l.getTerminal2().getVoltageLevel().getNominalV();
@@ -140,7 +175,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 				return l.getB1() * Z;
 			}
 		}
-		else if (element instanceof TwoWindingsTransformer)
+		if (element instanceof TwoWindingsTransformer)
 		{
 			TwoWindingsTransformer tx = (TwoWindingsTransformer) element;
 
@@ -183,7 +218,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 			}
 			r *= (1 + dr / 100);
 			x *= (1 + dx / 100);
-			
+
 			// FIXME ratio computed according to helmflow (legacy comment)
 			float endV = V1 / nominalV1;
 			float sourceV = V2 / nominalV2;

@@ -92,6 +92,7 @@ public class ParameterSetContainerXml
 	{
 		w.writeStartDocument();
 		w.writeStartElement(ROOT_ELEMENT_NAME);
+		w.writeDefaultNamespace("http://www.power_systems_on_modelica.org/schema/par/1_0");
 		for (ParameterSet set : container.getSets())
 			ParameterSetXml.write(w, set);
 		w.writeEndElement();

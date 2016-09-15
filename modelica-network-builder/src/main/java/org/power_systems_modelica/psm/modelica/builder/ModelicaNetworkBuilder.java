@@ -104,7 +104,8 @@ public class ModelicaNetworkBuilder
 					}
 					catch (ConnectorException x)
 					{
-						LOG.warn("could not add connection between bus {} and element {}, reason '{}'",
+						LOG.warn(
+								"could not add connection between bus {} and element {}, reason '{}'",
 								b.getId(),
 								e.getId(),
 								x.getMessage());
@@ -167,8 +168,12 @@ public class ModelicaNetworkBuilder
 
 		ReferenceResolver r = referenceResolvers.get(a0.getDataSource());
 		if (r == null)
+		{
 			LOG.warn("No resolver found for reference to data source {}", a0.getDataSource());
-		else value = r.resolveReference(a0.getSourceName(), m);
+			return null;
+		}
+
+		value = r.resolveReference(a0.getSourceName(), m);
 		if (value == null)
 		{
 			String msg = new StringBuilder()
@@ -179,6 +184,7 @@ public class ModelicaNetworkBuilder
 					.append(" for model with staticId ")
 					.append(m.getStaticId())
 					.toString();
+			LOG.error(msg);
 			throw new RuntimeException(msg);
 		}
 

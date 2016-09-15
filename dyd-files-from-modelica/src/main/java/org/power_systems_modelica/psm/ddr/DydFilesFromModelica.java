@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.ddr;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.ModelProvider;
+import org.power_systems_modelica.psm.ddr.dyd.Parameter;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetContainer;
@@ -95,14 +97,14 @@ public class DydFilesFromModelica
 		Model mdef = dyd.getDynamicModelForStaticType(type);
 		if (mdef != null) return mdef;
 
+		// Do not build generic model definition for generators
+		if (type.equals("Generator")) return null;
+
 		return buildModelDefinitionForType(type, mo, dyd, par);
 	}
 
 	private static String whichType(ModelicaModel mo)
 	{
-		// Only if the dynamic model has a single model instantiation with no equations
-		if (mo.getModelInstantiations().size() > 1 || mo.getEquations().size() > 0) return null;
-
 		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
 		String dtype = mi.getType();
 		String stype = ModelicaTricks.getStaticTypeFromDynamicType(dtype);
@@ -123,20 +125,12 @@ public class DydFilesFromModelica
 		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
 
 		ParameterSet pset = par.newParameterSet();
+		pset.add(buildParameters(stype, mi.getArguments()));
 		par.add(pset);
 		ParameterSetReference pref = new ParameterSetReference(par.getFilename(), pset.getId());
 		Component mdefc = new Component(null, mi.getType());
 		mdefc.setParameterSetReference(pref);
 		mdef.addComponent(mdefc);
-
-		for (ModelicaArgument a : mo.getModelInstantiations().get(0).getArguments())
-		{
-			String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
-			if (iidmAttribute != null)
-				pset.add(new ParameterReference(a.getName(), "IIDM", iidmAttribute));
-			else
-				pset.add(new ParameterValue("STRING", a.getName(), a.getValue()));
-		}
 
 		dyd.add(mdef);
 		return mdef;
@@ -154,6 +148,7 @@ public class DydFilesFromModelica
 			LOG.warn("Ignored ModelicaModel {}: {}", mo.getName(), reason);
 			return null;
 		}
+		String type = whichType(mo);
 
 		Model mdef = new Model(id, staticId);
 		boolean generic = false;
@@ -167,8 +162,7 @@ public class DydFilesFromModelica
 			if (mi.getArguments() != null && !mi.getArguments().isEmpty())
 			{
 				ParameterSet pset = par.newParameterSet();
-				for (ModelicaArgument a : mi.getArguments())
-					pset.add(new ParameterValue("STRING", a.getName(), a.getValue()));
+				pset.add(buildParameters(type, mi.getArguments()));
 				par.add(pset);
 				ParameterSetReference pref = new ParameterSetReference(
 						par.getFilename(),
@@ -194,6 +188,20 @@ public class DydFilesFromModelica
 		return mdef;
 	}
 
+	private static List<Parameter> buildParameters(String stype, List<ModelicaArgument> arguments)
+	{
+		List<Parameter> params = new ArrayList<>(arguments.size());
+		for (ModelicaArgument a : arguments)
+		{
+			String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
+			if (iidmAttribute != null)
+				params.add(new ParameterReference(a.getName(), "IIDM", iidmAttribute));
+			else
+				params.add(new ParameterValue("STRING", a.getName(), a.getValue()));
+		}
+		return params;
+	}
+
 	private static List<Connector> createConnectors(ModelicaModel mo, boolean generic)
 	{
 		String name = mo.getModelInstantiations().get(0).getName();
@@ -208,7 +216,7 @@ public class DydFilesFromModelica
 		// Only branches have two connectors
 		Connector[] connectors = new Connector[isBranch ? 2 : 1];
 
-		String id = generic ? "" : name;
+		String id = generic ? null : name;
 		String pin;
 		boolean reusable;
 

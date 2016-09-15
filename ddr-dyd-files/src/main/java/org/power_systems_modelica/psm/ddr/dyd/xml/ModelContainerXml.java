@@ -101,6 +101,7 @@ public class ModelContainerXml
 	{
 		w.writeStartDocument();
 		w.writeStartElement(ROOT_ELEMENT_NAME);
+		w.writeDefaultNamespace("http://www.power_systems_on_modelica.org/schema/dyd/1_0");
 		for (Model m : dyd.getModelDefinitions())
 			ModelXml.write(w, m);
 		w.writeEndElement();

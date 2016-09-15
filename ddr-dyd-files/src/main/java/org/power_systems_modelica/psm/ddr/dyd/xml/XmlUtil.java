@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.ddr.dyd.xml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -25,9 +26,12 @@ import org.xml.sax.SAXException;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
+import javanet.staxutils.IndentingXMLStreamWriter;
+
 public class XmlUtil
 {
-	public static boolean isValidationActive = false;
+	public static boolean	isValidationActive	= false;
+	public static boolean	isIndentActive		= true;
 
 	public static XMLStreamReader reader(Path file) throws XMLStreamException, IOException
 	{
@@ -38,7 +42,15 @@ public class XmlUtil
 	public static XMLStreamWriter writer(Path file) throws XMLStreamException, IOException
 	{
 		OutputStream o = Files.newOutputStream(file);
-		return XML_OUTPUT_FACTORY_SUPPLIER.get().createXMLStreamWriter(o);
+		XMLStreamWriter writer = XML_OUTPUT_FACTORY_SUPPLIER.get().createXMLStreamWriter(o,
+				StandardCharsets.UTF_8.toString());
+		if (isIndentActive)
+		{
+			IndentingXMLStreamWriter indentingWriter = new IndentingXMLStreamWriter(writer);
+			indentingWriter.setIndent(INDENTATION);
+			writer = indentingWriter;
+		}
+		return writer;
 	}
 
 	static void validate(Path file, String schemaName)
@@ -67,10 +79,9 @@ public class XmlUtil
 
 	private static final Supplier<XMLInputFactory>	XML_INPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLInputFactory::newInstance);
-
 	private static final Supplier<XMLOutputFactory>	XML_OUTPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLOutputFactory::newInstance);
-
+	private static final String						INDENTATION					= "    ";
 	private static final Logger						LOG							= LoggerFactory
 			.getLogger(XmlUtil.class);
 }

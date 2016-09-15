@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:dyd="http://www.power_systems_on_modelica.org/schema/dyd/1_0"
 	targetNamespace="http://www.power_systems_on_modelica.org/schema/dyd/1_0"
 	elementFormDefault="qualified">
-	<xsd:simpleType name="nonEmptyString">
-		<xsd:restriction base="xsd:string">
-			<xsd:minLength value="1" />
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:element name="model_container">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element name="model" type="dyd:Model" minOccurs="0"
+	<xs:simpleType name="nonEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="model_container">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="model" type="dyd:Model" minOccurs="0"
 					maxOccurs="unbounded" />
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:complexType name="Model">
-		<xsd:sequence>
-			<xsd:element name="component" type="dyd:Component"
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Model">
+		<xs:sequence>
+			<xs:element name="component" type="dyd:Component"
 				minOccurs="1" maxOccurs="unbounded" />
-			<xsd:element name="connector" type="dyd:Connector"
+			<xs:element name="connector" type="dyd:Connector"
 				minOccurs="1" maxOccurs="2" />
-			<xsd:element name="connection" type="dyd:Connection"
+			<xs:element name="connection" type="dyd:Connection"
 				minOccurs="0" maxOccurs="unbounded" />
-		</xsd:sequence>
-		<xsd:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xsd:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
-		<xsd:attribute name="type" use="optional" type="dyd:nonEmptyString" />
-	</xsd:complexType>
-	<xsd:complexType name="Component">
-		<xsd:attribute name="name" use="required" type="dyd:nonEmptyString" />
-		<xsd:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xsd:attribute name="parFile" use="required" type="dyd:nonEmptyString" />
-		<xsd:attribute name="parId" use="required" type="dyd:nonEmptyString" />
-	</xsd:complexType>
-	<xsd:complexType name="Connector">
-		<xsd:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xsd:attribute name="pin" use="required" type="dyd:Pin" />
-		<xsd:attribute name="reusable" use="required" type="xsd:boolean" />
-	</xsd:complexType>
-	<xsd:simpleType name="Pin">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="p" />
-			<xsd:enumeration value="n" />
-			<xsd:enumeration value="sortie" />
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:complexType name="Connection">
-		<xsd:attribute name="id1" use="required" type="dyd:nonEmptyString" />
-		<xsd:attribute name="var1" use="required" type="dyd:nonEmptyString" />
-		<xsd:attribute name="id2" use="required" type="dyd:nonEmptyString" />
-		<xsd:attribute name="var2" use="required" type="dyd:nonEmptyString" />
-	</xsd:complexType>
-</xsd:schema>
+		</xs:sequence>
+		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:complexType name="Component">
+		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="parFile" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="parId" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:complexType name="Connector">
+		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="pin" use="required" type="dyd:Pin" />
+		<xs:attribute name="reusable" use="required" type="xs:boolean" />
+	</xs:complexType>
+	<xs:simpleType name="Pin">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="p" />
+			<xs:enumeration value="n" />
+			<xs:enumeration value="sortie" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Connection">
+		<xs:attribute name="id1" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="var1" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="id2" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="var2" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+</xs:schema>

@@ -15,7 +15,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
@@ -30,8 +32,15 @@ import eu.itesla_project.iidm.network.Network;
 
 public class PsmWorkflowTest
 {
-	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"))
+	private static final Path TEST_SAMPLES = Paths
+			.get(System.getenv("PSM_DATA"))
 			.resolve("test");
+
+	@Before
+	public void setup()
+	{
+		XmlUtil.isValidationActive = true;
+	}
 
 	@Test
 	public void testWorfkflowStaticNetworkImportFailsIfSourceDoesNotExist()

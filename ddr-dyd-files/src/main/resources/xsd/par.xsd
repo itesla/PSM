@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:par="http://www.power_systems_on_modelica.org/schema/par/1_0"
+	targetNamespace="http://www.power_systems_on_modelica.org/schema/par/1_0"
+	elementFormDefault="qualified">
+	<xsd:simpleType name="nonEmptyString">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="parameters">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="set" type="par:ParameterSet"
+					minOccurs="1" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="ParameterSet">
+		<xsd:choice minOccurs="1" maxOccurs="unbounded">
+			<xsd:element name="par" type="par:ParameterValue" />
+			<xsd:element name="ref" type="par:ParameterReference" />
+		</xsd:choice>
+		<xsd:attribute name="id" use="required" type="xsd:integer" />
+	</xsd:complexType>
+	<xsd:complexType name="ParameterValue">
+		<xsd:attribute name="type" use="required" type="par:ValueType" />
+		<xsd:attribute name="name" use="required" type="par:nonEmptyString" />
+		<xsd:attribute name="value" use="required" type="par:nonEmptyString" />
+	</xsd:complexType>
+	<xsd:complexType name="ParameterReference">
+		<xsd:attribute name="name" use="required" type="par:nonEmptyString" />
+		<xsd:attribute name="dataSource" use="required" type="par:DataSource" />
+		<xsd:attribute name="sourceName" use="required"
+			type="par:nonEmptyString" />
+	</xsd:complexType>
+	<xsd:simpleType name="ValueType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="STRING" />
+			<xsd:enumeration value="DOUBLE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DataSource">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="IIDM" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

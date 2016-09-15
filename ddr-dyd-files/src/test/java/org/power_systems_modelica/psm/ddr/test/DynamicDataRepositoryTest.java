@@ -11,11 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
@@ -28,6 +30,12 @@ public class DynamicDataRepositoryTest
 {
 	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test");
+
+	@Before
+	public void setup()
+	{
+		XmlUtil.isValidationActive = true;
+	}
 
 	@Test
 	public void testSample0() throws ConnectionException

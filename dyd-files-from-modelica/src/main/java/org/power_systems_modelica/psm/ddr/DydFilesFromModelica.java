@@ -58,8 +58,11 @@ public class DydFilesFromModelica
 		ParameterSetContainer par = new ParameterSetContainer();
 		par.setFilename(parname);
 		mo2dyd(mos, dyd, par);
-		ModelContainerXml.write(ddrloc.resolve(dydname), dyd.getDefaultContainer());
-		ParameterSetContainerXml.write(ddrloc.resolve(parname), par);
+
+		Path dydf = ddrloc.resolve(dydname);
+		Path parf = ddrloc.resolve(parname);
+		ModelContainerXml.write(dydf, dyd.getDefaultContainer());
+		ParameterSetContainerXml.write(parf, par);
 	}
 
 	private static void mo2dyd(

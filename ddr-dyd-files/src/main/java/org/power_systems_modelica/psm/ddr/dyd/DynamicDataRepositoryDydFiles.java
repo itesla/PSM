@@ -114,7 +114,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 						// This is right because we only have generic connectors on models with only one component
 						// The general solution should be: the connector has a relative id to the components
 						// And the exact id can be resolved after all components have been instantiated
-						c.getId().isEmpty() ? mis.get(0).getName() : c.getId(),
+						c.getId() == null || c.getId().isEmpty() ? mis.get(0).getName() : c.getId(),
 						c.getPin(),
 						c.isReusable()))
 				.collect(Collectors.toList()));
@@ -265,6 +265,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		// Filename is assumed to be relative to repository location
 		Path f = location.resolve(filename);
+		if (!Files.exists(f))
+		{
+			LOG.warn("ignored PAR file {} does not exist", filename);
+			return null;
+		}
 		ParameterSetContainer container = null;
 		try
 		{

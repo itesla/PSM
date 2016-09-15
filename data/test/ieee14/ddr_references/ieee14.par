@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<parameters>
+<parameters xmlns="http://www.power_systems_on_modelica.org/schema/par/1_0">
 	<set id="22">
 		<par type="STRING" name="SNREF" value="SNREF"/>
 		<par type="STRING" name="ur0" value="0.9852249044318535"/>

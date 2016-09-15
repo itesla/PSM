@@ -8,9 +8,9 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.events.XMLEvent;
 
+import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
-import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
 import org.slf4j.Logger;
@@ -18,13 +18,15 @@ import org.slf4j.LoggerFactory;
 
 public class ModelContainerXml
 {
-	public static final String ROOT_ELEMENT_NAME = "dyd";
+	public static final String ROOT_ELEMENT_NAME = "model_container";
 
 	public static ModelContainer read(Path file)
 			throws XMLStreamException, IOException
 	{
-		ModelContainer dyd = null;
 		LOG.debug("read DYD file {}", file);
+		if (XmlUtil.isValidationActive) validate(file);
+
+		ModelContainer dyd = null;
 		XMLStreamReader r = XmlUtil.reader(file);
 		try
 		{
@@ -79,8 +81,7 @@ public class ModelContainerXml
 		return dyd;
 	}
 
-	public static void write(Path file, ModelContainer dyd)
-			throws XMLStreamException, IOException
+	public static void write(Path file, ModelContainer dyd) throws XMLStreamException, IOException
 	{
 		LOG.debug("write DYD file {}", file);
 		XMLStreamWriter w = XmlUtil.writer(file);
@@ -92,6 +93,7 @@ public class ModelContainerXml
 		{
 			w.close();
 		}
+		if (XmlUtil.isValidationActive) validate(file);
 	}
 
 	public static void write(XMLStreamWriter w, ModelContainer dyd)
@@ -106,6 +108,10 @@ public class ModelContainerXml
 		w.flush();
 	}
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ModelContainerXml.class);
+	private static void validate(Path file)
+	{
+		XmlUtil.validate(file, "dyd.xsd");
+	}
+
+	private static final Logger LOG = LoggerFactory.getLogger(ModelContainerXml.class);
 }

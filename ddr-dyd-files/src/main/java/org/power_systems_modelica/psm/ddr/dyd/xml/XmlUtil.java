@@ -6,17 +6,29 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
 public class XmlUtil
 {
+	public static boolean isValidationActive = false;
+
 	public static XMLStreamReader reader(Path file) throws XMLStreamException, IOException
 	{
 		InputStream i = Files.newInputStream(file);
@@ -29,9 +41,36 @@ public class XmlUtil
 		return XML_OUTPUT_FACTORY_SUPPLIER.get().createXMLStreamWriter(o);
 	}
 
+	static void validate(Path file, String schemaName)
+	{
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Source sschema = new StreamSource(XmlUtil.class.getResourceAsStream("/xsd/" + schemaName));
+		try (InputStream is = Files.newInputStream(file))
+		{
+			Source xml = new StreamSource(Files.newInputStream(file));
+			Schema schema = factory.newSchema(sschema);
+			Validator validator = schema.newValidator();
+			validator.validate(xml);
+			LOG.info("validated {} against schema {}",
+					file.toAbsolutePath().toString(),
+					schemaName);
+		}
+		catch (SAXException | IOException e)
+		{
+			LOG.error("validating {} against schema {}, reason {}",
+					file.toAbsolutePath().toString(),
+					schemaName,
+					e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
+
 	private static final Supplier<XMLInputFactory>	XML_INPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLInputFactory::newInstance);
 
 	private static final Supplier<XMLOutputFactory>	XML_OUTPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLOutputFactory::newInstance);
+
+	private static final Logger						LOG							= LoggerFactory
+			.getLogger(XmlUtil.class);
 }

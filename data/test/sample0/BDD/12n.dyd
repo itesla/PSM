@@ -1,84 +1,87 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dyd>
- <!-- Generator CIVAU7CIVAU1_NGU_SM -->
- <model id="DM_CIVAU7CIVAU1_NGU_SM" staticId="CIVAU7CIVAU1_NGU_SM">
-  <component id="M1S_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="1"/>
-  <component id="VR_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="1"/>
-  <component id="GOVER_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="1"/>
-  <component id="RPCL_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelRPCL" parFile="../BDD/Machines/DYNModelRPCL.par" parId="1"/>
-  <component id="SP_LAI_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
-  <component id="SP_LIS_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
-  <component id="SP_LIR_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
-  <connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="EfdPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="efd"/>
-  <connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="UsPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="UReg"/>
-  <connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="QsPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="Qs"/>
-  <connection id1="GOVER_CIVAU7CIVAU1_NGU_SM" var1="omega" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="omega"/>
-  <connection id1="GOVER_CIVAU7CIVAU1_NGU_SM" var1="cm" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="cm"/>
-  <connection id1="SP_LAI_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcIALPU"/>
-  <connection id1="SP_LIS_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcSILPU"/>
-  <connection id1="SP_LIR_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcRILPU"/>
-  <connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="Uc" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcPU"/>
-  <connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="Us" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="UReg"/>
-  <connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="Qs" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="Qs"/>
-  <connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="VRLimitationUp" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="limitationUp"/>
-  <connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="VRLimitationDown" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="limitationDown"/>
-  <connection id1="M1S_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="NETWORK" var2="CIVAUP7_S_VL7_TN1_ACPIN"/>
-  <connection id1="M1S_CIVAU7CIVAU1_NGU_SM" var1="nodeSwitchOff" id2="NETWORK" var2="CIVAUP7_S_VL7_TN1_switchOff"/>
-  <connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="runningGenerator" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="running"/>
-  <connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="runningGrp" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="running"/>
- </model>
- <!-- Generator SSEA27SSEA21_NGU_SM -->
- <model id="DM_SSEA27SSEA21_NGU_SM" staticId="SSEA27SSEA21_NGU_SM">
-  <component id="M1S_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="2"/>
-  <component id="VR_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="2"/>
-  <component id="GOVER_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="2"/>
-  <component id="RPCL_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelRPCL" parFile="../BDD/Machines/DYNModelRPCL.par" parId="2"/>
-  <component id="SP_LAI_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
-  <component id="SP_LIS_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
-  <component id="SP_LIR_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
-  <connection id1="VR_SSEA27SSEA21_NGU_SM" var1="EfdPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="efd"/>
-  <connection id1="VR_SSEA27SSEA21_NGU_SM" var1="UsPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="UReg"/>
-  <connection id1="VR_SSEA27SSEA21_NGU_SM" var1="QsPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="Qs"/>
-  <connection id1="GOVER_SSEA27SSEA21_NGU_SM" var1="omega" id2="M1S_SSEA27SSEA21_NGU_SM" var2="omega"/>
-  <connection id1="GOVER_SSEA27SSEA21_NGU_SM" var1="cm" id2="M1S_SSEA27SSEA21_NGU_SM" var2="cm"/>
-  <connection id1="SP_LAI_SSEA27SSEA21_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcIALPU"/>
-  <connection id1="SP_LIS_SSEA27SSEA21_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcSILPU"/>
-  <connection id1="SP_LIR_SSEA27SSEA21_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcRILPU"/>
-  <connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="Uc" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcPU"/>
-  <connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="Us" id2="M1S_SSEA27SSEA21_NGU_SM" var2="UReg"/>
-  <connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="Qs" id2="M1S_SSEA27SSEA21_NGU_SM" var2="Qs"/>
-  <connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="VRLimitationUp" id2="VR_SSEA27SSEA21_NGU_SM" var2="limitationUp"/>
-  <connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="VRLimitationDown" id2="VR_SSEA27SSEA21_NGU_SM" var2="limitationDown"/>
-  <connection id1="M1S_SSEA27SSEA21_NGU_SM" var1="sortie" id2="NETWORK" var2="SSEA2P7_S_VL7_TN1_ACPIN"/>
-  <connection id1="M1S_SSEA27SSEA21_NGU_SM" var1="nodeSwitchOff" id2="NETWORK" var2="SSEA2P7_S_VL7_TN1_switchOff"/>
-  <connection id1="VR_SSEA27SSEA21_NGU_SM" var1="runningGenerator" id2="M1S_SSEA27SSEA21_NGU_SM" var2="running"/>
-  <connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="runningGrp" id2="M1S_SSEA27SSEA21_NGU_SM" var2="running"/>
- </model>
- <!-- Generator SSEA27SSEA22_NGU_SM -->
- <model id="DM_SSEA27SSEA22_NGU_SM" staticId="SSEA27SSEA22_NGU_SM">
-  <component id="M1S_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="3"/>
-  <component id="VR_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="3"/>
-  <component id="GOVER_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="3"/>
-  <component id="RPCL_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelRPCL" parFile="../BDD/Machines/DYNModelRPCL.par" parId="3"/>
-  <component id="SP_LAI_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
-  <component id="SP_LIS_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
-  <component id="SP_LIR_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
-  <connection id1="VR_SSEA27SSEA22_NGU_SM" var1="EfdPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="efd"/>
-  <connection id1="VR_SSEA27SSEA22_NGU_SM" var1="UsPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="UReg"/>
-  <connection id1="VR_SSEA27SSEA22_NGU_SM" var1="QsPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="Qs"/>
-  <connection id1="GOVER_SSEA27SSEA22_NGU_SM" var1="omega" id2="M1S_SSEA27SSEA22_NGU_SM" var2="omega"/>
-  <connection id1="GOVER_SSEA27SSEA22_NGU_SM" var1="cm" id2="M1S_SSEA27SSEA22_NGU_SM" var2="cm"/>
-  <connection id1="SP_LAI_SSEA27SSEA22_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcIALPU"/>
-  <connection id1="SP_LIS_SSEA27SSEA22_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcSILPU"/>
-  <connection id1="SP_LIR_SSEA27SSEA22_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcRILPU"/>
-  <connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="Uc" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcPU"/>
-  <connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="Us" id2="M1S_SSEA27SSEA22_NGU_SM" var2="UReg"/>
-  <connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="Qs" id2="M1S_SSEA27SSEA22_NGU_SM" var2="Qs"/>
-  <connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="VRLimitationUp" id2="VR_SSEA27SSEA22_NGU_SM" var2="limitationUp"/>
-  <connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="VRLimitationDown" id2="VR_SSEA27SSEA22_NGU_SM" var2="limitationDown"/>
-  <connection id1="M1S_SSEA27SSEA22_NGU_SM" var1="sortie" id2="NETWORK" var2="SSEA2P7_S_VL7_TN2_ACPIN"/>
-  <connection id1="M1S_SSEA27SSEA22_NGU_SM" var1="nodeSwitchOff" id2="NETWORK" var2="SSEA2P7_S_VL7_TN2_switchOff"/>
-  <connection id1="VR_SSEA27SSEA22_NGU_SM" var1="runningGenerator" id2="M1S_SSEA27SSEA22_NGU_SM" var2="running"/>
-  <connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="runningGrp" id2="M1S_SSEA27SSEA22_NGU_SM" var2="running"/>
- </model>
-</dyd>
+<?xml version="1.0" encoding="UTF-8"?>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+	<!-- Generator CIVAU7CIVAU1_NGU_SM -->
+	<model id="DM_CIVAU7CIVAU1_NGU_SM" staticId="CIVAU7CIVAU1_NGU_SM">
+		<component id="M1S_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="1"/>
+		<component id="VR_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="1"/>
+		<component id="GOVER_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="1"/>
+		<component id="RPCL_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelRPCL" parFile="../BDD/Machines/DYNModelRPCL.par" parId="1"/>
+		<component id="SP_LAI_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
+		<component id="SP_LIS_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
+		<component id="SP_LIR_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
+		<connector id="M1S_CIVAU7CIVAU1_NGU_SM" pin="sortie" reusable="false"/>
+		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="EfdPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="efd"/>
+		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="UsPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="UReg"/>
+		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="QsPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="Qs"/>
+		<connection id1="GOVER_CIVAU7CIVAU1_NGU_SM" var1="omega" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="omega"/>
+		<connection id1="GOVER_CIVAU7CIVAU1_NGU_SM" var1="cm" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="cm"/>
+		<connection id1="SP_LAI_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcIALPU"/>
+		<connection id1="SP_LIS_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcSILPU"/>
+		<connection id1="SP_LIR_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcRILPU"/>
+		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="Uc" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="UcPU"/>
+		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="Us" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="UReg"/>
+		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="Qs" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="Qs"/>
+		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="VRLimitationUp" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="limitationUp"/>
+		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="VRLimitationDown" id2="VR_CIVAU7CIVAU1_NGU_SM" var2="limitationDown"/>
+		<connection id1="M1S_CIVAU7CIVAU1_NGU_SM" var1="sortie" id2="NETWORK" var2="CIVAUP7_S_VL7_TN1_ACPIN"/>
+		<connection id1="M1S_CIVAU7CIVAU1_NGU_SM" var1="nodeSwitchOff" id2="NETWORK" var2="CIVAUP7_S_VL7_TN1_switchOff"/>
+		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="runningGenerator" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="running"/>
+		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="runningGrp" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="running"/>
+	</model>
+	<!-- Generator SSEA27SSEA21_NGU_SM -->
+	<model id="DM_SSEA27SSEA21_NGU_SM" staticId="SSEA27SSEA21_NGU_SM">
+		<component id="M1S_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="2"/>
+		<component id="VR_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="2"/>
+		<component id="GOVER_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="2"/>
+		<component id="RPCL_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelRPCL" parFile="../BDD/Machines/DYNModelRPCL.par" parId="2"/>
+		<component id="SP_LAI_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
+		<component id="SP_LIS_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
+		<component id="SP_LIR_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
+		<connector id="M1S_SSEA27SSEA21_NGU_SM" pin="sortie" reusable="false"/>
+		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="EfdPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="efd"/>
+		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="UsPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="UReg"/>
+		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="QsPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="Qs"/>
+		<connection id1="GOVER_SSEA27SSEA21_NGU_SM" var1="omega" id2="M1S_SSEA27SSEA21_NGU_SM" var2="omega"/>
+		<connection id1="GOVER_SSEA27SSEA21_NGU_SM" var1="cm" id2="M1S_SSEA27SSEA21_NGU_SM" var2="cm"/>
+		<connection id1="SP_LAI_SSEA27SSEA21_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcIALPU"/>
+		<connection id1="SP_LIS_SSEA27SSEA21_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcSILPU"/>
+		<connection id1="SP_LIR_SSEA27SSEA21_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcRILPU"/>
+		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="Uc" id2="VR_SSEA27SSEA21_NGU_SM" var2="UcPU"/>
+		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="Us" id2="M1S_SSEA27SSEA21_NGU_SM" var2="UReg"/>
+		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="Qs" id2="M1S_SSEA27SSEA21_NGU_SM" var2="Qs"/>
+		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="VRLimitationUp" id2="VR_SSEA27SSEA21_NGU_SM" var2="limitationUp"/>
+		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="VRLimitationDown" id2="VR_SSEA27SSEA21_NGU_SM" var2="limitationDown"/>
+		<connection id1="M1S_SSEA27SSEA21_NGU_SM" var1="sortie" id2="NETWORK" var2="SSEA2P7_S_VL7_TN1_ACPIN"/>
+		<connection id1="M1S_SSEA27SSEA21_NGU_SM" var1="nodeSwitchOff" id2="NETWORK" var2="SSEA2P7_S_VL7_TN1_switchOff"/>
+		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="runningGenerator" id2="M1S_SSEA27SSEA21_NGU_SM" var2="running"/>
+		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="runningGrp" id2="M1S_SSEA27SSEA21_NGU_SM" var2="running"/>
+	</model>
+	<!-- Generator SSEA27SSEA22_NGU_SM -->
+	<model id="DM_SSEA27SSEA22_NGU_SM" staticId="SSEA27SSEA22_NGU_SM">
+		<component id="M1S_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="3"/>
+		<component id="VR_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="3"/>
+		<component id="GOVER_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="3"/>
+		<component id="RPCL_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelRPCL" parFile="../BDD/Machines/DYNModelRPCL.par" parId="3"/>
+		<component id="SP_LAI_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
+		<component id="SP_LIS_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
+		<component id="SP_LIR_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
+		<connector id="M1S_SSEA27SSEA22_NGU_SM" pin="sortie" reusable="false"/>
+		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="EfdPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="efd"/>
+		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="UsPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="UReg"/>
+		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="QsPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="Qs"/>
+		<connection id1="GOVER_SSEA27SSEA22_NGU_SM" var1="omega" id2="M1S_SSEA27SSEA22_NGU_SM" var2="omega"/>
+		<connection id1="GOVER_SSEA27SSEA22_NGU_SM" var1="cm" id2="M1S_SSEA27SSEA22_NGU_SM" var2="cm"/>
+		<connection id1="SP_LAI_SSEA27SSEA22_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcIALPU"/>
+		<connection id1="SP_LIS_SSEA27SSEA22_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcSILPU"/>
+		<connection id1="SP_LIR_SSEA27SSEA22_NGU_SM" var1="sortie" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcRILPU"/>
+		<connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="Uc" id2="VR_SSEA27SSEA22_NGU_SM" var2="UcPU"/>
+		<connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="Us" id2="M1S_SSEA27SSEA22_NGU_SM" var2="UReg"/>
+		<connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="Qs" id2="M1S_SSEA27SSEA22_NGU_SM" var2="Qs"/>
+		<connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="VRLimitationUp" id2="VR_SSEA27SSEA22_NGU_SM" var2="limitationUp"/>
+		<connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="VRLimitationDown" id2="VR_SSEA27SSEA22_NGU_SM" var2="limitationDown"/>
+		<connection id1="M1S_SSEA27SSEA22_NGU_SM" var1="sortie" id2="NETWORK" var2="SSEA2P7_S_VL7_TN2_ACPIN"/>
+		<connection id1="M1S_SSEA27SSEA22_NGU_SM" var1="nodeSwitchOff" id2="NETWORK" var2="SSEA2P7_S_VL7_TN2_switchOff"/>
+		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="runningGenerator" id2="M1S_SSEA27SSEA22_NGU_SM" var2="running"/>
+		<connection id1="RPCL_SSEA27SSEA22_NGU_SM" var1="runningGrp" id2="M1S_SSEA27SSEA22_NGU_SM" var2="running"/>
+	</model>
+</model_container>

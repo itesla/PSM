@@ -19,8 +19,10 @@ public class ParameterSetContainerXml
 
 	public static ParameterSetContainer read(Path file) throws XMLStreamException, IOException
 	{
-		ParameterSetContainer container = null;
 		LOG.debug("read PAR file {}", file);
+		if (XmlUtil.isValidationActive) validate(file);
+
+		ParameterSetContainer container = null;
 		XMLStreamReader r = XmlUtil.reader(file);
 		try
 		{
@@ -82,6 +84,7 @@ public class ParameterSetContainerXml
 		{
 			w.close();
 		}
+		if (XmlUtil.isValidationActive) validate(file);
 	}
 
 	public static void write(XMLStreamWriter w, ParameterSetContainer container)
@@ -94,6 +97,11 @@ public class ParameterSetContainerXml
 		w.writeEndElement();
 		w.writeEndDocument();
 		w.flush();
+	}
+
+	public static void validate(Path file)
+	{
+		XmlUtil.validate(file, "par.xsd");
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(ParameterSetContainerXml.class);

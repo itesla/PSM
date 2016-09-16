@@ -30,11 +30,13 @@ public class ComponentXml
 
 	public static void write(XMLStreamWriter w, Component c) throws XMLStreamException
 	{
-		w.writeEmptyElement(ROOT_ELEMENT_NAME);
+		ParameterSet set = c.getParameterSet();
+		boolean isEmptyElement = set == null;
+
+		if (isEmptyElement) w.writeEmptyElement(ROOT_ELEMENT_NAME);
+		else w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeAttribute("name", c.getName());
 		if (c.getId() != null) w.writeAttribute("id", c.getId());
-
-		ParameterSet set = c.getParameterSet();
 		if (set != null)
 		{
 			for (Parameter p : set.getParameters())
@@ -49,5 +51,7 @@ public class ComponentXml
 				w.writeAttribute("parId", pref.getSet());
 			}
 		}
+
+		if (!isEmptyElement) w.writeEndElement();
 	}
 }

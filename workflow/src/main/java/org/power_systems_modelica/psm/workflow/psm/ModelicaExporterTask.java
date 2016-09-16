@@ -41,7 +41,7 @@ public class ModelicaExporterTask extends WorkflowTask
 		}
 		catch (Exception x)
 		{
-			failed();
+			failed(x);
 		}
 	}
 

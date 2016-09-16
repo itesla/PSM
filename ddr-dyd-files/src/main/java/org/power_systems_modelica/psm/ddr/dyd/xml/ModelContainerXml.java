@@ -2,6 +2,9 @@ package org.power_systems_modelica.psm.ddr.dyd.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -13,6 +16,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,11 +128,28 @@ public class ModelContainerXml
 		w.writeStartDocument();
 		w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeDefaultNamespace("http://www.power_systems_on_modelica.org/schema/dyd/1_0");
-		for (Model m : dyd.getModelDefinitions())
+
+		// Sort models before writing
+		for (Model m : sortedModels(dyd.getModelDefinitions()))
 			ModelXml.write(w, m);
+
 		w.writeEndElement();
 		w.writeEndDocument();
 		w.flush();
+	}
+
+	private static Collection<Model> sortedModels(Collection<Model> models)
+	{
+		Comparator<Model> byType, byId;
+		byType = Comparator.comparing(ModelContainerXml::getType);
+		byId = Comparator.comparing(Model::getId);
+		return models.stream().sorted(byType.thenComparing(byId)).collect(Collectors.toList());
+	}
+
+	private static String getType(Model m)
+	{
+		if (m instanceof ModelForType) return ((ModelForType) m).getType();
+		return "~";
 	}
 
 	private static void validate(Path file)

@@ -50,6 +50,6 @@ public class StaticNetworkImporterTask extends WorkflowTask
 		return network;
 	}
 
-	private String						source;
-	private Network						network;
+	private String	source;
+	private Network	network;
 }

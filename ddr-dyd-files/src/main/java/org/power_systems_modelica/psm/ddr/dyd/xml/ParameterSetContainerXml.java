@@ -2,6 +2,9 @@ package org.power_systems_modelica.psm.ddr.dyd.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -93,11 +96,17 @@ public class ParameterSetContainerXml
 		w.writeStartDocument();
 		w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeDefaultNamespace("http://www.power_systems_on_modelica.org/schema/par/1_0");
-		for (ParameterSet set : container.getSets())
+		for (ParameterSet set : sortedSets(container.getSets()))
 			ParameterSetXml.write(w, set);
 		w.writeEndElement();
 		w.writeEndDocument();
 		w.flush();
+	}
+
+	private static Collection<ParameterSet> sortedSets(Collection<ParameterSet> sets)
+	{
+		Comparator<ParameterSet> byId = Comparator.comparing(ParameterSet::getId);
+		return sets.stream().sorted(byId).collect(Collectors.toList());
 	}
 
 	public static void validate(Path file)

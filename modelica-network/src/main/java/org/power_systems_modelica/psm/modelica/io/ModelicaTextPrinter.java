@@ -41,7 +41,7 @@ public class ModelicaTextPrinter
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKinds());
 		Comparator<ModelicaModelInstantiation> byKind, byId;
 		byKind = (m1, m2) -> (kindOrdering.compare(getKind(m1), getKind(m2)));
-		byId = (m1, m2) -> getModel(m1).compareTo(getModel(m2));
+		byId = Comparator.comparing(ModelicaTextPrinter::getModelId);
 
 		List<ModelicaModelInstantiation> ms0 = mo.getSystemModel().getModelInstantiations();
 		List<ModelicaModelInstantiation> ms = new ArrayList<>(ms0);
@@ -72,7 +72,7 @@ public class ModelicaTextPrinter
 		return null;
 	}
 
-	private static String getModel(ModelicaModelInstantiation m)
+	private static String getModelId(ModelicaModelInstantiation m)
 	{
 		String modelId = ModelicaTricks.getModel(m.getName());
 		if (modelId == null) modelId = "";

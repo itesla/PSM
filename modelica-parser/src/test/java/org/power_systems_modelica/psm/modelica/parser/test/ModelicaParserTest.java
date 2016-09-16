@@ -19,10 +19,10 @@ public class ModelicaParserTest
 		ModelicaDocument mo = parse("mini.mo");
 
 		assertEquals("N44_h21", mo.getSystemModel().getName());
-		assertEquals(1, mo.getSystemModel().getParameters().size());
-		assertEquals(6, mo.getSystemModel().getModelInstantiations().size());
-		String first = "bus__f17695ab_9aeb_11e5_91da_b8763fd99c5f";
-		assertEquals(first, mo.getSystemModel().getModelInstantiations().get(0).getName());
+		assertEquals(7, mo.getSystemModel().getDeclarations().size());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		assertEquals("bus__f17695ab_9aeb_11e5_91da_b8763fd99c5f",
+				mo.getSystemModel().getDeclarations().get(1).getId());
 		assertEquals(2, mo.getSystemModel().getEquations().size());
 	}
 
@@ -31,15 +31,15 @@ public class ModelicaParserTest
 	{
 		ModelicaDocument mo = parse("N44_h21.mo");
 		assertEquals("N44_h21", mo.getSystemModel().getName());
-		assertEquals(1, mo.getSystemModel().getParameters().size());
-		assertEquals(475, mo.getSystemModel().getModelInstantiations().size());
-		String first = "bus__f17695ab_9aeb_11e5_91da_b8763fd99c5f";
-		assertEquals(first, mo.getSystemModel().getModelInstantiations().get(0).getName());
+		assertEquals(476, mo.getSystemModel().getDeclarations().size());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		assertEquals("bus__f17695ab_9aeb_11e5_91da_b8763fd99c5f",
+				mo.getSystemModel().getDeclarations().get(1).getId());
 		String firsta0name = "V_0";
 		String firsta0value = "1.0";
-		assertEquals(firsta0name, mo.getSystemModel().getModelInstantiations().get(0).getArguments()
+		assertEquals(firsta0name, mo.getSystemModel().getDeclarations().get(1).getArguments()
 				.get(0).getName());
-		assertEquals(firsta0value, mo.getSystemModel().getModelInstantiations().get(0)
+		assertEquals(firsta0value, mo.getSystemModel().getDeclarations().get(1)
 				.getArguments().get(0).getValue());
 		assertEquals(1175, mo.getSystemModel().getEquations().size());
 	}

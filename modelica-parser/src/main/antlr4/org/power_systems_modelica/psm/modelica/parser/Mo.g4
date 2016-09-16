@@ -1,124 +1,125 @@
 // Define a grammar for simplified Modelica files
 grammar Mo;
 
-@header {
-import java.util.List;
-import java.util.Arrays;
+@header
+{
+	import java.util.List;
+	import java.util.Arrays;
 
-import org.power_systems_modelica.psm.modelica.*;
+	import org.power_systems_modelica.psm.modelica.*;
 }
 
-@members {
-public ModelicaDocument modelicaDocument = new ModelicaDocument();
-List<ModelicaArgument> arguments;
+@members
+{
+	public ModelicaDocument modelicaDocument = new ModelicaDocument();
 }
 
 document
    : within model
    ;
-   
+
 within
    : 'within' ID? ';'
 {
-modelicaDocument.setWithin($ID.text);
+	modelicaDocument.setWithin($ID.text);
 }
    ;
-   
-model
-   : 'model' ID 
-{
-ModelicaSystemModel systemModel = new ModelicaSystemModel($ID.text);
-modelicaDocument.setSystemModel(systemModel);
-}
-   model_stmt_list 'equation' equation_stmt_list 'end' ID ';'
-   ;   
 
-model_stmt_list
-   : ( model_stmt ';' )* 
+model
+   : 'model' ID
+{
+	ModelicaSystemModel systemModel = new ModelicaSystemModel($ID.text);
+	modelicaDocument.setSystemModel(systemModel);
+}
+   declaration_stmt_list 'equation' equation_stmt_list 'end' ID ';'
    ;
-   
+
+declaration_stmt_list
+   : ( declaration_stmt ';' )*
+   ;
+
 equation_stmt_list
    : ( equation_stmt ';' )*
    ;
-      
-model_stmt
-   : ( parameter_stmt | model_instantiation_stmt )
-   ;
 
-parameter_stmt 
-   : 'parameter' parameter_type parameter_name '=' value
+declaration_stmt locals [boolean isParameter = false]
+   : 'parameter'?
 {
-ModelicaParameter parameter = new ModelicaParameter(ModelicaType.valueOf($parameter_type.text),$parameter_name.text,$value.text);
-modelicaDocument.getSystemModel().addParameters(Arrays.asList(parameter));
+	$isParameter = true;
 }
-   ;
-   
-parameter_type
-   : ID
-   ;
-   
-parameter_name
-   : ID
-   ;
-      
-model_instantiation_stmt
-locals [String type, String name]
-@init
+   type_name instantiation annotation?
 {
-arguments = new ArrayList<ModelicaArgument>();
-}
-@after
-{
-ModelicaModelInstantiation modelInstantiation = new ModelicaModelInstantiation($type,$name,arguments);
-modelicaDocument.getSystemModel().addModelInstantiations(Arrays.asList(modelInstantiation));
-}
-   : model_type_name model_instantiation annotation?
-{
-$type = $model_type_name.text;
-$name = $model_instantiation.name;
+	String type = $type_name.text;
+	String id = $instantiation.id;
+	ModelicaDeclaration declaration;
+	if ($instantiation.isAssignment) declaration = new ModelicaDeclaration(type, id, $instantiation.value, $isParameter);
+	else declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter);
+	modelicaDocument.getSystemModel().addDeclaration(declaration);
 }
    ;
 
-model_instantiation returns [String name]
-   : ID '(' instantiation_argument_list ')'
+instantiation returns [ String id, boolean isAssignment, String value, List<ModelicaArgument> arguments ]
+   : ( ID '=' argument_value
 {
-$name = $ID.text;
+	$id = $ID.text;
+	$isAssignment = true;
+	$value = $argument_value.text;
 }
+   | ID '(' instantiation_argument_list ')'
+{
+	$id = $ID.text;
+	$isAssignment = false;
+	$value = null;
+	$arguments = $instantiation_argument_list.arguments;
+}
+   )
    ;
-   
-model_type_name
+
+type_name
    : ID
    ;
 
-instantiation_argument_list
-   : ( instantiation_argument ','? )*
+instantiation_argument_list returns [ List<ModelicaArgument> arguments = new ArrayList<>() ]
+   : ( instantiation_argument
+{
+ModelicaArgument argument = $instantiation_argument.argument;
+if (argument != null) $arguments.add(argument);
+}
+   ','? )*
    ;
 
-instantiation_argument
-   : ( argument_name '=' value
+instantiation_argument returns [ ModelicaArgument argument ]
+   : instantiation
 {
-ModelicaArgument argument = new ModelicaArgument($argument_name.text,$value.text);
-arguments.add(argument);
-} 
-   | model_instantiation )
+if ($instantiation.isAssignment) $argument = new ModelicaArgument($instantiation.id, $instantiation.value);
+// FIXME allow complex arguments
+//iPSL.Electrical.Loads.PSSE.Load load_load__f17696e0_9aeb_11e5_91da_b8763fd99c5f (
+//	 S_p(re=2.63322, im=0.89094),
+//	 S_i(re=0, im=0),
+//	 S_y(re=0, im=0),
+//	 a(re=1, im=0),
+//	 b(re=0, im=1),
+//	 V_0 = 1.0,
+//	 PQBRAK = 0.7,
+}
    ;
-   
+
 argument_name
    : ID
    ;
-            
-value
+
+argument_value
    : ( NUMBER | STRING | BOOLEAN | ID )
    ;
-               
-equation_stmt  
+
+equation_stmt
 locals [String ref1, String ref2]
 @after
 {
-ModelicaEquation equation = new ModelicaConnect($ref1,$ref2);
-modelicaDocument.getSystemModel().addEquations(Arrays.asList(equation));
+	ModelicaEquation equation = new ModelicaConnect($ref1,$ref2);
+	modelicaDocument.getSystemModel().addEquation(equation);
 }
-   : 'connect' '(' ID 
+   : 'connect' '(' ID
 {
 $ref1 = $ID.text;
 }
@@ -127,19 +128,19 @@ $ref1 = $ID.text;
 $ref2 = $ID.text;
 }
    ;
-   
+
 annotation
    : 'annotation' '(' annotation_content ')'
    ;
 
 annotation_content
-   : ( STRING | model_instantiation )
+   : ( STRING | ID '(' instantiation_argument_list ')' )
    ;
-   
+
 BOOLEAN
-   : ( 'true' | 'false' ) 
+   : ( 'true' | 'false' )
    ;
-   
+
 /** "a numeral [-]?(.[0-9]+ | [0-9]+(.[0-9]*)? )" */ NUMBER
    : '-'? ( '.' DIGIT+ | DIGIT+ ( '.' DIGIT* )? ) ( ('e'|'E') '-'? DIGIT+ )?
    ;
@@ -153,7 +154,7 @@ fragment DIGIT
 fragment DOT
    : [\.]
    ;
-   
+
 /** "any double-quoted string ("...") possibly containing escaped quotes" */ STRING
    : '"' ( '\\"' | . )*? '"'
    ;
@@ -172,7 +173,7 @@ fragment LETTER
 LINE_COMMENT
    : '//' .*? '\r'? '\n' -> skip
    ;
-   
+
 WS
    : [ \t\n\r]+ -> skip
-   ;   
+   ;

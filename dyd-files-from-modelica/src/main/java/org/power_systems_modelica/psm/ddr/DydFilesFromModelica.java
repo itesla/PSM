@@ -31,7 +31,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
@@ -43,8 +43,10 @@ public class DydFilesFromModelica
 	public static void mo2dyd(Path mofile, Path ddrloc, String dydname, String parname)
 			throws FileNotFoundException, IOException, XMLStreamException
 	{
-		// We will try to infer, for every dynamic model instantiation and equation,
+		// We will try to infer,
+		// for every dynamic model declaration and equation seen in the Modelica file,
 		// the corresponding element from the static model.
+
 		// We will discard connection equations that refer to distinct static elements
 		// because we assume they are built from Network topology and are not required
 		// in the dynamic data repository.
@@ -55,12 +57,13 @@ public class DydFilesFromModelica
 		// Try to group all dynamic model components that refer to the same static element
 		Collection<ModelicaModel> mos = groupInModelsByStaticId(mo);
 
-		// Build the dynamic repository objects and output them as xml files
+		// Build the dynamic repository objects
 		ModelProvider dyd = new ModelProvider();
 		ParameterSetContainer par = new ParameterSetContainer();
 		par.setFilename(parname);
 		mo2dyd(mos, dyd, par);
 
+		// Save the dynamic repository objects as xml files
 		Path dydf = ddrloc.resolve(dydname);
 		Path parf = ddrloc.resolve(parname);
 		ModelContainerXml.write(dydf, dyd.getDefaultContainer());
@@ -105,8 +108,8 @@ public class DydFilesFromModelica
 
 	private static String whichType(ModelicaModel mo)
 	{
-		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
-		String dtype = mi.getType();
+		ModelicaDeclaration d = mo.getDeclarations().get(0);
+		String dtype = d.getType();
 		String stype = ModelicaTricks.getStaticTypeFromDynamicType(dtype);
 		return stype;
 	}
@@ -121,12 +124,12 @@ public class DydFilesFromModelica
 		boolean generic = true;
 		mdef.addConnectors(createConnectors(mo, generic));
 
-		// We only process the first (unique) model instantiation
-		ModelicaModelInstantiation mi = mo.getModelInstantiations().get(0);
+		// We only process the first (unique) declaration
+		ModelicaDeclaration d = mo.getDeclarations().get(0);
 
 		ParameterSet pset = par.newParameterSet();
-		pset.add(buildParameters(stype, mi.getArguments()));
-		Component mdefc = new Component(null, mi.getType());
+		pset.add(buildParameters(stype, d.getArguments()));
+		Component mdefc = new Component(null, d.getType());
 		mdefc.setParameterSet(pset);
 		mdef.addComponent(mdefc);
 
@@ -152,15 +155,15 @@ public class DydFilesFromModelica
 		boolean generic = false;
 		mdef.addConnectors(createConnectors(mo, generic));
 
-		for (ModelicaModelInstantiation mi : mo.getModelInstantiations())
+		for (ModelicaDeclaration d : mo.getDeclarations())
 		{
-			String idc = mi.getName();
-			String name = mi.getType();
+			String idc = d.getId();
+			String name = d.getType();
 			Component mdefc = new Component(idc, name);
-			if (mi.getArguments() != null && !mi.getArguments().isEmpty())
+			if (d.getArguments() != null && !d.getArguments().isEmpty())
 			{
 				ParameterSet pset = par.newParameterSet();
-				pset.add(buildParameters(type, mi.getArguments()));
+				pset.add(buildParameters(type, d.getArguments()));
 				par.add(pset);
 				ParameterSetReference pref = new ParameterSetReference(
 						par.getFilename(),
@@ -202,7 +205,7 @@ public class DydFilesFromModelica
 
 	private static List<Connector> createConnectors(ModelicaModel mo, boolean generic)
 	{
-		String name = mo.getModelInstantiations().get(0).getName();
+		String name = mo.getDeclarations().get(0).getId();
 		boolean isBranch = name.startsWith("line_")
 				|| name.startsWith("trafo_")
 				|| name.startsWith("Line_")
@@ -240,15 +243,15 @@ public class DydFilesFromModelica
 	{
 		Map<String, ModelicaModel> models = new HashMap<>();
 
-		List<ModelicaModelInstantiation> mis = mo.getSystemModel().getModelInstantiations();
+		List<ModelicaDeclaration> ds = mo.getSystemModel().getDeclarations();
 		List<ModelicaEquation> eqs = mo.getSystemModel().getEquations();
-		for (ModelicaModelInstantiation mi : mis)
+		for (ModelicaDeclaration d : ds)
 		{
-			ModelicaModel m = putget(models, whichModel(mi));
-			if (m != null) m.addModelInstantiations(Arrays.asList(mi));
+			ModelicaModel m = putget(models, whichModel(d));
+			if (m != null) m.addDeclarations(Arrays.asList(d));
 			else
 			{
-				LOG.warn("ignored model instantiation {}", mi.getName());
+				LOG.warn("ignored declaration {}", d.getId());
 			}
 		}
 		for (ModelicaEquation eq : eqs)
@@ -264,10 +267,10 @@ public class DydFilesFromModelica
 		return models.values();
 	}
 
-	private static String whichModel(ModelicaModelInstantiation mi)
+	private static String whichModel(ModelicaDeclaration d)
 	{
-		String m = whichModelFromAnnotation(mi.getAnnotation());
-		if (m == null) m = whichModelFromName(mi.getName());
+		String m = whichModelFromAnnotation(d.getAnnotation());
+		if (m == null) m = whichModelFromName(d.getId());
 		return m;
 	}
 

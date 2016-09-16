@@ -20,9 +20,9 @@ import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
 
 import eu.itesla_project.iidm.network.Identifiable;
 
@@ -48,13 +48,13 @@ public class DynamicDataRepositoryTest
 
 		// Query the dynamic data repository
 		ModelicaModel m = ddr.getModelicaModel(e);
-		List<ModelicaModelInstantiation> is = m.getModelInstantiations();
+		List<ModelicaDeclaration> ds = m.getDeclarations();
 		List<ModelicaEquation> eqs = m.getEquations();
 
-		// Check the result (types and names of model instantiations)
-		List<String> ts = is.stream().map(i -> i.getType()).collect(Collectors.toList());
-		List<String> ns = is.stream().map(i -> i.getName()).collect(Collectors.toList());
-		List<String> ets = Arrays.asList(
+		// Check the result (types and identifiers of declarations)
+		List<String> types = ds.stream().map(i -> i.getType()).collect(Collectors.toList());
+		List<String> ids = ds.stream().map(i -> i.getId()).collect(Collectors.toList());
+		List<String> expectedTypes = Arrays.asList(
 				"Dynamo.Electrical.Machines.DYNModelM1S",
 				"Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator",
 				"Dynamo.Electrical.Controls.Machines.DYNModelGover1",
@@ -62,7 +62,7 @@ public class DynamicDataRepositoryTest
 				"Dynamo.Electrical.Controls.Machines.DYNModelSetPoint",
 				"Dynamo.Electrical.Controls.Machines.DYNModelSetPoint",
 				"Dynamo.Electrical.Controls.Machines.DYNModelSetPoint");
-		List<String> ens = Arrays.asList(
+		List<String> expectedIds = Arrays.asList(
 				"M1S_CIVAU7CIVAU1_NGU_SM",
 				"VR_CIVAU7CIVAU1_NGU_SM",
 				"GOVER_CIVAU7CIVAU1_NGU_SM",
@@ -70,11 +70,11 @@ public class DynamicDataRepositoryTest
 				"SP_LAI_CIVAU7CIVAU1_NGU_SM",
 				"SP_LIS_CIVAU7CIVAU1_NGU_SM",
 				"SP_LIR_CIVAU7CIVAU1_NGU_SM");
-		assertThat(ts, is(equalTo(ets)));
-		assertThat(ns, is(equalTo(ens)));
+		assertThat(types, is(equalTo(expectedTypes)));
+		assertThat(ids, is(equalTo(expectedIds)));
 
-		// Only check parameters for first model instantiation
-		List<ModelicaArgument> as = is.get(0).getArguments();
+		// Only check parameters for first declaration
+		List<ModelicaArgument> as = ds.get(0).getArguments();
 		List<String> ans = as.stream().map(a -> a.getName()).collect(Collectors.toList());
 		List<String> avs = as.stream().map(a -> a.getValue()).collect(Collectors.toList());
 		List<String> eans = Arrays.asList(

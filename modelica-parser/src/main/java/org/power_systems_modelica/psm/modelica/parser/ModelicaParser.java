@@ -15,8 +15,6 @@ public class ModelicaParser
 {
 	// TODO Allow some parameters defined but not initialized (omegaRef)
 	// TODO Allow expressions in equations (omegaRef = sum(g.omega*g.SN*g.HIn)/sum(g.SN*g.HIn)
-	// TODO Allow assignments from other vars in model instantiation arguments, example:
-	// iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____8_SM (SNREF = SNREF, ...)
 
 	public ModelicaDocument parse(Path mo) throws FileNotFoundException, IOException
 	{

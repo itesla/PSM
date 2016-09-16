@@ -28,9 +28,8 @@ public class Component
 		return this.parameterSet;
 	}
 
-	// Reference to parameters is optional,
-	// Dynamic model components used in template definitions will not have parameter references,
-	// the parameter reference will go in the template instantiation
+	// For components defined using templates we will not have a parameter reference
+	// The parameter reference will go in the template instantiation
 	public void setParameterSetReference(ParameterSetReference parameterSetReference)
 	{
 		this.parameterSetReference = parameterSetReference;

@@ -10,9 +10,14 @@ public class ModelicaTricks
 {
 	public static String getKind(String name)
 	{
-		String kind = name.substring(0, name.indexOf("_"));
+		if (name.equals("SNREF")) return "system";
+
+		int p = name.indexOf("_");
+		if (p < 0) return "other";
+
+		String kind = name.substring(0, p);
 		if (kind == null) kind = "other";
-		if (!KINDS_SET.contains(kind)) return "other";
+		if (!KINDS_SET.contains(kind)) kind = "other";
 		return kind;
 	}
 
@@ -75,14 +80,14 @@ public class ModelicaTricks
 		assert (conns.length == 2);
 		ModelicaModel bus = m;
 		ModelicaModel branch = other;
-		String otherName = other.getModelInstantiations().get(0).getName();
+		String otherName = other.getDeclarations().get(0).getId();
 		if (otherName.startsWith("bus_"))
 		{
 			bus = other;
 			branch = m;
 		}
 
-		String branchName = branch.getModelInstantiations().get(0).getName();
+		String branchName = branch.getDeclarations().get(0).getId();
 		String idBus = bus.getStaticId().replace("_TN", "");
 		int pBus = branchName.indexOf(idBus);
 		int pBusFrom = branchName.indexOf("__") + 1;
@@ -141,6 +146,7 @@ public class ModelicaTricks
 	}
 
 	private static final List<String>	KINDS			= Arrays.asList(
+			"system",
 			"bus",
 			"Bus",
 			"load",

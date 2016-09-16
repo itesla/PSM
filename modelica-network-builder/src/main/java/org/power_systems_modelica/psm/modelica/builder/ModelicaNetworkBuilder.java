@@ -14,7 +14,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ public class ModelicaNetworkBuilder
 		// The model for the whole system
 		ModelicaSystemModel m = new ModelicaSystemModel(network.getName());
 
-		addParameters(m);
+		m.addDeclarations(ddr.getSystemDeclarations());
 		addDynamicModels(m);
 
 		// TODO post-process resulting Modelica objects
@@ -65,17 +65,13 @@ public class ModelicaNetworkBuilder
 		return mo;
 	}
 
-	private void addParameters(ModelicaSystemModel m)
-	{
-		m.addParameters(ddr.getSystemParameters());
-	}
-
 	private void addDynamicModels(ModelicaSystemModel m)
 	{
 		if (network.getBusBreakerView() == null) return;
 
 		// For every equipment in the main connected component of the Network,
-		// obtain the list of model instantiations and their equations
+		// obtain the list of model declarations and equations
+
 		final Set<Identifiable<?>> visited = new HashSet<>(network.getIdentifiables().size());
 		final ConnectorResources connectors = new ConnectorResources();
 		for (Bus b : network.getBusBreakerView().getBuses())
@@ -120,34 +116,37 @@ public class ModelicaNetworkBuilder
 	private void addDynamicModel(ModelicaSystemModel system, ModelicaModel m)
 	{
 		// We solve here potential external references
-		// Model instantiation argument values could be referred to external source (the IIDM Network)
+		// Argument values in the declarations could be referred to external source (the IIDM Network)
 		// We solve these references in the context of the current Network and ModelicaModel
 
-		system.addModelInstantiations(resolveReferences(m.getModelInstantiations(), m));
+		system.addDeclarations(resolveReferences(m.getDeclarations(), m));
 		system.addEquations(m.getEquations());
 	}
 
-	private List<ModelicaModelInstantiation> resolveReferences(
-			List<ModelicaModelInstantiation> mis0,
+	private List<ModelicaDeclaration> resolveReferences(
+			List<ModelicaDeclaration> ds0,
 			ModelicaModel m)
 	{
-		List<ModelicaModelInstantiation> mis = mis0
+		List<ModelicaDeclaration> ds = ds0
 				.stream()
-				.map(mi -> resolveReferences(mi, m))
+				.map(d -> resolveReferences(d, m))
 				.collect(Collectors.toList());
-		return mis;
+		return ds;
 	}
 
-	private ModelicaModelInstantiation resolveReferences(
-			ModelicaModelInstantiation mi0,
+	private ModelicaDeclaration resolveReferences(
+			ModelicaDeclaration d,
 			ModelicaModel m)
 	{
-		List<ModelicaArgument> args = mi0
+		// TODO consider i we have to resolveReferences only in arguments or also in assignments
+		if (d.isAssignment()) return d;
+
+		List<ModelicaArgument> args = d
 				.getArguments()
 				.stream()
 				.map(a -> resolveReference(a, m))
 				.collect(Collectors.toList());
-		return new ModelicaModelInstantiation(mi0.getType(), mi0.getName(), args);
+		return new ModelicaDeclaration(d.getType(), d.getId(), args, d.isParameter());
 	}
 
 	private ModelicaArgument resolveReference(

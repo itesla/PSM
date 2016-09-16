@@ -15,7 +15,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
@@ -72,12 +72,13 @@ public class ModelicaNetworkBuilderTest
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepositoryDydFiles.class);
 		ModelicaArgument V = new ModelicaArgument("V", "1.0");
 		ModelicaArgument A = new ModelicaArgument("A", "0.0");
-		ModelicaModelInstantiation dbusi = new ModelicaModelInstantiation(
+		ModelicaDeclaration dbusi = new ModelicaDeclaration(
 				"BusModel",
 				"dynamicBus1",
-				Arrays.asList(V, A));
+				Arrays.asList(V, A),
+				false);
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
-		dbus.addModelInstantiations(Arrays.asList(dbusi));
+		dbus.addDeclarations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus
 		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
 
@@ -117,14 +118,15 @@ public class ModelicaNetworkBuilderTest
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepositoryDydFiles.class);
 		ModelicaArgument V = new ModelicaArgumentReference("V0", "IIDM", "V");
 		ModelicaArgument A = new ModelicaArgument("A", "0.0");
-		ModelicaModelInstantiation dbusi = new ModelicaModelInstantiation(
+		ModelicaDeclaration dbusi = new ModelicaDeclaration(
 				"BusModel",
 				"dynamicBus1",
-				Arrays.asList(V, A));
+				Arrays.asList(V, A),
+				false);
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
 		String bid = firstBus.getVoltageLevel().getId() + "::" + firstBus.getId();
 		dbus.setStaticId(bid);
-		dbus.addModelInstantiations(Arrays.asList(dbusi));
+		dbus.addDeclarations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus
 		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
 

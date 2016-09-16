@@ -10,10 +10,9 @@ import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
-import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
-import org.power_systems_modelica.psm.modelica.ModelicaParameter;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 
 import com.google.common.collect.Ordering;
@@ -29,29 +28,25 @@ public class ModelicaTextPrinter
 	{
 		printWithin(out);
 		printSystemModelHeader(out);
-		printParameters(out);
-		printModelInstantiations(out);
+		printDeclarations(out);
 		printEquations(out);
 		printSystemModelEnd(out);
 	}
 
-	private List<ModelicaModelInstantiation> sortedModels()
+	private List<ModelicaDeclaration> sortedModels()
 	{
 		// Sort models by kind (predefined list) and then by model inside each kind
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKinds());
-		Comparator<ModelicaModelInstantiation> byKind, byId;
-		byKind = (m1, m2) -> (kindOrdering.compare(getKind(m1), getKind(m2)));
+		Comparator<ModelicaDeclaration> byKind, byId;
+		byKind = (m1, m2) -> (kindOrdering.compare(
+				ModelicaTricks.getKind(m1.getId()),
+				ModelicaTricks.getKind(m2.getId())));
 		byId = Comparator.comparing(ModelicaTextPrinter::getModelId);
 
-		List<ModelicaModelInstantiation> ms0 = mo.getSystemModel().getModelInstantiations();
-		List<ModelicaModelInstantiation> ms = new ArrayList<>(ms0);
+		List<ModelicaDeclaration> ms0 = mo.getSystemModel().getDeclarations();
+		List<ModelicaDeclaration> ms = new ArrayList<>(ms0);
 		ms = ms0.stream().sorted(byKind.thenComparing(byId)).collect(Collectors.toList());
 		return ms;
-	}
-
-	private static String getKind(ModelicaModelInstantiation m)
-	{
-		return ModelicaTricks.getKind(m.getName());
 	}
 
 	static private String getKind(ModelicaEquation eq)
@@ -72,9 +67,9 @@ public class ModelicaTextPrinter
 		return null;
 	}
 
-	private static String getModelId(ModelicaModelInstantiation m)
+	private static String getModelId(ModelicaDeclaration m)
 	{
-		String modelId = ModelicaTricks.getModel(m.getName());
+		String modelId = ModelicaTricks.getModel(m.getId());
 		if (modelId == null) modelId = "";
 		return modelId;
 	}
@@ -94,39 +89,37 @@ public class ModelicaTextPrinter
 		out.printf("model %s%n", mo.getSystemModel().getName());
 	}
 
-	private void printParameters(PrintWriter out)
+	private void printDeclarations(PrintWriter out)
 	{
-		for (ModelicaParameter p : mo.getSystemModel().getParameters())
+		for (ModelicaDeclaration m : sortedModels())
 		{
-			out.printf("  parameter %s %s = %s;%n", p.getType(), p.getName(), p.getValue());
-		}
-	}
-
-	private void printModelInstantiations(PrintWriter out)
-	{
-		for (ModelicaModelInstantiation m : sortedModels())
-		{
-			out.printf("  %s %s", m.getType(), m.getName());
-			if (m.getArguments() != null)
+			String sparameter = m.isParameter() ? "parameter " : "";
+			out.printf("  %s%s %s", sparameter, m.getType(), m.getId());
+			if (m.isAssignment())
+			{
+				out.printf(" = %s", m.getValue());
+			}
+			else if (m.getArguments() != null)
 			{
 				out.printf(" (%n");
 				Iterator<ModelicaArgument> k = m.getArguments().iterator();
 				if (k.hasNext())
 				{
-					printInstantiationArgument(out, k.next());
+					printArgument(out, k.next());
 					while (k.hasNext())
 					{
 						out.printf(",%n");
-						printInstantiationArgument(out, k.next());
+						printArgument(out, k.next());
 					}
 				}
 				out.printf("%n    )");
+				out.printf(" annotation (%s)", m.getAnnotation());
 			}
-			out.printf(" annotation (%s);%n", m.getAnnotation());
+			out.printf(";%n");
 		}
 	}
 
-	private void printInstantiationArgument(PrintWriter out, ModelicaArgument a)
+	private void printArgument(PrintWriter out, ModelicaArgument a)
 	{
 		out.printf("    %s = %s", a.getName(), a.getValue());
 	}

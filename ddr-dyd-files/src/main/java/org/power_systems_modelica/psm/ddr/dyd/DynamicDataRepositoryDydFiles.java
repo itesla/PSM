@@ -26,11 +26,9 @@ import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaModelInstantiation;
-import org.power_systems_modelica.psm.modelica.ModelicaParameter;
-import org.power_systems_modelica.psm.modelica.ModelicaType;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,10 +55,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public List<ModelicaParameter> getSystemParameters()
+	public List<ModelicaDeclaration> getSystemDeclarations()
 	{
 		// FIXME read from dyd files
-		return Arrays.asList(new ModelicaParameter(ModelicaType.Real, "SNREF", "100.0"));
+		boolean isParameter = true;
+		return Arrays.asList(new ModelicaDeclaration("Real", "SNREF", "100.0", isParameter));
 		// TODO add omegaRef as a parameter
 		// m.addParameters(Arrays.asList(new ModelicaParameter(ModelicaType.Real, "omegaRef", "0.0")));
 	}
@@ -96,24 +95,27 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		ModelicaModel m = new ModelicaModel(buildModelicaModelId(mdef, element));
 		m.setStaticId(buildModelicaModelStaticId(mdef, element));
 
-		List<ModelicaModelInstantiation> mis = new ArrayList<>();
+		List<ModelicaDeclaration> ds = new ArrayList<>();
 		for (Component mc : mdef.getComponents())
 		{
 			String type = mc.getName();
-			String name = buildModelicaModelInstantiationName(mdef, mc, element);
-			List<ModelicaArgument> arguments = buildModelicaInstatiationArguments(mc);
-			mis.add(new ModelicaModelInstantiation(type, name, arguments));
+			String id = buildModelicaDeclarationId(mdef, mc, element);
+			List<ModelicaArgument> arguments = buildModelicaArguments(mc);
+
+			// FIXME everything is a variable, no parameters; isParameter should be defined with the model
+			boolean isParameter = false;
+			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter));
 		}
-		m.addModelInstantiations(mis);
+		m.addDeclarations(ds);
 
 		m.setConnectors(mdef.getConnectors()
 				.stream()
 				.map(c -> new ModelicaConnector(
-						// FIXME If the connector identifier is empty, assign it the id of the first instantiation
+						// FIXME If the connector identifier is empty, assign it the id of the first declaration
 						// This is right because we only have generic connectors on models with only one component
 						// The general solution should be: the connector has a relative id to the components
 						// And the exact id can be resolved after all components have been instantiated
-						c.getId() == null || c.getId().isEmpty() ? mis.get(0).getName() : c.getId(),
+						c.getId() == null || c.getId().isEmpty() ? ds.get(0).getId() : c.getId(),
 						c.getPin(),
 						c.isReusable()))
 				.collect(Collectors.toList()));
@@ -144,23 +146,24 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return mdef.getStaticId();
 	}
 
-	private String buildModelicaModelInstantiationName(
+	private String buildModelicaDeclarationId(
 			Model m,
 			Component c,
 			Identifiable<?> element)
 	{
 		// If the model definition refers to a type use a combination of component name and element id
 		if (m instanceof ModelForType)
-			return ModelicaUtil.dynamicInstantiationIdFromStaticId(
+			return ModelicaUtil.dynamicDeclarationIdFromStaticId(
 					((ModelForType) m).getType(),
 					c.getName(),
 					element.getId());
 		return c.getId();
 	}
 
-	private List<ModelicaArgument> buildModelicaInstatiationArguments(Component mc)
+	private List<ModelicaArgument> buildModelicaArguments(Component mc)
 	{
 		ParameterSet set = getParameterSet(mc);
+		if (set == null) return null;
 
 		List<ModelicaArgument> arguments = new ArrayList<>(set.getParameters().size());
 		for (Parameter p : set.getParameters())

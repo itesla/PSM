@@ -21,7 +21,7 @@ public class ModelicaUtil
 		return "DM" + id;
 	}
 	
-	public static String dynamicInstantiationIdFromStaticId(String type, String name, String id)
+	public static String dynamicDeclarationIdFromStaticId(String type, String name, String id)
 	{
 		//return name.substring(name.lastIndexOf('.') + 1).concat(id);
 		// FIXME only to ease the comparison with existing mo's

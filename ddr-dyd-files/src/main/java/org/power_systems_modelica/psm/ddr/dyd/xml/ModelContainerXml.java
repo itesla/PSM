@@ -13,6 +13,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
+import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,9 @@ public class ModelContainerXml
 	public static ModelContainer read(XMLStreamReader r) throws XMLStreamException
 	{
 		ModelContainer dyd = new ModelContainer();
-		Model m = null;
+		Model model = null;
+		Component component = null;
+		ParameterSet set = null;
 		while (r.hasNext())
 		{
 			switch (r.next())
@@ -51,20 +54,39 @@ public class ModelContainerXml
 				switch (r.getLocalName())
 				{
 				case ModelXml.ROOT_ELEMENT_NAME:
-					m = ModelXml.read(r);
-					dyd.add(m);
+					model = ModelXml.read(r);
+					dyd.add(model);
 					break;
 				case ComponentXml.ROOT_ELEMENT_NAME:
-					Component component = ComponentXml.read(r);
-					m.addComponent(component);
+					component = ComponentXml.read(r);
+					set = null;
+					model.addComponent(component);
+					break;
+				case ParameterValueXml.ROOT_ELEMENT_NAME:
+					if (set == null)
+					{
+						// TODO Reorganize XML reading/writing using inner elements and adders
+						set = new ParameterSet("inline");
+						component.setParameterSet(set);
+					}
+					set.add(ParameterValueXml.read(r));
+					break;
+				case ParameterReferenceXml.ROOT_ELEMENT_NAME:
+					if (set == null)
+					{
+						// TODO Reorganize XML reading/writing using inner elements and adders
+						set = new ParameterSet("inline");
+						component.setParameterSet(set);
+					}
+					set.add(ParameterReferenceXml.read(r));
 					break;
 				case ConnectorXml.ROOT_ELEMENT_NAME:
 					Connector connector = ConnectorXml.read(r);
-					m.addConnector(connector);
+					model.addConnector(connector);
 					break;
 				case ConnectionXml.ROOT_ELEMENT_NAME:
 					Connection connection = ConnectionXml.read(r);
-					m.addConnection(connection);
+					model.addConnection(connection);
 					break;
 				}
 				break;
@@ -72,7 +94,7 @@ public class ModelContainerXml
 				switch (r.getLocalName())
 				{
 				case ModelXml.ROOT_ELEMENT_NAME:
-					m = null;
+					model = null;
 					break;
 				}
 				break;
@@ -111,6 +133,7 @@ public class ModelContainerXml
 
 	private static void validate(Path file)
 	{
+		// FIXME Parameter definition is duplicated between dyd and par xsd files
 		XmlUtil.validate(file, "dyd.xsd");
 	}
 

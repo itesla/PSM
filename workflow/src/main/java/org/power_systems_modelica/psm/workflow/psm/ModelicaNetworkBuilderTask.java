@@ -51,7 +51,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		}
 		catch (Exception x)
 		{
-			failed();
+			failed(x);
 		}
 	}
 

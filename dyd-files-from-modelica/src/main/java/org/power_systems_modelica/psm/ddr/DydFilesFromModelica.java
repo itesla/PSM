@@ -126,10 +126,8 @@ public class DydFilesFromModelica
 
 		ParameterSet pset = par.newParameterSet();
 		pset.add(buildParameters(stype, mi.getArguments()));
-		par.add(pset);
-		ParameterSetReference pref = new ParameterSetReference(par.getFilename(), pset.getId());
 		Component mdefc = new Component(null, mi.getType());
-		mdefc.setParameterSetReference(pref);
+		mdefc.setParameterSet(pset);
 		mdef.addComponent(mdefc);
 
 		dyd.add(mdef);

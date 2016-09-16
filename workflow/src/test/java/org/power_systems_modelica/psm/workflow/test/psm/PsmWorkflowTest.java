@@ -110,6 +110,17 @@ public class PsmWorkflowTest
 				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
 	}
 	
+	@Test
+	public void testWorfkflowBuildIeee14DdrWithReferencesAndInlineParameters()
+			throws WorkflowCreationException, IOException
+	{
+		testWorkflowBuild(
+				"ieee14",
+				"ieee14bus_EQ.xml",
+				"ddr_references_gen_inline",
+				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
+	}
+	
 	public void testWorkflowBuild(
 			String foldername,
 			String casename,

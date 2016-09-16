@@ -5,6 +5,8 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.power_systems_modelica.psm.ddr.dyd.Component;
+import org.power_systems_modelica.psm.ddr.dyd.Parameter;
+import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 
 public class ComponentXml
@@ -32,11 +34,20 @@ public class ComponentXml
 		w.writeAttribute("name", c.getName());
 		if (c.getId() != null) w.writeAttribute("id", c.getId());
 
-		ParameterSetReference pref = c.getParameterSetReference();
-		if (c != null)
+		ParameterSet set = c.getParameterSet();
+		if (set != null)
 		{
-			w.writeAttribute("parFile", pref.getContainer());
-			w.writeAttribute("parId", pref.getSet());
+			for (Parameter p : set.getParameters())
+				ParameterXml.write(w, p);
+		}
+		else
+		{
+			ParameterSetReference pref = c.getParameterSetReference();
+			if (c != null)
+			{
+				w.writeAttribute("parFile", pref.getContainer());
+				w.writeAttribute("parId", pref.getSet());
+			}
 		}
 	}
 }

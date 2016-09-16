@@ -30,10 +30,13 @@
 		<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="Component">
+		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />
 		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="parFile" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="parId" use="required" type="dyd:nonEmptyString" />
+		<!-- TODO two ways of defining parameters of a component: reference to 
+			parameterSet or explicit list -->
+		<xs:attribute name="parFile" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="parId" use="optional" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="Connector">
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
@@ -53,4 +56,34 @@
 		<xs:attribute name="id2" use="required" type="dyd:nonEmptyString" />
 		<xs:attribute name="var2" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>
+
+	<!-- FIXME Duplicated parameter definition -->
+	<xs:group name="parameterItem">
+		<xs:choice>
+			<xs:element name="par" type="dyd:ParameterValue" />
+			<xs:element name="ref" type="dyd:ParameterReference" />
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="ParameterValue">
+		<xs:attribute name="type" use="required" type="dyd:ValueType" />
+		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="value" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:complexType name="ParameterReference">
+		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="dataSource" use="required" type="dyd:DataSource" />
+		<xs:attribute name="sourceName" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:simpleType name="ValueType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="STRING" />
+			<xs:enumeration value="DOUBLE" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DataSource">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IIDM" />
+		</xs:restriction>
+	</xs:simpleType>
+
 </xs:schema>

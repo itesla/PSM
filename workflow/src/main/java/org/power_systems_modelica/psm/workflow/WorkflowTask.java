@@ -5,6 +5,9 @@ import static org.power_systems_modelica.psm.workflow.ProcessState.IDLE;
 import static org.power_systems_modelica.psm.workflow.ProcessState.RUNNING;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /*
 An individual task can not be interrupted, 
 Status is IDLE until run is called
@@ -58,12 +61,20 @@ public abstract class WorkflowTask
 		state = FAILED;
 	}
 
+	protected void failed(Exception x)
+	{
+		LOG.error("Workflow task {} failed", this.id, x);
+		state = FAILED;
+	}
+
 	protected void publish(Workflow.ResultsScope scope, String resultsId, Object results)
 	{
 		workflow.publish(this, scope, resultsId, results);
 	}
 
-	private final String	id;
-	protected Workflow		workflow;
-	private ProcessState	state	= IDLE;
+	private final String		id;
+	protected Workflow			workflow;
+	private ProcessState		state	= IDLE;
+
+	private static final Logger	LOG		= LoggerFactory.getLogger(WorkflowTask.class);
 }

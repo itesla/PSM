@@ -101,8 +101,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		{
 			String type = mc.getName();
 			String name = buildModelicaModelInstantiationName(mdef, mc, element);
-			ParameterSetReference p = mc.getParameterSetReference();
-			List<ModelicaArgument> arguments = buildModelicaInstatiationArguments(p);
+			List<ModelicaArgument> arguments = buildModelicaInstatiationArguments(mc);
 			mis.add(new ModelicaModelInstantiation(type, name, arguments));
 		}
 		m.addModelInstantiations(mis);
@@ -159,13 +158,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return c.getId();
 	}
 
-	private List<ModelicaArgument> buildModelicaInstatiationArguments(
-			ParameterSetReference pref)
+	private List<ModelicaArgument> buildModelicaInstatiationArguments(Component mc)
 	{
-		if (pref == null) return null;
-
-		ParameterSet set = parameters.get(pref);
-		if (set == null) return null;
+		ParameterSet set = getParameterSet(mc);
 
 		List<ModelicaArgument> arguments = new ArrayList<>(set.getParameters().size());
 		for (Parameter p : set.getParameters())
@@ -182,6 +177,17 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			if (a != null) arguments.add(a);
 		}
 		return arguments;
+	}
+
+	private ParameterSet getParameterSet(Component mc)
+	{
+		ParameterSet set = mc.getParameterSet();
+		if (set == null)
+		{
+			ParameterSetReference pref = mc.getParameterSetReference();
+			if (pref != null) set = parameters.get(pref);
+		}
+		return set;
 	}
 
 	@Override

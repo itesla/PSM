@@ -18,6 +18,16 @@ public class Component
 		return name;
 	}
 
+	public void setParameterSet(ParameterSet set)
+	{
+		this.parameterSet = set;
+	}
+
+	public ParameterSet getParameterSet()
+	{
+		return this.parameterSet;
+	}
+
 	// Reference to parameters is optional,
 	// Dynamic model components used in template definitions will not have parameter references,
 	// the parameter reference will go in the template instantiation
@@ -34,4 +44,5 @@ public class Component
 	private final String			id;
 	private final String			name;
 	private ParameterSetReference	parameterSetReference;
+	private ParameterSet			parameterSet;
 }

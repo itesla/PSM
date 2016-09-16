@@ -4,9 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
 import org.power_systems_modelica.psm.ddr.dyd.Parameter;
-import org.power_systems_modelica.psm.ddr.dyd.ParameterReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 
 public class ParameterSetXml
@@ -25,12 +23,7 @@ public class ParameterSetXml
 		w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeAttribute("id", set.getId());
 		for (Parameter p : set.getParameters())
-		{
-			if (p instanceof ParameterValue)
-				ParameterValueXml.write(w, (ParameterValue) p);
-			else if (p instanceof ParameterReference)
-				ParameterReferenceXml.write(w, (ParameterReference) p);
-		}
+			ParameterXml.write(w, p);
 		w.writeEndElement();
 	}
 }

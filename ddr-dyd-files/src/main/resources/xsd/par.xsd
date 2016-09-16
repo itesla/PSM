@@ -9,7 +9,6 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:element name="parameters">
-		
         <xs:complexType>
 			<xs:sequence>
 				<xs:element name="set" type="par:ParameterSet" minOccurs="1" maxOccurs="unbounded" />
@@ -17,12 +16,15 @@
 		</xs:complexType>
     </xs:element>
 	<xs:complexType name="ParameterSet">
-		<xs:choice minOccurs="1" maxOccurs="unbounded">
+		<xs:group ref="par:parameterItem" minOccurs="1" maxOccurs="unbounded"/>
+		<xs:attribute name="id" use="required" type="xs:integer" />
+	</xs:complexType>
+	<xs:group name="parameterItem">
+		<xs:choice>
 			<xs:element name="par" type="par:ParameterValue" />
 			<xs:element name="ref" type="par:ParameterReference" />
 		</xs:choice>
-		<xs:attribute name="id" use="required" type="xs:integer" />
-	</xs:complexType>
+	</xs:group>
 	<xs:complexType name="ParameterValue">
 		<xs:attribute name="type" use="required" type="par:ValueType" />
 		<xs:attribute name="name" use="required" type="par:nonEmptyString" />

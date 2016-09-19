@@ -5,6 +5,7 @@ import static org.power_systems_modelica.psm.workflow.ProcessState.IDLE;
 import static org.power_systems_modelica.psm.workflow.ProcessState.RUNNING;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 
+import org.power_systems_modelica.psm.commons.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ public abstract class WorkflowTask
 
 	public abstract String getName();
 
-	public abstract void configure(TaskConfiguration config);
+	public abstract void configure(Configuration config);
 
 	public String getId()
 	{

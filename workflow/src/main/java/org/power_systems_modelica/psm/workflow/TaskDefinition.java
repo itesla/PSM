@@ -1,5 +1,7 @@
 package org.power_systems_modelica.psm.workflow;
 
+import org.power_systems_modelica.psm.commons.Configuration;
+
 public final class TaskDefinition
 {
 	public TaskDefinition(Class<? extends WorkflowTask> taskClass, String taskId)
@@ -13,12 +15,12 @@ public final class TaskDefinition
 		return taskId;
 	}
 
-	public TaskConfiguration getTaskConfiguration()
+	public Configuration getTaskConfiguration()
 	{
 		return config;
 	}
 
-	public void setTaskConfiguration(TaskConfiguration config)
+	public void setTaskConfiguration(Configuration config)
 	{
 		this.config = config;
 	}
@@ -30,5 +32,5 @@ public final class TaskDefinition
 
 	private final Class<? extends WorkflowTask>	taskClass;
 	private final String						taskId;
-	private TaskConfiguration					config;
+	private Configuration						config;
 }

@@ -5,11 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Identifiable;
+import eu.itesla_project.iidm.network.Line;
+import eu.itesla_project.iidm.network.Load;
+import eu.itesla_project.iidm.network.ShuntCompensator;
+import eu.itesla_project.iidm.network.TwoWindingsTransformer;
+
 public class ModelProvider
 {
-	public ModelProvider()
+	public ModelProvider(boolean isInitialization)
 	{
-		containers.add(new ModelContainer());
+		containers.add(new ModelContainer(isInitialization));
+	}
+
+	public Model getModel(Identifiable<?> e)
+	{
+		// TODO Auto-generated method stub
+		Model mdef = getDynamicModelForId(validDynamicId(e.getId()));
+		if (mdef == null) mdef = getDynamicModelForStaticType(getType(e));
+		return mdef;
 	}
 
 	public ModelContainer getDefaultContainer()
@@ -53,6 +68,22 @@ public class ModelProvider
 	{
 		if (m.getStaticId() != null) dynamicModelsById.put(m.getStaticId(), m);
 		if (m instanceof ModelForType) dynamicModelsByType.put(((ModelForType) m).getType(), m);
+	}
+
+	private String getType(Identifiable<?> e)
+	{
+		if (e instanceof Bus) return "Bus";
+		else if (e instanceof Line) return "Line";
+		else if (e instanceof TwoWindingsTransformer) return "Transformer";
+		else if (e instanceof Load) return "Load";
+		else if (e instanceof ShuntCompensator) return "Shunt";
+		return null;
+	}
+
+	private String validDynamicId(String id)
+	{
+		// Some characters are not allowed in dynamic model identifiers
+		return id.replace('-', '_');
 	}
 
 	private final List<ModelContainer>	containers			= new ArrayList<>();

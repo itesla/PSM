@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,11 +13,13 @@ import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +31,11 @@ import eu.itesla_project.iidm.network.Network;
 
 public class ModelicaNetworkBuilder
 {
-	public ModelicaNetworkBuilder(DynamicDataRepository ddr, Network n)
+	public ModelicaNetworkBuilder(DynamicDataRepository ddr, Network n, ModelicaEngine me)
 	{
 		this.ddr = ddr;
 		this.network = n;
+		this.modelicaEngine = me;
 		registerResolver("IIDM", new IidmReferenceResolver(network));
 	}
 
@@ -40,12 +44,24 @@ public class ModelicaNetworkBuilder
 		this.onlyMainConnectedComponent = onlyMain;
 	}
 
-	public void registerResolver(String dataSource, ReferenceResolver resolver)
+	public ModelicaDocument build()
 	{
-		referenceResolvers.put(dataSource, resolver);
+		performFullModelInitialization();
+		return buildModelicaSystem();
 	}
 
-	public ModelicaDocument build()
+	private void performFullModelInitialization()
+	{
+		FullModelInitializationBuilder i = new FullModelInitializationBuilder(ddr, network);
+		Collection<ModelicaDocument> mos = i.buildModelicaDocuments();
+		modelicaEngine.simulate(mos);
+		ModelicaSimulationResults mor = modelicaEngine.getSimulationResults();
+		InitializationResults results = new InitializationResults(mor);
+		InitializationReferenceResolver ir = new InitializationReferenceResolver(results);
+		registerResolver("INIT", ir);
+	}
+
+	private ModelicaDocument buildModelicaSystem()
 	{
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin("");
@@ -144,24 +160,26 @@ public class ModelicaNetworkBuilder
 		List<ModelicaArgument> args = d
 				.getArguments()
 				.stream()
-				.map(a -> resolveReference(a, m))
+				.map(a -> resolveReference(a, m, d))
 				.collect(Collectors.toList());
 		return new ModelicaDeclaration(d.getType(), d.getId(), args, d.isParameter());
 	}
 
 	private ModelicaArgument resolveReference(
 			ModelicaArgument a0,
-			ModelicaModel m)
+			ModelicaModel m,
+			ModelicaDeclaration d)
 	{
 		ModelicaArgument a = a0;
 		if (a0 instanceof ModelicaArgumentReference)
-			a = resolveReference(((ModelicaArgumentReference) a0), m);
+			a = resolveReference(((ModelicaArgumentReference) a0), m, d);
 		return a;
 	}
 
 	private ModelicaArgument resolveReference(
 			ModelicaArgumentReference a0,
-			ModelicaModel m)
+			ModelicaModel m,
+			ModelicaDeclaration d)
 	{
 		Object value = null;
 
@@ -172,7 +190,7 @@ public class ModelicaNetworkBuilder
 			return null;
 		}
 
-		value = r.resolveReference(a0.getSourceName(), m);
+		value = r.resolveReference(a0.getSourceName(), m, d);
 		if (value == null)
 		{
 			String msg = new StringBuilder()
@@ -272,8 +290,14 @@ public class ModelicaNetworkBuilder
 		return ModelicaTricks.preferredConnector(m, other, conns);
 	}
 
+	private void registerResolver(String dataSource, ReferenceResolver resolver)
+	{
+		referenceResolvers.put(dataSource, resolver);
+	}
+
 	private final DynamicDataRepository				ddr;
 	private final Network							network;
+	private final ModelicaEngine					modelicaEngine;
 	private final Map<String, ReferenceResolver>	referenceResolvers			= new HashMap<>();
 	private boolean									onlyMainConnectedComponent	= false;
 	private static final Logger						LOG							= LoggerFactory

@@ -9,14 +9,15 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:element name="parameters">
-        <xs:complexType>
+		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="set" type="par:ParameterSet" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element name="set" type="par:ParameterSet" minOccurs="1"
+					maxOccurs="unbounded" />
 			</xs:sequence>
 		</xs:complexType>
-    </xs:element>
+	</xs:element>
 	<xs:complexType name="ParameterSet">
-		<xs:group ref="par:parameterItem" minOccurs="1" maxOccurs="unbounded"/>
+		<xs:group ref="par:parameterItem" minOccurs="1" maxOccurs="unbounded" />
 		<xs:attribute name="id" use="required" type="xs:integer" />
 	</xs:complexType>
 	<xs:group name="parameterItem">
@@ -44,6 +45,7 @@
 	<xs:simpleType name="DataSource">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="IIDM" />
+			<xs:enumeration value="INIT" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

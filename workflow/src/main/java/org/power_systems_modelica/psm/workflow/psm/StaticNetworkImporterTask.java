@@ -4,8 +4,8 @@ import static org.power_systems_modelica.psm.workflow.Workflow.ResultsScope.SCOP
 
 import java.nio.file.Paths;
 
+import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
-import org.power_systems_modelica.psm.workflow.TaskConfiguration;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
 import eu.itesla_project.iidm.network.Network;
@@ -24,7 +24,7 @@ public class StaticNetworkImporterTask extends WorkflowTask
 	}
 
 	@Override
-	public void configure(TaskConfiguration config)
+	public void configure(Configuration config)
 	{
 		source = config.getParameter("source");
 	}

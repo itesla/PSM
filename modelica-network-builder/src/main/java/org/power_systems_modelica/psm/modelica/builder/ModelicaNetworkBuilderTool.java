@@ -9,6 +9,8 @@ import org.apache.commons.cli.Options;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
 import com.google.auto.service.AutoService;
@@ -48,6 +50,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 			options.addOption("i", "iidm", true, "Input IIDM XML file");
 			options.addOption("d", "ddr", true, "Input DDR path");
 			options.addOption("m", "modelica", true, "Modelica output file");
+			options.addOption("e", "engine", true, "Modelica engine");
 			return options;
 		}
 
@@ -85,11 +88,18 @@ public class ModelicaNetworkBuilderTool implements Tool
 			System.err.println("Missing Modelica output file");
 			return;
 		}
+		String engine = cmd.getOptionValue("engine");
+		if (engine == null)
+		{
+			System.err.println("Missing Modelica engine");
+			return;
+		}
 
 		System.out.println("current  = " + Paths.get("").toAbsolutePath().toString());
 		System.out.println("iidm     = " + Paths.get(iidmFilename).toAbsolutePath().toString());
 		System.out.println("ddr      = " + Paths.get(ddrLocation).toAbsolutePath().toString());
 		System.out.println("modelica = " + Paths.get(moFilename).toAbsolutePath().toString());
+		System.out.println("engine   = " + engine);
 
 		Network n = NetworkXml.read(Paths.get(iidmFilename));
 
@@ -97,7 +107,9 @@ public class ModelicaNetworkBuilderTool implements Tool
 		ddr.setLocation(ddrLocation);
 		ddr.connect();
 
-		ModelicaNetworkBuilder b = new ModelicaNetworkBuilder(ddr, n);
+		ModelicaEngine me = ModelicaEngineMainFactory.create(engine);
+
+		ModelicaNetworkBuilder b = new ModelicaNetworkBuilder(ddr, n, me);
 		boolean onlyMainConnectedComponent = false;
 		b.setOnlyMain(onlyMainConnectedComponent);
 		ModelicaDocument mo = b.build();

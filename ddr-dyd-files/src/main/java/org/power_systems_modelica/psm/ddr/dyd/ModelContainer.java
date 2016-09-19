@@ -6,6 +6,16 @@ import java.util.List;
 
 public class ModelContainer
 {
+	public ModelContainer(boolean isInitialization)
+	{
+		this.isInitialization = isInitialization;
+	}
+
+	public boolean isInitialization()
+	{
+		return isInitialization;
+	}
+
 	public List<Model> getModelDefinitions()
 	{
 		return this.dynamicModelDefinitions;
@@ -21,5 +31,6 @@ public class ModelContainer
 		this.dynamicModelDefinitions.add(mdef);
 	}
 
-	private final List<Model> dynamicModelDefinitions = new ArrayList<>();
+	private final boolean		isInitialization;
+	private final List<Model>	dynamicModelDefinitions	= new ArrayList<>();
 }

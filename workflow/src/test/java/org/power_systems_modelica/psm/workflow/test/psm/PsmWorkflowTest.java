@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.workflow.ProcessState.FAILED;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestMacros.TC;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestMacros.TD;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestMacros.WF;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TC;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TD;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.WF;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,7 +89,7 @@ public class PsmWorkflowTest
 	}
 
 	@Test
-	public void testWorfkflowBuildIeee14DdrWithReferences()
+	public void testWorfkflowBuildIeee14DdrWithIidmReferences()
 			throws WorkflowCreationException, IOException
 	{
 		testWorkflowBuild(
@@ -100,7 +100,7 @@ public class PsmWorkflowTest
 	}
 
 	@Test
-	public void testWorfkflowBuildIeee14DdrWithReferencesInGenerators()
+	public void testWorfkflowBuildIeee14DdrWithIidmReferencesInGenerators()
 			throws WorkflowCreationException, IOException
 	{
 		testWorkflowBuild(
@@ -109,9 +109,9 @@ public class PsmWorkflowTest
 				"ddr_references_gen",
 				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
 	}
-	
+
 	@Test
-	public void testWorfkflowBuildIeee14DdrWithReferencesAndInlineParameters()
+	public void testWorfkflowBuildIeee14DdrWithIidmReferencesAndInlineParameters()
 			throws WorkflowCreationException, IOException
 	{
 		testWorkflowBuild(
@@ -120,7 +120,18 @@ public class PsmWorkflowTest
 				"ddr_references_gen_inline",
 				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
 	}
-	
+
+	@Test
+	public void testWorfkflowBuildIeee14WithIidmAndInitReferences()
+			throws WorkflowCreationException, IOException
+	{
+		testWorkflowBuild(
+				"ieee14",
+				"ieee14bus_EQ.xml",
+				"ddr_references_to_init_source_data",
+				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
+	}
+
 	public void testWorkflowBuild(
 			String foldername,
 			String casename,
@@ -132,13 +143,17 @@ public class PsmWorkflowTest
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		String cim = folder.resolve(casename).toString();
 		String ddr = folder.resolve(ddrname).toString();
+		String fakeInit = folder.resolve(ddrname).resolve("fake_init.csv").toString();
 		String outname = "/tmp/test.mo";
 
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",
 						TC("source", cim)),
 				TD(ModelicaNetworkBuilderTask.class, "modelica0",
-						TC("ddrType", "DYD", "ddrLocation", ddr)),
+						TC("ddrType", "DYD",
+								"ddrLocation", ddr,
+								"modelicaEngine", "Fake",
+								"fakeModelicaEngineResults", fakeInit)),
 				TD(ModelicaExporterTask.class, "exporter0",
 						TC("target", outname)));
 		wf.start();

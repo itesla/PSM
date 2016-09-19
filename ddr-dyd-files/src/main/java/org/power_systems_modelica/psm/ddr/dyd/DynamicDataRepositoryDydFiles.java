@@ -67,26 +67,17 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public ModelicaModel getModelicaModel(Identifiable<?> e)
 	{
-		Model mdef = dynamicModels.getDynamicModelForId(validDynamicId(e.getId()));
-		if (mdef == null) mdef = dynamicModels.getDynamicModelForStaticType(getType(e));
+		Model mdef = dynamicModels.getModel(e);
 		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
 	}
 
-	private String getType(Identifiable<?> e)
+	@Override
+	public ModelicaModel getModelicaInitializationModel(Identifiable<?> e)
 	{
-		if (e instanceof Bus) return "Bus";
-		else if (e instanceof Line) return "Line";
-		else if (e instanceof TwoWindingsTransformer) return "Transformer";
-		else if (e instanceof Load) return "Load";
-		else if (e instanceof ShuntCompensator) return "Shunt";
+		Model mdef = initializationModels.getModel(e);
+		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
-	}
-
-	private String validDynamicId(String id)
-	{
-		// Some characters are not allowed in dynamic model identifiers
-		return id.replace('-', '_');
 	}
 
 	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
@@ -209,7 +200,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	private void reset()
 	{
-		dynamicModels = new ModelProvider();
+		dynamicModels = new ModelProvider(false);
+		initializationModels = new ModelProvider(true);
 		parameters = new ParameterSetProvider();
 		mappings.clear();
 	}
@@ -228,7 +220,10 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					ModelContainer dyd = readDyd(file);
 					if (dyd != null)
 					{
-						dynamicModels.add(dyd);
+						if (dyd.isInitialization())
+							initializationModels.add(dyd);
+						else
+							dynamicModels.add(dyd);
 						resolveParameters(dyd);
 					}
 				}
@@ -299,6 +294,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	private Path						location;
 	private ModelProvider				dynamicModels;
+	private ModelProvider				initializationModels;
 	private ParameterSetProvider		parameters;
 	private Map<String, ModelicaModel>	mappings	= new HashMap<>();
 

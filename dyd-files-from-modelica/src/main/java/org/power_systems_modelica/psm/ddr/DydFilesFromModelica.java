@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -28,12 +29,14 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.ModelContainerXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParameterSetContainerXml;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,35 +61,108 @@ public class DydFilesFromModelica
 		Collection<ModelicaModel> mos = groupInModelsByStaticId(mo);
 
 		// Build the dynamic repository objects
-		ModelProvider dyd = new ModelProvider();
+		ModelProvider dyd = new ModelProvider(false);
+		ModelProvider dydInit = new ModelProvider(true);
 		ParameterSetContainer par = new ParameterSetContainer();
 		par.setFilename(parname);
-		mo2dyd(mos, dyd, par);
+
+		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
+		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
+
+		mo2dyd(mos, dyd, dydInit, par, fakeInitializationResults);
 
 		// Save the dynamic repository objects as xml files
 		Path dydf = ddrloc.resolve(dydname);
+		Path dydfinit = ddrloc.resolve("init_" + dydname);
 		Path parf = ddrloc.resolve(parname);
 		ModelContainerXml.write(dydf, dyd.getDefaultContainer());
+		ModelContainerXml.write(dydfinit, dydInit.getDefaultContainer());
 		ParameterSetContainerXml.write(parf, par);
+
+		Path fakef = ddrloc.resolve("fake_init.csv");
+		ModelicaSimulationResultsCsv.write(fakef, fakeInitializationResults);
 	}
 
 	private static void mo2dyd(
 			Collection<ModelicaModel> mos,
 			ModelProvider dyd,
-			ParameterSetContainer par)
+			ModelProvider dydInit,
+			ParameterSetContainer par,
+			ModelicaSimulationResults fakeInitializationResults)
 	{
 		for (ModelicaModel mo : mos)
 		{
 			Model mdef = checkModelDefinitionForType(mo, dyd, par);
 			if (mdef == null)
 			{
-				mdef = buildModelDefinitionForElement(mo, par);
+				mdef = buildModelDefinitionForElement(mo, par, fakeInitializationResults);
 				if (mdef != null)
 				{
 					dyd.add(mdef);
+
+					// TODO Infer proper initialization models.
+					// Right now we are only changing names of components
+					// taken from the dynamic model definition used for simulation
+					// and storing them in a separate repository.
+					Model mdefi = inferInitializationModel(mdef, par);
+					// And we are doing it only for specific elements. Consider if we should do it for types.
+					dydInit.add(mdefi);
 				}
 			}
 		}
+	}
+
+	private static Model inferInitializationModel(
+			Model m,
+			ParameterSetContainer par)
+	{
+		Model mi = new Model(m.getId(), m.getStaticId());
+		mi.addComponents(m.getComponents()
+				.stream()
+				.map(c -> inferInitializationComponent(c, par))
+				.collect(Collectors.toList()));
+		mi.addConnections(m.getConnections());
+		mi.addConnectors(m.getConnectors());
+		return mi;
+	}
+
+	private static Component inferInitializationComponent(
+			Component c,
+			ParameterSetContainer par)
+	{
+		Component ci = new Component(c.getId(), c.getName() + "_Init");
+		if (c.getParameterSet() != null)
+		{
+			ParameterSet psi = new ParameterSet(c.getParameterSet().getId());
+			List<Parameter> params0 = c.getParameterSet().getParameters();
+			psi.add(filterOutInitParameters(params0));
+			ci.setParameterSet(psi);
+		}
+		else if (c.getParameterSetReference() != null)
+		{
+			ParameterSet psi = par.newParameterSet();
+			par.add(psi);
+			List<Parameter> params0 = par.get(c.getParameterSetReference().getSet())
+					.getParameters();
+			List<Parameter> params1 = filterOutInitParameters(params0);
+			System.err.println("inferInit");
+			System.err.println("    component_id = " + c.getId());
+			System.err.println("    params0 size = " + params0.size());
+			System.err.println("    params1 size = " + params1.size());
+			psi.add(params1);
+			ParameterSetReference psir = new ParameterSetReference(
+					par.getFilename(),
+					psi.getId());
+			ci.setParameterSetReference(psir);
+		}
+		return ci;
+	}
+
+	private static List<Parameter> filterOutInitParameters(List<Parameter> params)
+	{
+		return params.stream()
+				.filter(p -> !(p.getName().startsWith("init_")))
+				.collect(Collectors.toList());
 	}
 
 	private static Model checkModelDefinitionForType(
@@ -139,7 +215,8 @@ public class DydFilesFromModelica
 
 	private static Model buildModelDefinitionForElement(
 			ModelicaModel mo,
-			ParameterSetContainer par)
+			ParameterSetContainer par,
+			ModelicaSimulationResults fakeInitializationResults)
 	{
 		String id = mo.getName();
 		String staticId = mo.getStaticId();
@@ -169,6 +246,13 @@ public class DydFilesFromModelica
 						par.getFilename(),
 						pset.getId());
 				mdefc.setParameterSetReference(pref);
+
+				// Store values of arguments coming from initialization for later use by fake Modelica engine
+				saveInitializationResultsForFakeModelicaEngine(
+						mdef,
+						mdefc,
+						d.getArguments(),
+						fakeInitializationResults);
 			}
 			mdef.addComponent(mdefc);
 		}
@@ -189,18 +273,57 @@ public class DydFilesFromModelica
 		return mdef;
 	}
 
+	private static void saveInitializationResultsForFakeModelicaEngine(
+			Model m,
+			Component c,
+			List<ModelicaArgument> arguments,
+			ModelicaSimulationResults fakeInitializationResults)
+	{
+		for (ModelicaArgument a : arguments)
+		{
+			Parameter p = checkInitializationReference(a);
+			if (p != null)
+			{
+				fakeInitializationResults.addResult(
+						m.getStaticId(),
+						c.getId(),
+						((ParameterReference) p).getSourceName(),
+						a.getValue());
+			}
+		}
+	}
+
 	private static List<Parameter> buildParameters(String stype, List<ModelicaArgument> arguments)
 	{
 		List<Parameter> params = new ArrayList<>(arguments.size());
 		for (ModelicaArgument a : arguments)
 		{
-			String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
-			if (iidmAttribute != null)
-				params.add(new ParameterReference(a.getName(), "IIDM", iidmAttribute));
-			else
-				params.add(new ParameterValue("STRING", a.getName(), a.getValue()));
+			Parameter p = null;
+
+			p = checkInitializationReference(a);
+			if (p == null) p = checkIidmReference(stype, a);
+			if (p == null) p = new ParameterValue("STRING", a.getName(), a.getValue());
+			params.add(p);
 		}
 		return params;
+	}
+
+	private static Parameter checkInitializationReference(ModelicaArgument a)
+	{
+		if (a.getName().startsWith("init_"))
+		{
+			String sname = a.getName().replace("init_", "");
+			return new ParameterReference(a.getName(), "INIT", sname);
+		}
+		return null;
+	}
+
+	private static Parameter checkIidmReference(String stype, ModelicaArgument a)
+	{
+		String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
+		if (iidmAttribute != null)
+			return new ParameterReference(a.getName(), "IIDM", iidmAttribute);
+		return null;
 	}
 
 	private static List<Connector> createConnectors(ModelicaModel mo, boolean generic)

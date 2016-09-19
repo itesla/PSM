@@ -19,6 +19,8 @@ public interface DynamicDataRepository
 
 	List<ModelicaDeclaration> getSystemDeclarations();
 
+	public ModelicaModel getModelicaInitializationModel(Identifiable<?> e);
+
 	// TODO We need a way to define additional equations not directly obtainable from elements
 	// As an example: obtain the additional equations related to omegaRef
 }

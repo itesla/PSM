@@ -9,9 +9,9 @@ import static org.power_systems_modelica.psm.workflow.ProcessState.FAILED;
 import static org.power_systems_modelica.psm.workflow.ProcessState.IDLE;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SCHEDULED;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestMacros.TD;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestMacros.TS;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestMacros.WF;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TD;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TS;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.WF;
 
 import java.util.ArrayList;
 import java.util.Arrays;

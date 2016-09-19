@@ -13,10 +13,11 @@ import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
 import eu.itesla_project.iidm.network.Bus;
@@ -41,7 +42,8 @@ public class ModelicaNetworkBuilderTest
 		Mockito.when(n.getName()).thenReturn("mocked_network");
 
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
-		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n);
+		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
+		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
@@ -82,8 +84,11 @@ public class ModelicaNetworkBuilderTest
 		// Mocked ddr will only return dynamic model for the first bus
 		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
 
+		// Mocking the Modelica engine
+		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
+
 		// Build Modelica
-		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n);
+		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
@@ -130,8 +135,11 @@ public class ModelicaNetworkBuilderTest
 		// Mocked ddr will only return dynamic model for the first bus
 		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
 
+		// Mocking the Modelica engine
+		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
+
 		// Build Modelica
-		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n);
+		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();

@@ -35,7 +35,7 @@ public class ModelContainerXml
 		XMLStreamReader r = XmlUtil.reader(file);
 		try
 		{
-			dyd = read(r);
+			dyd = readDyd(r);
 		}
 		finally
 		{
@@ -44,9 +44,17 @@ public class ModelContainerXml
 		return dyd;
 	}
 
-	public static ModelContainer read(XMLStreamReader r) throws XMLStreamException
+	public static ModelContainer read(XMLStreamReader r)
 	{
-		ModelContainer dyd = new ModelContainer();
+		String sinit = r.getAttributeValue(null, "isInitialization");
+		boolean isInitialization = sinit == null ? false : Boolean.valueOf(sinit);
+		ModelContainer m = new ModelContainer(isInitialization);
+		return m;
+	}
+
+	private static ModelContainer readDyd(XMLStreamReader r) throws XMLStreamException
+	{
+		ModelContainer dyd = null;
 		Model model = null;
 		Component component = null;
 		ParameterSet set = null;
@@ -57,6 +65,9 @@ public class ModelContainerXml
 			case XMLEvent.START_ELEMENT:
 				switch (r.getLocalName())
 				{
+				case ModelContainerXml.ROOT_ELEMENT_NAME:
+					dyd = ModelContainerXml.read(r);
+					break;
 				case ModelXml.ROOT_ELEMENT_NAME:
 					model = ModelXml.read(r);
 					dyd.add(model);
@@ -128,6 +139,7 @@ public class ModelContainerXml
 		w.writeStartDocument();
 		w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeDefaultNamespace("http://www.power_systems_on_modelica.org/schema/dyd/1_0");
+		w.writeAttribute("isInitialization", Boolean.toString(dyd.isInitialization()));
 
 		// Sort models before writing
 		for (Model m : sortedModels(dyd.getModelDefinitions()))

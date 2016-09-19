@@ -15,6 +15,7 @@
 		<module>commons</module>
 		<module>static-network-importer</module>
 		<module>modelica-network</module>
+		<module>modelica-engine-api</module>
 		<module>ddr-api</module>
 		<module>ddr-dyd-files</module>
 		<module>modelica-network-builder</module>

@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.ddr.dyd;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,9 +40,19 @@ public class Model
 		return Collections.unmodifiableList(connectors);
 	}
 
+	public void addComponents(Collection<Component> components)
+	{
+		this.components.addAll(components);
+	}
+
 	public void addComponent(Component c)
 	{
 		components.add(c);
+	}
+
+	public void addConnections(Collection<Connection> connections)
+	{
+		this.connections.addAll(connections);
 	}
 
 	public void addConnection(Connection c)

@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica.builder;
 
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexUtils;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 
 import eu.itesla_project.iidm.network.Bus;
@@ -26,7 +27,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 	}
 
 	@Override
-	public Object resolveReference(String name, ModelicaModel m)
+	public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
 	{
 		String staticId = m.getStaticId();
 		Identifiable<?> element = network.getIdentifiable(staticId);

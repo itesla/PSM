@@ -3,9 +3,9 @@ package org.power_systems_modelica.psm.workflow.psm;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 
+import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
-import org.power_systems_modelica.psm.workflow.TaskConfiguration;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
 public class ModelicaExporterTask extends WorkflowTask
@@ -22,7 +22,7 @@ public class ModelicaExporterTask extends WorkflowTask
 	}
 
 	@Override
-	public void configure(TaskConfiguration config)
+	public void configure(Configuration config)
 	{
 		target = config.getParameter("target");
 	}

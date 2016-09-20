@@ -53,10 +53,11 @@ public class XmlUtil
 		return writer;
 	}
 
-	static void validate(Path file, String schemaName)
+	static void validate(Path file)
 	{
+		String schemaName = DYD_SCHEMA_RESOUCE;
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Source sschema = new StreamSource(XmlUtil.class.getResourceAsStream("/xsd/" + schemaName));
+		Source sschema = new StreamSource(XmlUtil.class.getResourceAsStream(schemaName));
 		try (InputStream is = Files.newInputStream(file))
 		{
 			Source xml = new StreamSource(Files.newInputStream(file));
@@ -77,6 +78,7 @@ public class XmlUtil
 		}
 	}
 
+	private static final String						DYD_SCHEMA_RESOUCE			= "/xsd/dyd.xsd";
 	private static final Supplier<XMLInputFactory>	XML_INPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLInputFactory::newInstance);
 	private static final Supplier<XMLOutputFactory>	XML_OUTPUT_FACTORY_SUPPLIER	= Suppliers

@@ -3,11 +3,8 @@
 	xmlns:dyd="http://www.power_systems_on_modelica.org/schema/dyd/1_0"
 	targetNamespace="http://www.power_systems_on_modelica.org/schema/dyd/1_0"
 	elementFormDefault="qualified">
-	<xs:simpleType name="nonEmptyString">
-		<xs:restriction base="xs:string">
-			<xs:minLength value="1" />
-		</xs:restriction>
-	</xs:simpleType>
+
+	<!-- Root element of the document could be a container of models or parameters -->
 	<xs:element name="model_container">
 		<xs:complexType>
 			<xs:sequence>
@@ -18,6 +15,21 @@
 				type="xs:boolean" />
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="parameters">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="set" type="dyd:ParameterSet" minOccurs="1"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="nonEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Dynamic models -->
 	<xs:complexType name="Model">
 		<xs:sequence>
 			<xs:element name="component" type="dyd:Component"
@@ -59,7 +71,11 @@
 		<xs:attribute name="var2" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>
 
-	<!-- FIXME Duplicated parameter definition -->
+	<!-- Parameters -->
+	<xs:complexType name="ParameterSet">
+		<xs:group ref="dyd:parameterItem" minOccurs="1" maxOccurs="unbounded" />
+		<xs:attribute name="id" use="required" type="xs:integer" />
+	</xs:complexType>
 	<xs:group name="parameterItem">
 		<xs:choice>
 			<xs:element name="par" type="dyd:ParameterValue" />

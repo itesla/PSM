@@ -29,7 +29,7 @@ public class ModelContainerXml
 			throws XMLStreamException, IOException
 	{
 		LOG.debug("read DYD file {}", file);
-		if (XmlUtil.isValidationActive) validate(file);
+		if (XmlUtil.isValidationActive) XmlUtil.validate(file);
 
 		ModelContainer dyd = null;
 		XMLStreamReader r = XmlUtil.reader(file);
@@ -130,7 +130,7 @@ public class ModelContainerXml
 		{
 			w.close();
 		}
-		if (XmlUtil.isValidationActive) validate(file);
+		if (XmlUtil.isValidationActive) XmlUtil.validate(file);
 	}
 
 	public static void write(XMLStreamWriter w, ModelContainer dyd)
@@ -162,12 +162,6 @@ public class ModelContainerXml
 	{
 		if (m instanceof ModelForType) return ((ModelForType) m).getType();
 		return "~";
-	}
-
-	private static void validate(Path file)
-	{
-		// FIXME Parameter definition is duplicated between dyd and par xsd files
-		XmlUtil.validate(file, "dyd.xsd");
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(ModelContainerXml.class);

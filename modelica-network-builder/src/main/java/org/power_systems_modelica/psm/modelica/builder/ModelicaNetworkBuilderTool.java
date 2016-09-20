@@ -111,7 +111,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 
 		ModelicaNetworkBuilder b = new ModelicaNetworkBuilder(ddr, n, me);
 		boolean onlyMainConnectedComponent = false;
-		b.setOnlyMain(onlyMainConnectedComponent);
+		b.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
 		ModelicaDocument mo = b.build();
 
 		Path mof = Paths.get(moFilename);

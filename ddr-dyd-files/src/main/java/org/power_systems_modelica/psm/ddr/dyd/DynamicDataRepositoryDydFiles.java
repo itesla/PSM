@@ -33,12 +33,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
-import eu.itesla_project.iidm.network.Line;
-import eu.itesla_project.iidm.network.Load;
-import eu.itesla_project.iidm.network.ShuntCompensator;
-import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 {

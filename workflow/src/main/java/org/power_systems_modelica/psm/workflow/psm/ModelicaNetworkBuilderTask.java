@@ -50,7 +50,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			me.configure(config);
 			Network n = (Network) workflow.getResults("network");
 			ModelicaNetworkBuilder builder = new ModelicaNetworkBuilder(ddr, n, me);
-			builder.setOnlyMain(onlyMainConnectedComponent);
+			builder.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
 			ModelicaDocument mo = builder.build();
 			publish(SCOPE_GLOBAL, "mo", mo);
 			succeded();

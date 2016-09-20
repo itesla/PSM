@@ -16,6 +16,11 @@ Clone the iTesla platform repository and build it:
 	
 This will put all the iPST artifacts in the local maven repository, so they can be referenced from psm project.
 
+Hades2 integration libraries can be installed in the local maven repository from given jars:
+
+	mvn install:install-file -Dfile=adn-export-0.1.jar -DgroupId=com.rte_france.itesla -DartifactId=adn-export -Dversion=0.1 -Dpackaging=jar
+	mvn install:install-file -Dfile=hades2-integration-0.1.jar -DgroupId=com.rte_france.itesla -DartifactId=hades2-integration -Dversion=0.1 -Dpackaging=jar
+
 Clone the psm repository and build it:
 
 	git clone https://bitbucket.org/rte-france/psm.git 
@@ -25,6 +30,6 @@ Set the environment variable that points to the sample data:
 
 	export PSM_DATA=<folder where you have cloned>/data
 	
-Build and test from the psm folder:
+To validate the setup, build and test from the psm folder:
 
-	./test_
+	mvn clean install -Ditesla.config.dir=$PSM_DATA/test/cfg

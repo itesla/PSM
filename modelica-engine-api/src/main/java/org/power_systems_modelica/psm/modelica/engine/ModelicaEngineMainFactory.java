@@ -21,7 +21,7 @@ public class ModelicaEngineMainFactory
 					.findFirst();
 			if (!mf.isPresent())
 				throw new Exception("No Modelica engine factory found for engine: " + engine);
-			ModelicaEngine e = mf.get().newInstance();
+			ModelicaEngine e = mf.get().create();
 			return e;
 		}
 		catch (Exception x)

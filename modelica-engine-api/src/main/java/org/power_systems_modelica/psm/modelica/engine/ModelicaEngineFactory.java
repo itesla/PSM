@@ -4,5 +4,5 @@ public interface ModelicaEngineFactory
 {
 	public String getEngine();
 
-	public ModelicaEngine newInstance();
+	public ModelicaEngine create();
 }

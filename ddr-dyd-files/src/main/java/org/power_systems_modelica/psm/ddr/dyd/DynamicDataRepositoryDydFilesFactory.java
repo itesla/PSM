@@ -15,7 +15,7 @@ public class DynamicDataRepositoryDydFilesFactory implements DynamicDataReposito
 	}
 
 	@Override
-	public DynamicDataRepository newInstance()
+	public DynamicDataRepository create()
 	{
 		return new DynamicDataRepositoryDydFiles();
 	}

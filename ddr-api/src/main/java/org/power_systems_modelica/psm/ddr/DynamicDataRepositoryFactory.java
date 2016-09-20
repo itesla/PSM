@@ -4,5 +4,5 @@ public interface DynamicDataRepositoryFactory
 {
 	public String getType();
 
-	public DynamicDataRepository newInstance();
+	public DynamicDataRepository create();
 }

@@ -15,7 +15,7 @@ public class FakeModelicaEngineFactory implements ModelicaEngineFactory
 	}
 
 	@Override
-	public ModelicaEngine newInstance()
+	public ModelicaEngine create()
 	{
 		return new FakeModelicaEngine();
 	}

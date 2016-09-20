@@ -20,7 +20,7 @@ public class DynamicDataRepositoryMainFactory
 					.filter(d -> d.getType().equals(type))
 					.findFirst();
 			if (!f.isPresent()) throw new Exception("No DDR factory for type " + type);
-			DynamicDataRepository ddr = f.get().newInstance();
+			DynamicDataRepository ddr = f.get().create();
 			ddr.setLocation(location);
 			return ddr;
 		}

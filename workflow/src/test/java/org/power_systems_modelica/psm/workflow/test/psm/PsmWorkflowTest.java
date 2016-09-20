@@ -21,6 +21,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
+import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
@@ -174,6 +175,22 @@ public class PsmWorkflowTest
 		Path actual = Paths.get(outname);
 
 		assertEqualsText(Files.newInputStream(expected), Files.newInputStream(actual));
+	}
+
+	@Test
+	public void testLoadFlowHades2Runs() throws WorkflowCreationException
+	{
+		String case_ = TEST_SAMPLES.resolve("ieee14/ieee14bus_EQ.xml").toString();
+		String cim = case_.toString();
+
+		Workflow wf = WF(
+				TD(StaticNetworkImporterTask.class, "importer0",
+						TC("source", cim)),
+				TD(LoadFlowTask.class, "loadflow0",
+						TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory")));
+		wf.start();
+		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
+		assertEquals(SUCCESS, wf.getTaskStates().get(1).state);
 	}
 
 	protected static void assertEqualsText(InputStream expected, InputStream actual)

@@ -36,6 +36,15 @@
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>loadflow-api</artifactId>
+		</dependency>
+		<dependency>
+			<!-- modules is required for Hades integration (contains contingencies) -->
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>modules</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -49,6 +58,14 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.rte_france.itesla</groupId>
+			<artifactId>hades2-integration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.rte_france.itesla</groupId>
+			<artifactId>adn-export</artifactId>
 		</dependency>
 	</dependencies>
 </project>

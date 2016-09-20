@@ -240,6 +240,26 @@
 				<artifactId>commons</artifactId>
 				<version>${ipst.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>loadflow-api</artifactId>
+				<version>${ipst.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>modules</artifactId>
+				<version>${ipst.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.rte_france.itesla</groupId>
+				<artifactId>hades2-integration</artifactId>
+				<version>0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.rte_france.itesla</groupId>
+				<artifactId>adn-export</artifactId>
+				<version>0.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

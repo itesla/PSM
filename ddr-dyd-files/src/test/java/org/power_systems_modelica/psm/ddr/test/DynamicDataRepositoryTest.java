@@ -76,7 +76,7 @@ public class DynamicDataRepositoryTest
 		// Only check parameters for first declaration
 		List<ModelicaArgument> as = ds.get(0).getArguments();
 		List<String> ans = as.stream().map(a -> a.getName()).collect(Collectors.toList());
-		List<String> avs = as.stream().map(a -> a.getValue()).collect(Collectors.toList());
+		List<String> avs = as.stream().map(a -> a.getValue().toString()).collect(Collectors.toList());
 		List<String> eans = Arrays.asList(
 				"mD0Pu",
 				"rQ1Pu",

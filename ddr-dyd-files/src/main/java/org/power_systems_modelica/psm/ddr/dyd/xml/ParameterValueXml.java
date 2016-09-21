@@ -23,6 +23,7 @@ public class ParameterValueXml
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
 		w.writeAttribute("type", p.getType());
 		w.writeAttribute("name", p.getName());
-		w.writeAttribute("value", p.getValue());
+		// FIXME Proper serialization of p.getValue() 
+		w.writeAttribute("value", p.getValue().toString());
 	}
 }

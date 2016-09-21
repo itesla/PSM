@@ -2,7 +2,7 @@ package org.power_systems_modelica.psm.ddr.dyd;
 
 public class ParameterValue extends Parameter
 {
-	public ParameterValue(String type, String name, String value)
+	public ParameterValue(String type, String name, Object value)
 	{
 		super(name);
 		this.type = type;
@@ -14,11 +14,11 @@ public class ParameterValue extends Parameter
 		return type;
 	}
 
-	public String getValue()
+	public Object getValue()
 	{
 		return value;
 	}
 
 	private final String	type;
-	private final String	value;
+	private final Object	value;
 }

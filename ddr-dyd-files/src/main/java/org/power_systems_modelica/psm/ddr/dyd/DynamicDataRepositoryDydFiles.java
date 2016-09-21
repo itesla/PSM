@@ -154,7 +154,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		List<ModelicaArgument> arguments = new ArrayList<>(set.getParameters().size());
 		for (Parameter p : set.getParameters())
 		{
-			// FIXME should Parameter and ModelicaArgument really be different classes ???
 			ModelicaArgument a = null;
 			if (p instanceof ParameterValue) a = new ModelicaArgument(
 					p.getName(),

@@ -67,7 +67,7 @@ public class FullModelInitializationBuilder extends ModelicaBuilder
 	{
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin("");
-		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId()); // FIXME or m.getName(); ???
+		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId()); 
 		mo.setSystemModel(ms);
 		ms.addDeclarations(getDdr().getSystemDeclarations());
 

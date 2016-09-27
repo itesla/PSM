@@ -95,7 +95,7 @@ public class ParXml
 	{
 		w.writeStartDocument();
 		w.writeStartElement(ROOT_ELEMENT_NAME);
-		w.writeDefaultNamespace("http://www.power_systems_on_modelica.org/schema/par/1_0");
+		w.writeDefaultNamespace(XmlUtil.NAMESPACE);
 		for (ParameterSet set : sortedSets(container.getSets()))
 			ParameterSetXml.write(w, set);
 		w.writeEndElement();

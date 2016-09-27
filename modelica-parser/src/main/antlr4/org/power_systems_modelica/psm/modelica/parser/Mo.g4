@@ -52,23 +52,28 @@ declaration_stmt locals [boolean isParameter = false]
 	String type = $type_name.text;
 	String id = $instantiation.id;
 	ModelicaDeclaration declaration;
-	if ($instantiation.isAssignment) declaration = new ModelicaDeclaration(type, id, $instantiation.value, $isParameter);
-	else declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter);
+	if ($instantiation.arguments != null)
+		declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter);
+	else
+		declaration = new ModelicaDeclaration(type, id, $instantiation.value, $isParameter);
 	modelicaDocument.getSystemModel().addDeclaration(declaration);
 }
    ;
 
-instantiation returns [ String id, boolean isAssignment, String value, List<ModelicaArgument> arguments ]
-   : ( ID '=' argument_value
+instantiation returns [ String id, Object value, List<ModelicaArgument> arguments ]
+   : ID
 {
 	$id = $ID.text;
-	$isAssignment = true;
+	$value = null;
+}
+   | ( ID '=' argument_value
+{
+	$id = $ID.text;
 	$value = $argument_value.text;
 }
    | ID '(' instantiation_argument_list ')'
 {
 	$id = $ID.text;
-	$isAssignment = false;
 	$value = null;
 	$arguments = $instantiation_argument_list.arguments;
 }
@@ -91,8 +96,9 @@ if (argument != null) $arguments.add(argument);
 instantiation_argument returns [ ModelicaArgument argument ]
    : instantiation
 {
-if ($instantiation.isAssignment) $argument = new ModelicaArgument($instantiation.id, $instantiation.value);
-// FIXME allow complex arguments
+if ($instantiation.arguments == null) $argument = new ModelicaArgument($instantiation.id, $instantiation.value);
+// FIXME Allow complex arguments (Modelica argument accepts and id and a list of Modelica arguments instead of a single value)
+// As an example:
 //iPSL.Electrical.Loads.PSSE.Load load_load__f17696e0_9aeb_11e5_91da_b8763fd99c5f (
 //	 S_p(re=2.63322, im=0.89094),
 //	 S_i(re=0, im=0),
@@ -113,6 +119,11 @@ argument_value
    ;
 
 equation_stmt
+   : equation_connect_stmt
+   | equal_stmt
+   ;
+
+equation_connect_stmt
 locals [String ref1, String ref2]
 @after
 {
@@ -127,6 +138,18 @@ $ref1 = $ID.text;
 {
 $ref2 = $ID.text;
 }
+   ;
+
+equal_stmt:
+   algebraic_expression '=' algebraic_expression
+   ;
+
+algebraic_expression:
+   ( NUMBER | ID | ALGEBRAIC_SYMBOL | '(' | ')' )*
+   ;
+
+ALGEBRAIC_SYMBOL:
+   ( '*' | '/' | '+' )
    ;
 
 annotation

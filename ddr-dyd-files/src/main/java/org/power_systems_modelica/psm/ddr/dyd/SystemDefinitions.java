@@ -25,9 +25,19 @@ public class SystemDefinitions implements DydContent
 		declarations.add(d);
 	}
 
+	public void addDeclarations(List<ModelicaDeclaration> declarations)
+	{
+		this.declarations.addAll(declarations);
+	}
+
 	public void add(Equation eq)
 	{
 		equations.add(eq);
+	}
+
+	public void addEquations(List<Equation> equations)
+	{
+		this.equations.addAll(equations);
 	}
 
 	public List<ModelicaDeclaration> getDeclarations()

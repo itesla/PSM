@@ -15,7 +15,7 @@ public class ModelicaDeclarationXml
 		w.writeEmptyElement(ELEMENT_NAME);
 		w.writeAttribute("type", d.getType());
 		w.writeAttribute("id", d.getId());
-		w.writeAttribute("value", d.getValue().toString());
+		if (d.getValue() != null) w.writeAttribute("value", d.getValue().toString());
 		w.writeAttribute("isParameter", Boolean.toString(d.isParameter()));
 	}
 

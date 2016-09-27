@@ -114,13 +114,7 @@ public class ModelicaBuilder
 			LOG.error(msg);
 			throw new RuntimeException(msg);
 		}
-
-		// FIXME we are always converting returned value to a string
-		// we should store the returned object as the ModelicaArgument value,
-		// and leave the formatting of this object for the ModelicaFileWriter
-		String svalue = value.toString();
-
-		return new ModelicaArgument(a0.getName(), svalue);
+		return new ModelicaArgument(a0.getName(), value);
 	}
 
 	private final DynamicDataRepository				ddr;

@@ -24,7 +24,7 @@ public class ModelicaUtil
 	public static String dynamicDeclarationIdFromStaticId(String type, String name, String id)
 	{
 		//return name.substring(name.lastIndexOf('.') + 1).concat(id);
-		// FIXME only to ease the comparison with existing mo's
+		// FIXME Only to ease the comparison with existing mo's
 		type = ModelicaTricks.legacyType(type);
 		return type.concat("_").concat(id);
 	}

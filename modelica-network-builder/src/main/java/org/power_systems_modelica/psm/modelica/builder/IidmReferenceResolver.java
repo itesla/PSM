@@ -180,7 +180,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 		{
 			TwoWindingsTransformer tx = (TwoWindingsTransformer) element;
 
-			// FIXME review code (take into account impedance modification of tap changers) and organize
+			// FIXME Review code (take into account impedance modification of tap changers) and organize
 			// Compute only data that is needed for answering the value of the queried property
 			float nominalV1 = tx.getTerminal1().getVoltageLevel().getNominalV();
 			float nominalV2 = tx.getTerminal2().getVoltageLevel().getNominalV();
@@ -211,7 +211,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 			if (ptc != null)
 			{
 				PhaseTapChangerStep ptcs = ptc.getCurrentStep();
-				// FIXME review how Rho for phase tap changer should be used
+				// FIXME Review how Rho for phase tap changer should be used
 				// V1 /= ptcs.getRho();
 				dr += ptcs.getR();
 				dx += ptcs.getX();
@@ -247,6 +247,6 @@ public class IidmReferenceResolver implements ReferenceResolver
 	private final Network		network;
 
 	private static final String	COMPOUND_ID_SEPARATOR	= "::";
-	// FIXME the value for SNREF depends on the building we are performing (it is a system parameter) ... it shouldn't be a constant
+	// FIXME The value for SNREF depends on the building we are performing (it is a system parameter) ... it shouldn't be a constant
 	private static final float	SNREF					= 100.0f;
 }

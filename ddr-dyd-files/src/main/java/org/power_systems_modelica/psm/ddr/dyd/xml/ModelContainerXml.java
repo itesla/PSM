@@ -98,6 +98,7 @@ public class ModelContainerXml
 	private static String getType(Model m)
 	{
 		if (m instanceof ModelForType) return ((ModelForType) m).getType();
+		// Ensure models that are not for a type go later in the sorting
 		return "~";
 	}
 }

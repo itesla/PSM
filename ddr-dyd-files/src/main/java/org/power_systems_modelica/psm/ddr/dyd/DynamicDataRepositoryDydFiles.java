@@ -128,7 +128,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			String id = buildModelicaDeclarationId(mdef, mc, element);
 			List<ModelicaArgument> arguments = buildModelicaArguments(mc);
 
-			// FIXME everything is a variable, no parameters; isParameter should be defined with the model
+			// TODO Every Modelica declaration built from a model component definition is a variable, not a parameter
 			boolean isParameter = false;
 			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter));
 		}

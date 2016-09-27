@@ -13,8 +13,7 @@ import org.power_systems_modelica.psm.modelica.parser.MoParser;
 
 public class ModelicaParser
 {
-	// TODO Allow some parameters defined but not initialized (omegaRef)
-	// TODO Allow expressions in equations (omegaRef = sum(g.omega*g.SN*g.HIn)/sum(g.SN*g.HIn)
+	// FIXME Allow complex expressions as equations (omegaRef = sum(g.omega*g.SN*g.HIn)/sum(g.SN*g.HIn)
 
 	public ModelicaDocument parse(Path mo) throws FileNotFoundException, IOException
 	{

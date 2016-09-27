@@ -1,6 +1,6 @@
 package org.power_systems_modelica.psm.ddr.dyd.equations;
 
-// FIXME A simple example selector
+// FIXME PrefixSelector is a simple selector, build a selector based on type of Modelica element
 public class PrefixSelector implements Selector
 {
 	public PrefixSelector(String prefix)

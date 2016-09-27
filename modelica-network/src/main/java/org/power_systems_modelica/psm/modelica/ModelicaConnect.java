@@ -18,18 +18,18 @@ public class ModelicaConnect extends ModelicaEquation
 		return ref2;
 	}
 
-	public String toString()
+	@Override
+	public String getText()
 	{
-		return new StringBuilder()
-				.append("connect(")
-				.append("ref1=")
-				.append(ref1)
-				.append(", ref2=")
-				.append(ref2)
-				.append(")")
-				.toString();
+		String[] refs = ModelicaTricks.sortedRefs(this);
+		return "connect("
+				.concat(refs[0])
+				.concat(", ")
+				.concat(refs[1])
+				.concat(")");
 	}
 
 	private final String	ref1;
 	private final String	ref2;
+
 }

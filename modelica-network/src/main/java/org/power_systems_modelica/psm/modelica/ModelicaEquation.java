@@ -4,7 +4,17 @@ public class ModelicaEquation
 {
 	public ModelicaEquation()
 	{
-		annotation = DEFAULT_ANNOTATION;
+		text = null;
+	}
+
+	public ModelicaEquation(String text)
+	{
+		this.text = text;
+	}
+
+	public String getText()
+	{
+		return text;
 	}
 
 	public String getAnnotation()
@@ -17,7 +27,8 @@ public class ModelicaEquation
 		this.annotation = annotation;
 	}
 
-	private String				annotation;
+	private final String		text;
+	private String				annotation			= DEFAULT_ANNOTATION;
 
 	private static final String	DEFAULT_ANNOTATION	= "Line()";
 }

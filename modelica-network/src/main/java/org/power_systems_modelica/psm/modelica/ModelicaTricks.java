@@ -11,6 +11,7 @@ public class ModelicaTricks
 	public static String getKind(String name)
 	{
 		if (name.equals("SNREF")) return "system";
+		if (name.equals("omegaRef")) return "system";
 
 		int p = name.indexOf("_");
 		if (p < 0) return "other";

@@ -33,7 +33,7 @@ public class ModelicaTextPrinter
 		printSystemModelEnd(out);
 	}
 
-	private List<ModelicaDeclaration> sortedModels()
+	private List<ModelicaDeclaration> sortedDeclarations()
 	{
 		// Sort models by kind (predefined list) and then by model inside each kind
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKinds());
@@ -91,7 +91,7 @@ public class ModelicaTextPrinter
 
 	private void printDeclarations(PrintWriter out)
 	{
-		for (ModelicaDeclaration m : sortedModels())
+		for (ModelicaDeclaration m : sortedDeclarations())
 		{
 			String sparameter = m.isParameter() ? "parameter " : "";
 			out.printf("  %s%s %s", sparameter, m.getType(), m.getId());
@@ -137,7 +137,7 @@ public class ModelicaTextPrinter
 		Comparator<ModelicaEquation> byType, byKind, byKey;
 		Ordering<ModelicaEquation> byOriginal = Ordering.explicit(eqs0);
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKindPairs());
-		byType = (eq1, eq2) -> eq1.getClass().getName().compareTo(eq2.getClass().getName());
+		byType = (eq1, eq2) -> -eq1.getClass().getName().compareTo(eq2.getClass().getName());
 		byKind = (eq1, eq2) -> kindOrdering.compare(getKind(eq1), getKind(eq2));
 		byKey = Comparator.comparing(ModelicaTextPrinter::getKey);
 
@@ -152,14 +152,9 @@ public class ModelicaTextPrinter
 		out.printf("equation%n");
 		for (ModelicaEquation eq : sortedEquations())
 		{
-			// TODO instanceof. Think how to enforce new ModelicaEquations provide all required methods without reviewing instanceof everywhere
-			if (eq instanceof ModelicaConnect)
-			{
-				ModelicaConnect eqc = (ModelicaConnect) eq;
-				String[] refs = ModelicaTricks.sortedRefs(eqc);
-				out.printf("  connect(%s, %s) ", refs[0], refs[1]);
-			}
-			out.printf("annotation (%s);%n", eq.getAnnotation());
+			out.printf("  %s", eq.getText());
+			if (eq.getAnnotation() != null) out.printf(" annotation (%s)", eq.getAnnotation());
+			out.printf(";%n");
 		}
 	}
 

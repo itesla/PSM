@@ -43,7 +43,7 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr_everything_explicit",
-				"expected/ieee14bus_without_omegaRef.mo");
+				"expected/ieee14bus_wref.mo");
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr_single_manual_reference",
-				"expected/ieee14bus_without_omegaRef_ddr_single_manual_reference.mo");
+				"expected/ieee14bus_wref_ddr_single_manual_reference.mo");
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr_references",
-				"expected/ieee14bus_without_omegaRef_ddr_references.mo");
+				"expected/ieee14bus_wref_ddr_references.mo");
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr_references_gen",
-				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
+				"expected/ieee14bus_wref_ddr_references_gen.mo");
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr_references_gen_inline",
-				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
+				"expected/ieee14bus_wref_ddr_references_gen.mo");
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr_references_to_init_source_data",
-				"expected/ieee14bus_without_omegaRef_ddr_references_gen.mo");
+				"expected/ieee14bus_wref_ddr_references_gen.mo");
 	}
 
 	public void testBuild(

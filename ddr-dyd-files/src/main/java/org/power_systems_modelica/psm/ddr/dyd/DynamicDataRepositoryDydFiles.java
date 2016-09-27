@@ -14,12 +14,26 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Equal;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Expression;
+import org.power_systems_modelica.psm.ddr.dyd.equations.ExpressionTemplate;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Factors;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Folding.Sum;
+import org.power_systems_modelica.psm.ddr.dyd.equations.ForAll;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Literal;
+import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Quotient;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ModelContainerXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParameterSetContainerXml;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
@@ -29,6 +43,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
+import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +68,63 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	public List<ModelicaDeclaration> getSystemDeclarations()
 	{
 		// FIXME read from dyd files
-		boolean isParameter = true;
-		return Arrays.asList(new ModelicaDeclaration("Real", "SNREF", "100.0", isParameter));
-		// TODO add omegaRef as a parameter
-		// m.addParameters(Arrays.asList(new ModelicaParameter(ModelicaType.Real, "omegaRef", "0.0")));
+		boolean param = true;
+		boolean notParam = false;
+		String omegaRefType = "Modelica.Blocks.Interfaces.RealOutput";
+		return Arrays.asList(
+				new ModelicaDeclaration("Real", "SNREF", "100.0", param),
+				new ModelicaDeclaration(omegaRefType, "omegaRef", null, notParam));
+	}
+
+	@Override
+	public List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m)
+	{
+		// FIXME read equation definitions from dyd files
+		Selector selector = new PrefixSelector("gen_pwGeneratorM2S_");
+		ExpressionTemplate t1 = new ExpressionTemplate(
+				"_g",
+				"_g.omega*_g.SN*_g.HIn");
+		ExpressionTemplate t2 = new ExpressionTemplate(
+				"_g",
+				"_g.SN*_g.HIn");
+		Factors f1 = new ForAll(selector, t1);
+		Factors f2 = new ForAll(selector, t2);
+		Sum s1 = new Sum(f1);
+		Sum s2 = new Sum(f2);
+		Quotient q = new Quotient(s1, s2);
+		Expression weightedAverageOfGeneratorOmegas = q;
+		Equation eqw = new Equal(
+				new Literal("omegaRef"),
+				weightedAverageOfGeneratorOmegas);
+
+		Context<ModelicaDeclaration> contextModelica = new Context<ModelicaDeclaration>()
+		{
+			@Override
+			public String write(ModelicaDeclaration d)
+			{
+				return d.getId();
+			}
+
+			@Override
+			public Stream<ModelicaDeclaration> getDomainStream()
+			{
+				return m.getDeclarations().stream();
+			}
+
+			@Override
+			public Predicate<ModelicaDeclaration> getPredicate(Selector selector)
+			{
+				Predicate<ModelicaDeclaration> p = super.getPredicate(selector);
+				if (p != null) return p;
+				if (selector instanceof PrefixSelector)
+					return dm -> dm.getId().startsWith(((PrefixSelector) selector).getPrefix());
+				return null;
+			}
+		};
+		String eqwText = eqw.writeIn(contextModelica);
+		ModelicaEquation eqwm = new ModelicaEquation(eqwText);
+		eqwm.setAnnotation(null);
+		return Arrays.asList(eqwm);
 	}
 
 	@Override

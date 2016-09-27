@@ -59,6 +59,7 @@ public class ModelicaNetworkBuilder extends ModelicaBuilder
 
 		m.addDeclarations(getDdr().getSystemDeclarations());
 		addDynamicModels(m);
+		m.addEquations(getDdr().getSystemEquations(m));
 
 		// TODO post-process resulting Modelica objects
 		// TODO omegaRef should be computed as a weighted sum of omega variables of all machines

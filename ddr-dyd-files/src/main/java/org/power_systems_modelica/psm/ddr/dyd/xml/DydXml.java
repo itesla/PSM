@@ -54,7 +54,7 @@ public class DydXml
 		return null;
 	}
 
-	public static void write(Path file, ModelContainer dyd) throws XMLStreamException, IOException
+	public static void write(Path file, DydContent dyd) throws XMLStreamException, IOException
 	{
 		LOG.debug("write DYD file {}", file);
 		XMLStreamWriter w = XmlUtil.writer(file);

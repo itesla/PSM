@@ -95,7 +95,7 @@ public class ModelicaTextPrinter
 		{
 			String sparameter = m.isParameter() ? "parameter " : "";
 			out.printf("  %s%s %s", sparameter, m.getType(), m.getId());
-			if (m.isAssignment())
+			if (m.isAssignment() && m.getValue() != null)
 			{
 				out.printf(" = %s", m.getValue());
 			}

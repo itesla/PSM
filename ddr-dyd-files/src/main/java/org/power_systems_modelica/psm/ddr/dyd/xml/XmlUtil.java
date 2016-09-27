@@ -54,7 +54,7 @@ public class XmlUtil
 		return writer;
 	}
 
-	static void validate(Path file)
+	public static void validate(Path file)
 	{
 		String schemaName = DYD_SCHEMA_RESOUCE;
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -79,7 +79,7 @@ public class XmlUtil
 		}
 	}
 
-	interface XmlEventHandler
+	public interface XmlEventHandler
 	{
 		void onStartElement() throws XMLStreamException;
 	}

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<system_definitions xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+	<declaration type="Real" id="SNREF" value="100.0" isParameter="true"/>
+	<declaration type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef"/>
+	<equation>
+		<equal>
+			<left>
+				<literal>omegaRef</literal>
+			</left>
+			<right>
+				<quotient>
+					<dividend>
+						<sum>
+							<forAll>
+								<startsWith prefix="gen_"/>
+								<template variable="_g">_g.omega*_g.SN*_g.HIn</template>
+							</forAll>
+						</sum>
+					</dividend>
+					<divisor>
+						<sum>
+							<forAll>
+								<startsWith prefix="gen_"/>
+								<template variable="_g">_g.SN*_g.HIn</template>
+							</forAll>
+						</sum>
+					</divisor>
+				</quotient>
+			</right>
+		</equal>
+	</equation>
+</system_definitions>

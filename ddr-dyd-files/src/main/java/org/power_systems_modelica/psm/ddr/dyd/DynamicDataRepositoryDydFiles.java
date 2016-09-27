@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +22,7 @@ import javax.xml.stream.XMLStreamException;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Equal;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Expression;
-import org.power_systems_modelica.psm.ddr.dyd.equations.ExpressionTemplate;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Factors;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Folding.Sum;
-import org.power_systems_modelica.psm.ddr.dyd.equations.ForAll;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Literal;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Quotient;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
@@ -67,36 +57,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public List<ModelicaDeclaration> getSystemDeclarations()
 	{
-		// FIXME read from dyd files
-		boolean param = true;
-		boolean notParam = false;
-		String omegaRefType = "Modelica.Blocks.Interfaces.RealOutput";
-		return Arrays.asList(
-				new ModelicaDeclaration("Real", "SNREF", "100.0", param),
-				new ModelicaDeclaration(omegaRefType, "omegaRef", null, notParam));
+		return systemDefinitions.getDeclarations();
 	}
 
 	@Override
 	public List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m)
 	{
-		// FIXME read equation definitions from dyd files
-		Selector selector = new PrefixSelector("gen_pwGeneratorM2S_");
-		ExpressionTemplate t1 = new ExpressionTemplate(
-				"_g",
-				"_g.omega*_g.SN*_g.HIn");
-		ExpressionTemplate t2 = new ExpressionTemplate(
-				"_g",
-				"_g.SN*_g.HIn");
-		Factors f1 = new ForAll(selector, t1);
-		Factors f2 = new ForAll(selector, t2);
-		Sum s1 = new Sum(f1);
-		Sum s2 = new Sum(f2);
-		Quotient q = new Quotient(s1, s2);
-		Expression weightedAverageOfGeneratorOmegas = q;
-		Equation eqw = new Equal(
-				new Literal("omegaRef"),
-				weightedAverageOfGeneratorOmegas);
-
 		Context<ModelicaDeclaration> contextModelica = new Context<ModelicaDeclaration>()
 		{
 			@Override
@@ -121,10 +87,16 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 				return null;
 			}
 		};
-		String eqwText = eqw.writeIn(contextModelica);
-		ModelicaEquation eqwm = new ModelicaEquation(eqwText);
-		eqwm.setAnnotation(null);
-		return Arrays.asList(eqwm);
+
+		return systemDefinitions.getEquations()
+				.stream()
+				.map(eq -> {
+					String eqt = eq.writeIn(contextModelica);
+					ModelicaEquation meq = new ModelicaEquation(eqt);
+					meq.setAnnotation(null);
+					return meq;
+				})
+				.collect(Collectors.toList());
 	}
 
 	@Override

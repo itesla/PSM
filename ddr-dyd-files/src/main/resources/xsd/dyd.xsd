@@ -40,6 +40,11 @@
 
 	<!-- System definitions -->
 	<xs:complexType name="Declaration">
+		<xs:attribute name="type" use="required" type="xs:string" />
+		<xs:attribute name="id" use="required" type="xs:string" />
+		<xs:attribute name="value" use="optional" type="xs:string" />
+		<xs:attribute name="isParameter" use="optional" type="xs:boolean"
+			default="false" />
 	</xs:complexType>
 	<xs:complexType name="Equation">
 		<xs:choice>

@@ -34,8 +34,8 @@ import org.power_systems_modelica.psm.ddr.dyd.equations.Literal;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Quotient;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
-import org.power_systems_modelica.psm.ddr.dyd.xml.ModelContainerXml;
-import org.power_systems_modelica.psm.ddr.dyd.xml.ParameterSetContainerXml;
+import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
+import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -264,6 +264,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		dynamicModels = new ModelProvider(false);
 		initializationModels = new ModelProvider(true);
+		systemDefinitions = new SystemDefinitions();
 		parameters = new ParameterSetProvider();
 		mappings.clear();
 	}
@@ -277,35 +278,38 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
 			{
-				if (isDyd(file))
-				{
-					ModelContainer dyd = readDyd(file);
-					if (dyd != null)
-					{
-						if (dyd.isInitialization())
-							initializationModels.add(dyd);
-						else
-							dynamicModels.add(dyd);
-						resolveParameters(dyd);
-					}
-				}
+				if (isDyd(file)) readDyd(file);
 				return FileVisitResult.CONTINUE;
 			}
 		});
 	}
 
-	private ModelContainer readDyd(Path file)
+	private void readDyd(Path file)
 	{
-		ModelContainer dyd = null;
 		try
 		{
-			dyd = ModelContainerXml.read(file);
+			DydContent dyd = DydXml.read(file);
+			if (dyd == null) return;
+
+			if (dyd instanceof ModelContainer)
+			{
+				ModelContainer mc = (ModelContainer) dyd;
+				if (mc.isInitialization())
+					initializationModels.add(mc);
+				else
+					dynamicModels.add(mc);
+				resolveParameters(mc);
+			}
+			else if (dyd instanceof SystemDefinitions)
+			{
+				SystemDefinitions sd = (SystemDefinitions) dyd;
+				systemDefinitions.add(sd);
+			}
 		}
 		catch (XMLStreamException | IOException e)
 		{
 			LOG.warn("ignored DYD file {} because of error {}", file, e);
 		}
-		return dyd;
 	}
 
 	private void resolveParameters(ModelContainer dyd)
@@ -339,7 +343,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		ParameterSetContainer container = null;
 		try
 		{
-			container = ParameterSetContainerXml.read(f);
+			container = ParXml.read(f);
 		}
 		catch (XMLStreamException | IOException e)
 		{
@@ -357,6 +361,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	private Path						location;
 	private ModelProvider				dynamicModels;
 	private ModelProvider				initializationModels;
+	private SystemDefinitions			systemDefinitions;
 	private ParameterSetProvider		parameters;
 	private Map<String, ModelicaModel>	mappings	= new HashMap<>();
 

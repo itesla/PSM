@@ -4,7 +4,16 @@
 	targetNamespace="http://www.power_systems_on_modelica.org/schema/dyd/1_0"
 	elementFormDefault="qualified">
 
-	<!-- Root element of the document could be a container of models or parameters -->
+	<!-- Root element may be a set of system definitions, a container of models 
+		or container of parameter sets -->
+	<xs:element name="system_definitions">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="declaration" type="dyd:Declaration" />
+				<xs:element name="equation" type="dyd:Equation" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="model_container">
 		<xs:complexType>
 			<xs:sequence>
@@ -28,6 +37,78 @@
 			<xs:minLength value="1" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<!-- System definitions -->
+	<xs:complexType name="Declaration">
+	</xs:complexType>
+	<xs:complexType name="Equation">
+		<xs:choice>
+			<xs:element name="equal" type="dyd:Equal" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Equal">
+		<xs:sequence>
+			<xs:element name="left" type="dyd:Expression" />
+			<xs:element name="right" type="dyd:Expression" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Expression">
+		<xs:choice>
+			<xs:element name="sum" type="dyd:Sum" />
+			<xs:element name="product" type="dyd:Product" />
+			<xs:element name="quotient" type="dyd:Quotient" />
+			<xs:element name="literal" type="dyd:LiteralExpression" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Sum">
+		<xs:complexContent>
+			<xs:extension base="dyd:Factors"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Product">
+		<xs:complexContent>
+			<xs:extension base="dyd:Factors"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LiteralExpression" mixed="true">
+	</xs:complexType>
+	<xs:complexType name="Quotient">
+		<xs:sequence>
+			<xs:element name="dividend" type="dyd:Expression" />
+			<xs:element name="divisor" type="dyd:Expression" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Factors">
+		<xs:choice>
+			<xs:element name="forAll" type="dyd:ForAll" />
+			<!-- other options: a collection of literal expressions -->
+			<xs:element name="factor" type="dyd:Expression" minOccurs="2"
+				maxOccurs="unbounded" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ForAll">
+		<xs:sequence>
+			<xs:group ref="dyd:Selector" />
+			<xs:element name="template" type="dyd:TemplateExpression" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Selector">
+		<xs:choice>
+			<xs:element name="or" type="dyd:Selectors" />
+			<xs:element name="and" type="dyd:Selectors" />
+			<xs:element name="startsWith" type="dyd:PrefixSelector" />
+			<!-- Add others here ... -->
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="Selectors">
+		<xs:group ref="dyd:Selector" minOccurs="2" maxOccurs="unbounded" />
+	</xs:complexType>
+	<xs:complexType name="PrefixSelector">
+		<xs:attribute name="prefix" />
+	</xs:complexType>
+	<xs:complexType name="TemplateExpression" mixed="true">
+		<xs:attribute name="variable" />
+	</xs:complexType>
 
 	<!-- Dynamic models -->
 	<xs:complexType name="Model">

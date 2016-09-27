@@ -25,8 +25,8 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetContainer;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
-import org.power_systems_modelica.psm.ddr.dyd.xml.ModelContainerXml;
-import org.power_systems_modelica.psm.ddr.dyd.xml.ParameterSetContainerXml;
+import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
+import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -75,9 +75,9 @@ public class DydFilesFromModelica
 		Path dydf = ddrloc.resolve(dydname);
 		Path dydfinit = ddrloc.resolve("init_" + dydname);
 		Path parf = ddrloc.resolve(parname);
-		ModelContainerXml.write(dydf, dyd.getDefaultContainer());
-		ModelContainerXml.write(dydfinit, dydInit.getDefaultContainer());
-		ParameterSetContainerXml.write(parf, par);
+		DydXml.write(dydf, dyd.getDefaultContainer());
+		DydXml.write(dydfinit, dydInit.getDefaultContainer());
+		ParXml.write(parf, par);
 
 		Path fakef = ddrloc.resolve("fake_init.csv");
 		ModelicaSimulationResultsCsv.write(fakef, fakeInitializationResults);

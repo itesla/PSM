@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -78,6 +79,38 @@ public class XmlUtil
 		}
 	}
 
+	interface XmlEventHandler
+	{
+		void onStartElement() throws XMLStreamException;
+	}
+
+	public static String readUntilEndElement(String endElementName, XMLStreamReader reader,
+			XmlEventHandler eventHandler) throws XMLStreamException
+	{
+		String text = null;
+		int event;
+		while (!((event = reader.next()) == XMLStreamConstants.END_ELEMENT
+				&& reader.getLocalName().equals(endElementName)))
+		{
+			text = null;
+			switch (event)
+			{
+			case XMLStreamConstants.START_ELEMENT:
+				if (eventHandler != null)
+				{
+					eventHandler.onStartElement();
+				}
+				break;
+
+			case XMLStreamConstants.CHARACTERS:
+				text = reader.getText();
+				break;
+			}
+		}
+		return text;
+	}
+
+	public static final String						NAMESPACE					= "http://www.power_systems_on_modelica.org/schema/dyd/1_0";
 	private static final String						DYD_SCHEMA_RESOUCE			= "/xsd/dyd.xsd";
 	private static final Supplier<XMLInputFactory>	XML_INPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLInputFactory::newInstance);

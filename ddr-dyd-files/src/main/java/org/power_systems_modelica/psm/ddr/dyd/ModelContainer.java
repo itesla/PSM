@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ModelContainer
+public class ModelContainer implements DydContent
 {
 	public ModelContainer(boolean isInitialization)
 	{

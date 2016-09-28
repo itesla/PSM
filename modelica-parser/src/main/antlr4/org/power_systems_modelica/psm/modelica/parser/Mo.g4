@@ -121,14 +121,18 @@ argument_value
 equation_stmt
    : equation_connect_stmt
    | equal_stmt
+{
+	ModelicaEquation equation = new ModelicaEquation($equal_stmt.text);
+	System.err.println("Equation : " + equation.getText());
+	modelicaDocument.getSystemModel().addEquation(equation);
+}
    ;
 
 equation_connect_stmt
 locals [String ref1, String ref2]
 @after
 {
-	ModelicaEquation equation = new ModelicaConnect($ref1,$ref2);
-	modelicaDocument.getSystemModel().addEquation(equation);
+	modelicaDocument.getSystemModel().addEquation(new ModelicaConnect($ref1,$ref2));
 }
    : 'connect' '(' ID
 {
@@ -140,8 +144,8 @@ $ref2 = $ID.text;
 }
    ;
 
-equal_stmt:
-   algebraic_expression '=' algebraic_expression
+equal_stmt
+   : algebraic_expression '=' algebraic_expression
    ;
 
 algebraic_expression:

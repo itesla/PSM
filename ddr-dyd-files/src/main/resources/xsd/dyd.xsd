@@ -49,6 +49,7 @@
 	<xs:complexType name="Equation">
 		<xs:choice>
 			<xs:element name="equal" type="dyd:Equal" />
+			<xs:element name="unparsed" /><!-- FIXME allow only text --> 
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="Equal">

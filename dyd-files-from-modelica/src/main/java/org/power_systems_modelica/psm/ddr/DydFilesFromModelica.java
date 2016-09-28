@@ -28,8 +28,7 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterSetContainer;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
 import org.power_systems_modelica.psm.ddr.dyd.SystemDefinitions;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
+import org.power_systems_modelica.psm.ddr.dyd.equations.UnparsedEquation;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
@@ -90,22 +89,6 @@ public class DydFilesFromModelica
 		// Save fake initialization results
 		Path fakef = ddrloc.resolve("fake_init.csv");
 		ModelicaSimulationResultsCsv.write(fakef, fakeInitializationResults);
-	}
-
-	static class UnparsedEquation implements Equation
-	{
-		UnparsedEquation(String text)
-		{
-			this.text = text;
-		}
-
-		@Override
-		public String writeIn(Context<?> context)
-		{
-			return text;
-		}
-
-		private final String text;
 	}
 
 	private static void mo2dyd(
@@ -444,8 +427,9 @@ public class DydFilesFromModelica
 			String m1 = whichModelFromName(ModelicaUtil.ref2idvar(eqc.getRef1())[0]);
 			String m2 = whichModelFromName(ModelicaUtil.ref2idvar(eqc.getRef2())[0]);
 			if (m1.equals(m2)) return m1;
+			else return null;
 		}
-		return null;
+		return SYSTEM_ID;
 	}
 
 	private static String whichModelFromName(String name)

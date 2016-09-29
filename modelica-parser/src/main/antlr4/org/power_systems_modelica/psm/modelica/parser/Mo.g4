@@ -43,10 +43,11 @@ equation_stmt_list
    ;
 
 declaration_stmt locals [boolean isParameter = false]
-   : 'parameter'?
+   : ( 'parameter'
 {
-	$isParameter = true;
+   $isParameter = true;
 }
+   | )
    type_name instantiation annotation?
 {
 	String type = $type_name.text;
@@ -123,7 +124,6 @@ equation_stmt
    | equal_stmt
 {
 	ModelicaEquation equation = new ModelicaEquation($equal_stmt.text);
-	System.err.println("Equation : " + equation.getText());
 	modelicaDocument.getSystemModel().addEquation(equation);
 }
    ;
@@ -132,7 +132,8 @@ equation_connect_stmt
 locals [String ref1, String ref2]
 @after
 {
-	modelicaDocument.getSystemModel().addEquation(new ModelicaConnect($ref1,$ref2));
+	ModelicaConnect eq = new ModelicaConnect($ref1,$ref2);
+	modelicaDocument.getSystemModel().addEquation(eq);
 }
    : 'connect' '(' ID
 {

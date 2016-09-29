@@ -101,6 +101,17 @@ public class ModelicaBuilderTest
 				"expected/ieee14bus_wref_ddr_references_gen.mo");
 	}
 
+	@Test
+	public void buildIeee14DdrUnparsedSystemEquations()
+			throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"ieee14",
+				"ieee14bus_EQ.xml",
+				"ddr_unparsed_system_equations",
+				"expected/ieee14bus_wref_ddr_references_gen.mo");
+	}
+
 	public void testBuild(
 			String foldername,
 			String casename,

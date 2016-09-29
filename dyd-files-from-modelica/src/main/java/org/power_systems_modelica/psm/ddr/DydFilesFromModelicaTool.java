@@ -37,10 +37,8 @@ public class DydFilesFromModelicaTool implements Tool
 		public Options getOptions()
 		{
 			Options options = new Options();
-			options.addOption("m", "modelica", true, "Modelica file");
-			options.addOption("d", "ddr", true, "Output DDR path");
-			options.addOption("y", "dyd", true, "Output DYD filename");
-			options.addOption("p", "par", true, "Output PAR filename");
+			options.addOption("m", "modelicaFile", true, "Modelica file");
+			options.addOption("d", "ddrLocation", true, "Output DDR path");
 			return options;
 		}
 
@@ -60,30 +58,18 @@ public class DydFilesFromModelicaTool implements Tool
 	@Override
 	public void run(CommandLine cmd) throws Exception
 	{
-		String mofile = cmd.getOptionValue("modelica");
-		if (mofile == null)
+		String modelicaFile = cmd.getOptionValue("modelicaFile");
+		if (modelicaFile == null)
 		{
 			System.err.println("Missing modelica input file");
 			return;
 		}
-		String ddrloc = cmd.getOptionValue("ddr");
-		if (ddrloc == null)
+		String ddrLocation = cmd.getOptionValue("ddrLocation");
+		if (ddrLocation == null)
 		{
 			System.err.println("Missing DDR output directory");
 			return;
 		}
-		String dydname = cmd.getOptionValue("dyd");
-		if (dydname == null)
-		{
-			System.err.println("Missing DYD file name");
-			return;
-		}
-		String parname = cmd.getOptionValue("par");
-		if (parname == null)
-		{
-			System.err.println("Missing PAR file name");
-			return;
-		}
-		DydFilesFromModelica.mo2dyd(Paths.get(mofile), Paths.get(ddrloc), dydname, parname);
+		DydFilesFromModelica.mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
 	}
 }

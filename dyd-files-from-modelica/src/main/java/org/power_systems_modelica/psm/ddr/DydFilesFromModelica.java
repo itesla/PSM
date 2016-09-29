@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
 
 public class DydFilesFromModelica
 {
-	public static void mo2dyd(Path mofile, Path ddrloc, String dydname, String parname)
+	public static void mo2dyd(Path modelicaFile, Path ddrLocation)
 			throws FileNotFoundException, IOException, XMLStreamException
 	{
 		// We will try to infer,
@@ -60,35 +60,35 @@ public class DydFilesFromModelica
 		// in the dynamic data repository.
 
 		// Obtain the Modelica objects from the MO file
-		ModelicaDocument mo = new ModelicaParser().parse(mofile);
+		ModelicaDocument mo = new ModelicaParser().parse(modelicaFile);
 
 		// Try to group all dynamic model components that refer to the same static element
 		Collection<ModelicaModel> mos = groupInModels(mo);
 
 		// Build the dynamic repository objects
-		ModelProvider dyd = new ModelProvider(false);
-		ModelProvider dydInit = new ModelProvider(true);
+		ModelProvider models = new ModelProvider(false);
+		ModelProvider inits = new ModelProvider(true);
 		ParameterSetContainer par = new ParameterSetContainer();
-		par.setFilename(parname);
+		par.setFilename("params.par");
 		SystemDefinitions systemDefinitions = new SystemDefinitions();
 
 		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
 		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
 
-		mo2dyd(mos, systemDefinitions, dyd, dydInit, par, fakeInitializationResults);
+		mo2dyd(mos, systemDefinitions, models, inits, par, fakeInitializationResults);
 
 		// Save the dynamic repository objects as xml files
-		Path dydf = ddrloc.resolve(dydname);
-		Path dydfinit = ddrloc.resolve("init_" + dydname);
-		Path parf = ddrloc.resolve(parname);
-		Path dydSystem = ddrloc.resolve("system.dyd");
+		Path dydModels = ddrLocation.resolve("models.dyd");
+		Path dydInit = ddrLocation.resolve("init.dyd");
+		Path parf = ddrLocation.resolve("params.par");
+		Path dydSystem = ddrLocation.resolve("system.dyd");
 		DydXml.write(dydSystem, systemDefinitions);
-		DydXml.write(dydf, dyd.getDefaultContainer());
-		DydXml.write(dydfinit, dydInit.getDefaultContainer());
+		DydXml.write(dydModels, models.getDefaultContainer());
+		DydXml.write(dydInit, inits.getDefaultContainer());
 		ParXml.write(parf, par);
 
 		// Save fake initialization results
-		Path fakef = ddrloc.resolve("fake_init.csv");
+		Path fakef = ddrLocation.resolve("fake_init.csv");
 		ModelicaSimulationResultsCsv.write(fakef, fakeInitializationResults);
 	}
 

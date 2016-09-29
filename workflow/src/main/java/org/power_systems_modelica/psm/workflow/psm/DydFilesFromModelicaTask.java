@@ -22,8 +22,8 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 	@Override
 	public void configure(Configuration config)
 	{
-		ddrLocation = config.getParameter("ddrLocation");
 		modelicaFile = config.getParameter("modelicaFile");
+		ddrLocation = config.getParameter("ddrLocation");
 	}
 
 	@Override
@@ -32,14 +32,7 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 		running();
 		try
 		{
-			String name = Paths.get(modelicaFile).getFileName().toString().replace(".mo", "");
-			String dydname = name.concat(".dyd");
-			String parname = name.concat(".par");
-			DydFilesFromModelica.mo2dyd(
-					Paths.get(modelicaFile),
-					Paths.get(ddrLocation),
-					dydname,
-					parname);
+			DydFilesFromModelica.mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
 			succeded();
 		}
 		catch (Exception x)

@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.modelica.builder;
+package org.power_systems_modelica.psm.tools;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -9,6 +9,7 @@ import org.apache.commons.cli.Options;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;

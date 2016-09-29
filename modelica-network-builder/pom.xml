@@ -22,7 +22,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>ddr-dyd-files</artifactId>
+			<artifactId>ddr-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

@@ -10,7 +10,6 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
-import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -71,7 +70,7 @@ public class ModelicaNetworkBuilderTest
 		Bus firstBus = n.getBusBreakerView().getBuses().iterator().next();
 
 		// Mocking the Dynamic Data Repository
-		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepositoryDydFiles.class);
+		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
 		ModelicaArgument V = new ModelicaArgument("V", "1.0");
 		ModelicaArgument A = new ModelicaArgument("A", "0.0");
 		ModelicaDeclaration dbusi = new ModelicaDeclaration(
@@ -120,7 +119,7 @@ public class ModelicaNetworkBuilderTest
 		firstBus.setV(1.234f);
 
 		// Mocking the Dynamic Data Repository
-		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepositoryDydFiles.class);
+		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
 		ModelicaArgument V = new ModelicaArgumentReference("V0", "IIDM", "V");
 		ModelicaArgument A = new ModelicaArgument("A", "0.0");
 		ModelicaDeclaration dbusi = new ModelicaDeclaration(

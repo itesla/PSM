@@ -18,15 +18,20 @@ public class ModelicaUtil
 
 	public static String dynamicIdFromStaticId(String id)
 	{
-		return "DM" + id;
+		return normalizedDynamicIdentifier("DM".concat(id));
 	}
-	
+
 	public static String dynamicDeclarationIdFromStaticId(String type, String name, String id)
 	{
-		//return name.substring(name.lastIndexOf('.') + 1).concat(id);
+		// return name.substring(name.lastIndexOf('.') + 1).concat(id);
 		// FIXME Only to ease the comparison with existing mo's
 		type = ModelicaTricks.legacyType(type);
-		return type.concat("_").concat(id);
+		return normalizedDynamicIdentifier(type.concat("_").concat(id));
+	}
+
+	private static String normalizedDynamicIdentifier(String id)
+	{
+		return id.replace("-", "_");
 	}
 
 	private static final String	ID_VAR_SEPARATOR		= ".";

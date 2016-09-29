@@ -64,7 +64,7 @@ public class ModelicaBuilder
 			ModelicaDeclaration d,
 			ModelicaModel m)
 	{
-		// TODO consider i we have to resolveReferences only in arguments or also in assignments
+		// TODO consider if we have to resolveReferences only in arguments or also in assignments
 		if (d.isAssignment()) return d;
 
 		List<ModelicaArgument> args = d

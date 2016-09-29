@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.ddr;
 
 import java.util.List;
 
+import org.power_systems_modelica.psm.modelica.ModelicaEvent;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
@@ -24,4 +25,6 @@ public interface DynamicDataRepository
 	List<ModelicaDeclaration> getSystemDeclarations();
 
 	public List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m);
+
+	public ModelicaModel getModelicaModelForEvent(ModelicaEvent event, Identifiable<?> e);
 }

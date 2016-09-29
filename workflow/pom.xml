@@ -31,6 +31,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dyd-files-from-modelica</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.power-systems-modelica.psm</groupId>
 			<artifactId>modelica-network-builder</artifactId>
 			<version>0.1-SNAPSHOT</version>

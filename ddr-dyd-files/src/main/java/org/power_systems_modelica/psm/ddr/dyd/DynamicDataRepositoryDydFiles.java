@@ -32,6 +32,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
+import org.power_systems_modelica.psm.modelica.ModelicaEvent;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -115,6 +116,14 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return null;
 	}
 
+	@Override
+	public ModelicaModel getModelicaModelForEvent(ModelicaEvent event, Identifiable<?> e)
+	{
+		Model mdef = dynamicModels.getModel(event);
+		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
+		return null;
+	}
+	
 	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
 			Identifiable<?> element)
 	{

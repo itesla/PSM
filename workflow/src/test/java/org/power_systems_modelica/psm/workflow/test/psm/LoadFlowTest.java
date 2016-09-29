@@ -26,6 +26,9 @@ public class LoadFlowTest
 	@Test
 	public void hades2Runs() throws WorkflowCreationException
 	{
+		// Hades is only available for Linux
+		if (!System.getProperty("os.name").startsWith("Linux")) return;
+		
 		String case_ = TEST_SAMPLES.resolve("ieee14/ieee14bus_EQ.xml").toString();
 		String cim = case_.toString();
 

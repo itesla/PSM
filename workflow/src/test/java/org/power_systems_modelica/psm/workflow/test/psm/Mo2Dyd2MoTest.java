@@ -19,6 +19,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
+import org.power_systems_modelica.psm.workflow.psm.DydFilesFromModelicaTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
@@ -28,7 +29,7 @@ import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
 
-public class ModelicaBuilderTest
+public class Mo2Dyd2MoTest
 {
 	@Before
 	public void setup()
@@ -37,47 +38,54 @@ public class ModelicaBuilderTest
 	}
 
 	@Test
-	public void buildIeee14() throws WorkflowCreationException, IOException
+	public void rebuildIeee14() throws WorkflowCreationException, IOException
 	{
-		testBuild(
+		testRebuildModelica(
 				"ieee14",
+				"itesla/ieee14bus_no_loadflow.mo",
 				"ieee14bus_EQ.xml",
-				"ddr",
-				"itesla/ieee14bus_no_loadflow.mo");
+				"kk_ddr");
 	}
 
-	public void testBuild(
+	public void testRebuildModelica(
 			String foldername,
+			String moname,
 			String casename,
-			String ddrname,
-			String expectedmoname)
+			String ddrLocation)
 			throws WorkflowCreationException, IOException
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
+		// ddr relative to folder
+		ddrLocation = folder.resolve(ddrLocation).toAbsolutePath().toString();
+		Files.createDirectories(Paths.get(ddrLocation));
+		String moInput = folder.resolve(moname).toString();
 		String cim = folder.resolve(casename).toString();
-		String ddr = folder.resolve(ddrname).toString();
-		String fakeInit = folder.resolve(ddrname).resolve("fake_init.csv").toString();
-		String outname = "./kk.mo";
+		String fakeInit = folder.resolve(ddrLocation).resolve("fake_init.csv").toString();
+		String moOutput = "./kk.mo";
 		String modelicaEngineWorkingDir = "./kk";
 		Files.createDirectories(Paths.get(modelicaEngineWorkingDir));
 
 		Workflow wf = WF(
+				TD(DydFilesFromModelicaTask.class, "mo2dyd0",
+						TC("ddrLocation", ddrLocation,
+								"modelicaFile", moInput)),
 				TD(StaticNetworkImporterTask.class, "importer0",
 						TC("source", cim)),
 				TD(ModelicaNetworkBuilderTask.class, "modelica0",
 						TC("ddrType", "DYD",
-								"ddrLocation", ddr,
+								"ddrLocation", ddrLocation,
 								"modelicaEngine", "Fake",
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir,
 								"fakeModelicaEngineResults", fakeInit)),
 				TD(ModelicaExporterTask.class, "exporter0",
-						TC("target", outname)));
+						TC("target", moOutput)));
 		wf.start();
 
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
 		assertEquals(SUCCESS, wf.getTaskStates().get(1).state);
 		assertEquals(SUCCESS, wf.getTaskStates().get(2).state);
+		assertEquals(SUCCESS, wf.getTaskStates().get(3).state);
 		assertEquals(SUCCESS, wf.getState());
 
 		Network n = (Network) wf.getResults("network");
@@ -87,8 +95,8 @@ public class ModelicaBuilderTest
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
 		assertNotNull(mo);
 
-		Path expected = folder.resolve(expectedmoname);
-		Path actual = Paths.get(outname);
+		Path expected = folder.resolve(moInput);
+		Path actual = Paths.get(moOutput);
 
 		WorkflowTestUtil.assertEqualsText(
 				Files.newInputStream(expected),

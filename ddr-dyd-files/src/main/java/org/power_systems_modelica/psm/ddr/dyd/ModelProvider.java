@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.power_systems_modelica.psm.modelica.ModelicaEvent;
+
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Line;
@@ -21,10 +23,14 @@ public class ModelProvider
 
 	public Model getModel(Identifiable<?> e)
 	{
-		// TODO Auto-generated method stub
 		Model mdef = getDynamicModelForId(validDynamicId(e.getId()));
 		if (mdef == null) mdef = getDynamicModelForStaticType(getType(e));
 		return mdef;
+	}
+
+	public Model getModel(ModelicaEvent e)
+	{
+		return dynamicModelsByEvent.get(e.toString());
 	}
 
 	public ModelContainer getDefaultContainer()
@@ -88,7 +94,8 @@ public class ModelProvider
 		return id.replace('-', '_');
 	}
 
-	private final List<ModelContainer>	containers			= new ArrayList<>();
-	private final Map<String, Model>	dynamicModelsById	= new HashMap<>();
-	private final Map<String, Model>	dynamicModelsByType	= new HashMap<>();
+	private final List<ModelContainer>	containers				= new ArrayList<>();
+	private final Map<String, Model>	dynamicModelsById		= new HashMap<>();
+	private final Map<String, Model>	dynamicModelsByType		= new HashMap<>();
+	private final Map<String, Model>	dynamicModelsByEvent	= new HashMap<>();
 }

@@ -9,6 +9,7 @@ import eu.itesla_project.iidm.network.Network;
 import eu.itesla_project.loadflow.api.LoadFlow;
 import eu.itesla_project.loadflow.api.LoadFlowFactory;
 import eu.itesla_project.loadflow.api.LoadFlowParameters;
+import eu.itesla_project.loadflow.api.LoadFlowResult;
 
 public class LoadFlowTask extends WorkflowTask
 {
@@ -55,7 +56,8 @@ public class LoadFlowTask extends WorkflowTask
 			ComputationManager computationManager = new LocalComputationManager();
 			int priority = 1;
 			LoadFlow lf = loadFlowFactory.create(network, computationManager, priority);
-			lf.run(loadFlowParams);
+			LoadFlowResult r = lf.run(loadFlowParams);
+			if (!r.isOk()) throw new Exception("Loadflow is not Ok");
 			succeded();
 		}
 		catch (Exception x)

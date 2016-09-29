@@ -146,7 +146,7 @@ model ieee14bus
     beta = 2.5,
     angle_0 = -14.94
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____4-BUS____7-1_PT (
+  iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____4_BUS____7_1_PT (
     r = 1.0204082,
     B0 = 0.0,
     G0 = 0.0,
@@ -154,7 +154,7 @@ model ieee14bus
     R = 0.0,
     X = 0.20911995
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____4-BUS____9-1_PT (
+  iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____4_BUS____9_1_PT (
     r = 1.0416667,
     B0 = 0.0,
     G0 = 0.0,
@@ -162,7 +162,7 @@ model ieee14bus
     R = 0.0,
     X = 0.55617946
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____5-BUS____6-1_PT (
+  iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____5_BUS____6_1_PT (
     r = 1.0638298,
     B0 = 0.0,
     G0 = 0.0,
@@ -170,103 +170,103 @@ model ieee14bus
     R = 0.0,
     X = 0.2520206
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS___10-BUS___11-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS___10_BUS___11_1_AC (
     R = 0.082049996,
     X = 0.19206995,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS___12-BUS___13-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS___12_BUS___13_1_AC (
     R = 0.22091998,
     X = 0.19987975,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS___13-BUS___14-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS___13_BUS___14_1_AC (
     R = 0.17092995,
     X = 0.34801987,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____1-BUS____2-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____1_BUS____2_1_AC (
     R = 0.019380003,
     X = 0.059169922,
     G = 0.0,
     B = 0.026399983
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____1-BUS____5-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____1_BUS____5_1_AC (
     R = 0.054030035,
     X = 0.22303928,
     G = 0.0,
     B = 0.024600087
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____2-BUS____3-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____2_BUS____3_1_AC (
     R = 0.046989918,
     X = 0.19796997,
     G = 0.0,
     B = 0.021900006
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____2-BUS____4-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____2_BUS____4_1_AC (
     R = 0.05811006,
     X = 0.17632009,
     G = 0.0,
     B = 0.017000008
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____2-BUS____5-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____2_BUS____5_1_AC (
     R = 0.05695001,
     X = 0.17388007,
     G = 0.0,
     B = 0.017299999
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____3-BUS____4-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____3_BUS____4_1_AC (
     R = 0.06701008,
     X = 0.17103004,
     G = 0.0,
     B = 0.006399998
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____4-BUS____5-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____4_BUS____5_1_AC (
     R = 0.013349989,
     X = 0.04211006,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____6-BUS___11-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____6_BUS___11_1_AC (
     R = 0.094980046,
     X = 0.19889992,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____6-BUS___12-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____6_BUS___12_1_AC (
     R = 0.122910105,
     X = 0.25581023,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____6-BUS___13-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____6_BUS___13_1_AC (
     R = 0.066149965,
     X = 0.1302699,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____7-BUS____8-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____7_BUS____8_1_AC (
     R = 0.0,
     X = 0.10353704,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____7-BUS____9-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____7_BUS____9_1_AC (
     R = 0.0,
     X = 0.110009976,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____9-BUS___10-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____9_BUS___10_1_AC (
     R = 0.03181002,
     X = 0.08450011,
     G = 0.0,
     B = 0.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Branches.PwLine_2 line__BUS____9-BUS___14-1_AC (
+  iPSL.Electrical.Branches.PwLine_2 line__BUS____9_BUS___14_1_AC (
     R = 0.12710984,
     X = 0.27038017,
     G = 0.0,
@@ -329,8 +329,8 @@ model ieee14bus
     ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____2_SM (
     SNREF = SNREF,
-    ur0 = 1.0410560471935022,
-    ui0 = -0.09070538052503815,
+    ur0 = 1.0410552638935078,
+    ui0 = -0.09071437027268746,
     transformerIncluded = true,
     V2 = 69.0,
     Saturated = true,
@@ -380,8 +380,8 @@ model ieee14bus
     ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____3_SM (
     SNREF = SNREF,
-    ur0 = 0.9852249044318535,
-    ui0 = -0.22233278755735517,
+    ur0 = 0.9852123100750539,
+    ui0 = -0.22238858966312725,
     transformerIncluded = true,
     V2 = 69.0,
     Saturated = true,
@@ -431,8 +431,8 @@ model ieee14bus
     ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____6_SM (
     SNREF = SNREF,
-    ur0 = 1.0371232045640353,
-    ui0 = -0.26320204348450316,
+    ur0 = 1.0372147717748634,
+    ui0 = -0.262840967795376,
     transformerIncluded = false,
     Saturated = true,
     TX = 0,
@@ -475,8 +475,8 @@ model ieee14bus
     ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____8_SM (
     SNREF = SNREF,
-    ur0 = 1.0604361431362228,
-    ui0 = -0.2521413474536128,
+    ur0 = 1.0605018355416467,
+    ui0 = -0.2518649034267171,
     transformerIncluded = false,
     Saturated = false,
     TX = 0,
@@ -874,40 +874,40 @@ equation
   connect(reg_pssi3e2b__GEN____6_SM.pin_OMEGA, reg_gsteam0__GEN____6_SM.pin_OMEGA) annotation (Line());
   connect(reg_pssi3e2b__GEN____8_SM.pin_VS, reg_sexs__GEN____8_SM.pin_VS) annotation (Line());
   connect(reg_pssi3e2b__GEN____8_SM.pin_OMEGA, reg_gsteam0__GEN____8_SM.pin_OMEGA) annotation (Line());
-  connect(bus__BUS___10_TN.p, line__BUS___10-BUS___11-1_AC.p) annotation (Line());
-  connect(line__BUS___10-BUS___11-1_AC.n, bus__BUS___11_TN.p) annotation (Line());
-  connect(bus__BUS___12_TN.p, line__BUS___12-BUS___13-1_AC.p) annotation (Line());
-  connect(line__BUS___12-BUS___13-1_AC.n, bus__BUS___13_TN.p) annotation (Line());
-  connect(bus__BUS___13_TN.p, line__BUS___13-BUS___14-1_AC.p) annotation (Line());
-  connect(line__BUS___13-BUS___14-1_AC.n, bus__BUS___14_TN.p) annotation (Line());
-  connect(bus__BUS____1_TN.p, line__BUS____1-BUS____2-1_AC.p) annotation (Line());
-  connect(line__BUS____1-BUS____2-1_AC.n, bus__BUS____2_TN.p) annotation (Line());
-  connect(bus__BUS____1_TN.p, line__BUS____1-BUS____5-1_AC.p) annotation (Line());
-  connect(line__BUS____1-BUS____5-1_AC.n, bus__BUS____5_TN.p) annotation (Line());
-  connect(bus__BUS____2_TN.p, line__BUS____2-BUS____3-1_AC.p) annotation (Line());
-  connect(line__BUS____2-BUS____3-1_AC.n, bus__BUS____3_TN.p) annotation (Line());
-  connect(bus__BUS____2_TN.p, line__BUS____2-BUS____4-1_AC.p) annotation (Line());
-  connect(line__BUS____2-BUS____4-1_AC.n, bus__BUS____4_TN.p) annotation (Line());
-  connect(bus__BUS____2_TN.p, line__BUS____2-BUS____5-1_AC.p) annotation (Line());
-  connect(line__BUS____2-BUS____5-1_AC.n, bus__BUS____5_TN.p) annotation (Line());
-  connect(bus__BUS____3_TN.p, line__BUS____3-BUS____4-1_AC.p) annotation (Line());
-  connect(line__BUS____3-BUS____4-1_AC.n, bus__BUS____4_TN.p) annotation (Line());
-  connect(bus__BUS____4_TN.p, line__BUS____4-BUS____5-1_AC.p) annotation (Line());
-  connect(line__BUS____4-BUS____5-1_AC.n, bus__BUS____5_TN.p) annotation (Line());
-  connect(bus__BUS____6_TN.p, line__BUS____6-BUS___11-1_AC.p) annotation (Line());
-  connect(line__BUS____6-BUS___11-1_AC.n, bus__BUS___11_TN.p) annotation (Line());
-  connect(bus__BUS____6_TN.p, line__BUS____6-BUS___12-1_AC.p) annotation (Line());
-  connect(line__BUS____6-BUS___12-1_AC.n, bus__BUS___12_TN.p) annotation (Line());
-  connect(bus__BUS____6_TN.p, line__BUS____6-BUS___13-1_AC.p) annotation (Line());
-  connect(line__BUS____6-BUS___13-1_AC.n, bus__BUS___13_TN.p) annotation (Line());
-  connect(bus__BUS____7_TN.p, line__BUS____7-BUS____8-1_AC.p) annotation (Line());
-  connect(line__BUS____7-BUS____8-1_AC.n, bus__BUS____8_TN.p) annotation (Line());
-  connect(bus__BUS____7_TN.p, line__BUS____7-BUS____9-1_AC.p) annotation (Line());
-  connect(line__BUS____7-BUS____9-1_AC.n, bus__BUS____9_TN.p) annotation (Line());
-  connect(bus__BUS____9_TN.p, line__BUS____9-BUS___10-1_AC.p) annotation (Line());
-  connect(line__BUS____9-BUS___10-1_AC.n, bus__BUS___10_TN.p) annotation (Line());
-  connect(bus__BUS____9_TN.p, line__BUS____9-BUS___14-1_AC.p) annotation (Line());
-  connect(line__BUS____9-BUS___14-1_AC.n, bus__BUS___14_TN.p) annotation (Line());
+  connect(bus__BUS___10_TN.p, line__BUS___10_BUS___11_1_AC.p) annotation (Line());
+  connect(line__BUS___10_BUS___11_1_AC.n, bus__BUS___11_TN.p) annotation (Line());
+  connect(bus__BUS___12_TN.p, line__BUS___12_BUS___13_1_AC.p) annotation (Line());
+  connect(line__BUS___12_BUS___13_1_AC.n, bus__BUS___13_TN.p) annotation (Line());
+  connect(bus__BUS___13_TN.p, line__BUS___13_BUS___14_1_AC.p) annotation (Line());
+  connect(line__BUS___13_BUS___14_1_AC.n, bus__BUS___14_TN.p) annotation (Line());
+  connect(bus__BUS____1_TN.p, line__BUS____1_BUS____2_1_AC.p) annotation (Line());
+  connect(line__BUS____1_BUS____2_1_AC.n, bus__BUS____2_TN.p) annotation (Line());
+  connect(bus__BUS____1_TN.p, line__BUS____1_BUS____5_1_AC.p) annotation (Line());
+  connect(line__BUS____1_BUS____5_1_AC.n, bus__BUS____5_TN.p) annotation (Line());
+  connect(bus__BUS____2_TN.p, line__BUS____2_BUS____3_1_AC.p) annotation (Line());
+  connect(line__BUS____2_BUS____3_1_AC.n, bus__BUS____3_TN.p) annotation (Line());
+  connect(bus__BUS____2_TN.p, line__BUS____2_BUS____4_1_AC.p) annotation (Line());
+  connect(line__BUS____2_BUS____4_1_AC.n, bus__BUS____4_TN.p) annotation (Line());
+  connect(bus__BUS____2_TN.p, line__BUS____2_BUS____5_1_AC.p) annotation (Line());
+  connect(line__BUS____2_BUS____5_1_AC.n, bus__BUS____5_TN.p) annotation (Line());
+  connect(bus__BUS____3_TN.p, line__BUS____3_BUS____4_1_AC.p) annotation (Line());
+  connect(line__BUS____3_BUS____4_1_AC.n, bus__BUS____4_TN.p) annotation (Line());
+  connect(bus__BUS____4_TN.p, line__BUS____4_BUS____5_1_AC.p) annotation (Line());
+  connect(line__BUS____4_BUS____5_1_AC.n, bus__BUS____5_TN.p) annotation (Line());
+  connect(bus__BUS____6_TN.p, line__BUS____6_BUS___11_1_AC.p) annotation (Line());
+  connect(line__BUS____6_BUS___11_1_AC.n, bus__BUS___11_TN.p) annotation (Line());
+  connect(bus__BUS____6_TN.p, line__BUS____6_BUS___12_1_AC.p) annotation (Line());
+  connect(line__BUS____6_BUS___12_1_AC.n, bus__BUS___12_TN.p) annotation (Line());
+  connect(bus__BUS____6_TN.p, line__BUS____6_BUS___13_1_AC.p) annotation (Line());
+  connect(line__BUS____6_BUS___13_1_AC.n, bus__BUS___13_TN.p) annotation (Line());
+  connect(bus__BUS____7_TN.p, line__BUS____7_BUS____8_1_AC.p) annotation (Line());
+  connect(line__BUS____7_BUS____8_1_AC.n, bus__BUS____8_TN.p) annotation (Line());
+  connect(bus__BUS____7_TN.p, line__BUS____7_BUS____9_1_AC.p) annotation (Line());
+  connect(line__BUS____7_BUS____9_1_AC.n, bus__BUS____9_TN.p) annotation (Line());
+  connect(bus__BUS____9_TN.p, line__BUS____9_BUS___10_1_AC.p) annotation (Line());
+  connect(line__BUS____9_BUS___10_1_AC.n, bus__BUS___10_TN.p) annotation (Line());
+  connect(bus__BUS____9_TN.p, line__BUS____9_BUS___14_1_AC.p) annotation (Line());
+  connect(line__BUS____9_BUS___14_1_AC.n, bus__BUS___14_TN.p) annotation (Line());
   connect(bus__BUS___10_TN.p, load__LOAD__10_EC.p) annotation (Line());
   connect(bus__BUS___11_TN.p, load__LOAD__11_EC.p) annotation (Line());
   connect(bus__BUS___12_TN.p, load__LOAD__12_EC.p) annotation (Line());
@@ -925,10 +925,10 @@ equation
   connect(bus__BUS____3_TN.p, gen_pwGeneratorM2S__GEN____3_SM.sortie) annotation (Line());
   connect(bus__BUS____6_TN.p, gen_pwGeneratorM2S__GEN____6_SM.sortie) annotation (Line());
   connect(bus__BUS____8_TN.p, gen_pwGeneratorM2S__GEN____8_SM.sortie) annotation (Line());
-  connect(bus__BUS____4_TN.p, trafo__BUS____4-BUS____7-1_PT.p) annotation (Line());
-  connect(trafo__BUS____4-BUS____7-1_PT.n, bus__BUS____7_TN.p) annotation (Line());
-  connect(bus__BUS____4_TN.p, trafo__BUS____4-BUS____9-1_PT.p) annotation (Line());
-  connect(trafo__BUS____4-BUS____9-1_PT.n, bus__BUS____9_TN.p) annotation (Line());
-  connect(bus__BUS____5_TN.p, trafo__BUS____5-BUS____6-1_PT.p) annotation (Line());
-  connect(trafo__BUS____5-BUS____6-1_PT.n, bus__BUS____6_TN.p) annotation (Line());
+  connect(bus__BUS____4_TN.p, trafo__BUS____4_BUS____7_1_PT.p) annotation (Line());
+  connect(trafo__BUS____4_BUS____7_1_PT.n, bus__BUS____7_TN.p) annotation (Line());
+  connect(bus__BUS____4_TN.p, trafo__BUS____4_BUS____9_1_PT.p) annotation (Line());
+  connect(trafo__BUS____4_BUS____9_1_PT.n, bus__BUS____9_TN.p) annotation (Line());
+  connect(bus__BUS____5_TN.p, trafo__BUS____5_BUS____6_1_PT.p) annotation (Line());
+  connect(trafo__BUS____5_BUS____6_1_PT.n, bus__BUS____6_TN.p) annotation (Line());
 end ieee14bus;

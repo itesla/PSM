@@ -8,6 +8,8 @@ import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForEvent;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 
 public class ModelXml
@@ -16,13 +18,15 @@ public class ModelXml
 
 	public static Model read(XMLStreamReader r)
 	{
+		String staticId = r.getAttributeValue(null, "forStaticId");
 		String id = r.getAttributeValue(null, "id");
-		String staticId = r.getAttributeValue(null, "staticId");
-		String type = r.getAttributeValue(null, "type");
+		String type = r.getAttributeValue(null, "forType");
+		String event = r.getAttributeValue(null, "forEvent");
 
 		Model m = null;
 		if (type != null) m = new ModelForType(type);
-		else m = new Model(id, staticId);
+		else if (event != null) m = new ModelForEvent(event);
+		else m = new ModelForElement(id, staticId);
 
 		return m;
 	}
@@ -30,9 +34,15 @@ public class ModelXml
 	public static void write(XMLStreamWriter w, Model m) throws XMLStreamException
 	{
 		w.writeStartElement(ROOT_ELEMENT_NAME);
-		if (m.getId() != null) w.writeAttribute("id", m.getId());
-		if (m.getStaticId() != null) w.writeAttribute("staticId", m.getStaticId());
-		if (m instanceof ModelForType) w.writeAttribute("type", ((ModelForType) m).getType());
+		if (m instanceof ModelForElement)
+		{
+			w.writeAttribute("forStaticId", ((ModelForElement) m).getStaticId());
+			w.writeAttribute("id", ((ModelForElement) m).getId());
+		}
+		else if (m instanceof ModelForType)
+			w.writeAttribute("forType", ((ModelForType) m).getType());
+		else if (m instanceof ModelForEvent)
+			w.writeAttribute("forEvent", ((ModelForEvent) m).getEvent());
 
 		for (Component mc : m.getComponents())
 			ComponentXml.write(w, mc);

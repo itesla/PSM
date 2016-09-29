@@ -13,6 +13,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 
@@ -91,7 +92,7 @@ public class ModelContainerXml
 	{
 		Comparator<Model> byType, byId;
 		byType = Comparator.comparing(ModelContainerXml::getType);
-		byId = Comparator.comparing(Model::getId);
+		byId = Comparator.comparing(ModelContainerXml::getId);
 		return models.stream().sorted(byType.thenComparing(byId)).collect(Collectors.toList());
 	}
 
@@ -100,5 +101,11 @@ public class ModelContainerXml
 		if (m instanceof ModelForType) return ((ModelForType) m).getType();
 		// Ensure models that are not for a type go later in the sorting
 		return "~";
+	}
+
+	private static String getId(Model m)
+	{
+		if (m instanceof ModelForElement) return ((ModelForElement) m).getId();
+		return "";
 	}
 }

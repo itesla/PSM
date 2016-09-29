@@ -4,7 +4,6 @@ public class ModelForType extends Model
 {
 	public ModelForType(String type)
 	{
-		super(null, null);
 		this.type = type;
 	}
 

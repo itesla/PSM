@@ -49,7 +49,7 @@
 	<xs:complexType name="Equation">
 		<xs:choice>
 			<xs:element name="equal" type="dyd:Equal" />
-			<xs:element name="unparsed" /><!-- FIXME allow only text --> 
+			<xs:element name="unparsed" /><!-- FIXME allow only text -->
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="Equal">
@@ -126,9 +126,10 @@
 			<xs:element name="connection" type="dyd:Connection"
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
+		<xs:attribute name="forStaticId" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="forType" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="forEvent" use="optional" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="Component">
 		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />

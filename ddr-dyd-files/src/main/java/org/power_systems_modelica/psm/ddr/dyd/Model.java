@@ -7,22 +7,6 @@ import java.util.List;
 
 public class Model
 {
-	public Model(String id, String staticId)
-	{
-		this.id = id;
-		this.staticId = staticId;
-	}
-
-	public String getId()
-	{
-		return id;
-	}
-
-	public String getStaticId()
-	{
-		return staticId;
-	}
-
 	public List<Component> getComponents()
 	{
 		return Collections.unmodifiableList(components);
@@ -70,8 +54,6 @@ public class Model
 		connectors.addAll(c);
 	}
 
-	private final String			id;
-	private final String			staticId;
 	private final List<Component>	components	= new ArrayList<>();
 	private final List<Connection>	connections	= new ArrayList<>();
 	private final List<Connector>	connectors	= new ArrayList<>();

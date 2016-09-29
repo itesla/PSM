@@ -66,8 +66,10 @@ public class ModelProvider
 
 	private void index(Model m)
 	{
-		if (m.getStaticId() != null) dynamicModelsById.put(m.getStaticId(), m);
-		if (m instanceof ModelForType) dynamicModelsByType.put(((ModelForType) m).getType(), m);
+		if (m instanceof ModelForElement)
+			dynamicModelsById.put(((ModelForElement) m).getStaticId(), m);
+		else if (m instanceof ModelForType)
+			dynamicModelsByType.put(((ModelForType) m).getType(), m);
 	}
 
 	private String getType(Identifiable<?> e)

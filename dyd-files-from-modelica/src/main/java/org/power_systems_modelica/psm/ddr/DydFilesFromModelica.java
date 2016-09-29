@@ -19,6 +19,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.ModelProvider;
 import org.power_systems_modelica.psm.ddr.dyd.Parameter;
@@ -135,10 +136,11 @@ public class DydFilesFromModelica
 			Model m,
 			ParameterSetContainer par)
 	{
-		// TODO We are doing it only for specific elements. Consider if we should do it for types.
-		if (m instanceof ModelForType) return null;
+		// TODO We are doing it only for specific elements. Consider if we should do it for other sub-classes of Model
+		if (!(m instanceof ModelForElement)) return null;
+		ModelForElement m0 = (ModelForElement) m;
 
-		Model mi = new Model(m.getId(), m.getStaticId());
+		ModelForElement mi = new ModelForElement(m0.getId(), m0.getStaticId());
 		mi.addComponents(m.getComponents()
 				.stream()
 				.map(c -> inferInitializationComponent(c, par))
@@ -245,7 +247,7 @@ public class DydFilesFromModelica
 		}
 		String type = whichType(mo);
 
-		Model mdef = new Model(id, staticId);
+		ModelForElement mdef = new ModelForElement(id, staticId);
 		boolean generic = false;
 		mdef.addConnectors(createConnectors(mo, generic));
 
@@ -291,7 +293,7 @@ public class DydFilesFromModelica
 	}
 
 	private static void saveInitializationResultsForFakeModelicaEngine(
-			Model m,
+			ModelForElement m,
 			Component c,
 			List<ModelicaArgument> arguments,
 			ModelicaSimulationResults fakeInitializationResults)

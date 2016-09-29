@@ -119,7 +119,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			Identifiable<?> element)
 	{
 		ModelicaModel m = new ModelicaModel(buildModelicaModelId(mdef, element));
-		m.setStaticId(buildModelicaModelStaticId(mdef, element));
+		m.setStaticId(element.getId());
 
 		List<ModelicaDeclaration> ds = new ArrayList<>();
 		for (Component mc : mdef.getComponents())
@@ -162,14 +162,13 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		// If the model definition refers to a type build the identifier from the element identifier
 		if (m instanceof ModelForType) return ModelicaUtil.dynamicIdFromStaticId(element.getId());
-		return m.getId();
-	}
+		else if (m instanceof ModelForElement) return ((ModelForElement) m).getId();
 
-	private String buildModelicaModelStaticId(Model mdef, Identifiable<?> element)
-	{
-		// If model definition does not provide a static identifier, return element identifier
-		if (mdef.getStaticId() == null || mdef.getStaticId().equals("")) return element.getId();
-		return mdef.getStaticId();
+		throw new RuntimeException(
+				"Don't know how to build Modelica model id for element " +
+						element.getId() +
+						" on model class " +
+						m.getClass().getName());
 	}
 
 	private String buildModelicaDeclarationId(

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
 	<!-- Generator CIVAU7CIVAU1_NGU_SM -->
-	<model id="DM_CIVAU7CIVAU1_NGU_SM" staticId="CIVAU7CIVAU1_NGU_SM">
+	<model id="DM_CIVAU7CIVAU1_NGU_SM" forStaticId="CIVAU7CIVAU1_NGU_SM">
 		<component id="M1S_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="1"/>
 		<component id="VR_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="1"/>
 		<component id="GOVER_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="1"/>
@@ -29,7 +29,7 @@
 		<connection id1="RPCL_CIVAU7CIVAU1_NGU_SM" var1="runningGrp" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="running"/>
 	</model>
 	<!-- Generator SSEA27SSEA21_NGU_SM -->
-	<model id="DM_SSEA27SSEA21_NGU_SM" staticId="SSEA27SSEA21_NGU_SM">
+	<model id="DM_SSEA27SSEA21_NGU_SM" forStaticId="SSEA27SSEA21_NGU_SM">
 		<component id="M1S_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="2"/>
 		<component id="VR_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="2"/>
 		<component id="GOVER_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="2"/>
@@ -57,7 +57,7 @@
 		<connection id1="RPCL_SSEA27SSEA21_NGU_SM" var1="runningGrp" id2="M1S_SSEA27SSEA21_NGU_SM" var2="running"/>
 	</model>
 	<!-- Generator SSEA27SSEA22_NGU_SM -->
-	<model id="DM_SSEA27SSEA22_NGU_SM" staticId="SSEA27SSEA22_NGU_SM">
+	<model id="DM_SSEA27SSEA22_NGU_SM" forStaticId="SSEA27SSEA22_NGU_SM">
 		<component id="M1S_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Machines.DYNModelM1S" parFile="../BDD/Machines/DYNModelM1S.par" parId="3"/>
 		<component id="VR_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.VoltageRegulator.DYNModelVoltageRegulator" parFile="../BDD/Machines/DYNModelVoltageRegulator.par" parId="3"/>
 		<component id="GOVER_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelGover1" parFile="../BDD/Machines/DYNModelGover1.par" parId="3"/>

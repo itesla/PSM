@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.power_systems_modelica.psm.modelica.ModelicaEvent;
+import org.power_systems_modelica.psm.modelica.ModelicaEventType;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
@@ -28,7 +28,7 @@ public class ModelProvider
 		return mdef;
 	}
 
-	public Model getModel(ModelicaEvent e)
+	public Model getModel(ModelicaEventType e)
 	{
 		return dynamicModelsByEvent.get(e.toString());
 	}

@@ -38,7 +38,12 @@
 		<dependency>
 			<groupId>org.power-systems-modelica.psm</groupId>
 			<artifactId>modelica-network-builder</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.power-systems-modelica.psm</groupId>
+			<artifactId>modelica-event-adder</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>

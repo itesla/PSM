@@ -19,6 +19,7 @@
 		<module>workflow</module>
 		<module>dyd-files-from-modelica</module>
 		<module>tools</module>
+		<module>modelica-event-adder</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

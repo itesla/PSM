@@ -24,6 +24,8 @@ public class ModelicaExporterTask extends WorkflowTask
 	@Override
 	public void configure(Configuration config)
 	{
+		source = config.getParameter("source");
+		if (source == null) source = "mo";
 		target = config.getParameter("target");
 	}
 
@@ -32,7 +34,7 @@ public class ModelicaExporterTask extends WorkflowTask
 	{
 		running();
 
-		ModelicaDocument mo = (ModelicaDocument) workflow.getResults("mo");
+		ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(Paths.get(target).toFile());)
 		{
@@ -45,5 +47,6 @@ public class ModelicaExporterTask extends WorkflowTask
 		}
 	}
 
-	private String target;
+	private String	source;
+	private String	target;
 }

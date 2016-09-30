@@ -65,6 +65,7 @@ public class DydFilesFromModelica
 		// Try to group all dynamic model components that refer to the same static element
 		Collection<ModelicaModel> mos = groupInModels(mo);
 
+		// FIXME simplify this simply creating a DDR and doing reset() on it (not connect), then referring it
 		// Build the dynamic repository objects
 		ModelProvider models = new ModelProvider(false);
 		ModelProvider inits = new ModelProvider(true);
@@ -390,7 +391,7 @@ public class DydFilesFromModelica
 		for (ModelicaDeclaration d : ds)
 		{
 			ModelicaModel m = putget(models, whichModel(d));
-			if (m != null) m.addDeclarations(Arrays.asList(d));
+			if (m != null) m.addDeclaration(d);
 			else
 			{
 				LOG.warn("ignored declaration: type={}, id={}, value={}, isParameter={}",
@@ -403,23 +404,7 @@ public class DydFilesFromModelica
 		for (ModelicaEquation eq : eqs)
 		{
 			ModelicaModel m = putget(models, whichModel(eq));
-			if (m != null)
-			{
-				ModelicaEquation eq1 = eq;
-
-				// Only for base class equations (equations only with text)
-				// FIXME this is an insane check
-				if (eq.getClass().equals(ModelicaEquation.class))
-				{
-					// Re-expand the spaces that have been eaten by the parser
-					String text = eq.getText();
-					text = text.replace("=", " = ");
-					text = text.replace("+", " + ");
-					text = text.replace("/", " / ");
-					eq1 = new ModelicaEquation(text);
-				}
-				m.addEquations(Arrays.asList(eq1));
-			}
+			if (m != null) m.addEquation(eq);
 			else
 			{
 				String reason = "connects between different model components are not captured as dynamic model definitions";

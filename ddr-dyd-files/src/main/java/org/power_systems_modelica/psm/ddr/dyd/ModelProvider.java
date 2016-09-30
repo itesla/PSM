@@ -76,6 +76,8 @@ public class ModelProvider
 			dynamicModelsById.put(((ModelForElement) m).getStaticId(), m);
 		else if (m instanceof ModelForType)
 			dynamicModelsByType.put(((ModelForType) m).getType(), m);
+		else if (m instanceof ModelForEvent)
+			dynamicModelsByEvent.put(((ModelForEvent) m).getEvent(), m);
 	}
 
 	private String getType(Identifiable<?> e)

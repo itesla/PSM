@@ -123,7 +123,12 @@ equation_stmt
    : equation_connect_stmt
    | equal_stmt
 {
-	ModelicaEquation equation = new ModelicaEquation($equal_stmt.text);
+	// Re-expand the spaces that have been eaten by the parser
+	String text = $equal_stmt.text;
+	text = text.replace("=", " = ");
+    text = text.replace("+", " + ");
+	text = text.replace("/", " / ");
+	ModelicaEquation equation = new ModelicaEquation(text);
 	modelicaDocument.getSystemModel().addEquation(equation);
 }
    ;

@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.ddr;
 
 public class IidmNames
 {
+	// FIXME This should go in a configuration file
 	public static String getIidmNameForModelicaArgument(String stype, String mname)
 	{
 		switch (stype)

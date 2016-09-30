@@ -71,9 +71,21 @@ public class ModelicaModel
 		return connectors;
 	}
 
+	public boolean isReplacement()
+	{
+		return isReplacement;
+	}
+
+	public void setReplacement(boolean isReplacement)
+	{
+		this.isReplacement = isReplacement;
+	}
+
 	private String						name;
 	private String						staticId;
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
 	private List<ModelicaEquation>		equations		= new ArrayList<>();
 	private ModelicaConnector[]			connectors;
+
+	private boolean						isReplacement	= false;
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0" isInitialization="false">
+	<model forEvent="BUS_FAULT" isReplacement="false">
+		<component name="iPSL.Electrical.Events.PwFault">
+			<ref name="R" dataSource="EVENT" sourceName="R"/>
+			<ref name="X" dataSource="EVENT" sourceName="X"/>
+			<ref name="t1" dataSource="EVENT" sourceName="t1"/>
+			<ref name="t2" dataSource="EVENT" sourceName="t2"/>
+		</component>
+		<connector pin="p" reusable="true"/>
+	</model>
+	<model forEvent="LINE_FAULT" isReplacement="true">
+		<component name="iPSL.Electrical.Events.PwLineFault">
+		</component>
+		<connector pin="p" reusable="false"/>
+		<connector pin="n" reusable="false"/>
+	</model>
+	<model forEvent="LINE_OPEN_RECEIVER_SIDE">
+		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving">
+		</component>
+		<connector pin="p" reusable="false"/>
+	</model>
+	<model forEvent="LINE_OPEN_BOTH_SIDES">
+		<component name="iPSL.Electrical.Branches.PwLine2Openings">
+		</component>
+		<connector pin="p" reusable="false"/>
+	</model>
+	<model forEvent="BANK_MODIFICATION">
+		<component name="iPSL.Electrical.Banks.PwCapacitorBankWithModification">
+		</component>
+		<connector pin="p" reusable="false"/>
+	</model>
+	<model forEvent="LOAD_VARIATION">
+		<component name="iPSL.Electrical.Loads.PwLoadwithVariation">
+		</component>
+		<connector pin="p" reusable="false"/>
+	</model>
+	<model forEvent="BREAKER">
+		<component name="iPSL.Electrical.Events.Breaker">
+		</component>
+		<connector pin="p" reusable="false"/>
+	</model>
+</model_container>

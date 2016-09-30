@@ -26,9 +26,10 @@ public class ModelicaEventAdder
 
 	private void addEvent(Event ev, ModelicaDocument mo)
 	{
-		// Adding an event on an element to a network model means
-		// replacing the dynamic model of the element by a different dynamic model
-		// obtained from the dynamic data repository from the event type
+		// Adding an event on an element of the network model means
+		// to obtain a dynamic model for the event type, from the dynamic data repository
+		// and either add it to the system model
+		// or replace the existing dynamic model for the element with the new one
 
 		ModelicaModel m = ddr.getModelicaModelForEvent(ev.getType(), ev.getElement());
 		if (m == null)
@@ -36,19 +37,16 @@ public class ModelicaEventAdder
 			LOG.warn("No dynamic model found for event type {}", ev.getType());
 			return;
 		}
-
 		String id = ev.getElement().getId();
-
 		m.setStaticId(id);
-		// FIXME We have to resolve references in the ModelicaModel m using the list of values for parameters in the event
 		m = resolveReferences(m, ev);
-
-		// FIXME Request the ModelicaDocument to replace the old model with the new one
-		mo.replaceModelForStaticId(id, m);
+		if (m.isReplacement()) mo.replaceModelForStaticId(id, m);
+		else mo.addModelForStaticId(id, m);
 	}
 
 	private ModelicaModel resolveReferences(ModelicaModel m, Event ev)
 	{
+		// FIXME We have to resolve references in the ModelicaModel m using the list of values for parameters in the event
 		// FIXME reuse code from network model builder
 		throw new RuntimeException(
 				"resolveReferences in ModelicaModel from params given with the Event");

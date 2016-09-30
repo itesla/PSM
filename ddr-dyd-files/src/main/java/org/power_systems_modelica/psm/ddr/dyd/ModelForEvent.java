@@ -13,5 +13,4 @@ public class ModelForEvent extends Model
 	}
 
 	private final String event;
-
 }

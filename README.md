@@ -12,6 +12,25 @@ Clone the iTesla platform repository and build it:
 
 	git clone https://github.com/itesla/ipst.git
 	cd ipst
+	
+Before compiling the iPST modules, apply the following change:
+
+	diff --git a/iidm-network-api/src/main/java/eu/itesla_project/iidm/network/EquipmentTopologyVisitor.java b/iidm-network-api/src/main/java/eu/itesla_project/iidm/network/EquipmentTopologyVisitor.java
+	index 7f1422d..17ebf04 100644
+	--- a/iidm-network-api/src/main/java/eu/itesla_project/iidm/network/EquipmentTopologyVisitor.java
+	+++ b/iidm-network-api/src/main/java/eu/itesla_project/iidm/network/EquipmentTopologyVisitor.java
+	@@ -12,7 +12,7 @@ package eu.itesla_project.iidm.network;
+	  */
+	 public abstract class EquipmentTopologyVisitor extends AbstractTopologyVisitor {
+
+	-    public abstract void visitEquipment(Connectable eq);
+	+    public abstract void visitEquipment(Connectable<?> eq);
+
+	     @Override
+	     public void visitLine(Line line, TwoTerminalsConnectable.Side side) {
+
+Then build the iPST
+		 	
 	mvn clean install -DskipTests
 	
 This will put all the iPST artifacts in the local maven repository, so they can be referenced from psm project.

@@ -11,6 +11,16 @@ public class ModelContainer implements DydContent
 		this.isInitialization = isInitialization;
 	}
 
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
 	public boolean isInitialization()
 	{
 		return isInitialization;
@@ -31,6 +41,7 @@ public class ModelContainer implements DydContent
 		this.dynamicModelDefinitions.add(mdef);
 	}
 
+	private String				name;
 	private final boolean		isInitialization;
 	private final List<Model>	dynamicModelDefinitions	= new ArrayList<>();
 }

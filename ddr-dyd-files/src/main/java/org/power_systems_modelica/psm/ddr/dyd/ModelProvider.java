@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.ddr.dyd;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,11 @@ public class ModelProvider
 		containers.add(new ModelContainer(isInitialization));
 	}
 
+	public Collection<ModelContainer> getContainers()
+	{
+		return containers;
+	}
+
 	public Model getModel(Identifiable<?> e)
 	{
 		Model mdef = getDynamicModelForId(validDynamicId(e.getId()));
@@ -33,9 +39,9 @@ public class ModelProvider
 		return dynamicModelsByEvent.get(e.toString());
 	}
 
-	public ModelContainer getDefaultContainer()
+	public ModelContainer getContainer(String name)
 	{
-		return containers.get(0);
+		return containers.stream().filter(c -> c.getName().equals(name)).findFirst().get();
 	}
 
 	public Model getDynamicModelForId(String id)

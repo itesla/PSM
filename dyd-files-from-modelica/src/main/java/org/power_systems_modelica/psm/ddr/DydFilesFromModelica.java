@@ -6,10 +6,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +38,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+import org.power_systems_modelica.psm.modelica.builder.ModelicaBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
@@ -63,7 +62,13 @@ public class DydFilesFromModelica
 		ModelicaDocument mo = new ModelicaParser().parse(modelicaFile);
 
 		// Try to group all dynamic model components that refer to the same static element
-		Collection<ModelicaModel> mos = groupInModels(mo);
+		Collection<ModelicaModel> ms = ModelicaBuilder.groupByStaticId(mo);
+
+		// Remove the equations that are related to interconnections between static elements
+		// (they won't be part of the DDR)
+		ms = ms.stream()
+				.filter(m -> !ModelicaBuilder.isInterconnection(m))
+				.collect(Collectors.toList());
 
 		// FIXME simplify this simply creating a DDR and doing reset() on it (not connect), then referring it
 		// Build the dynamic repository objects
@@ -76,7 +81,7 @@ public class DydFilesFromModelica
 		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
 		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
 
-		mo2dyd(mos, systemDefinitions, models, inits, par, fakeInitializationResults);
+		mo2dyd(ms, systemDefinitions, models, inits, par, fakeInitializationResults);
 
 		// Save the dynamic repository objects as xml files
 		Path dydModels = ddrLocation.resolve("models.dyd");
@@ -94,7 +99,7 @@ public class DydFilesFromModelica
 	}
 
 	private static void mo2dyd(
-			Collection<ModelicaModel> mos,
+			Collection<ModelicaModel> ms,
 			SystemDefinitions sys,
 			ModelProvider dyd,
 			ModelProvider dydInit,
@@ -103,21 +108,21 @@ public class DydFilesFromModelica
 	{
 		// Keep track of the Model definitions added to the repository so they are not added twice
 		Set<Model> addedModels = new HashSet<>();
-		for (ModelicaModel mo : mos)
+		for (ModelicaModel m : ms)
 		{
-			if (mo.getStaticId().equals(SYSTEM_ID))
+			if (ModelicaBuilder.isSystemModel(m))
 			{
-				sys.addDeclarations(mo.getDeclarations());
+				sys.addDeclarations(m.getDeclarations());
 				// FIXME System equations are added 'as they appear' in the mo file, which additional considerations about write/read???
-				sys.addEquations(mo.getEquations()
+				sys.addEquations(m.getEquations()
 						.stream()
 						.map(meq -> new UnparsedEquation(meq.getText()))
 						.collect(Collectors.toList()));
 				continue;
 			}
 
-			Model mdef = checkModelDefinitionForType(mo, dyd, par);
-			if (mdef == null) mdef = buildModelDefinitionForElement(mo, par, fakeInitResults);
+			Model mdef = checkModelDefinitionForType(m, dyd, par);
+			if (mdef == null) mdef = buildModelDefinitionForElement(m, par, fakeInitResults);
 			if (mdef == null) continue;
 			if (addedModels.contains(mdef)) continue;
 
@@ -382,83 +387,5 @@ public class DydFilesFromModelica
 		return Arrays.asList(connectors);
 	}
 
-	private static Collection<ModelicaModel> groupInModels(ModelicaDocument mo)
-	{
-		Map<String, ModelicaModel> models = new HashMap<>();
-
-		List<ModelicaDeclaration> ds = mo.getSystemModel().getDeclarations();
-		List<ModelicaEquation> eqs = mo.getSystemModel().getEquations();
-		for (ModelicaDeclaration d : ds)
-		{
-			ModelicaModel m = putget(models, whichModel(d));
-			if (m != null) m.addDeclaration(d);
-			else
-			{
-				LOG.warn("ignored declaration: type={}, id={}, value={}, isParameter={}",
-						d.getType(),
-						d.getId(),
-						d.getValue(),
-						d.isParameter());
-			}
-		}
-		for (ModelicaEquation eq : eqs)
-		{
-			ModelicaModel m = putget(models, whichModel(eq));
-			if (m != null) m.addEquation(eq);
-			else
-			{
-				String reason = "connects between different model components are not captured as dynamic model definitions";
-				LOG.debug("ignored equation '{}', {}", eq.toString(), reason);
-			}
-		}
-		return models.values();
-	}
-
-	private static String whichModel(ModelicaDeclaration d)
-	{
-		String m = whichModelFromAnnotation(d.getAnnotation());
-		if (m == null) m = whichModelFromName(d.getId());
-		if (m == null) m = SYSTEM_ID;
-		return m;
-	}
-
-	private static String whichModel(ModelicaEquation eq)
-	{
-		if (eq instanceof ModelicaConnect)
-		{
-			ModelicaConnect eqc = (ModelicaConnect) eq;
-			String m1 = whichModelFromName(ModelicaUtil.ref2idvar(eqc.getRef1())[0]);
-			String m2 = whichModelFromName(ModelicaUtil.ref2idvar(eqc.getRef2())[0]);
-			if (m1.equals(m2)) return m1;
-			else return null;
-		}
-		return SYSTEM_ID;
-	}
-
-	private static String whichModelFromName(String name)
-	{
-		return ModelicaTricks.getModel(name);
-	}
-
-	private static String whichModelFromAnnotation(String annotation)
-	{
-		// TODO if (annotation.contains("ExternalReference")) return whichModelFromExternalReference();
-		return null;
-	}
-
-	private static ModelicaModel putget(Map<String, ModelicaModel> models, String id)
-	{
-		if (id == null) return null;
-		if (!models.containsKey(id))
-		{
-			String dmid = ModelicaUtil.dynamicIdFromStaticId(id);
-			ModelicaModel m = new ModelicaModel(dmid);
-			m.setStaticId(id);
-			models.put(id, m);
-		}
-		return models.get(id);
-	}
-
-	private static final String	SYSTEM_ID	= "_SYSTEM_";
-	private static final Logger	LOG			= LoggerFactory.getLogger(DydFilesFromModelica.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DydFilesFromModelica.class);
 }

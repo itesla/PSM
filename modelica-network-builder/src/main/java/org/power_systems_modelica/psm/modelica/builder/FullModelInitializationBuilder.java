@@ -16,7 +16,7 @@ import eu.itesla_project.iidm.network.EquipmentTopologyVisitor;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 
-public class FullModelInitializationBuilder extends ModelicaBuilder
+public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 {
 	public FullModelInitializationBuilder(DynamicDataRepository ddr, Network n)
 	{

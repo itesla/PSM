@@ -22,7 +22,7 @@ import eu.itesla_project.iidm.network.EquipmentTopologyVisitor;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 
-public class ModelicaSystemBuilder extends ModelicaBuilder
+public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 {
 	public ModelicaSystemBuilder(DynamicDataRepository ddr, Network n, ModelicaEngine me)
 	{

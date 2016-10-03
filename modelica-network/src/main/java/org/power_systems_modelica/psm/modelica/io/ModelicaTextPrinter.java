@@ -37,15 +37,15 @@ public class ModelicaTextPrinter
 	{
 		// Sort models by kind (predefined list) and then by model inside each kind
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKinds());
-		Comparator<ModelicaDeclaration> byKind, byId;
+		Comparator<ModelicaDeclaration> byKind, byStaticId;
 		byKind = (m1, m2) -> (kindOrdering.compare(
 				ModelicaTricks.getKind(m1.getId()),
 				ModelicaTricks.getKind(m2.getId())));
-		byId = Comparator.comparing(ModelicaTextPrinter::getModelId);
+		byStaticId = Comparator.comparing(ModelicaTextPrinter::getStaticId);
 
 		List<ModelicaDeclaration> ms0 = mo.getSystemModel().getDeclarations();
 		List<ModelicaDeclaration> ms = new ArrayList<>(ms0);
-		ms = ms0.stream().sorted(byKind.thenComparing(byId)).collect(Collectors.toList());
+		ms = ms0.stream().sorted(byKind.thenComparing(byStaticId)).collect(Collectors.toList());
 		return ms;
 	}
 
@@ -67,9 +67,9 @@ public class ModelicaTextPrinter
 		return null;
 	}
 
-	private static String getModelId(ModelicaDeclaration m)
+	private static String getStaticId(ModelicaDeclaration m)
 	{
-		String modelId = ModelicaTricks.getModel(m.getId());
+		String modelId = ModelicaTricks.staticIdFromDynamicId(m.getId());
 		if (modelId == null) modelId = "";
 		return modelId;
 	}

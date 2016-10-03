@@ -22,7 +22,7 @@ public class ModelicaTricks
 		return kind;
 	}
 
-	public static String getModel(String name)
+	public static String staticIdFromDynamicId(String name)
 	{
 		// We are assuming dynamic component identifiers are built as: <type>_<static_id>
 		// and also that all static identifiers begin with an underscore

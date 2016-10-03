@@ -22,9 +22,9 @@ import eu.itesla_project.iidm.network.EquipmentTopologyVisitor;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 
-public class ModelicaNetworkBuilder extends ModelicaBuilder
+public class ModelicaSystemBuilder extends ModelicaBuilder
 {
-	public ModelicaNetworkBuilder(DynamicDataRepository ddr, Network n, ModelicaEngine me)
+	public ModelicaSystemBuilder(DynamicDataRepository ddr, Network n, ModelicaEngine me)
 	{
 		super(ddr, n);
 		this.modelicaEngine = me;
@@ -208,5 +208,5 @@ public class ModelicaNetworkBuilder extends ModelicaBuilder
 	}
 
 	private final ModelicaEngine	modelicaEngine;
-	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaNetworkBuilder.class);
+	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
 }

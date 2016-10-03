@@ -15,7 +15,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
+import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
@@ -42,7 +42,7 @@ public class ModelicaNetworkBuilderTest
 
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
-		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n, me);
+		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
@@ -87,7 +87,7 @@ public class ModelicaNetworkBuilderTest
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
 
 		// Build Modelica
-		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n, me);
+		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
@@ -138,7 +138,7 @@ public class ModelicaNetworkBuilderTest
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
 
 		// Build Modelica
-		ModelicaNetworkBuilder moc = new ModelicaNetworkBuilder(ddr, n, me);
+		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();

@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModelicaDocument
@@ -26,15 +27,28 @@ public class ModelicaDocument
 		return model;
 	}
 
-	public ModelicaDocument shallowCopy()
+	public ModelicaDocument deepCopy()
 	{
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin(this.getWithin());
 		ModelicaSystemModel m = new ModelicaSystemModel(this.getSystemModel().getName());
-		m.addDeclarations(this.getSystemModel().getDeclarations());
-		m.addEquations(this.getSystemModel().getEquations());
+		m.addDeclarations(deepCopyDeclarations(this.getSystemModel().getDeclarations()));
+		m.addEquations(deepCopyEquations(this.getSystemModel().getEquations()));
 		mo.setSystemModel(m);
 		return mo;
+	}
+
+	private static List<ModelicaDeclaration> deepCopyDeclarations(
+			List<ModelicaDeclaration> declarations)
+	{
+		// FIXME implement deep copy !!!
+		return declarations;
+	}
+
+	private static List<ModelicaEquation> deepCopyEquations(List<ModelicaEquation> equations)
+	{
+		// FIXME Implement deep copy !!!
+		return equations;
 	}
 
 	public void replaceModelForStaticId(String id, ModelicaModel m)

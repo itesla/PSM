@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.power_systems_modelica.psm.modelica.ModelicaEventType;
-
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Line;
@@ -34,9 +32,9 @@ public class ModelProvider
 		return mdef;
 	}
 
-	public Model getModel(ModelicaEventType e)
+	public Model getModelForEvent(String e)
 	{
-		return dynamicModelsByEvent.get(e.toString());
+		return dynamicModelsByEvent.get(e);
 	}
 
 	public ModelContainer getContainer(String name)

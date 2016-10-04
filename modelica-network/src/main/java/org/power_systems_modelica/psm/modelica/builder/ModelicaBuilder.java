@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -25,6 +26,11 @@ public class ModelicaBuilder
 	protected void registerResolver(String dataSource, ReferenceResolver resolver)
 	{
 		referenceResolvers.put(dataSource, resolver);
+	}
+
+	protected void removeResolver(String dataSource)
+	{
+		referenceResolvers.remove(dataSource);
 	}
 
 	protected List<ModelicaDeclaration> resolveReferences(
@@ -160,7 +166,7 @@ public class ModelicaBuilder
 		return ModelicaTricks.staticIdFromDynamicId(id);
 	}
 
-	private static String getStaticIdFromAnnotation(String annotation)
+	private static String getStaticIdFromAnnotation(Annotation annotation)
 	{
 		// TODO if (annotation.contains("ExternalReference")) return whichModelFromExternalReference();
 		return null;

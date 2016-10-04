@@ -13,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.ModelicaEventType;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -55,7 +53,7 @@ public class ModelicaEventAdderTest
 		Files.createDirectories(Paths.get(modelicaEngineWorkingDir));
 
 		StringBuilder events = new StringBuilder();
-		events.append(ModelicaEventType.BUS_FAULT);
+		events.append("BusFault");
 		events.append(",");
 		events.append("_BUS___10_TN");
 		events.append(",");

@@ -20,6 +20,8 @@ public class ModelicaModel
 	public void setStaticId(String staticId)
 	{
 		this.staticId = staticId;
+		
+		// FIXME propagate the staticId received to all declarations and equations (annotations)
 	}
 
 	public String getStaticId()
@@ -71,14 +73,21 @@ public class ModelicaModel
 		return connectors;
 	}
 
-	public boolean isReplacement()
+	// The way this model should be injected in a system model
+
+	public static enum Injection
 	{
-		return isReplacement;
+		ADD, REPLACE, INTERPOSE
+	};
+
+	public Injection getInjection()
+	{
+		return injection;
 	}
 
-	public void setReplacement(boolean isReplacement)
+	public void setInjection(Injection injection)
 	{
-		this.isReplacement = isReplacement;
+		this.injection = injection;
 	}
 
 	private String						name;
@@ -87,5 +96,5 @@ public class ModelicaModel
 	private List<ModelicaEquation>		equations		= new ArrayList<>();
 	private ModelicaConnector[]			connectors;
 
-	private boolean						isReplacement	= false;
+	private Injection					injection;
 }

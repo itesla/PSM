@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -113,10 +114,16 @@ public class ModelicaTextPrinter
 					}
 				}
 				out.printf("%n    )");
-				out.printf(" annotation (%s)", m.getAnnotation());
+				if (!m.getAnnotation().isEmpty())
+					out.printf(" annotation (%s)", asText(m.getAnnotation()));
 			}
 			out.printf(";%n");
 		}
+	}
+
+	private String asText(Annotation a)
+	{
+		return a.getItems().stream().collect(Collectors.joining(","));
 	}
 
 	private void printArgument(PrintWriter out, ModelicaArgument a)
@@ -153,7 +160,8 @@ public class ModelicaTextPrinter
 		for (ModelicaEquation eq : sortedEquations())
 		{
 			out.printf("  %s", eq.getText());
-			if (eq.getAnnotation() != null) out.printf(" annotation (%s)", eq.getAnnotation());
+			if (!eq.getAnnotation().isEmpty())
+				out.printf(" annotation (%s)", asText(eq.getAnnotation()));
 			out.printf(";%n");
 		}
 	}

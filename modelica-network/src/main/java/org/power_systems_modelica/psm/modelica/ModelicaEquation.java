@@ -1,6 +1,6 @@
 package org.power_systems_modelica.psm.modelica;
 
-public class ModelicaEquation
+public class ModelicaEquation implements Annotable
 {
 	public ModelicaEquation()
 	{
@@ -17,18 +17,26 @@ public class ModelicaEquation
 		return text;
 	}
 
-	public String getAnnotation()
+	@Override
+	public void resetAnnotation()
+	{
+		annotation.reset();
+	}
+
+	@Override
+	public Annotation getAnnotation()
 	{
 		return annotation;
 	}
 
-	public void setAnnotation(String annotation)
+	@Override
+	public void addAnnotation(String annotation)
 	{
-		this.annotation = annotation;
+		this.annotation.add(annotation);
 	}
 
 	private final String		text;
-	private String				annotation			= DEFAULT_ANNOTATION;
 
+	private final Annotation	annotation			= new Annotation(DEFAULT_ANNOTATION);
 	private static final String	DEFAULT_ANNOTATION	= "Line()";
 }

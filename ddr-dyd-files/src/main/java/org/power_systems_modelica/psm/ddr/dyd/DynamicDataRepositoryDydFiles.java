@@ -31,7 +31,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
-import org.power_systems_modelica.psm.modelica.ModelicaEventType;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -101,7 +100,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 				.map(eq -> {
 					String eqt = eq.writeIn(contextModelica);
 					ModelicaEquation meq = new ModelicaEquation(eqt);
-					meq.setAnnotation(null);
+					meq.resetAnnotation();
 					return meq;
 				})
 				.collect(Collectors.toList());
@@ -124,9 +123,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public ModelicaModel getModelicaModelForEvent(ModelicaEventType event, Identifiable<?> e)
+	public ModelicaModel getModelicaModelForEvent(String ev, Identifiable<?> e)
 	{
-		Model mdef = dynamicModels.getModel(event);
+		Model mdef = dynamicModels.getModelForEvent(ev);
 		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
 	}

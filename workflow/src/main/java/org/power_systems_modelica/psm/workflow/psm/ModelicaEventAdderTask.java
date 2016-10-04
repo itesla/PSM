@@ -13,7 +13,6 @@ import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.ModelicaEventType;
 import org.power_systems_modelica.psm.modelica.events.Event;
 import org.power_systems_modelica.psm.modelica.events.ModelicaEventAdder;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
@@ -59,7 +58,7 @@ public class ModelicaEventAdderTask extends WorkflowTask
 			ddr.connect();
 			List<Event> events = eventsFrom(eventData, n);
 
-			ModelicaEventAdder adder = new ModelicaEventAdder(ddr, mo);
+			ModelicaEventAdder adder = new ModelicaEventAdder(mo, ddr, n);
 			ModelicaDocument moe = adder.addEvents(events);
 			publish(SCOPE_GLOBAL, "moWithEvents", moe);
 			succeded();
@@ -77,11 +76,10 @@ public class ModelicaEventAdderTask extends WorkflowTask
 		for (String r : records)
 		{
 			String[] fields = r.split(",");
-			String stype = fields[0];
+			String event = fields[0];
 			String idelem = fields[1];
 			Stream<String> paramss = Arrays.stream(fields, 2, fields.length);
 
-			ModelicaEventType type = ModelicaEventType.valueOf(stype);
 			Identifiable<?> element = network.getIdentifiable(idelem);
 			if (element == null)
 			{
@@ -92,7 +90,7 @@ public class ModelicaEventAdderTask extends WorkflowTask
 					.map(ps -> ps.split("="))
 					.collect(Collectors.toMap(p -> p[0], p -> p[1]));
 
-			events.add(new Event(type, element, params));
+			events.add(new Event(event, element, params));
 		}
 		return events;
 	}

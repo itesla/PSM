@@ -3,7 +3,7 @@ package org.power_systems_modelica.psm.modelica;
 import java.util.Collections;
 import java.util.List;
 
-public class ModelicaDeclaration
+public class ModelicaDeclaration implements Annotable
 {
 	public ModelicaDeclaration(
 			String type,
@@ -17,7 +17,6 @@ public class ModelicaDeclaration
 		this.value = value;
 		this.arguments = null;
 		this.isParameter = isParameter;
-		this.annotation = DEFAULT_ANNOTATION;
 	}
 
 	public ModelicaDeclaration(
@@ -32,7 +31,6 @@ public class ModelicaDeclaration
 		this.arguments = arguments;
 		this.value = null;
 		this.isParameter = isParameter;
-		this.annotation = DEFAULT_ANNOTATION;
 	}
 
 	public String getType()
@@ -66,9 +64,22 @@ public class ModelicaDeclaration
 		return null;
 	}
 
-	public String getAnnotation()
+	@Override
+	public void resetAnnotation()
+	{
+		annotation.reset();
+	}
+
+	@Override
+	public Annotation getAnnotation()
 	{
 		return annotation;
+	}
+
+	@Override
+	public void addAnnotation(String annotation)
+	{
+		this.annotation.add(annotation);
 	}
 
 	private final String					type;
@@ -77,7 +88,8 @@ public class ModelicaDeclaration
 	private final Object					value;
 	private final List<ModelicaArgument>	arguments;
 	private final boolean					isParameter;
-	private final String					annotation;
+	private final Annotation				annotation			= new Annotation(
+			DEFAULT_ANNOTATION);
 
 	private static final String				DEFAULT_ANNOTATION	= "Placement(transformation())";
 }

@@ -39,18 +39,23 @@ public class ModelicaTricks
 			String[] namevar1 = ModelicaUtil.ref2idvar(((ModelicaConnect) eq).getRef1());
 			String[] namevar2 = ModelicaUtil.ref2idvar(((ModelicaConnect) eq).getRef2());
 
+			int p;
 			String name1 = namevar1[0];
 			String name2 = namevar2[0];
-			String id1 = name1.substring(name1.indexOf("__"));
+			String id1 = name1;
+			p = name1.indexOf("__");
+			if (p >= 0) id1 = name1.substring(p);
 			if (id1 == null) id1 = "";
-			String id2 = name2.substring(name2.indexOf("__"));
+			String id2 = name2;
+			p = name2.indexOf("__");
+			if (p >= 0) id2 = name2.substring(p);
 			if (id2 == null) id2 = "";
 
 			String id = id1;
 			// If the connect is a bus-branch, use the id of the branch
 			if (name2.startsWith("line_") || name2.startsWith("trafo_")) id = id2;
 			// First the connection busFrom-branch (pin p)
-			String var2 = namevar2[1];
+			String var2 = namevar2.length > 1 ? namevar2[1] : "";
 			if (var2.equals("n")) id += "z";
 
 			return id;
@@ -162,10 +167,12 @@ public class ModelicaTricks
 			"Generator",
 			"reg");
 	private static final List<String>	KIND_PAIRS		= Arrays.asList(
+			"gen-system",
 			"reg-gen",
 			"reg-reg",
 			"bus-line",
 			"Bus-Line",
+			"line-bus",
 			"bus-load",
 			"Bus-Load",
 			"bus-cap",
@@ -173,6 +180,7 @@ public class ModelicaTricks
 			"bus-gen",
 			"Bus-gen",
 			"bus-trafo",
+			"trafo-bus",
 			"Bus-Transformer");
 
 	private static final Set<String>	KINDS_SET		= new HashSet<>(KINDS);

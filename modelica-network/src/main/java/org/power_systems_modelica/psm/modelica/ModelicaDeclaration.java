@@ -3,13 +3,14 @@ package org.power_systems_modelica.psm.modelica;
 import java.util.Collections;
 import java.util.List;
 
-public class ModelicaDeclaration implements Annotable
+public class ModelicaDeclaration
 {
 	public ModelicaDeclaration(
 			String type,
 			String id,
 			Object value,
-			boolean isParameter)
+			boolean isParameter,
+			Annotation annotation)
 	{
 		isAssignment = true;
 		this.type = type;
@@ -17,13 +18,15 @@ public class ModelicaDeclaration implements Annotable
 		this.value = value;
 		this.arguments = null;
 		this.isParameter = isParameter;
+		this.annotation = annotation;
 	}
 
 	public ModelicaDeclaration(
 			String type,
 			String id,
 			List<ModelicaArgument> arguments,
-			boolean isParameter)
+			boolean isParameter,
+			Annotation annotation)
 	{
 		isAssignment = false;
 		this.type = type;
@@ -31,6 +34,7 @@ public class ModelicaDeclaration implements Annotable
 		this.arguments = arguments;
 		this.value = null;
 		this.isParameter = isParameter;
+		this.annotation = annotation;
 	}
 
 	public String getType()
@@ -64,22 +68,9 @@ public class ModelicaDeclaration implements Annotable
 		return null;
 	}
 
-	@Override
-	public void resetAnnotation()
-	{
-		annotation.reset();
-	}
-
-	@Override
 	public Annotation getAnnotation()
 	{
 		return annotation;
-	}
-
-	@Override
-	public void addAnnotation(String annotation)
-	{
-		this.annotation.add(annotation);
 	}
 
 	private final String					type;
@@ -88,8 +79,5 @@ public class ModelicaDeclaration implements Annotable
 	private final Object					value;
 	private final List<ModelicaArgument>	arguments;
 	private final boolean					isParameter;
-	private final Annotation				annotation			= new Annotation(
-			DEFAULT_ANNOTATION);
-
-	private static final String				DEFAULT_ANNOTATION	= "Placement(transformation())";
+	private final Annotation				annotation;
 }

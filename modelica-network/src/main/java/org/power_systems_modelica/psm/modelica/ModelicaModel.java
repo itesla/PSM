@@ -20,8 +20,6 @@ public class ModelicaModel
 	public void setStaticId(String staticId)
 	{
 		this.staticId = staticId;
-		
-		// FIXME propagate the staticId received to all declarations and equations (annotations)
 	}
 
 	public String getStaticId()
@@ -90,7 +88,29 @@ public class ModelicaModel
 		this.injection = injection;
 	}
 
-	private String						name;
+	public ModelicaModel copy()
+	{
+		ModelicaModel m = new ModelicaModel(getName());
+		copy(this, m);
+		return m;
+	}
+
+	public static void copy(ModelicaModel s, ModelicaModel t)
+	{
+		t.setStaticId(s.getStaticId());
+		
+		// Connectors, Declarations and Equations are immutable objects
+		// There is no need to make deep copies of them
+		t.addDeclarations(s.getDeclarations());
+		t.addEquations(s.getEquations());
+		
+		t.connectors = s.connectors.clone();
+		
+		t.setInjection(s.getInjection());
+	}
+
+	private final String				name;
+
 	private String						staticId;
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
 	private List<ModelicaEquation>		equations		= new ArrayList<>();

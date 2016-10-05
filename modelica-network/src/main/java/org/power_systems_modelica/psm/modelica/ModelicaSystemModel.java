@@ -6,4 +6,11 @@ public class ModelicaSystemModel extends ModelicaModel
 	{
 		super(name);
 	}
+
+	public ModelicaSystemModel copy()
+	{
+		ModelicaSystemModel m = new ModelicaSystemModel(getName());
+		copy(this, m);
+		return m;
+	}
 }

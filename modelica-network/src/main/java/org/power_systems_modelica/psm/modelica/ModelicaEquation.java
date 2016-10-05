@@ -1,15 +1,23 @@
 package org.power_systems_modelica.psm.modelica;
 
-public class ModelicaEquation implements Annotable
+public class ModelicaEquation
 {
 	public ModelicaEquation()
 	{
 		text = null;
+		annotation = null;
 	}
 
 	public ModelicaEquation(String text)
 	{
 		this.text = text;
+		this.annotation = null;
+	}
+
+	public ModelicaEquation(String text, Annotation annotation)
+	{
+		this.text = text;
+		this.annotation = annotation;
 	}
 
 	public String getText()
@@ -17,26 +25,11 @@ public class ModelicaEquation implements Annotable
 		return text;
 	}
 
-	@Override
-	public void resetAnnotation()
-	{
-		annotation.reset();
-	}
-
-	@Override
 	public Annotation getAnnotation()
 	{
 		return annotation;
 	}
 
-	@Override
-	public void addAnnotation(String annotation)
-	{
-		this.annotation.add(annotation);
-	}
-
 	private final String		text;
-
-	private final Annotation	annotation			= new Annotation(DEFAULT_ANNOTATION);
-	private static final String	DEFAULT_ANNOTATION	= "Line()";
+	private final Annotation	annotation;
 }

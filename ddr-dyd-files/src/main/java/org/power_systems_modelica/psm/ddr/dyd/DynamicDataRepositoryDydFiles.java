@@ -25,6 +25,7 @@ import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -97,12 +98,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 		return systemDefinitions.getEquations()
 				.stream()
-				.map(eq -> {
-					String eqt = eq.writeIn(contextModelica);
-					ModelicaEquation meq = new ModelicaEquation(eqt);
-					meq.resetAnnotation();
-					return meq;
-				})
+				.map(eq -> new ModelicaEquation(eq.writeIn(contextModelica)))
 				.collect(Collectors.toList());
 	}
 
@@ -142,10 +138,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			String type = mc.getName();
 			String id = buildModelicaDeclarationId(mdef, mc, element);
 			List<ModelicaArgument> arguments = buildModelicaArguments(mc);
+			Annotation annotation = null;
 
 			// TODO Every Modelica declaration built from a model component definition is a variable, not a parameter
 			boolean isParameter = false;
-			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter));
+			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter, annotation));
 		}
 		m.addDeclarations(ds);
 

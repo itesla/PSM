@@ -51,12 +51,15 @@ public class ModelicaBuilder
 		// TODO consider if we have to resolveReferences only in arguments or also in assignments
 		if (d.isAssignment()) return d;
 
-		List<ModelicaArgument> args = d
-				.getArguments()
-				.stream()
+		List<ModelicaArgument> args = d.getArguments().stream()
 				.map(a -> resolveReference(a, m, d))
 				.collect(Collectors.toList());
-		return new ModelicaDeclaration(d.getType(), d.getId(), args, d.isParameter());
+		return new ModelicaDeclaration(
+				d.getType(),
+				d.getId(),
+				args,
+				d.isParameter(),
+				d.getAnnotation());
 	}
 
 	private ModelicaArgument resolveReference(

@@ -31,5 +31,4 @@ public class ModelicaConnect extends ModelicaEquation
 
 	private final String	ref1;
 	private final String	ref2;
-
 }

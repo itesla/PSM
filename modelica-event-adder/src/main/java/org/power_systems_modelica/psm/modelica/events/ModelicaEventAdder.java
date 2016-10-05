@@ -26,7 +26,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 
 	public ModelicaDocument addEvents(Collection<Event> evs)
 	{
-		ModelicaDocument moWithEvents = original.deepCopy();
+		ModelicaDocument moWithEvents = original.copy();
 		evs.forEach(ev -> addEvent(ev, moWithEvents));
 		return moWithEvents;
 	}

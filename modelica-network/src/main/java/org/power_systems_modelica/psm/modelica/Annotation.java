@@ -1,34 +1,23 @@
 package org.power_systems_modelica.psm.modelica;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Annotation
 {
-	public Annotation(String item)
+	// TODO In the future it will contain a list of items (maybe ModelicaDeclarations)
+
+	public Annotation(String annotation)
 	{
-		this.items.add(item);
+		this.annotation = annotation;
 	}
 
 	public boolean isEmpty()
 	{
-		return items.size() == 0;
+		return annotation == null;
 	}
 
-	public void reset()
+	public String getText()
 	{
-		this.items = new ArrayList<>();
+		return annotation;
 	}
 
-	public void add(String item)
-	{
-		items.add(item);
-	}
-
-	public List<String> getItems()
-	{
-		return items;
-	}
-
-	private List<String> items = new ArrayList<>();
+	private final String annotation;
 }

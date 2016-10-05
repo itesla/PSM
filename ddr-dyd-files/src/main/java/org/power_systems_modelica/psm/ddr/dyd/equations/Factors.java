@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface Factors
 {
-	public <T> List<Expression> getFrom(Context<T> context);
+	<T> List<Expression> getFrom(Context<T> context);
 }

@@ -2,7 +2,7 @@ package org.power_systems_modelica.psm.ddr.dyd;
 
 public interface DydContent
 {
-	public String getName();
+	String getName();
 
-	public void setName(String name);
+	void setName(String name);
 }

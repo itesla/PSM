@@ -7,11 +7,11 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 
 public interface ModelicaEngine
 {
-	public void configure(Configuration config);
+	void configure(Configuration config);
 
-	public void simulate(ModelicaDocument mo);
+	void simulate(ModelicaDocument mo);
 
-	public void simulate(Collection<ModelicaDocument> mos);
+	void simulate(Collection<ModelicaDocument> mos);
 
-	public ModelicaSimulationResults getSimulationResults();
+	ModelicaSimulationResults getSimulationResults();
 }

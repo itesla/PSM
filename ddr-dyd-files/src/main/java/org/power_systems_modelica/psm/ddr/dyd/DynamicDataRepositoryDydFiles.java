@@ -10,9 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,17 +20,18 @@ import javax.xml.stream.XMLStreamException;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
-import org.power_systems_modelica.psm.modelica.ModelicaEventType;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -43,6 +42,14 @@ import eu.itesla_project.iidm.network.Identifiable;
 
 public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 {
+	public DynamicDataRepositoryDydFiles()
+	{
+		dynamicModels = new ModelProvider(false);
+		initializationModels = new ModelProvider(true);
+		systemDefinitions = new SystemDefinitions();
+		parameters = new ParameterSetProvider();
+	}
+
 	@Override
 	public String getType()
 	{
@@ -91,12 +98,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 		return systemDefinitions.getEquations()
 				.stream()
-				.map(eq -> {
-					String eqt = eq.writeIn(contextModelica);
-					ModelicaEquation meq = new ModelicaEquation(eqt);
-					meq.setAnnotation(null);
-					return meq;
-				})
+				.map(eq -> new ModelicaEquation(eq.writeIn(contextModelica)))
 				.collect(Collectors.toList());
 	}
 
@@ -117,13 +119,13 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public ModelicaModel getModelicaModelForEvent(ModelicaEventType event, Identifiable<?> e)
+	public ModelicaModel getModelicaModelForEvent(String ev, Identifiable<?> e)
 	{
-		Model mdef = dynamicModels.getModel(event);
+		Model mdef = dynamicModels.getModelForEvent(ev);
 		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
 	}
-	
+
 	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
 			Identifiable<?> element)
 	{
@@ -136,10 +138,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			String type = mc.getName();
 			String id = buildModelicaDeclarationId(mdef, mc, element);
 			List<ModelicaArgument> arguments = buildModelicaArguments(mc);
+			Annotation annotation = null;
 
 			// TODO Every Modelica declaration built from a model component definition is a variable, not a parameter
 			boolean isParameter = false;
-			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter));
+			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter, annotation));
 		}
 		m.addDeclarations(ds);
 
@@ -229,7 +232,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public void connect() throws ConnectionException
 	{
-		reset();
 		try
 		{
 			read();
@@ -238,15 +240,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		{
 			throw new ConnectionException(e);
 		}
-	}
-
-	private void reset()
-	{
-		dynamicModels = new ModelProvider(false);
-		initializationModels = new ModelProvider(true);
-		systemDefinitions = new SystemDefinitions();
-		parameters = new ParameterSetProvider();
-		mappings.clear();
 	}
 
 	private void read() throws IOException
@@ -270,6 +263,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		{
 			DydContent dyd = DydXml.read(file);
 			if (dyd == null) return;
+			String name = file.getFileName().toString().replace(".dyd", "");
+			dyd.setName(name);
 
 			if (dyd instanceof ModelContainer)
 			{
@@ -300,13 +295,13 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					resolveParameters(mc.getParameterSetReference().getContainer());
 	}
 
-	private void resolveParameters(String filename)
+	private void resolveParameters(String name)
 	{
-		if (parameters.contains(filename)) return;
-		ParameterSetContainer c = readParameters(filename);
+		if (parameters.contains(name)) return;
+		ParameterSetContainer c = readParameters(name);
 		if (c != null)
 		{
-			c.setFilename(filename);
+			c.setName(name);
 			parameters.addContainer(c);
 		}
 	}
@@ -338,12 +333,79 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return (name != null && DYD_MATCHER.matches(name));
 	}
 
+	public void write(
+			String systemDefinitionsDefaultName,
+			String dynamicModelsDefaultName,
+			String initializationModelsDefaultName) throws XMLStreamException, IOException
+	{
+		Path f;
+
+		// Write all model containers, all model initialization containers and all parameter set containers
+		f = fileForDydContent(systemDefinitions, systemDefinitionsDefaultName);
+		DydXml.write(f, systemDefinitions);
+		for (ModelContainer mc : dynamicModels.getContainers())
+		{
+			f = fileForDydContent(mc, dynamicModelsDefaultName);
+			DydXml.write(f, mc);
+		}
+		for (ModelContainer ic : initializationModels.getContainers())
+		{
+			f = fileForDydContent(ic, initializationModelsDefaultName);
+			DydXml.write(f, ic);
+		}
+		for (ParameterSetContainer pc : parameters.getContainers())
+			ParXml.write(location.resolve(pc.getName()), pc);
+	}
+
+	public void addSystemDeclarations(List<ModelicaDeclaration> declarations)
+	{
+		systemDefinitions.addDeclarations(declarations);
+	}
+
+	public void addSystemEquations(List<Equation> equations)
+	{
+		systemDefinitions.addEquations(equations);
+	}
+
+	public void addModel(Model mdef)
+	{
+		dynamicModels.add(mdef);
+	}
+
+	public void addInitializationModel(Model mdefi)
+	{
+		initializationModels.add(mdefi);
+	}
+
+	public Model getDynamicModelForStaticType(String type)
+	{
+		return dynamicModels.getDynamicModelForStaticType(type);
+	}
+
+	public ParameterSetContainer getParameterSetContainer(String name)
+	{
+		return parameters.getContainer(name);
+	}
+
+	public void addParameterSetContainer(String name)
+	{
+		ParameterSetContainer pc = new ParameterSetContainer();
+		pc.setName(name);
+		parameters.addContainer(pc);
+	}
+
+	private Path fileForDydContent(DydContent dyd, String defaultName)
+	{
+		String name = dyd.getName();
+		if (name == null) name = defaultName;
+		return location.resolve(name + ".dyd");
+	}
+
 	private Path						location;
 	private ModelProvider				dynamicModels;
 	private ModelProvider				initializationModels;
 	private SystemDefinitions			systemDefinitions;
 	private ParameterSetProvider		parameters;
-	private Map<String, ModelicaModel>	mappings	= new HashMap<>();
 
 	private static final PathMatcher	DYD_MATCHER	= FileSystems
 			.getDefault().getPathMatcher("glob:*.dyd");

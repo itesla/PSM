@@ -16,20 +16,17 @@ import javax.xml.stream.XMLStreamException;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
+import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
-import org.power_systems_modelica.psm.ddr.dyd.ModelProvider;
 import org.power_systems_modelica.psm.ddr.dyd.Parameter;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetContainer;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
-import org.power_systems_modelica.psm.ddr.dyd.SystemDefinitions;
 import org.power_systems_modelica.psm.ddr.dyd.equations.UnparsedEquation;
-import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
-import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -62,48 +59,33 @@ public class DydFilesFromModelica
 		ModelicaDocument mo = new ModelicaParser().parse(modelicaFile);
 
 		// Try to group all dynamic model components that refer to the same static element
+		// We remove the equations that are related to interconnections between static elements
+		// (they are not needed in the DDR, they will be built from the given topology of the static network)
 		Collection<ModelicaModel> ms = ModelicaBuilder.groupByStaticId(mo);
-
-		// Remove the equations that are related to interconnections between static elements
-		// (they won't be part of the DDR)
 		ms = ms.stream()
 				.filter(m -> !ModelicaBuilder.isInterconnection(m))
 				.collect(Collectors.toList());
 
-		// FIXME simplify this simply creating a DDR and doing reset() on it (not connect), then referring it
-		// Build the dynamic repository objects
-		ModelProvider models = new ModelProvider(false);
-		ModelProvider inits = new ModelProvider(true);
-		ParameterSetContainer par = new ParameterSetContainer();
-		par.setFilename("params.par");
-		SystemDefinitions systemDefinitions = new SystemDefinitions();
-
 		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
 		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
 
-		mo2dyd(ms, systemDefinitions, models, inits, par, fakeInitializationResults);
+		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
+		ddr.setLocation(ddrLocation.toString());
+		ddr.addParameterSetContainer(PARAMS_NAME);
 
-		// Save the dynamic repository objects as xml files
-		Path dydModels = ddrLocation.resolve("models.dyd");
-		Path dydInit = ddrLocation.resolve("init.dyd");
-		Path parf = ddrLocation.resolve("params.par");
-		Path dydSystem = ddrLocation.resolve("system.dyd");
-		DydXml.write(dydSystem, systemDefinitions);
-		DydXml.write(dydModels, models.getDefaultContainer());
-		DydXml.write(dydInit, inits.getDefaultContainer());
-		ParXml.write(parf, par);
+		mo2dyd(ms, ddr, fakeInitializationResults);
 
-		// Save fake initialization results
-		Path fakef = ddrLocation.resolve("fake_init.csv");
+		// Save the dynamic repository objects as XML files, provide default names for the DYD containers
+		ddr.write(SYSTEM_NAME, MODELS_NAME, INIT_NAME);
+
+		// Save fake initialization results for later use
+		Path fakef = ddrLocation.resolve(FAKE_INIT_NAME);
 		ModelicaSimulationResultsCsv.write(fakef, fakeInitializationResults);
 	}
 
 	private static void mo2dyd(
 			Collection<ModelicaModel> ms,
-			SystemDefinitions sys,
-			ModelProvider dyd,
-			ModelProvider dydInit,
-			ParameterSetContainer par,
+			DynamicDataRepositoryDydFiles ddr,
 			ModelicaSimulationResults fakeInitResults)
 	{
 		// Keep track of the Model definitions added to the repository so they are not added twice
@@ -112,35 +94,35 @@ public class DydFilesFromModelica
 		{
 			if (ModelicaBuilder.isSystemModel(m))
 			{
-				sys.addDeclarations(m.getDeclarations());
+				ddr.addSystemDeclarations(m.getDeclarations());
 				// FIXME System equations are added 'as they appear' in the mo file, which additional considerations about write/read???
-				sys.addEquations(m.getEquations()
+				ddr.addSystemEquations(m.getEquations()
 						.stream()
 						.map(meq -> new UnparsedEquation(meq.getText()))
 						.collect(Collectors.toList()));
 				continue;
 			}
 
-			Model mdef = checkModelDefinitionForType(m, dyd, par);
-			if (mdef == null) mdef = buildModelDefinitionForElement(m, par, fakeInitResults);
+			Model mdef = checkModelDefinitionForType(m, ddr);
+			if (mdef == null) mdef = buildModelDefinitionForElement(m, ddr, fakeInitResults);
 			if (mdef == null) continue;
 			if (addedModels.contains(mdef)) continue;
 
-			dyd.add(mdef);
+			ddr.addModel(mdef);
 			addedModels.add(mdef);
 
 			// TODO Infer proper initialization models.
 			// Right now we are only changing names of components
 			// taken from the dynamic model definition used for simulation
 			// and storing them in a separate repository.
-			Model mdefi = inferInitializationModel(mdef, par);
-			if (mdefi != null) dydInit.add(mdefi);
+			Model mdefi = inferInitializationModel(mdef, ddr);
+			if (mdefi != null) ddr.addInitializationModel(mdefi);
 		}
 	}
 
 	private static Model inferInitializationModel(
 			Model m,
-			ParameterSetContainer par)
+			DynamicDataRepositoryDydFiles ddr)
 	{
 		// TODO We are doing it only for specific elements. Consider if we should do it for other sub-classes of Model
 		if (!(m instanceof ModelForElement)) return null;
@@ -149,7 +131,7 @@ public class DydFilesFromModelica
 		ModelForElement mi = new ModelForElement(m0.getId(), m0.getStaticId());
 		mi.addComponents(m.getComponents()
 				.stream()
-				.map(c -> inferInitializationComponent(c, par))
+				.map(c -> inferInitializationComponent(c, ddr))
 				.collect(Collectors.toList()));
 		mi.addConnections(m.getConnections());
 		mi.addConnectors(m.getConnectors());
@@ -158,8 +140,10 @@ public class DydFilesFromModelica
 
 	private static Component inferInitializationComponent(
 			Component c,
-			ParameterSetContainer par)
+			DynamicDataRepositoryDydFiles ddr)
 	{
+		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
+
 		Component ci = new Component(c.getId(), c.getName() + "_Init");
 		if (c.getParameterSet() != null)
 		{
@@ -177,7 +161,7 @@ public class DydFilesFromModelica
 			List<Parameter> params1 = filterOutInitParameters(params0);
 			psi.add(params1);
 			ParameterSetReference psir = new ParameterSetReference(
-					par.getFilename(),
+					par.getName(),
 					psi.getId());
 			ci.setParameterSetReference(psir);
 		}
@@ -192,20 +176,19 @@ public class DydFilesFromModelica
 	}
 
 	private static Model checkModelDefinitionForType(
-			ModelicaModel mo,
-			ModelProvider dyd,
-			ParameterSetContainer par)
+			ModelicaModel m,
+			DynamicDataRepositoryDydFiles ddr)
 	{
-		String type = whichType(mo);
+		String type = whichType(m);
 		if (type == null) return null;
 
-		Model mdef = dyd.getDynamicModelForStaticType(type);
+		Model mdef = ddr.getDynamicModelForStaticType(type);
 		if (mdef != null) return mdef;
 
 		// Do not build generic model definition for generators
 		if (type.equals("Generator")) return null;
 
-		return buildModelDefinitionForType(type, mo, dyd, par);
+		return buildModelDefinitionForType(type, m, ddr);
 	}
 
 	private static String whichType(ModelicaModel mo)
@@ -219,8 +202,7 @@ public class DydFilesFromModelica
 	private static Model buildModelDefinitionForType(
 			String stype,
 			ModelicaModel mo,
-			ModelProvider dyd,
-			ParameterSetContainer par)
+			DynamicDataRepositoryDydFiles ddr)
 	{
 		Model mdef = new ModelForType(stype);
 		boolean generic = true;
@@ -229,6 +211,8 @@ public class DydFilesFromModelica
 		// We only process the first (unique) declaration
 		ModelicaDeclaration d = mo.getDeclarations().get(0);
 
+		// A new parameter set for this model
+		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
 		ParameterSet pset = par.newParameterSet();
 		pset.add(buildParameters(stype, d.getArguments()));
 		Component mdefc = new Component(null, d.getType());
@@ -240,7 +224,7 @@ public class DydFilesFromModelica
 
 	private static Model buildModelDefinitionForElement(
 			ModelicaModel mo,
-			ParameterSetContainer par,
+			DynamicDataRepositoryDydFiles ddr,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
 		String id = mo.getName();
@@ -251,6 +235,7 @@ public class DydFilesFromModelica
 			LOG.warn("Ignored ModelicaModel {}: {}", mo.getName(), reason);
 			return null;
 		}
+		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
 		String type = whichType(mo);
 
 		ModelForElement mdef = new ModelForElement(id, staticId);
@@ -268,7 +253,7 @@ public class DydFilesFromModelica
 				pset.add(buildParameters(type, d.getArguments()));
 				par.add(pset);
 				ParameterSetReference pref = new ParameterSetReference(
-						par.getFilename(),
+						par.getName(),
 						pset.getId());
 				mdefc.setParameterSetReference(pref);
 
@@ -387,5 +372,12 @@ public class DydFilesFromModelica
 		return Arrays.asList(connectors);
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(DydFilesFromModelica.class);
+	private static final String	PARAMS_NAME		= "params.par";
+	private static final String	SYSTEM_NAME		= "system";
+	private static final String	MODELS_NAME		= "models";
+	private static final String	INIT_NAME		= "init";
+	private static final String	FAKE_INIT_NAME	= "fake_init.csv";
+
+	private static final Logger	LOG				= LoggerFactory
+			.getLogger(DydFilesFromModelica.class);
 }

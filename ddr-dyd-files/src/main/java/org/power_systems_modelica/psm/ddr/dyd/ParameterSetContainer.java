@@ -5,21 +5,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParameterSetContainer
+public class ParameterSetContainer implements DydContent
 {
 	public ParameterSetContainer()
 	{
 		this.setCounter = 0;
 	}
 
-	public void setFilename(String filename)
+	public void setName(String name)
 	{
-		this.filename = filename;
+		this.name = name;
 	}
 
-	public String getFilename()
+	public String getName()
 	{
-		return filename;
+		return name;
 	}
 
 	public ParameterSet newParameterSet()
@@ -43,7 +43,7 @@ public class ParameterSetContainer
 		return Collections.unmodifiableCollection(parameterSets.values());
 	}
 
-	private String							filename;
+	private String							name;
 	private int								setCounter;
 
 	private final Map<String, ParameterSet>	parameterSets	= new HashMap<>();

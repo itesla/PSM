@@ -14,6 +14,16 @@ public class SystemDefinitions implements DydContent
 		equations = new ArrayList<>();
 	}
 
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
 	public void add(SystemDefinitions sd)
 	{
 		declarations.addAll(sd.getDeclarations());
@@ -50,6 +60,7 @@ public class SystemDefinitions implements DydContent
 		return equations;
 	}
 
+	String						name;
 	List<ModelicaDeclaration>	declarations;
 	List<Equation>				equations;
 }

@@ -52,11 +52,12 @@ declaration_stmt locals [boolean isParameter = false]
 {
 	String type = $type_name.text;
 	String id = $instantiation.id;
+	Annotation annotation = new Annotation($annotation.text);
 	ModelicaDeclaration declaration;
 	if ($instantiation.arguments != null)
-		declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter);
+		declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter, annotation);
 	else
-		declaration = new ModelicaDeclaration(type, id, $instantiation.value, $isParameter);
+		declaration = new ModelicaDeclaration(type, id, $instantiation.value, $isParameter, annotation);
 	modelicaDocument.getSystemModel().addDeclaration(declaration);
 }
    ;

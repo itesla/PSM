@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -91,18 +92,18 @@ public class ModelicaTextPrinter
 
 	private void printDeclarations(PrintWriter out)
 	{
-		for (ModelicaDeclaration m : sortedDeclarations())
+		for (ModelicaDeclaration d : sortedDeclarations())
 		{
-			String sparameter = m.isParameter() ? "parameter " : "";
-			out.printf("  %s%s %s", sparameter, m.getType(), m.getId());
-			if (m.isAssignment() && m.getValue() != null)
+			String sparameter = d.isParameter() ? "parameter " : "";
+			out.printf("  %s%s %s", sparameter, d.getType(), d.getId());
+			if (d.isAssignment() && d.getValue() != null)
 			{
-				out.printf(" = %s", m.getValue());
+				out.printf(" = %s", d.getValue());
 			}
-			else if (m.getArguments() != null)
+			else if (d.getArguments() != null)
 			{
 				out.printf(" (%n");
-				Iterator<ModelicaArgument> k = m.getArguments().iterator();
+				Iterator<ModelicaArgument> k = d.getArguments().iterator();
 				if (k.hasNext())
 				{
 					printArgument(out, k.next());
@@ -113,10 +114,38 @@ public class ModelicaTextPrinter
 					}
 				}
 				out.printf("%n    )");
-				out.printf(" annotation (%s)", m.getAnnotation());
+				printAnnotation(out, annotation(d));
 			}
 			out.printf(";%n");
 		}
+	}
+
+	private Annotation annotation(ModelicaDeclaration d)
+	{
+		// For assignments, return the annotation as it is (maybe empty)
+		if (d.isAssignment()) return d.getAnnotation();
+		// For the rest of declarations, provide a default annotation if given is empty
+		if (d.getAnnotation() == null || d.getAnnotation().isEmpty())
+			return DECLARATION_DEFAULT_ANNOTATION;
+		return d.getAnnotation();
+	}
+
+	private Annotation annotation(ModelicaEquation eq)
+	{
+		// If the annotation exists and is not empty, return it
+		if (eq.getAnnotation() != null && !eq.getAnnotation().isEmpty()) return eq.getAnnotation();
+		// Provide default annotations for some types of equations
+		if (eq instanceof ModelicaConnect) return CONNECT_DEFAULT_ANNOTATION;
+		return null;
+	}
+
+	private String asText(Annotation a)
+	{
+		// return a.getItems().stream().collect(Collectors.joining(","));
+		if (a == null) return "";
+		String text = a.getText();
+		if (text == null) return "";
+		return text;
 	}
 
 	private void printArgument(PrintWriter out, ModelicaArgument a)
@@ -153,9 +182,15 @@ public class ModelicaTextPrinter
 		for (ModelicaEquation eq : sortedEquations())
 		{
 			out.printf("  %s", eq.getText());
-			if (eq.getAnnotation() != null) out.printf(" annotation (%s)", eq.getAnnotation());
+			printAnnotation(out, annotation(eq));
 			out.printf(";%n");
 		}
+	}
+
+	private void printAnnotation(PrintWriter out, Annotation a)
+	{
+		if (a != null && !a.isEmpty())
+			out.printf(" annotation (%s)", asText(a));
 	}
 
 	private void printSystemModelEnd(PrintWriter out)
@@ -163,5 +198,10 @@ public class ModelicaTextPrinter
 		out.printf("end %s;%n", mo.getSystemModel().getName());
 	}
 
-	private ModelicaDocument mo;
+	private ModelicaDocument		mo;
+
+	private static final Annotation	DECLARATION_DEFAULT_ANNOTATION	= new Annotation(
+			"Placement(transformation())");
+	private static final Annotation	CONNECT_DEFAULT_ANNOTATION		= new Annotation(
+			"Line()");
 }

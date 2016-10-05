@@ -5,11 +5,19 @@ public class ModelicaEquation
 	public ModelicaEquation()
 	{
 		text = null;
+		annotation = null;
 	}
 
 	public ModelicaEquation(String text)
 	{
 		this.text = text;
+		this.annotation = null;
+	}
+
+	public ModelicaEquation(String text, Annotation annotation)
+	{
+		this.text = text;
+		this.annotation = annotation;
 	}
 
 	public String getText()
@@ -17,18 +25,11 @@ public class ModelicaEquation
 		return text;
 	}
 
-	public String getAnnotation()
+	public Annotation getAnnotation()
 	{
 		return annotation;
 	}
 
-	public void setAnnotation(String annotation)
-	{
-		this.annotation = annotation;
-	}
-
 	private final String		text;
-	private String				annotation			= DEFAULT_ANNOTATION;
-
-	private static final String	DEFAULT_ANNOTATION	= "Line()";
+	private final Annotation	annotation;
 }

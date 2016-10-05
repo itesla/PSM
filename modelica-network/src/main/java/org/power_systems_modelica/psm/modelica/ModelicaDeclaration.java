@@ -9,7 +9,8 @@ public class ModelicaDeclaration
 			String type,
 			String id,
 			Object value,
-			boolean isParameter)
+			boolean isParameter,
+			Annotation annotation)
 	{
 		isAssignment = true;
 		this.type = type;
@@ -17,14 +18,15 @@ public class ModelicaDeclaration
 		this.value = value;
 		this.arguments = null;
 		this.isParameter = isParameter;
-		this.annotation = DEFAULT_ANNOTATION;
+		this.annotation = annotation;
 	}
 
 	public ModelicaDeclaration(
 			String type,
 			String id,
 			List<ModelicaArgument> arguments,
-			boolean isParameter)
+			boolean isParameter,
+			Annotation annotation)
 	{
 		isAssignment = false;
 		this.type = type;
@@ -32,7 +34,7 @@ public class ModelicaDeclaration
 		this.arguments = arguments;
 		this.value = null;
 		this.isParameter = isParameter;
-		this.annotation = DEFAULT_ANNOTATION;
+		this.annotation = annotation;
 	}
 
 	public String getType()
@@ -66,7 +68,7 @@ public class ModelicaDeclaration
 		return null;
 	}
 
-	public String getAnnotation()
+	public Annotation getAnnotation()
 	{
 		return annotation;
 	}
@@ -77,7 +79,5 @@ public class ModelicaDeclaration
 	private final Object					value;
 	private final List<ModelicaArgument>	arguments;
 	private final boolean					isParameter;
-	private final String					annotation;
-
-	private static final String				DEFAULT_ANNOTATION	= "Placement(transformation())";
+	private final Annotation				annotation;
 }

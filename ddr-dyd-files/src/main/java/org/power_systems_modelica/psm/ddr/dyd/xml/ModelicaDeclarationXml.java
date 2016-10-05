@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 
 public class ModelicaDeclarationXml
@@ -25,7 +26,8 @@ public class ModelicaDeclarationXml
 		String id = r.getAttributeValue(null, "id");
 		Object value = r.getAttributeValue(null, "value");
 		boolean isParameter = Boolean.valueOf(r.getAttributeValue(null, "isParameter"));
-		ModelicaDeclaration d = new ModelicaDeclaration(type, id, value, isParameter);
+		Annotation annotation = null;
+		ModelicaDeclaration d = new ModelicaDeclaration(type, id, value, isParameter, annotation);
 		return d;
 	}
 }

@@ -1,10 +1,16 @@
 package org.power_systems_modelica.psm.ddr.dyd;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ParameterSetProvider
 {
+	public Collection<ParameterSetContainer> getContainers()
+	{
+		return parameterSetContainers.values();
+	}
+
 	public boolean contains(String filename)
 	{
 		return parameterSetContainers.containsKey(filename);
@@ -12,8 +18,13 @@ public class ParameterSetProvider
 
 	public void addContainer(ParameterSetContainer c)
 	{
-		String container = c.getFilename();
+		String container = c.getName();
 		parameterSetContainers.put(container, c);
+	}
+
+	public ParameterSetContainer getContainer(String name)
+	{
+		return parameterSetContainers.get(name);
 	}
 
 	public ParameterSet get(ParameterSetReference ref)

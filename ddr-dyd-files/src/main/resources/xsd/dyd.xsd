@@ -132,7 +132,7 @@
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="forType" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="forEvent" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="isReplacement" use="optional" type="xs:boolean" />
+		<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
 	</xs:complexType>
 	<xs:complexType name="Component">
 		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />
@@ -196,5 +196,11 @@
 			<xs:enumeration value="EVENT" />
 		</xs:restriction>
 	</xs:simpleType>
-
+	<xs:simpleType name="EventInjection">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADD" />
+			<xs:enumeration value="REPLACE" />
+			<xs:enumeration value="INTERPOSE" />
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

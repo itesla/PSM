@@ -4,8 +4,20 @@ public class ModelicaConnector
 {
 	public ModelicaConnector(String id, String pin, boolean reusable)
 	{
-		ref = id + "." + pin;
+		this.id = id;
+		this.pin = pin;
 		this.reusable = reusable;
+		ref = id + "." + pin;
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
+	public String getPin()
+	{
+		return pin;
 	}
 
 	public String getRef()
@@ -18,6 +30,8 @@ public class ModelicaConnector
 		return reusable;
 	}
 
+	private final String	id;
+	private final String	pin;
 	private final String	ref;
 	private final boolean	reusable;
 }

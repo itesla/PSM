@@ -1,59 +1,94 @@
 package org.power_systems_modelica.psm.modelica.events;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
+import org.power_systems_modelica.psm.modelica.builder.MapReferenceResolver;
+import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ModelicaEventAdder
+import eu.itesla_project.iidm.network.Identifiable;
+import eu.itesla_project.iidm.network.Network;
+
+public class ModelicaEventAdder extends ModelicaNetworkBuilder
 {
-	public ModelicaEventAdder(DynamicDataRepository ddr, ModelicaDocument mo)
+	public ModelicaEventAdder(ModelicaDocument mo, DynamicDataRepository ddr, Network network)
 	{
-		this.ddr = ddr;
+		super(ddr, network);
 		this.original = mo;
 	}
 
 	public ModelicaDocument addEvents(Collection<Event> evs)
 	{
-		// FIXME working on it ... add events to a Modelica network model
-		ModelicaDocument moWithEvents = original.shallowCopy();
+		ModelicaDocument moWithEvents = original.copy();
 		evs.forEach(ev -> addEvent(ev, moWithEvents));
 		return moWithEvents;
 	}
 
 	private void addEvent(Event ev, ModelicaDocument mo)
 	{
-		// Adding an event on an element of the network model means
-		// to obtain a dynamic model for the event type, from the dynamic data repository
-		// and either add it to the system model
-		// or replace the existing dynamic model for the element with the new one
+		// Adding an event on an element of the network model means:
+		// - First obtain a dynamic model for the event type from the dynamic data repository
+		// - Then insert the event model in the system, according to specific type of insertion
+		// The kind of insertion of an event in the system model can be one of three possibilities:
+		// - Add. Old dynamic model for the element is preserved. Event model is connected to original model connectors (fault in a bus)
+		// - Replace. Previous dynamic model is completely replaced by event model. Elements connected to original model are now connected to event model (fault in a line)
+		// - Interpose. Previous dynamic model is connected with event model, and event model is connected with rest of the system (open a line, introducing breakers)
 
-		ModelicaModel m = ddr.getModelicaModelForEvent(ev.getType(), ev.getElement());
+		ModelicaModel m = getDdr().getModelicaModelForEvent(ev.getId(), ev.getElement());
 		if (m == null)
 		{
-			LOG.warn("No dynamic model found for event type {}", ev.getType());
+			LOG.warn("No dynamic model found for event {}", ev.getId());
 			return;
 		}
+
+		// Identify existing model interconnections with the rest of the system
+		List<ModelicaConnect> connects = identifyPreviousInterconnections(mo, ev.getElement());
+
+		// Build the new model and add it to the system
 		String id = ev.getElement().getId();
 		m.setStaticId(id);
-		m = resolveReferences(m, ev);
-		if (m.isReplacement()) mo.replaceModelForStaticId(id, m);
-		else mo.addModelForStaticId(id, m);
+		mo.getSystemModel().getDeclarations().addAll(resolveReferences(m.getDeclarations(), m, ev));
+		mo.getSystemModel().getEquations().addAll(m.getEquations());
+
+		// Interconnect the new model with the rest of the system
+		switch (m.getInjection())
+		{
+		case ADD:
+			break;
+		case REPLACE:
+			break;
+		case INTERPOSE:
+			break;
+		}
 	}
 
-	private ModelicaModel resolveReferences(ModelicaModel m, Event ev)
+	private List<ModelicaDeclaration> resolveReferences(
+			List<ModelicaDeclaration> ds0,
+			ModelicaModel m,
+			Event ev)
 	{
-		// FIXME We have to resolve references in the ModelicaModel m using the list of values for parameters in the event
-		// FIXME reuse code from network model builder
-		throw new RuntimeException(
-				"resolveReferences in ModelicaModel from params given with the Event");
+		registerResolver("EVENT", new MapReferenceResolver(ev.getParameters()));
+		List<ModelicaDeclaration> ds = super.resolveReferences(ds0, m);
+		removeResolver("EVENT");
+		return ds;
 	}
 
-	private final DynamicDataRepository	ddr;
-	private final ModelicaDocument		original;
+	private List<ModelicaConnect> identifyPreviousInterconnections(
+			ModelicaDocument mo,
+			Identifiable<?> element)
+	{
+		// FIXME null
+		return null;
+	}
 
-	private static final Logger			LOG	= LoggerFactory.getLogger(ModelicaEventAdder.class);
+	private final ModelicaDocument	original;
+
+	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaEventAdder.class);
 }

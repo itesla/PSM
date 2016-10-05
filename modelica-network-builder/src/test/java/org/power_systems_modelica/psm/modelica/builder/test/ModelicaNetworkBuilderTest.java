@@ -77,7 +77,8 @@ public class ModelicaNetworkBuilderTest
 				"BusModel",
 				"dynamicBus1",
 				Arrays.asList(V, A),
-				false);
+				false,
+				null);
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
 		dbus.addDeclarations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus
@@ -126,7 +127,8 @@ public class ModelicaNetworkBuilderTest
 				"BusModel",
 				"dynamicBus1",
 				Arrays.asList(V, A),
-				false);
+				false,
+				null);
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
 		String bid = firstBus.getVoltageLevel().getId() + "::" + firstBus.getId();
 		dbus.setStaticId(bid);

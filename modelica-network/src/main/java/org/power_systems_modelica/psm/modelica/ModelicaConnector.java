@@ -1,12 +1,14 @@
 package org.power_systems_modelica.psm.modelica;
 
+import java.util.Optional;
+
 public class ModelicaConnector
 {
-	public ModelicaConnector(String id, String pin, boolean reusable)
+	public ModelicaConnector(String id, String pin, String target)
 	{
 		this.id = id;
 		this.pin = pin;
-		this.reusable = reusable;
+		this.target = Optional.ofNullable(target);
 		ref = id + "." + pin;
 	}
 
@@ -25,13 +27,13 @@ public class ModelicaConnector
 		return ref;
 	}
 
-	public boolean isReusable()
+	public Optional<String> getTarget()
 	{
-		return reusable;
+		return target;
 	}
 
-	private final String	id;
-	private final String	pin;
-	private final String	ref;
-	private final boolean	reusable;
+	private final String			id;
+	private final String			pin;
+	private final String			ref;
+	private final Optional<String>	target;
 }

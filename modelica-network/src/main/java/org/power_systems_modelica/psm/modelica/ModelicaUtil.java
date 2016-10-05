@@ -21,12 +21,16 @@ public class ModelicaUtil
 		return normalizedDynamicIdentifier("DM".concat(id));
 	}
 
-	public static String dynamicDeclarationIdFromStaticId(String type, String name, String id)
+	public static String dynamicDeclarationIdFromModelForType(String type, String name, String id)
 	{
-		// return name.substring(name.lastIndexOf('.') + 1).concat(id);
-		// FIXME Only to ease the comparison with existing mo's
+		// This is to ease comparison with previous Modelica transformations
 		type = ModelicaTricks.legacyType(type);
 		return normalizedDynamicIdentifier(type.concat("_").concat(id));
+	}
+
+	public static String dynamicDeclarationIdFromModelForEvent(String event, String name, String id)
+	{
+		return normalizedDynamicIdentifier(event.concat("_").concat(id));
 	}
 
 	private static String normalizedDynamicIdentifier(String id)

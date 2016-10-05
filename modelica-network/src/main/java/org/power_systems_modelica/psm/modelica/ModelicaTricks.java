@@ -74,32 +74,30 @@ public class ModelicaTricks
 		return refs;
 	}
 
-	public static ModelicaConnector preferredConnector(
-			ModelicaModel m,
-			ModelicaModel other,
-			ModelicaConnector[] conns)
+	public static boolean isBusAtSide(
+			ModelicaModel branch,
+			ModelicaModel bus,
+			int side)
 	{
 		// This is only to assign the same pins that old conversion software
 		// that is, assign pin "p" of branch to connection with bus from
 		// and assign pin "n" of branch to connection with bus to
 
-		assert (conns.length == 2);
-		ModelicaModel bus = m;
-		ModelicaModel branch = other;
-		String otherName = other.getDeclarations().get(0).getId();
-		if (otherName.startsWith("bus_"))
-		{
-			bus = other;
-			branch = m;
-		}
-
 		String branchName = branch.getDeclarations().get(0).getId();
 		String idBus = bus.getStaticId().replace("_TN", "");
 		int pBus = branchName.indexOf(idBus);
-		int pBusFrom = branchName.indexOf("__") + 1;
-		boolean isBusFrom = pBus == pBusFrom;
+		int pBus1 = branchName.indexOf("__") + 1;
+		boolean isBus1 = pBus == pBus1;
 
-		return isBusFrom ? conns[0] : conns[1];
+		switch (side)
+		{
+		case 1:
+			return isBus1;
+		case 2:
+			return !isBus1;
+		default:
+			return false;
+		}
 	}
 
 	public static String getStaticTypeFromDynamicType(String dtype)

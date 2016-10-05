@@ -9,7 +9,7 @@
 		<component id="SP_LAI_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
 		<component id="SP_LIS_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
 		<component id="SP_LIR_CIVAU7CIVAU1_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
-		<connector id="M1S_CIVAU7CIVAU1_NGU_SM" pin="sortie" reusable="false"/>
+		<connector id="M1S_CIVAU7CIVAU1_NGU_SM" pin="sortie" target="IIDM:bus:p"/>
 		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="EfdPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="efd"/>
 		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="UsPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="UReg"/>
 		<connection id1="VR_CIVAU7CIVAU1_NGU_SM" var1="QsPU" id2="M1S_CIVAU7CIVAU1_NGU_SM" var2="Qs"/>
@@ -37,7 +37,7 @@
 		<component id="SP_LAI_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
 		<component id="SP_LIS_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
 		<component id="SP_LIR_SSEA27SSEA21_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
-		<connector id="M1S_SSEA27SSEA21_NGU_SM" pin="sortie" reusable="false"/>
+		<connector id="M1S_SSEA27SSEA21_NGU_SM" pin="sortie" target="IIDM:bus:p"/>
 		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="EfdPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="efd"/>
 		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="UsPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="UReg"/>
 		<connection id1="VR_SSEA27SSEA21_NGU_SM" var1="QsPU" id2="M1S_SSEA27SSEA21_NGU_SM" var2="Qs"/>
@@ -65,7 +65,7 @@
 		<component id="SP_LAI_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="4"/>
 		<component id="SP_LIS_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="5"/>
 		<component id="SP_LIR_SSEA27SSEA22_NGU_SM" name="Dynamo.Electrical.Controls.Machines.DYNModelSetPoint" parFile="../BDD/Machines/DYNModelSetPoint.par" parId="6"/>
-		<connector id="M1S_SSEA27SSEA22_NGU_SM" pin="sortie" reusable="false"/>
+		<connector id="M1S_SSEA27SSEA22_NGU_SM" pin="sortie" target="IIDM:bus:p"/>
 		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="EfdPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="efd"/>
 		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="UsPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="UReg"/>
 		<connection id1="VR_SSEA27SSEA22_NGU_SM" var1="QsPU" id2="M1S_SSEA27SSEA22_NGU_SM" var2="Qs"/>

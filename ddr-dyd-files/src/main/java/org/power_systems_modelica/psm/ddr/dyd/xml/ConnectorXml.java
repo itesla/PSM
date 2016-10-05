@@ -14,8 +14,8 @@ public class ConnectorXml
 	{
 		String id = r.getAttributeValue(null, "id");
 		String pin = r.getAttributeValue(null, "pin");
-		String reusable = r.getAttributeValue(null, "reusable");
-		Connector c = new Connector(id, pin, Boolean.valueOf(reusable));
+		String target = r.getAttributeValue(null, "target");
+		Connector c = new Connector(id, pin, target);
 		return c;
 	}
 
@@ -25,6 +25,6 @@ public class ConnectorXml
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
 		if (c.getId() != null) w.writeAttribute("id", c.getId());
 		w.writeAttribute("pin", c.getPin());
-		w.writeAttribute("reusable", Boolean.toString(c.isReusable()));
+		if (c.getTarget() != null) w.writeAttribute("target", c.getTarget());
 	}
 }

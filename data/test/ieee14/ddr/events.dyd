@@ -7,38 +7,38 @@
 			<ref name="t1" dataSource="EVENT" sourceName="t1"/>
 			<ref name="t2" dataSource="EVENT" sourceName="t2"/>
 		</component>
-		<connector pin="p" reusable="true"/>
+		<connector pin="p" target="IIDM:bus:p"/>
 	</model>
 	<model forEvent="LineFault" injection="REPLACE">
 		<component name="iPSL.Electrical.Events.PwLineFault">
 		</component>
-		<connector pin="p" reusable="false"/>
-		<connector pin="n" reusable="false"/>
+		<connector pin="p"/>
+		<connector pin="n"/>
 	</model>
 	<model forEvent="LineOpenReceiverSide" injection="INTERPOSE">
 		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving">
 		</component>
-		<connector pin="p" reusable="false"/>
+		<connector pin="p"/>
 	</model>
 	<model forEvent="LineOpenBothSides" injection="INTERPOSE">
 		<component name="iPSL.Electrical.Branches.PwLine2Openings">
 		</component>
-		<connector pin="p" reusable="false"/>
+		<connector pin="p"/>
 	</model>
 	<model forEvent="BankModification" injection="REPLACE">
 		<component name="iPSL.Electrical.Banks.PwCapacitorBankWithModification">
 		</component>
-		<connector pin="p" reusable="false"/>
+		<connector pin="p"/>
 	</model>
 	<model forEvent="LoadVariation" injection="REPLACE">
 		<component name="iPSL.Electrical.Loads.PwLoadwithVariation">
 		</component>
-		<connector pin="p" reusable="false"/>
+		<connector pin="p"/>
 	</model>
 	<model forEvent="Breaker" injection="INTERPOSE">
 		<component name="iPSL.Electrical.Events.Breaker">
 		</component>
-		<connector pin="p" reusable="false"/>
-		<connector pin="n" reusable="false"/>
+		<connector pin="p"/>
+		<connector pin="n"/>
 	</model>
 </model_container>

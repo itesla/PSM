@@ -2,7 +2,9 @@ package org.power_systems_modelica.psm.modelica.builder;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -13,8 +15,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
@@ -80,14 +80,13 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		// obtain the list of model declarations and equations
 
 		final Set<Identifiable<?>> visited = new HashSet<>(network.getIdentifiables().size());
-		final ConnectorResources connectors = new ConnectorResources();
 		for (Bus b : network.getBusBreakerView().getBuses())
 		{
 			if (isOnlyMainConnectedComponent() && !b.isInMainConnectedComponent()) continue;
 			ModelicaModel db = getDdr().getModelicaModel(b);
 			if (db == null) continue;
 
-			addDynamicModel(m, db);
+			addDynamicModel(m, db, null);
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
@@ -98,21 +97,10 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 					if (!visited.contains(e))
 					{
-						addDynamicModel(m, de);
+						addDynamicModel(m, de, db);
 						visited.add(e);
 					}
-					try
-					{
-						addConnection(m, db, de, connectors);
-					}
-					catch (ConnectorException x)
-					{
-						LOG.warn(
-								"could not add connection between bus {} and element {}, reason '{}'",
-								b.getId(),
-								e.getId(),
-								x.getMessage());
-					}
+					addConnections(m, de, db);
 				}
 			};
 			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
@@ -120,7 +108,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		}
 	}
 
-	private void addDynamicModel(ModelicaSystemModel system, ModelicaModel m)
+	private void addDynamicModel(ModelicaSystemModel system, ModelicaModel m, ModelicaModel mbus)
 	{
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
@@ -130,83 +118,42 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		system.addEquations(m.getEquations());
 	}
 
-	private void addConnection(
-			ModelicaSystemModel m,
-			ModelicaModel m1,
-			ModelicaModel m2,
-			ConnectorResources connectors) throws ConnectorException
+	private void addConnections(ModelicaSystemModel system, ModelicaModel m, ModelicaModel mbus)
 	{
-		ModelicaConnector conn1 = acquireConnector(m1, m2, connectors);
-		ModelicaConnector conn2 = acquireConnector(m2, m1, connectors);
-		m.addEquation(new ModelicaConnect(conn1.getRef(), conn2.getRef()));
+		// Add connections with the rest of the system
+		// TODO if we have problems resolving references (some models not yet created)
+		// We could enqueue all pending connectors and review them at the end of the process
+		Stream.of(m.getConnectors()).forEach(c -> c.getTarget()
+				.map(t -> resolveTarget(t, m, mbus))
+				.ifPresent(
+						ct -> system.addEquation(new ModelicaConnect(ct.getRef(), c.getRef()))));
 	}
 
-	static class ConnectorResources
+	private ModelicaConnector resolveTarget(String target, ModelicaModel m, ModelicaModel mbus)
 	{
-		public boolean isUsed(ModelicaConnector conn)
+		String atarget[] = target.split(":");
+		String resolver = atarget[0];
+		String item = atarget[1];
+
+		if (resolver.equals("IIDM"))
 		{
-			return usedConnectors.contains(conn.getRef());
+			String pin = atarget[2];
+			if (item.equals("bus")
+					|| item.equals("bus1") && ModelicaTricks.isBusAtSide(m, mbus, 1)
+					|| item.equals("bus2") && ModelicaTricks.isBusAtSide(m, mbus, 2))
+				return findConnector(pin, mbus.getConnectors());
 		}
-
-		public void use(ModelicaConnector conn)
-		{
-			usedConnectors.add(conn.getRef());
-		}
-
-		Set<String> usedConnectors = new HashSet<>();
+		return null;
 	}
 
-	@SuppressWarnings("serial")
-	static class ConnectorException extends Exception
+	private ModelicaConnector findConnector(String pin, ModelicaConnector[] connectors)
 	{
-		ConnectorException(String message)
-		{
-			super(message);
-		}
+		ModelicaConnector cf = Stream.of(connectors)
+				.filter(c -> c.getPin().equals(pin))
+				.findFirst()
+				.get();
+		return cf;
 	}
 
-	private ModelicaConnector acquireConnector(
-			ModelicaModel m,
-			ModelicaModel other,
-			ConnectorResources connectors) throws ConnectorException
-	{
-		ModelicaConnector[] conns = m.getConnectors();
-		if (conns.length == 0) throw new ConnectorException("no connectors found");
-		ModelicaConnector conn = conns[0];
-		if (conns.length > 1) conn = preferredConnector(m, other, conns);
-		conn = acquireConnector(conn, connectors);
-		if (conn != null) return conn;
-		if (conns.length == 1) throw new ConnectorException("unique connector already used");
-		conn = otherConnector(conn, conns);
-		if (conn == null) throw new ConnectorException("second connector not found");
-		conn = acquireConnector(conn, connectors);
-		if (conn == null) throw new ConnectorException("second connector already used");
-		return conn;
-	}
-
-	private ModelicaConnector acquireConnector(
-			ModelicaConnector conn,
-			ConnectorResources connectors)
-	{
-		if (conn.isReusable()) return conn;
-		if (connectors.isUsed(conn)) return null;
-		connectors.use(conn);
-		return conn;
-	}
-
-	private ModelicaConnector otherConnector(ModelicaConnector conn, ModelicaConnector[] conns)
-	{
-		return (conn == conns[0] ? conns[1] : conns[0]);
-	}
-
-	private ModelicaConnector preferredConnector(
-			ModelicaModel m,
-			ModelicaModel other,
-			ModelicaConnector[] conns)
-	{
-		return ModelicaTricks.preferredConnector(m, other, conns);
-	}
-
-	private final ModelicaEngine	modelicaEngine;
-	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
+	private final ModelicaEngine modelicaEngine;
 }

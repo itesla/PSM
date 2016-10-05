@@ -162,7 +162,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 						// And the exact id can be resolved after all components have been instantiated
 						c.getId() == null || c.getId().isEmpty() ? ds.get(0).getId() : c.getId(),
 						c.getPin(),
-						c.isReusable()))
+						c.getTarget()))
 				.collect(Collectors.toList()));
 
 		List<ModelicaEquation> meqs = new ArrayList<>(mdef.getConnections().size());
@@ -183,11 +183,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		if (m instanceof ModelForType) return ModelicaUtil.dynamicIdFromStaticId(element.getId());
 		else if (m instanceof ModelForElement) return ((ModelForElement) m).getId();
 		// TODO If many events on same element we should assign different identifiers
-		else if (m instanceof ModelForEvent)
-		{
-			String id = "EVT" + element.getId();
-			return id;
-		}
+		else if (m instanceof ModelForEvent) return "EVT".concat(element.getId());
 
 		throw new RuntimeException(
 				"Don't know how to build Modelica model id for element " +
@@ -203,12 +199,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		// If the model definition refers to a type use a combination of component name and element id
 		if (m instanceof ModelForType)
-			return ModelicaUtil.dynamicDeclarationIdFromStaticId(
+			return ModelicaUtil.dynamicDeclarationIdFromModelForType(
 					((ModelForType) m).getType(),
 					c.getName(),
 					element.getId());
 		else if (m instanceof ModelForEvent)
-			return ModelicaUtil.dynamicDeclarationIdFromStaticId(
+			return ModelicaUtil.dynamicDeclarationIdFromModelForEvent(
 					((ModelForEvent) m).getEvent(),
 					c.getName(),
 					element.getId());

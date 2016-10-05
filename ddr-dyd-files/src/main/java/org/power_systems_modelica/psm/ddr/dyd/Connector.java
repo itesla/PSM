@@ -1,12 +1,15 @@
 package org.power_systems_modelica.psm.ddr.dyd;
 
+import java.util.Objects;
+
 public class Connector
 {
-	public Connector(String id, String pin, boolean reusable)
+	public Connector(String id, String pin, String target)
 	{
+		Objects.requireNonNull(pin);
 		this.id = id;
 		this.pin = pin;
-		this.reusable = reusable;
+		this.target = target;
 	}
 
 	public String getId()
@@ -19,13 +22,13 @@ public class Connector
 		return pin;
 	}
 
-	public boolean isReusable()
+	public String getTarget()
 	{
-		return reusable;
+		return target;
 	}
 
 	private final String	id;
 	private final String	pin;
-	private final boolean	reusable;
+	private final String	target;
 
 }

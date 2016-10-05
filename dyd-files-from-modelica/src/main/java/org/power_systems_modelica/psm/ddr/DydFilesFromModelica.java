@@ -348,25 +348,32 @@ public class DydFilesFromModelica
 				|| name.startsWith("Bus_");
 
 		// Only branches have two connectors
-		Connector[] connectors = new Connector[isBranch ? 2 : 1];
+		Connector[] connectors = new Connector[isBranch || isGenerator ? 2 : 1];
 
 		String id = generic ? null : name;
 		String pin;
-		boolean reusable;
+		String target;
 
 		// Connector 1
 		pin = "p";
 		if (isGenerator) pin = "sortie";
-		reusable = false;
-		if (isBus) reusable = true;
-		connectors[0] = new Connector(id, pin, reusable);
+		if (isBus) target = null;
+		else if (isBranch) target = "IIDM:bus1:p";
+		else target = "IIDM:bus:p";
+		connectors[0] = new Connector(id, pin, target);
 
 		// Connector 2
 		if (isBranch)
 		{
 			pin = "n";
-			reusable = false;
-			connectors[1] = new Connector(id, pin, reusable);
+			target = "IIDM:bus2:p";
+			connectors[1] = new Connector(id, pin, target);
+		}
+		else if (isGenerator)
+		{
+			pin = "omegaRef";
+			target = "SYSTEM:omegaRef:";
+			connectors[1] = new Connector(id, pin, target);
 		}
 
 		return Arrays.asList(connectors);

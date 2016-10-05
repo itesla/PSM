@@ -121,8 +121,13 @@
 		<xs:sequence>
 			<xs:element name="component" type="dyd:Component"
 				minOccurs="1" maxOccurs="unbounded" />
+			<!-- TODO Review -->
+			<!-- Initialization models do not need connectors, thus minOccurs = 0 -->
+			<!-- The upper bound is realistic but somewhat arbitrary, only branches 
+				and generators have two connectors -->
+			<!-- Branches have (p,n), generators (sortie,omegaRef) -->
 			<xs:element name="connector" type="dyd:Connector"
-				minOccurs="1" maxOccurs="2" />
+				minOccurs="0" maxOccurs="2" />
 			<xs:element name="connection" type="dyd:Connection"
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
@@ -146,13 +151,16 @@
 	<xs:complexType name="Connector">
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="pin" use="required" type="dyd:Pin" />
-		<xs:attribute name="reusable" use="required" type="xs:boolean" />
+		<xs:attribute name="target" use="optional" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:simpleType name="Pin">
 		<xs:restriction base="xs:string">
+			<!-- TODO Review -->
+			<!-- Do we need to restrict the number of possible values for pin id? -->
 			<xs:enumeration value="p" />
 			<xs:enumeration value="n" />
 			<xs:enumeration value="sortie" />
+			<xs:enumeration value="omegaRef" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Connection">

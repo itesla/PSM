@@ -11,19 +11,26 @@ import eu.itesla_project.iidm.network.Identifiable;
 
 public interface DynamicDataRepository
 {
-	public String getType();
+	String getType();
 
-	public void setLocation(String location);
+	void setLocation(String location);
 
-	public void connect() throws ConnectionException;
+	void connect() throws ConnectionException;
 
-	public ModelicaModel getModelicaModel(Identifiable<?> e);
+	ModelicaModel getModelicaModel(Identifiable<?> e);
 
-	public ModelicaModel getModelicaInitializationModel(Identifiable<?> e);
+	ModelicaModel getModelicaInitializationModel(Identifiable<?> e);
 
 	List<ModelicaDeclaration> getSystemDeclarations();
 
-	public List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m);
+	List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m);
 
-	public ModelicaModel getModelicaModelForEvent(String id, Identifiable<?> e);
+	ModelicaModel getModelicaModelForEvent(String id, Identifiable<?> e);
+
+	enum Injection
+	{
+		ADD, REPLACE, INTERPOSE
+	}
+
+	Injection getInjectionForEvent(String id);
 }

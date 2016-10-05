@@ -32,9 +32,9 @@ public class ModelProvider
 		return mdef;
 	}
 
-	public Model getModelForEvent(String e)
+	public ModelForEvent getModelForEvent(String e)
 	{
-		return dynamicModelsByEvent.get(e);
+		return dynamicModelsForEvent.get(e);
 	}
 
 	public ModelContainer getContainer(String name)
@@ -44,12 +44,12 @@ public class ModelProvider
 
 	public Model getDynamicModelForId(String id)
 	{
-		return dynamicModelsById.get(id);
+		return dynamicModelsForElement.get(id);
 	}
 
 	public Model getDynamicModelForStaticType(String type)
 	{
-		return dynamicModelsByType.get(type);
+		return dynamicModelsForType.get(type);
 	}
 
 	public void add(ModelContainer c)
@@ -77,11 +77,11 @@ public class ModelProvider
 	private void index(Model m)
 	{
 		if (m instanceof ModelForElement)
-			dynamicModelsById.put(((ModelForElement) m).getStaticId(), m);
+			dynamicModelsForElement.put(((ModelForElement) m).getStaticId(), (ModelForElement) m);
 		else if (m instanceof ModelForType)
-			dynamicModelsByType.put(((ModelForType) m).getType(), m);
+			dynamicModelsForType.put(((ModelForType) m).getType(), (ModelForType) m);
 		else if (m instanceof ModelForEvent)
-			dynamicModelsByEvent.put(((ModelForEvent) m).getEvent(), m);
+			dynamicModelsForEvent.put(((ModelForEvent) m).getEvent(), (ModelForEvent) m);
 	}
 
 	private String getType(Identifiable<?> e)
@@ -100,8 +100,8 @@ public class ModelProvider
 		return id.replace('-', '_');
 	}
 
-	private final List<ModelContainer>	containers				= new ArrayList<>();
-	private final Map<String, Model>	dynamicModelsById		= new HashMap<>();
-	private final Map<String, Model>	dynamicModelsByType		= new HashMap<>();
-	private final Map<String, Model>	dynamicModelsByEvent	= new HashMap<>();
+	private final List<ModelContainer>			containers				= new ArrayList<>();
+	private final Map<String, ModelForElement>	dynamicModelsForElement	= new HashMap<>();
+	private final Map<String, ModelForType>		dynamicModelsForType	= new HashMap<>();
+	private final Map<String, ModelForEvent>	dynamicModelsForEvent	= new HashMap<>();
 }

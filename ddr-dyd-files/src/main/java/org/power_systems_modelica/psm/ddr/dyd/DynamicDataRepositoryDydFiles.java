@@ -121,9 +121,16 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public ModelicaModel getModelicaModelForEvent(String ev, Identifiable<?> e)
 	{
-		Model mdef = dynamicModels.getModelForEvent(ev);
+		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
 		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
+	}
+
+	@Override
+	public Injection getInjectionForEvent(String ev)
+	{
+		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
+		return mdef.getInjection();
 	}
 
 	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
@@ -175,6 +182,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		// If the model definition refers to a type build the identifier from the element identifier
 		if (m instanceof ModelForType) return ModelicaUtil.dynamicIdFromStaticId(element.getId());
 		else if (m instanceof ModelForElement) return ((ModelForElement) m).getId();
+		// TODO If many events on same element we should assign different identifiers
+		else if (m instanceof ModelForEvent)
+		{
+			String id = "EVT" + element.getId();
+			return id;
+		}
 
 		throw new RuntimeException(
 				"Don't know how to build Modelica model id for element " +
@@ -192,6 +205,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		if (m instanceof ModelForType)
 			return ModelicaUtil.dynamicDeclarationIdFromStaticId(
 					((ModelForType) m).getType(),
+					c.getName(),
+					element.getId());
+		else if (m instanceof ModelForEvent)
+			return ModelicaUtil.dynamicDeclarationIdFromStaticId(
+					((ModelForEvent) m).getEvent(),
 					c.getName(),
 					element.getId());
 		return c.getId();

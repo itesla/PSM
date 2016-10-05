@@ -71,23 +71,6 @@ public class ModelicaModel
 		return connectors;
 	}
 
-	// The way this model should be injected in a system model
-
-	public static enum Injection
-	{
-		ADD, REPLACE, INTERPOSE
-	};
-
-	public Injection getInjection()
-	{
-		return injection;
-	}
-
-	public void setInjection(Injection injection)
-	{
-		this.injection = injection;
-	}
-
 	public ModelicaModel copy()
 	{
 		ModelicaModel m = new ModelicaModel(getName());
@@ -98,15 +81,12 @@ public class ModelicaModel
 	public static void copy(ModelicaModel s, ModelicaModel t)
 	{
 		t.setStaticId(s.getStaticId());
-		
+
 		// Connectors, Declarations and Equations are immutable objects
 		// There is no need to make deep copies of them
 		t.addDeclarations(s.getDeclarations());
 		t.addEquations(s.getEquations());
-		
-		t.connectors = s.connectors.clone();
-		
-		t.setInjection(s.getInjection());
+		if (s.connectors != null) t.connectors = s.connectors.clone();
 	}
 
 	private final String				name;
@@ -115,6 +95,4 @@ public class ModelicaModel
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
 	private List<ModelicaEquation>		equations		= new ArrayList<>();
 	private ModelicaConnector[]			connectors;
-
-	private Injection					injection;
 }

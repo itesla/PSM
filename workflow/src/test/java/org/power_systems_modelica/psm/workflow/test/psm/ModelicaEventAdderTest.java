@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.Test;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
@@ -27,7 +28,7 @@ import eu.itesla_project.iidm.network.Network;
 
 public class ModelicaEventAdderTest
 {
-	// FIXME not yet ready to perform a @Test
+	@Test
 	public void addEventsIeee14() throws WorkflowCreationException, IOException
 	{
 		addEvents(

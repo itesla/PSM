@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.DynamicDataRepository.Injection;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
@@ -35,7 +36,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 	{
 		// Adding an event on an element of the network model means:
 		// - First obtain a dynamic model for the event type from the dynamic data repository
-		// - Then insert the event model in the system, according to specific type of insertion
+		// - Then insert the event model in the system, according to its specific type of insertion
 		// The kind of insertion of an event in the system model can be one of three possibilities:
 		// - Add. Old dynamic model for the element is preserved. Event model is connected to original model connectors (fault in a bus)
 		// - Replace. Previous dynamic model is completely replaced by event model. Elements connected to original model are now connected to event model (fault in a line)
@@ -51,16 +52,16 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		// Identify existing model interconnections with the rest of the system
 		List<ModelicaConnect> connects = identifyPreviousInterconnections(mo, ev.getElement());
 
-		// Build the new model and add it to the system
-		String id = ev.getElement().getId();
-		m.setStaticId(id);
-		mo.getSystemModel().getDeclarations().addAll(resolveReferences(m.getDeclarations(), m, ev));
-		mo.getSystemModel().getEquations().addAll(m.getEquations());
+		// Add the dynamic model for the event to the system
+		mo.getSystemModel().addDeclarations(resolveReferences(m.getDeclarations(), m, ev));
+		mo.getSystemModel().addEquations(m.getEquations());
 
-		// Interconnect the new model with the rest of the system
-		switch (m.getInjection())
+		// And then interconnect the new model with the rest of the system
+		Injection injection = getDdr().getInjectionForEvent(ev.getId());
+		switch (injection)
 		{
 		case ADD:
+			System.out.println("ADD interconnections of model m = " + m.getName());
 			break;
 		case REPLACE:
 			break;

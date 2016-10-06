@@ -50,6 +50,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		}
 
 		// Identify existing model interconnections with the rest of the system
+		// FIXME only identify them if we have something to do with them ...
 		List<ModelicaConnect> connects = identifyPreviousInterconnections(mo, ev.getElement());
 
 		// Add the dynamic model for the event to the system
@@ -62,6 +63,9 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		{
 		case ADD:
 			System.out.println("ADD interconnections of model m = " + m.getName());
+			// if (target is bus)
+			// ModelicaModel mb = getModelForBus();
+			// addConnections(mo.getSystemModel(), m, mb);
 			break;
 		case REPLACE:
 			break;

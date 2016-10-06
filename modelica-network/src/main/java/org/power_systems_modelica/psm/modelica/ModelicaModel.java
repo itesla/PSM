@@ -94,5 +94,5 @@ public class ModelicaModel
 	private String						staticId;
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
 	private List<ModelicaEquation>		equations		= new ArrayList<>();
-	private ModelicaConnector[]			connectors;
+	private ModelicaConnector[]			connectors		= new ModelicaConnector[0];
 }

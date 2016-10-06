@@ -2,17 +2,12 @@ package org.power_systems_modelica.psm.modelica.builder;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
-import org.power_systems_modelica.psm.modelica.ModelicaConnect;
-import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
-import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 
@@ -51,26 +46,31 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 	private ModelicaDocument buildModelicaSystem()
 	{
+		Network n = getNetwork();
+
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin("");
+		ModelicaSystemModel sys = new ModelicaSystemModel(n.getName());
+		mo.setSystemModel(sys);
 
-		// The model for the whole system
-		ModelicaSystemModel m = new ModelicaSystemModel(getNetwork().getName());
+		DynamicNetworkReferenceResolver dynnr = new DynamicNetworkReferenceResolver(n, mo);
+		registerResolver("DYNN", dynnr);
 
-		m.addDeclarations(getDdr().getSystemDeclarations());
-		addDynamicModels(m);
-		m.addEquations(getDdr().getSystemEquations(m));
+		sys.addDeclarations(getDdr().getSystemDeclarations());
+		addDynamicModels(mo, dynnr);
+		// Add connections between models only after all models have been created
+		addConnections(mo, dynnr);
+		sys.addEquations(getDdr().getSystemEquations(sys));
 
 		// TODO post-process resulting Modelica objects
 		// TODO omegaRef should be computed as a weighted sum of omega variables of all machines
 		// omegaRef = SUM(g.omega * g.SN * g.HIn) for all g in machines
 		// m.addParameters(Arrays.asList(new ModelicaParameter(ModelicaType.Real, "omegaRef", "0.0")));
 
-		mo.setSystemModel(m);
 		return mo;
 	}
 
-	private void addDynamicModels(ModelicaSystemModel m)
+	private void addDynamicModels(ModelicaDocument mo, DynamicNetworkReferenceResolver dynnr)
 	{
 		Network network = getNetwork();
 
@@ -86,7 +86,8 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			ModelicaModel db = getDdr().getModelicaModel(b);
 			if (db == null) continue;
 
-			addDynamicModel(m, db, null);
+			addDynamicModel(db, mo);
+			dynnr.addModel(db);
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
@@ -97,10 +98,10 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 					if (!visited.contains(e))
 					{
-						addDynamicModel(m, de, db);
+						addDynamicModel(de, mo);
+						dynnr.addModel(de);
 						visited.add(e);
 					}
-					addConnections(m, de, db);
 				}
 			};
 			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
@@ -108,51 +109,9 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		}
 	}
 
-	private void addDynamicModel(ModelicaSystemModel system, ModelicaModel m, ModelicaModel mbus)
+	private void addConnections(ModelicaDocument mo, DynamicNetworkReferenceResolver dynnr)
 	{
-		// We solve here potential external references
-		// Argument values in the declarations could be referred to external source (the IIDM Network)
-		// We solve these references in the context of the current Network and ModelicaModel
-
-		system.addDeclarations(resolveReferences(m.getDeclarations(), m));
-		system.addEquations(m.getEquations());
-	}
-
-	private void addConnections(ModelicaSystemModel system, ModelicaModel m, ModelicaModel mbus)
-	{
-		// Add connections with the rest of the system
-		// TODO if we have problems resolving references (some models not yet created)
-		// We could enqueue all pending connectors and review them at the end of the process
-		Stream.of(m.getConnectors()).forEach(c -> c.getTarget()
-				.map(t -> resolveTarget(t, m, mbus))
-				.ifPresent(
-						ct -> system.addEquation(new ModelicaConnect(ct.getRef(), c.getRef()))));
-	}
-
-	private ModelicaConnector resolveTarget(String target, ModelicaModel m, ModelicaModel mbus)
-	{
-		String atarget[] = target.split(":");
-		String resolver = atarget[0];
-		String item = atarget[1];
-
-		if (resolver.equals("IIDM"))
-		{
-			String pin = atarget[2];
-			if (item.equals("bus")
-					|| item.equals("bus1") && ModelicaTricks.isBusAtSide(m, mbus, 1)
-					|| item.equals("bus2") && ModelicaTricks.isBusAtSide(m, mbus, 2))
-				return findConnector(pin, mbus.getConnectors());
-		}
-		return null;
-	}
-
-	private ModelicaConnector findConnector(String pin, ModelicaConnector[] connectors)
-	{
-		ModelicaConnector cf = Stream.of(connectors)
-				.filter(c -> c.getPin().equals(pin))
-				.findFirst()
-				.get();
-		return cf;
+		dynnr.getModels().stream().forEach(m -> addConnections(m, mo));
 	}
 
 	private final ModelicaEngine modelicaEngine;

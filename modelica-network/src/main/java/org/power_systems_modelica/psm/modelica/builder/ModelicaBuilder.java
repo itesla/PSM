@@ -1,28 +1,70 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaTricks;
-import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ModelicaBuilder
 {
+	protected void addDynamicModel(ModelicaModel m, ModelicaDocument mo)
+	{
+		// We solve here potential external references
+		// Argument values in the declarations could be referred to external source (the IIDM Network)
+		// We solve these references in the context of the current Network and ModelicaModel
+		ModelicaSystemModel system = mo.getSystemModel();
+		system.addDeclarations(resolveReferences(m.getDeclarations(), m));
+		system.addEquations(m.getEquations());
+	}
+
+	protected void addConnections(ModelicaModel m, ModelicaDocument mo)
+	{
+		mo.getSystemModel().addEquations(buildConnections(m, mo));
+	}
+
+	protected List<ModelicaEquation> buildConnections(ModelicaModel m, ModelicaDocument mo)
+	{
+		// Add connections with the rest of the system
+		List<ModelicaEquation> connections = new ArrayList<>();
+		Stream.of(m.getConnectors())
+				.forEach(c -> c.getTarget()
+						.map(t -> resolveTarget(t, m, mo))
+						.ifPresent(ct -> connections
+								.add(new ModelicaConnect(ct.getRef(), c.getRef()))));
+		return connections;
+	}
+
+	private ModelicaConnector resolveTarget(String target, ModelicaModel m, ModelicaDocument mo)
+	{
+		String atarget[] = target.split(":");
+		String resolver = atarget[0];
+		String item = atarget[1];
+		String pin = atarget.length > 2 ? atarget[2] : "";
+
+		ReferenceResolver r = referenceResolvers.get(resolver);
+		if (r == null)
+		{
+			LOG.warn("No resolver found for connection target of type {}", r);
+			return null;
+		}
+
+		return r.resolveConnectionTarget(item, pin, m);
+	}
+
 	protected void registerResolver(String dataSource, ReferenceResolver resolver)
 	{
 		referenceResolvers.put(dataSource, resolver);
@@ -103,88 +145,6 @@ public class ModelicaBuilder
 		}
 		return new ModelicaArgument(a0.getName(), value);
 	}
-
-	public static Collection<ModelicaModel> groupByStaticId(ModelicaDocument mo)
-	{
-		// Group all declarations and equations by static id
-		Map<String, List<ModelicaDeclaration>> ds = mo.getSystemModel()
-				.getDeclarations()
-				.stream()
-				.collect(Collectors.groupingBy(d -> getStaticId(d)));
-		Map<String, List<ModelicaEquation>> eqs = mo.getSystemModel()
-				.getEquations()
-				.stream()
-				.collect(Collectors.groupingBy(eq -> getStaticId(eq)));
-
-		// These are all the static ids that have been found
-		Set<String> sids = new HashSet<>();
-		sids.addAll(ds.keySet());
-		sids.addAll(eqs.keySet());
-
-		// Build a ModelicaModel that contains all found declarations and equations for each static id
-		Map<String, ModelicaModel> models = sids.stream()
-				.collect(Collectors.toMap(sid -> sid, sid -> {
-					ModelicaModel m = buildModelicaModel(sid);
-					if (ds.get(sid) != null) m.addDeclarations(ds.get(sid));
-					if (eqs.get(sid) != null) m.addEquations(eqs.get(sid));
-					return m;
-				}));
-
-		return models.values();
-	}
-
-	public static boolean isInterconnection(ModelicaModel m)
-	{
-		return m.getStaticId().equals(INTERCONNECTIONS_ID);
-	}
-
-	public static boolean isSystemModel(ModelicaModel m)
-	{
-		return m.getStaticId().equals(SYSTEM_ID);
-	}
-
-	private static String getStaticId(ModelicaDeclaration d)
-	{
-		String m = getStaticIdFromAnnotation(d.getAnnotation());
-		if (m == null) m = getStaticIdFromDynamicId(d.getId());
-		if (m == null) m = SYSTEM_ID;
-		return m;
-	}
-
-	private static String getStaticId(ModelicaEquation eq)
-	{
-		if (eq instanceof ModelicaConnect)
-		{
-			ModelicaConnect eqc = (ModelicaConnect) eq;
-			String m1 = getStaticIdFromDynamicId(ModelicaUtil.ref2idvar(eqc.getRef1())[0]);
-			String m2 = getStaticIdFromDynamicId(ModelicaUtil.ref2idvar(eqc.getRef2())[0]);
-			if (m1.equals(m2)) return m1;
-			else return INTERCONNECTIONS_ID;
-		}
-		return SYSTEM_ID;
-	}
-
-	private static String getStaticIdFromDynamicId(String id)
-	{
-		return ModelicaTricks.staticIdFromDynamicId(id);
-	}
-
-	private static String getStaticIdFromAnnotation(Annotation annotation)
-	{
-		// TODO if (annotation.contains("ExternalReference")) return whichModelFromExternalReference();
-		return null;
-	}
-
-	private static ModelicaModel buildModelicaModel(String id)
-	{
-		String dmid = ModelicaUtil.dynamicIdFromStaticId(id);
-		ModelicaModel m = new ModelicaModel(dmid);
-		m.setStaticId(id);
-		return m;
-	}
-
-	private static final String						SYSTEM_ID			= "_SYSTEM_";
-	private static final String						INTERCONNECTIONS_ID	= "_INTERCONNECTIONS_";
 
 	private final Map<String, ReferenceResolver>	referenceResolvers	= new HashMap<>();
 	private static final Logger						LOG					= LoggerFactory

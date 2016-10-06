@@ -35,7 +35,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
-import org.power_systems_modelica.psm.modelica.builder.ModelicaBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
@@ -61,9 +60,9 @@ public class DydFilesFromModelica
 		// Try to group all dynamic model components that refer to the same static element
 		// We remove the equations that are related to interconnections between static elements
 		// (they are not needed in the DDR, they will be built from the given topology of the static network)
-		Collection<ModelicaModel> ms = ModelicaBuilder.groupByStaticId(mo);
+		Collection<ModelicaModel> ms = ModelicaUtil.groupByStaticId(mo).values();
 		ms = ms.stream()
-				.filter(m -> !ModelicaBuilder.isInterconnection(m))
+				.filter(m -> !ModelicaUtil.isInterconnection(m))
 				.collect(Collectors.toList());
 
 		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
@@ -92,7 +91,7 @@ public class DydFilesFromModelica
 		Set<Model> addedModels = new HashSet<>();
 		for (ModelicaModel m : ms)
 		{
-			if (ModelicaBuilder.isSystemModel(m))
+			if (ModelicaUtil.isSystemModel(m))
 			{
 				ddr.addSystemDeclarations(m.getDeclarations());
 				// FIXME System equations are added 'as they appear' in the mo file, which additional considerations about write/read???
@@ -358,15 +357,15 @@ public class DydFilesFromModelica
 		pin = "p";
 		if (isGenerator) pin = "sortie";
 		if (isBus) target = null;
-		else if (isBranch) target = "IIDM:bus1:p";
-		else target = "IIDM:bus:p";
+		else if (isBranch) target = "DYNN:bus1:p";
+		else target = "DYNN:bus:p";
 		connectors[0] = new Connector(id, pin, target);
 
 		// Connector 2
 		if (isBranch)
 		{
 			pin = "n";
-			target = "IIDM:bus2:p";
+			target = "DYNN:bus2:p";
 			connectors[1] = new Connector(id, pin, target);
 		}
 		else if (isGenerator)

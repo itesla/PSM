@@ -44,6 +44,9 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		Identifiable<?> sourceElement = network.getIdentifiable(sourceModel.getStaticId());
 		if (sourceElement == null) return null;
 
+		// A direct referece to a "system pin" (omegaRef)
+		if (targetItem.equals("system")) return new ModelicaConnector(targetPin);
+
 		ModelicaModel targetModel = null;
 		if (targetItem.equals("bus"))
 		{

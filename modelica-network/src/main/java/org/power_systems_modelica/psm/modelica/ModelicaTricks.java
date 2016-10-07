@@ -51,14 +51,26 @@ public class ModelicaTricks
 			if (p >= 0) id2 = name2.substring(p);
 			if (id2 == null) id2 = "";
 
-			String id = id1;
-			// If the connect is a bus-branch, use the id of the branch
-			if (name2.startsWith("line_") || name2.startsWith("trafo_")) id = id2;
-			// First the connection busFrom-branch (pin p)
-			String var2 = namevar2.length > 1 ? namevar2[1] : "";
-			if (var2.equals("n")) id += "z";
+			String key = id1.concat(":").concat(id2);
 
-			return id;
+			// If the connect is for a branch, use only the id of the branch
+			// And put first the connection (bus1 - branch), that corresponds to pin "p"
+			boolean isBranch1 = name1.startsWith("line_") || name1.startsWith("trafo_");
+			boolean isBranch2 = name2.startsWith("line_") || name2.startsWith("trafo_");
+			String branchPin = "";
+			if (isBranch1)
+			{
+				key = id1;
+				if (namevar1.length > 1) branchPin = namevar1[1];
+			}
+			else if (isBranch2)
+			{
+				key = id2;
+				if (namevar2.length > 1) branchPin = namevar2[1];
+			}
+			if (branchPin.equals("n")) key += "z";
+
+			return key;
 		}
 		return null;
 	}
@@ -66,11 +78,16 @@ public class ModelicaTricks
 	public static String[] sortedRefs(ModelicaConnect eqc)
 	{
 		String[] refs = { eqc.getRef1(), eqc.getRef2() };
-		if (eqc.getRef2().endsWith(".n"))
+
+		boolean reverse = false;
+		if (eqc.getRef2().endsWith(".n")) reverse = true;
+		if (eqc.getRef1().equals("omegaRef")) reverse = true;
+		if (reverse)
 		{
 			String[] reversed = { eqc.getRef2(), eqc.getRef1() };
 			refs = reversed;
 		}
+
 		return refs;
 	}
 
@@ -139,6 +156,11 @@ public class ModelicaTricks
 		}
 	}
 
+	public static boolean isSystemConnect(ModelicaConnect eq)
+	{
+		return getKind(eq.getRef1()).equals("system") || getKind(eq.getRef2()).equals("system");
+	}
+
 	public static List<String> allKinds()
 	{
 		return ALL_KINDS;
@@ -166,6 +188,7 @@ public class ModelicaTricks
 			"reg");
 	private static final List<String>	KIND_PAIRS		= Arrays.asList(
 			"gen-system",
+			"system-gen",
 			"reg-gen",
 			"reg-reg",
 			"bus-line",

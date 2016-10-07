@@ -58,7 +58,7 @@ public class ModelicaBuilder
 		ReferenceResolver r = referenceResolvers.get(resolver);
 		if (r == null)
 		{
-			LOG.warn("No resolver found for connection target of type {}", r);
+			LOG.warn("No resolver found for connection target on data source {}", resolver);
 			return null;
 		}
 

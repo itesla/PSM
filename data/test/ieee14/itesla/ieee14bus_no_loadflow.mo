@@ -834,6 +834,11 @@ model ieee14bus
     ) annotation (Placement(transformation()));
 equation
   omegaRef = (gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.omega*gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.omega*gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn);
+  connect(gen_pwGeneratorM2S__GEN____1_SM.omegaRef, omegaRef);
+  connect(gen_pwGeneratorM2S__GEN____2_SM.omegaRef, omegaRef);
+  connect(gen_pwGeneratorM2S__GEN____3_SM.omegaRef, omegaRef);
+  connect(gen_pwGeneratorM2S__GEN____6_SM.omegaRef, omegaRef);
+  connect(gen_pwGeneratorM2S__GEN____8_SM.omegaRef, omegaRef);
   connect(reg_pssi3e2b__GEN____1_SM.pin_ActivePowerSN, gen_pwGeneratorM2S__GEN____1_SM.pin_ActivePowerSN) annotation (Line());
   connect(reg_pssi3e2b__GEN____1_SM.pin_OMEGA, gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA) annotation (Line());
   connect(reg_sexs__GEN____1_SM.pin_EFD, gen_pwGeneratorM2S__GEN____1_SM.pin_EFD) annotation (Line());

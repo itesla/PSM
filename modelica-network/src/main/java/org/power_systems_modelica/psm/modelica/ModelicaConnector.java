@@ -1,20 +1,30 @@
 package org.power_systems_modelica.psm.modelica;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class ModelicaConnector
 {
-	public ModelicaConnector(String id, String pin, String target)
+	// Represents a global pin in the system where others can connect (omegaRef)
+	public ModelicaConnector(String pin)
 	{
-		this.id = id;
+		Objects.requireNonNull(pin);
 		this.pin = pin;
-		this.target = Optional.ofNullable(target);
-		ref = id + "." + pin;
+		this.target = Optional.empty();
+		ref = pin;
 	}
 
-	public String getId()
+	// A pin inside a dynamic model identified by id
+	// That optionally contains information about other connector it wants to be connected
+	// The target is composed of a dataSource, an item and a pin id,
+	// The target will be resolved when building the system dynamic model
+	public ModelicaConnector(String id, String pin, String target)
 	{
-		return id;
+		Objects.requireNonNull(id);
+		Objects.requireNonNull(pin);
+		this.pin = pin;
+		this.target = Optional.ofNullable(target);
+		ref = (id == null ? "" : id.concat(".")).concat(pin);
 	}
 
 	public String getPin()
@@ -32,7 +42,6 @@ public class ModelicaConnector
 		return target;
 	}
 
-	private final String			id;
 	private final String			pin;
 	private final String			ref;
 	private final Optional<String>	target;

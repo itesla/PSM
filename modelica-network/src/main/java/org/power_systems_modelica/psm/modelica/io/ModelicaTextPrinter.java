@@ -135,7 +135,12 @@ public class ModelicaTextPrinter
 		// If the annotation exists and is not empty, return it
 		if (eq.getAnnotation() != null && !eq.getAnnotation().isEmpty()) return eq.getAnnotation();
 		// Provide default annotations for some types of equations
-		if (eq instanceof ModelicaConnect) return CONNECT_DEFAULT_ANNOTATION;
+		if (eq instanceof ModelicaConnect)
+		{
+			// No annotations for system connect equations
+			if (ModelicaTricks.isSystemConnect((ModelicaConnect)eq)) return null;
+			else return CONNECT_DEFAULT_ANNOTATION;
+		}
 		return null;
 	}
 

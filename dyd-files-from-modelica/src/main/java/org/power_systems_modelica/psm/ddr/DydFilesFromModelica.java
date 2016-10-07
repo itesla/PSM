@@ -204,8 +204,8 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr)
 	{
 		Model mdef = new ModelForType(stype);
-		boolean generic = true;
-		mdef.addConnectors(createConnectors(mo, generic));
+		boolean isGeneric = true;
+		mdef.addConnectors(createConnectors(mo, isGeneric));
 
 		// We only process the first (unique) declaration
 		ModelicaDeclaration d = mo.getDeclarations().get(0);
@@ -238,8 +238,8 @@ public class DydFilesFromModelica
 		String type = whichType(mo);
 
 		ModelForElement mdef = new ModelForElement(id, staticId);
-		boolean generic = false;
-		mdef.addConnectors(createConnectors(mo, generic));
+		boolean isGeneric = false;
+		mdef.addConnectors(createConnectors(mo, isGeneric));
 
 		for (ModelicaDeclaration d : mo.getDeclarations())
 		{
@@ -335,9 +335,9 @@ public class DydFilesFromModelica
 		return null;
 	}
 
-	private static List<Connector> createConnectors(ModelicaModel mo, boolean generic)
+	private static List<Connector> createConnectors(ModelicaModel m, boolean isGeneric)
 	{
-		String name = mo.getDeclarations().get(0).getId();
+		String name = m.getDeclarations().get(0).getId();
 		boolean isBranch = name.startsWith("line_")
 				|| name.startsWith("trafo_")
 				|| name.startsWith("Line_")
@@ -346,10 +346,11 @@ public class DydFilesFromModelica
 		boolean isBus = name.startsWith("bus_")
 				|| name.startsWith("Bus_");
 
-		// Only branches have two connectors
+		// Only branches and generators have two connectors
 		Connector[] connectors = new Connector[isBranch || isGenerator ? 2 : 1];
 
-		String id = generic ? null : name;
+		// If the ModelicaModel is generic we do not have an id
+		String id = isGeneric ? null : name;
 		String pin;
 		String target;
 
@@ -371,7 +372,7 @@ public class DydFilesFromModelica
 		else if (isGenerator)
 		{
 			pin = "omegaRef";
-			target = "SYSTEM:omegaRef:";
+			target = "DYNN:system:omegaRef";
 			connectors[1] = new Connector(id, pin, target);
 		}
 

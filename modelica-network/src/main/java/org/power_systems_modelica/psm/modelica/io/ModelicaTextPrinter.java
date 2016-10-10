@@ -15,6 +15,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 import com.google.common.collect.Ordering;
 
@@ -25,11 +26,11 @@ public class ModelicaTextPrinter
 		this.mo = mo;
 	}
 
-	public void print(PrintWriter out) throws IOException
+	public void print(PrintWriter out, boolean includePsmDummies) throws IOException
 	{
 		printWithin(out);
-		printSystemModelHeader(out);
-		printDeclarations(out);
+		printSystemModelHeader(out, includePsmDummies);
+		printDeclarations(out, includePsmDummies);
 		printEquations(out);
 		printSystemModelEnd(out);
 	}
@@ -85,15 +86,23 @@ public class ModelicaTextPrinter
 		out.printf("within %s;%n", mo.getWithin());
 	}
 
-	private void printSystemModelHeader(PrintWriter out)
+	private void printSystemModelHeader(PrintWriter out, boolean includePsmDummies)
 	{
 		out.printf("model %s%n", mo.getSystemModel().getName());
+		if (includePsmDummies)
+		{
+			out.printf("  model %s%n", ModelicaUtil.PSM_DUMMY_MODEL_NAME);
+			out.printf("  equation%n");
+			out.printf("  end %s%n", ModelicaUtil.PSM_DUMMY_MODEL_NAME);
+		}
 	}
 
-	private void printDeclarations(PrintWriter out)
+	private void printDeclarations(PrintWriter out, boolean includePsmDummies)
 	{
 		for (ModelicaDeclaration d : sortedDeclarations())
 		{
+			if (!includePsmDummies && ModelicaUtil.isPsmDummy(d)) continue;
+
 			String sparameter = d.isParameter() ? "parameter " : "";
 			out.printf("  %s%s %s", sparameter, d.getType(), d.getId());
 			if (d.isAssignment() && d.getValue() != null)
@@ -114,14 +123,17 @@ public class ModelicaTextPrinter
 					}
 				}
 				out.printf("%n    )");
-				printAnnotation(out, annotation(d));
 			}
+			printAnnotation(out, annotation(d));
 			out.printf(";%n");
 		}
 	}
 
 	private Annotation annotation(ModelicaDeclaration d)
 	{
+		String dtype = d.getType();
+		System.err.println(dtype);
+
 		// For assignments, return the annotation as it is (maybe empty)
 		if (d.isAssignment()) return d.getAnnotation();
 		// For the rest of declarations, provide a default annotation if given is empty
@@ -138,7 +150,7 @@ public class ModelicaTextPrinter
 		if (eq instanceof ModelicaConnect)
 		{
 			// No annotations for system connect equations
-			if (ModelicaTricks.isSystemConnect((ModelicaConnect)eq)) return null;
+			if (ModelicaTricks.isSystemConnect((ModelicaConnect) eq)) return null;
 			else return CONNECT_DEFAULT_ANNOTATION;
 		}
 		return null;
@@ -172,7 +184,13 @@ public class ModelicaTextPrinter
 		Ordering<ModelicaEquation> byOriginal = Ordering.explicit(eqs0);
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKindPairs());
 		byType = (eq1, eq2) -> -eq1.getClass().getName().compareTo(eq2.getClass().getName());
-		byKind = (eq1, eq2) -> kindOrdering.compare(getKind(eq1), getKind(eq2));
+		byKind = (eq1, eq2) -> {
+			String kind1 = getKind(eq1);
+			String kind2 = getKind(eq2);
+			System.err.printf("%-10s %-10s%n    %s%n    %s%n", kind1, kind2, eq1.getText(),
+					eq2.getText());
+			return kindOrdering.compare(getKind(eq1), getKind(eq2));
+		};
 		byKey = Comparator.comparing(ModelicaTextPrinter::getKey);
 
 		eqs = eqs0.stream()

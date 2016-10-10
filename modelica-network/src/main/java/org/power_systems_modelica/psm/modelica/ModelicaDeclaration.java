@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ModelicaDeclaration
 {
+	// FIXME Very ugly: the two constructors are too similar: List<ModelicaArgument> is an Object
+
 	public ModelicaDeclaration(
 			String type,
 			String id,

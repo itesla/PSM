@@ -48,7 +48,8 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		mop.print(out);
+		boolean includePsmDummies = false;
+		mop.print(out, includePsmDummies);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -93,7 +94,8 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		mop.print(out);
+		boolean includePsmDummies = false;
+		mop.print(out, includePsmDummies);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -145,7 +147,8 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		mop.print(out);
+		boolean includePsmDummies = false;
+		mop.print(out, includePsmDummies);
 		out.flush();
 		out.close();
 		String converted = sout.toString();

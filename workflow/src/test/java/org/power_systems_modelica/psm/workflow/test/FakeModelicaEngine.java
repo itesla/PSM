@@ -40,7 +40,8 @@ public class FakeModelicaEngine implements ModelicaEngine
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(mof.toFile());)
 		{
-			mop.print(out);
+			boolean includePsmDummies = false;
+			mop.print(out, includePsmDummies);
 			System.out.println("Modelica output sent to " + mof.toAbsolutePath().toString());
 		}
 		catch (IOException e)

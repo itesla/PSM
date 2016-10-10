@@ -9,6 +9,7 @@ public class ModelicaConnector
 	public ModelicaConnector(String pin)
 	{
 		Objects.requireNonNull(pin);
+		this.id = Optional.empty();
 		this.pin = pin;
 		this.target = Optional.empty();
 		ref = pin;
@@ -22,9 +23,15 @@ public class ModelicaConnector
 	{
 		Objects.requireNonNull(id);
 		Objects.requireNonNull(pin);
+		this.id = Optional.of(id);
 		this.pin = pin;
 		this.target = Optional.ofNullable(target);
-		ref = (id == null ? "" : id.concat(".")).concat(pin);
+		ref = id.concat(".").concat(pin);
+	}
+
+	public Optional<String> getId()
+	{
+		return id;
 	}
 
 	public String getPin()
@@ -42,6 +49,7 @@ public class ModelicaConnector
 		return target;
 	}
 
+	private final Optional<String>	id;
 	private final String			pin;
 	private final String			ref;
 	private final Optional<String>	target;

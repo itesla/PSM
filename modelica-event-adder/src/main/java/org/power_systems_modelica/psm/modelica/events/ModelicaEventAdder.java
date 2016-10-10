@@ -9,6 +9,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
+import org.power_systems_modelica.psm.modelica.builder.DynamicNetworkReferenceResolver;
 import org.power_systems_modelica.psm.modelica.builder.MapReferenceResolver;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
 import org.slf4j.Logger;
@@ -28,11 +29,22 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 	public ModelicaDocument addEvents(Collection<Event> evs)
 	{
 		ModelicaDocument moWithEvents = original.copy();
-		evs.forEach(ev -> addEvent(ev, moWithEvents));
+		
+		// FIXME We are changing the state of this EventAdder, 
+		// We should not allow other threads to invoke this method
+		// until we are finished adding these events
+		// Either declare this method as "synchronized" or force the builder to be used only for a given set of events
+		DynamicNetworkReferenceResolver dynnr = new DynamicNetworkReferenceResolver(getNetwork(), moWithEvents);
+		registerResolver("DYNN", dynnr);
+
+		evs.forEach(ev -> addEvent(ev, moWithEvents, dynnr));
+		
+		removeResolver("DYNN");
+		
 		return moWithEvents;
 	}
 
-	private void addEvent(Event ev, ModelicaDocument mo)
+	private void addEvent(Event ev, ModelicaDocument mo, DynamicNetworkReferenceResolver dynnr)
 	{
 		// Adding an event on an element of the network model means:
 		// - First obtain a dynamic model for the event type from the dynamic data repository
@@ -62,16 +74,23 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		switch (injection)
 		{
 		case ADD:
-			System.out.println("ADD interconnections of model m = " + m.getName());
-			// if (target is bus)
-			// ModelicaModel mb = getModelForBus();
-			// addConnections(mo.getSystemModel(), m, mb);
+			addConnections(m, mo);
 			break;
 		case REPLACE:
+			// FIXME remove previous connections
+			addConnections(m, mo);
 			break;
 		case INTERPOSE:
+			// FIXME ???
 			break;
 		}
+		
+		// FIXME When adding we should be merging declarations and equations 
+		// (add fault to a bus increases the dynamic model of the bus, is not a substitution)
+		// problem: the dynamic model of the bus will have two connectors with pin "p" after adding a fault
+		// to solve this, the pin for the bus fault could be declared as "used" (not "reusable")
+		// in general, only pins of buses are "reusables" ???
+		dynnr.addModel(m);
 	}
 
 	private List<ModelicaDeclaration> resolveReferences(

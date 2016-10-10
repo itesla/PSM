@@ -191,6 +191,8 @@ public class ModelicaTricks
 			"system-gen",
 			"reg-gen",
 			"reg-reg",
+			// bus-other may correspond to a bus-fault for example
+			"bus-other",
 			"bus-line",
 			"Bus-Line",
 			"line-bus",

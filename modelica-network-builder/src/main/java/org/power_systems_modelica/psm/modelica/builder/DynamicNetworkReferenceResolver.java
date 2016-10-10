@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica.builder;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
@@ -22,7 +23,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 	public DynamicNetworkReferenceResolver(Network network, ModelicaDocument mo)
 	{
 		super(network);
-		dynamicModelsByStaticId = ModelicaUtil.groupByStaticId(mo);
+		dynamicModelsByStaticId = ModelicaUtil.groupByNormalizedStaticId(mo);
 	}
 
 	public void addModel(ModelicaModel m)
@@ -36,7 +37,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 	}
 
 	@Override
-	public ModelicaConnector resolveConnectionTarget(
+	public Optional<ModelicaConnector> resolveConnectionTarget(
 			String targetItem,
 			String targetPin,
 			ModelicaModel sourceModel)
@@ -44,17 +45,29 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		Identifiable<?> sourceElement = network.getIdentifiable(sourceModel.getStaticId());
 		if (sourceElement == null) return null;
 
-		// A direct referece to a "system pin" (omegaRef)
-		if (targetItem.equals("system")) return new ModelicaConnector(targetPin);
+		// A direct reference to a "system pin" (omegaRef)
+		if (targetItem.equals("system")) return Optional.of(new ModelicaConnector(targetPin));
 
 		ModelicaModel targetModel = null;
+		// The target is my "bus" from the point of view of the sourceElement
 		if (targetItem.equals("bus"))
 		{
-			// If the target is my "bus" from the point of view of the sourceElement
-			// It implies that is a single terminal connectable element
-			SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) sourceElement;
-			Bus bus = e.getTerminal().getBusBreakerView().getBus();
-			targetModel = dynamicModelsByStaticId.get(bus.getId());
+			// The source element could be a Bus
+			// This is the case when the source dynamic model is a fault in a bus,
+			// The targetModel is the same bus
+			if (sourceElement instanceof Bus)
+			{
+				targetModel = dynamicModelsByStaticId.get(sourceElement.getId());
+			}
+			else
+			{
+				// If sourceElement is not a Bus,
+				// Then it should be a SingleTerminalConnectable element
+				// Someone that wants to connect to "its unique" bus
+				SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) sourceElement;
+				Bus bus = e.getTerminal().getBusBreakerView().getBus();
+				targetModel = dynamicModelsByStaticId.get(bus.getId());
+			}
 		}
 		else if (targetItem.startsWith("bus"))
 		{
@@ -80,12 +93,11 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		return findConnector(targetPin, targetModel.getConnectors());
 	}
 
-	private ModelicaConnector findConnector(String pin, ModelicaConnector[] connectors)
+	private Optional<ModelicaConnector> findConnector(String pin, ModelicaConnector[] connectors)
 	{
-		ModelicaConnector cf = Stream.of(connectors)
+		Optional<ModelicaConnector> cf = Stream.of(connectors)
 				.filter(c -> c.getPin().equals(pin))
-				.findFirst()
-				.get();
+				.findFirst();
 		return cf;
 	}
 

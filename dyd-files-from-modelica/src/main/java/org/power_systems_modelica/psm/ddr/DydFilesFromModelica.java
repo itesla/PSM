@@ -60,7 +60,7 @@ public class DydFilesFromModelica
 		// Try to group all dynamic model components that refer to the same static element
 		// We remove the equations that are related to interconnections between static elements
 		// (they are not needed in the DDR, they will be built from the given topology of the static network)
-		Collection<ModelicaModel> ms = ModelicaUtil.groupByStaticId(mo).values();
+		Collection<ModelicaModel> ms = ModelicaUtil.groupByNormalizedStaticId(mo).values();
 		ms = ms.stream()
 				.filter(m -> !ModelicaUtil.isInterconnection(m))
 				.collect(Collectors.toList());

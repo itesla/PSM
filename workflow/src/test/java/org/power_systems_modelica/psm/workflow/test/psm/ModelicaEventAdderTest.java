@@ -103,5 +103,11 @@ public class ModelicaEventAdderTest
 		assertNotNull(mo);
 		ModelicaDocument mo2 = (ModelicaDocument) wf.getResults("moWithEvents");
 		assertNotNull(mo2);
+		int ndecls = mo.getSystemModel().getDeclarations().size();
+		int ndecls2 = mo2.getSystemModel().getDeclarations().size();
+		assertEquals(ndecls + 1, ndecls2);
+		int neqs = mo.getSystemModel().getEquations().size();
+		int neqs2 = mo2.getSystemModel().getEquations().size();
+		assertEquals(neqs + 1, neqs2);
 	}
 }

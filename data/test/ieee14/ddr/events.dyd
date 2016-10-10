@@ -7,7 +7,7 @@
 			<ref name="t1" dataSource="EVENT" sourceName="t1"/>
 			<ref name="t2" dataSource="EVENT" sourceName="t2"/>
 		</component>
-		<connector pin="p" target="IIDM:bus:p"/>
+		<connector pin="p" target="DYNN:bus:p"/>
 	</model>
 	<model forEvent="LineFault" injection="REPLACE">
 		<component name="iPSL.Electrical.Events.PwLineFault">

@@ -1,12 +1,14 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -16,6 +18,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +32,19 @@ public class ModelicaBuilder
 		ModelicaSystemModel system = mo.getSystemModel();
 		system.addDeclarations(resolveReferences(m.getDeclarations(), m));
 		system.addEquations(m.getEquations());
+
+		// FIXME how to save connectors in the output model
+		String type = ModelicaUtil.PSM_DUMMY_MODEL_NAME;
+		String id = m.getName();
+		List<ModelicaArgument> args = null;
+		boolean isParam = false;
+		String text = ModelicaUtil.writeRefStaticId(m.getStaticId());
+		String sconn = ModelicaUtil.writeConnectors(Arrays.asList(m.getConnectors()));
+		if (!sconn.isEmpty()) text = text.concat(",").concat(sconn);
+		Annotation annotation = new Annotation(text);
+		System.err.println(annotation.getText());
+		ModelicaDeclaration d = new ModelicaDeclaration(type, id, args, isParam, annotation);
+		system.addDeclaration(d);
 	}
 
 	protected void addConnections(ModelicaModel m, ModelicaDocument mo)
@@ -38,17 +54,21 @@ public class ModelicaBuilder
 
 	protected List<ModelicaEquation> buildConnections(ModelicaModel m, ModelicaDocument mo)
 	{
-		// Add connections with the rest of the system
-		List<ModelicaEquation> connections = new ArrayList<>();
-		Stream.of(m.getConnectors())
-				.forEach(c -> c.getTarget()
-						.map(t -> resolveTarget(t, m, mo))
-						.ifPresent(ct -> connections
-								.add(new ModelicaConnect(ct.getRef(), c.getRef()))));
-		return connections;
+		Stream<ModelicaConnector> sourceConnectors = Stream.of(m.getConnectors());
+		List<ModelicaEquation> targetConnectors = sourceConnectors
+				.map(sc -> sc.getTarget()
+						.flatMap(t -> resolveTarget(t, m, mo))
+						.map(tc -> new ModelicaConnect(tc.getRef(), sc.getRef())))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.collect(Collectors.toList());
+		return targetConnectors;
 	}
 
-	private ModelicaConnector resolveTarget(String target, ModelicaModel m, ModelicaDocument mo)
+	protected Optional<ModelicaConnector> resolveTarget(
+			String target,
+			ModelicaModel m,
+			ModelicaDocument mo)
 	{
 		String atarget[] = target.split(":");
 		String resolver = atarget[0];
@@ -59,7 +79,7 @@ public class ModelicaBuilder
 		if (r == null)
 		{
 			LOG.warn("No resolver found for connection target on data source {}", resolver);
-			return null;
+			return Optional.empty();
 		}
 
 		return r.resolveConnectionTarget(item, pin, m);

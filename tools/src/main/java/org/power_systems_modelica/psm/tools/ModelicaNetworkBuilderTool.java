@@ -51,6 +51,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 			options.addOption("i", "iidm", true, "Input IIDM XML file");
 			options.addOption("d", "ddr", true, "Input DDR path");
 			options.addOption("m", "modelica", true, "Modelica output file");
+			options.addOption("y", "dummies", true, "Include dummy models with additional info");
 			options.addOption("e", "engine", true, "Modelica engine");
 			return options;
 		}
@@ -89,6 +90,9 @@ public class ModelicaNetworkBuilderTool implements Tool
 			System.err.println("Missing Modelica output file");
 			return;
 		}
+		boolean includePsmDummies = false;
+		String sincludePsmDummies = cmd.getOptionValue("dummies");
+		if (sincludePsmDummies != null) includePsmDummies = Boolean.valueOf(sincludePsmDummies);
 		String engine = cmd.getOptionValue("engine");
 		if (engine == null)
 		{
@@ -100,6 +104,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 		System.out.println("iidm     = " + Paths.get(iidmFilename).toAbsolutePath().toString());
 		System.out.println("ddr      = " + Paths.get(ddrLocation).toAbsolutePath().toString());
 		System.out.println("modelica = " + Paths.get(moFilename).toAbsolutePath().toString());
+		System.out.println("dummies  = " + includePsmDummies);
 		System.out.println("engine   = " + engine);
 
 		Network n = NetworkXml.read(Paths.get(iidmFilename));
@@ -119,7 +124,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(mof.toFile());)
 		{
-			mop.print(out);
+			mop.print(out, includePsmDummies);
 			System.out.println("Modelica output sent to " + mof.toAbsolutePath().toString());
 		}
 	}

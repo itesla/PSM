@@ -27,6 +27,9 @@ public class ModelicaExporterTask extends WorkflowTask
 		source = config.getParameter("source");
 		if (source == null) source = "mo";
 		target = config.getParameter("target");
+		includePsmDummies = false;
+		String sincludePsmDummies = config.getParameter("includePsmDummies");
+		if (sincludePsmDummies != null) includePsmDummies = Boolean.valueOf(sincludePsmDummies);
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class ModelicaExporterTask extends WorkflowTask
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(Paths.get(target).toFile());)
 		{
-			mop.print(out);
+			mop.print(out, includePsmDummies);
 			succeded();
 		}
 		catch (Exception x)
@@ -49,4 +52,5 @@ public class ModelicaExporterTask extends WorkflowTask
 
 	private String	source;
 	private String	target;
+	private boolean	includePsmDummies;
 }

@@ -1,5 +1,7 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
+import java.util.Optional;
+
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
@@ -10,7 +12,7 @@ public interface ReferenceResolver
 	Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d);
 
 	// Return the connection point for the target item and pin given the source model
-	default ModelicaConnector resolveConnectionTarget(
+	default Optional<ModelicaConnector> resolveConnectionTarget(
 			String targetItem,
 			String targetPin,
 			ModelicaModel sourceModel)

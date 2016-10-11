@@ -54,6 +54,7 @@ public class ModelicaParserTest
 		assertEquals("gen_pwGeneratorM2S__GEN____1_SM",
 				mo.getSystemModel().getDeclarations().get(1).getId());
 		assertEquals(4, mo.getSystemModel().getEquations().size());
+		assertEquals(2, mo.getSystemModel().getAnnotations().size());
 	}
 
 	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"))

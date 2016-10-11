@@ -48,8 +48,8 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		boolean includePsmDummies = false;
-		mop.print(out, includePsmDummies);
+		boolean includeSystemModelAnnotations = false;
+		mop.print(out, includeSystemModelAnnotations);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -81,6 +81,7 @@ public class ModelicaNetworkBuilderTest
 				false,
 				null);
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
+		dbus.setStaticId("bus1");
 		dbus.addDeclarations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus
 		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
@@ -94,8 +95,8 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		boolean includePsmDummies = false;
-		mop.print(out, includePsmDummies);
+		boolean includeSystemModelAnnotations = false;
+		mop.print(out, includeSystemModelAnnotations);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -147,8 +148,8 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		boolean includePsmDummies = false;
-		mop.print(out, includePsmDummies);
+		boolean includeSystemModelAnnotations = false;
+		mop.print(out, includeSystemModelAnnotations);
 		out.flush();
 		out.close();
 		String converted = sout.toString();

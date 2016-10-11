@@ -33,18 +33,12 @@ public class ModelicaBuilder
 		system.addDeclarations(resolveReferences(m.getDeclarations(), m));
 		system.addEquations(m.getEquations());
 
-		// FIXME how to save connectors in the output model
-		String type = ModelicaUtil.PSM_DUMMY_MODEL_NAME;
-		String id = m.getName();
-		List<ModelicaArgument> args = null;
-		boolean isParam = false;
-		String text = ModelicaUtil.writeRefStaticId(m.getStaticId());
+		// Information about connectors are put as annotations in the output model
+		String text = ModelicaUtil.writeRefs("id", m.getName(), "staticId", m.getStaticId());
 		String sconn = ModelicaUtil.writeConnectors(Arrays.asList(m.getConnectors()));
 		if (!sconn.isEmpty()) text = text.concat(",").concat(sconn);
-		Annotation annotation = new Annotation(text);
-		System.err.println(annotation.getText());
-		ModelicaDeclaration d = new ModelicaDeclaration(type, id, args, isParam, annotation);
-		system.addDeclaration(d);
+		Annotation a = new Annotation(text);
+		system.addAnnotation(a);
 	}
 
 	protected void addConnections(ModelicaModel m, ModelicaDocument mo)

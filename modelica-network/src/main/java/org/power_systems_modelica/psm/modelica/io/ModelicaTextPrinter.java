@@ -15,7 +15,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
-import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 import com.google.common.collect.Ordering;
 
@@ -26,12 +25,13 @@ public class ModelicaTextPrinter
 		this.mo = mo;
 	}
 
-	public void print(PrintWriter out, boolean includePsmDummies) throws IOException
+	public void print(PrintWriter out, boolean includeSystemModelAnnotations) throws IOException
 	{
 		printWithin(out);
-		printSystemModelHeader(out, includePsmDummies);
-		printDeclarations(out, includePsmDummies);
+		printSystemModelHeader(out);
+		printDeclarations(out);
 		printEquations(out);
+		if (includeSystemModelAnnotations) printAnnotations(out);
 		printSystemModelEnd(out);
 	}
 
@@ -86,23 +86,15 @@ public class ModelicaTextPrinter
 		out.printf("within %s;%n", mo.getWithin());
 	}
 
-	private void printSystemModelHeader(PrintWriter out, boolean includePsmDummies)
+	private void printSystemModelHeader(PrintWriter out)
 	{
 		out.printf("model %s%n", mo.getSystemModel().getName());
-		if (includePsmDummies)
-		{
-			out.printf("  model %s%n", ModelicaUtil.PSM_DUMMY_MODEL_NAME);
-			out.printf("  equation%n");
-			out.printf("  end %s%n", ModelicaUtil.PSM_DUMMY_MODEL_NAME);
-		}
 	}
 
-	private void printDeclarations(PrintWriter out, boolean includePsmDummies)
+	private void printDeclarations(PrintWriter out)
 	{
 		for (ModelicaDeclaration d : sortedDeclarations())
 		{
-			if (!includePsmDummies && ModelicaUtil.isPsmDummy(d)) continue;
-
 			String sparameter = d.isParameter() ? "parameter " : "";
 			out.printf("  %s%s %s", sparameter, d.getType(), d.getId());
 			if (d.isAssignment() && d.getValue() != null)
@@ -124,7 +116,9 @@ public class ModelicaTextPrinter
 				}
 				out.printf("%n    )");
 			}
-			printAnnotation(out, annotation(d));
+			Annotation a = annotation(d);
+			if (a != null && !a.isEmpty())
+				out.printf(" annotation (%s)", asText(a));
 			out.printf(";%n");
 		}
 	}
@@ -205,15 +199,18 @@ public class ModelicaTextPrinter
 		for (ModelicaEquation eq : sortedEquations())
 		{
 			out.printf("  %s", eq.getText());
-			printAnnotation(out, annotation(eq));
+			Annotation a = annotation(eq);
+			if (a != null && !a.isEmpty())
+				out.printf(" annotation (%s)", asText(a));
 			out.printf(";%n");
 		}
 	}
 
-	private void printAnnotation(PrintWriter out, Annotation a)
+	private void printAnnotations(PrintWriter out)
 	{
-		if (a != null && !a.isEmpty())
-			out.printf(" annotation (%s)", asText(a));
+		for (Annotation a : mo.getSystemModel().getAnnotations())
+			if (!a.isEmpty())
+				out.printf("  annotation (%s);%n", asText(a));
 	}
 
 	private void printSystemModelEnd(PrintWriter out)

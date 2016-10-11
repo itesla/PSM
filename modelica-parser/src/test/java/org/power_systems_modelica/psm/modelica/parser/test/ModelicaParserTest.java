@@ -44,6 +44,18 @@ public class ModelicaParserTest
 		assertEquals(1175, mo.getSystemModel().getEquations().size());
 	}
 
+	@Test
+	public void testParseGenerator() throws FileNotFoundException, IOException
+	{
+		ModelicaDocument mo = parse("generator.mo");
+		assertEquals("one_generator", mo.getSystemModel().getName());
+		assertEquals(3, mo.getSystemModel().getDeclarations().size());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		assertEquals("gen_pwGeneratorM2S__GEN____1_SM",
+				mo.getSystemModel().getDeclarations().get(1).getId());
+		assertEquals(4, mo.getSystemModel().getEquations().size());
+	}
+
 	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test")
 			.resolve("modelica-parser");

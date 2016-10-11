@@ -1,0 +1,67 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">CATALOGS</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="vert-align light-grey-green" width="15%">Name</th>
+					<th class="vert-align light-grey-green" width="50%">Description</th>
+					<th class="vert-align light-grey-green" width="35%">Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="catalog in catalogs">
+					<td ng-class="{  remarked: catalog.name == remarkedCatalog  }">
+						<a ng-click="remarkCatalog(catalog.name)">{{catalog.name}}</a>	
+					</td>
+					<td ng-class="{  remarked: catalog.name == remarkedCatalog  }">
+						{{catalog.description}}
+					</td>
+					<td ng-class="{  remarked: catalog.name == remarkedCatalog  }">
+						{{catalog.location}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="panel panel-default" ng-if="cases!=null">
+	<div class="panel-heading">
+		<h3 class="panel-title">CASES</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="vert-align light-grey-green" width="15%">Name</th>
+					<th class="vert-align light-grey-green" width="50%">Description</th>
+					<th class="vert-align light-grey-green" width="25%">Location</th>
+					<th class="vert-align light-grey-green" width="5%">Format</th>
+					<th class="vert-align light-grey-green" width="5%">Size</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="case in cases">
+					<td ng-class="{ remarked: case.name == remarkedCase }" >
+						<a ng-click="remarkCase(case.name)">{{case.name}}</a>	
+					</td>
+					<td ng-class="{ remarked: case.name == remarkedCase }" >
+						{{case.description}}
+					</td>
+					<td ng-class="{ remarked: case.name == remarkedCase }" >
+						{{case.location}}
+					</td>
+					<td ng-class="{  remarked: case.name == remarkedCase  }">
+						{{case.format == 0 ? "CIM1" : ""}}
+					</td>
+					<td ng-class="{ remarked: case.name == remarkedCase }" >
+						{{case.size}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

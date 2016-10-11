@@ -1,0 +1,45 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">WORKFLOW STATUS</h3>
+	</div>
+	<div class="panel-body">
+
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="vert-align light-grey-green" rowspan="1">Workflow
+						ID</th>
+					<th class="vert-align light-grey-green" rowspan="1">Status</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr>
+					<td ng-class="{  running: workflowStatus == 1  }">
+						{{activeWorkflowId}}</td>
+					<td ng-class="{  running: workflowStatus == 1  }">
+						{{workflowStatus < 0 ? "UNAVAILABLE" : ( workflowStatus == 1 ?
+						'RUNNING' :(workflowStatus == 3 ? 'DONE' :'IDLE') ) }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">DIAGRAM SAMPLE</h3>
+	</div>
+	<div class="panel-body">
+		<!-- Lined-up Marey diagram -->
+		<div class="full-width lined-up-marey-container">
+			<div class="container">
+				<div class="lined-up-marey" style="text-align: center;"></div>
+			</div>
+		</div>
+		
+		<iframe src="http://127.0.0.1:4658"></iframe>
+		
+	</div>
+</div>
+

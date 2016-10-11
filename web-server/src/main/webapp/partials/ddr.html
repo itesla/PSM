@@ -1,0 +1,62 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">CATALOGS</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="vert-align light-grey-green" width="15%">Name</th>
+					<th class="vert-align light-grey-green" width="50%">Description</th>
+					<th class="vert-align light-grey-green" width="35%">Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="catalog in catalogs">
+					<td ng-class="{  remarked: catalog.name == remarkedCatalog  }">
+						<a ng-click="remarkCatalog(catalog.name)">{{catalog.name}}</a>	
+					</td>
+					<td ng-class="{  remarked: catalog.name == remarkedCatalog  }">
+						{{catalog.description}}
+					</td>
+					<td ng-class="{  remarked: catalog.name == remarkedCatalog  }">
+						{{catalog.location}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">DDR</h3>
+    </div>
+    <div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="vert-align light-grey-green" width="15%">Name</th>
+					<th class="vert-align light-grey-green" width="50%">Description</th>
+					<th class="vert-align light-grey-green" width="10%">Type</th>
+					<th class="vert-align light-grey-green" width="10%">Source</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="ddr in ddrs">
+					<td ng-class="{  remarked: ddr.name == remarkedDDR  }">
+						<a ng-click="remarkDDR(ddr.name)">{{ddr.name}}</a>	
+					</td>
+					<td ng-class="{  remarked: ddr.name == remarkedDDR  }">
+						{{ddr.description}}
+					</td>
+					<td ng-class="{  remarked: ddr.name == remarkedDDR  }">
+						{{ddr.type == 0 ? "DYD" : "DDB"}}
+					</td>
+					<td ng-class="{  remarked: ddr.name == remarkedDDR  }">
+						{{ddr.source}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+    </div>
+</div>

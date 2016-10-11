@@ -11,12 +11,12 @@
 	<description>A common API for different Modelica engines</description>
 	<dependencies>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>commons</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-network</artifactId>
 			<version>${project.version}</version>
 		</dependency>

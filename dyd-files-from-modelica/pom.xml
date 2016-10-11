@@ -11,22 +11,22 @@
 	<description>Tool to create DYD and PAR files from a Modelica .mo file</description>
 	<dependencies>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-network</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>ddr-dyd-files</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-parser</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-engine-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -26,7 +26,7 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-engine-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>

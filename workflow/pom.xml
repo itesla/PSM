@@ -36,12 +36,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-network-builder</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.power-systems-modelica.psm</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>modelica-event-adder</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -28,7 +28,7 @@
 		<module>app</module>
 		
 		<!-- Dymola Modelica engine -->
-		<module>dymola-integration</module>
+		<!-- <module>dymola-integration</module> -->
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

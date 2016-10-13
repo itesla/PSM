@@ -144,8 +144,8 @@ public class DymolaEngine implements ModelicaEngine {
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
 		{
-			boolean includePsmDummies = false;
-			mop.print(out, includePsmDummies);
+			boolean includeSystemModelAnnotations = false;
+			mop.print(out, includeSystemModelAnnotations);
 			out.flush();
 			out.close();
 		}

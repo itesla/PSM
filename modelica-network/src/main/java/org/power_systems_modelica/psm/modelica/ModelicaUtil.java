@@ -65,17 +65,22 @@ public class ModelicaUtil
 				.getEquations()
 				.stream()
 				.collect(Collectors.groupingBy(eq -> getStaticId(eq)));
+		Map<String, List<Annotation>> as = mo.getSystemModel()
+				.getAnnotations()
+				.stream()
+				.collect(Collectors.groupingBy(a -> getStaticId(a)));
 
 		// These are all the static identifiers that have been found
 		Set<String> sids = new HashSet<>();
 		sids.addAll(ds.keySet());
 		sids.addAll(eqs.keySet());
+		sids.addAll(as.keySet());
 
 		// Build a ModelicaModel that contains all found declarations and equations for each static id
 		Map<String, ModelicaModel> models = sids.stream()
 				.collect(Collectors.toMap(
 						sid -> sid,
-						sid -> buildModelicaModel(sid, ds.get(sid), eqs.get(sid))));
+						sid -> buildModelicaModel(sid, ds.get(sid), eqs.get(sid), as.get(sid))));
 
 		return models;
 	}
@@ -90,14 +95,9 @@ public class ModelicaUtil
 		return m.getStaticId().equals(SYSTEM_ID);
 	}
 
-	public static boolean isPsmDummy(ModelicaDeclaration d)
-	{
-		return d.getType().equals(PSM_DUMMY_MODEL_NAME);
-	}
-
 	private static String getNormalizedStaticId(ModelicaDeclaration d)
 	{
-		String m = getStaticIdFromAnnotation(d.getAnnotation());
+		String m = getStaticId(d.getAnnotation());
 		if (m == null) m = getStaticIdFromDynamicId(d.getId());
 		if (m == null) m = SYSTEM_ID;
 		return normalizedIdentifier(m);
@@ -121,7 +121,7 @@ public class ModelicaUtil
 		return ModelicaTricks.staticIdFromDynamicId(id);
 	}
 
-	private static String getStaticIdFromAnnotation(Annotation annotation)
+	private static String getStaticId(Annotation annotation)
 	{
 		if (annotation == null) return null;
 
@@ -149,27 +149,27 @@ public class ModelicaUtil
 	private static ModelicaModel buildModelicaModel(
 			String id,
 			List<ModelicaDeclaration> declarations,
-			List<ModelicaEquation> equations)
+			List<ModelicaEquation> equations,
+			List<Annotation> annotations)
 	{
 		String dmid = ModelicaUtil.dynamicIdFromStaticId(id);
 		ModelicaModel m = new ModelicaModel(dmid);
 		m.setStaticId(id);
 
-		if (declarations != null)
+		if (declarations != null) m.addDeclarations(declarations);
+		if (equations != null) m.addEquations(equations);
+		if (annotations != null)
 		{
-			m.addDeclarations(declarations);
-			List<ModelicaConnector> connectors = readConnectors(declarations);
+			List<ModelicaConnector> connectors = readConnectors(annotations);
 			m.setConnectors(connectors);
 		}
-		if (equations != null) m.addEquations(equations);
 		return m;
 	}
 
-	private static List<ModelicaConnector> readConnectors(List<ModelicaDeclaration> declarations)
+	private static List<ModelicaConnector> readConnectors(List<Annotation> annotations)
 	{
-		return declarations.stream()
-				.map(d -> d.getAnnotation())
-				.filter(Objects::nonNull)
+		return annotations.stream()
+				.filter(a -> !a.isEmpty())
 				.map(a -> a.getText())
 				.filter(Objects::nonNull)
 				.map(t -> readConnectors(t))
@@ -232,13 +232,22 @@ public class ModelicaUtil
 		else return new ModelicaConnector(id, pin, target);
 	}
 
-	public static String writeRefStaticId(String staticId)
+	public static String writeRefs(String... refs)
 	{
-		if (staticId == null) return null;
-		return REF_KEYWORD
-				.concat("(")
-				.concat(writeAttributeValue("staticId", staticId))
-				.concat(")");
+		if (refs == null) return null;
+		if (refs.length == 0) return null;
+		// Should receive pairs of (refName, refValue)
+		if (refs.length % 2 == 1) return null;
+		StringBuilder srefs = new StringBuilder();
+		srefs.append(REF_KEYWORD);
+		srefs.append("(");
+		for (int k = 0; k <= refs.length - 2; k += 2)
+		{
+			srefs.append(writeAttributeValue(refs[k], refs[k + 1]));
+			if (k < refs.length - 2) srefs.append(",");
+		}
+		srefs.append(")");
+		return srefs.toString();
 	}
 
 	private static String writeConnector(ModelicaConnector c)
@@ -282,6 +291,4 @@ public class ModelicaUtil
 	private static final String		REF_ATTR_STATIC_ID		= "staticId";
 	private static final Pattern	REF_ANNOTATION			= Pattern
 			.compile(REF_KEYWORD + "\\(([^\\)]*)\\)");
-
-	public static final String		PSM_DUMMY_MODEL_NAME	= "PSMDummy";
 }

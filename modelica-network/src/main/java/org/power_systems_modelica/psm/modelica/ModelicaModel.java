@@ -66,6 +66,21 @@ public class ModelicaModel
 		return Collections.unmodifiableList(equations);
 	}
 
+	private void addAnnotations(List<Annotation> annotations)
+	{
+		if (annotations != null) this.annotations.addAll(annotations);
+	}
+
+	public void addAnnotation(Annotation annotation)
+	{
+		annotations.add(annotation);
+	}
+
+	public List<Annotation> getAnnotations()
+	{
+		return annotations;
+	}
+
 	public ModelicaConnector[] getConnectors()
 	{
 		return connectors;
@@ -86,6 +101,7 @@ public class ModelicaModel
 		// There is no need to make deep copies of them
 		t.addDeclarations(s.getDeclarations());
 		t.addEquations(s.getEquations());
+		t.addAnnotations(s.getAnnotations());
 		if (s.connectors != null) t.connectors = s.connectors.clone();
 	}
 
@@ -94,5 +110,6 @@ public class ModelicaModel
 	private String						staticId;
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
 	private List<ModelicaEquation>		equations		= new ArrayList<>();
+	private List<Annotation>			annotations		= new ArrayList<>();
 	private ModelicaConnector[]			connectors		= new ModelicaConnector[0];
 }

@@ -35,11 +35,21 @@ model
    ;
 
 declaration_stmt_list
-   : ( declaration_stmt ';' )*
+   : ( declaration_stmt ';'
+   | annotation
+{
+	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.text));
+}
+   ';' )*
    ;
 
 equation_stmt_list
-   : ( equation_stmt ';' )*
+   : ( equation_stmt ';'
+   | annotation
+{
+	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.text));
+}
+   ';' )*
    ;
 
 declaration_stmt locals [boolean isParameter = false]
@@ -89,8 +99,8 @@ type_name
 instantiation_argument_list returns [ List<ModelicaArgument> arguments = new ArrayList<>() ]
    : ( instantiation_argument
 {
-ModelicaArgument argument = $instantiation_argument.argument;
-if (argument != null) $arguments.add(argument);
+	ModelicaArgument argument = $instantiation_argument.argument;
+	if (argument != null) $arguments.add(argument);
 }
    ','? )*
    ;
@@ -143,11 +153,11 @@ locals [String ref1, String ref2]
 }
    : 'connect' '(' ID
 {
-$ref1 = $ID.text;
+	$ref1 = $ID.text;
 }
    ',' ID ')' annotation?
 {
-$ref2 = $ID.text;
+	$ref2 = $ID.text;
 }
    ;
 
@@ -168,7 +178,7 @@ annotation
    ;
 
 annotation_content
-   : ( STRING | ID '(' instantiation_argument_list ')' )
+   : ( STRING | ID '(' instantiation_argument_list ')' ','? )+
    ;
 
 BOOLEAN

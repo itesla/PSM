@@ -61,5 +61,8 @@ equation
   gen_pwGeneratorM2S__GEN____1_SM.pin_CM = 0.21337;
 
   annotation (uses(Modelica(version="3.2.1")));
-  annotation(PSMRef(dynamicId="DM_1",staticId="_1"),PSMConnector(pin="p",target="DDYN:bus:p"),PSMConnector(pin="q",target="DDYN:bus:q"));
+  annotation(
+    PSMRef(dynamicId="DM_1",staticId="_1"),
+    PSMConnector(pin="p",target="DDYN:bus:p"),
+    PSMConnector(pin="q",target="DDYN:bus:q"));
 end one_generator;

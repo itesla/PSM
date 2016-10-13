@@ -64,11 +64,11 @@
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Select a engine:</label>
+						<label class="col-sm-2 control-label">Select an engine:</label>
 						<div class="col-sm-9">
 							<select class="form-control" ng-model="selectedLoadflow" ng-change="selectLoadflow(selectedLoadflow)">
-								<option value=0 ng-selected="{{parameters.engineLoadflow==0}}">HADES</option>
-								<option value=1 ng-selected="{{parameters.engineLoadflow==1}}">HELM FLOW</option>
+								<option value=0 ng-selected="{{parameters.engineLoadflow==0}}">Hades2</option>
+								<option value=1 ng-selected="{{parameters.engineLoadflow==1}}">HELM Flow</option>
 							</select>
 						</div>
 					</div>
@@ -109,12 +109,13 @@
 							</select>
 						</div>
 						<div class="col-sm-1">
-							<button type="button" class="btn btn-default"
+							<button type="button" class="btn-fixed btn-default"
 								data-toggle="modal"
-								data-target="#eventModal" target="_top">+</button>
-							<button type="button" class="btn btn-default"
+								data-target="#eventModal" target="_top">&nbsp;+&nbsp;</button>
+								&nbsp;
+							<button type="button" class="btn-fixed btn-default"
 								data-toggle="modal"
-								ng-click="removeEvent(selectedEvent)">-</button>
+								ng-click="removeEvent(selectedEvent)">&nbsp;-&nbsp;</button>
 						</div>
 					</div>
 				</div>
@@ -129,11 +130,11 @@
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Select a engine:</label>
+						<label class="col-sm-2 control-label">Select an engine:</label>
 						<div class="col-sm-9">
 							<select class="form-control" ng-model="selectedDS" ng-change="selectDS(selectedDS)">
-								<option value=0 ng-selected="{{parameters.engineDS==0}}">DYMOLA</option>
-								<option value=1 ng-selected="{{parameters.engineDS==1}}">OPENMODELICA</option>
+								<option value=0 ng-selected="{{parameters.engineDS==0}}">Dymola</option>
+								<option value=1 ng-selected="{{parameters.engineDS==1}}">OpenModelica</option>
 							</select>
 						</div>
 					</div>

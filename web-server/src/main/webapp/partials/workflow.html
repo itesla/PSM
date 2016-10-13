@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title">WORKFLOW STATUS</h3>
+		<h3 class="panel-title">Workflow Status</h3>
 	</div>
 	<div class="panel-body">
 
@@ -28,7 +28,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title">DIAGRAM SAMPLE</h3>
+		<h3 class="panel-title">Diagram Sample</h3>
 	</div>
 	<div class="panel-body">
 		<!-- Lined-up Marey diagram -->
@@ -38,8 +38,9 @@
 			</div>
 		</div>
 		
-		<iframe src="http://127.0.0.1:4658"></iframe>
-		
+		<div ng-if="showShinyTools==true">
+			<iframe src="http://127.0.0.1:4658"></iframe>
+		</div>
 	</div>
 </div>
 

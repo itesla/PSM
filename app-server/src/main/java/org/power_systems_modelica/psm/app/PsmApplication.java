@@ -135,11 +135,11 @@ public class PsmApplication implements IPsmApplication, PsmApplicationMBean
 		List<Catalog> catalogs = new ArrayList<Catalog>();
 
 		Catalog catalog = new Catalog();
-		catalog.setName("sampleA");
+		catalog.setName("Reference cases");
 		catalogs.add(catalog);
 
 		catalog = new Catalog();
-		catalog.setName("sampleB");
+		catalog.setName("Internal testing");
 		catalogs.add(catalog);
 
 		return catalogs;
@@ -151,40 +151,43 @@ public class PsmApplication implements IPsmApplication, PsmApplicationMBean
 		System.out.println("getCases " + catalogName);
 		List<Case> cases = new ArrayList<Case>();
 
-		if (catalogName.equals("sampleA"))
+		if (catalogName.equals("Reference cases"))
 		{
 			Case c = new Case();
-			c.setName("caseA1");
+			c.setName("IEEE14");
+			c.setSize(14);
 			cases.add(c);
 
 			c = new Case();
-			c.setName("caseA2");
+			c.setName("IEEE30");
+			c.setSize(30);
 			cases.add(c);
 
 			c = new Case();
-			c.setName("caseA3");
+			c.setName("IEEE57");
+			c.setSize(57);
 			cases.add(c);
 
 			c = new Case();
-			c.setName("caseA4");
+			c.setName("IEEE118");
+			c.setSize(118);
 			cases.add(c);
 		}
 		else
 		{
 			Case c = new Case();
-			c.setName("caseB1");
+			c.setName("RTE22");
+			c.setSize(22);
 			cases.add(c);
 
 			c = new Case();
-			c.setName("caseB2");
+			c.setName("Nordic32");
+			c.setSize(32);
 			cases.add(c);
 
 			c = new Case();
-			c.setName("caseB3");
-			cases.add(c);
-
-			c = new Case();
-			c.setName("caseB4");
+			c.setName("Nordic44");
+			c.setSize(44);
 			cases.add(c);
 		}
 
@@ -195,18 +198,38 @@ public class PsmApplication implements IPsmApplication, PsmApplicationMBean
 	public List<Ddr> getDdrs(String catalogName)
 	{
 		List<Ddr> ddrs = new ArrayList<Ddr>();
-		if (catalogName.equals("sampleA"))
+		if (catalogName.equals("Reference cases"))
 		{
 
 			Ddr ddr = new Ddr();
-			ddr.setName("sampleA");
+			ddr.setName("IEEE14");
+			ddrs.add(ddr);
+			
+			ddr = new Ddr();
+			ddr.setName("IEEE30");
+			ddrs.add(ddr);
+			
+			ddr = new Ddr();
+			ddr.setName("IEEE57");
+			ddrs.add(ddr);
+			
+			ddr = new Ddr();
+			ddr.setName("IEEE118");
 			ddrs.add(ddr);
 		}
 		else
 		{
 
 			Ddr ddr = new Ddr();
-			ddr.setName("sampleB");
+			ddr.setName("RTE22");
+			ddrs.add(ddr);
+			
+			ddr = new Ddr();
+			ddr.setName("Nordic32");
+			ddrs.add(ddr);
+			
+			ddr = new Ddr();
+			ddr.setName("Nordic44");
 			ddrs.add(ddr);
 		}
 

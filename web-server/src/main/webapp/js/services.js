@@ -114,6 +114,10 @@ services.factory('PSMWorkflowService', ['$rootScope', '$http', '$log',
 		    getWorkflowData: function(wfId) { 
 		       	return $http.get(psmResourcesUrl + '/psm/workflow/results/'+wfId);
 		    },
+		    
+		    isShinyToolsVisible: function() {
+		    	return $http.get(psmResourcesUrl + '/psm/workflow/shinyTools');
+		    }
 	    };
 	}]);
 

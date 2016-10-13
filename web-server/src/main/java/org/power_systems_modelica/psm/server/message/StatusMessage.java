@@ -16,7 +16,7 @@ public class StatusMessage extends Message<StatusSynthesis>
 	@Override
 	protected String getType()
 	{
-		return TYPE;
+		return type;
 	}
 
 	@Override
@@ -32,5 +32,5 @@ public class StatusMessage extends Message<StatusSynthesis>
 	{
 	}
 
-	private static final String TYPE = "status";
+	private final String type = "status";
 }

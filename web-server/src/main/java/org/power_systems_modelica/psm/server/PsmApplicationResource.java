@@ -278,6 +278,15 @@ public class PsmApplicationResource
 		return res;
 	}
 
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("shinyTools")
+	public boolean isShinyToolsVisible()
+	{
+		LOG.info("isShinyToolsVisible");
+		return false;
+	}
+
 	@Inject
 	private PsmApplicationBean	bean;
 

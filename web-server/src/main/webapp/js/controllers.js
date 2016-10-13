@@ -38,6 +38,11 @@ controllers.controller('PSMCatalogCtrl', ['PSMWorkflowService', '$scope', '$log'
 
 		$scope.catalogName= $routeParams.catalogName;
 	
+        if(angular.isUndefined($scope.catalogName)) {
+			$scope.catalogName= 'Reference cases';
+			$scope.remarkedCatalog= 'Reference cases';
+	    }
+
 		$scope.remarkCatalog = function (catalog) {
 	    	$scope.remarkedCatalog = catalog;
 	    	$scope.getCatalogItems($scope.remarkedCatalog);
@@ -73,15 +78,10 @@ controllers.controller('PSMCatalogCtrl', ['PSMWorkflowService', '$scope', '$log'
 		        	if (typeof data === "string")
 	        			$scope.$emit('timeoutLogout', null);
 	        		else if(data != null && data != "")
-	        			$scope.ddrs=angular.fromJson(data).body.DDRs;})
+	        			$scope.ddrs=angular.fromJson(data).body.ddrs;})
 		        .error(function(data) { $log.error(data); });
 	    }
 	    
-        if(angular.isUndefined($scope.catalogName)) {
-			$scope.catalogName= 'sampleA';
-			$scope.remarkedCatalog= 'sampleA';
-	    }
-
        	$scope.$on('connection', function(event, args) {
             $scope.$apply(function() {
             	$log.debug("connection : "+args[0]);
@@ -106,8 +106,8 @@ controllers.controller('PSMWorkflowsCtrl', ['PSMWorkflowService', '$scope', '$lo
 	    			$log.info(data); 
 	    			$scope.parameters = angular.fromJson(data).body;
 	    			$scope.currentWorkflow = $scope.parameters.created;
-	            	$scope.parameters.catalogName = 'sampleA';
-	    			$scope.catalogCandidate = 'sampleA';
+	            	$scope.parameters.catalogName = 'Reference cases';
+	    			$scope.catalogCandidate = 'Reference cases';
 	    		    $scope.getCatalogNameItems($scope.parameters.catalogName);})
 	    		.error(function(data) { $scope.currentWorkflow = null });
 	    };
@@ -264,7 +264,15 @@ controllers.controller('PSMWorkflowCtrl', ['PSMWorkflowService', '$scope', '$log
 	function(PSMWorkflowService, $scope, $log, $routeParams) {
 	
 		$scope.activeWorkflowId= $routeParams.wfId;
-	
+		
+		PSMWorkflowService.isShinyToolsVisible()
+			.success(function(data) {
+				$scope.showShinyTools = angular.fromJson(data);
+			})
+			.error(function(data) {
+				$scope.showShinyTools = false;
+			});
+		
 	    $scope.stop = function() { 
 		    PSMWorkflowService.stop($scope.activeWorkflowId);
 	  	    $scope.currentWorkflow = null;  

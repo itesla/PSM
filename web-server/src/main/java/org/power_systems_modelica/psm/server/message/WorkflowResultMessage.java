@@ -29,5 +29,5 @@ public class WorkflowResultMessage extends Message<WorkflowResultSynthesis>
 	{
 	}
 
-	private static final String TYPE = "catalog";
+	private static final String TYPE = "results";
 }

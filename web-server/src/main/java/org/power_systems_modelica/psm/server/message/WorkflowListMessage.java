@@ -18,7 +18,7 @@ public class WorkflowListMessage extends Message<HashMap<String, WorkflowInfo>>
 	@Override
 	protected String getType()
 	{
-		return TYPE;
+		return type;
 	}
 
 	@Override
@@ -33,5 +33,5 @@ public class WorkflowListMessage extends Message<HashMap<String, WorkflowInfo>>
 	{
 	}
 
-	private static final String TYPE = "workflows";
+	private final String type = "workflows";
 }

@@ -14,7 +14,7 @@ public class ConnectionMessage extends Message<Boolean>
 	@Override
 	protected String getType()
 	{
-		return TYPE;
+		return type;
 	}
 
 	@Override
@@ -29,5 +29,5 @@ public class ConnectionMessage extends Message<Boolean>
 	{
 	}
 
-	private static final String TYPE = "connection";
+	private final String type = "connection";
 }

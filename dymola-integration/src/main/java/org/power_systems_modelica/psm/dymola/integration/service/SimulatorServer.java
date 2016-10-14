@@ -24,7 +24,6 @@ import javax.xml.ws.Action;
  * Generated source version: 2.2
  * 
  */
-//@WebService(name = "SimulatorServer", targetNamespace = "http://service.dymola.itesla_project.eu/")
 @WebService(name = "SimulatorServer", targetNamespace = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface SimulatorServer {
@@ -48,7 +47,6 @@ public interface SimulatorServer {
      */
     @WebMethod
     @WebResult(partName = "return")
-//    @Action(input = "http://service.dymola.itesla_project.eu/SimulatorServer/simulateRequest", output = "http://service.dymola.itesla_project.eu/SimulatorServer/simulateResponse")
     @Action(input = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateRequest", output = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateResponse")
     public DataHandler simulate(
         @WebParam(name = "arg0", partName = "arg0")

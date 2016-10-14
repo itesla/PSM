@@ -23,7 +23,6 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-//@WebServiceClient(name = "SimulatorServerImplService", targetNamespace = "http://service.dymola.itesla_project.eu/", wsdlLocation = "http://localhost:8888/dymservice?wsdl")
 @WebServiceClient(name = "SimulatorServerImplService", targetNamespace = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/", wsdlLocation = "http://localhost:8888/dymservice?wsdl")
 public class SimulatorServerImplService
     extends Service
@@ -31,7 +30,6 @@ public class SimulatorServerImplService
 
     private final static URL SIMULATORSERVERIMPLSERVICE_WSDL_LOCATION;
     private final static WebServiceException SIMULATORSERVERIMPLSERVICE_EXCEPTION;
-//    private final static QName SIMULATORSERVERIMPLSERVICE_QNAME = new QName("http://service.dymola.itesla_project.eu/", "SimulatorServerImplService");
     private final static QName SIMULATORSERVERIMPLSERVICE_QNAME = new QName("http://service.proxy.integration.dymola.psm.power_systems_modelica.org/", "SimulatorServerImplService");
 
     static {
@@ -77,7 +75,6 @@ public class SimulatorServerImplService
      */
     @WebEndpoint(name = "SimulatorServerImplPort")
     public SimulatorServer getSimulatorServerImplPort() {
-//        return super.getPort(new QName("http://service.dymola.itesla_project.eu/", "SimulatorServerImplPort"), SimulatorServer.class);
     	return super.getPort(new QName("http://proxy_service.integration.dymola.psm.power_systems_modelica.org/", "SimulatorServerImplPort"), SimulatorServer.class);
     }
 
@@ -90,7 +87,6 @@ public class SimulatorServerImplService
      */
     @WebEndpoint(name = "SimulatorServerImplPort")
     public SimulatorServer getSimulatorServerImplPort(WebServiceFeature... features) {
-//        return super.getPort(new QName("http://service.dymola.itesla_project.eu/", "SimulatorServerImplPort"), SimulatorServer.class, features);
     	return super.getPort(new QName("http://service.proxy.integration.dymola.psm.power_systems_modelica.org/", "SimulatorServerImplPort"), SimulatorServer.class, features);
     }
 

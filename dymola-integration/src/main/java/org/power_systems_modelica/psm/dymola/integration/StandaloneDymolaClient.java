@@ -95,35 +95,6 @@ public class StandaloneDymolaClient {
         return retCode;
     }
 
-//    public static void main(String[] args) throws InterruptedException {
-//        String modelFileName = args[0];
-//        String modelName = args[1];
-//        String workingDir = args[2];
-//        String wsdlService = args[3];
-//        double startTime = Double.valueOf(args[4]);
-//        double stopTime = Double.valueOf(args[5]);
-//        int numberOfIntervals = Integer.valueOf(args[6]);
-//        double outputInterval = Double.valueOf(args[7]);
-//        String method = args[8];
-//        double tolerance = Double.valueOf(args[9]);
-//        double outputFixedstepSize = Double.valueOf(args[10]);
-//        String inputZipFileName = args[11];
-//        String outputZipFileName = args[12];
-//        String outputDymolaMatFileName = args[13];
-//        String outputErrorsFileName = args[14];
-//
-//        StandaloneDymolaClient sc = new StandaloneDymolaClient(method, numberOfIntervals, outputFixedstepSize, outputInterval, startTime, stopTime, tolerance, wsdlService);
-//        LOG.info("running Dymola client: {}", sc.toString());
-//
-//        String simRes = "";
-//        simRes = sc.runDymola(Paths.get(workingDir), inputZipFileName, outputZipFileName, modelFileName, modelName, outputDymolaMatFileName);
-//        try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDir).resolve(outputErrorsFileName)))) {
-//            printStream.print(simRes);
-//        } catch (IOException e) {
-//            LOG.error(e.getMessage(), e);
-//        }
-//        System.exit(("".equals(simRes)) ? 0 : -1);
-//    }
 
     @Override
     public String toString() {
@@ -136,7 +107,6 @@ public class StandaloneDymolaClient {
                 ", outputInterval=" + outputInterval +
                 ", tolerance=" + tolerance +
                 ", outputFixedstepSize=" + outputFixedstepSize +
-//                ", varsSimulationResutls=" + varsSimulationResults +
                 '}';
     }
 

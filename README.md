@@ -63,3 +63,37 @@ If not available, it can installed in the local maven repository from given jars
 	mvn install:install-file -Dfile=adn-export-0.1.jar -DgroupId=com.rte_france.itesla -DartifactId=adn-export -Dversion=0.1 -Dpackaging=jar
 	mvn install:install-file -Dfile=hades2-integration-0.1.jar -DgroupId=com.rte_france.itesla -DartifactId=hades2-integration -Dversion=0.1 -Dpackaging=jar
 
+### Dymola integration
+
+Set the environment variable that points to the Dymola installation directory:
+
+	export DYMOLAHOME=<Dymola installation folder>
+
+Dymola libraries are expected in that installation directory, as you can see in the pom.xml (module dymola-integration-service):
+
+	<!-- explicit private dependency, jar from Dymola installation -->
+	<dependency>
+		<groupId>com.dassault_systemes.dymola</groupId>
+		<artifactId>dymola_interface</artifactId>
+		<version>2016</version>
+		<scope>system</scope>
+		<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/dymola_interface.jar</systemPath>
+	</dependency>
+	<!-- explicit dependency, jar from Dymola installation -->
+	<dependency>
+		<groupId>com.googlecode.json-simple</groupId>
+		<artifactId>json-simple</artifactId>
+		<version>1.1.1</version>
+		<scope>system</scope>
+		<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/json-simple-1.1.1.jar</systemPath>
+	</dependency>
+
+A Web Service connection is used to connect the psm tool to Dymola service. If this service is running in an external machine, some changes should be made in the client side (module dymola-integration).
+In the file dymservice.wsdl, the address location should point to the IP of the machine where the Dymola service is running.
+
+	<service name="SimulatorServerImplService">
+		<port name="SimulatorServerImplPort" binding="tns:SimulatorServerImplPortBinding">
+			<soap:address location="http://<IP of the machine where Dymola service is running>:8888/dymservice"></soap:address>
+		</port>
+	</service>
+	

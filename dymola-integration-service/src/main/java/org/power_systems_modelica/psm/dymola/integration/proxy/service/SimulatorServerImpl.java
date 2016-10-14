@@ -238,28 +238,9 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     }
 
-
-//    private void deleteDirectoryRecursively(Path aPath) throws IOException {
-//        Files.walkFileTree(aPath, new SimpleFileVisitor<Path>() {
-//            @Override
-//            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-//                Files.delete(file);
-//                return FileVisitResult.CONTINUE;
-//            }
-//
-//            @Override
-//            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-//                Files.delete(dir);
-//                return FileVisitResult.CONTINUE;
-//            }
-//        });
-//    }
-
+    
     protected void simulateDymola(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String[] resultVariables) throws DymolaException {
-//        try (ZipFile zipFile = new ZipFile(inputFileName.toFile())) {
-//            ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDirectory.toFile());
-//        }
-//    	
+    	
         DymolaInterface dymola = null;
         int port = -1;
         try {

@@ -6,15 +6,20 @@
 	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
 	xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
 	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:tns="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"
+	xmlns:tns="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"
 	name="SimulatorServerImplService">
 	<wsp:Policy wsu:Id="SimulatorServerImplPortBinding_MTOM_Policy">
 		<ns1:OptimizedMimeSerialization
 			xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization"
 			wsp:Optional="true"></ns1:OptimizedMimeSerialization>
 	</wsp:Policy>
-	<types></types>
+	<types>
+		<xsd:complexType name='stringList'>
+			<xsd:element minOccurs='0' maxOccurs='unbounded' name='stringListName' type='xsd:string' />
+		</xsd:complexType>
+	</types>
 	<message name="simulate">
 		<part name="arg0" type="xsd:string"></part>
 		<part name="arg1" type="xsd:string"></part>
@@ -26,14 +31,15 @@
 		<part name="arg7" type="xsd:double"></part>
 		<part name="arg8" type="xsd:double"></part>
 		<part name="arg9" type="xsd:string"></part>
-		<part name="arg10" type="xsd:base64Binary"></part>
+		<part name="arg10" type="xsd:stringList"></part>
+		<part name="arg11" type="xsd:base64Binary"></part>
 	</message>
 	<message name="simulateResponse">
 		<part name="return" type="xsd:base64Binary"></part>
 	</message>
 	<portType name="SimulatorServer">
 		<operation name="simulate"
-			parameterOrder="arg0 arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10">
+			parameterOrder="arg0 arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 arg11">
 			<input
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateRequest"
 				message="tns:simulate"></input>
@@ -49,10 +55,12 @@
 		<operation name="simulate">
 			<soap:operation soapAction=""></soap:operation>
 			<input>
-				<soap:body use="literal" namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
+				<soap:body use="literal"
+					namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
 			</input>
 			<output>
-				<soap:body use="literal" namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
+				<soap:body use="literal"
+					namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
 			</output>
 		</operation>
 	</binding>

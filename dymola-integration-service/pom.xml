@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.power-systems-modelica.psm</groupId>
+		<artifactId>psm</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>dymola-integration-service</artifactId>
+	<name>dymola-integration-service</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<!-- explicit private dependency, jar from Dymola installation -->
+		<dependency>
+			<groupId>com.dassault_systemes.dymola</groupId>
+			<artifactId>dymola_interface</artifactId>
+			<version>2016</version>
+			<scope>system</scope>
+			<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/dymola_interface.jar</systemPath>
+		</dependency>
+		<!-- explicit dependency, jar from Dymola installation -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+			<scope>system</scope>
+			<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/json-simple-1.1.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

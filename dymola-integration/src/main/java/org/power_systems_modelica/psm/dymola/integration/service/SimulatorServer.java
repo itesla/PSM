@@ -7,6 +7,8 @@
 
 package org.power_systems_modelica.psm.dymola.integration.service;
 
+import java.util.List;
+
 import javax.activation.DataHandler;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -70,6 +72,9 @@ public interface SimulatorServer {
         @WebParam(name = "arg9", partName = "arg9")
         String arg9,
         @WebParam(name = "arg10", partName = "arg10")
-        DataHandler arg10);
+        String[] arg10,
+        @WebParam(name = "arg11", partName = "arg11")
+        DataHandler arg11)
+    	;
 
 }

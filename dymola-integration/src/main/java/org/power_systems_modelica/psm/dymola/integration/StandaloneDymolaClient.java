@@ -8,6 +8,8 @@ package org.power_systems_modelica.psm.dymola.integration;
 
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -28,7 +30,7 @@ import com.sun.xml.internal.ws.developer.StreamingDataHandler;
  */
 public class StandaloneDymolaClient {
 
-    public StandaloneDymolaClient(String method, int numberOfIntervals, double outputFixedstepSize, double outputInterval, double startTime, double stopTime, double tolerance, String wsdlService) {
+    public StandaloneDymolaClient(String method, int numberOfIntervals, double outputFixedstepSize, double outputInterval, double startTime, double stopTime, double tolerance, String wsdlService, String[] resultVariables) {
         this.method = method;
         this.numberOfIntervals = numberOfIntervals;
         this.outputFixedstepSize = outputFixedstepSize;
@@ -37,6 +39,7 @@ public class StandaloneDymolaClient {
         this.stopTime = stopTime;
         this.tolerance = tolerance;
         this.wsdlService = wsdlService;
+        this.resultVariables = resultVariables;
     }
 
     protected String runDymola(Path workingDir, String inputFileName, String outputFileName, String modelFileName, String modelName, String resultsFileName) throws InterruptedException{
@@ -62,9 +65,11 @@ public class StandaloneDymolaClient {
                 									outputInterval, 
                 									method, 
                 									tolerance, 
-                									outputFixedstepSize, 
+                									outputFixedstepSize,
                 									resultsFileName, 
+                									resultVariables,
                 									dhin);
+                
                 StreamingDataHandler sdh = (StreamingDataHandler) dhout;
                 LOG.info(" - remote dymola proxy service ended successfully, retrieving simulation output");
 
@@ -131,20 +136,22 @@ public class StandaloneDymolaClient {
                 ", outputInterval=" + outputInterval +
                 ", tolerance=" + tolerance +
                 ", outputFixedstepSize=" + outputFixedstepSize +
+//                ", varsSimulationResutls=" + varsSimulationResults +
                 '}';
     }
 
-    String wsdlService;
-    private double startTime;
-    private double stopTime;
-    private int numberOfIntervals;
-    private double outputInterval;
-    private String method;
-    private double tolerance;
-    private double outputFixedstepSize;
+    String						wsdlService;
+    private double				startTime;
+    private double				stopTime;
+    private int					numberOfIntervals;
+    private double				outputInterval;
+    private String				method;
+    private double				tolerance;
+    private double				outputFixedstepSize;
+    private String[]			resultVariables;
     
-    private static final int TRIES = 1; // number of soap remote service attempts, before giving up
-    private static final int CONNECTION_TIMEOUT = 4 * 60 * 60 * 1000 ;// in milliseconds
-    private static final int REQUEST_TIMEOUT =  4 * 60 * 60 * 1000 ;// in milliseconds
-    private static final Logger LOG = LoggerFactory.getLogger(StandaloneDymolaClient.class);
+    private static final int	TRIES				= 1; // number of soap remote service attempts, before giving up
+    private static final int	CONNECTION_TIMEOUT	= 4 * 60 * 60 * 1000 ;// in milliseconds
+    private static final int	REQUEST_TIMEOUT		=  4 * 60 * 60 * 1000 ;// in milliseconds
+    private static final Logger LOG					= LoggerFactory.getLogger(StandaloneDymolaClient.class);
 }

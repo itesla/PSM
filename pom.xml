@@ -67,10 +67,10 @@
 		<url>https://bitbucket.org/rte-france/psm</url>
 	</scm>
 	<repositories>
-		<repository>
-			<id>itesla-rte</id>
-			<url>https://ns311581.ovh.net/nexus/content/repositories/thirdparty</url>
-		</repository>
+<!-- 		<repository> -->
+<!-- 			<id>itesla-rte</id> -->
+<!-- 			<url>https://ns311581.ovh.net/nexus/content/repositories/thirdparty</url> -->
+<!-- 		</repository> -->
 	</repositories>
 	<build>
 		<plugins>

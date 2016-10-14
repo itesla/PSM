@@ -22,13 +22,16 @@
 		<module>tools</module>
 		<module>modelica-event-adder</module>
 
+
+
 		<!-- user interface -->
 		<module>web-server</module>
 		<module>app-server</module>
 		<module>app</module>
-		
+
 		<!-- Dymola Modelica engine -->
-		<!-- <module>dymola-integration</module> -->
+		<module>dymola-integration</module>
+		<module>dymola-integration-service</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -67,10 +70,10 @@
 		<url>https://bitbucket.org/rte-france/psm</url>
 	</scm>
 	<repositories>
-<!-- 		<repository> -->
-<!-- 			<id>itesla-rte</id> -->
-<!-- 			<url>https://ns311581.ovh.net/nexus/content/repositories/thirdparty</url> -->
-<!-- 		</repository> -->
+		<!-- <repository> -->
+		<!-- <id>itesla-rte</id> -->
+		<!-- <url>https://ns311581.ovh.net/nexus/content/repositories/thirdparty</url> -->
+		<!-- </repository> -->
 	</repositories>
 	<build>
 		<plugins>

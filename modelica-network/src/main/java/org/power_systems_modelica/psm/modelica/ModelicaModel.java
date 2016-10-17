@@ -50,6 +50,12 @@ public class ModelicaModel
 		return Collections.unmodifiableList(declarations);
 	}
 
+	public void removeDeclarations(List<ModelicaDeclaration> declarations)
+	{
+		Objects.requireNonNull(declarations);
+		this.declarations.removeAll(declarations);
+	}
+
 	public void addEquations(List<ModelicaEquation> equations)
 	{
 		Objects.requireNonNull(equations);
@@ -66,6 +72,12 @@ public class ModelicaModel
 		return Collections.unmodifiableList(equations);
 	}
 
+	public void removeEquations(List<ModelicaEquation> equations)
+	{
+		Objects.requireNonNull(equations);
+		this.equations.removeAll(equations);
+	}
+
 	private void addAnnotations(List<Annotation> annotations)
 	{
 		if (annotations != null) this.annotations.addAll(annotations);
@@ -79,6 +91,12 @@ public class ModelicaModel
 	public List<Annotation> getAnnotations()
 	{
 		return annotations;
+	}
+
+	public void removeAnnotations(List<Annotation> annotations)
+	{
+		Objects.requireNonNull(annotations);
+		this.annotations.removeAll(annotations);
 	}
 
 	public ModelicaConnector[] getConnectors()

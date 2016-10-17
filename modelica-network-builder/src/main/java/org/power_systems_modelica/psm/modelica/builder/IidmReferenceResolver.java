@@ -16,6 +16,7 @@ import eu.itesla_project.iidm.network.RatioTapChanger;
 import eu.itesla_project.iidm.network.RatioTapChangerStep;
 import eu.itesla_project.iidm.network.ShuntCompensator;
 import eu.itesla_project.iidm.network.SingleTerminalConnectable;
+import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
 import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 import eu.itesla_project.iidm.network.VoltageLevel;
 
@@ -156,6 +157,39 @@ public class IidmReferenceResolver implements ReferenceResolver
 				return u.getReal();
 			case "im(u0)":
 				return u.getImaginary();
+			}
+		}
+		if (element instanceof TwoTerminalsConnectable<?>)
+		{
+			TwoTerminalsConnectable<?> e = (TwoTerminalsConnectable<?>) element;
+			Bus b1 = e.getTerminal1().getBusView().getBus();
+			Bus b2 = e.getTerminal2().getBusView().getBus();
+			switch (name)
+			{
+			case "pu(V1)":
+				float v1 = Float.NaN;
+				if (b1 != null) v1 = b1.getV() / e.getTerminal1().getVoltageLevel().getNominalV();
+				return v1;
+			case "rad(A1)":
+				float a1 = Float.NaN;
+				if (b1 != null) a1 = (float) Math.toRadians(b1.getAngle());
+				return a1;
+			case "V1":
+				return (b1 != null ? b1.getV() : Float.NaN);
+			case "A1":
+				return (b1 != null ? b1.getAngle() : Float.NaN);
+			case "pu(V2)":
+				float v2 = Float.NaN;
+				if (b2 != null) v2 = b2.getV() / e.getTerminal1().getVoltageLevel().getNominalV();
+				return v2;
+			case "rad(A2)":
+				float a2 = Float.NaN;
+				if (b2 != null) a2 = (float) Math.toRadians(b2.getAngle());
+				return a2;
+			case "V2":
+				return (b2 != null ? b2.getV() : Float.NaN);
+			case "A2":
+				return (b2 != null ? b2.getAngle() : Float.NaN);
 			}
 		}
 		if (element instanceof Line)

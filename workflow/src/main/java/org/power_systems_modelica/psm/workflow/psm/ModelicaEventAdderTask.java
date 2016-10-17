@@ -58,8 +58,8 @@ public class ModelicaEventAdderTask extends WorkflowTask
 			ddr.connect();
 			List<Event> events = eventsFrom(eventData, n);
 
-			ModelicaEventAdder adder = new ModelicaEventAdder(mo, ddr, n);
-			ModelicaDocument moe = adder.addEvents(events);
+			ModelicaEventAdder adder = new ModelicaEventAdder(mo, ddr, n, events);
+			ModelicaDocument moe = adder.addEvents();
 			publish(SCOPE_GLOBAL, "moWithEvents", moe);
 			succeded();
 		}

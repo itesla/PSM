@@ -29,7 +29,7 @@ public interface DynamicDataRepository
 
 	enum Injection
 	{
-		ADD, REPLACE, INTERPOSE
+		ADD, REPLACE
 	}
 
 	Injection getInjectionForEvent(String id);

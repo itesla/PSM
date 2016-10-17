@@ -208,7 +208,6 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="ADD" />
 			<xs:enumeration value="REPLACE" />
-			<xs:enumeration value="INTERPOSE" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

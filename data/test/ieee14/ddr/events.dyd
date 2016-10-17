@@ -11,16 +11,29 @@
 	</model>
 	<model forEvent="LineFault" injection="REPLACE">
 		<component name="iPSL.Electrical.Events.PwLineFault">
+            <ref name="R1" dataSource="IIDM" sourceName="pu(R)"/>
+            <ref name="X1" dataSource="IIDM" sourceName="pu(X)"/>
+            <ref name="G1" dataSource="IIDM" sourceName="pu(G1)"/>
+            <ref name="B1" dataSource="IIDM" sourceName="pu(B1)"/>
+            <ref name="k" dataSource="EVENT" sourceName="k"/>
+            <ref name="Rfault" dataSource="EVENT" sourceName="Rfault"/>
+            <ref name="Xfault" dataSource="EVENT" sourceName="Xfault"/>
+            <ref name="time_1" dataSource="EVENT" sourceName="startTime"/>
+            <ref name="time_2" dataSource="EVENT" sourceName="endTime"/>
+            <ref name="V1_0" dataSource="IIDM" sourceName="pu(V1)"/>
+            <ref name="angle1_0" dataSource="IIDM" sourceName="A1"/>
+            <ref name="V2_0" dataSource="IIDM" sourceName="pu(V2)"/>
+            <ref name="angle2_0" dataSource="IIDM" sourceName="A2"/>
 		</component>
-		<connector pin="p"/>
-		<connector pin="n"/>
+        <connector pin="p" target="DYNN:bus1:p"/>
+        <connector pin="n" target="DYNN:bus2:p"/>
 	</model>
-	<model forEvent="LineOpenReceiverSide" injection="INTERPOSE">
+	<model forEvent="LineOpenReceiverSide" injection="REPLACE">
 		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving">
 		</component>
 		<connector pin="p"/>
 	</model>
-	<model forEvent="LineOpenBothSides" injection="INTERPOSE">
+	<model forEvent="LineOpenBothSides" injection="REPLACE">
 		<component name="iPSL.Electrical.Branches.PwLine2Openings">
 		</component>
 		<connector pin="p"/>
@@ -35,10 +48,13 @@
 		</component>
 		<connector pin="p"/>
 	</model>
+	<!--
+	Should we preserve this kind of event ?
 	<model forEvent="Breaker" injection="INTERPOSE">
 		<component name="iPSL.Electrical.Events.Breaker">
 		</component>
 		<connector pin="p"/>
 		<connector pin="n"/>
 	</model>
+	-->
 </model_container>

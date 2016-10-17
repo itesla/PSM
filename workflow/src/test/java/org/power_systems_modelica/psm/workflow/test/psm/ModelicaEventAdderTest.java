@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TC;
 import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TD;
@@ -12,9 +13,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.ModelicaModel;
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -29,18 +33,76 @@ import eu.itesla_project.iidm.network.Network;
 public class ModelicaEventAdderTest
 {
 	@Test
-	public void addEventsIeee14() throws WorkflowCreationException, IOException
+	public void addEventsIeee14BusFault() throws WorkflowCreationException, IOException
 	{
-		addEvents(
+		String events = new StringBuilder(100)
+				.append("BusFault")
+				.append(",")
+				.append("_BUS___10_TN")
+				.append(",")
+				.append("R=0.5")
+				.append(",")
+				.append("X=0.5")
+				.append(",")
+				.append("t1=20.0")
+				.append(",")
+				.append("t2=20.2")
+				.append("\n")
+				.toString();
+		ModelicaDocument mo = addEvents(
 				"ieee14",
 				"ieee14bus_EQ.xml",
-				"ddr");
+				"ddr",
+				events,
+				1,
+				1);
+		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
+		assertTrue(models.get("_BUS___10_TN").getDeclarations().stream()
+				.filter(d -> d.getType().endsWith("PwFault"))
+				.findFirst()
+				.isPresent());
 	}
 
-	public void addEvents(
+	@Test
+	public void addEventsIeee14LineFault() throws WorkflowCreationException, IOException
+	{
+		String events = new StringBuilder(100)
+				.append("LineFault")
+				.append(",")
+				.append("_BUS___10-BUS___11-1_AC")
+				.append(",")
+				.append("k=0.7")
+				.append(",")
+				.append("Rfault=0.01")
+				.append(",")
+				.append("Xfault=0.001")
+				.append(",")
+				.append("startTime=200")
+				.append(",")
+				.append("endTime=400")
+				.append("\n")
+				.toString();
+		ModelicaDocument mo = addEvents(
+				"ieee14",
+				"ieee14bus_EQ.xml",
+				"ddr",
+				events,
+				0,
+				0);
+		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
+		assertTrue(models.get("_BUS___10_BUS___11_1_AC").getDeclarations()
+				.get(0)
+				.getType()
+				.endsWith("LineFault"));
+	}
+
+	public ModelicaDocument addEvents(
 			String foldername,
 			String casename,
-			String ddrname)
+			String ddrname,
+			String events,
+			int expectedAdditionalDeclarations,
+			int expectedAdditionalEquations)
 			throws WorkflowCreationException, IOException
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
@@ -52,20 +114,6 @@ public class ModelicaEventAdderTest
 		String outnameev = "./kk_events.mo";
 		String modelicaEngineWorkingDir = "./kk";
 		Files.createDirectories(Paths.get(modelicaEngineWorkingDir));
-
-		StringBuilder events = new StringBuilder();
-		events.append("BusFault");
-		events.append(",");
-		events.append("_BUS___10_TN");
-		events.append(",");
-		events.append("R=0.5");
-		events.append(",");
-		events.append("X=0.5");
-		events.append(",");
-		events.append("t1=20.0");
-		events.append(",");
-		events.append("t2=20.2");
-		events.append("\n");
 
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",
@@ -83,7 +131,7 @@ public class ModelicaEventAdderTest
 				TD(ModelicaEventAdderTask.class, "eventAdder0",
 						TC("ddrType", "DYD",
 								"ddrLocation", ddr,
-								"events", events.toString())),
+								"events", events)),
 				TD(ModelicaExporterTask.class, "exporter1",
 						TC("source", "moWithEvents",
 								"target", outnameev)));
@@ -106,9 +154,10 @@ public class ModelicaEventAdderTest
 		assertNotNull(mo2);
 		int ndecls = mo.getSystemModel().getDeclarations().size();
 		int ndecls2 = mo2.getSystemModel().getDeclarations().size();
-		assertEquals(ndecls + 1, ndecls2);
+		assertEquals(ndecls + expectedAdditionalDeclarations, ndecls2);
 		int neqs = mo.getSystemModel().getEquations().size();
 		int neqs2 = mo2.getSystemModel().getEquations().size();
-		assertEquals(neqs + 1, neqs2);
+		assertEquals(neqs + expectedAdditionalEquations, neqs2);
+		return mo2;
 	}
 }

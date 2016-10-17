@@ -44,7 +44,7 @@ public class ModelicaUtil
 		return normalizedIdentifier(event.concat("_").concat(id));
 	}
 
-	private static String normalizedIdentifier(String id)
+	public static String normalizedIdentifier(String id)
 	{
 		return id.replace("-", "_");
 	}
@@ -90,17 +90,23 @@ public class ModelicaUtil
 		return m.getStaticId().equals(INTERCONNECTIONS_ID);
 	}
 
+	public static List<ModelicaEquation> getInterconnections(
+			Map<String, ModelicaModel> dynamicModelsByStaticId)
+	{
+		return dynamicModelsByStaticId.get(INTERCONNECTIONS_ID).getEquations();
+	}
+
 	public static boolean isSystemModel(ModelicaModel m)
 	{
 		return m.getStaticId().equals(SYSTEM_ID);
 	}
 
-	private static String getNormalizedStaticId(ModelicaDeclaration d)
+	public static String getNormalizedStaticId(ModelicaDeclaration d)
 	{
-		String m = getStaticId(d.getAnnotation());
-		if (m == null) m = getStaticIdFromDynamicId(d.getId());
-		if (m == null) m = SYSTEM_ID;
-		return normalizedIdentifier(m);
+		String id = getStaticId(d.getAnnotation());
+		if (id == null) id = getStaticIdFromDynamicId(d.getId());
+		if (id == null) id = SYSTEM_ID;
+		return normalizedIdentifier(id);
 	}
 
 	private static String getStaticId(ModelicaEquation eq)
@@ -108,12 +114,25 @@ public class ModelicaUtil
 		if (eq instanceof ModelicaConnect)
 		{
 			ModelicaConnect eqc = (ModelicaConnect) eq;
-			String m1 = getStaticIdFromDynamicId(ModelicaUtil.ref2idvar(eqc.getRef1())[0]);
-			String m2 = getStaticIdFromDynamicId(ModelicaUtil.ref2idvar(eqc.getRef2())[0]);
-			if (m1 != null && m1.equals(m2)) return m1;
+			String id1 = getNormalizedStaticId(1, eqc, ModelicaUtil.ref2idvar(eqc.getRef1())[0]);
+			String id2 = getNormalizedStaticId(2, eqc, ModelicaUtil.ref2idvar(eqc.getRef2())[0]);
+			if (id1 != null && id1.equals(id2)) return id1;
 			else return INTERCONNECTIONS_ID;
 		}
 		return SYSTEM_ID;
+	}
+
+	public static String getStaticId(int side, ModelicaConnect eqc)
+	{
+		return getNormalizedStaticId(side, eqc, ModelicaUtil.ref2idvar(eqc.getRef(side))[0]);
+	}
+
+	private static String getNormalizedStaticId(int side, ModelicaConnect eqc, String dynamicId)
+	{
+		String id = getStaticId(side, eqc.getAnnotation());
+		if (id == null) id = getStaticIdFromDynamicId(dynamicId);
+		if (id == null) id = SYSTEM_ID;
+		return normalizedIdentifier(id);
 	}
 
 	private static String getStaticIdFromDynamicId(String id)
@@ -122,6 +141,16 @@ public class ModelicaUtil
 	}
 
 	private static String getStaticId(Annotation annotation)
+	{
+		return getAttrValue(REF_ATTR_STATIC_ID, annotation);
+	}
+
+	private static String getStaticId(int side, Annotation annotation)
+	{
+		return getAttrValue(REF_ATTR_STATIC_ID + side, annotation);
+	}
+
+	private static String getAttrValue(String attrName, Annotation annotation)
 	{
 		if (annotation == null) return null;
 
@@ -137,11 +166,11 @@ public class ModelicaUtil
 		String[] attributes = text.split(",");
 		for (String a : attributes)
 		{
-			String[] keyvalue = a.split("=");
-			if (keyvalue.length < 2) continue;
-			String key = keyvalue[0];
-			String value = keyvalue[1].replace("\"", "");
-			if (key.equals(REF_ATTR_STATIC_ID)) return value;
+			String[] attrValue = a.split("=");
+			if (attrValue.length < 2) continue;
+			String attr = attrValue[0];
+			String value = attrValue[1].replace("\"", "");
+			if (attr.equals(attrName)) return value;
 		}
 		return null;
 	}

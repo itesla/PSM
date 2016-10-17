@@ -8,6 +8,18 @@ public class ModelicaConnect extends ModelicaEquation
 		this.ref2 = ref2;
 	}
 
+	public String getRef(int side)
+	{
+		switch(side)
+		{
+		case 1:
+			return ref1;
+		case 2:
+			return ref2;
+		}
+		throw new RuntimeException("Bad side in ModelicaConnect getRef, side=" + side);
+	}
+	
 	public String getRef1()
 	{
 		return ref1;

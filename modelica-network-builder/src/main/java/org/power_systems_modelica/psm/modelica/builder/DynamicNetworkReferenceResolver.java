@@ -1,14 +1,10 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
-import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.modelica.ModelicaConnector;
-import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,20 +16,10 @@ import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
 
 public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 {
-	public DynamicNetworkReferenceResolver(Network network, ModelicaDocument mo)
+	public DynamicNetworkReferenceResolver(Network network, ModelicaBuilder modelicaBuilder)
 	{
 		super(network);
-		dynamicModelsByStaticId = ModelicaUtil.groupByNormalizedStaticId(mo);
-	}
-
-	public void addModel(ModelicaModel m)
-	{
-		dynamicModelsByStaticId.put(m.getStaticId(), m);
-	}
-
-	public Collection<ModelicaModel> getModels()
-	{
-		return dynamicModelsByStaticId.values();
+		this.modelicaBuilder = modelicaBuilder;
 	}
 
 	@Override
@@ -57,7 +43,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			// The targetModel is the same bus
 			if (sourceElement instanceof Bus)
 			{
-				targetModel = dynamicModelsByStaticId.get(sourceElement.getId());
+				targetModel = modelicaBuilder.getDynamicModelFor(sourceElement.getId());
 			}
 			else
 			{
@@ -66,7 +52,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 				// Someone that wants to connect to "its unique" bus
 				SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) sourceElement;
 				Bus bus = e.getTerminal().getBusBreakerView().getBus();
-				targetModel = dynamicModelsByStaticId.get(bus.getId());
+				targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
 			}
 		}
 		else if (targetItem.startsWith("bus"))
@@ -80,7 +66,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 
 			TwoTerminalsConnectable<?> e = (TwoTerminalsConnectable<?>) sourceElement;
 			Bus bus = e.getTerminal(side).getBusBreakerView().getBus();
-			targetModel = dynamicModelsByStaticId.get(bus.getId());
+			targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
 		}
 		if (targetModel == null)
 		{
@@ -101,8 +87,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		return cf;
 	}
 
-	private Map<String, ModelicaModel>	dynamicModelsByStaticId;
-
-	private static final Logger			LOG	= LoggerFactory
+	private final ModelicaBuilder	modelicaBuilder;
+	private static final Logger		LOG	= LoggerFactory
 			.getLogger(DynamicNetworkReferenceResolver.class);
 }

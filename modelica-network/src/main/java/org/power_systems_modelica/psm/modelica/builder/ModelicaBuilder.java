@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,37 @@ import org.slf4j.LoggerFactory;
 
 public class ModelicaBuilder
 {
-	protected void addDynamicModel(ModelicaModel m, ModelicaDocument mo)
+	protected void createModelicaDocument(String name)
+	{
+		mo = new ModelicaDocument();
+		mo.setWithin("");
+		ModelicaSystemModel sys = new ModelicaSystemModel(name);
+		mo.setSystemModel(sys);
+		dynamicModelsByStaticId = new HashMap<>();
+	}
+
+	protected ModelicaDocument getModelicaDocument()
+	{
+		return mo;
+	}
+
+	protected void setModelicaDocument(ModelicaDocument mo)
+	{
+		this.mo = mo;
+		dynamicModelsByStaticId = ModelicaUtil.groupByNormalizedStaticId(mo);
+	}
+
+	protected Collection<ModelicaModel> getModels()
+	{
+		return dynamicModelsByStaticId.values();
+	}
+
+	protected ModelicaModel getDynamicModelFor(String staticId)
+	{
+		return dynamicModelsByStaticId.get(ModelicaUtil.normalizedIdentifier(staticId));
+	}
+
+	protected void addDynamicModel(ModelicaModel m)
 	{
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
@@ -39,14 +70,49 @@ public class ModelicaBuilder
 		if (!sconn.isEmpty()) text = text.concat(",").concat(sconn);
 		Annotation a = new Annotation(text);
 		system.addAnnotation(a);
+
+		// FIXME When adding we should be merging declarations and equations
+		// (add fault to a bus increases the dynamic model of the bus, is not a substitution)
+		// problem: the dynamic model of the bus will have two connectors with pin "p" after adding a fault
+		// to solve this, the pin for the bus fault could be declared as "used" (not "reusable")
+		// in general, only pins of buses are "reusables" ???
+		dynamicModelsByStaticId.put(m.getStaticId(), m);
 	}
 
-	protected void addConnections(ModelicaModel m, ModelicaDocument mo)
+	protected void removeDynamicModel(ModelicaModel m)
 	{
-		mo.getSystemModel().addEquations(buildConnections(m, mo));
+		// First remove previous declarations and internal connections related to the dynamic model of this static element
+		mo.getSystemModel().removeEquations(m.getEquations());
+		mo.getSystemModel().removeDeclarations(m.getDeclarations());
+		mo.getSystemModel().removeAnnotations(m.getAnnotations());
+
+		// Also identify and remove previous interconnections with the rest of the system
+		String staticId = m.getStaticId();
+		List<ModelicaEquation> allInterconnections = ModelicaUtil
+				.getInterconnections(dynamicModelsByStaticId);
+		List<ModelicaEquation> interconnections = allInterconnections.stream()
+				.filter(eq -> {
+					ModelicaConnect eqc = (ModelicaConnect) eq;
+					return ModelicaUtil.getStaticId(1, eqc).equals(staticId)
+							|| ModelicaUtil.getStaticId(2, eqc).equals(staticId);
+				})
+				.collect(Collectors.toList());
+		mo.getSystemModel().removeEquations(interconnections);
+
+		dynamicModelsByStaticId.remove(m.getStaticId());
 	}
 
-	protected List<ModelicaEquation> buildConnections(ModelicaModel m, ModelicaDocument mo)
+	protected void addInterconnections()
+	{
+		getModels().stream().forEach(m -> addInterconnections(m));
+	}
+
+	protected void addInterconnections(ModelicaModel m)
+	{
+		mo.getSystemModel().addEquations(buildInterconnections(m));
+	}
+
+	protected List<ModelicaEquation> buildInterconnections(ModelicaModel m)
 	{
 		Stream<ModelicaConnector> sourceConnectors = Stream.of(m.getConnectors());
 		List<ModelicaEquation> targetConnectors = sourceConnectors
@@ -160,7 +226,10 @@ public class ModelicaBuilder
 		return new ModelicaArgument(a0.getName(), value);
 	}
 
+	private ModelicaDocument						mo;
+	private Map<String, ModelicaModel>				dynamicModelsByStaticId;
 	private final Map<String, ReferenceResolver>	referenceResolvers	= new HashMap<>();
+
 	private static final Logger						LOG					= LoggerFactory
 			.getLogger(ModelicaBuilder.class);
 }

@@ -126,7 +126,6 @@ public class ModelicaTextPrinter
 	private Annotation annotation(ModelicaDeclaration d)
 	{
 		String dtype = d.getType();
-		System.err.println(dtype);
 
 		// For assignments, return the annotation as it is (maybe empty)
 		if (d.isAssignment()) return d.getAnnotation();
@@ -178,13 +177,7 @@ public class ModelicaTextPrinter
 		Ordering<ModelicaEquation> byOriginal = Ordering.explicit(eqs0);
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKindPairs());
 		byType = (eq1, eq2) -> -eq1.getClass().getName().compareTo(eq2.getClass().getName());
-		byKind = (eq1, eq2) -> {
-			String kind1 = getKind(eq1);
-			String kind2 = getKind(eq2);
-			System.err.printf("%-10s %-10s%n    %s%n    %s%n", kind1, kind2, eq1.getText(),
-					eq2.getText());
-			return kindOrdering.compare(getKind(eq1), getKind(eq2));
-		};
+		byKind = (eq1, eq2) -> kindOrdering.compare(getKind(eq1), getKind(eq2));
 		byKey = Comparator.comparing(ModelicaTextPrinter::getKey);
 
 		eqs = eqs0.stream()

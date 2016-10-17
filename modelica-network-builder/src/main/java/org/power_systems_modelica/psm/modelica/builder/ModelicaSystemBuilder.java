@@ -46,31 +46,21 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 	private ModelicaDocument buildModelicaSystem()
 	{
-		Network n = getNetwork();
+		createModelicaDocument(getNetwork().getName());
+		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 
-		ModelicaDocument mo = new ModelicaDocument();
-		mo.setWithin("");
-		ModelicaSystemModel sys = new ModelicaSystemModel(n.getName());
-		mo.setSystemModel(sys);
-
-		DynamicNetworkReferenceResolver dynnr = new DynamicNetworkReferenceResolver(n, mo);
-		registerResolver("DYNN", dynnr);
-
+		ModelicaSystemModel sys = getModelicaDocument().getSystemModel();
 		sys.addDeclarations(getDdr().getSystemDeclarations());
-		addDynamicModels(mo, dynnr);
+		addDynamicModels();
 		// Add connections between models only after all models have been created
-		addConnections(mo, dynnr);
+		addInterconnections();
+		// And system equations also after the all models have been created
 		sys.addEquations(getDdr().getSystemEquations(sys));
 
-		// TODO post-process resulting Modelica objects
-		// TODO omegaRef should be computed as a weighted sum of omega variables of all machines
-		// omegaRef = SUM(g.omega * g.SN * g.HIn) for all g in machines
-		// m.addParameters(Arrays.asList(new ModelicaParameter(ModelicaType.Real, "omegaRef", "0.0")));
-
-		return mo;
+		return getModelicaDocument();
 	}
 
-	private void addDynamicModels(ModelicaDocument mo, DynamicNetworkReferenceResolver dynnr)
+	private void addDynamicModels()
 	{
 		Network network = getNetwork();
 
@@ -86,8 +76,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			ModelicaModel db = getDdr().getModelicaModel(b);
 			if (db == null) continue;
 
-			addDynamicModel(db, mo);
-			dynnr.addModel(db);
+			addDynamicModel(db);
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
@@ -98,8 +87,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 					if (!visited.contains(e))
 					{
-						addDynamicModel(de, mo);
-						dynnr.addModel(de);
+						addDynamicModel(de);
 						visited.add(e);
 					}
 				}
@@ -107,11 +95,6 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
 			else b.visitConnectedOrConnectableEquipments(visitor);
 		}
-	}
-
-	private void addConnections(ModelicaDocument mo, DynamicNetworkReferenceResolver dynnr)
-	{
-		dynnr.getModels().stream().forEach(m -> addConnections(m, mo));
 	}
 
 	private final ModelicaEngine modelicaEngine;

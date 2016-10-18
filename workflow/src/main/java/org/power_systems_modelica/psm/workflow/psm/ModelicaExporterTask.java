@@ -27,9 +27,10 @@ public class ModelicaExporterTask extends WorkflowTask
 		source = config.getParameter("source");
 		if (source == null) source = "mo";
 		target = config.getParameter("target");
-		includeSystemModelAnnotations = false;
-		String sincludeSystemModelAnnotations = config.getParameter("includeSystemModelAnnotations");
-		if (sincludeSystemModelAnnotations != null) includeSystemModelAnnotations = Boolean.valueOf(sincludeSystemModelAnnotations);
+		includePsmAnnotations = false;
+		String sincludePsmAnnotations = config.getParameter("includePsmAnnotations");
+		if (sincludePsmAnnotations != null)
+			includePsmAnnotations = Boolean.valueOf(sincludePsmAnnotations);
 	}
 
 	@Override
@@ -39,9 +40,10 @@ public class ModelicaExporterTask extends WorkflowTask
 
 		ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
+		mop.setIncludePsmAnnotations(includePsmAnnotations);
 		try (PrintWriter out = new PrintWriter(Paths.get(target).toFile());)
 		{
-			mop.print(out, includeSystemModelAnnotations);
+			mop.print(out);
 			succeded();
 		}
 		catch (Exception x)
@@ -52,5 +54,5 @@ public class ModelicaExporterTask extends WorkflowTask
 
 	private String	source;
 	private String	target;
-	private boolean	includeSystemModelAnnotations;
+	private boolean	includePsmAnnotations;
 }

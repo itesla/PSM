@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.modelica.Annotation;
+import org.power_systems_modelica.psm.modelica.AnnotationItem;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -23,15 +24,21 @@ public class ModelicaTextPrinter
 	public ModelicaTextPrinter(ModelicaDocument mo)
 	{
 		this.mo = mo;
+		this.includePsmAnnotations = false;
 	}
 
-	public void print(PrintWriter out, boolean includeSystemModelAnnotations) throws IOException
+	public void setIncludePsmAnnotations(boolean includePsmAnnotations)
+	{
+		this.includePsmAnnotations = includePsmAnnotations;
+	}
+
+	public void print(PrintWriter out) throws IOException
 	{
 		printWithin(out);
 		printSystemModelHeader(out);
 		printDeclarations(out);
 		printEquations(out);
-		if (includeSystemModelAnnotations) printAnnotations(out);
+		if (includePsmAnnotations) printAnnotations(out);
 		printSystemModelEnd(out);
 	}
 
@@ -116,46 +123,26 @@ public class ModelicaTextPrinter
 				}
 				out.printf("%n    )");
 			}
-			Annotation a = annotation(d);
+			Annotation a = d.getAnnotation();
 			if (a != null && !a.isEmpty())
 				out.printf(" annotation (%s)", asText(a));
 			out.printf(";%n");
 		}
 	}
 
-	private Annotation annotation(ModelicaDeclaration d)
+	private final boolean includeAnnotationItem(AnnotationItem a)
 	{
-		String dtype = d.getType();
-
-		// For assignments, return the annotation as it is (maybe empty)
-		if (d.isAssignment()) return d.getAnnotation();
-		// For the rest of declarations, provide a default annotation if given is empty
-		if (d.getAnnotation() == null || d.getAnnotation().isEmpty())
-			return DECLARATION_DEFAULT_ANNOTATION;
-		return d.getAnnotation();
-	}
-
-	private Annotation annotation(ModelicaEquation eq)
-	{
-		// If the annotation exists and is not empty, return it
-		if (eq.getAnnotation() != null && !eq.getAnnotation().isEmpty()) return eq.getAnnotation();
-		// Provide default annotations for some types of equations
-		if (eq instanceof ModelicaConnect)
-		{
-			// No annotations for system connect equations
-			if (ModelicaTricks.isSystemConnect((ModelicaConnect) eq)) return null;
-			else return CONNECT_DEFAULT_ANNOTATION;
-		}
-		return null;
+		if (!a.isPsmAnnotation()) return true;
+		return includePsmAnnotations;
 	}
 
 	private String asText(Annotation a)
 	{
-		// return a.getItems().stream().collect(Collectors.joining(","));
-		if (a == null) return "";
-		String text = a.getText();
-		if (text == null) return "";
-		return text;
+		String s = a.getItems().stream()
+				.filter(a1 -> includeAnnotationItem(a1))
+				.map(AnnotationItem::asText)
+				.collect(Collectors.joining(","));
+		return s;
 	}
 
 	private void printArgument(PrintWriter out, ModelicaArgument a)
@@ -192,7 +179,7 @@ public class ModelicaTextPrinter
 		for (ModelicaEquation eq : sortedEquations())
 		{
 			out.printf("  %s", eq.getText());
-			Annotation a = annotation(eq);
+			Annotation a = eq.getAnnotation();
 			if (a != null && !a.isEmpty())
 				out.printf(" annotation (%s)", asText(a));
 			out.printf(";%n");
@@ -211,10 +198,6 @@ public class ModelicaTextPrinter
 		out.printf("end %s;%n", mo.getSystemModel().getName());
 	}
 
-	private ModelicaDocument		mo;
-
-	private static final Annotation	DECLARATION_DEFAULT_ANNOTATION	= new Annotation(
-			"Placement(transformation())");
-	private static final Annotation	CONNECT_DEFAULT_ANNOTATION		= new Annotation(
-			"Line()");
+	private ModelicaDocument	mo;
+	private boolean				includePsmAnnotations;
 }

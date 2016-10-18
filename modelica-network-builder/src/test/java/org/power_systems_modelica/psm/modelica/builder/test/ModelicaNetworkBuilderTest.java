@@ -48,8 +48,7 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		boolean includeSystemModelAnnotations = false;
-		mop.print(out, includeSystemModelAnnotations);
+		mop.print(out);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -95,8 +94,7 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		boolean includeSystemModelAnnotations = false;
-		mop.print(out, includeSystemModelAnnotations);
+		mop.print(out);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -148,8 +146,7 @@ public class ModelicaNetworkBuilderTest
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		boolean includeSystemModelAnnotations = false;
-		mop.print(out, includeSystemModelAnnotations);
+		mop.print(out);
 		out.flush();
 		out.close();
 		String converted = sout.toString();

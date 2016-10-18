@@ -90,9 +90,9 @@ public class ModelicaNetworkBuilderTool implements Tool
 			System.err.println("Missing Modelica output file");
 			return;
 		}
-		boolean includeSystemModelAnnotations = false;
-		String sincludeSystemModelAnnotations = cmd.getOptionValue("includeSystemModelAnnotations");
-		if (sincludeSystemModelAnnotations != null) includeSystemModelAnnotations = Boolean.valueOf(sincludeSystemModelAnnotations);
+		boolean includePsmAnnotations = false;
+		String sincludePsmAnnotations = cmd.getOptionValue("includePsmAnnotations");
+		if (sincludePsmAnnotations != null) includePsmAnnotations = Boolean.valueOf(sincludePsmAnnotations);
 		String engine = cmd.getOptionValue("engine");
 		if (engine == null)
 		{
@@ -104,7 +104,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 		System.out.println("iidm        = " + Paths.get(iidmFilename).toAbsolutePath().toString());
 		System.out.println("ddr         = " + Paths.get(ddrLocation).toAbsolutePath().toString());
 		System.out.println("modelica    = " + Paths.get(moFilename).toAbsolutePath().toString());
-		System.out.println("annotations = " + includeSystemModelAnnotations);
+		System.out.println("annotations = " + includePsmAnnotations);
 		System.out.println("engine      = " + engine);
 
 		Network n = NetworkXml.read(Paths.get(iidmFilename));
@@ -122,9 +122,10 @@ public class ModelicaNetworkBuilderTool implements Tool
 
 		Path mof = Paths.get(moFilename);
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
+		mop.setIncludePsmAnnotations(includePsmAnnotations);
 		try (PrintWriter out = new PrintWriter(mof.toFile());)
 		{
-			mop.print(out, includeSystemModelAnnotations);
+			mop.print(out);
 			System.out.println("Modelica output sent to " + mof.toAbsolutePath().toString());
 		}
 	}

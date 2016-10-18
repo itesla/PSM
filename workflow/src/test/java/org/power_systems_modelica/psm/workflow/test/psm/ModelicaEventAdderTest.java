@@ -127,7 +127,7 @@ public class ModelicaEventAdderTest
 				TD(ModelicaExporterTask.class, "exporter0",
 						TC("source", "mo",
 								"target", outname,
-								"includeSystemModelAnnotations", "true")),
+								"includePsmAnnotations", "true")),
 				TD(ModelicaEventAdderTask.class, "eventAdder0",
 						TC("ddrType", "DYD",
 								"ddrLocation", ddr,

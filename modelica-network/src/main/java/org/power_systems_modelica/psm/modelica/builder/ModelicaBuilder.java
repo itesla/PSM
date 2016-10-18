@@ -57,6 +57,20 @@ public class ModelicaBuilder
 
 	protected void addDynamicModel(ModelicaModel m)
 	{
+		// Annotation common to all declarations and equations of this dynamic model
+		String refs = Annotation.writeRefs("id", m.getName(), "staticId", m.getStaticId());
+
+		m.getDeclarations().forEach(d -> {
+			if (d.getAnnotation() == null)
+				d.setAnnotation(new Annotation(refs));
+			else d.getAnnotation().addItem(refs);
+		});
+		m.getEquations().forEach(eq -> {
+			if (eq.getAnnotation() == null)
+				eq.setAnnotation(new Annotation(refs));
+			else eq.getAnnotation().addItem(refs);
+		});
+
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
 		// We solve these references in the context of the current Network and ModelicaModel
@@ -65,10 +79,9 @@ public class ModelicaBuilder
 		system.addEquations(m.getEquations());
 
 		// Information about connectors are put as annotations in the output model
-		String text = ModelicaUtil.writeRefs("id", m.getName(), "staticId", m.getStaticId());
-		String sconn = ModelicaUtil.writeConnectors(Arrays.asList(m.getConnectors()));
-		if (!sconn.isEmpty()) text = text.concat(",").concat(sconn);
-		Annotation a = new Annotation(text);
+		Annotation a = new Annotation(refs);
+		if (m.getConnectors() != null && m.getConnectors().length > 0)
+			a.addItem(Annotation.writeConnectors(Arrays.asList(m.getConnectors())));
 		system.addAnnotation(a);
 
 		// FIXME When adding we should be merging declarations and equations
@@ -93,8 +106,8 @@ public class ModelicaBuilder
 		List<ModelicaEquation> interconnections = allInterconnections.stream()
 				.filter(eq -> {
 					ModelicaConnect eqc = (ModelicaConnect) eq;
-					return ModelicaUtil.getStaticId(1, eqc).equals(staticId)
-							|| ModelicaUtil.getStaticId(2, eqc).equals(staticId);
+					return ModelicaUtil.getStaticId(eqc, 1).equals(staticId)
+							|| ModelicaUtil.getStaticId(eqc, 2).equals(staticId);
 				})
 				.collect(Collectors.toList());
 		mo.getSystemModel().removeEquations(interconnections);

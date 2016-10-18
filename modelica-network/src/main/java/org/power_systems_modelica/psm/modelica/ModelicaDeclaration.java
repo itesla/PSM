@@ -20,6 +20,7 @@ public class ModelicaDeclaration
 		this.value = value;
 		this.arguments = null;
 		this.isParameter = isParameter;
+		// No default annotation for assignments
 		this.annotation = annotation;
 	}
 
@@ -36,7 +37,8 @@ public class ModelicaDeclaration
 		this.arguments = arguments;
 		this.value = null;
 		this.isParameter = isParameter;
-		this.annotation = annotation;
+		if (annotation == null) this.annotation = new Annotation(DEFAULT_ANNOTATION);
+		else this.annotation = annotation;
 	}
 
 	public String getType()
@@ -75,11 +77,19 @@ public class ModelicaDeclaration
 		return annotation;
 	}
 
+	public void setAnnotation(Annotation annotation)
+	{
+		this.annotation = annotation;
+	}
+
 	private final String					type;
 	private final String					id;
 	private final boolean					isAssignment;
 	private final Object					value;
 	private final List<ModelicaArgument>	arguments;
 	private final boolean					isParameter;
-	private final Annotation				annotation;
+
+	private Annotation						annotation;
+
+	private static final String				DEFAULT_ANNOTATION	= "Placement(transformation())";
 }

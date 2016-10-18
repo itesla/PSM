@@ -62,7 +62,9 @@ declaration_stmt locals [boolean isParameter = false]
 {
 	String type = $type_name.text;
 	String id = $instantiation.id;
-	Annotation annotation = new Annotation($annotation.text);
+	Annotation annotation = null;
+	if ($annotation.text != null)
+		annotation = new Annotation($annotation.text);
 	ModelicaDeclaration declaration;
 	if ($instantiation.arguments != null)
 		declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter, annotation);
@@ -133,15 +135,6 @@ argument_value
 equation_stmt
    : equation_connect_stmt
    | equal_stmt
-{
-	// Re-expand the spaces that have been eaten by the parser
-	String text = $equal_stmt.text;
-	text = text.replace("=", " = ");
-    text = text.replace("+", " + ");
-	text = text.replace("/", " / ");
-	ModelicaEquation equation = new ModelicaEquation(text);
-	modelicaDocument.getSystemModel().addEquation(equation);
-}
    ;
 
 equation_connect_stmt
@@ -162,7 +155,25 @@ locals [String ref1, String ref2]
    ;
 
 equal_stmt
-   : algebraic_expression '=' algebraic_expression
+locals [String left, String right]
+@after
+{
+	// Re-expand the spaces that have been eaten by the parser
+	String text = $left.concat(" = ").concat($right);
+    text = text.replace("+", " + ");
+	text = text.replace("/", " / ");
+	ModelicaEquation equation = new ModelicaEquation(text);
+	modelicaDocument.getSystemModel().addEquation(equation);
+}
+   : algebraic_expression
+{
+	$left = $algebraic_expression.text;
+}
+   '='
+   algebraic_expression
+{
+	$right = $algebraic_expression.text;
+}
    ;
 
 algebraic_expression:

@@ -6,11 +6,14 @@ public class ModelicaConnect extends ModelicaEquation
 	{
 		this.ref1 = ref1;
 		this.ref2 = ref2;
+		// No default annotations for system-connect equations
+		if (!ModelicaTricks.isSystemConnect(this))
+			setAnnotation(new Annotation(DEFAULT_ANNOTATION));
 	}
 
 	public String getRef(int side)
 	{
-		switch(side)
+		switch (side)
 		{
 		case 1:
 			return ref1;
@@ -19,7 +22,7 @@ public class ModelicaConnect extends ModelicaEquation
 		}
 		throw new RuntimeException("Bad side in ModelicaConnect getRef, side=" + side);
 	}
-	
+
 	public String getRef1()
 	{
 		return ref1;
@@ -41,6 +44,8 @@ public class ModelicaConnect extends ModelicaEquation
 				.concat(")");
 	}
 
-	private final String	ref1;
-	private final String	ref2;
+	private final String		ref1;
+	private final String		ref2;
+
+	private static final String	DEFAULT_ANNOTATION	= "Line()";
 }

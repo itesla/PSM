@@ -1,15 +1,9 @@
 package org.power_systems_modelica.psm.modelica;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -68,7 +62,7 @@ public class ModelicaUtil
 		Map<String, List<Annotation>> as = mo.getSystemModel()
 				.getAnnotations()
 				.stream()
-				.collect(Collectors.groupingBy(a -> getStaticId(a)));
+				.collect(Collectors.groupingBy(Annotation::getStaticId));
 
 		// These are all the static identifiers that have been found
 		Set<String> sids = new HashSet<>();
@@ -103,7 +97,8 @@ public class ModelicaUtil
 
 	public static String getNormalizedStaticId(ModelicaDeclaration d)
 	{
-		String id = getStaticId(d.getAnnotation());
+		String id = null;
+		if (d.getAnnotation() != null) id = d.getAnnotation().getStaticId();
 		if (id == null) id = getStaticIdFromDynamicId(d.getId());
 		if (id == null) id = SYSTEM_ID;
 		return normalizedIdentifier(id);
@@ -114,22 +109,23 @@ public class ModelicaUtil
 		if (eq instanceof ModelicaConnect)
 		{
 			ModelicaConnect eqc = (ModelicaConnect) eq;
-			String id1 = getNormalizedStaticId(1, eqc, ModelicaUtil.ref2idvar(eqc.getRef1())[0]);
-			String id2 = getNormalizedStaticId(2, eqc, ModelicaUtil.ref2idvar(eqc.getRef2())[0]);
+			String id1 = getStaticId(eqc, 1);
+			String id2 = getStaticId(eqc, 2);
 			if (id1 != null && id1.equals(id2)) return id1;
 			else return INTERCONNECTIONS_ID;
 		}
 		return SYSTEM_ID;
 	}
 
-	public static String getStaticId(int side, ModelicaConnect eqc)
+	public static String getStaticId(ModelicaConnect eqc, int side)
 	{
-		return getNormalizedStaticId(side, eqc, ModelicaUtil.ref2idvar(eqc.getRef(side))[0]);
+		return getNormalizedStaticId(eqc, side, ModelicaUtil.ref2idvar(eqc.getRef(side))[0]);
 	}
 
-	private static String getNormalizedStaticId(int side, ModelicaConnect eqc, String dynamicId)
+	private static String getNormalizedStaticId(ModelicaConnect eqc, int side, String dynamicId)
 	{
-		String id = getStaticId(side, eqc.getAnnotation());
+		String id = null;
+		if (eqc.getAnnotation() != null) id = eqc.getAnnotation().getStaticId(side);
 		if (id == null) id = getStaticIdFromDynamicId(dynamicId);
 		if (id == null) id = SYSTEM_ID;
 		return normalizedIdentifier(id);
@@ -138,41 +134,6 @@ public class ModelicaUtil
 	private static String getStaticIdFromDynamicId(String id)
 	{
 		return ModelicaTricks.staticIdFromDynamicId(id);
-	}
-
-	private static String getStaticId(Annotation annotation)
-	{
-		return getAttrValue(REF_ATTR_STATIC_ID, annotation);
-	}
-
-	private static String getStaticId(int side, Annotation annotation)
-	{
-		return getAttrValue(REF_ATTR_STATIC_ID + side, annotation);
-	}
-
-	private static String getAttrValue(String attrName, Annotation annotation)
-	{
-		if (annotation == null) return null;
-
-		String text = annotation.getText();
-		if (text == null) return null;
-
-		Matcher m = REF_ANNOTATION.matcher(text);
-		if (!m.find()) return null;
-
-		MatchResult r = m.toMatchResult();
-		text = r.group(1);
-
-		String[] attributes = text.split(",");
-		for (String a : attributes)
-		{
-			String[] attrValue = a.split("=");
-			if (attrValue.length < 2) continue;
-			String attr = attrValue[0];
-			String value = attrValue[1].replace("\"", "");
-			if (attr.equals(attrName)) return value;
-		}
-		return null;
 	}
 
 	private static ModelicaModel buildModelicaModel(
@@ -189,135 +150,15 @@ public class ModelicaUtil
 		if (equations != null) m.addEquations(equations);
 		if (annotations != null)
 		{
-			List<ModelicaConnector> connectors = readConnectors(annotations);
+			List<ModelicaConnector> connectors = Annotation.readConnectors(annotations);
 			m.setConnectors(connectors);
 		}
 		return m;
 	}
 
-	private static List<ModelicaConnector> readConnectors(List<Annotation> annotations)
-	{
-		return annotations.stream()
-				.filter(a -> !a.isEmpty())
-				.map(a -> a.getText())
-				.filter(Objects::nonNull)
-				.map(t -> readConnectors(t))
-				.filter(Objects::nonNull)
-				.flatMap(List::stream)
-				.collect(Collectors.toList());
-	}
+	private static final String	ID_VAR_SEPARATOR		= ".";
+	private static final String	QUOTED_ID_VAR_SEPARATOR	= Pattern.quote(ID_VAR_SEPARATOR);
 
-	public static String writeConnectors(List<ModelicaConnector> connectors)
-	{
-		if (connectors == null || connectors.isEmpty()) return "";
-		return connectors.stream()
-				.map(c -> writeConnector(c))
-				.collect(Collectors.joining(","));
-	}
-
-	public static List<ModelicaConnector> readConnectors(String text)
-	{
-		List<ModelicaConnector> connectors = new ArrayList<>();
-		Matcher m = CONNECTOR_ANNOTATION.matcher(text);
-		while (m.find())
-		{
-			MatchResult r = m.toMatchResult();
-			String sc = r.group(1);
-			connectors.add(readConnector(sc));
-		}
-		return connectors;
-	}
-
-	private static ModelicaConnector readConnector(String text)
-	{
-		// Format expected is: id=<identifier>,pin=<pin name>,target=<dataSource>:<item>:<pin>
-		// Values may be quoted
-		// Target is not parsed
-		// Attributes may be given in any order
-		// id and target are optional
-
-		String id = null, pin = null, target = null;
-		String[] attributes = text.split(",");
-		for (String a : attributes)
-		{
-			String[] keyvalue = a.split("=");
-			if (keyvalue.length < 2) continue;
-			String key = keyvalue[0];
-			String value = keyvalue[1].replace("\"", "");
-			switch (key)
-			{
-			case CONNECTOR_ATTR_ID:
-				id = value;
-				break;
-			case CONNECTOR_ATTR_PIN:
-				pin = value;
-				break;
-			case CONNECTOR_ATTR_TARGET:
-				target = value;
-				break;
-			}
-		}
-		if (id == null && target == null) return new ModelicaConnector(pin);
-		else return new ModelicaConnector(id, pin, target);
-	}
-
-	public static String writeRefs(String... refs)
-	{
-		if (refs == null) return null;
-		if (refs.length == 0) return null;
-		// Should receive pairs of (refName, refValue)
-		if (refs.length % 2 == 1) return null;
-		StringBuilder srefs = new StringBuilder();
-		srefs.append(REF_KEYWORD);
-		srefs.append("(");
-		for (int k = 0; k <= refs.length - 2; k += 2)
-		{
-			srefs.append(writeAttributeValue(refs[k], refs[k + 1]));
-			if (k < refs.length - 2) srefs.append(",");
-		}
-		srefs.append(")");
-		return srefs.toString();
-	}
-
-	private static String writeConnector(ModelicaConnector c)
-	{
-		Optional<String> sid, spin, starget;
-
-		sid = c.getId().map(id -> writeAttributeValue(CONNECTOR_ATTR_ID, id));
-		spin = Optional.of(writeAttributeValue(CONNECTOR_ATTR_PIN, c.getPin()));
-		starget = c.getTarget().map(t -> writeAttributeValue(CONNECTOR_ATTR_TARGET, t));
-
-		String attrs = Arrays.asList(sid, spin, starget).stream()
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.collect(Collectors.joining(","));
-
-		return CONNECTOR_KEYWORD
-				.concat("(")
-				.concat(attrs)
-				.concat(")");
-	}
-
-	private static String writeAttributeValue(String attribute, String value)
-	{
-		return attribute.concat("=\"").concat(value).concat("\"");
-	}
-
-	private static final String		ID_VAR_SEPARATOR		= ".";
-	private static final String		QUOTED_ID_VAR_SEPARATOR	= Pattern.quote(ID_VAR_SEPARATOR);
-
-	private static final String		SYSTEM_ID				= "_SYSTEM_";
-	private static final String		INTERCONNECTIONS_ID		= "_INTERCONNECTIONS_";
-
-	private static final String		CONNECTOR_KEYWORD		= "PSMConnector";
-	private static final String		CONNECTOR_ATTR_ID		= "id";
-	private static final String		CONNECTOR_ATTR_PIN		= "pin";
-	private static final String		CONNECTOR_ATTR_TARGET	= "target";
-	private static final Pattern	CONNECTOR_ANNOTATION	= Pattern
-			.compile(CONNECTOR_KEYWORD + "\\(([^\\)]*)\\)");
-
-	private static final String		REF_KEYWORD				= "PSMRef";
-	private static final String		REF_ATTR_STATIC_ID		= "staticId";
-	private static final Pattern	REF_ANNOTATION			= Pattern
-			.compile(REF_KEYWORD + "\\(([^\\)]*)\\)");
+	private static final String	SYSTEM_ID				= "_SYSTEM_";
+	private static final String	INTERCONNECTIONS_ID		= "_INTERCONNECTIONS_";
 }

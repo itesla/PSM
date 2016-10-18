@@ -30,6 +30,12 @@ public class ModelicaEquation
 		return annotation;
 	}
 
-	private final String		text;
-	private final Annotation	annotation;
+	public void setAnnotation(Annotation annotation)
+	{
+		this.annotation = annotation;
+	}
+
+	private final String	text;
+
+	private Annotation		annotation;
 }

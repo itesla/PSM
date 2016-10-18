@@ -75,8 +75,13 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 					targetItem,
 					targetPin,
 					sourceElement.getId());
+			return Optional.empty();
 		}
-		return findConnector(targetPin, targetModel.getConnectors());
+
+		// All connectors that have been resolved through this resolver will receive a proper staticId
+		String targetStaticId = targetModel.getStaticId();
+		return findConnector(targetPin, targetModel.getConnectors())
+				.map(c -> c.setStaticId(targetStaticId));
 	}
 
 	private Optional<ModelicaConnector> findConnector(String pin, ModelicaConnector[] connectors)

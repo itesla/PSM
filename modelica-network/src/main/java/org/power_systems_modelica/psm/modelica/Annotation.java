@@ -45,15 +45,45 @@ public class Annotation
 
 	public String getStaticId()
 	{
-		return getAttributeValue(Annotation.REF_ATTR_STATIC_ID);
+		return getAttributeValue(REF_STATIC_ID);
 	}
 
 	public String getStaticId(int side)
 	{
-		return getAttributeValue(Annotation.REF_ATTR_STATIC_ID + side);
+		return getAttributeValue(REF_STATIC_ID + side);
 	}
 
-	public String getAttributeValue(String attributeName)
+	public static String writeIdStaticId(String id, String staticId)
+	{
+		return writeRefs(REF_ID, id, REF_STATIC_ID, staticId);
+	}
+
+	public static String writeStaticId12(String id1, String id2)
+	{
+		return writeRefs(REF_STATIC_ID + "1", id1, REF_STATIC_ID + "2", id2);
+	}
+
+	public static List<ModelicaConnector> readConnectors(List<Annotation> annotations)
+	{
+		return annotations.stream()
+				.filter(a -> !a.isEmpty())
+				.map(a -> a.asText())
+				.filter(Objects::nonNull)
+				.map(t -> readConnectors(t))
+				.filter(Objects::nonNull)
+				.flatMap(List::stream)
+				.collect(Collectors.toList());
+	}
+
+	public static String writeConnectors(List<ModelicaConnector> connectors)
+	{
+		if (connectors == null || connectors.isEmpty()) return "";
+		return connectors.stream()
+				.map(c -> writeConnector(c))
+				.collect(Collectors.joining(","));
+	}
+
+	private String getAttributeValue(String attributeName)
 	{
 		// Expect only one item that is a REF annotation
 		return items.stream()
@@ -84,7 +114,7 @@ public class Annotation
 		return null;
 	}
 
-	public static String writeRefs(String... refs)
+	private static String writeRefs(String... refs)
 	{
 		if (refs == null) return null;
 		if (refs.length == 0) return null;
@@ -126,27 +156,7 @@ public class Annotation
 		return attribute.concat("=\"").concat(value).concat("\"");
 	}
 
-	public static List<ModelicaConnector> readConnectors(List<Annotation> annotations)
-	{
-		return annotations.stream()
-				.filter(a -> !a.isEmpty())
-				.map(a -> a.asText())
-				.filter(Objects::nonNull)
-				.map(t -> readConnectors(t))
-				.filter(Objects::nonNull)
-				.flatMap(List::stream)
-				.collect(Collectors.toList());
-	}
-
-	public static String writeConnectors(List<ModelicaConnector> connectors)
-	{
-		if (connectors == null || connectors.isEmpty()) return "";
-		return connectors.stream()
-				.map(c -> writeConnector(c))
-				.collect(Collectors.joining(","));
-	}
-
-	public static List<ModelicaConnector> readConnectors(String text)
+	private static List<ModelicaConnector> readConnectors(String text)
 	{
 		List<ModelicaConnector> connectors = new ArrayList<>();
 		Matcher m = CONNECTOR_ANNOTATION.matcher(text);
@@ -195,7 +205,8 @@ public class Annotation
 	private final List<AnnotationItem>	items;
 
 	private static final String			REF_KEYWORD				= "PSMRef";
-	private static final String			REF_ATTR_STATIC_ID		= "staticId";
+	private static final String			REF_ID					= "id";
+	private static final String			REF_STATIC_ID			= "staticId";
 	private static final Pattern		REF_ANNOTATION			= Pattern
 			.compile(REF_KEYWORD + "\\(([^\\)]*)\\)");
 

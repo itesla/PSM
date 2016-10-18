@@ -58,7 +58,7 @@ public class ModelicaBuilder
 	protected void addDynamicModel(ModelicaModel m)
 	{
 		// Annotation common to all declarations and equations of this dynamic model
-		String refs = Annotation.writeRefs("id", m.getName(), "staticId", m.getStaticId());
+		String refs = Annotation.writeIdStaticId(m.getName(), m.getStaticId());
 
 		m.getDeclarations().forEach(d -> {
 			if (d.getAnnotation() == null)
@@ -131,7 +131,20 @@ public class ModelicaBuilder
 		List<ModelicaEquation> targetConnectors = sourceConnectors
 				.map(sc -> sc.getTarget()
 						.flatMap(t -> resolveTarget(t, m, mo))
-						.map(tc -> new ModelicaConnect(tc.getRef(), sc.getRef())))
+						.map(tc -> {
+							ModelicaConnect eqc = new ModelicaConnect(tc.getRef(), sc.getRef());
+							String id2 = m.getStaticId();
+							// For resolved targets we have stored the proper static identifier
+							String id1 = tc.getStaticId();
+							if (id1 != null && id2 != null)
+							{
+								String ids = Annotation.writeStaticId12(id1, id2);
+								if (eqc.getAnnotation() == null)
+									eqc.setAnnotation(new Annotation(ids));
+								else eqc.getAnnotation().addItem(ids);
+							}
+							return eqc;
+						}))
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.collect(Collectors.toList());

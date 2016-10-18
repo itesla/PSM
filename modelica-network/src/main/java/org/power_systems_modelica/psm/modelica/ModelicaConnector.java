@@ -49,8 +49,21 @@ public class ModelicaConnector
 		return target;
 	}
 
+	public ModelicaConnector setStaticId(String staticId)
+	{
+		this.staticId = staticId;
+		return this;
+	}
+
+	public String getStaticId()
+	{
+		return staticId;
+	}
+
 	private final Optional<String>	id;
 	private final String			pin;
 	private final String			ref;
 	private final Optional<String>	target;
+
+	private String					staticId;
 }

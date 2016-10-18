@@ -154,7 +154,7 @@
 <cim:SvVoltage rdf:ID="_SV_7">
 	<cim:SvVoltage.angle>-13.36</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_BUS____8_TN"/>
-	<cim:SvVoltage.v>19.62</cim:SvVoltage.v>
+	<cim:SvVoltage.v>15.042</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_8">
 	<cim:SvVoltage.angle>-14.94</cim:SvVoltage.angle>

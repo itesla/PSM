@@ -874,7 +874,7 @@
 </cim:BaseVoltage>
 <cim:BaseVoltage rdf:ID="_BV_7">
 	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
-	<cim:BaseVoltage.nominalVoltage>18</cim:BaseVoltage.nominalVoltage>
+	<cim:BaseVoltage.nominalVoltage>13.8</cim:BaseVoltage.nominalVoltage>
 	<cim:IdentifiedObject.name>7</cim:IdentifiedObject.name>
 </cim:BaseVoltage>
 <cim:BaseVoltage rdf:ID="_BV_8">
@@ -1049,7 +1049,7 @@
 	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
 	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
 	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
-	<cim:RegulatingControl.targetValue>19.62</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.targetValue>15.042</cim:RegulatingControl.targetValue>
 	<cim:RegulatingControl.Terminal rdf:resource="#_GEN____8_SM_TE"/>
 </cim:RegulatingControl>
 <cim:Terminal rdf:ID="_GEN____8_SM_TE">

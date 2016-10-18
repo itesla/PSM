@@ -39,9 +39,8 @@ public class ImporterTest
 	}
 
 	@Test
-	public void iee14() throws WorkflowCreationException
+	public void ieee14() throws WorkflowCreationException
 	{
-
 		String filename = TEST_SAMPLES.resolve("ieee14/ieee14bus_EQ.xml").toString();
 
 		Workflow wf = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", filename)));

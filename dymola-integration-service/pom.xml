@@ -8,31 +8,9 @@
 		<artifactId>psm</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-
 	<artifactId>dymola-integration-service</artifactId>
-	<name>dymola-integration-service</name>
-	<url>http://maven.apache.org</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
+	<name>Dymola proxy service</name>
 	<dependencies>
-		<!-- explicit private dependency, jar from Dymola installation -->
-		<dependency>
-			<groupId>com.dassault_systemes.dymola</groupId>
-			<artifactId>dymola_interface</artifactId>
-			<version>2016</version>
-			<scope>system</scope>
-			<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/dymola_interface.jar</systemPath>
-		</dependency>
-		<!-- explicit dependency, jar from Dymola installation -->
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-			<scope>system</scope>
-			<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/json-simple-1.1.1.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -47,5 +25,33 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Dymola required libraries -->
+		<dependency>
+			<groupId>com.dassault_systemes.dymola</groupId>
+			<artifactId>dymola_interface</artifactId>
+			<version>2016</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<!-- Version 2016 of Dymola depends on json-simple 1.1.1, that is distributed 
+				together with Dymola installation -->
+			<version>1.1.1</version>
+		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- Required to fix the error of accessing internal classes not part 
+						of the public API: com.sun.xml.internal.ws.developer.StreamingAttachment, 
+						com.sun.xml.internal.ws.developer.StreamingDataHandler; -->
+					<compilerArgument>-XDignore.symbol.file</compilerArgument>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

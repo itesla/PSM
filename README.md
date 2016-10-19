@@ -49,6 +49,10 @@ To validate the setup, build and test from the psm folder:
 
 	mvn clean install -Ditesla.config.dir=$PSM_DATA/test/cfg
 
+Tests for a set modules can be skipped from the maven command. For example to skip tests in `dymola-integration` and `modelica-parser` modules:
+
+	mvn clean test -DskipTest.regex="(dymola-integration)"
+
 ### Hades2 integration
 
 Hades2 integration libraries are expected in repository:
@@ -60,33 +64,55 @@ Hades2 integration libraries are expected in repository:
 
 If not available, it can installed in the local maven repository from given jars:
 
-	mvn install:install-file -Dfile=adn-export-0.1.jar -DgroupId=com.rte_france.itesla -DartifactId=adn-export -Dversion=0.1 -Dpackaging=jar
-	mvn install:install-file -Dfile=hades2-integration-0.1.jar -DgroupId=com.rte_france.itesla -DartifactId=hades2-integration -Dversion=0.1 -Dpackaging=jar
+	FILE_PATH=adn-export-0.1.jar
+	GROUP=com.rte_france.itesla
+	ARTIFACT=adn-export
+	VERSION=0.1
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+	FILE_PATH=hades2-integration-0.1.jar
+	GROUP=com.rte_france.itesla
+	ARTIFACT=hades2-integration
+	VERSION=0.1
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+### HELM Flow integration
+
+HELM Flow integration libraries should be installed in the local maven repository from given jars:
+
+	FILE_PATH=helmflow_core-2.2.4.201606211030.0.jar
+	GROUP=com.elequant.helmflow
+	ARTIFACT=helmflow-core
+	VERSION=2.2.4
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+	FILE_PATH=helmflow-api-0.1-SNAPSHOT.jar
+	GROUP=com.elequant.helmflow
+	ARTIFACT=helmflow-api
+	VERSION=0.1-SNAPSHOT
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+	FILE_PATH=helmflow-api-impl-0.1-SNAPSHOT.jar
+	GROUP=com.elequant.helmflow
+	ARTIFACT=helmflow-api-impl
+	VERSION=0.1-SNAPSHOT
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+	FILE_PATH=helmflow-ipst-integration-0.1-SNAPSHOT.jar
+	GROUP=com.elequant.helmflow
+	ARTIFACT=helmflow-ipst-integration
+	VERSION=0.1-SNAPSHOT
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
 
 ### Dymola integration
 
-Set the environment variable that points to the Dymola installation directory:
+Dymola interface library must be installed in the local maven repository to be able to build psm:
 
-	export DYMOLAHOME=<Dymola installation folder>
-
-Dymola libraries are expected in that installation directory, as you can see in the pom.xml (module dymola-integration-service):
-
-	<!-- explicit private dependency, jar from Dymola installation -->
-	<dependency>
-		<groupId>com.dassault_systemes.dymola</groupId>
-		<artifactId>dymola_interface</artifactId>
-		<version>2016</version>
-		<scope>system</scope>
-		<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/dymola_interface.jar</systemPath>
-	</dependency>
-	<!-- explicit dependency, jar from Dymola installation -->
-	<dependency>
-		<groupId>com.googlecode.json-simple</groupId>
-		<artifactId>json-simple</artifactId>
-		<version>1.1.1</version>
-		<scope>system</scope>
-		<systemPath>${DYMOLAHOME}/Modelica/Library/java_interface/json-simple-1.1.1.jar</systemPath>
-	</dependency>
+	FILE_PATH=dymola_interface.jar
+	GROUP=com.dassault_systemes.dymola
+	ARTIFACT=dymola_interface
+	VERSION=2016
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
 
 A Web Service connection is used to connect the psm tool to Dymola service. If this service is running in an external machine, some changes should be made in the client side (module dymola-integration).
 In the file dymservice.wsdl, the address location should point to the IP of the machine where the Dymola service is running.

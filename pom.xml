@@ -22,6 +22,9 @@
 		<module>tools</module>
 		<module>modelica-event-adder</module>
 
+		<!-- User interface -->
+		<module>gui</module>
+
 		<!-- Dymola Modelica engine, work in progress -->
 		<!--
 		<module>dymola-integration</module>

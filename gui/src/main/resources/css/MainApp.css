@@ -1,0 +1,37 @@
+/*menu*/
+.btn-menu {
+	-fx-border-color: #cccccc;
+	-fx-text-fill: #333333;
+}
+
+.btn-menu.active {
+	-fx-background-color: #f0f0f0;
+	-fx-border-color: #acacac;
+}
+
+/*hover state*/
+.btn-menu.active:hover {
+	-fx-background-color: #e6e6e6;
+	-fx-border-color: #acacac;
+}
+
+/*default*/
+.btn-default {
+	-fx-background-color: transparent;
+	-fx-border-color: #113f84;
+}
+
+/*hover state*/
+.btn-default:hover {
+	-fx-background-color: #113f84;
+	-fx-border-color: #113f84;
+	-fx-text-fill: white;
+}
+
+/* hidden tab bar */
+.hidden-bar {
+    -fx-tab-max-height: 0 ;
+} 
+.hidden-bar .tab-header-area {
+    visibility: hidden ;
+}

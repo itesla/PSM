@@ -123,3 +123,20 @@ In the file dymservice.wsdl, the address location should point to the IP of the 
 		</port>
 	</service>
 	
+### Eclipse
+
+Eclipse projects can be recreated by importing checkout folders for psm as maven projects.
+
+If eclipse build fails with the error:
+
+	Plugin execution not covered by lifecycle configuration
+
+For the maven helper build plugin that allows to bypass tests for some modules, and that does not affect the maven build from the command line, one way to fix it is to:
+
+  - Inside eclipse, go to Window > Preferences > Maven > Errors/Warnings.
+  - Select "Plugin execution not covered by lifecycle configuration". 
+  - Select Ignore / Warning as you wish.
+
+This is a clean way to get rid of the error, as no modification is needed in the parent `pom.xml`.
+
+Another solutions are possible: check http://stackoverflow.com/questions/6352208/how-to-solve-plugin-execution-not-covered-by-lifecycle-configuration-for-sprin

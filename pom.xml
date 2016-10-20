@@ -284,6 +284,13 @@
 				<artifactId>modules</artifactId>
 				<version>${ipst.version}</version>
 			</dependency>
+			<!-- online workflow is only used to export network data to csv files -->
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>online-workflow</artifactId>
+				<version>${ipst.version}</version>
+			</dependency>
+
 
 			<!-- Hades2 integration -->
 			<dependency>

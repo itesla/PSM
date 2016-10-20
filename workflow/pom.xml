@@ -93,5 +93,11 @@
 			<groupId>com.elequant.helmflow</groupId>
 			<artifactId>helmflow-ipst-integration</artifactId>
 		</dependency>
+
+		<!-- Export network data as csv files -->
+		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>online-workflow</artifactId>
+		</dependency>
 	</dependencies>
 </project>

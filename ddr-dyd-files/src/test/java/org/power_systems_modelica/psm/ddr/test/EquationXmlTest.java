@@ -27,7 +27,7 @@ public class EquationXmlTest
 	public void testWrite() throws XMLStreamException, IOException
 	{
 		Equation eq = EquationsTest.buildTestEquation();
-		final Path file = Paths.get("/tmp/eq.xml");
+		final Path file = DATA_TMP.resolve("eq.xml");
 
 		SystemDefinitions sd = new SystemDefinitions();
 		sd.add(eq);
@@ -50,7 +50,7 @@ public class EquationXmlTest
 	@Test
 	public void testReadInvalid() throws XMLStreamException, IOException
 	{
-		final Path file = Paths.get("/tmp/eq2.xml");
+		final Path file = DATA_TMP.resolve("eq2.xml");
 		try (PrintWriter p = new PrintWriter(file.toFile()))
 		{
 
@@ -106,7 +106,7 @@ public class EquationXmlTest
 
 	private void testRoundTrip(Equation eq) throws XMLStreamException, IOException
 	{
-		final Path file = Paths.get("/tmp/eq.xml");
+		final Path file = DATA_TMP.resolve("eq.xml");
 		SystemDefinitions sd = new SystemDefinitions();
 		sd.add(eq);
 		DydXml.write(file, sd);
@@ -120,4 +120,7 @@ public class EquationXmlTest
 		System.out.println(fromXml);
 		assertEquals(original, fromXml);
 	}
+	
+	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
 }

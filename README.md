@@ -51,7 +51,7 @@ To validate the setup, build and test from the psm folder:
 
 Tests for a set modules can be skipped from the maven command. For example to skip tests in `dymola-integration` and `modelica-parser` modules:
 
-	mvn clean test -DskipTest.regex="(dymola-integration)"
+	mvn clean test -DskipTest.regex="(dymola-integration|modelica-parser)"
 
 ### Hades2 integration
 

@@ -51,6 +51,8 @@
 		<ipst.version>0.1-SNAPSHOT</ipst.version>
 		<hades2.integration.version>0.1</hades2.integration.version>
 		<helmflow.integration.version>0.1-SNAPSHOT</helmflow.integration.version>
+
+		<skipTest.regex>none</skipTest.regex>
 	</properties>
 	<scm>
 		<connection>scm:git:https://bitbucket.org/rte-france/psm.git</connection>
@@ -105,7 +107,6 @@
 				<!-- Skip tests only for selected sub-modules -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.12</version>
 				<executions>
 					<execution>
 						<id>regex-property</id>
@@ -169,6 +170,11 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>${maven.exec.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.12</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

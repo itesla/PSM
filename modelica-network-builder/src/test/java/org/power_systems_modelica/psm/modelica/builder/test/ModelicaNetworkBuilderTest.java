@@ -53,7 +53,7 @@ public class ModelicaNetworkBuilderTest
 		out.close();
 		String converted = sout.toString();
 
-		String expected = String.join("\n",
+		String expected = String.join(NEW_LINE,
 				"within ;",
 				"model mocked_network",
 				"equation",
@@ -99,7 +99,7 @@ public class ModelicaNetworkBuilderTest
 		out.close();
 		String converted = sout.toString();
 
-		String expected = String.join("\n",
+		String expected = String.join(NEW_LINE,
 				"within ;",
 				"model network1",
 				"  BusModel dynamicBus1 (",
@@ -151,7 +151,7 @@ public class ModelicaNetworkBuilderTest
 		out.close();
 		String converted = sout.toString();
 
-		String expected = String.join("\n",
+		String expected = String.join(NEW_LINE,
 				"within ;",
 				"model network1",
 				"  BusModel dynamicBus1 (",
@@ -242,4 +242,6 @@ public class ModelicaNetworkBuilderTest
 				.add();
 		return network;
 	}
+	
+	private static final String NEW_LINE = System.getProperty("line.separator").toString();
 }

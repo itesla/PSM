@@ -86,11 +86,10 @@ public class EquationXmlTest
 		}
 		catch (Exception x)
 		{
-			String expected = "cvc-complex-type.2.4.a: " +
-					"Invalid content was found " +
-					"starting with element 'startsWith'. " +
-					"One of '{\"" + XmlUtil.NAMESPACE + "\":template}' is expected.";
-			assertEquals(expected, x.getCause().getMessage());
+			String expected = "cvc-complex-type.2.4.a";
+			String msg = x.getCause().getMessage();
+			String actual = msg.substring(0, msg.indexOf(':'));
+			assertEquals(expected, actual);
 		}
 	}
 

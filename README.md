@@ -139,4 +139,4 @@ For the maven helper build plugin that allows to bypass tests for some modules, 
 
 This is a clean way to get rid of the error, as no modification is needed in the parent `pom.xml`.
 
-Another solutions are possible: check http://stackoverflow.com/questions/6352208/how-to-solve-plugin-execution-not-covered-by-lifecycle-configuration-for-sprin
+Other solutions are possible: check http://stackoverflow.com/questions/6352208/how-to-solve-plugin-execution-not-covered-by-lifecycle-configuration-for-sprin

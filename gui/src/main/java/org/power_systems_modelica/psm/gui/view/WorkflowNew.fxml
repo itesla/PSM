@@ -34,7 +34,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</HBox>
-						<TitledPane animated="false" layoutY="40.0" text="Source"
+						<TitledPane animated="false"  collapsible="false" layoutY="40.0" text="Source"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0"
@@ -65,7 +65,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane animated="false" layoutY="242.0" text="Loadflow"
+						<TitledPane animated="false"  collapsible="false" layoutY="242.0" text="Loadflow"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0"
@@ -84,7 +84,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane animated="false" layoutY="363.0" text="Modelica network"
+						<TitledPane animated="false"  collapsible="false" layoutY="363.0" text="Modelica network"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0"
@@ -101,7 +101,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane animated="false" layoutY="486.0" text="Events"
+						<TitledPane animated="false"  collapsible="false" layoutY="486.0" text="Events"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0"
@@ -127,7 +127,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane animated="false" layoutY="678.0"
+						<TitledPane animated="false"  collapsible="false" layoutY="678.0"
 							text="Dynamic simulation" AnchorPane.leftAnchor="0.0"
 							AnchorPane.rightAnchor="0.0">
 							<content>

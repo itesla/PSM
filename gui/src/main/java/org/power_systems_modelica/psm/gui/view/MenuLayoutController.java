@@ -11,29 +11,43 @@ public class MenuLayoutController {
 	@FXML
 	private void handleCasesOverview() {
 		cases.getStyleClass().add("active");
-		ddr.getStyleClass().remove("active");
-		workflows.getStyleClass().remove("active");
+		ddrs.getStyleClass().remove("active");
+		workflow.getStyleClass().remove("active");
+		compareLoadflows.getStyleClass().remove("active");
 		
 		mainApp.showCasesOverview();
 	}
 	
 	@FXML
-	private void handleDdrOverview() {
+	private void handleDdrsOverview() {
 		cases.getStyleClass().remove("active");
-		ddr.getStyleClass().add("active");
-		workflows.getStyleClass().remove("active");
+		ddrs.getStyleClass().add("active");
+		workflow.getStyleClass().remove("active");
+		compareLoadflows.getStyleClass().remove("active");
 		
 		mainApp.showDdrsOverview();
 	}
 
 	@FXML
-	private void handleWorkflowsOverview() {
+	private void handleWorkflowOverview() {
 		cases.getStyleClass().remove("active");
-		ddr.getStyleClass().remove("active");
-		workflows.getStyleClass().add("active");
+		ddrs.getStyleClass().remove("active");
+		workflow.getStyleClass().add("active");
+		compareLoadflows.getStyleClass().remove("active");
 		
 		Workflow w = mainApp.getWorkflow();
 		mainApp.showWorkflowView(w);
+	}
+
+	@FXML
+	private void handleCompareLoadflowsOverview() {
+		cases.getStyleClass().remove("active");
+		ddrs.getStyleClass().remove("active");
+		workflow.getStyleClass().remove("active");
+		compareLoadflows.getStyleClass().add("active");
+		
+		Workflow w = mainApp.getCompareLoadflows();
+		mainApp.showCompareLoadflowsView(w);
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -45,9 +59,11 @@ public class MenuLayoutController {
 	@FXML
 	private Button cases;
 	@FXML
-	private Button ddr;
+	private Button ddrs;
 	@FXML
-	private Button workflows;
+	private Button workflow;
+	@FXML
+	private Button compareLoadflows;
 	
 	private MainApp mainApp;
 }

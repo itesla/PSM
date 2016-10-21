@@ -35,3 +35,9 @@
 .hidden-bar .tab-header-area {
     visibility: hidden ;
 }
+
+/* titled panel title */
+.titled-pane > .title 
+{
+	-fx-font-weight: bold;
+}

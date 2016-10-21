@@ -14,6 +14,8 @@ import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
+import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
+import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
 import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
 import org.power_systems_modelica.psm.gui.view.WorkflowDetailController;
@@ -116,16 +118,16 @@ public class MainApp extends Application {
 
 	public void showWorkflowView(Workflow w) {
 		if (w == null || w.getName() == null)
-			showWorkflowNew();
+			showWorkflowNewView();
 		else {
 			if (w.isRunning())
-				showWorkflowStatus();
+				showWorkflowStatusView(w, true);
 			else
-				showWorkflowDetail();
+				showWorkflowDetailView();
 		}
 	}
 
-	public void showWorkflowNew() {
+	public void showWorkflowNewView() {
 		try {
 			// Load cases overview.
 			FXMLLoader loader = new FXMLLoader();
@@ -142,7 +144,7 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void showWorkflowDetail() {
+	public void showWorkflowDetailView() {
 		try {
 			// Load cases overview.
 			FXMLLoader loader = new FXMLLoader();
@@ -159,7 +161,7 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void showWorkflowStatus() {
+	public void showWorkflowStatusView(Workflow w, boolean isWorkflowDetail) {
 		try {
 			// Load cases overview.
 			FXMLLoader loader = new FXMLLoader();
@@ -170,6 +172,52 @@ public class MainApp extends Application {
 			rootLayout.setCenter(workflowsOverview);
 
 			WorkflowStatusController controller = loader.getController();
+			 
+			controller.setMainApp(this, w, isWorkflowDetail);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void showCompareLoadflowsView(Workflow w) {
+		if (w == null || w.getName() == null)
+			showCompareLoadflowsNewView();
+		else {
+			if (w.isRunning())
+				showWorkflowStatusView(w, false);
+			else
+				showCompareLoadflowsDetailView();
+		}
+	}
+
+	private void showCompareLoadflowsDetailView() {
+		try {
+			// Load cases overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsDetail.fxml"));
+			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
+
+			// Set cases overview into the center of the root layout.
+			rootLayout.setCenter(compareLoadflowsOverview);
+
+			CompareLoadflowsDetailController controller = loader.getController();
+			controller.setMainApp(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void showCompareLoadflowsNewView() {
+		try {
+			// Load cases overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsNew.fxml"));
+			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
+
+			// Set cases overview into the center of the root layout.
+			rootLayout.setCenter(compareLoadflowsOverview);
+
+			CompareLoadflowsNewController controller = loader.getController();
 			controller.setMainApp(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -207,8 +255,20 @@ public class MainApp extends Application {
 	}
 
 	public ObservableList<WorkflowResult> getWorkflowResult(String name) {
-		// TODO Auto-generated method stub
 		return WorkflowService.getWorkflowResult(name);
+	}
+
+	public Workflow getCompareLoadflows() {
+		return WorkflowService.getCompareLoadflow();
+	}
+
+	public void startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits) {
+		Workflow w = WorkflowService.startCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+		showCompareLoadflowsView(w);
+	}
+
+	public ObservableList<WorkflowResult> getCompareLoadflowsResult(String name) {
+		return WorkflowService.getCompareLoadflowsResult(name);
 	}
 
 	public static void main(String[] args) {
@@ -219,5 +279,6 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 
 	private static final Logger LOG = LoggerFactory.getLogger(MainApp.class);
+
 
 }

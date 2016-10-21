@@ -20,12 +20,13 @@
       </Label>
       <ButtonBar layoutX="-2.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
-            <Button fx:id="workflows" mnemonicParsing="false" onAction="#handleWorkflowsOverview" text="Workflows">
+            <Button fx:id="compareLoadflows" mnemonicParsing="false" onAction="#handleCompareLoadflowsOverview" styleClass="btn-menu" text="Compare Loadflows" />
+            <Button fx:id="workflow" mnemonicParsing="false" onAction="#handleWorkflowOverview" text="Workflow">
                <styleClass>
                   <String fx:value="btn-menu" />
                   <String fx:value="active" />
                </styleClass></Button>
-            <Button fx:id="ddr" mnemonicParsing="false" onAction="#handleDdrOverview" styleClass="btn-menu" text="DDR" />
+            <Button fx:id="ddrs" mnemonicParsing="false" onAction="#handleDdrsOverview" styleClass="btn-menu" text="DDRs" />
           <Button fx:id="cases" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleCasesOverview" styleClass="btn-menu" text="Cases" />
         </buttons>
          <padding>

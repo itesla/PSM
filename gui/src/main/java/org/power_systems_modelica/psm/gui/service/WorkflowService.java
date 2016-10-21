@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -51,6 +52,10 @@ public class WorkflowService {
 	public static Workflow getWorkflow() {
 		
 		return w;
+	}
+
+	public static Workflow getCompareLoadflow() {
+		return cl;
 	}
 
 	public static ObservableList<LoadflowEngine> getLoadflowEngines() {
@@ -126,8 +131,63 @@ public class WorkflowService {
 		return results;
 	}
 
+	public static Workflow startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits) {
+
+		WorkflowParameters wp = new WorkflowParameters(DateTime.now().toString());
+		wp.setCatalog(ctlg);
+		wp.setCase(cs);
+		wp.setDdr(ddr);
+		wp.enforceGeneratorsReactiveLimits(generatorsReactiveLimits);
+
+		cl.setName(wp.getCreated());
+		cl.setParameters(wp);
+		
+		double n = rnd.nextDouble();
+		LOG.debug("Random " + n);
+		int status = (int) Math.round(n * 4.0);
+		LOG.debug("status " + status);
+		cl.setStatus(Status.get(status));
+		
+		double p = rnd.nextDouble();
+		cl.setProgress(p);
+		
+		return cl;
+	}
+
+	public static ObservableList<WorkflowResult> getCompareLoadflowsResult(String id) {
+		
+		ObservableList<WorkflowResult> results = FXCollections.observableArrayList();
+		WorkflowResult r;
+		int i = 0;
+		List<String> names = new ArrayList();
+		names.add("hades2");
+		names.add("helmflow");
+		while(i < 2) {
+			r = new WorkflowResult();
+			r.setId(names.get(i));
+			r.setWorkflow(id);
+			
+			int j = 0;
+			List<WorkflowResultItem> items = new CopyOnWriteArrayList<>();
+			WorkflowResultItem it;
+			while(j < 25) {
+				it = new WorkflowResultItem();
+				it.setX(j);
+				it.setY((rnd.nextDouble() * 0.2) + 0.9);
+				items.add(it);
+				j++;
+			}
+			r.setResult(items);
+			results.add(r);
+			i++;
+		}
+		
+		return results;
+	}
+
 	private static Random rnd = new Random();
 	private static final Workflow w = new Workflow(); 
+	private static final Workflow cl = new Workflow(); 
 		
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowService.class);
 }

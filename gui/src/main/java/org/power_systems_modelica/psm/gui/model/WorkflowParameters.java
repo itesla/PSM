@@ -9,7 +9,7 @@ import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine
 
 public class WorkflowParameters implements Serializable {
 	
-    public WorkflowParameters(String created) {
+	public WorkflowParameters(String created) {
     	this.created = created;
     }
     
@@ -77,6 +77,14 @@ public class WorkflowParameters implements Serializable {
 		this.engineDS = engineDS;
 	}
 	
+	public boolean isEnforceGeneratorsReactiveLimits() {
+		return enforceGeneratorsReactiveLimits;
+	}
+
+	public void enforceGeneratorsReactiveLimits(boolean generatorsReactiveLimits) {
+		this.enforceGeneratorsReactiveLimits = generatorsReactiveLimits;
+	}
+
 	@Override
 	public String toString() {
 		
@@ -118,4 +126,6 @@ public class WorkflowParameters implements Serializable {
 	//Dynamic simulation
 	private DsEngine engineDS;
 
+	//Loadflows parameters
+    private boolean enforceGeneratorsReactiveLimits;
 }

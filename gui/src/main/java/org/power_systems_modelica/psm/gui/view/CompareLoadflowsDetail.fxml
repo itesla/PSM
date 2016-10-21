@@ -2,7 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.ScatterChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,9 +11,9 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0"
 	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
+	fx:controller="org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController">
 	<children>
-		<TitledPane animated="false"  collapsible="false" text="Workflow detail"
+		<TitledPane animated="false"  collapsible="false" text="Compare loadflows detail"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<content>
@@ -28,7 +28,7 @@
 						<Label layoutX="24.0" layoutY="54.0" prefHeight="30.0" text="Status:" />
 						<Label fx:id="statusLabel" layoutX="91.0" layoutY="54.0"
 							prefHeight="30.0" text="Label" />
-						<LineChart fx:id="lineChart" layoutX="14.0" layoutY="84.0"
+						<ScatterChart fx:id="scatterChart" layoutX="14.0" layoutY="84.0"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<xAxis>
 								<NumberAxis side="BOTTOM" fx:id="xAxis" />
@@ -36,7 +36,7 @@
 							<yAxis>
 								<NumberAxis fx:id="yAxis" side="LEFT" />
 							</yAxis>
-						</LineChart>
+						</ScatterChart>
 					</children>
 				</AnchorPane>
 			</content>

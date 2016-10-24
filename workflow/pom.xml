@@ -99,5 +99,17 @@
 			<groupId>eu.itesla_project</groupId>
 			<artifactId>online-workflow</artifactId>
 		</dependency>
+
+		<!-- helmflow-core dependencies -->
+		<dependency>
+			<groupId>com.elequant.helmflow</groupId>
+			<artifactId>helmflow-core</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency> 
 	</dependencies>
 </project>

@@ -2,24 +2,24 @@
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <model type="Bus">
         <component name="iPSL.Electrical.Buses.Bus">
-            <ref name="V_0" dataSource="IIDM" sourceName="pu(V)"/>
+            <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
             <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
         </component>
         <connector pin="p"/>
     </model>
     <model type="Line">
         <component name="iPSL.Electrical.Branches.PwLine_2">
-            <ref name="R" dataSource="IIDM" sourceName="pu(R)"/>
-            <ref name="X" dataSource="IIDM" sourceName="pu(X)"/>
-            <ref name="G" dataSource="IIDM" sourceName="pu(G1)"/>
-            <ref name="B" dataSource="IIDM" sourceName="pu(B1)"/>
+            <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
+            <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
+            <ref name="G" dataSource="IIDM" sourceName="G1_pu"/>
+            <ref name="B" dataSource="IIDM" sourceName="B1_pu"/>
         </component>
         <connector pin="p" target="DYNN:bus1:p"/>
         <connector pin="n" target="DYNN:bus2:p"/>
     </model>
     <model type="Load">
         <component name="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence">
-            <ref name="V_0" dataSource="IIDM" sourceName="pu(V)"/>
+            <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
             <ref name="P_0" dataSource="IIDM" sourceName="P0"/>
             <ref name="Q_0" dataSource="IIDM" sourceName="Q0"/>
             <par type="STRING" name="alpha" value="1"/>
@@ -30,7 +30,7 @@
     </model>
     <model type="Shunt">
         <component name="iPSL.Electrical.Banks.PwCapacitorBank">
-            <ref name="B" dataSource="IIDM" sourceName="pu(B)"/>
+            <ref name="B" dataSource="IIDM" sourceName="B_pu"/>
             <ref name="nsteps" dataSource="IIDM" sourceName="MaximumSectionCount"/>
         </component>
         <connector pin="p" target="DYNN:bus:p"/>
@@ -38,11 +38,11 @@
     <model type="Transformer">
         <component name="iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer">
             <ref name="r" dataSource="IIDM" sourceName="ratio"/>
-            <ref name="B0" dataSource="IIDM" sourceName="pu(B)"/>
-            <ref name="G0" dataSource="IIDM" sourceName="pu(G)"/>
+            <ref name="B0" dataSource="IIDM" sourceName="B_pu"/>
+            <ref name="G0" dataSource="IIDM" sourceName="G_pu"/>
             <par type="STRING" name="theta" value="0.0"/>
-            <ref name="R" dataSource="IIDM" sourceName="pu(R)"/>
-            <ref name="X" dataSource="IIDM" sourceName="pu(X)"/>
+            <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
+            <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
         </component>
         <connector pin="p" target="DYNN:bus1:p"/>
         <connector pin="n" target="DYNN:bus2:p"/>

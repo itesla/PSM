@@ -78,9 +78,9 @@ public class IidmReferenceResolver implements ReferenceResolver
 			Bus b = (Bus) element;
 			switch (name)
 			{
-			case "pu(V)":
+			case "V_pu":
 				return b.getV() / b.getVoltageLevel().getNominalV();
-			case "rad(A)":
+			case "A_rad":
 				return (float) Math.toRadians(b.getAngle());
 			case "V":
 				return b.getV();
@@ -94,11 +94,11 @@ public class IidmReferenceResolver implements ReferenceResolver
 			Bus b = e.getTerminal().getBusView().getBus();
 			switch (name)
 			{
-			case "pu(V)":
+			case "V_pu":
 				float v = Float.NaN;
 				if (b != null) v = b.getV() / e.getTerminal().getVoltageLevel().getNominalV();
 				return v;
-			case "rad(A)":
+			case "A_rad":
 				float a = Float.NaN;
 				if (b != null) a = (float) Math.toRadians(b.getAngle());
 				return a;
@@ -116,13 +116,13 @@ public class IidmReferenceResolver implements ReferenceResolver
 				return e.getTerminal().getQ();
 			case "-Q":
 				return -e.getTerminal().getQ();
-			case "pu(P)":
+			case "P_pu":
 				return e.getTerminal().getP() / SNREF;
-			case "-pu(P)":
+			case "-P_pu":
 				return -e.getTerminal().getP() / SNREF;
-			case "pu(Q)":
+			case "Q_pu":
 				return e.getTerminal().getQ() / SNREF;
-			case "-pu(Q)":
+			case "-Q_pu":
 				return -e.getTerminal().getQ() / SNREF;
 			}
 		}
@@ -131,7 +131,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 			ShuntCompensator s = (ShuntCompensator) element;
 			switch (name)
 			{
-			case "pu(B)":
+			case "B_pu":
 				float sectionB = s.getMaximumB() / s.getMaximumSectionCount();
 				float B = sectionB * s.getCurrentSectionCount();
 				// As a reactive injection at the nominal voltage
@@ -166,11 +166,11 @@ public class IidmReferenceResolver implements ReferenceResolver
 			Bus b2 = e.getTerminal2().getBusView().getBus();
 			switch (name)
 			{
-			case "pu(V1)":
+			case "V1_pu":
 				float v1 = Float.NaN;
 				if (b1 != null) v1 = b1.getV() / e.getTerminal1().getVoltageLevel().getNominalV();
 				return v1;
-			case "rad(A1)":
+			case "A1_rad":
 				float a1 = Float.NaN;
 				if (b1 != null) a1 = (float) Math.toRadians(b1.getAngle());
 				return a1;
@@ -178,11 +178,11 @@ public class IidmReferenceResolver implements ReferenceResolver
 				return (b1 != null ? b1.getV() : Float.NaN);
 			case "A1":
 				return (b1 != null ? b1.getAngle() : Float.NaN);
-			case "pu(V2)":
+			case "V2_pu":
 				float v2 = Float.NaN;
 				if (b2 != null) v2 = b2.getV() / e.getTerminal1().getVoltageLevel().getNominalV();
 				return v2;
-			case "rad(A2)":
+			case "A2_rad":
 				float a2 = Float.NaN;
 				if (b2 != null) a2 = (float) Math.toRadians(b2.getAngle());
 				return a2;
@@ -200,13 +200,13 @@ public class IidmReferenceResolver implements ReferenceResolver
 			float Z = (nominalV * nominalV) / SNREF;
 			switch (name)
 			{
-			case "pu(R)":
+			case "R_pu":
 				return l.getR() / Z;
-			case "pu(X)":
+			case "X_pu":
 				return l.getX() / Z;
-			case "pu(G1)":
+			case "G1_pu":
 				return l.getG1() * Z;
-			case "pu(B1)":
+			case "B1_pu":
 				return l.getB1() * Z;
 			}
 		}
@@ -261,13 +261,13 @@ public class IidmReferenceResolver implements ReferenceResolver
 
 			switch (name)
 			{
-			case "pu(R)":
+			case "R_pu":
 				return r;
-			case "pu(X)":
+			case "X_pu":
 				return x;
-			case "pu(G)":
+			case "G_pu":
 				return g;
-			case "pu(B)":
+			case "B_pu":
 				return b;
 			case "ratio":
 				return ratio;

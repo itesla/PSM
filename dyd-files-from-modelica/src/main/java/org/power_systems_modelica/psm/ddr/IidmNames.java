@@ -11,7 +11,7 @@ public class IidmNames
 			switch (mname)
 			{
 			case "V_0":
-				return "pu(V)";
+				return "V_pu";
 			case "angle_0":
 				return "A";
 			}
@@ -19,19 +19,19 @@ public class IidmNames
 			switch (mname)
 			{
 			case "R":
-				return "pu(R)";
+				return "R_pu";
 			case "X":
-				return "pu(X)";
+				return "X_pu";
 			case "G":
-				return "pu(G1)";
+				return "G1_pu";
 			case "B":
-				return "pu(B1)";
+				return "B1_pu";
 			}
 		case "Load":
 			switch (mname)
 			{
 			case "V_0":
-				return "pu(V)";
+				return "V_pu";
 			case "P_0":
 				return "P0";
 			case "Q_0":
@@ -43,7 +43,7 @@ public class IidmNames
 			switch (mname)
 			{
 			case "B":
-				return "pu(B)";
+				return "B_pu";
 			case "nsteps":
 				return "MaximumSectionCount";
 			}
@@ -53,13 +53,13 @@ public class IidmNames
 			case "r":
 				return "ratio";
 			case "G0":
-				return "pu(G)";
+				return "G_pu";
 			case "B0":
-				return "pu(B)";
+				return "B_pu";
 			case "R":
-				return "pu(R)";
+				return "R_pu";
 			case "X":
-				return "pu(X)";
+				return "X_pu";
 			}
 		case "Generator":
 			switch(mname)

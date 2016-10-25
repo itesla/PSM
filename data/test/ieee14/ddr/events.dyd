@@ -11,18 +11,18 @@
 	</model>
 	<model event="LineFault" injection="REPLACE">
 		<component name="iPSL.Electrical.Events.PwLineFault">
-            <ref name="R1" dataSource="IIDM" sourceName="pu(R)"/>
-            <ref name="X1" dataSource="IIDM" sourceName="pu(X)"/>
-            <ref name="G1" dataSource="IIDM" sourceName="pu(G1)"/>
-            <ref name="B1" dataSource="IIDM" sourceName="pu(B1)"/>
+            <ref name="R1" dataSource="IIDM" sourceName="R_pu"/>
+            <ref name="X1" dataSource="IIDM" sourceName="X_pu"/>
+            <ref name="G1" dataSource="IIDM" sourceName="G1_pu"/>
+            <ref name="B1" dataSource="IIDM" sourceName="B1_pu"/>
             <ref name="k" dataSource="EVENT" sourceName="k"/>
             <ref name="Rfault" dataSource="EVENT" sourceName="Rfault"/>
             <ref name="Xfault" dataSource="EVENT" sourceName="Xfault"/>
             <ref name="time_1" dataSource="EVENT" sourceName="startTime"/>
             <ref name="time_2" dataSource="EVENT" sourceName="endTime"/>
-            <ref name="V1_0" dataSource="IIDM" sourceName="pu(V1)"/>
+            <ref name="V1_0" dataSource="IIDM" sourceName="V1_pu"/>
             <ref name="angle1_0" dataSource="IIDM" sourceName="A1"/>
-            <ref name="V2_0" dataSource="IIDM" sourceName="pu(V2)"/>
+            <ref name="V2_0" dataSource="IIDM" sourceName="V2_pu"/>
             <ref name="angle2_0" dataSource="IIDM" sourceName="A2"/>
 		</component>
         <connector pin="p" target="DYNN:bus1:p"/>

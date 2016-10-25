@@ -8,13 +8,11 @@ package org.power_systems_modelica.psm.dymola.integration.proxy.service;
 
 import static org.power_systems_modelica.psm.dymola.integration.proxy.service.utils.MapUtils.entry;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,13 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
 import javax.activation.DataHandler;
@@ -264,30 +257,18 @@ public class SimulatorServerImpl implements SimulatorServer {
                 throw new RuntimeException("CD : " + dymola.getLastError());
             }
 
-            result = dymola.openModel(workingDirectory + "\\" + inputFileName);
+            result = dymola.openModel(workingDirectory + File.separator + inputFileName);
             
             if (!result) {
                 throw new RuntimeException("openModel: " + dymola.getLastError());
             }
 
-            // Simulate the model
-            /*
-            public boolean simulateModel(java.lang.String problem,
-                             double startTime,
-                             double stopTime,
-                             int numberOfIntervals,
-                             double outputInterval,
-                             java.lang.String method,
-                             double tolerance,
-                             double fixedstepsize,
-                             java.lang.String resultFile)
-                      throws DymolaException
-             e.g.
-//             result = dymola.simulateModel(problem, startTime, stopTime, 0, 0, "Dassl", 0.0001, 0, problem);
-			 */
-
             boolean check = dymola.checkModel(problem);
+            if (!check) {
+            	throw new RuntimeException("checkModel: " + dymola.getLastError());
+            }
             
+            // Simulate the model         
             result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, fixedstepsize, resultsFileName);
 
             if (!result) {
@@ -295,12 +276,15 @@ public class SimulatorServerImpl implements SimulatorServer {
             }
             
             int trajSize = dymola.readTrajectorySize(resultsFileName + ".mat");
+            String[] trajNames = dymola.readTrajectoryNames(resultsFileName + ".mat");
             
-            double[][] trajVarsValues = dymola.readTrajectory(resultsFileName + ".mat", resultVariables, trajSize);
+            double[][] trajVarsValues = dymola.readTrajectory(resultsFileName + ".mat", 
+            													resultVariables.length == 0 ? trajNames : resultVariables, 
+            													trajSize);
 
             if(trajVarsValues != null) {
-	            try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + "\\" + resultsFileName + ".csv")))) {
-	            	printResultVariables(printStream, resultVariables, trajVarsValues);
+	            try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + resultsFileName + ".csv")))) {
+	            	printResultVariables(printStream, resultVariables.length == 0 ? trajNames : resultVariables, trajVarsValues);
 	            } catch (IOException e) {
 	                LOGGER.error("Error printing errors file. {}", e.getMessage());
 	            }
@@ -327,6 +311,7 @@ public class SimulatorServerImpl implements SimulatorServer {
     }
 
     private void printResultVariables(PrintStream printStream, String[] resultVariables, double[][] trajVarsValues) {
+    	//TODO Pending write data transposed: all the selected variables as header and the values by column.
     	String strLine = "DEVICE,VALUES\n";
     	for(int i=0; i<trajVarsValues.length;i++) {
     		if(strLine == null) strLine = resultVariables[i];  

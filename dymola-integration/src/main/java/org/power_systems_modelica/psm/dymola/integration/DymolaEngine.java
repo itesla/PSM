@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Collection;
 import java.util.stream.Stream;
 import java.util.zip.ZipException;
@@ -16,11 +13,9 @@ import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
 import org.power_systems_modelica.psm.commons.Configuration;
-import org.power_systems_modelica.psm.dymola.integration.utils.ZipFileUtil;
-import org.power_systems_modelica.psm.dymola.integration.utils.ZipWriter;
+import org.power_systems_modelica.psm.dymola.integration.utils.*;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.*;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +35,8 @@ public class DymolaEngine implements ModelicaEngine {
 		this.stopTime = Double.valueOf(config.getParameter("stopTime"));
 		this.tolerance = Double.valueOf(config.getParameter("tolerance"));
 		this.libraryDirectory = Paths.get(config.getParameter("libraryDirectory"));
-		this.resultVariables = config.getParameter("resultVariables").split(",");	
-		this.dymolaSimDir = Paths.get(this.workingDir.toString() + File.separator + DYMOLA_WORKING_DIR);
+        this.resultVariables = config.getParameter("resultVariables") == null ? new String[0] : config.getParameter("resultVariables").split(",");	
+		this.dymSimulationDir = Paths.get(this.workingDir.toString() + File.separator + DYM_PREFIX);
 	}
 
 	@Override
@@ -58,47 +53,48 @@ public class DymolaEngine implements ModelicaEngine {
 		
 		//FIXME Run Dymola
 		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numberOfIntervals, outputFixedStepSize, outputInterval, startTime, stopTime, tolerance, wsdlService, resultVariables);
-		LOG.info("Running Dymola client: {}", dymolaClient.toString());
+		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 		
 		String simResults = "";
 		try {
 			simResults = dymolaClient.runDymola(workingDir, inputZipFileName, outputZipFileName, moFileName, modelName, outputDymolaFileName);
 		} catch (InterruptedException e) {
-			LOG.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
+			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
 		}
 
         try (PrintStream printStream = new PrintStream(Files.newOutputStream(workingDir.resolve(outputErrorsFileName)))) {
             printStream.print(simResults);
         } catch (IOException e) {
-            LOG.error("Error printing errors file. {}", e.getMessage());
+            LOGGER.error("Error printing errors file. {}", e.getMessage());
         }
-        
-        readSimulationResults(outputZipFileName, modelName);
+        //TODO pending to read simulation results from csv and put them into ModelicaResults
+//        readSimulationResults(outputZipFileName, modelName);
 	}
 	
-	public void simulateFake(Path modelicaPath) {
+	public Path simulateFake(Path modelicaPath) {
 		String moFileName = modelicaPath.getFileName().toString();
 		String modelName = moFileName.substring(0, moFileName.indexOf("."));
 		
 		prepareWorkingDirectory(modelicaPath, moFileName, modelName);
 		
 		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numberOfIntervals, outputFixedStepSize, outputInterval, startTime, stopTime, tolerance, wsdlService, resultVariables);
-		LOG.info("Running Dymola client: {}", dymolaClient.toString());
+		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 		
 		String simResults = "";
 		try {
-			simResults = dymolaClient.runDymola(this.dymolaSimDir, inputZipFileName, outputZipFileName, moFileName, modelName, outputDymolaFileName);
+			simResults = dymolaClient.runDymola(this.dymSimulationDir, inputZipFileName, outputZipFileName, moFileName, modelName, outputDymolaFileName);
 		} catch (InterruptedException e) {
-			LOG.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
+			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
 		}
 
-        try (PrintStream printStream = new PrintStream(Files.newOutputStream(this.dymolaSimDir.resolve(outputErrorsFileName)))) {
+        try (PrintStream printStream = new PrintStream(Files.newOutputStream(this.dymSimulationDir.resolve(outputErrorsFileName)))) {
             printStream.print(simResults);
         } catch (IOException e) {
-            LOG.error("Error printing errors file. {}", e.getMessage());
+            LOGGER.error("Error printing errors file. {}", e.getMessage());
         }
         
-        readSimulationResults(outputZipFileName, modelName); 
+        readSimulationResults(outputZipFileName, modelName);
+        return this.dymSimulationDir;
 	}
 
 	@Override
@@ -116,26 +112,26 @@ public class DymolaEngine implements ModelicaEngine {
 	private void readSimulationResults(String outputZipFileName, String modelName) {
 		this.results = new ModelicaSimulationResults();
 		
-		try (ZipFile zipFile = new ZipFile(Paths.get(dymolaSimDir + File.separator + outputZipFileName).toFile())) {
-			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymolaSimDir.toFile());
+		try (ZipFile zipFile = new ZipFile(Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile())) {
+			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymSimulationDir.toFile());
             
 			String fileName = this.outputDymolaFileName + ".csv";
-			try (BufferedReader in = Files.newBufferedReader(Paths.get(dymolaSimDir + File.separator + fileName));)
+			try (BufferedReader in = Files.newBufferedReader(Paths.get(dymSimulationDir + File.separator + fileName));)
 			{
 				in.readLine(); //skip the header
 				String line;
 				while ((line = in.readLine()) != null)
 				{
-					String device = line.substring(0, line.indexOf(VALUES_SEPARATOR));
-					String values = line.substring(line.indexOf(VALUES_SEPARATOR) + 1);
-					double[] variableValues = Stream.of(values.split(VALUES_SEPARATOR)).mapToDouble(Double::parseDouble).toArray();
+					String device = line.substring(0, line.indexOf(COMMA));
+					String values = line.substring(line.indexOf(COMMA) + 1);
+					double[] variableValues = Stream.of(values.split(COMMA)).mapToDouble(Double::parseDouble).toArray();
 					this.results.addResult(modelName, device.split("\\.")[0], device.split("\\.")[1], variableValues);
 				}
 			}
         } catch (ZipException e) {
-			LOG.error("Error unzippping file {}.", outputZipFileName);
+			LOGGER.error("Error unzippping file {}.", outputZipFileName);
 		} catch (IOException e) {
-			LOG.error("Error opening/writing file. {}", e.getMessage());
+			LOGGER.error("Error opening/writing file. {}", e.getMessage());
 		}
 	}
 	
@@ -150,7 +146,7 @@ public class DymolaEngine implements ModelicaEngine {
 		}
 		catch (Exception e)
 		{
-			LOG.error("Error printing Modelica File. {}", e.getMessage());
+			LOGGER.error("Error printing Modelica File. {}", e.getMessage());
 		}
 	}
 	
@@ -161,40 +157,72 @@ public class DymolaEngine implements ModelicaEngine {
 		this.outputErrorsFileName = modelName + "_errors.log";
 
 		try {
-			FileUtils.copyFileToDirectory(modelicaPath.toFile(), this.workingDir.toFile(), false);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			LOG.error("Error copying file from {} to {}.", modelicaPath, this.workingDir);
-		}
-
-		try {
-			Files.list(this.libraryDirectory).forEach(file -> {
-					try {
-						FileUtils.copyFileToDirectory(file.toFile(), this.workingDir.toFile(), false);
-					}
-					catch(IOException exc) {
-						LOG.error("Error copying file from {} to {}.", file.toFile(), this.workingDir.toFile());
-					}
-			});
-		} catch (Exception e1) {
-			LOG.error("Error copying file from {} to {}.", this.libraryDirectory, this.workingDir);
-		}		 
-
-		if(Files.notExists(this.dymolaSimDir)) {
+			this.dymSimulationDir = Files.createTempDirectory(this.workingDir, DYM_PREFIX);
+			
+			//Copy the Modelica model to the simulation directory
 			try {
-				Files.createDirectory(this.dymolaSimDir);
+				FileUtils.copyFileToDirectory(modelicaPath.toFile(), this.dymSimulationDir.toFile(), false);
+			} catch (IOException e1) {
+				LOGGER.error("Error copying file from {} to {}, reason is {}", modelicaPath, this.dymSimulationDir, e1.getMessage());
+				throw new RuntimeException(e1);
 			}
-			catch(IOException e) {
-				LOG.error("Error creating Dymola simulation directory {}.", this.dymolaSimDir);
-			}
+			
+			//Copy Models models needed to the simulation directory
+			try {
+				Files.list(this.libraryDirectory).forEach(file -> {
+						try {
+							FileUtils.copyFileToDirectory(file.toFile(), this.dymSimulationDir.toFile(), false);
+						}
+						catch(IOException exc) {
+							LOGGER.error("Error copying file from {} to {}.", file.toFile(), this.dymSimulationDir.toFile());
+						}
+				});
+			} catch (Exception e1) {
+				LOGGER.error("Error copying files from {} to {}.", this.libraryDirectory, this.dymSimulationDir);
+			}			
+		} catch (IOException e) {
+			LOGGER.error("Could not create Dymola simulation directory in {} with prefix {}, reason is {}",
+					this.workingDir, DYM_PREFIX, e.getMessage());
+			throw new RuntimeException(e);
 		}
+		
+		///-------------OLD
+//		try {
+//			FileUtils.copyFileToDirectory(modelicaPath.toFile(), this.workingDir.toFile(), false);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//			LOGGER.error("Error copying file from {} to {}.", modelicaPath, this.workingDir);
+//		}
+
+//		try {
+//			Files.list(this.libraryDirectory).forEach(file -> {
+//					try {
+//						FileUtils.copyFileToDirectory(file.toFile(), this.workingDir.toFile(), false);
+//					}
+//					catch(IOException exc) {
+//						LOGGER.error("Error copying file from {} to {}.", file.toFile(), this.workingDir.toFile());
+//					}
+//			});
+//		} catch (Exception e1) {
+//			LOGGER.error("Error copying file from {} to {}.", this.libraryDirectory, this.workingDir);
+//		}		 
+
+//		if(Files.notExists(this.dymSimulationDir)) {
+//			try {
+//				Files.createDirectory(this.dymSimulationDir);
+//			}
+//			catch(IOException e) {
+//				LOGGER.error("Error creating Dymola simulation directory {}.", this.dymSimulationDir);
+//			}
+//		}
 		
 		DirectoryStream.Filter<Path> filesFilter =  (entry)-> {
             File f = entry.toFile();
             return f.getName().endsWith(MO_EXTENSION);
 		};
 		
-		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.workingDir, this.dymolaSimDir, filesFilter);
+//		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.dymSimulationDir, this.workingDir, filesFilter);
+		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.dymSimulationDir, this.dymSimulationDir, filesFilter);
 		zipper.createZip();		
 	}
 
@@ -202,7 +230,7 @@ public class DymolaEngine implements ModelicaEngine {
 	
 	private Configuration	config;
 	private Path			workingDir;
-	private Path			dymolaSimDir;
+	private Path			dymSimulationDir;
 	private String			method;
 	private int				numberOfIntervals;
 	private double			outputFixedStepSize;
@@ -220,8 +248,9 @@ public class DymolaEngine implements ModelicaEngine {
 	
 	private ModelicaSimulationResults	results;
 	
-	private static final String			DYMOLA_WORKING_DIR	= "dymola_simulation"; 			
+	
+	private static final String			DYM_PREFIX			= "dymsimulation_"; 			
 	private static final String			MO_EXTENSION		= ".mo";
-	private static final String			VALUES_SEPARATOR	= ",";
-	private static final Logger			LOG					= LoggerFactory.getLogger(DymolaEngine.class);
+	private static final String			COMMA				= ",";
+	private static final Logger			LOGGER				= LoggerFactory.getLogger(DymolaEngine.class);
 }

@@ -419,8 +419,9 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		List<String> filterList = Arrays.asList(filter);
 		
 		DirectoryStream.Filter<Path> filesFilter =  (entry)-> {
-            File f = entry.toFile();            
-            return !filterList.contains(f.getName().substring(f.getName().lastIndexOf(".")));
+            File f = entry.toFile();
+            if(f.getName().contains(".")) return !filterList.contains(f.getName().substring(f.getName().lastIndexOf(".")));
+            return true;
 		};
 		
 		DirectoryStream<Path> dirStream = Files.newDirectoryStream(this.omSimulationDir, filesFilter);

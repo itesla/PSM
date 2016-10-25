@@ -6,7 +6,7 @@
 export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
 # Use two threads per core
-mvn --threads 2C clean install -DskipTest.regex="(dymola-integration)" -Ditesla.config.dir=$PSM_DATA/test/cfg
+mvn --threads 2C clean install -DskipTest.regex="(dymola-integration|openmodelica-integration)" -Ditesla.config.dir=$PSM_DATA/test/cfg
 # Default execution
 #mvn clean install -Ditesla.config.dir=$PSM_DATA/test/cfg
 

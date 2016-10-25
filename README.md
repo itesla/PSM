@@ -123,6 +123,16 @@ In the file dymservice.wsdl, the address location should point to the IP of the 
 		</port>
 	</service>
 	
+### OpenModelica integration
+
+OpenModelica library must be installed in the local maven repository to be able to build psm:
+
+	FILE_PATH=modelica_java.jar
+	GROUP=org-openmodelica
+	ARTIFACT=modelica_java
+	VERSION=1.9.6
+	mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+	
 ### Eclipse
 
 Eclipse projects can be recreated by importing checkout folders for psm as maven projects.

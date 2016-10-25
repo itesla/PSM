@@ -40,7 +40,7 @@ public class DynamicDataRepositoryTest
 	@Test
 	public void testSample0() throws ConnectionException
 	{
-		String location = TEST_SAMPLES.resolve("sample0/BDD").toString();
+		String location = TEST_SAMPLES.resolve("12n").resolve("BDD").toString();
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", location);
 		ddr.connect();
 		Identifiable<?> e = Mockito.mock(Identifiable.class);

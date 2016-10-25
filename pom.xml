@@ -23,6 +23,7 @@
 		<module>modelica-event-adder</module>
 		<module>dymola-integration</module>
 		<module>dymola-integration-service</module>
+		<module>openmodelica-integration</module>
 		<module>gui</module>
 	</modules>
 	<properties>

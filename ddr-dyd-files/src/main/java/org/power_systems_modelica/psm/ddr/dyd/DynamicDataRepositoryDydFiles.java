@@ -44,8 +44,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 {
 	public DynamicDataRepositoryDydFiles()
 	{
-		dynamicModels = new ModelProvider(false);
-		initializationModels = new ModelProvider(true);
+		dynamicModels = new ModelProvider();
+		initializationModels = new ModelProvider();
 		systemDefinitions = new SystemDefinitions();
 		parameters = new ParameterSetProvider();
 	}
@@ -283,10 +283,10 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			if (dyd instanceof ModelContainer)
 			{
 				ModelContainer mc = (ModelContainer) dyd;
-				if (mc.isInitialization())
-					initializationModels.add(mc);
-				else
-					dynamicModels.add(mc);
+				mc.getModelDefinitions().forEach(m -> {
+					if (m.isInitialization()) initializationModels.add(m);
+					else dynamicModels.add(m);
+				});
 				resolveParameters(mc);
 			}
 			else if (dyd instanceof SystemDefinitions)

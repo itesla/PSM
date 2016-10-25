@@ -20,8 +20,6 @@
 				<xs:element name="model" type="dyd:Model" minOccurs="0"
 					maxOccurs="unbounded" />
 			</xs:sequence>
-			<xs:attribute name="isInitialization" use="optional"
-				type="xs:boolean" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="parameters">
@@ -131,12 +129,17 @@
 			<xs:element name="connection" type="dyd:Connection"
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
-		<!-- FIXME types model_for_type, model_for_event and model_for_staticid 
-			should extend Model -->
-		<xs:attribute name="forStaticId" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="isInitialization" use="optional"
+			type="xs:boolean" default="false"/>
+
+		<!-- The model applies either to a staticId, to a type or to an event -->
+
+		<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="forType" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="forEvent" use="optional" type="dyd:nonEmptyString" />
+
+		<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
+
+		<xs:attribute name="event" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
 	</xs:complexType>
 	<xs:complexType name="Component">

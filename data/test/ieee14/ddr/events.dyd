@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0" isInitialization="false">
-	<model forEvent="BusFault" injection="ADD">
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+	<model event="BusFault" injection="ADD">
 		<component name="iPSL.Electrical.Events.PwFault">
 			<ref name="R" dataSource="EVENT" sourceName="R"/>
 			<ref name="X" dataSource="EVENT" sourceName="X"/>
@@ -9,7 +9,7 @@
 		</component>
 		<connector pin="p" target="DYNN:bus:p"/>
 	</model>
-	<model forEvent="LineFault" injection="REPLACE">
+	<model event="LineFault" injection="REPLACE">
 		<component name="iPSL.Electrical.Events.PwLineFault">
             <ref name="R1" dataSource="IIDM" sourceName="pu(R)"/>
             <ref name="X1" dataSource="IIDM" sourceName="pu(X)"/>
@@ -28,29 +28,29 @@
         <connector pin="p" target="DYNN:bus1:p"/>
         <connector pin="n" target="DYNN:bus2:p"/>
 	</model>
-	<model forEvent="LineOpenReceiverSide" injection="REPLACE">
+	<model event="LineOpenReceiverSide" injection="REPLACE">
 		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving">
 		</component>
 		<connector pin="p"/>
 	</model>
-	<model forEvent="LineOpenBothSides" injection="REPLACE">
+	<model event="LineOpenBothSides" injection="REPLACE">
 		<component name="iPSL.Electrical.Branches.PwLine2Openings">
 		</component>
 		<connector pin="p"/>
 	</model>
-	<model forEvent="BankModification" injection="REPLACE">
+	<model event="BankModification" injection="REPLACE">
 		<component name="iPSL.Electrical.Banks.PwCapacitorBankWithModification">
 		</component>
 		<connector pin="p"/>
 	</model>
-	<model forEvent="LoadVariation" injection="REPLACE">
+	<model event="LoadVariation" injection="REPLACE">
 		<component name="iPSL.Electrical.Loads.PwLoadwithVariation">
 		</component>
 		<connector pin="p"/>
 	</model>
 	<!--
 	Should we preserve this kind of event ?
-	<model forEvent="Breaker" injection="INTERPOSE">
+	<model event="Breaker" injection="INTERPOSE">
 		<component name="iPSL.Electrical.Events.Breaker">
 		</component>
 		<connector pin="p"/>

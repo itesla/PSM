@@ -15,9 +15,9 @@ import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class ModelProvider
 {
-	public ModelProvider(boolean isInitialization)
+	public ModelProvider()
 	{
-		containers.add(new ModelContainer(isInitialization));
+		containers.add(new ModelContainer());
 	}
 
 	public Collection<ModelContainer> getContainers()

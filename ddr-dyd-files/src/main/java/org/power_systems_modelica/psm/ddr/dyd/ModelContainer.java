@@ -6,11 +6,6 @@ import java.util.List;
 
 public class ModelContainer implements DydContent
 {
-	public ModelContainer(boolean isInitialization)
-	{
-		this.isInitialization = isInitialization;
-	}
-
 	public void setName(String name)
 	{
 		this.name = name;
@@ -19,11 +14,6 @@ public class ModelContainer implements DydContent
 	public String getName()
 	{
 		return name;
-	}
-
-	public boolean isInitialization()
-	{
-		return isInitialization;
 	}
 
 	public List<Model> getModelDefinitions()
@@ -42,6 +32,5 @@ public class ModelContainer implements DydContent
 	}
 
 	private String				name;
-	private final boolean		isInitialization;
 	private final List<Model>	dynamicModelDefinitions	= new ArrayList<>();
 }

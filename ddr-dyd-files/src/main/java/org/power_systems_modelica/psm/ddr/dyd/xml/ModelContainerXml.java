@@ -23,10 +23,7 @@ public class ModelContainerXml
 
 	public static ModelContainer read(XMLStreamReader r) throws XMLStreamException
 	{
-		String sinit = r.getAttributeValue(null, "isInitialization");
-		boolean isInitialization = sinit == null ? false : Boolean.valueOf(sinit);
-
-		final ModelContainer dyd = new ModelContainer(isInitialization);
+		final ModelContainer dyd = new ModelContainer();
 		Model[] model = new Model[1];
 		Component[] component = new Component[1];
 		ParameterSet[] set = new ParameterSet[1];
@@ -79,7 +76,6 @@ public class ModelContainerXml
 	{
 		w.writeStartElement(MODEL_CONTAINER_ELEMENT_NAME);
 		w.writeDefaultNamespace(XmlUtil.NAMESPACE);
-		w.writeAttribute("isInitialization", Boolean.toString(mc.isInitialization()));
 
 		// Sort models before writing
 		for (Model m : sortedModels(mc.getModelDefinitions()))

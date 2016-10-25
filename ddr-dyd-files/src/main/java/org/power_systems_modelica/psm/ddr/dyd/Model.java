@@ -7,6 +7,16 @@ import java.util.List;
 
 public class Model
 {
+	public void setInitialization(boolean isInitialization)
+	{
+		this.isInitialization = isInitialization;
+	}
+
+	public boolean isInitialization()
+	{
+		return isInitialization;
+	}
+
 	public List<Component> getComponents()
 	{
 		return Collections.unmodifiableList(components);
@@ -54,7 +64,9 @@ public class Model
 		connectors.addAll(c);
 	}
 
-	private final List<Component>	components	= new ArrayList<>();
-	private final List<Connection>	connections	= new ArrayList<>();
-	private final List<Connector>	connectors	= new ArrayList<>();
+	private final List<Component>	components			= new ArrayList<>();
+	private final List<Connection>	connections			= new ArrayList<>();
+	private final List<Connector>	connectors			= new ArrayList<>();
+
+	private boolean					isInitialization	= false;
 }

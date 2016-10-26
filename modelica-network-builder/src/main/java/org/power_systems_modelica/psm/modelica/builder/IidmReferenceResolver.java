@@ -67,7 +67,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 	// and having a place where "all" potential references that can be made are "documented"
 	// Something like:
 	// For external references to IIDM:
-	// For elements of type Bus: V, angle, pu(V), rad(angle)
+	// For elements of type Bus: V, angle, V_pu, A_rad
 	// For elements of type Line: R, X, G, B
 	// ...
 

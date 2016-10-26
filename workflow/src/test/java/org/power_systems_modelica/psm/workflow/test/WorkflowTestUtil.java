@@ -48,18 +48,7 @@ public class WorkflowTestUtil
 		String mo2 = replace(INDENT, mo1, "$1");
 		String mo3 = replace(WHSP_END, mo2, "$1");
 		String mo4 = replace(EMPTY_LINE, mo3, "\n");
-		System.err.println("normalize " + label);
-		debug("initial", mo);
-		debug("comment", mo1);
-		debug("indent ", mo2);
-		debug("wsp end", mo3);
-		debug("empty  ", mo4);
 		return mo4;
-	}
-
-	private static void debug(String label, String s)
-	{
-		System.err.printf("%-8s %2d%n", label, s.length()); // , s.replace("\n", "_"));
 	}
 
 	private static String remove(Pattern p, String s)

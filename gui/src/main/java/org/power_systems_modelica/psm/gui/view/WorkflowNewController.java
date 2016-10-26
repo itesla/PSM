@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.MainApp;
@@ -7,9 +8,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
-import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.model.WorkflowResultItem;
-import org.power_systems_modelica.psm.gui.service.Workflow;
+import org.power_systems_modelica.psm.gui.model.Event.ActionEvent;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.slf4j.Logger;
@@ -17,28 +16,20 @@ import org.slf4j.LoggerFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.Tooltip;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Path;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 
 public class WorkflowNewController {
 
 	@FXML
 	private void initialize() {
 
+		addEventPane.setVisible(false);
 		catalogSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
 
 			@Override
@@ -48,6 +39,35 @@ public class WorkflowNewController {
 			}
 
 		});
+	}
+
+	@FXML
+	private void handleOpenAddEvent() {
+		LOG.debug("handleAddEvent");
+		addEventPane.setVisible(true);
+	}
+
+	@FXML
+	private void handleAddEvent() {
+		LOG.debug("handleAddEvent");
+		Event e = new Event();
+		e.setElement(elementEvent.getText());
+		e.setAction((ActionEvent) actionEvent.getSelectionModel().getSelectedItem());
+		addedEvents.getItems().add(e);
+		addEventPane.setVisible(false);
+	}
+
+	@FXML
+	private void handleCancelEvent() {
+		LOG.debug("handleAddEvent");
+		addEventPane.setVisible(false);
+	}
+
+	@FXML
+	private void handleRemoveEvent() {
+		LOG.debug("handleRemoveEvent");
+		ObservableList<Event> list = addedEvents.getSelectionModel().getSelectedItems();
+		addedEvents.getItems().removeAll(list);
 	}
 
 	@FXML
@@ -76,6 +96,7 @@ public class WorkflowNewController {
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
 		dsEngine.setItems(mainApp.getDsEngines());
+		actionEvent.setItems(mainApp.getActionEvents());
 	}
 
 	@FXML
@@ -92,7 +113,14 @@ public class WorkflowNewController {
 	private CheckBox mainConnectedComponent;
 
 	@FXML
-	private ListView addedEvents;
+	private ListView<Event> addedEvents;
+
+	@FXML
+	private TitledPane addEventPane;
+	@FXML
+	private TextField elementEvent;
+	@FXML
+	private ComboBox actionEvent;
 
 	@FXML
 	private ComboBox dsEngine;

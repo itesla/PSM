@@ -27,43 +27,6 @@ public class WorkflowTestUtil
 			.get(System.getenv("PSM_DATA"))
 			.resolve("test");
 
-	public static TaskStatePair TS(String taskId, ProcessState state)
-	{
-		return new TaskStatePair(taskId, state);
-	}
-
-	public static TaskDefinition TD(Class<? extends WorkflowTask> taskClass, String taskId)
-	{
-		return new TaskDefinition(taskClass, taskId);
-	}
-
-	public static TaskDefinition TD(
-			Class<? extends WorkflowTask> taskClass,
-			String taskId,
-			Configuration config)
-	{
-		TaskDefinition td = new TaskDefinition(taskClass, taskId);
-		td.setTaskConfiguration(config);
-		return td;
-	}
-
-	public static Configuration TC(String... params)
-	{
-		Configuration tc = new Configuration();
-		for (int k = 0; k < params.length; k += 2)
-			tc.setParameter(params[k], params[k + 1]);
-		return tc;
-	}
-
-	public static Workflow WF(TaskDefinition... td) throws WorkflowCreationException
-	{
-		WorkflowConfiguration config = new WorkflowConfiguration();
-		config.setTaskDefinitions(Arrays.asList(td));
-		TaskFactory tf = new TaskFactory();
-		Workflow wf = Workflow.create(config, tf);
-		return wf;
-	}
-
 	public static void assertEqualsText(InputStream expected, InputStream actual)
 			throws IOException
 	{

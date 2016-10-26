@@ -19,7 +19,7 @@ public class CaseService {
 			Case c = new Case();
 			c.setName("IEEE14");
 			c.setDescription("A portion of the American Electric Power System (in the Midwestern US) as of February, 1962.");
-			c.setLocation("/data/psm/samples/ieee14");
+			c.setLocation("/home/demiguelm/psm/data/test/ieee14/ieee14bus_EQ.xml");
 			c.setSize(14);
 			cases.add(c);
 

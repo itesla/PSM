@@ -1,10 +1,18 @@
 package org.power_systems_modelica.psm.gui.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorkflowResult implements Serializable {
+
+
+	public WorkflowResult() {
+		super();
+		allBusesValues = new ArrayList<BusData>();
+	}
 
 	public String getId() {
 		return id;
@@ -21,17 +29,74 @@ public class WorkflowResult implements Serializable {
 	public void setWorkflow(String workflow) {
 		this.workflow = workflow;
 	}
-
-	public List<WorkflowResultItem> getResult() {
-		return result;
+	
+	public List<BusData> getAllBusesValues() {
+		return allBusesValues;
 	}
 
-	public void setResult(List<WorkflowResultItem> result) {
-		this.result = result;
+	public void setAllBusesValues(List<BusData> allBusesValues) {
+		this.allBusesValues = allBusesValues;
+	}
+	
+	public DoubleSummaryStatistics getStats() {
+		return stats;
+	}
+
+	public void setStats(DoubleSummaryStatistics stats) {
+		this.stats = stats;
+	}
+
+	public void getBusesVoltages() {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("V")[0])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesVoltages(int id) {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("V")[id])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesAngles() {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("A")[0])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesAngles(int id) {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("A")[id])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesActives() {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("P")[0])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesActives(int id) {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("P")[id])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesReactives() {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("Q")[0])
+				.collect(Collectors.toList());
+	}
+
+	public void getBusesReactives(int id) {
+		List<Float> valuesV = allBusesValues.stream()
+				.map(bv -> bv.getData().get("Q")[id])
+				.collect(Collectors.toList());
 	}
 
 	private String workflow;
 	private String id;
 
-	private List<WorkflowResultItem> result;
+	private List<BusData> allBusesValues;
+	DoubleSummaryStatistics stats;
 }

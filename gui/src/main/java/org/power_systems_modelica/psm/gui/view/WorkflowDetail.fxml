@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -9,34 +10,27 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0"
-	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
 	<children>
-		<TitledPane animated="false"  collapsible="false" text="Workflow detail"
-			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<TitledPane animated="false" collapsible="false" text="Workflow detail" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<content>
 				<AnchorPane minHeight="0.0" minWidth="0.0">
 					<children>
-						<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false"
-							onAction="#handleNewWorkflow" styleClass="btn-default" text="New"
-							AnchorPane.rightAnchor="0.0" />
 						<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Created:" />
-						<Label fx:id="createdLabel" layoutX="91.0" layoutY="14.0"
-							prefHeight="30.0" text="Label" />
-						<Label layoutX="24.0" layoutY="54.0" prefHeight="30.0" text="Status:" />
-						<Label fx:id="statusLabel" layoutX="91.0" layoutY="54.0"
-							prefHeight="30.0" text="Label" />
-						<LineChart fx:id="lineChart" layoutX="14.0" layoutY="84.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+						<Label fx:id="createdLabel" layoutX="110.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+						<Label layoutX="24.0" layoutY="44.0" prefHeight="30.0" text="Loadflow:" />
+						<Label fx:id="loadflowLabel" layoutX="110.0" layoutY="44.0" prefHeight="30.0" text="Label" />
+						<LineChart fx:id="lineChart" layoutX="14.0" layoutY="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<xAxis>
-								<NumberAxis side="BOTTOM" fx:id="xAxis" />
+								<CategoryAxis side="BOTTOM" fx:id="xAxis" />
 							</xAxis>
 							<yAxis>
 								<NumberAxis fx:id="yAxis" side="LEFT" />
 							</yAxis>
 						</LineChart>
+						<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleNewWorkflow" styleClass="btn-default" text="New" AnchorPane.rightAnchor="0.0" />
+                  <Label layoutX="24.0" layoutY="74.0" prefHeight="30.0" text="Status:" />
+                  <Label fx:id="statusLabel" layoutX="110.0" layoutY="74.0" prefHeight="30.0" text="Label" />
 					</children>
 				</AnchorPane>
 			</content>

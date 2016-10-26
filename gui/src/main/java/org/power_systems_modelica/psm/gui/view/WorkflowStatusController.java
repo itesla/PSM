@@ -1,7 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import org.power_systems_modelica.psm.gui.MainApp;
-import org.power_systems_modelica.psm.gui.service.Workflow;
+import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,10 +34,10 @@ public class WorkflowStatusController {
 			panel.setText("Workflow detail");
 		else 
 			panel.setText("Compare loadflows detail");
-		createdLabel.setText(w.getName());
-		statusLabel.setText(w.getStatus().name());
-		statusBar.setProgress(w.getProgress());
-		statusBar.setTooltip(new Tooltip(String.format("%.2f",w.getProgress()*100) + "%"));
+		createdLabel.setText("" + w.getId());
+		statusLabel.setText(w.getState().name());
+		//statusBar.setProgress(w.getProgress());
+		//statusBar.setTooltip(new Tooltip(String.format("%.2f",w.getProgress()*100) + "%"));
 	}
 
 	@FXML

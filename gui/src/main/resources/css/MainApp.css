@@ -41,3 +41,13 @@
 {
 	-fx-font-weight: bold;
 }
+
+.default-color0.chart-series-line { -fx-stroke: red; }
+.default-color1.chart-series-line { -fx-stroke: green; }
+.default-color2.chart-series-line { -fx-stroke: yellow; }
+.default-color3.chart-series-line { -fx-stroke: blue; }
+
+.default-color0.chart-line-symbol { -fx-background-color: red; }
+.default-color1.chart-line-symbol { -fx-background-color: green; }
+.default-color2.chart-line-symbol { -fx-background-color: yellow; }
+.default-color3.chart-line-symbol { -fx-background-color: blue; }

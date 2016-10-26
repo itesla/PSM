@@ -1,36 +1,28 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.util.List;
+import java.util.Set;
 
 import org.power_systems_modelica.psm.gui.MainApp;
-import org.power_systems_modelica.psm.gui.model.Case;
-import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.Event;
+import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.model.WorkflowResultItem;
-import org.power_systems_modelica.psm.gui.service.Workflow;
-import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.workflow.ProcessState;
+import org.power_systems_modelica.psm.workflow.TaskDefinition;
+import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 
@@ -39,11 +31,8 @@ public class WorkflowDetailController {
 	@FXML
 	private void initialize() {
 
-		lineChart.setCreateSymbols(false);
-		lineChart.setLegendVisible(false);
-
-		xAxis.setLowerBound(1);
-		xAxis.setUpperBound(25);
+		//lineChart.setCreateSymbols(false);
+		//lineChart.setLegendVisible(false);
 
 		yAxis.setLowerBound(0);
 		yAxis.setUpperBound(2.25);
@@ -83,38 +72,75 @@ public class WorkflowDetailController {
 			// seriesNode will be null if this method is called before the scene
 			// CSS has been applied
 			if (seriesNode != null && seriesNode instanceof Path) {
-				Path sPath = (Path) seriesNode;
-				if (seriesPath == null) {
-					sPath.setStroke(Color.RED);
-					sPath.setStrokeWidth(2);
-					sPath.setOpacity(1);
-				} else if (sPath == seriesPath) {
-					sPath.setStroke(Color.RED.darker());
-					sPath.setStrokeWidth(4);
-					sPath.setOpacity(1);
-				} else {
-					sPath.setStroke(Color.GRAY);
-					sPath.setStrokeWidth(1);
-					sPath.setOpacity(0.5);
+				Color color = Color.RED;
+				String dColor = ".default-color0";
+				if (series.getName().equals("V")) {
+					color = Color.RED;
+					dColor = ".default-color0";
 				}
+				else if (series.getName().equals("A")) {
+					color = Color.GREEN;
+					dColor = ".default-color1";
+				}
+				else if (series.getName().equals("P")) {
+					color = Color.YELLOW;
+					dColor = ".default-color2";
+				}
+				else if (series.getName().equals("Q")) {
+					color = Color.BLUE;
+					dColor = ".default-color3";
+				}
+				int strokeWidth = 2;
+				double opacity = 1;
+				Path sPath = (Path) seriesNode;
+				if (seriesPath != null) {
+					if (sPath == seriesPath) {
+						color = color.darker();
+						strokeWidth = 4;
+					} else {
+						color = Color.GRAY;
+						strokeWidth = 1;
+						opacity = 0.5;
+					}
+				}
+				
+				Set<Node> nodes = lineChart.lookupAll(dColor + ".chart-line-symbol");
+				for (final Node node : nodes) {
+					String colorName = color.toString();
+					node.setStyle("-fx-background-color: #" + colorName.substring(2,colorName.length()-2) + ";");
+				}
+				sPath.setStroke(color);
+				sPath.setStrokeWidth(strokeWidth);
+				sPath.setOpacity(opacity);
 			}
 		}
 	}
 
-	private void addSeries(ObservableList<WorkflowResult> results) {
+	private void addSeries(WorkflowResult results) {
 
 		ObservableList<XYChart.Series> displayedSeries = FXCollections.observableArrayList();
-		for (WorkflowResult result : results) {
+		XYChart.Series<String, Float> valuesV = new XYChart.Series<>();
+		valuesV.setName("V");
+		XYChart.Series<String, Float> valuesA = new XYChart.Series<>();
+		valuesA.setName("A");
+		XYChart.Series<String, Float> valuesP = new XYChart.Series<>();
+		valuesP.setName("P");
+		XYChart.Series<String, Float> valuesQ = new XYChart.Series<>();
+		valuesQ.setName("Q");
 
-			XYChart.Series<Integer, Double> series = new XYChart.Series<>();
-
-			for (WorkflowResultItem item : result.getResult()) {
-				series.getData().add(new XYChart.Data<>(item.getX(), item.getY()));
-			}
-
-			displayedSeries.add(series);
+		for (BusData bus : results.getAllBusesValues()) {
+			
+			valuesV.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("V",0)));
+			valuesA.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("A",0)));
+			valuesP.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("P",0)));
+			valuesQ.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("Q",0)));
 		}
-
+		
+		displayedSeries.add(valuesV);
+		displayedSeries.add(valuesA);
+		displayedSeries.add(valuesP);
+		displayedSeries.add(valuesQ);
+		
 		lineChart.getData().addAll(displayedSeries);
 		highlightSerie(displayedSeries, null);
 		highlightSeriesOnHover(displayedSeries); 
@@ -125,22 +151,30 @@ public class WorkflowDetailController {
 
 		Workflow w = mainApp.getWorkflow();
 		
-		createdLabel.setText(w.getName());
-		statusLabel.setText(w.getStatus().name());
-		if (w.isSuccess())
-			addSeries(mainApp.getWorkflowResult(w.getName()));
+		createdLabel.setText("" + w.getId());
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
+			if (!td.getTaskClass().equals(LoadFlowTask.class))
+				continue;
+			
+			loadflowLabel.setText(td.getTaskId().equals("loadflowHades2")?LoadflowEngine.HADES2.name():LoadflowEngine.HELMFLOW.name());
+		}
+		statusLabel.setText(w.getState().name());
+		if (w.getState().equals(ProcessState.SUCCESS)) {
+			addSeries(mainApp.getWorkflowResult("" + w.getId()));
+		}
 	}
 
 	@FXML
 	private Label createdLabel;
-
 	@FXML
 	private Label statusLabel;
+	@FXML
+	private Label loadflowLabel;
 
 	@FXML
 	private LineChart lineChart;
 	@FXML
-	private NumberAxis xAxis;
+	private CategoryAxis xAxis;
 	@FXML
 	private NumberAxis yAxis;
 

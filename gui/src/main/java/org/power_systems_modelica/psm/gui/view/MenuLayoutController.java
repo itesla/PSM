@@ -1,7 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import org.power_systems_modelica.psm.gui.MainApp;
-import org.power_systems_modelica.psm.gui.service.Workflow;
+import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

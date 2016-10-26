@@ -4,15 +4,25 @@ import java.io.Serializable;
 
 public class Event implements Serializable  {
 
-	public static int OPEN = 0; 
-	public static int CLOSE = 1; 
-	public static int MODIFY = 2;
-	
-	public int getAction() {
+	public enum ActionEvent {
+		OPEN(0), CLOSE(1), MODIFY(2);
+
+		private int value;
+
+		private ActionEvent(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
+	public ActionEvent getAction() {
 		return action;
 	}
 	
-	public void setAction(int action) {
+	public void setAction(ActionEvent action) {
 		this.action = action;
 	}
 	
@@ -28,11 +38,11 @@ public class Event implements Serializable  {
 	public String toString() {
 		String txt = "Action: ";
 		
-		if (action == Event.OPEN)
+		if (action == ActionEvent.OPEN)
 			txt += "OPEN";
-		else if (action == Event.CLOSE)
+		else if (action == ActionEvent.CLOSE)
 			txt += "CLOSE";
-		else if (action == Event.MODIFY)
+		else if (action == ActionEvent.MODIFY)
 			txt += "MODIFY";
 		txt += ", ";
 		txt += "Element: " + element;
@@ -40,6 +50,6 @@ public class Event implements Serializable  {
 		return txt;
 	}
 	
-	private int action;
+	private ActionEvent action;
 	private String element;
 }

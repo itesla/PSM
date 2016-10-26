@@ -9,7 +9,6 @@ import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
-import org.power_systems_modelica.psm.gui.service.Workflow;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
@@ -21,6 +20,9 @@ import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
 import org.power_systems_modelica.psm.gui.view.WorkflowDetailController;
 import org.power_systems_modelica.psm.gui.view.WorkflowNewController;
 import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
+import org.power_systems_modelica.psm.workflow.ProcessState;
+import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,10 +119,10 @@ public class MainApp extends Application {
 	}
 
 	public void showWorkflowView(Workflow w) {
-		if (w == null || w.getName() == null)
+		if (w == null)
 			showWorkflowNewView();
 		else {
-			if (w.isRunning())
+			if (w.getState().equals(ProcessState.RUNNING))
 				showWorkflowStatusView(w, true);
 			else
 				showWorkflowDetailView();
@@ -180,10 +182,10 @@ public class MainApp extends Application {
 	}
 
 	public void showCompareLoadflowsView(Workflow w) {
-		if (w == null || w.getName() == null)
+		if (w == null)
 			showCompareLoadflowsNewView();
 		else {
-			if (w.isRunning())
+			if (w.getState().equals(ProcessState.RUNNING))
 				showWorkflowStatusView(w, false);
 			else
 				showCompareLoadflowsDetailView();
@@ -248,13 +250,23 @@ public class MainApp extends Application {
 		return WorkflowService.getDsEngines();
 	}
 
+	public ObservableList getActionEvents() {
+		return WorkflowService.getActionEvents();
+	}
+
 	public void startWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
 			ObservableList events, DsEngine dse) {
-		Workflow w = WorkflowService.startWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
+		Workflow w = null;
+		try {
+			w = WorkflowService.startWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
+		} catch (WorkflowCreationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		showWorkflowView(w);
 	}
 
-	public ObservableList<WorkflowResult> getWorkflowResult(String name) {
+	public WorkflowResult getWorkflowResult(String name) {
 		return WorkflowService.getWorkflowResult(name);
 	}
 
@@ -263,11 +275,17 @@ public class MainApp extends Application {
 	}
 
 	public void startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits) {
-		Workflow w = WorkflowService.startCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+		Workflow w = null;
+		try {
+			w = WorkflowService.startCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+		} catch (WorkflowCreationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		showCompareLoadflowsView(w);
 	}
 
-	public ObservableList<WorkflowResult> getCompareLoadflowsResult(String name) {
+	public WorkflowResult getCompareLoadflowsResult(String name) {
 		return WorkflowService.getCompareLoadflowsResult(name);
 	}
 

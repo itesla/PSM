@@ -44,14 +44,54 @@ public class Mo2Dyd2MoTest
 				"ieee14",
 				"itesla/ieee14bus_no_loadflow.mo",
 				"ieee14bus_EQ.xml",
-				"kk_ddr");
+				"kk_ddr", 
+				14,
+				5);
 	}
 
+//	@Test TODO Pending to test
+	public void rebuildIeee30() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"ieee30",
+				"itesla/ieee30bus_no_loadflow.mo",
+				"ieee30bus_EQ.xml",
+				"kk_ddr",
+				30,
+				6);
+	}
+	
+//	@Test TODO Pending to test
+	public void rebuildIeee57() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"ieee57",
+				"itesla/ieee57bus_no_loadflow.mo",
+				"ieee57bus_EQ.xml",
+				"kk_ddr",
+				57,
+				7);
+	}
+	
+//	@Test TODO Pending to test
+	public void rebuildIeee118() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"ieee118",
+				"itesla/ieee118bus_no_loadflow.mo",
+				"ieee118bus_EQ.xml",
+				"kk_ddr",
+				118,
+				54);
+	}
+	
 	public void testRebuildModelica(
 			String foldername,
 			String moname,
 			String casename,
-			String ddrLocation)
+			String ddrLocation,
+			int numOfBuses,
+			int numOfGens)
 			throws WorkflowCreationException, IOException
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
@@ -90,8 +130,8 @@ public class Mo2Dyd2MoTest
 
 		Network n = (Network) wf.getResults("network");
 		assertNotNull(n);
-		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
-		assertEquals(5, n.getGeneratorCount());
+		assertEquals(numOfBuses, Iterables.size(n.getBusView().getBuses()));
+		assertEquals(numOfGens, n.getGeneratorCount());
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
 		assertNotNull(mo);
 

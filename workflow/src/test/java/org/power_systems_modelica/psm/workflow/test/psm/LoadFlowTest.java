@@ -5,12 +5,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +167,4 @@ public class LoadFlowTest
 		// Hades is only available for Linux
 		return System.getProperty("os.name").startsWith("Linux");
 	}
-
-	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
 }

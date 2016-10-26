@@ -1,10 +1,12 @@
 package org.power_systems_modelica.psm.modelica;
 
+import java.util.Optional;
+
 public class ModelicaDocument
 {
 	public void setWithin(String within)
 	{
-		this.within = within;
+		this.within = Optional.ofNullable(within).orElse("");
 	}
 
 	public String getWithin()

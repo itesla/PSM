@@ -15,7 +15,7 @@ public class ModelicaParser
 {
 	// FIXME Allow complex expressions as equations (omegaRef = sum(g.omega*g.SN*g.HIn)/sum(g.SN*g.HIn)
 
-	public ModelicaDocument parse(Path mo) throws FileNotFoundException, IOException
+	static public ModelicaDocument parse(Path mo) throws FileNotFoundException, IOException
 	{
 		MoLexer lexer = new MoLexer(new ANTLRInputStream(new FileReader(mo.toFile())));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);

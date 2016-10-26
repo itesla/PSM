@@ -85,7 +85,7 @@ public class Mo2Dyd2MoTest
 				54);
 	}
 	
-	public void testRebuildModelica(
+	private void testRebuildModelica(
 			String foldername,
 			String moname,
 			String casename,

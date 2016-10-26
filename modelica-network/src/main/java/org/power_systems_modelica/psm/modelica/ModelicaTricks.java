@@ -171,6 +171,13 @@ public class ModelicaTricks
 		return ALL_KIND_PAIRS;
 	}
 
+	public static String normalizeKind(String kind)
+	{
+		if (kind.equals("line-bus")) return "bus-line";
+		else if (kind.equals("trafo-bus")) return "bus-trafo";
+		return kind;
+	}
+
 	private static final List<String>	KINDS			= Arrays.asList(
 			"system",
 			"bus",
@@ -195,7 +202,7 @@ public class ModelicaTricks
 			"bus-other",
 			"bus-line",
 			"Bus-Line",
-			"line-bus",
+			// "line-bus" must be equivalent to bus-line, we have normalized
 			"bus-load",
 			"Bus-Load",
 			"bus-cap",
@@ -203,7 +210,7 @@ public class ModelicaTricks
 			"bus-gen",
 			"Bus-gen",
 			"bus-trafo",
-			"trafo-bus",
+			// "trafo-bus" is equivalent to bus-trafo, we have normalized
 			"Bus-Transformer");
 
 	private static final Set<String>	KINDS_SET		= new HashSet<>(KINDS);

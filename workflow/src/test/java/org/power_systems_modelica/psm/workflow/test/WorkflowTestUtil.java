@@ -7,23 +7,16 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-
-import org.power_systems_modelica.psm.commons.Configuration;
-import org.power_systems_modelica.psm.workflow.ProcessState;
-import org.power_systems_modelica.psm.workflow.TaskDefinition;
-import org.power_systems_modelica.psm.workflow.TaskFactory;
-import org.power_systems_modelica.psm.workflow.TaskStatePair;
-import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.WorkflowConfiguration;
-import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
-import org.power_systems_modelica.psm.workflow.WorkflowTask;
+import java.util.regex.Pattern;
 
 import com.google.common.io.ByteStreams;
 
 public class WorkflowTestUtil
 {
-	public static final Path TEST_SAMPLES = Paths
+	public static final Path	DATA_TMP		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
+	public static final Path	TEST_SAMPLES	= Paths
 			.get(System.getenv("PSM_DATA"))
 			.resolve("test");
 
@@ -34,4 +27,55 @@ public class WorkflowTestUtil
 				new String(ByteStreams.toByteArray(expected), StandardCharsets.UTF_8),
 				new String(ByteStreams.toByteArray(actual), StandardCharsets.UTF_8));
 	}
+
+	public static void assertEqualsModelicaText(
+			InputStream iexpected,
+			InputStream iactual)
+			throws IOException
+	{
+		String expected0 = new String(ByteStreams.toByteArray(iexpected), StandardCharsets.UTF_8);
+		String actual0 = new String(ByteStreams.toByteArray(iactual), StandardCharsets.UTF_8);
+
+		String expected = normalizeModelicaText("expected", expected0);
+		String actual = normalizeModelicaText("actual", actual0);
+
+		assertEquals(expected, actual);
+	}
+
+	public static String normalizeModelicaText(String label, String mo)
+	{
+		String mo1 = remove(COMMENT, mo);
+		String mo2 = replace(INDENT, mo1, "$1");
+		String mo3 = replace(WHSP_END, mo2, "$1");
+		String mo4 = replace(EMPTY_LINE, mo3, "\n");
+		System.err.println("normalize " + label);
+		debug("initial", mo);
+		debug("comment", mo1);
+		debug("indent ", mo2);
+		debug("wsp end", mo3);
+		debug("empty  ", mo4);
+		return mo4;
+	}
+
+	private static void debug(String label, String s)
+	{
+		System.err.printf("%-8s %2d%n", label, s.length()); // , s.replace("\n", "_"));
+	}
+
+	private static String remove(Pattern p, String s)
+	{
+		return p.matcher(s).replaceAll("");
+	}
+
+	private static String replace(Pattern p, String s, String r)
+	{
+		return p.matcher(s).replaceAll(r);
+	}
+
+	private static final Pattern	COMMENT		= Pattern.compile("//.*$", Pattern.MULTILINE);
+	private static final Pattern	INDENT		= Pattern.compile("^[ \\t]+([^ \\t])",
+			Pattern.MULTILINE);
+	private static final Pattern	WHSP_END	= Pattern.compile("([^ \\t])[ \\t]+$",
+			Pattern.MULTILINE);
+	private static final Pattern	EMPTY_LINE	= Pattern.compile("(\\n|\\r|\\r\\n){2,}+");
 }

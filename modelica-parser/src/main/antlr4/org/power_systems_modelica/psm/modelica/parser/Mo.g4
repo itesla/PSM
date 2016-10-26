@@ -34,20 +34,20 @@ model
    declaration_stmt_list 'equation' equation_stmt_list 'end' ID ';'
    ;
 
-declaration_stmt_list
-   : ( declaration_stmt ';'
-   | annotation
-{
-	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.text));
-}
-   ';' )*
-   ;
-
 equation_stmt_list
    : ( equation_stmt ';'
    | annotation
 {
-	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.text));
+	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.content));
+}
+   ';' )*
+   ;
+
+declaration_stmt_list
+   : ( declaration_stmt ';'
+   | annotation
+{
+	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.content));
 }
    ';' )*
    ;
@@ -63,8 +63,8 @@ declaration_stmt locals [boolean isParameter = false]
 	String type = $type_name.text;
 	String id = $instantiation.id;
 	Annotation annotation = null;
-	if ($annotation.text != null)
-		annotation = new Annotation($annotation.text);
+	if ($annotation.ctx != null && $annotation.content != null)
+		annotation = new Annotation($annotation.content);
 	ModelicaDeclaration declaration;
 	if ($instantiation.arguments != null)
 		declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter, annotation);
@@ -180,16 +180,19 @@ algebraic_expression:
    ( NUMBER | ID | ALGEBRAIC_SYMBOL | '(' | ')' )*
    ;
 
-ALGEBRAIC_SYMBOL:
-   ( '*' | '/' | '+' )
-   ;
-
-annotation
-   : 'annotation' '(' annotation_content ')'
+annotation returns [ String content = null ]
+	: 'annotation' '(' annotation_content ')'
+{
+	$content = $annotation_content.text;
+}
    ;
 
 annotation_content
    : ( STRING | ID '(' instantiation_argument_list ')' ','? )+
+   ;
+
+ALGEBRAIC_SYMBOL:
+   ( '*' | '/' | '+' )
    ;
 
 BOOLEAN

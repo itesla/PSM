@@ -164,7 +164,9 @@ public class ModelicaTextPrinter
 		Ordering<ModelicaEquation> byOriginal = Ordering.explicit(eqs0);
 		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKindPairs());
 		byType = (eq1, eq2) -> -eq1.getClass().getName().compareTo(eq2.getClass().getName());
-		byKind = (eq1, eq2) -> kindOrdering.compare(getKind(eq1), getKind(eq2));
+		byKind = (eq1, eq2) -> kindOrdering.compare(
+				ModelicaTricks.normalizeKind(getKind(eq1)),
+				ModelicaTricks.normalizeKind(getKind(eq2)));
 		byKey = Comparator.comparing(ModelicaTextPrinter::getKey);
 
 		eqs = eqs0.stream()

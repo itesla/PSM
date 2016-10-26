@@ -129,12 +129,13 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
 
 				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
-					  	writeResultsCsv(printStream, resultVariables, result.res, resultSize); //TODO pending to write results in a csv file
+					  	writeResultsCsv(printStream, resultVariables, result.res, resultSize);
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				}			
 			} finally {
-				//TODO Delete all the C files created for the simulation
+				//Delete all the C files created for the simulation
+				deleteSimulationFiles();
 				// The connection to OpenModelica is closed and OpenModelica is terminated
 				if (omc != null) {
 					omc.stopServer();
@@ -248,7 +249,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				}			
 			} finally {
-				//TODO Delete all the C files created for the simulation
+				//Delete all the C files created for the simulation
 				deleteSimulationFiles();
 				// The connection to OpenModelica is closed and OpenModelica is terminated
 				if (omc != null) {
@@ -456,10 +457,10 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private static final String			OMWRAPPER_NAME 			= "OpenModelica";
 	private static final String			OM_PREFIX				= "omsimulation_";
 	private static final String			MO_EXTENSION			= ".mo";
-	private static final String			SEMICOLON				= ";";
-	private static final String			COMMA					= ",";
 	private static final String			MAT_EXTENSION 			= ".mat";
 	private static final String			CSV_EXTENSION 			= ".csv";
+	private static final String			SEMICOLON				= ";";
+	private static final String			COMMA					= ",";
 	private static final Pattern		RESULTS_PATTERN			= Pattern.compile("(\\{([0-9]+(\\.[0-9]*)?\\,?)+\\})");
 	private static final String			NEW_LINE				= System.getProperty("line.separator").toString();
 	

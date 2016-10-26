@@ -24,6 +24,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
 import javax.activation.DataHandler;
@@ -54,24 +58,6 @@ import com.sun.xml.internal.ws.developer.StreamingDataHandler;
 @StreamingAttachment(parseEagerly = true, memoryThreshold = 5000000L, dir="/tmp")
 @WebService(endpointInterface = "org.power_systems_modelica.psm.dymola.integration.proxy.service.SimulatorServer")
 public class SimulatorServerImpl implements SimulatorServer {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimulatorServerImpl.class);
-
-    static final String DYMOLASERVICE_TEMP = "/temp/Dymola/server";
-    static final String DYMOLASERVICE_INPUTFILENAME = "dyninput.zip";
-    static final String DYMSERV_PREFIX = "dymserv_";
-    private static final String DYMOLA_LOG_FILENAME = "log.txt";
-    private static final int MSGERRLEN = 400;
-
-    boolean debug;
-
-    final Pool<Integer> portPool;
-
-    final String serviceWorkDir;
-
-    //testing only
-    private String fakeSourceDir=null;
-
     public SimulatorServerImpl() {
         this(DYMOLASERVICE_TEMP, 9000, 20, false);
     }
@@ -180,7 +166,7 @@ public class SimulatorServerImpl implements SimulatorServer {
                 try {
                     Utils.deleteDirectoryRecursively(workingDir);
                 } catch (IOException e) {
-                    // e.printStackTrace();
+                	LOGGER.error("Error deleting directory {}, reason {}", workingDir, e.getMessage());
                 }
             }
         }
@@ -284,7 +270,7 @@ public class SimulatorServerImpl implements SimulatorServer {
 
             if(trajVarsValues != null) {
 	            try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + resultsFileName + ".csv")))) {
-	            	printResultVariables(printStream, resultVariables.length == 0 ? trajNames : resultVariables, trajVarsValues);
+	            	printResultVariables(printStream, resultVariables.length == 0 ? trajNames : resultVariables, Utils.transpose().apply(trajVarsValues));
 	            } catch (IOException e) {
 	                LOGGER.error("Error printing errors file. {}", e.getMessage());
 	            }
@@ -309,21 +295,18 @@ public class SimulatorServerImpl implements SimulatorServer {
         }
 
     }
-
+    
     private void printResultVariables(PrintStream printStream, String[] resultVariables, double[][] trajVarsValues) {
-    	//TODO Pending write data transposed: all the selected variables as header and the values by column.
-    	String strLine = "DEVICE,VALUES\n";
-    	for(int i=0; i<trajVarsValues.length;i++) {
-    		if(strLine == null) strLine = resultVariables[i];  
-    		else strLine = strLine + resultVariables[i];
-    		for(int j=0; j< trajVarsValues[i].length; j++) {
-    			strLine = strLine + "," + Double.toString(trajVarsValues[i][j]);
-    		}
-    		strLine = strLine + "\n";
-    	}
-    	printStream.print(strLine);
+    	String strLine = Stream.of(resultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;
+		for (int i = 0; i < trajVarsValues.length; i++) {
+			for (int k = 0; k < trajVarsValues[i].length; k++) {
+				if(k == 0) strLine = strLine + trajVarsValues[i][k];
+				else strLine = strLine + "," + trajVarsValues[i][k]; 
+			}
+			strLine = strLine + NEW_LINE;
+		}
+		printStream.print(strLine);
 	}
-
 
 	private class TemporaryFileDataSource extends FileDataSource {
 
@@ -353,4 +336,26 @@ public class SimulatorServerImpl implements SimulatorServer {
             LOGGER.trace(" **** " + file.getAbsoluteFile() + " :" + isDeleted);
         }
     }
+    
+    boolean debug;
+
+    final Pool<Integer> portPool;
+
+    final String serviceWorkDir;
+
+    //testing only
+    private String fakeSourceDir=null;
+    
+    static final String DYMOLASERVICE_TEMP = "/temp/Dymola/server";
+    static final String DYMOLASERVICE_INPUTFILENAME = "dyninput.zip";
+    static final String DYMSERV_PREFIX = "dymserv_";
+    private static final String DYMOLA_LOG_FILENAME = "log.txt";
+    private static final int MSGERRLEN = 400;
+    
+    private static final String	NEW_LINE = System.getProperty("line.separator").toString();
+	private static final String			MO_EXTENSION		= ".mo";
+	private static final String			MAT_EXTENSION 		= ".mat";
+	private static final String			CSV_EXTENSION 		= ".csv";
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimulatorServerImpl.class);
 }

@@ -51,7 +51,6 @@ public class DymolaEngine implements ModelicaEngine {
 		
 		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 		
-		//FIXME Run Dymola
 		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numberOfIntervals, outputFixedStepSize, outputInterval, startTime, stopTime, tolerance, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 		

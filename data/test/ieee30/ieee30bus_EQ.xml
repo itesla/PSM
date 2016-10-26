@@ -1,0 +1,2444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"	xmlns:cim="http://iec.ch/TC57/2009/CIM-schema-cim14#">
+<cim:OperationalLimitType rdf:ID="_AC_PATL_OLT">
+	<cim:OperationalLimitType.direction rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#OperationalLimitDirectionKind.absoluteValue"/>
+	<cim:OperationalLimitType.acceptableDuration>45000</cim:OperationalLimitType.acceptableDuration>
+	<cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
+</cim:OperationalLimitType>
+<cim:ShuntCompensator rdf:ID="_BANK__10_SC">
+	<cim:ShuntCompensator.gPerSection>0</cim:ShuntCompensator.gPerSection>
+	<cim:ShuntCompensator.bPerSection>0.0174472</cim:ShuntCompensator.bPerSection>
+	<cim:ShuntCompensator.maximumSections>1</cim:ShuntCompensator.maximumSections>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_BANK__10_SC_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_ROAN__10_VL"/>
+	<cim:IdentifiedObject.name>BANK  10</cim:IdentifiedObject.name>
+</cim:ShuntCompensator>
+<cim:RegulatingControl rdf:ID="_BANK__10_SC_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.fixed"/>
+	<cim:RegulatingControl.targetValue>0</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_BANK__10_SC_TE"/>
+	<cim:IdentifiedObject.name>BANK  10_SC_RC</cim:IdentifiedObject.name>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_BANK__10_SC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BANK__10_SC"/>
+	<cim:IdentifiedObject.name>BANK  10_SC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ShuntCompensator rdf:ID="_BANK__24_SC">
+	<cim:ShuntCompensator.gPerSection>0</cim:ShuntCompensator.gPerSection>
+	<cim:ShuntCompensator.bPerSection>0.00394858</cim:ShuntCompensator.bPerSection>
+	<cim:ShuntCompensator.maximumSections>1</cim:ShuntCompensator.maximumSections>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_BANK__24_SC_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___24_VL"/>
+	<cim:IdentifiedObject.name>BANK  24</cim:IdentifiedObject.name>
+</cim:ShuntCompensator>
+<cim:RegulatingControl rdf:ID="_BANK__24_SC_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.fixed"/>
+	<cim:RegulatingControl.targetValue>0</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_BANK__24_SC_TE"/>
+	<cim:IdentifiedObject.name>BANK  24_SC_RC</cim:IdentifiedObject.name>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_BANK__24_SC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BANK__24_SC"/>
+	<cim:IdentifiedObject.name>BANK  24_SC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BLAI___7_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BLAI   7_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BLAI___7_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_0"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BLAI___7_SS"/>
+	<cim:IdentifiedObject.name>BLAI   7_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___14-BUS___15-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.17473</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>2.40669</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_2"/>
+	<cim:IdentifiedObject.name>BUS   14-BUS   15-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___14-BUS___15-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___14-BUS___15-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   14-BUS   15-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___14-BUS___15-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___14-BUS___15-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   14-BUS   15-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___14-BUS___15-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___14-BUS___15-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   14-BUS   15-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___14-BUS___15-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___14-BUS___15-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   14-BUS   15-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___14_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   14_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___14_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_1"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___14_SS"/>
+	<cim:IdentifiedObject.name>BUS   14_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___15-BUS___18-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.37947</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.1685</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_5"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   18-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___15-BUS___18-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___15-BUS___18-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   18-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___15-BUS___18-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___15-BUS___18-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   18-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___15-BUS___18-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___15-BUS___18-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   18-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___15-BUS___18-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___15-BUS___18-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   18-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_BUS___15-BUS___23-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.19978</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.089</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_10"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   23-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___15-BUS___23-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___15-BUS___23-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   23-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___15-BUS___23-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___15-BUS___23-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   23-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___15-BUS___23-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___15-BUS___23-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   23-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___15-BUS___23-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___15-BUS___23-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   15-BUS   23-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___15_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   15_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___15_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_2"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___15_SS"/>
+	<cim:IdentifiedObject.name>BUS   15_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___16-BUS___17-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.09415</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.570636</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_4"/>
+	<cim:IdentifiedObject.name>BUS   16-BUS   17-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___16-BUS___17-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___16-BUS___17-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   16-BUS   17-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___16-BUS___17-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___16-BUS___17-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   16-BUS   17-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___16-BUS___17-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___16-BUS___17-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   16-BUS   17-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___16-BUS___17-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___16-BUS___17-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   16-BUS   17-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___16_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   16_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___16_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_3"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___16_SS"/>
+	<cim:IdentifiedObject.name>BUS   16_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:Substation rdf:ID="_BUS___17_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   17_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___17_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_4"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___17_SS"/>
+	<cim:IdentifiedObject.name>BUS   17_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___18-BUS___19-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>1.40699</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.695871</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_6"/>
+	<cim:IdentifiedObject.name>BUS   18-BUS   19-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___18-BUS___19-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___18-BUS___19-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   18-BUS   19-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___18-BUS___19-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___18-BUS___19-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   18-BUS   19-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___18-BUS___19-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___18-BUS___19-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   18-BUS   19-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___18-BUS___19-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___18-BUS___19-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   18-BUS   19-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___18_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   18_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___18_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_5"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___18_SS"/>
+	<cim:IdentifiedObject.name>BUS   18_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___19-BUS___20-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>0.74052</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.37026</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_7"/>
+	<cim:IdentifiedObject.name>BUS   19-BUS   20-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___19-BUS___20-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___19-BUS___20-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   19-BUS   20-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___19-BUS___20-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___19-BUS___20-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   19-BUS   20-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___19-BUS___20-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___19-BUS___20-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   19-BUS   20-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___19-BUS___20-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___19-BUS___20-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   19-BUS   20-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___19_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   19_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___19_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_6"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___19_SS"/>
+	<cim:IdentifiedObject.name>BUS   19_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:Substation rdf:ID="_BUS___20_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   20_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___20_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_7"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___20_SS"/>
+	<cim:IdentifiedObject.name>BUS   20_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___21-BUS___22-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>0.257004</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.126324</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_9"/>
+	<cim:IdentifiedObject.name>BUS   21-BUS   22-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___21-BUS___22-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___21-BUS___22-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   21-BUS   22-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___21-BUS___22-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___21-BUS___22-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   21-BUS   22-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___21-BUS___22-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___21-BUS___22-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   21-BUS   22-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___21-BUS___22-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___21-BUS___22-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   21-BUS   22-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___21_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   21_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___21_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_8"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___21_SS"/>
+	<cim:IdentifiedObject.name>BUS   21_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___22-BUS___24-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>1.94931</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.25235</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_11"/>
+	<cim:IdentifiedObject.name>BUS   22-BUS   24-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___22-BUS___24-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___22-BUS___24-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   22-BUS   24-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___22-BUS___24-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___22-BUS___24-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   22-BUS   24-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___22-BUS___24-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___22-BUS___24-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   22-BUS   24-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___22-BUS___24-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___22-BUS___24-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   22-BUS   24-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___22_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   22_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___22_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_9"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___22_SS"/>
+	<cim:IdentifiedObject.name>BUS   22_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___23-BUS___24-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.9403</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.43748</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_11"/>
+	<cim:IdentifiedObject.name>BUS   23-BUS   24-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___23-BUS___24-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___23-BUS___24-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   23-BUS   24-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___23-BUS___24-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___23-BUS___24-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   23-BUS   24-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___23-BUS___24-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___23-BUS___24-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   23-BUS   24-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___23-BUS___24-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___23-BUS___24-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   23-BUS   24-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___23_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   23_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___23_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_10"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___23_SS"/>
+	<cim:IdentifiedObject.name>BUS   23_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___24-BUS___25-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>3.58499</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>2.05276</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_12"/>
+	<cim:IdentifiedObject.name>BUS   24-BUS   25-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___24-BUS___25-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___24-BUS___25-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   24-BUS   25-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___24-BUS___25-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___24-BUS___25-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   24-BUS   25-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___24-BUS___25-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___24-BUS___25-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   24-BUS   25-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___24-BUS___25-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___24-BUS___25-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   24-BUS   25-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___24_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   24_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___24_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_11"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___24_SS"/>
+	<cim:IdentifiedObject.name>BUS   24_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___25-BUS___26-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>4.1382</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>2.77042</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_13"/>
+	<cim:IdentifiedObject.name>BUS   25-BUS   26-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___25-BUS___26-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___25-BUS___26-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   25-BUS   26-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___25-BUS___26-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___25-BUS___26-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   25-BUS   26-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___25-BUS___26-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___25-BUS___26-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   25-BUS   26-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___25-BUS___26-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___25-BUS___26-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   25-BUS   26-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_BUS___25-CLOV__27-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.27274</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.19028</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_17"/>
+	<cim:IdentifiedObject.name>BUS   25-CLOV  27-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___25-CLOV__27-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___25-CLOV__27-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   25-CLOV  27-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___25-CLOV__27-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___25-CLOV__27-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   25-CLOV  27-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___25-CLOV__27-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___25-CLOV__27-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   25-CLOV  27-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___25-CLOV__27-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___25-CLOV__27-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   25-CLOV  27-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___25_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   25_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___25_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_12"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___25_SS"/>
+	<cim:IdentifiedObject.name>BUS   25_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:Substation rdf:ID="_BUS___26_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   26_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___26_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_13"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___26_SS"/>
+	<cim:IdentifiedObject.name>BUS   26_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_BUS___29-BUS___30-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>4.93644</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>2.61251</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_15"/>
+	<cim:IdentifiedObject.name>BUS   29-BUS   30-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_BUS___29-BUS___30-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_BUS___29-BUS___30-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>BUS   29-BUS   30-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_BUS___29-BUS___30-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_BUS___29-BUS___30-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>BUS   29-BUS   30-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_BUS___29-BUS___30-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___29-BUS___30-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   29-BUS   30-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_BUS___29-BUS___30-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_BUS___29-BUS___30-1_AC"/>
+	<cim:IdentifiedObject.name>BUS   29-BUS   30-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_BUS___29_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   29_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___29_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_14"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___29_SS"/>
+	<cim:IdentifiedObject.name>BUS   29_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:Substation rdf:ID="_BUS___30_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>BUS   30_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_BUS___30_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_15"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_BUS___30_SS"/>
+	<cim:IdentifiedObject.name>BUS   30_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:BaseVoltage rdf:ID="_BV_0">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>0</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_1">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>1</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_10">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>10</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_11">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>11</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_12">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>12</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_13">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>13</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_14">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>14</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_15">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>15</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_16">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>16</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_17">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>17</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_18">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>18</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_19">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>19</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_2">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>2</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_20">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>20</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_21">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>21</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_22">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>22</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_23">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>23</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_24">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>24</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_25">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>25</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_26">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>132</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>26</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_27">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>27</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_28">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>28</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_29">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>29</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_3">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>3</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_4">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>4</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_5">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>5</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_6">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>6</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_7">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>7</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_8">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>8</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:BaseVoltage rdf:ID="_BV_9">
+	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
+	<cim:BaseVoltage.nominalVoltage>33</cim:BaseVoltage.nominalVoltage>
+	<cim:IdentifiedObject.name>9</cim:IdentifiedObject.name>
+</cim:BaseVoltage>
+<cim:ControlArea rdf:ID="_CA_1">
+	<cim:ControlArea.netInterchange>0</cim:ControlArea.netInterchange>
+	<cim:ControlArea.pTolerance>0</cim:ControlArea.pTolerance>
+	<cim:IdentifiedObject.name>_CA_1</cim:IdentifiedObject.name>
+</cim:ControlArea>
+<cim:ACLineSegment rdf:ID="_CLAY___2-FIEL___5-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>34.5518</cim:Conductor.x>
+	<cim:Conductor.bch>0.000239899</cim:Conductor.bch>
+	<cim:Conductor.r>8.22413</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_19"/>
+	<cim:IdentifiedObject.name>CLAY   2-FIEL   5-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_CLAY___2-FIEL___5-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLAY___2-FIEL___5-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLAY   2-FIEL   5-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLAY___2-FIEL___5-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLAY___2-FIEL___5-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>CLAY   2-FIEL   5-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLAY___2-FIEL___5-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLAY___2-FIEL___5-1_AC"/>
+	<cim:IdentifiedObject.name>CLAY   2-FIEL   5-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_CLAY___2-FIEL___5-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLAY___2-FIEL___5-1_AC"/>
+	<cim:IdentifiedObject.name>CLAY   2-FIEL   5-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_CLAY___2-HANC___4-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>30.2655</cim:Conductor.x>
+	<cim:Conductor.bch>0.000211203</cim:Conductor.bch>
+	<cim:Conductor.r>9.93168</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_21"/>
+	<cim:IdentifiedObject.name>CLAY   2-HANC   4-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_CLAY___2-HANC___4-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLAY___2-HANC___4-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLAY   2-HANC   4-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLAY___2-HANC___4-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLAY___2-HANC___4-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>CLAY   2-HANC   4-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLAY___2-HANC___4-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLAY___2-HANC___4-1_AC"/>
+	<cim:IdentifiedObject.name>CLAY   2-HANC   4-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_CLAY___2-HANC___4-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLAY___2-HANC___4-1_AC"/>
+	<cim:IdentifiedObject.name>CLAY   2-HANC   4-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_CLAY___2-ROAN___6-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>30.7185</cim:Conductor.x>
+	<cim:Conductor.bch>0.000214646</cim:Conductor.bch>
+	<cim:Conductor.r>10.1233</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_26"/>
+	<cim:IdentifiedObject.name>CLAY   2-ROAN   6-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_CLAY___2-ROAN___6-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLAY___2-ROAN___6-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLAY   2-ROAN   6-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLAY___2-ROAN___6-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLAY___2-ROAN___6-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>CLAY   2-ROAN   6-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLAY___2-ROAN___6-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLAY___2-ROAN___6-1_AC"/>
+	<cim:IdentifiedObject.name>CLAY   2-ROAN   6-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_CLAY___2-ROAN___6-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLAY___2-ROAN___6-1_AC"/>
+	<cim:IdentifiedObject.name>CLAY   2-ROAN   6-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_CLAY___2_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>CLAY   2_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_CLAY___2_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_16"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_CLAY___2_SS"/>
+	<cim:IdentifiedObject.name>CLAY   2_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_CLOV__27-BUS___29-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>4.52262</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>2.39362</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_14"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   29-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_CLOV__27-BUS___29-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLOV__27-BUS___29-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   29-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLOV__27-BUS___29-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLOV__27-BUS___29-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   29-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLOV__27-BUS___29-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLOV__27-BUS___29-1_AC"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   29-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_CLOV__27-BUS___29-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLOV__27-BUS___29-1_AC"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   29-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_CLOV__27-BUS___30-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>6.5634</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>3.48698</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_15"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   30-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_CLOV__27-BUS___30-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLOV__27-BUS___30-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   30-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLOV__27-BUS___30-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLOV__27-BUS___30-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   30-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLOV__27-BUS___30-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLOV__27-BUS___30-1_AC"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   30-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_CLOV__27-BUS___30-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLOV__27-BUS___30-1_AC"/>
+	<cim:IdentifiedObject.name>CLOV  27-BUS   30-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:VoltageLevel rdf:ID="_CLOV__27_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_17"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_CLOV__28_SS"/>
+	<cim:IdentifiedObject.name>CLOV  27_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:PowerTransformer rdf:ID="_CLOV__28-CLOV__27-1_PT">
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_CLOV__28_SS"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1</cim:IdentifiedObject.name>
+</cim:PowerTransformer>
+<cim:RatioTapChanger rdf:ID="_CLOV__28-CLOV__27-1_RTC_OR">
+	<cim:RatioTapChanger.TransformerWinding rdf:resource="#_CLOV__28-CLOV__27-1_TW_OR"/>
+	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
+	<cim:TapChanger.neutralU>132</cim:TapChanger.neutralU>
+	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
+	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_RTC_OR</cim:IdentifiedObject.name>
+</cim:RatioTapChanger>
+<cim:TransformerWinding rdf:ID="_CLOV__28-CLOV__27-1_TW_EX">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.secondary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_CLOV__28-CLOV__27-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>33</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>0</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_17"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_CLOV__28-CLOV__27-1_TW_EX_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLOV__28-CLOV__27-1_TW_EX_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_TW_EX_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLOV__28-CLOV__27-1_TW_EX_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLOV__28-CLOV__27-1_TW_EX_TE"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_TW_EX_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLOV__28-CLOV__27-1_TW_EX_TE">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLOV__28-CLOV__27-1_TW_EX"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_TW_EX_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:TransformerWinding rdf:ID="_CLOV__28-CLOV__27-1_TW_OR">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.primary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>-0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_CLOV__28-CLOV__27-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>132</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>68.999</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_18"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_CLOV__28-CLOV__27-1_TW_OR_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_CLOV__28-CLOV__27-1_TW_OR_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_TW_OR_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_CLOV__28-CLOV__27-1_TW_OR_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_CLOV__28-CLOV__27-1_TW_OR_TE"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_TW_OR_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_CLOV__28-CLOV__27-1_TW_OR_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_CLOV__28-CLOV__27-1_TW_OR"/>
+	<cim:IdentifiedObject.name>CLOV  28-CLOV  27-1_TW_OR_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_CLOV__28_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>CLOV  28_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_CLOV__28_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_18"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_CLOV__28_SS"/>
+	<cim:IdentifiedObject.name>CLOV  28_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_FIEL___5-BLAI___7-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>20.2118</cim:Conductor.x>
+	<cim:Conductor.bch>0.00011708</cim:Conductor.bch>
+	<cim:Conductor.r>8.01504</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_0"/>
+	<cim:IdentifiedObject.name>FIEL   5-BLAI   7-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_FIEL___5-BLAI___7-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_FIEL___5-BLAI___7-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>FIEL   5-BLAI   7-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_FIEL___5-BLAI___7-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_FIEL___5-BLAI___7-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>FIEL   5-BLAI   7-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_FIEL___5-BLAI___7-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_FIEL___5-BLAI___7-1_AC"/>
+	<cim:IdentifiedObject.name>FIEL   5-BLAI   7-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_FIEL___5-BLAI___7-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_FIEL___5-BLAI___7-1_AC"/>
+	<cim:IdentifiedObject.name>FIEL   5-BLAI   7-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_FIEL___5_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>FIEL   5_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_FIEL___5_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_19"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_FIEL___5_SS"/>
+	<cim:IdentifiedObject.name>FIEL   5_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:GeneratingUnit rdf:ID="_GEN___11_GU">
+	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_ROAN__11_VL"/>
+	<cim:IdentifiedObject.name>GEN   11</cim:IdentifiedObject.name>
+</cim:GeneratingUnit>
+<cim:SynchronousMachine rdf:ID="_GEN___11_SM">
+	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
+	<cim:SynchronousMachine.minQ>-6</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
+	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
+	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN___11_GU"/>
+	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
+	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
+	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
+	<cim:SynchronousMachine.maxQ>24</cim:SynchronousMachine.maxQ>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN___11_SM_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_ROAN__11_VL"/>
+	<cim:IdentifiedObject.name>GEN   11</cim:IdentifiedObject.name>
+</cim:SynchronousMachine>
+<cim:RegulatingControl rdf:ID="_GEN___11_SM_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
+	<cim:RegulatingControl.targetValue>35.706</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_GEN___11_SM_TE"/>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_GEN___11_SM_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN___11_SM"/>
+	<cim:IdentifiedObject.name>GEN   11</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:GeneratingUnit rdf:ID="_GEN___13_GU">
+	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_HANC__13_VL"/>
+	<cim:IdentifiedObject.name>GEN   13</cim:IdentifiedObject.name>
+</cim:GeneratingUnit>
+<cim:SynchronousMachine rdf:ID="_GEN___13_SM">
+	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
+	<cim:SynchronousMachine.minQ>-6</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
+	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
+	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN___13_GU"/>
+	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
+	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
+	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
+	<cim:SynchronousMachine.maxQ>24</cim:SynchronousMachine.maxQ>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN___13_SM_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_HANC__13_VL"/>
+	<cim:IdentifiedObject.name>GEN   13</cim:IdentifiedObject.name>
+</cim:SynchronousMachine>
+<cim:RegulatingControl rdf:ID="_GEN___13_SM_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
+	<cim:RegulatingControl.targetValue>35.343</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_GEN___13_SM_TE"/>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_GEN___13_SM_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN___13_SM"/>
+	<cim:IdentifiedObject.name>GEN   13</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:GeneratingUnit rdf:ID="_GEN____1_GU">
+	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_GLEN___1_VL"/>
+	<cim:IdentifiedObject.name>GEN    1</cim:IdentifiedObject.name>
+</cim:GeneratingUnit>
+<cim:SynchronousMachine rdf:ID="_GEN____1_SM">
+	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
+	<cim:SynchronousMachine.minQ>0</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
+	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
+	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN____1_GU"/>
+	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
+	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
+	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
+	<cim:SynchronousMachine.maxQ>0</cim:SynchronousMachine.maxQ>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN____1_SM_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_GLEN___1_VL"/>
+	<cim:IdentifiedObject.name>GEN    1</cim:IdentifiedObject.name>
+</cim:SynchronousMachine>
+<cim:RegulatingControl rdf:ID="_GEN____1_SM_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
+	<cim:RegulatingControl.targetValue>139.92</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_GEN____1_SM_TE"/>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_GEN____1_SM_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN____1_SM"/>
+	<cim:IdentifiedObject.name>GEN    1</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:GeneratingUnit rdf:ID="_GEN____2_GU">
+	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_CLAY___2_VL"/>
+	<cim:IdentifiedObject.name>GEN    2</cim:IdentifiedObject.name>
+</cim:GeneratingUnit>
+<cim:SynchronousMachine rdf:ID="_GEN____2_SM">
+	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
+	<cim:SynchronousMachine.minQ>-40</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
+	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
+	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN____2_GU"/>
+	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
+	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
+	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
+	<cim:SynchronousMachine.maxQ>50</cim:SynchronousMachine.maxQ>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN____2_SM_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_CLAY___2_VL"/>
+	<cim:IdentifiedObject.name>GEN    2</cim:IdentifiedObject.name>
+</cim:SynchronousMachine>
+<cim:RegulatingControl rdf:ID="_GEN____2_SM_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
+	<cim:RegulatingControl.targetValue>137.94</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_GEN____2_SM_TE"/>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_GEN____2_SM_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN____2_SM"/>
+	<cim:IdentifiedObject.name>GEN    2</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:GeneratingUnit rdf:ID="_GEN____5_GU">
+	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_FIEL___5_VL"/>
+	<cim:IdentifiedObject.name>GEN    5</cim:IdentifiedObject.name>
+</cim:GeneratingUnit>
+<cim:SynchronousMachine rdf:ID="_GEN____5_SM">
+	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
+	<cim:SynchronousMachine.minQ>-40</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
+	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
+	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN____5_GU"/>
+	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
+	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
+	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
+	<cim:SynchronousMachine.maxQ>40</cim:SynchronousMachine.maxQ>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN____5_SM_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_FIEL___5_VL"/>
+	<cim:IdentifiedObject.name>GEN    5</cim:IdentifiedObject.name>
+</cim:SynchronousMachine>
+<cim:RegulatingControl rdf:ID="_GEN____5_SM_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
+	<cim:RegulatingControl.targetValue>133.32</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_GEN____5_SM_TE"/>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_GEN____5_SM_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN____5_SM"/>
+	<cim:IdentifiedObject.name>GEN    5</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:GeneratingUnit rdf:ID="_GEN____8_GU">
+	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_REUS___8_VL"/>
+	<cim:IdentifiedObject.name>GEN    8</cim:IdentifiedObject.name>
+</cim:GeneratingUnit>
+<cim:SynchronousMachine rdf:ID="_GEN____8_SM">
+	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
+	<cim:SynchronousMachine.minQ>-10</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
+	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
+	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN____8_GU"/>
+	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
+	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
+	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
+	<cim:SynchronousMachine.maxQ>40</cim:SynchronousMachine.maxQ>
+	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN____8_SM_RC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_REUS___8_VL"/>
+	<cim:IdentifiedObject.name>GEN    8</cim:IdentifiedObject.name>
+</cim:SynchronousMachine>
+<cim:RegulatingControl rdf:ID="_GEN____8_SM_RC">
+	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
+	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
+	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
+	<cim:RegulatingControl.targetValue>133.32</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.Terminal rdf:resource="#_GEN____8_SM_TE"/>
+</cim:RegulatingControl>
+<cim:Terminal rdf:ID="_GEN____8_SM_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN____8_SM"/>
+	<cim:IdentifiedObject.name>GEN    8</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_GLEN___1-CLAY___2-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>10.0188</cim:Conductor.x>
+	<cim:Conductor.bch>0.00030303</cim:Conductor.bch>
+	<cim:Conductor.r>3.34541</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_16"/>
+	<cim:IdentifiedObject.name>GLEN   1-CLAY   2-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_GLEN___1-CLAY___2-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_GLEN___1-CLAY___2-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>GLEN   1-CLAY   2-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_GLEN___1-CLAY___2-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_GLEN___1-CLAY___2-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>GLEN   1-CLAY   2-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_GLEN___1-CLAY___2-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GLEN___1-CLAY___2-1_AC"/>
+	<cim:IdentifiedObject.name>GLEN   1-CLAY   2-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_GLEN___1-CLAY___2-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GLEN___1-CLAY___2-1_AC"/>
+	<cim:IdentifiedObject.name>GLEN   1-CLAY   2-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_GLEN___1-KUMI___3-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>28.7844</cim:Conductor.x>
+	<cim:Conductor.bch>0.00023416</cim:Conductor.bch>
+	<cim:Conductor.r>7.87565</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_24"/>
+	<cim:IdentifiedObject.name>GLEN   1-KUMI   3-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_GLEN___1-KUMI___3-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_GLEN___1-KUMI___3-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>GLEN   1-KUMI   3-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_GLEN___1-KUMI___3-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_GLEN___1-KUMI___3-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>GLEN   1-KUMI   3-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_GLEN___1-KUMI___3-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GLEN___1-KUMI___3-1_AC"/>
+	<cim:IdentifiedObject.name>GLEN   1-KUMI   3-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_GLEN___1-KUMI___3-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GLEN___1-KUMI___3-1_AC"/>
+	<cim:IdentifiedObject.name>GLEN   1-KUMI   3-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_GLEN___1_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>GLEN   1_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_GLEN___1_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_20"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_GLEN___1_SS"/>
+	<cim:IdentifiedObject.name>GLEN   1_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:GeographicalRegion rdf:ID="_GR_01">
+	<cim:IdentifiedObject.name>01</cim:IdentifiedObject.name>
+</cim:GeographicalRegion>
+<cim:ACLineSegment rdf:ID="_HANC__12-BUS___14-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.78675</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.34056</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_1"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   14-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_HANC__12-BUS___14-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC__12-BUS___14-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   14-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC__12-BUS___14-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC__12-BUS___14-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   14-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC__12-BUS___14-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-BUS___14-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   14-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_HANC__12-BUS___14-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-BUS___14-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   14-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_HANC__12-BUS___15-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>1.42006</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.720918</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_2"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   15-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_HANC__12-BUS___15-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC__12-BUS___15-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   15-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC__12-BUS___15-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC__12-BUS___15-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   15-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC__12-BUS___15-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-BUS___15-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   15-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_HANC__12-BUS___15-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-BUS___15-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   15-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_HANC__12-BUS___16-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.16384</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.0291</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_3"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   16-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_HANC__12-BUS___16-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC__12-BUS___16-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   16-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC__12-BUS___16-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC__12-BUS___16-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   16-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC__12-BUS___16-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-BUS___16-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   16-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_HANC__12-BUS___16-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-BUS___16-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-BUS   16-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_HANC__12-HANC__13-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>1.5246</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_23"/>
+	<cim:IdentifiedObject.name>HANC  12-HANC  13-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_HANC__12-HANC__13-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC__12-HANC__13-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC  12-HANC  13-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC__12-HANC__13-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC__12-HANC__13-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>HANC  12-HANC  13-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC__12-HANC__13-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-HANC__13-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-HANC  13-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_HANC__12-HANC__13-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC__12-HANC__13-1_AC"/>
+	<cim:IdentifiedObject.name>HANC  12-HANC  13-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:VoltageLevel rdf:ID="_HANC__12_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_22"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_HANC___4_SS"/>
+	<cim:IdentifiedObject.name>HANC  12_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:Substation rdf:ID="_HANC__13_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>HANC  13_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_HANC__13_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_23"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_HANC__13_SS"/>
+	<cim:IdentifiedObject.name>HANC  13_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:PowerTransformer rdf:ID="_HANC___4-HANC__12-1_PT">
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_HANC___4_SS"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1</cim:IdentifiedObject.name>
+</cim:PowerTransformer>
+<cim:RatioTapChanger rdf:ID="_HANC___4-HANC__12-1_RTC_OR">
+	<cim:RatioTapChanger.TransformerWinding rdf:resource="#_HANC___4-HANC__12-1_TW_OR"/>
+	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
+	<cim:TapChanger.neutralU>132</cim:TapChanger.neutralU>
+	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
+	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_RTC_OR</cim:IdentifiedObject.name>
+</cim:RatioTapChanger>
+<cim:TransformerWinding rdf:ID="_HANC___4-HANC__12-1_TW_EX">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.secondary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_HANC___4-HANC__12-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>33</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>0</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_22"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_HANC___4-HANC__12-1_TW_EX_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC___4-HANC__12-1_TW_EX_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_TW_EX_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC___4-HANC__12-1_TW_EX_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC___4-HANC__12-1_TW_EX_TE"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_TW_EX_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC___4-HANC__12-1_TW_EX_TE">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC___4-HANC__12-1_TW_EX"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_TW_EX_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:TransformerWinding rdf:ID="_HANC___4-HANC__12-1_TW_OR">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.primary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>-0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_HANC___4-HANC__12-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>132</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>44.6054</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_21"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_HANC___4-HANC__12-1_TW_OR_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC___4-HANC__12-1_TW_OR_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_TW_OR_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC___4-HANC__12-1_TW_OR_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC___4-HANC__12-1_TW_OR_TE"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_TW_OR_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC___4-HANC__12-1_TW_OR_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC___4-HANC__12-1_TW_OR"/>
+	<cim:IdentifiedObject.name>HANC   4-HANC  12-1_TW_OR_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_HANC___4-ROAN___6-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>7.21354</cim:Conductor.x>
+	<cim:Conductor.bch>5.16529e-005</cim:Conductor.bch>
+	<cim:Conductor.r>2.07346</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_26"/>
+	<cim:IdentifiedObject.name>HANC   4-ROAN   6-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_HANC___4-ROAN___6-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_HANC___4-ROAN___6-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>HANC   4-ROAN   6-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_HANC___4-ROAN___6-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_HANC___4-ROAN___6-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>HANC   4-ROAN   6-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_HANC___4-ROAN___6-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC___4-ROAN___6-1_AC"/>
+	<cim:IdentifiedObject.name>HANC   4-ROAN   6-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_HANC___4-ROAN___6-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_HANC___4-ROAN___6-1_AC"/>
+	<cim:IdentifiedObject.name>HANC   4-ROAN   6-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_HANC___4_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>HANC   4_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_HANC___4_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_21"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_HANC___4_SS"/>
+	<cim:IdentifiedObject.name>HANC   4_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_KUMI___3-HANC___4-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>6.6037</cim:Conductor.x>
+	<cim:Conductor.bch>4.82094e-005</cim:Conductor.bch>
+	<cim:Conductor.r>2.29997</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_21"/>
+	<cim:IdentifiedObject.name>KUMI   3-HANC   4-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_KUMI___3-HANC___4-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_KUMI___3-HANC___4-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>KUMI   3-HANC   4-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_KUMI___3-HANC___4-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_KUMI___3-HANC___4-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>KUMI   3-HANC   4-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_KUMI___3-HANC___4-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_KUMI___3-HANC___4-1_AC"/>
+	<cim:IdentifiedObject.name>KUMI   3-HANC   4-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_KUMI___3-HANC___4-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_KUMI___3-HANC___4-1_AC"/>
+	<cim:IdentifiedObject.name>KUMI   3-HANC   4-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_KUMI___3_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>KUMI   3_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_KUMI___3_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_24"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_KUMI___3_SS"/>
+	<cim:IdentifiedObject.name>KUMI   3_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:EnergyConsumer rdf:ID="_LOAD__10_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__10_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_ROAN__10_VL"/>
+	<cim:IdentifiedObject.name>LOAD  10</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__10_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  10_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__10_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__10_EC"/>
+	<cim:IdentifiedObject.name>LOAD  10_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__12_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__12_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_HANC__12_VL"/>
+	<cim:IdentifiedObject.name>LOAD  12</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__12_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  12_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__12_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__12_EC"/>
+	<cim:IdentifiedObject.name>LOAD  12_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__14_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__14_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___14_VL"/>
+	<cim:IdentifiedObject.name>LOAD  14</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__14_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  14_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__14_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__14_EC"/>
+	<cim:IdentifiedObject.name>LOAD  14_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__15_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__15_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___15_VL"/>
+	<cim:IdentifiedObject.name>LOAD  15</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__15_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  15_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__15_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__15_EC"/>
+	<cim:IdentifiedObject.name>LOAD  15_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__16_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__16_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___16_VL"/>
+	<cim:IdentifiedObject.name>LOAD  16</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__16_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  16_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__16_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__16_EC"/>
+	<cim:IdentifiedObject.name>LOAD  16_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__17_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__17_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___17_VL"/>
+	<cim:IdentifiedObject.name>LOAD  17</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__17_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  17_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__17_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__17_EC"/>
+	<cim:IdentifiedObject.name>LOAD  17_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__18_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__18_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___18_VL"/>
+	<cim:IdentifiedObject.name>LOAD  18</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__18_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  18_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__18_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__18_EC"/>
+	<cim:IdentifiedObject.name>LOAD  18_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__19_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__19_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___19_VL"/>
+	<cim:IdentifiedObject.name>LOAD  19</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__19_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  19_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__19_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__19_EC"/>
+	<cim:IdentifiedObject.name>LOAD  19_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__20_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__20_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___20_VL"/>
+	<cim:IdentifiedObject.name>LOAD  20</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__20_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  20_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__20_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__20_EC"/>
+	<cim:IdentifiedObject.name>LOAD  20_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__21_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__21_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___21_VL"/>
+	<cim:IdentifiedObject.name>LOAD  21</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__21_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  21_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__21_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__21_EC"/>
+	<cim:IdentifiedObject.name>LOAD  21_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__23_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__23_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___23_VL"/>
+	<cim:IdentifiedObject.name>LOAD  23</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__23_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  23_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__23_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__23_EC"/>
+	<cim:IdentifiedObject.name>LOAD  23_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__24_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__24_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___24_VL"/>
+	<cim:IdentifiedObject.name>LOAD  24</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__24_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  24_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__24_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__24_EC"/>
+	<cim:IdentifiedObject.name>LOAD  24_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__26_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__26_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___26_VL"/>
+	<cim:IdentifiedObject.name>LOAD  26</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__26_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  26_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__26_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__26_EC"/>
+	<cim:IdentifiedObject.name>LOAD  26_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__29_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__29_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___29_VL"/>
+	<cim:IdentifiedObject.name>LOAD  29</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__29_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  29_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__29_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__29_EC"/>
+	<cim:IdentifiedObject.name>LOAD  29_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD__30_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD__30_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BUS___30_VL"/>
+	<cim:IdentifiedObject.name>LOAD  30</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD__30_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD  30_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD__30_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD__30_EC"/>
+	<cim:IdentifiedObject.name>LOAD  30_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD___2_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD___2_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_CLAY___2_VL"/>
+	<cim:IdentifiedObject.name>LOAD   2</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD___2_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD   2_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD___2_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD___2_EC"/>
+	<cim:IdentifiedObject.name>LOAD   2_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD___3_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD___3_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_KUMI___3_VL"/>
+	<cim:IdentifiedObject.name>LOAD   3</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD___3_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD   3_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD___3_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD___3_EC"/>
+	<cim:IdentifiedObject.name>LOAD   3_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD___4_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD___4_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_HANC___4_VL"/>
+	<cim:IdentifiedObject.name>LOAD   4</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD___4_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD   4_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD___4_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD___4_EC"/>
+	<cim:IdentifiedObject.name>LOAD   4_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD___5_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD___5_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_FIEL___5_VL"/>
+	<cim:IdentifiedObject.name>LOAD   5</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD___5_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD   5_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD___5_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD___5_EC"/>
+	<cim:IdentifiedObject.name>LOAD   5_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD___7_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD___7_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_BLAI___7_VL"/>
+	<cim:IdentifiedObject.name>LOAD   7</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD___7_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD   7_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD___7_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD___7_EC"/>
+	<cim:IdentifiedObject.name>LOAD   7_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:EnergyConsumer rdf:ID="_LOAD___8_EC">
+	<cim:EnergyConsumer.LoadResponse rdf:resource="#_LOAD___8_EC_LRC"/>
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_REUS___8_VL"/>
+	<cim:IdentifiedObject.name>LOAD   8</cim:IdentifiedObject.name>
+</cim:EnergyConsumer>
+<cim:LoadResponseCharacteristic rdf:ID="_LOAD___8_EC_LRC">
+	<cim:LoadResponseCharacteristic.pVoltageExponent>0</cim:LoadResponseCharacteristic.pVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantPower>1</cim:LoadResponseCharacteristic.qConstantPower>
+	<cim:LoadResponseCharacteristic.qConstantImpedance>0</cim:LoadResponseCharacteristic.qConstantImpedance>
+	<cim:LoadResponseCharacteristic.exponentModel>false</cim:LoadResponseCharacteristic.exponentModel>
+	<cim:LoadResponseCharacteristic.pConstantImpedance>0</cim:LoadResponseCharacteristic.pConstantImpedance>
+	<cim:LoadResponseCharacteristic.qVoltageExponent>0</cim:LoadResponseCharacteristic.qVoltageExponent>
+	<cim:LoadResponseCharacteristic.qConstantCurrent>0</cim:LoadResponseCharacteristic.qConstantCurrent>
+	<cim:LoadResponseCharacteristic.pConstantPower>1</cim:LoadResponseCharacteristic.pConstantPower>
+	<cim:LoadResponseCharacteristic.pConstantCurrent>0</cim:LoadResponseCharacteristic.pConstantCurrent>
+	<cim:IdentifiedObject.name>LOAD   8_EC_LRC</cim:IdentifiedObject.name>
+</cim:LoadResponseCharacteristic>
+<cim:Terminal rdf:ID="_LOAD___8_EC_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_LOAD___8_EC"/>
+	<cim:IdentifiedObject.name>LOAD   8_EC_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_REUS___8-CLOV__28-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>34.848</cim:Conductor.x>
+	<cim:Conductor.bch>0.000245638</cim:Conductor.bch>
+	<cim:Conductor.r>11.0817</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_18"/>
+	<cim:IdentifiedObject.name>REUS   8-CLOV  28-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_REUS___8-CLOV__28-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_REUS___8-CLOV__28-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>REUS   8-CLOV  28-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_REUS___8-CLOV__28-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_REUS___8-CLOV__28-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>REUS   8-CLOV  28-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_REUS___8-CLOV__28-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_REUS___8-CLOV__28-1_AC"/>
+	<cim:IdentifiedObject.name>REUS   8-CLOV  28-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_REUS___8-CLOV__28-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_REUS___8-CLOV__28-1_AC"/>
+	<cim:IdentifiedObject.name>REUS   8-CLOV  28-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_REUS___8_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>REUS   8_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_REUS___8_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_25"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_REUS___8_SS"/>
+	<cim:IdentifiedObject.name>REUS   8_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_ROAN__10-BUS___17-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>0.920205</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.352836</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_4"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   17-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN__10-BUS___17-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN__10-BUS___17-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   17-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN__10-BUS___17-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN__10-BUS___17-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   17-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___17-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___17-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   17-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___17-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___17-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   17-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_ROAN__10-BUS___20-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.27601</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>1.0193</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_7"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   20-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN__10-BUS___20-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN__10-BUS___20-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   20-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN__10-BUS___20-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN__10-BUS___20-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   20-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___20-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___20-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   20-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___20-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___20-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   20-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_ROAN__10-BUS___21-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>0.815661</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.378972</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_8"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   21-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN__10-BUS___21-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN__10-BUS___21-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   21-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN__10-BUS___21-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN__10-BUS___21-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   21-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___21-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___21-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   21-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___21-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___21-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   21-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_ROAN__10-BUS___22-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>1.63241</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.791703</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_9"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   22-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN__10-BUS___22-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN__10-BUS___22-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   22-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN__10-BUS___22-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN__10-BUS___22-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   22-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___22-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___22-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   22-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN__10-BUS___22-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN__10-BUS___22-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN  10-BUS   22-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:VoltageLevel rdf:ID="_ROAN__10_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_28"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_ROAN___6_SS"/>
+	<cim:IdentifiedObject.name>ROAN  10_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:Substation rdf:ID="_ROAN__11_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>ROAN  11_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_ROAN__11_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_29"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_ROAN__11_SS"/>
+	<cim:IdentifiedObject.name>ROAN  11_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_ROAN___6-BLAI___7-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>14.2877</cim:Conductor.x>
+	<cim:Conductor.bch>9.75666e-005</cim:Conductor.bch>
+	<cim:Conductor.r>4.65221</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_0"/>
+	<cim:IdentifiedObject.name>ROAN   6-BLAI   7-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN___6-BLAI___7-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-BLAI___7-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-BLAI   7-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-BLAI___7-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-BLAI___7-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN   6-BLAI   7-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-BLAI___7-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-BLAI___7-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   6-BLAI   7-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN___6-BLAI___7-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-BLAI___7-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   6-BLAI   7-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_ROAN___6-CLOV__28-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>10.437</cim:Conductor.x>
+	<cim:Conductor.bch>7.46097e-005</cim:Conductor.bch>
+	<cim:Conductor.r>2.94466</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_18"/>
+	<cim:IdentifiedObject.name>ROAN   6-CLOV  28-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN___6-CLOV__28-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-CLOV__28-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-CLOV  28-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-CLOV__28-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-CLOV__28-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN   6-CLOV  28-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-CLOV__28-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-CLOV__28-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   6-CLOV  28-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN___6-CLOV__28-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-CLOV__28-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   6-CLOV  28-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_ROAN___6-REUS___8-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>7.31808</cim:Conductor.x>
+	<cim:Conductor.bch>5.16529e-005</cim:Conductor.bch>
+	<cim:Conductor.r>2.09088</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_25"/>
+	<cim:IdentifiedObject.name>ROAN   6-REUS   8-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN___6-REUS___8-1_AC_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-REUS___8-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-REUS   8-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-REUS___8-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-REUS___8-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN   6-REUS   8-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-REUS___8-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-REUS___8-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   6-REUS   8-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN___6-REUS___8-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-REUS___8-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   6-REUS   8-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:PowerTransformer rdf:ID="_ROAN___6-ROAN__10-1_PT">
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_ROAN___6_SS"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1</cim:IdentifiedObject.name>
+</cim:PowerTransformer>
+<cim:RatioTapChanger rdf:ID="_ROAN___6-ROAN__10-1_RTC_OR">
+	<cim:RatioTapChanger.TransformerWinding rdf:resource="#_ROAN___6-ROAN__10-1_TW_OR"/>
+	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
+	<cim:TapChanger.neutralU>132</cim:TapChanger.neutralU>
+	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
+	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_RTC_OR</cim:IdentifiedObject.name>
+</cim:RatioTapChanger>
+<cim:TransformerWinding rdf:ID="_ROAN___6-ROAN__10-1_TW_EX">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.secondary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_ROAN___6-ROAN__10-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>33</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>0</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_28"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_ROAN___6-ROAN__10-1_TW_EX_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-ROAN__10-1_TW_EX_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_TW_EX_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-ROAN__10-1_TW_EX_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-ROAN__10-1_TW_EX_TE"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_TW_EX_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-ROAN__10-1_TW_EX_TE">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-ROAN__10-1_TW_EX"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_TW_EX_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:TransformerWinding rdf:ID="_ROAN___6-ROAN__10-1_TW_OR">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.primary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>-0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_ROAN___6-ROAN__10-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>132</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>96.8774</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_26"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_ROAN___6-ROAN__10-1_TW_OR_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-ROAN__10-1_TW_OR_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_TW_OR_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-ROAN__10-1_TW_OR_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-ROAN__10-1_TW_OR_TE"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_TW_OR_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-ROAN__10-1_TW_OR_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-ROAN__10-1_TW_OR"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN  10-1_TW_OR_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:PowerTransformer rdf:ID="_ROAN___6-ROAN___9-1_PT">
+	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_ROAN___6_SS"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1</cim:IdentifiedObject.name>
+</cim:PowerTransformer>
+<cim:RatioTapChanger rdf:ID="_ROAN___6-ROAN___9-1_RTC_OR">
+	<cim:RatioTapChanger.TransformerWinding rdf:resource="#_ROAN___6-ROAN___9-1_TW_OR"/>
+	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
+	<cim:TapChanger.neutralU>132</cim:TapChanger.neutralU>
+	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
+	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_RTC_OR</cim:IdentifiedObject.name>
+</cim:RatioTapChanger>
+<cim:TransformerWinding rdf:ID="_ROAN___6-ROAN___9-1_TW_EX">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.secondary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_ROAN___6-ROAN___9-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>33</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>0</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_27"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_ROAN___6-ROAN___9-1_TW_EX_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-ROAN___9-1_TW_EX_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_TW_EX_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-ROAN___9-1_TW_EX_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-ROAN___9-1_TW_EX_TE"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_TW_EX_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-ROAN___9-1_TW_EX_TE">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-ROAN___9-1_TW_EX"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_TW_EX_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:TransformerWinding rdf:ID="_ROAN___6-ROAN___9-1_TW_OR">
+	<cim:TransformerWinding.windingType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingType.primary"/>
+	<cim:TransformerWinding.connectionType rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#WindingConnection.Y"/>
+	<cim:TransformerWinding.g>0</cim:TransformerWinding.g>
+	<cim:TransformerWinding.b>-0</cim:TransformerWinding.b>
+	<cim:TransformerWinding.MemberOf_PowerTransformer rdf:resource="#_ROAN___6-ROAN___9-1_PT"/>
+	<cim:TransformerWinding.r>0</cim:TransformerWinding.r>
+	<cim:TransformerWinding.ratedS>100</cim:TransformerWinding.ratedS>
+	<cim:TransformerWinding.ratedU>132</cim:TransformerWinding.ratedU>
+	<cim:TransformerWinding.x>36.2419</cim:TransformerWinding.x>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_26"/>
+</cim:TransformerWinding>
+<cim:CurrentLimit rdf:ID="_ROAN___6-ROAN___9-1_TW_OR_CL">
+	<cim:CurrentLimit.value>437.387</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___6-ROAN___9-1_TW_OR_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_TW_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_TW_OR_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___6-ROAN___9-1_TW_OR_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___6-ROAN___9-1_TW_OR_TE"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_TW_OR_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___6-ROAN___9-1_TW_OR_TE">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___6-ROAN___9-1_TW_OR"/>
+	<cim:IdentifiedObject.name>ROAN   6-ROAN   9-1_TW_OR_TE</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Substation rdf:ID="_ROAN___6_SS">
+	<cim:Substation.Region rdf:resource="#_SGR_01"/>
+	<cim:IdentifiedObject.name>ROAN   6_SS</cim:IdentifiedObject.name>
+</cim:Substation>
+<cim:VoltageLevel rdf:ID="_ROAN___6_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_26"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_ROAN___6_SS"/>
+	<cim:IdentifiedObject.name>ROAN   6_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:ACLineSegment rdf:ID="_ROAN___9-ROAN__10-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>1.1979</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_28"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  10-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN___9-ROAN__10-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___9-ROAN__10-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  10-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___9-ROAN__10-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___9-ROAN__10-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  10-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___9-ROAN__10-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___9-ROAN__10-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  10-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN___9-ROAN__10-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___9-ROAN__10-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  10-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_ROAN___9-ROAN__11-1_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>2.26512</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_29"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  11-1</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_ROAN___9-ROAN__11-1_AC_CL">
+	<cim:CurrentLimit.value>1749.55</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_ROAN___9-ROAN__11-1_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  11-1_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_ROAN___9-ROAN__11-1_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_ROAN___9-ROAN__11-1_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  11-1_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_ROAN___9-ROAN__11-1_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___9-ROAN__11-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  11-1_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_ROAN___9-ROAN__11-1_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_ROAN___9-ROAN__11-1_AC"/>
+	<cim:IdentifiedObject.name>ROAN   9-ROAN  11-1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:VoltageLevel rdf:ID="_ROAN___9_VL">
+	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_27"/>
+	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_ROAN___6_SS"/>
+	<cim:IdentifiedObject.name>ROAN   9_VL</cim:IdentifiedObject.name>
+</cim:VoltageLevel>
+<cim:SubGeographicalRegion rdf:ID="_SGR_01">
+	<cim:SubGeographicalRegion.Region rdf:resource="#_GR_01"/>
+	<cim:IdentifiedObject.name>01</cim:IdentifiedObject.name>
+</cim:SubGeographicalRegion>
+<cim:OperationalLimitType rdf:ID="_T3_PATL_OLT">
+	<cim:OperationalLimitType.direction rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#OperationalLimitDirectionKind.absoluteValue"/>
+	<cim:OperationalLimitType.acceptableDuration>45000</cim:OperationalLimitType.acceptableDuration>
+	<cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
+</cim:OperationalLimitType>
+<cim:OperationalLimitType rdf:ID="_TW_PATL_OLT">
+	<cim:OperationalLimitType.direction rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#OperationalLimitDirectionKind.absoluteValue"/>
+	<cim:OperationalLimitType.acceptableDuration>45000</cim:OperationalLimitType.acceptableDuration>
+	<cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
+</cim:OperationalLimitType>
+<cim:IEC61970CIMVersion rdf:ID="version">
+	<cim:IEC61970CIMVersion.version>IEC61970CIM14v02</cim:IEC61970CIMVersion.version>
+	<cim:IEC61970CIMVersion.date>2009-05-10</cim:IEC61970CIMVersion.date>
+</cim:IEC61970CIMVersion>
+</rdf:RDF>

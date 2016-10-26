@@ -128,6 +128,7 @@ public class DydFilesFromModelica
 		ModelForElement m0 = (ModelForElement) m;
 
 		ModelForElement mi = new ModelForElement(m0.getId(), m0.getStaticId());
+		mi.setInitialization(true);
 		mi.addComponents(m.getComponents()
 				.stream()
 				.map(c -> inferInitializationComponent(c, ddr))

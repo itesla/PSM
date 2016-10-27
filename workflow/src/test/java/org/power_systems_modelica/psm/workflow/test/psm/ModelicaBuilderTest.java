@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
@@ -58,9 +59,9 @@ public class ModelicaBuilderTest
 		String cim = folder.resolve(casename).toString();
 		String ddr = folder.resolve(ddrname).toString();
 		String fakeInit = folder.resolve(ddrname).resolve("fake_init.csv").toString();
-		String outname = "./kk.mo";
-		String modelicaEngineWorkingDir = "./kk";
-		Files.createDirectories(Paths.get(modelicaEngineWorkingDir));
+		String outname = DATA_TMP.resolve("moBuilder.mo").toString();
+		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
+		Files.createDirectories(modelicaEngineWorkingDir);
 
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",
@@ -69,7 +70,7 @@ public class ModelicaBuilderTest
 						TC("ddrType", "DYD",
 								"ddrLocation", ddr,
 								"modelicaEngine", "Fake",
-								"modelicaEngineWorkingDir", modelicaEngineWorkingDir,
+								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"fakeModelicaEngineResults", fakeInit)),
 				TD(ModelicaExporterTask.class, "exporter0",
 						TC("target", outname)));

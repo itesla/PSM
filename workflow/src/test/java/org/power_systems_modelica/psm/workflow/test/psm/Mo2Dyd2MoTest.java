@@ -7,6 +7,7 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,14 +38,14 @@ public class Mo2Dyd2MoTest
 		XmlUtil.isValidationActive = true;
 	}
 
-//	@Test
+	// @Test
 	public void rebuildIeee14() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
 				"ieee14",
 				"itesla/ieee14bus_no_loadflow.mo",
 				"ieee14bus_EQ.xml",
-				"kk_ddr", 
+				"ieee14_ddr",
 				14,
 				5);
 	}
@@ -56,35 +57,35 @@ public class Mo2Dyd2MoTest
 				"ieee30",
 				"itesla/ieee30bus_no_loadflow.mo",
 				"ieee30bus_EQ.xml",
-				"kk_ddr",
+				"ieee30_ddr",
 				30,
 				6);
 	}
-	
-//	@Test
+
+	// @Test
 	public void rebuildIeee57() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
 				"ieee57",
 				"itesla/ieee57bus_no_loadflow.mo",
 				"ieee57bus_EQ.xml",
-				"kk_ddr",
+				"ieee57_ddr",
 				57,
 				7);
 	}
-	
-//	@Test
+
+	// @Test
 	public void rebuildIeee118() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
 				"ieee118",
 				"itesla/ieee118bus_no_loadflow.mo",
 				"ieee118bus_EQ.xml",
-				"kk_ddr",
+				"ieee118_ddr",
 				118,
 				54);
 	}
-	
+
 	private void testRebuildModelica(
 			String foldername,
 			String moname,
@@ -96,15 +97,15 @@ public class Mo2Dyd2MoTest
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
-		// ddr relative to folder
-		ddrLocation = folder.resolve(ddrLocation).toAbsolutePath().toString();
+		// ddr is created in tmp folder
+		ddrLocation = DATA_TMP.resolve(ddrLocation).toAbsolutePath().toString();
 		Files.createDirectories(Paths.get(ddrLocation));
 		String moInput = folder.resolve(moname).toString();
 		String cim = folder.resolve(casename).toString();
 		String fakeInit = folder.resolve(ddrLocation).resolve("fake_init.csv").toString();
-		String moOutput = "./kk.mo";
-		String modelicaEngineWorkingDir = "./kk";
-		Files.createDirectories(Paths.get(modelicaEngineWorkingDir));
+		String moOutput = DATA_TMP.resolve("mo2dyd2mo.mo").toString();
+		Path modelicaEngineWorkingDir = DATA_TMP.resolve("mo2dyd2mo");
+		Files.createDirectories(modelicaEngineWorkingDir);
 
 		Workflow wf = WF(
 				TD(DydFilesFromModelicaTask.class, "mo2dyd0",
@@ -116,11 +117,11 @@ public class Mo2Dyd2MoTest
 						TC("ddrType", "DYD",
 								"ddrLocation", ddrLocation,
 								"modelicaEngine", "Fake",
-								"modelicaEngineWorkingDir", modelicaEngineWorkingDir,
+								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"fakeModelicaEngineResults", fakeInit)),
 				TD(ModelicaExporterTask.class, "exporter0",
 						TC("target", moOutput)));
-		
+
 		wf.start();
 
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);

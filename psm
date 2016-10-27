@@ -19,4 +19,4 @@ function mo2dyd {
 }
 
 exec_tool "$*"
-#mo2dyd $PSM_DATA/test/ieee14/itesla/ieee14bus_no_loadflow.mo $PSM_DATA/tmp/kk_ieee14 
+#mo2dyd $PSM_DATA/test/ieee14/itesla/ieee14bus_no_loadflow.mo $PSM_DATA/tmp/ddr_ieee14 

@@ -35,7 +35,7 @@ public class ModelicaParserTest
 	{
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		String moInput = folder.resolve(moname).toString();
-		String moOutput = DATA_TMP.resolve("kk_" + moname).toString();
+		String moOutput = DATA_TMP.resolve("parsed_" + moname).toString();
 
 		Workflow wf = WF(
 				TD(ModelicaParserTask.class, "moparser0",

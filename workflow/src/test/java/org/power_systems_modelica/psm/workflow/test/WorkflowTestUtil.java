@@ -71,10 +71,13 @@ public class WorkflowTestUtil
 		for (Iterator<String> k = lines.iterator(); k.hasNext();)
 		{
 			String line = k.next();
-			if (!addedConnects && isConnect(line))
+			if (isConnect(line))
 			{
-				lines1.addAll(connects);
-				addedConnects = true;
+				if (!addedConnects)
+				{
+					lines1.addAll(connects);
+					addedConnects = true;
+				}
 			}
 			else lines1.add(line);
 		}

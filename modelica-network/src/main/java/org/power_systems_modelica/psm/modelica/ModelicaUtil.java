@@ -40,7 +40,7 @@ public class ModelicaUtil
 
 	public static String normalizedIdentifier(String id)
 	{
-		return id.replace("-", "_");
+		return id.replace("-", "_").replace(".", "_");
 	}
 
 	public static Map<String, ModelicaModel> groupByNormalizedStaticId(ModelicaDocument mo)

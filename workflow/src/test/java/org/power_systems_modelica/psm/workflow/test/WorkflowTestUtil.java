@@ -7,7 +7,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.google.common.io.ByteStreams;
 
@@ -48,7 +53,37 @@ public class WorkflowTestUtil
 		String mo2 = replace(INDENT, mo1, "$1");
 		String mo3 = replace(WHSP_END, mo2, "$1");
 		String mo4 = replace(EMPTY_LINE, mo3, "\n");
-		return mo4;
+		String mo5 = sortedConnectEquations(mo4);
+
+		return mo5;
+	}
+
+	private static String sortedConnectEquations(String mo)
+	{
+		List<String> lines = Arrays.asList(mo.split(LINE_SEPARATOR));
+		List<String> connects = lines.stream()
+				.filter(WorkflowTestUtil::isConnect)
+				.sorted()
+				.collect(Collectors.toList());
+		List<String> lines1 = new ArrayList<>(lines.size());
+
+		boolean addedConnects = false;
+		for (Iterator<String> k = lines.iterator(); k.hasNext();)
+		{
+			String line = k.next();
+			if (!addedConnects && isConnect(line))
+			{
+				lines1.addAll(connects);
+				addedConnects = true;
+			}
+			else lines1.add(line);
+		}
+		return String.join(LINE_SEPARATOR, lines1);
+	}
+
+	private static boolean isConnect(String line)
+	{
+		return line.startsWith("connect");
 	}
 
 	private static String remove(Pattern p, String s)
@@ -61,10 +96,11 @@ public class WorkflowTestUtil
 		return p.matcher(s).replaceAll(r);
 	}
 
-	private static final Pattern	COMMENT		= Pattern.compile("//.*$", Pattern.MULTILINE);
-	private static final Pattern	INDENT		= Pattern.compile("^[ \\t]+([^ \\t])",
+	private static final Pattern	COMMENT			= Pattern.compile("//.*$", Pattern.MULTILINE);
+	private static final Pattern	INDENT			= Pattern.compile("^[ \\t]+([^ \\t])",
 			Pattern.MULTILINE);
-	private static final Pattern	WHSP_END	= Pattern.compile("([^ \\t])[ \\t]+$",
+	private static final Pattern	WHSP_END		= Pattern.compile("([^ \\t])[ \\t]+$",
 			Pattern.MULTILINE);
-	private static final Pattern	EMPTY_LINE	= Pattern.compile("(\\n|\\r|\\r\\n){2,}+");
+	private static final Pattern	EMPTY_LINE		= Pattern.compile("(\\n|\\r|\\r\\n){2,}+");
+	private static final String		LINE_SEPARATOR	= System.getProperty("line.separator");
 }

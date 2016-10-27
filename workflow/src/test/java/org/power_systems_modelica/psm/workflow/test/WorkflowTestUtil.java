@@ -49,13 +49,18 @@ public class WorkflowTestUtil
 
 	public static String normalizeModelicaText(String label, String mo)
 	{
-		String mo1 = remove(COMMENT, mo);
+		String mo0 = replace(ALL_LINE_SEPARATORS, mo, "\n");
+		String mo1 = remove(COMMENT, mo0);
 		String mo2 = replace(INDENT, mo1, "$1");
 		String mo3 = replace(WHSP_END, mo2, "$1");
 		String mo4 = replace(EMPTY_LINE, mo3, "\n");
-		String mo5 = sortedConnectEquations(mo4);
+		String mo5 = replace(NUMBER_DECIMAL_DIGITS, mo4, "$1$2");
+		String mo6 = replace(DECIMAL_DIGITS_RIGHT0S, mo5, "$1$2");
+		String mo7 = sortedConnectEquations(mo6);
+		String mo8 = mo7.replace(CAP_PWCAP_, CAP_);
+		String moo = mo8;
 
-		return mo5;
+		return moo;
 	}
 
 	private static String sortedConnectEquations(String mo)
@@ -99,11 +104,21 @@ public class WorkflowTestUtil
 		return p.matcher(s).replaceAll(r);
 	}
 
-	private static final Pattern	COMMENT			= Pattern.compile("//.*$", Pattern.MULTILINE);
-	private static final Pattern	INDENT			= Pattern.compile("^[ \\t]+([^ \\t])",
+	private static final Pattern	COMMENT					= Pattern.compile("//.*$",
 			Pattern.MULTILINE);
-	private static final Pattern	WHSP_END		= Pattern.compile("([^ \\t])[ \\t]+$",
+	private static final Pattern	INDENT					= Pattern.compile("^[ \\t]+([^ \\t])",
 			Pattern.MULTILINE);
-	private static final Pattern	EMPTY_LINE		= Pattern.compile("(\\n|\\r|\\r\\n){2,}+");
-	private static final String		LINE_SEPARATOR	= System.getProperty("line.separator");
+	private static final Pattern	WHSP_END				= Pattern.compile("([^ \\t])[ \\t]+$",
+			Pattern.MULTILINE);
+	private static final Pattern	EMPTY_LINE				= Pattern
+			.compile("(\\n|\\r|\\r\\n){2,}+");
+	private static final Pattern	ALL_LINE_SEPARATORS		= Pattern.compile("(\\n|\\r|\\r\\n)");
+	private static final Pattern	NUMBER_DECIMAL_DIGITS	= Pattern
+			.compile("([0-9]\\.[0-9]{4})[0-9]+([^0-9eE])");
+	private static final Pattern	DECIMAL_DIGITS_RIGHT0S	= Pattern
+			.compile("([0-9]\\.[0-9]*[1-9])0+([^0-9eE])");
+	private static final String		CAP_PWCAP_				= "cap_pwCapacitorBank_";
+	private static final String		CAP_					= "cap_";
+
+	private static final String		LINE_SEPARATOR			= System.getProperty("line.separator");
 }

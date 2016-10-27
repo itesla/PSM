@@ -4,6 +4,11 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -99,14 +104,21 @@ public class WorkflowService {
 	public static Workflow startWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le,
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
-		String loadflowId = le.equals(LoadflowEngine.HADES2) ? "loadflowHades2" : "loadflowHelmflow";
-		String loadflowClass = le.equals(LoadflowEngine.HADES2) ? "com.rte_france.itesla.hades2.Hades2Factory"
-				: "com.elequant.helmflow.ipst.HelmFlowFactory";
+		try {
+			Path casePath = findCasePath(Paths.get(cs.getLocation()));
 
-		w = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", cs.getLocation())), TD(LoadFlowTask.class,
-				loadflowId, TC("loadFlowFactoryClass", loadflowClass, "targetStateId", "resultsLoadflow")));
+			String loadflowId = le.equals(LoadflowEngine.HADES2) ? "loadflowHades2" : "loadflowHelmflow";
+			String loadflowClass = le.equals(LoadflowEngine.HADES2) ? "com.rte_france.itesla.hades2.Hades2Factory"
+					: "com.elequant.helmflow.ipst.HelmFlowFactory";
 
-		w.start();
+			w = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())),
+					TD(LoadFlowTask.class, loadflowId,
+							TC("loadFlowFactoryClass", loadflowClass, "targetStateId", "resultsLoadflow")));
+
+			w.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return w;
 	}
@@ -114,7 +126,7 @@ public class WorkflowService {
 	public static WorkflowResult getWorkflowResult(String id) {
 
 		WorkflowResult results = new WorkflowResult();
-		
+
 		Network n = (Network) w.getResults("network");
 		n.getStateManager().allowStateMultiThreadAccess(false);
 		List<BusData> allBusesValues = new ArrayList<>();
@@ -140,21 +152,26 @@ public class WorkflowService {
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
 
-
 		return results;
 	}
 
 	public static Workflow startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits)
 			throws WorkflowCreationException {
 
-		cl = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", cs.getLocation())),
-				TD(LoadFlowTask.class, "loadflowHelmflow",
-						TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory", "targetStateId",
-								"resultsHelmflow")),
-				TD(LoadFlowTask.class, "loadflowHades2", TC("loadFlowFactoryClass",
-						"com.rte_france.itesla.hades2.Hades2Factory", "targetStateId", "resultsHades2")));
+		try {
+			Path casePath = findCasePath(Paths.get(cs.getLocation()));
 
-		cl.start();
+			cl = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())),
+					TD(LoadFlowTask.class, "loadflowHelmflow",
+							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory", "targetStateId",
+									"resultsHelmflow")),
+					TD(LoadFlowTask.class, "loadflowHades2", TC("loadFlowFactoryClass",
+							"com.rte_france.itesla.hades2.Hades2Factory", "targetStateId", "resultsHades2")));
+
+			cl.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return cl;
 	}
@@ -165,7 +182,7 @@ public class WorkflowService {
 
 		Network n = (Network) cl.getResults("network");
 		n.getStateManager().allowStateMultiThreadAccess(false);
-		
+
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
 			Map<String, float[]> bvalues = new HashMap<>();
@@ -173,7 +190,7 @@ public class WorkflowService {
 			float[] As = new float[2];
 			float[] Ps = new float[2];
 			float[] Qs = new float[2];
-			
+
 			n.getStateManager().setWorkingState("resultsHelmflow");
 			Vs[0] = b.getV();
 			As[0] = b.getAngle();
@@ -189,9 +206,9 @@ public class WorkflowService {
 			bvalues.put("P", Ps);
 			bvalues.put("Q", Qs);
 			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
-			
+
 		});
-		
+
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
 			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
@@ -199,12 +216,26 @@ public class WorkflowService {
 		});
 		DoubleSummaryStatistics stats = allBusesValues.stream().map(BusData::getError)
 				.collect(Collectors.summarizingDouble(Float::doubleValue));
-		
+
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
 		results.setStats(stats);
-		
+
 		return results;
+	}
+
+	private static Path findCasePath(Path path) throws IOException {
+
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+			for (Path entry : stream) {
+				if (entry.toString().endsWith("ME.xml"))
+					return entry;
+				else if (entry.toString().endsWith("EQ.xml"))
+					return entry;
+			}
+		}
+
+		return null;
 	}
 
 	private static Random rnd = new Random();

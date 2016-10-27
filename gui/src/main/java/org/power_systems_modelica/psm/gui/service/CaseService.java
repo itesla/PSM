@@ -1,7 +1,13 @@
 package org.power_systems_modelica.psm.gui.service;
 
-import org.power_systems_modelica.psm.gui.MainApp;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,42 +16,23 @@ import javafx.collections.ObservableList;
 
 public class CaseService {
 
-	public static ObservableList<Case> getCases(String catalogName) {
-		LOG.debug("getCases " + catalogName);
+	public static ObservableList<Case> getCases(Catalog catalog) {
+		LOG.debug("getCases " + catalog.getName());
 		ObservableList<Case> cases = FXCollections.observableArrayList();
 
-		if (catalogName.equals("Reference cases"))
-		{
-			Case c = new Case();
-			c.setName("IEEE14");
-			c.setDescription("A portion of the American Electric Power System (in the Midwestern US) as of February, 1962.");
-			c.setLocation("/home/demiguelm/psm/data/test/ieee14/ieee14bus_EQ.xml");
-			c.setSize(14);
-			cases.add(c);
-
-			c = new Case();
-			c.setName("IEEE30");
-			c.setDescription("A portion of the American Electric Power System (in the Midwestern US) as of December, 1961.");
-			c.setLocation("/data/psm/samples/ieee30");
-			c.setSize(30);
-			cases.add(c);
-
-			c = new Case();
-			c.setName("IEEE57");
-			c.setDescription("A portion of the American Electric Power System (in the Midwestern US) as it was in the early 1960's.");
-			c.setLocation("/data/psm/samples/ieee57");
-			c.setSize(57);
-			cases.add(c);
-
-			c = new Case();
-			c.setName("IEEE118");
-			c.setDescription("A portion of the American Electric Power System (in the Midwestern US) as of December, 1962.");
-			c.setLocation("/data/psm/samples/ieee118");
-			c.setSize(118);
-			cases.add(c);
-		}
-		else
-		{
+		if (catalog.getName().equals("Reference cases")) {
+			Path catalogPath = Paths.get(catalog.getLocation());
+			try
+			{
+				listFiles(cases, catalogPath);
+			}
+			catch (IOException e)
+			{
+			  e.printStackTrace();
+			}
+			
+		} 
+		else {
 			Case c = new Case();
 			c.setName("RTE22");
 			c.setDescription("RTE 22 bus internal test case");
@@ -69,6 +56,35 @@ public class CaseService {
 		}
 
 		return cases;
+	}
+
+	private static boolean listFiles(ObservableList<Case> cases, Path path) throws IOException {
+		
+		boolean eq = false, sv = false, tp = false;
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+			for (Path entry : stream) {
+				if (Files.isDirectory(entry)) {
+					if (listFiles(cases, entry)) {
+						Case c = new Case();
+						c.setName(entry.getFileName().toString());
+						c.setLocation(entry.toString());
+						cases.add(c);
+					}
+				}
+				else if (entry.toString().endsWith("ME.xml"))
+					return true;
+				else if (entry.toString().endsWith("EQ.xml"))
+					eq = true;
+				else if (entry.toString().endsWith("SV.xml"))
+					sv = true;
+				else if (entry.toString().endsWith("TP.xml"))
+					tp = true;
+			}
+		}
+		if (eq && sv && tp)
+			return true;
+		
+		return false;
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(CaseService.class);

@@ -1,6 +1,8 @@
 package org.power_systems_modelica.psm.gui;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -231,11 +233,11 @@ public class MainApp extends Application {
 	}
 
 	public ObservableList getCases(String catalogName) {
-		return CaseService.getCases(catalogName);
+		return CaseService.getCases(CatalogService.getCatalogByName(catalogName));
 	}
 
 	public ObservableList getDdrs(String catalogName) {
-		return DdrService.getDdrs(catalogName);
+		return DdrService.getDdrs(CatalogService.getCatalogByName(catalogName));
 	}
 
 	public Workflow getWorkflow() {

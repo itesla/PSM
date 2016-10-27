@@ -3,10 +3,10 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,7 +37,7 @@ public class Mo2Dyd2MoTest
 		XmlUtil.isValidationActive = true;
 	}
 
-	@Test
+//	@Test
 	public void rebuildIeee14() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -49,7 +49,7 @@ public class Mo2Dyd2MoTest
 				5);
 	}
 
-//	@Test TODO Pending to test
+	@Test
 	public void rebuildIeee30() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -61,7 +61,7 @@ public class Mo2Dyd2MoTest
 				6);
 	}
 	
-//	@Test TODO Pending to test
+//	@Test
 	public void rebuildIeee57() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -73,7 +73,7 @@ public class Mo2Dyd2MoTest
 				7);
 	}
 	
-//	@Test TODO Pending to test
+//	@Test
 	public void rebuildIeee118() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -120,6 +120,7 @@ public class Mo2Dyd2MoTest
 								"fakeModelicaEngineResults", fakeInit)),
 				TD(ModelicaExporterTask.class, "exporter0",
 						TC("target", moOutput)));
+		
 		wf.start();
 
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
@@ -138,7 +139,7 @@ public class Mo2Dyd2MoTest
 		Path expected = folder.resolve(moInput);
 		Path actual = Paths.get(moOutput);
 
-		WorkflowTestUtil.assertEqualsText(
+		WorkflowTestUtil.assertEqualsModelicaText(
 				Files.newInputStream(expected),
 				Files.newInputStream(actual));
 	}

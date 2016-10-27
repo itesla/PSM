@@ -1,5 +1,5 @@
 within ;
-model ieee118bus_no_loadflow
+model ieee118bus
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Interfaces.RealOutput omegaRef;
 
@@ -9439,5 +9439,4 @@ equation
   connect(trafo__TIDD__63_TIDD__59_1_PT.n, bus__TIDD__59_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee118bus_no_loadflow;
-
+end ieee118bus;

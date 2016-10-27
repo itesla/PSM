@@ -1,5 +1,5 @@
 within ;
-model ieee30bus_no_loadflow
+model ieee30bus
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Interfaces.RealOutput omegaRef;
 
@@ -1440,5 +1440,4 @@ equation
   connect(trafo__ROAN___6_ROAN___9_1_PT.n, bus__ROAN___9_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee30bus_no_loadflow;
-
+end ieee30bus;

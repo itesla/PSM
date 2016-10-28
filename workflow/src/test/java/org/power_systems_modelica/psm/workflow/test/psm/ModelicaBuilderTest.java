@@ -43,8 +43,8 @@ public class ModelicaBuilderTest
 		testBuild(
 				"ieee14",
 				"ieee14bus_EQ.xml",
-				"ddr",
-				"itesla/ieee14bus_no_loadflow.mo");
+				"ieee14_ddr",
+				"itesla/ieee14bus_no_lf.mo");
 	}
 
 	public void testBuild(
@@ -91,7 +91,7 @@ public class ModelicaBuilderTest
 		Path expected = folder.resolve(expectedmoname);
 		Path actual = Paths.get(outname);
 
-		WorkflowTestUtil.assertEqualsText(
+		WorkflowTestUtil.assertEqualsModelicaText(
 				Files.newInputStream(expected),
 				Files.newInputStream(actual));
 	}

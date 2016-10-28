@@ -38,12 +38,12 @@ public class Mo2Dyd2MoTest
 		XmlUtil.isValidationActive = true;
 	}
 
-	// @Test
+	 @Test
 	public void rebuildIeee14() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
 				"ieee14",
-				"itesla/ieee14bus_no_loadflow.mo",
+				"itesla/ieee14bus_no_lf.mo",
 				"ieee14bus_EQ.xml",
 				"ieee14_ddr",
 				14,
@@ -55,31 +55,31 @@ public class Mo2Dyd2MoTest
 	{
 		testRebuildModelica(
 				"ieee30",
-				"itesla/ieee30bus_no_loadflow.mo",
+				"itesla/ieee30bus_no_lf.mo",
 				"ieee30bus_EQ.xml",
 				"ieee30_ddr",
 				30,
 				6);
 	}
 
-	// @Test
+//	 @Test //Pending to test because for the transformer Bus 39 - bus 57_1_PT the espected X value is 1.3549 but the actual value is 1.355
 	public void rebuildIeee57() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
 				"ieee57",
-				"itesla/ieee57bus_no_loadflow.mo",
+				"itesla/ieee57bus_no_lf.mo",
 				"ieee57bus_EQ.xml",
 				"ieee57_ddr",
 				57,
 				7);
 	}
 
-	// @Test
+//	 @Test //Pending to test
 	public void rebuildIeee118() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
 				"ieee118",
-				"itesla/ieee118bus_no_loadflow.mo",
+				"itesla/ieee118bus_no_lf.mo",
 				"ieee118bus_EQ.xml",
 				"ieee118_ddr",
 				118,

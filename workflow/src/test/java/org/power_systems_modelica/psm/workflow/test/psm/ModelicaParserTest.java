@@ -25,7 +25,7 @@ public class ModelicaParserTest
 	@Test
 	public void parseIeee14() throws WorkflowCreationException, IOException
 	{
-		testParseModelica("ieee14/itesla", "ieee14.mo");
+		testParseModelica("ieee14/itesla", "ieee14bus.mo");
 	}
 
 	private void testParseModelica(

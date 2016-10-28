@@ -65,7 +65,7 @@ public class WorkflowTestUtil
 
 	private static String sortedConnectEquations(String mo)
 	{
-		List<String> lines = Arrays.asList(mo.split(LINE_SEPARATOR));
+		List<String> lines = Arrays.asList(mo.split(ALL_LINE_SEPARATORS.toString()));
 		List<String> connects = lines.stream()
 				.filter(WorkflowTestUtil::isConnect)
 				.sorted()

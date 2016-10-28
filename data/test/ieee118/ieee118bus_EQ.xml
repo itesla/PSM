@@ -853,7 +853,7 @@
 </cim:BaseVoltage>
 <cim:BaseVoltage rdf:ID="_BV_49">
 	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
-	<cim:BaseVoltage.nominalVoltage>138</cim:BaseVoltage.nominalVoltage>
+	<cim:BaseVoltage.nominalVoltage>345</cim:BaseVoltage.nominalVoltage>
 	<cim:IdentifiedObject.name>49</cim:IdentifiedObject.name>
 </cim:BaseVoltage>
 <cim:BaseVoltage rdf:ID="_BV_5">
@@ -958,7 +958,7 @@
 </cim:BaseVoltage>
 <cim:BaseVoltage rdf:ID="_BV_68">
 	<cim:BaseVoltage.isDC>false</cim:BaseVoltage.isDC>
-	<cim:BaseVoltage.nominalVoltage>161</cim:BaseVoltage.nominalVoltage>
+	<cim:BaseVoltage.nominalVoltage>138</cim:BaseVoltage.nominalVoltage>
 	<cim:IdentifiedObject.name>68</cim:IdentifiedObject.name>
 </cim:BaseVoltage>
 <cim:BaseVoltage rdf:ID="_BV_69">
@@ -3191,7 +3191,7 @@
 	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
 	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
 	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
-	<cim:RegulatingControl.targetValue>138.69</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.targetValue>346.725</cim:RegulatingControl.targetValue>
 	<cim:RegulatingControl.Terminal rdf:resource="#_GEN__116_SM_TE"/>
 </cim:RegulatingControl>
 <cim:Terminal rdf:ID="_GEN__116_SM_TE">
@@ -4346,7 +4346,7 @@
 	<cim:RegulatingControl.discrete>false</cim:RegulatingControl.discrete>
 	<cim:RegulatingControl.targetRange>0</cim:RegulatingControl.targetRange>
 	<cim:RegulatingControl.mode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#RegulatingControlModeKind.voltage"/>
-	<cim:RegulatingControl.targetValue>163.415</cim:RegulatingControl.targetValue>
+	<cim:RegulatingControl.targetValue>140.07</cim:RegulatingControl.targetValue>
 	<cim:RegulatingControl.Terminal rdf:resource="#_GEN___87_SM_TE"/>
 </cim:RegulatingControl>
 <cim:Terminal rdf:ID="_GEN___87_SM_TE">

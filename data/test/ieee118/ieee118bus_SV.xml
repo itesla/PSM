@@ -1110,7 +1110,7 @@
 <cim:SvVoltage rdf:ID="_SV_49">
 	<cim:SvVoltage.angle>27.12</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_KYGE_116_TN"/>
-	<cim:SvVoltage.v>138.69</cim:SvVoltage.v>
+	<cim:SvVoltage.v>346.725</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_5">
 	<cim:SvVoltage.angle>30.95</cim:SvVoltage.angle>
@@ -1215,7 +1215,7 @@
 <cim:SvVoltage rdf:ID="_SV_68">
 	<cim:SvVoltage.angle>31.4</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_PINE__87_TN"/>
-	<cim:SvVoltage.v>163.415</cim:SvVoltage.v>
+	<cim:SvVoltage.v>140.07</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_69">
 	<cim:SvVoltage.angle>11.22</cim:SvVoltage.angle>

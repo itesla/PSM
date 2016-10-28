@@ -1,0 +1,837 @@
+<?xml version="1.0" ?>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <model isInitialization="true" staticId="_GEN__100_SM" id="DM_GEN__100_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__100_SM" parFile="params.par" parId="418"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__100_SM" parFile="params.par" parId="419"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__100_SM" parFile="params.par" parId="420"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN__100_SM" parFile="params.par" parId="421"/>
+        <connector id="gen_pwGeneratorM2S__GEN__100_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__100_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__100_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__100_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__100_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__100_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__100_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__100_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__100_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__100_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN__100_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__100_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN__100_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__100_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN__100_SM" var1="pin_VS" id2="reg_sexs__GEN__100_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN__100_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN__100_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__103_SM" id="DM_GEN__103_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__103_SM" parFile="params.par" parId="274"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__103_SM" parFile="params.par" parId="275"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__103_SM" parFile="params.par" parId="276"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN__103_SM" parFile="params.par" parId="277"/>
+        <connector id="gen_pwGeneratorM2S__GEN__103_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__103_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__103_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__103_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__103_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__103_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__103_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__103_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__103_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__103_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN__103_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__103_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN__103_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__103_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN__103_SM" var1="pin_VS" id2="reg_sexs__GEN__103_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN__103_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN__103_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__104_SM" id="DM_GEN__104_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__104_SM" parFile="params.par" parId="138"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__104_SM" parFile="params.par" parId="139"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__104_SM" parFile="params.par" parId="140"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN__104_SM" parFile="params.par" parId="141"/>
+        <connector id="gen_pwGeneratorM2S__GEN__104_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__104_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__104_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__104_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__104_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__104_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__104_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__104_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__104_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__104_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN__104_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__104_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN__104_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__104_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN__104_SM" var1="pin_VS" id2="reg_sexs__GEN__104_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN__104_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN__104_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__105_SM" id="DM_GEN__105_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__105_SM" parFile="params.par" parId="170"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__105_SM" parFile="params.par" parId="171"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__105_SM" parFile="params.par" parId="172"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN__105_SM" parFile="params.par" parId="173"/>
+        <connector id="gen_pwGeneratorM2S__GEN__105_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__105_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__105_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__105_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__105_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__105_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__105_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__105_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__105_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__105_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN__105_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__105_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN__105_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__105_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN__105_SM" var1="pin_VS" id2="reg_sexs__GEN__105_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN__105_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN__105_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__107_SM" id="DM_GEN__107_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__107_SM" parFile="params.par" parId="15"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__107_SM" parFile="params.par" parId="16"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__107_SM" parFile="params.par" parId="17"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN__107_SM" parFile="params.par" parId="18"/>
+        <connector id="gen_pwGeneratorM2S__GEN__107_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__107_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__107_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__107_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__107_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__107_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__107_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__107_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__107_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__107_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN__107_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__107_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN__107_SM" var1="pin_VS" id2="reg_sexs__GEN__107_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__110_SM" id="DM_GEN__110_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__110_SM" parFile="params.par" parId="354"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__110_SM" parFile="params.par" parId="355"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__110_SM" parFile="params.par" parId="356"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN__110_SM" parFile="params.par" parId="357"/>
+        <connector id="gen_pwGeneratorM2S__GEN__110_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__110_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__110_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__110_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__110_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__110_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__110_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__110_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__110_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__110_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN__110_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__110_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN__110_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__110_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN__110_SM" var1="pin_VS" id2="reg_sexs__GEN__110_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN__110_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN__110_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__111_SM" id="DM_GEN__111_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__111_SM" parFile="params.par" parId="434"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__111_SM" parFile="params.par" parId="435"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__111_SM" parFile="params.par" parId="436"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN__111_SM" parFile="params.par" parId="437"/>
+        <connector id="gen_pwGeneratorM2S__GEN__111_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__111_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__111_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__111_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__111_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__111_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__111_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__111_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__111_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__111_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN__111_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__111_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN__111_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__111_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN__111_SM" var1="pin_VS" id2="reg_sexs__GEN__111_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN__111_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN__111_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__112_SM" id="DM_GEN__112_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__112_SM" parFile="params.par" parId="394"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__112_SM" parFile="params.par" parId="395"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__112_SM" parFile="params.par" parId="396"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN__112_SM" parFile="params.par" parId="397"/>
+        <connector id="gen_pwGeneratorM2S__GEN__112_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__112_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__112_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__112_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__112_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__112_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__112_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__112_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__112_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__112_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN__112_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__112_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN__112_SM" var1="pin_VS" id2="reg_sexs__GEN__112_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__113_SM" id="DM_GEN__113_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__113_SM" parFile="params.par" parId="210"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__113_SM" parFile="params.par" parId="211"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__113_SM" parFile="params.par" parId="212"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN__113_SM" parFile="params.par" parId="213"/>
+        <connector id="gen_pwGeneratorM2S__GEN__113_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__113_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__113_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__113_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__113_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__113_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__113_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__113_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__113_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__113_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN__113_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__113_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN__113_SM" var1="pin_VS" id2="reg_sexs__GEN__113_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN__116_SM" id="DM_GEN__116_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN__116_SM" parFile="params.par" parId="98"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN__116_SM" parFile="params.par" parId="99"/>
+        <component name="sexs_Init" id="reg_sexs__GEN__116_SM" parFile="params.par" parId="100"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN__116_SM" parFile="params.par" parId="101"/>
+        <connector id="gen_pwGeneratorM2S__GEN__116_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN__116_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN__116_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN__116_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN__116_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN__116_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN__116_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN__116_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN__116_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN__116_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN__116_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN__116_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN__116_SM" var1="pin_VS" id2="reg_sexs__GEN__116_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___10_SM" id="DM_GEN___10_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___10_SM" parFile="params.par" parId="114"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___10_SM" parFile="params.par" parId="115"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___10_SM" parFile="params.par" parId="116"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___10_SM" parFile="params.par" parId="117"/>
+        <connector id="gen_pwGeneratorM2S__GEN___10_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___10_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___10_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___10_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___10_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___10_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___10_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___10_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___10_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___10_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___10_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___10_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___10_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___10_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___10_SM" var1="pin_VS" id2="reg_sexs__GEN___10_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___10_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___10_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___12_SM" id="DM_GEN___12_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___12_SM" parFile="params.par" parId="50"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___12_SM" parFile="params.par" parId="51"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___12_SM" parFile="params.par" parId="52"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___12_SM" parFile="params.par" parId="53"/>
+        <connector id="gen_pwGeneratorM2S__GEN___12_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___12_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___12_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___12_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___12_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___12_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___12_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___12_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___12_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___12_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___12_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___12_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___12_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___12_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___12_SM" var1="pin_VS" id2="reg_sexs__GEN___12_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___12_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___12_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___15_SM" id="DM_GEN___15_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___15_SM" parFile="params.par" parId="338"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___15_SM" parFile="params.par" parId="339"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___15_SM" parFile="params.par" parId="340"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___15_SM" parFile="params.par" parId="341"/>
+        <connector id="gen_pwGeneratorM2S__GEN___15_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___15_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___15_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___15_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___15_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___15_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___15_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___15_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___15_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___15_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___15_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___15_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___15_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___15_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___15_SM" var1="pin_VS" id2="reg_sexs__GEN___15_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___15_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___15_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___18_SM" id="DM_GEN___18_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___18_SM" parFile="params.par" parId="194"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___18_SM" parFile="params.par" parId="195"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___18_SM" parFile="params.par" parId="196"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___18_SM" parFile="params.par" parId="197"/>
+        <connector id="gen_pwGeneratorM2S__GEN___18_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___18_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___18_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___18_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___18_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___18_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___18_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___18_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___18_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___18_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___18_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___18_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___18_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___18_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___18_SM" var1="pin_VS" id2="reg_sexs__GEN___18_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___18_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___18_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___19_SM" id="DM_GEN___19_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___19_SM" parFile="params.par" parId="162"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___19_SM" parFile="params.par" parId="163"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___19_SM" parFile="params.par" parId="164"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___19_SM" parFile="params.par" parId="165"/>
+        <connector id="gen_pwGeneratorM2S__GEN___19_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___19_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___19_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___19_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___19_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___19_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___19_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___19_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___19_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___19_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___19_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___19_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___19_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___19_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___19_SM" var1="pin_VS" id2="reg_sexs__GEN___19_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___19_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___19_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___24_SM" id="DM_GEN___24_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___24_SM" parFile="params.par" parId="34"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___24_SM" parFile="params.par" parId="35"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___24_SM" parFile="params.par" parId="36"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___24_SM" parFile="params.par" parId="37"/>
+        <connector id="gen_pwGeneratorM2S__GEN___24_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___24_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___24_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___24_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___24_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___24_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___24_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___24_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___24_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___24_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___24_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___24_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___24_SM" var1="pin_VS" id2="reg_sexs__GEN___24_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___25_SM" id="DM_GEN___25_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___25_SM" parFile="params.par" parId="410"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___25_SM" parFile="params.par" parId="411"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___25_SM" parFile="params.par" parId="412"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___25_SM" parFile="params.par" parId="413"/>
+        <connector id="gen_pwGeneratorM2S__GEN___25_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___25_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___25_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___25_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___25_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___25_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___25_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___25_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___25_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___25_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___25_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___25_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___25_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___25_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___25_SM" var1="pin_VS" id2="reg_sexs__GEN___25_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___25_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___25_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___26_SM" id="DM_GEN___26_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___26_SM" parFile="params.par" parId="370"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___26_SM" parFile="params.par" parId="371"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___26_SM" parFile="params.par" parId="372"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___26_SM" parFile="params.par" parId="373"/>
+        <connector id="gen_pwGeneratorM2S__GEN___26_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___26_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___26_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___26_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___26_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___26_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___26_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___26_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___26_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___26_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___26_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___26_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___26_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___26_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___26_SM" var1="pin_VS" id2="reg_sexs__GEN___26_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___26_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___26_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___27_SM" id="DM_GEN___27_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___27_SM" parFile="params.par" parId="306"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___27_SM" parFile="params.par" parId="307"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___27_SM" parFile="params.par" parId="308"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___27_SM" parFile="params.par" parId="309"/>
+        <connector id="gen_pwGeneratorM2S__GEN___27_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___27_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___27_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___27_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___27_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___27_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___27_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___27_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___27_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___27_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___27_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___27_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___27_SM" var1="pin_VS" id2="reg_sexs__GEN___27_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___31_SM" id="DM_GEN___31_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___31_SM" parFile="params.par" parId="202"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___31_SM" parFile="params.par" parId="203"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___31_SM" parFile="params.par" parId="204"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___31_SM" parFile="params.par" parId="205"/>
+        <connector id="gen_pwGeneratorM2S__GEN___31_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___31_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___31_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___31_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___31_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___31_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___31_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___31_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___31_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___31_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___31_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___31_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___31_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___31_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___31_SM" var1="pin_VS" id2="reg_sexs__GEN___31_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___31_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___31_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___32_SM" id="DM_GEN___32_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___32_SM" parFile="params.par" parId="266"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___32_SM" parFile="params.par" parId="267"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___32_SM" parFile="params.par" parId="268"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___32_SM" parFile="params.par" parId="269"/>
+        <connector id="gen_pwGeneratorM2S__GEN___32_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___32_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___32_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___32_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___32_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___32_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___32_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___32_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___32_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___32_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___32_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___32_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___32_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___32_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___32_SM" var1="pin_VS" id2="reg_sexs__GEN___32_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___32_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___32_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___34_SM" id="DM_GEN___34_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___34_SM" parFile="params.par" parId="346"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___34_SM" parFile="params.par" parId="347"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___34_SM" parFile="params.par" parId="348"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___34_SM" parFile="params.par" parId="349"/>
+        <connector id="gen_pwGeneratorM2S__GEN___34_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___34_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___34_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___34_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___34_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___34_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___34_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___34_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___34_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___34_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___34_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___34_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___34_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___34_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___34_SM" var1="pin_VS" id2="reg_sexs__GEN___34_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___34_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___34_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___36_SM" id="DM_GEN___36_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___36_SM" parFile="params.par" parId="23"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___36_SM" parFile="params.par" parId="24"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___36_SM" parFile="params.par" parId="25"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___36_SM" parFile="params.par" parId="26"/>
+        <connector id="gen_pwGeneratorM2S__GEN___36_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___36_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___36_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___36_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___36_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___36_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___36_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___36_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___36_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___36_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___36_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___36_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___36_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___36_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___36_SM" var1="pin_VS" id2="reg_sexs__GEN___36_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___36_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___36_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___40_SM" id="DM_GEN___40_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___40_SM" parFile="params.par" parId="122"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___40_SM" parFile="params.par" parId="123"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___40_SM" parFile="params.par" parId="124"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___40_SM" parFile="params.par" parId="125"/>
+        <connector id="gen_pwGeneratorM2S__GEN___40_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___40_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___40_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___40_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___40_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___40_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___40_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___40_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___40_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___40_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___40_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___40_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___40_SM" var1="pin_VS" id2="reg_sexs__GEN___40_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___42_SM" id="DM_GEN___42_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___42_SM" parFile="params.par" parId="186"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___42_SM" parFile="params.par" parId="187"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___42_SM" parFile="params.par" parId="188"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___42_SM" parFile="params.par" parId="189"/>
+        <connector id="gen_pwGeneratorM2S__GEN___42_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___42_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___42_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___42_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___42_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___42_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___42_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___42_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___42_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___42_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___42_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___42_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___42_SM" var1="pin_VS" id2="reg_sexs__GEN___42_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___46_SM" id="DM_GEN___46_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___46_SM" parFile="params.par" parId="386"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___46_SM" parFile="params.par" parId="387"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___46_SM" parFile="params.par" parId="388"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___46_SM" parFile="params.par" parId="389"/>
+        <connector id="gen_pwGeneratorM2S__GEN___46_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___46_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___46_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___46_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___46_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___46_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___46_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___46_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___46_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___46_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___46_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___46_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___46_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___46_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___46_SM" var1="pin_VS" id2="reg_sexs__GEN___46_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___46_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___46_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___49_SM" id="DM_GEN___49_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___49_SM" parFile="params.par" parId="82"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___49_SM" parFile="params.par" parId="83"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___49_SM" parFile="params.par" parId="84"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___49_SM" parFile="params.par" parId="85"/>
+        <connector id="gen_pwGeneratorM2S__GEN___49_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___49_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___49_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___49_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___49_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___49_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___49_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___49_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___49_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___49_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___49_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___49_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___49_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___49_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___49_SM" var1="pin_VS" id2="reg_sexs__GEN___49_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___49_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___49_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___54_SM" id="DM_GEN___54_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___54_SM" parFile="params.par" parId="234"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___54_SM" parFile="params.par" parId="235"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___54_SM" parFile="params.par" parId="236"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___54_SM" parFile="params.par" parId="237"/>
+        <connector id="gen_pwGeneratorM2S__GEN___54_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___54_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___54_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___54_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___54_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___54_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___54_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___54_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___54_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___54_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___54_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___54_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___54_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___54_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___54_SM" var1="pin_VS" id2="reg_sexs__GEN___54_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___54_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___54_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___55_SM" id="DM_GEN___55_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___55_SM" parFile="params.par" parId="290"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___55_SM" parFile="params.par" parId="291"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___55_SM" parFile="params.par" parId="292"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___55_SM" parFile="params.par" parId="293"/>
+        <connector id="gen_pwGeneratorM2S__GEN___55_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___55_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___55_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___55_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___55_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___55_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___55_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___55_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___55_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___55_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___55_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___55_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___55_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___55_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___55_SM" var1="pin_VS" id2="reg_sexs__GEN___55_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___55_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___55_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___56_SM" id="DM_GEN___56_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___56_SM" parFile="params.par" parId="330"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___56_SM" parFile="params.par" parId="331"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___56_SM" parFile="params.par" parId="332"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___56_SM" parFile="params.par" parId="333"/>
+        <connector id="gen_pwGeneratorM2S__GEN___56_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___56_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___56_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___56_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___56_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___56_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___56_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___56_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___56_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___56_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___56_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___56_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___56_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___56_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___56_SM" var1="pin_VS" id2="reg_sexs__GEN___56_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___56_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___56_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___59_SM" id="DM_GEN___59_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___59_SM" parFile="params.par" parId="7"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___59_SM" parFile="params.par" parId="8"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___59_SM" parFile="params.par" parId="9"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___59_SM" parFile="params.par" parId="10"/>
+        <connector id="gen_pwGeneratorM2S__GEN___59_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___59_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___59_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___59_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___59_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___59_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___59_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___59_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___59_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___59_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___59_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___59_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___59_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___59_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___59_SM" var1="pin_VS" id2="reg_sexs__GEN___59_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___59_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___59_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___61_SM" id="DM_GEN___61_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___61_SM" parFile="params.par" parId="66"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___61_SM" parFile="params.par" parId="67"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___61_SM" parFile="params.par" parId="68"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___61_SM" parFile="params.par" parId="69"/>
+        <connector id="gen_pwGeneratorM2S__GEN___61_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___61_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___61_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___61_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___61_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___61_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___61_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___61_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___61_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___61_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___61_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___61_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___61_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___61_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___61_SM" var1="pin_VS" id2="reg_sexs__GEN___61_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___61_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___61_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___62_SM" id="DM_GEN___62_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___62_SM" parFile="params.par" parId="106"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___62_SM" parFile="params.par" parId="107"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___62_SM" parFile="params.par" parId="108"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___62_SM" parFile="params.par" parId="109"/>
+        <connector id="gen_pwGeneratorM2S__GEN___62_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___62_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___62_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___62_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___62_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___62_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___62_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___62_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___62_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___62_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___62_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___62_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___62_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___62_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___62_SM" var1="pin_VS" id2="reg_sexs__GEN___62_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___62_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___62_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___65_SM" id="DM_GEN___65_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___65_SM" parFile="params.par" parId="178"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___65_SM" parFile="params.par" parId="179"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___65_SM" parFile="params.par" parId="180"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___65_SM" parFile="params.par" parId="181"/>
+        <connector id="gen_pwGeneratorM2S__GEN___65_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___65_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___65_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___65_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___65_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___65_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___65_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___65_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___65_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___65_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___65_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___65_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___65_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___65_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___65_SM" var1="pin_VS" id2="reg_sexs__GEN___65_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___65_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___65_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___66_SM" id="DM_GEN___66_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___66_SM" parFile="params.par" parId="282"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___66_SM" parFile="params.par" parId="283"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___66_SM" parFile="params.par" parId="284"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___66_SM" parFile="params.par" parId="285"/>
+        <connector id="gen_pwGeneratorM2S__GEN___66_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___66_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___66_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___66_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___66_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___66_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___66_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___66_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___66_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___66_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___66_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___66_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___66_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___66_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___66_SM" var1="pin_VS" id2="reg_sexs__GEN___66_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___66_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___66_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___69_SM" id="DM_GEN___69_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___69_SM" parFile="params.par" parId="378"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___69_SM" parFile="params.par" parId="379"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___69_SM" parFile="params.par" parId="380"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___69_SM" parFile="params.par" parId="381"/>
+        <connector id="gen_pwGeneratorM2S__GEN___69_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___69_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___69_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___69_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___69_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___69_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___69_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___69_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___69_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___69_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___69_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___69_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___69_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___69_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___69_SM" var1="pin_VS" id2="reg_sexs__GEN___69_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___69_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___69_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___70_SM" id="DM_GEN___70_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___70_SM" parFile="params.par" parId="426"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___70_SM" parFile="params.par" parId="427"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___70_SM" parFile="params.par" parId="428"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___70_SM" parFile="params.par" parId="429"/>
+        <connector id="gen_pwGeneratorM2S__GEN___70_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___70_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___70_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___70_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___70_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___70_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___70_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___70_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___70_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___70_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___70_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___70_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___70_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___70_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___70_SM" var1="pin_VS" id2="reg_sexs__GEN___70_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___70_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___70_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___72_SM" id="DM_GEN___72_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___72_SM" parFile="params.par" parId="74"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___72_SM" parFile="params.par" parId="75"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___72_SM" parFile="params.par" parId="76"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___72_SM" parFile="params.par" parId="77"/>
+        <connector id="gen_pwGeneratorM2S__GEN___72_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___72_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___72_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___72_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___72_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___72_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___72_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___72_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___72_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___72_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___72_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___72_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___72_SM" var1="pin_VS" id2="reg_sexs__GEN___72_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___73_SM" id="DM_GEN___73_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___73_SM" parFile="params.par" parId="90"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___73_SM" parFile="params.par" parId="91"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___73_SM" parFile="params.par" parId="92"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___73_SM" parFile="params.par" parId="93"/>
+        <connector id="gen_pwGeneratorM2S__GEN___73_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___73_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___73_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___73_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___73_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___73_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___73_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___73_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___73_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___73_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___73_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___73_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___73_SM" var1="pin_VS" id2="reg_sexs__GEN___73_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___74_SM" id="DM_GEN___74_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___74_SM" parFile="params.par" parId="146"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___74_SM" parFile="params.par" parId="147"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___74_SM" parFile="params.par" parId="148"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___74_SM" parFile="params.par" parId="149"/>
+        <connector id="gen_pwGeneratorM2S__GEN___74_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___74_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___74_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___74_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___74_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___74_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___74_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___74_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___74_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___74_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___74_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___74_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___74_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___74_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___74_SM" var1="pin_VS" id2="reg_sexs__GEN___74_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___74_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___74_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___76_SM" id="DM_GEN___76_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___76_SM" parFile="params.par" parId="218"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___76_SM" parFile="params.par" parId="219"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___76_SM" parFile="params.par" parId="220"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___76_SM" parFile="params.par" parId="221"/>
+        <connector id="gen_pwGeneratorM2S__GEN___76_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___76_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___76_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___76_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___76_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___76_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___76_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___76_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___76_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___76_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___76_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___76_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___76_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___76_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___76_SM" var1="pin_VS" id2="reg_sexs__GEN___76_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___76_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___76_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___77_SM" id="DM_GEN___77_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___77_SM" parFile="params.par" parId="242"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___77_SM" parFile="params.par" parId="243"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___77_SM" parFile="params.par" parId="244"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___77_SM" parFile="params.par" parId="245"/>
+        <connector id="gen_pwGeneratorM2S__GEN___77_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___77_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___77_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___77_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___77_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___77_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___77_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___77_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___77_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___77_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___77_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___77_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___77_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___77_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___77_SM" var1="pin_VS" id2="reg_sexs__GEN___77_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___77_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___77_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___80_SM" id="DM_GEN___80_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___80_SM" parFile="params.par" parId="314"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___80_SM" parFile="params.par" parId="315"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___80_SM" parFile="params.par" parId="316"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___80_SM" parFile="params.par" parId="317"/>
+        <connector id="gen_pwGeneratorM2S__GEN___80_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___80_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___80_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___80_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___80_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___80_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___80_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___80_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___80_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___80_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___80_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___80_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___80_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___80_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___80_SM" var1="pin_VS" id2="reg_sexs__GEN___80_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___80_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___80_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___85_SM" id="DM_GEN___85_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___85_SM" parFile="params.par" parId="130"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___85_SM" parFile="params.par" parId="131"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___85_SM" parFile="params.par" parId="132"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___85_SM" parFile="params.par" parId="133"/>
+        <connector id="gen_pwGeneratorM2S__GEN___85_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___85_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___85_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___85_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___85_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___85_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___85_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___85_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___85_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___85_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___85_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___85_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___85_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___85_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___85_SM" var1="pin_VS" id2="reg_sexs__GEN___85_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___85_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___85_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___87_SM" id="DM_GEN___87_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___87_SM" parFile="params.par" parId="154"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___87_SM" parFile="params.par" parId="155"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___87_SM" parFile="params.par" parId="156"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___87_SM" parFile="params.par" parId="157"/>
+        <connector id="gen_pwGeneratorM2S__GEN___87_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___87_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___87_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___87_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___87_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___87_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___87_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___87_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___87_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___87_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___87_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___87_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___87_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___87_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___87_SM" var1="pin_VS" id2="reg_sexs__GEN___87_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___87_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___87_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___89_SM" id="DM_GEN___89_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___89_SM" parFile="params.par" parId="298"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___89_SM" parFile="params.par" parId="299"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___89_SM" parFile="params.par" parId="300"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___89_SM" parFile="params.par" parId="301"/>
+        <connector id="gen_pwGeneratorM2S__GEN___89_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___89_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___89_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___89_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___89_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___89_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___89_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___89_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___89_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___89_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___89_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___89_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___89_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___89_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___89_SM" var1="pin_VS" id2="reg_sexs__GEN___89_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___89_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___89_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___90_SM" id="DM_GEN___90_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___90_SM" parFile="params.par" parId="258"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___90_SM" parFile="params.par" parId="259"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___90_SM" parFile="params.par" parId="260"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___90_SM" parFile="params.par" parId="261"/>
+        <connector id="gen_pwGeneratorM2S__GEN___90_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___90_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___90_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___90_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___90_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___90_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___90_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___90_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___90_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___90_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___90_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___90_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___90_SM" var1="pin_VS" id2="reg_sexs__GEN___90_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___91_SM" id="DM_GEN___91_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___91_SM" parFile="params.par" parId="362"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___91_SM" parFile="params.par" parId="363"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___91_SM" parFile="params.par" parId="364"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___91_SM" parFile="params.par" parId="365"/>
+        <connector id="gen_pwGeneratorM2S__GEN___91_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___91_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___91_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___91_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___91_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___91_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___91_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___91_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___91_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___91_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___91_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___91_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___91_SM" var1="pin_VS" id2="reg_sexs__GEN___91_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___92_SM" id="DM_GEN___92_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___92_SM" parFile="params.par" parId="402"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___92_SM" parFile="params.par" parId="403"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___92_SM" parFile="params.par" parId="404"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN___92_SM" parFile="params.par" parId="405"/>
+        <connector id="gen_pwGeneratorM2S__GEN___92_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___92_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___92_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___92_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___92_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___92_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___92_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___92_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___92_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___92_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN___92_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___92_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN___92_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___92_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN___92_SM" var1="pin_VS" id2="reg_sexs__GEN___92_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN___92_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN___92_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN___99_SM" id="DM_GEN___99_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN___99_SM" parFile="params.par" parId="250"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN___99_SM" parFile="params.par" parId="251"/>
+        <component name="sexs_Init" id="reg_sexs__GEN___99_SM" parFile="params.par" parId="252"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN___99_SM" parFile="params.par" parId="253"/>
+        <connector id="gen_pwGeneratorM2S__GEN___99_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN___99_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN___99_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN___99_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN___99_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN___99_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN___99_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN___99_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN___99_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN___99_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN___99_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN___99_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN___99_SM" var1="pin_VS" id2="reg_sexs__GEN___99_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN____1_SM" id="DM_GEN____1_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN____1_SM" parFile="params.par" parId="226"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN____1_SM" parFile="params.par" parId="227"/>
+        <component name="sexs_Init" id="reg_sexs__GEN____1_SM" parFile="params.par" parId="228"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN____1_SM" parFile="params.par" parId="229"/>
+        <connector id="gen_pwGeneratorM2S__GEN____1_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN____1_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN____1_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN____1_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN____1_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN____1_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN____1_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN____1_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN____1_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN____1_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN____1_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN____1_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN____1_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN____1_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN____1_SM" var1="pin_VS" id2="reg_sexs__GEN____1_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN____1_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN____1_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN____4_SM" id="DM_GEN____4_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN____4_SM" parFile="params.par" parId="322"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN____4_SM" parFile="params.par" parId="323"/>
+        <component name="sexs_Init" id="reg_sexs__GEN____4_SM" parFile="params.par" parId="324"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN____4_SM" parFile="params.par" parId="325"/>
+        <connector id="gen_pwGeneratorM2S__GEN____4_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN____4_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN____4_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN____4_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN____4_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN____4_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN____4_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN____4_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN____4_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN____4_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN____4_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN____4_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN____4_SM" var1="pin_VS" id2="reg_sexs__GEN____4_SM" var2="pin_VS"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN____6_SM" id="DM_GEN____6_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN____6_SM" parFile="params.par" parId="42"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN____6_SM" parFile="params.par" parId="43"/>
+        <component name="sexs_Init" id="reg_sexs__GEN____6_SM" parFile="params.par" parId="44"/>
+        <component name="gsteam0_Init" id="reg_gsteam0__GEN____6_SM" parFile="params.par" parId="45"/>
+        <connector id="gen_pwGeneratorM2S__GEN____6_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN____6_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN____6_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN____6_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN____6_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN____6_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN____6_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN____6_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN____6_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN____6_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_gsteam0__GEN____6_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN____6_SM" var2="pin_CM"/>
+        <connection id1="reg_gsteam0__GEN____6_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN____6_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_pssi3e2b__GEN____6_SM" var1="pin_VS" id2="reg_sexs__GEN____6_SM" var2="pin_VS"/>
+        <connection id1="reg_pssi3e2b__GEN____6_SM" var1="pin_OMEGA" id2="reg_gsteam0__GEN____6_SM" var2="pin_OMEGA"/>
+    </model>
+    <model isInitialization="true" staticId="_GEN____8_SM" id="DM_GEN____8_SM">
+        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S__GEN____8_SM" parFile="params.par" parId="58"/>
+        <component name="pssi3e2b_Init" id="reg_pssi3e2b__GEN____8_SM" parFile="params.par" parId="59"/>
+        <component name="sexs_Init" id="reg_sexs__GEN____8_SM" parFile="params.par" parId="60"/>
+        <component name="cmconst_Init" id="reg_cmconst__GEN____8_SM" parFile="params.par" parId="61"/>
+        <connector id="gen_pwGeneratorM2S__GEN____8_SM" pin="sortie" target="DYNN:bus:p"/>
+        <connector id="gen_pwGeneratorM2S__GEN____8_SM" pin="omegaRef" target="DYNN:system:omegaRef"/>
+        <connection id1="reg_pssi3e2b__GEN____8_SM" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S__GEN____8_SM" var2="pin_ActivePowerSN"/>
+        <connection id1="reg_pssi3e2b__GEN____8_SM" var1="pin_OMEGA" id2="gen_pwGeneratorM2S__GEN____8_SM" var2="pin_OMEGA"/>
+        <connection id1="reg_sexs__GEN____8_SM" var1="pin_EFD" id2="gen_pwGeneratorM2S__GEN____8_SM" var2="pin_EFD"/>
+        <connection id1="reg_sexs__GEN____8_SM" var1="pin_TerminalVoltage" id2="gen_pwGeneratorM2S__GEN____8_SM" var2="pin_TerminalVoltage"/>
+        <connection id1="reg_cmconst__GEN____8_SM" var1="pin_CM" id2="gen_pwGeneratorM2S__GEN____8_SM" var2="pin_CM"/>
+        <connection id1="reg_pssi3e2b__GEN____8_SM" var1="pin_VS" id2="reg_sexs__GEN____8_SM" var2="pin_VS"/>
+    </model>
+</model_container>

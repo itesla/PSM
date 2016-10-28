@@ -435,7 +435,8 @@
         <par type="STRING" name="SNREF" value="SNREF"/>
         <ref name="ur0" dataSource="IIDM" sourceName="re(u0)"/>
         <ref name="ui0" dataSource="IIDM" sourceName="im(u0)"/>
-        <par type="STRING" name="transformerIncluded" value="false"/>
+        <par type="STRING" name="transformerIncluded" value="true"/>
+        <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
         <par type="STRING" name="Saturated" value="false"/>
         <par type="STRING" name="TX" value="0"/>
         <par type="STRING" name="md" value="0"/>
@@ -463,12 +464,18 @@
         <par type="STRING" name="HIn" value="2.748"/>
         <par type="STRING" name="TSD0" value="0.096"/>
         <par type="STRING" name="XPD" value="0.31"/>
+        <par type="STRING" name="RTfoPu" value="0.0"/>
         <par type="STRING" name="TPD0" value="8.4"/>
+        <par type="STRING" name="XTfoPu" value="0.1"/>
         <par type="STRING" name="rStatIn" value="0.004"/>
+        <par type="STRING" name="U1N" value="18.0"/>
         <par type="STRING" name="TSQ0" value="0.1"/>
         <par type="STRING" name="SN" value="250.0"/>
+        <par type="STRING" name="V1" value="18.0"/>
         <par type="STRING" name="XSD" value="0.275"/>
         <par type="STRING" name="XD" value="1.53"/>
+        <par type="STRING" name="U2N" value="13.8"/>
+        <par type="STRING" name="SNtfo" value="250.0"/>
         <par type="STRING" name="lStatIn" value="0.11"/>
         <par type="STRING" name="XSQ" value="0.346"/>
         <par type="STRING" name="XQ" value="0.99"/>
@@ -946,7 +953,8 @@
         <par type="STRING" name="SNREF" value="SNREF"/>
         <ref name="ur0" dataSource="IIDM" sourceName="re(u0)"/>
         <ref name="ui0" dataSource="IIDM" sourceName="im(u0)"/>
-        <par type="STRING" name="transformerIncluded" value="false"/>
+        <par type="STRING" name="transformerIncluded" value="true"/>
+        <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
         <par type="STRING" name="Saturated" value="false"/>
         <par type="STRING" name="TX" value="0"/>
         <par type="STRING" name="md" value="0"/>
@@ -962,12 +970,18 @@
         <par type="STRING" name="HIn" value="2.748"/>
         <par type="STRING" name="TSD0" value="0.096"/>
         <par type="STRING" name="XPD" value="0.31"/>
+        <par type="STRING" name="RTfoPu" value="0.0"/>
         <par type="STRING" name="TPD0" value="8.4"/>
+        <par type="STRING" name="XTfoPu" value="0.1"/>
         <par type="STRING" name="rStatIn" value="0.004"/>
+        <par type="STRING" name="U1N" value="18.0"/>
         <par type="STRING" name="TSQ0" value="0.1"/>
         <par type="STRING" name="SN" value="250.0"/>
+        <par type="STRING" name="V1" value="18.0"/>
         <par type="STRING" name="XSD" value="0.275"/>
         <par type="STRING" name="XD" value="1.53"/>
+        <par type="STRING" name="U2N" value="13.8"/>
+        <par type="STRING" name="SNtfo" value="250.0"/>
         <par type="STRING" name="lStatIn" value="0.11"/>
         <par type="STRING" name="XSQ" value="0.346"/>
         <par type="STRING" name="XQ" value="0.99"/>

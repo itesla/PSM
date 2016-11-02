@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -22,10 +22,8 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
-import com.google.common.collect.Iterables;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.StateManager;
 
 public class LoadFlowTest
 {
@@ -39,7 +37,7 @@ public class LoadFlowTest
 				TD(StaticNetworkImporterTask.class, "importer0",
 						TC("source", case_)),
 				TD(LoadFlowTask.class, "loadflow0",
-						TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
+						TC("loadFlowFactoryClass", HADES2_FACTORY,
 								"targetCsvFolder", DATA_TMP.resolve("hades").toString())));
 		wf.start();
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
@@ -54,7 +52,7 @@ public class LoadFlowTest
 				TD(StaticNetworkImporterTask.class, "importer0",
 						TC("source", case_)),
 				TD(LoadFlowTask.class, "loadflow0",
-						TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
+						TC("loadFlowFactoryClass", HELMFLOW_FACTORY,
 								"targetCsvFolder", DATA_TMP.resolve("helmflow").toString())));
 		wf.start();
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
@@ -64,23 +62,40 @@ public class LoadFlowTest
 	@Test
 	public void compareHelmflowHades2Ieee14() throws WorkflowCreationException
 	{
-		String case_ = TEST_SAMPLES.resolve("ieee14/ieee14bus_EQ.xml").toString();
-		compareHelmflowHades2(case_);
+		compareHelmflowHades2("ieee14");
+	}
+
+	@Test
+	public void compareHelmflowHades2Ieee30() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("ieee30");
+	}
+
+	@Test
+	public void compareHelmflowHades2Ieee57() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("ieee57");
+	}
+
+	@Test
+	public void compareHelmflowHades2Ieee118() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("ieee118");
 	}
 
 	void compareHelmflowHades2(String case_) throws WorkflowCreationException
 	{
 		if (!isHades2Available()) return;
+		String caseFilename = TEST_SAMPLES.resolve(case_).resolve(case_ + "bus_EQ.xml").toString();
 
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",
-						TC("source", case_)),
+						TC("source", caseFilename)),
 				TD(LoadFlowTask.class, "loadflowHelmflow",
-						TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
+						TC("loadFlowFactoryClass", HELMFLOW_FACTORY,
 								"targetStateId", "resultsHelmflow")),
 				TD(LoadFlowTask.class, "loadflowHades2",
-						TC("loadFlowFactoryClass",
-								"com.rte_france.itesla.hades2.Hades2Factory",
+						TC("loadFlowFactoryClass", HADES2_FACTORY,
 								"targetStateId", "resultsHades2")));
 		wf.start();
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
@@ -89,10 +104,45 @@ public class LoadFlowTest
 
 		Network n = (Network) wf.getResults("network");
 		assertNotNull(n);
-		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
-		assertEquals(5, n.getGeneratorCount());
 
 		n.getStateManager().allowStateMultiThreadAccess(false);
+
+		// Compare HELM Flow results with inputs but do not assert
+		Map<String, Map<String, float[]>> allBusesValuesHF0 = gatherBusesValues(
+				n,
+				"resultsHelmflow",       
+				StateManager.INITIAL_STATE_ID);
+		checkResults(case_, "HF  0", allBusesValuesHF0, "V", 0.01f, 0.1f, false);
+		checkResults(case_, "HF  0", allBusesValuesHF0, "A", 0.01f, 0.1f, false);
+		checkResults(case_, "HF  0", allBusesValuesHF0, "P", 0.01f, 0.1f, false);
+		checkResults(case_, "HF  0", allBusesValuesHF0, "Q", 0.01f, 0.1f, false);
+
+		// Compare Hades2 results with inputs but do not assert
+		Map<String, Map<String, float[]>> allBusesValuesHD20 = gatherBusesValues(
+				n,
+				"resultsHades2",
+				StateManager.INITIAL_STATE_ID);
+		checkResults(case_, "HD2 0", allBusesValuesHD20, "V", 0.01f, 0.1f, false);
+		checkResults(case_, "HD2 0", allBusesValuesHD20, "A", 0.01f, 0.1f, false);
+		checkResults(case_, "HD2 0", allBusesValuesHD20, "P", 0.01f, 0.1f, false);
+		checkResults(case_, "HD2 0", allBusesValuesHD20, "Q", 0.01f, 0.1f, false);
+
+		// Compare between HELM Flow and Hades2 and assert differences should be lower than ...
+		Map<String, Map<String, float[]>> allBusesValues = gatherBusesValues(
+				n,
+				"resultsHelmflow",
+				"resultsHades2");
+		checkResults(case_, "HF-HD", allBusesValues, "V", 0.01f, 0.1f, true);
+		// checkResults(allBusesValues, "A", 0.1f, 0.2f);
+		// checkResults(case_, allBusesValues, "P", 0.001f, 0.02f);
+		// checkResults(case_, allBusesValues, "Q", 0.01f, 0.1f);
+	}
+
+	private Map<String, Map<String, float[]>> gatherBusesValues(
+			Network n,
+			String caseId0,
+			String caseId1)
+	{
 		Map<String, Map<String, float[]>> allBusesValues = new HashMap<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
 			Map<String, float[]> bvalues = new HashMap<>();
@@ -100,12 +150,12 @@ public class LoadFlowTest
 			float[] As = new float[2];
 			float[] Ps = new float[2];
 			float[] Qs = new float[2];
-			n.getStateManager().setWorkingState("resultsHelmflow");
+			n.getStateManager().setWorkingState(caseId0);
 			Vs[0] = b.getV();
 			As[0] = b.getAngle();
 			Ps[0] = b.getP();
 			Qs[0] = b.getQ();
-			n.getStateManager().setWorkingState("resultsHades2");
+			n.getStateManager().setWorkingState(caseId1);
 			Vs[1] = b.getV();
 			As[1] = b.getAngle();
 			Ps[1] = b.getP();
@@ -116,22 +166,51 @@ public class LoadFlowTest
 			bvalues.put("Q", Qs);
 			allBusesValues.put(b.getId(), bvalues);
 		});
-		checkResults(allBusesValues, "V", 0.01f, 0.1f);
-		// checkResults(allBusesValues, "A", 0.1f, 0.2f);
-		checkResults(allBusesValues, "P", 0.001f, 0.02f);
-		checkResults(allBusesValues, "Q", 0.01f, 0.1f);
+		return allBusesValues;
 	}
 
 	private void checkResults(
+			String case_,
+			String label,
 			Map<String, Map<String, float[]>> allBusesValues,
 			String variable,
 			float maxRelativeErrorAverage,
-			float maxRelativeError)
+			float maxRelativeError,
+			boolean assert_)
 	{
 		List<Float> relativeErrors = calcRelativeErrors(allBusesValues, variable);
 		DoubleSummaryStatistics stats = relativeErrors.stream()
 				.collect(Collectors.summarizingDouble(Float::doubleValue));
 
+		debugValues(case_, allBusesValues, variable, relativeErrors);
+		System.err.printf("LF_DIFF_STATS_AVG\t%s\t%s\t%s\t%f\t%f\t%s%n",
+				case_,
+				label,
+				variable,
+				stats.getAverage(),
+				maxRelativeErrorAverage,
+				stats.getAverage() < maxRelativeErrorAverage ? "PASS" : "FAIL");
+		System.err.printf("LF_DIFF_STATS_MAX\t%s\t%s\t%s\t%f\t%f\t%s%n",
+				case_,
+				label,
+				variable,
+				stats.getMax(),
+				maxRelativeError,
+				stats.getMax() < maxRelativeError ? "PASS" : "FAIL");
+
+		if (assert_)
+		{
+			assertTrue(stats.getAverage() < maxRelativeErrorAverage);
+			assertTrue(stats.getMax() < maxRelativeError);
+		}
+	}
+
+	private void debugValues(
+			String case_,
+			Map<String, Map<String, float[]>> allBusesValues,
+			String variable,
+			List<Float> relativeErrors)
+	{
 		List<Float> values0 = allBusesValues.values().stream()
 				.map(bv -> bv.get(variable)[0])
 				.collect(Collectors.toList());
@@ -139,16 +218,17 @@ public class LoadFlowTest
 				.map(bv -> bv.get(variable)[1])
 				.collect(Collectors.toList());
 
-		System.err.printf(
-				"variable %s relativeErrors%n    HELM Flow %s%n    Hades2    %s%n    errors    %s%n    stats     %s%n",
-				variable,
-				Arrays.toString(values0.toArray()),
-				Arrays.toString(values1.toArray()),
-				Arrays.toString(relativeErrors.toArray()),
-				stats);
-
-		assertTrue(stats.getAverage() < maxRelativeErrorAverage);
-		assertTrue(stats.getMax() < maxRelativeError);
+		System.err.printf("LF_DIFF_VALUES\t%s\t%s\tHELM Flow\tHades2\trelative Error%n", case_,
+				variable);
+		for (int k = 0; k < values0.size(); k++)
+		{
+			System.err.printf("LF_DIFF_VALUES\t%s\t%s\t%f\t%f\t%f%n",
+					case_,
+					variable,
+					values0.get(k),
+					values1.get(k),
+					relativeErrors.get(k));
+		}
 	}
 
 	private List<Float> calcRelativeErrors(
@@ -158,6 +238,7 @@ public class LoadFlowTest
 		return allBusesValues.values().stream().map(bv -> {
 			float[] values = bv.get(variable);
 			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
+			err = Math.abs(err);
 			return err;
 		}).collect(Collectors.toList());
 	}
@@ -167,4 +248,7 @@ public class LoadFlowTest
 		// Hades is only available for Linux
 		return System.getProperty("os.name").startsWith("Linux");
 	}
+
+	private static final String	HELMFLOW_FACTORY	= "com.elequant.helmflow.ipst.HelmFlowFactory";
+	private static final String	HADES2_FACTORY		= "com.rte_france.itesla.hades2.Hades2Factory";
 }

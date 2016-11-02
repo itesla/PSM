@@ -2,7 +2,31 @@
 <system_definitions xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <declaration type="Real" id="SNREF" value="100.0" isParameter="true"/>
     <declaration type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef" isParameter="false"/>
-    <equation>
-        <unparsed>omegaRef = (gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.omega*gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.omega*gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn)</unparsed>
-    </equation>
+	<equation>
+		<equal>
+			<left>
+				<literal>omegaRef</literal>
+			</left>
+			<right>
+				<quotient>
+					<dividend>
+						<sum>
+							<forAll>
+								<startsWith prefix="gen_"/>
+								<template variable="_g">_g.omega*_g.SN*_g.HIn</template>
+							</forAll>
+						</sum>
+					</dividend>
+					<divisor>
+						<sum>
+							<forAll>
+								<startsWith prefix="gen_"/>
+								<template variable="_g">_g.SN*_g.HIn</template>
+							</forAll>
+						</sum>
+					</divisor>
+				</quotient>
+			</right>
+		</equal>
+	</equation>
 </system_definitions>

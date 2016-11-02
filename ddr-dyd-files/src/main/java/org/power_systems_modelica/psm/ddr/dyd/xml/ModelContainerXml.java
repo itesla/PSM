@@ -78,7 +78,7 @@ public class ModelContainerXml
 		w.writeDefaultNamespace(XmlUtil.NAMESPACE);
 
 		// Sort models before writing
-		for (Model m : sortedModels(mc.getModelDefinitions()))
+		for (Model m : sortedModels(mc.getModels()))
 			ModelXml.write(w, m);
 
 		w.writeEndElement();

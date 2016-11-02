@@ -43,7 +43,7 @@ public class ModelicaBuilderTest
 		testBuild(
 				"ieee14",
 				"ieee14bus_EQ.xml",
-				"ieee14_ddr",
+				"ddr",
 				"itesla/ieee14bus_no_lf.mo");
 	}
 

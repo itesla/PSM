@@ -6,6 +6,16 @@ import java.util.List;
 
 public class ModelContainer implements DydContent
 {
+	public ModelContainer()
+	{
+		this.name = null;
+	}
+
+	public ModelContainer(String name)
+	{
+		this.name = name;
+	}
+
 	public void setName(String name)
 	{
 		this.name = name;
@@ -16,21 +26,21 @@ public class ModelContainer implements DydContent
 		return name;
 	}
 
-	public List<Model> getModelDefinitions()
+	public List<Model> getModels()
 	{
-		return this.dynamicModelDefinitions;
+		return this.models;
 	}
 
-	public void add(Collection<Model> mdefs)
+	public void add(Collection<Model> ms)
 	{
-		this.dynamicModelDefinitions.addAll(mdefs);
+		this.models.addAll(ms);
 	}
 
-	public void add(Model mdef)
+	public void add(Model m)
 	{
-		this.dynamicModelDefinitions.add(mdef);
+		this.models.add(m);
 	}
 
 	private String				name;
-	private final List<Model>	dynamicModelDefinitions	= new ArrayList<>();
+	private final List<Model>	models	= new ArrayList<>();
 }

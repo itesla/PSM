@@ -1,10 +1,9 @@
 package org.power_systems_modelica.psm.ddr.dyd;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
@@ -15,19 +14,9 @@ import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class ModelProvider
 {
-	public ModelProvider()
-	{
-		containers.add(new ModelContainer());
-	}
-
-	public Collection<ModelContainer> getContainers()
-	{
-		return containers;
-	}
-
 	public Model getModel(Identifiable<?> e)
 	{
-		Model mdef = getDynamicModelForId(validDynamicId(e.getId()));
+		Model mdef = getDynamicModelForId(ModelicaUtil.normalizedIdentifier(e.getId()));
 		if (mdef == null) mdef = getDynamicModelForStaticType(getType(e));
 		return mdef;
 	}
@@ -35,11 +24,6 @@ public class ModelProvider
 	public ModelForEvent getModelForEvent(String e)
 	{
 		return dynamicModelsForEvent.get(e);
-	}
-
-	public ModelContainer getContainer(String name)
-	{
-		return containers.stream().filter(c -> c.getName().equals(name)).findFirst().get();
 	}
 
 	public Model getDynamicModelForId(String id)
@@ -52,26 +36,10 @@ public class ModelProvider
 		return dynamicModelsForType.get(type);
 	}
 
-	public void add(ModelContainer c)
-	{
-		containers.add(c);
-		// We assume the model container will not be further modified,
-		// We will index only the models found right now inside it
-		index(c);
-	}
-
 	public void add(Model m)
 	{
-		// We have always at least one container
 		// We index each model added explicitly
-		containers.get(0).add(m);
 		index(m);
-	}
-
-	private void index(ModelContainer c)
-	{
-		for (Model m : c.getModelDefinitions())
-			index(m);
 	}
 
 	private void index(Model m)
@@ -94,13 +62,6 @@ public class ModelProvider
 		return null;
 	}
 
-	private String validDynamicId(String id)
-	{
-		// Some characters are not allowed in dynamic model identifiers
-		return id.replace('-', '_');
-	}
-
-	private final List<ModelContainer>			containers				= new ArrayList<>();
 	private final Map<String, ModelForElement>	dynamicModelsForElement	= new HashMap<>();
 	private final Map<String, ModelForType>		dynamicModelsForType	= new HashMap<>();
 	private final Map<String, ModelForEvent>	dynamicModelsForEvent	= new HashMap<>();

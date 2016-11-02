@@ -52,7 +52,7 @@ public class ModelicaEventAdderTest
 		ModelicaDocument mo = addEvents(
 				"ieee14",
 				"ieee14bus_EQ.xml",
-				"ieee14_ddr",
+				"ddr",
 				events,
 				1,
 				1);
@@ -85,7 +85,7 @@ public class ModelicaEventAdderTest
 		ModelicaDocument mo = addEvents(
 				"ieee14",
 				"ieee14bus_EQ.xml",
-				"ieee14_ddr",
+				"ddr",
 				events,
 				0,
 				0);

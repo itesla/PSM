@@ -10,7 +10,11 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,6 +48,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 {
 	public DynamicDataRepositoryDydFiles()
 	{
+		modelContainers = new HashMap<>();
 		dynamicModels = new ModelProvider();
 		initializationModels = new ModelProvider();
 		systemDefinitions = new SystemDefinitions();
@@ -131,6 +136,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
 		return mdef.getInjection();
+	}
+
+	public void setSystemDefinitionsName(String systemName)
+	{
+		systemDefinitions.setName(systemName);
 	}
 
 	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
@@ -283,9 +293,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			if (dyd instanceof ModelContainer)
 			{
 				ModelContainer mc = (ModelContainer) dyd;
-				mc.getModelDefinitions().forEach(m -> {
-					if (m.isInitialization()) initializationModels.add(m);
-					else dynamicModels.add(m);
+				mc.getModels().forEach(m -> {
+					addModel(name, m);
 				});
 				resolveParameters(mc);
 			}
@@ -303,7 +312,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	private void resolveParameters(ModelContainer dyd)
 	{
-		for (Model m : dyd.getModelDefinitions())
+		for (Model m : dyd.getModels())
 			for (Component mc : m.getComponents())
 				if (mc.getParameterSetReference() != null)
 					resolveParameters(mc.getParameterSetReference().getContainer());
@@ -347,25 +356,17 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return (name != null && DYD_MATCHER.matches(name));
 	}
 
-	public void write(
-			String systemDefinitionsDefaultName,
-			String dynamicModelsDefaultName,
-			String initializationModelsDefaultName) throws XMLStreamException, IOException
+	public void write() throws XMLStreamException, IOException
 	{
 		Path f;
 
 		// Write all model containers, all model initialization containers and all parameter set containers
-		f = fileForDydContent(systemDefinitions, systemDefinitionsDefaultName);
+		f = fileForDydContent(systemDefinitions);
 		DydXml.write(f, systemDefinitions);
-		for (ModelContainer mc : dynamicModels.getContainers())
+		for (ModelContainer mc : modelContainers.values())
 		{
-			f = fileForDydContent(mc, dynamicModelsDefaultName);
+			f = fileForDydContent(mc);
 			DydXml.write(f, mc);
-		}
-		for (ModelContainer ic : initializationModels.getContainers())
-		{
-			f = fileForDydContent(ic, initializationModelsDefaultName);
-			DydXml.write(f, ic);
 		}
 		for (ParameterSetContainer pc : parameters.getContainers())
 			ParXml.write(location.resolve(pc.getName()), pc);
@@ -381,14 +382,16 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		systemDefinitions.addEquations(equations);
 	}
 
-	public void addModel(Model mdef)
+	public void addModel(String containerName, Model mdef)
 	{
-		dynamicModels.add(mdef);
-	}
-
-	public void addInitializationModel(Model mdefi)
-	{
-		initializationModels.add(mdefi);
+		ModelContainer mc = Optional
+				.ofNullable(modelContainers.get(containerName))
+				.orElse(new ModelContainer(containerName));
+		modelContainers.put(containerName, mc);
+		mc.add(mdef);
+		
+		if (mdef.isInitialization()) initializationModels.add(mdef);
+		else dynamicModels.add(mdef);
 	}
 
 	public Model getDynamicModelForStaticType(String type)
@@ -408,14 +411,15 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		parameters.addContainer(pc);
 	}
 
-	private Path fileForDydContent(DydContent dyd, String defaultName)
+	private Path fileForDydContent(DydContent dyd)
 	{
 		String name = dyd.getName();
-		if (name == null) name = defaultName;
+		Objects.requireNonNull(name);
 		return location.resolve(name + ".dyd");
 	}
 
 	private Path						location;
+	private Map<String, ModelContainer>	modelContainers;
 	private ModelProvider				dynamicModels;
 	private ModelProvider				initializationModels;
 	private SystemDefinitions			systemDefinitions;

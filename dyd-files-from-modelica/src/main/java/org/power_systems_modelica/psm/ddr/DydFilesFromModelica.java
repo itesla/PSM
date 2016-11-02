@@ -55,7 +55,7 @@ public class DydFilesFromModelica
 		// in the dynamic data repository.
 
 		// Obtain the Modelica objects from the MO file
-		ModelicaDocument mo = new ModelicaParser().parse(modelicaFile);
+		ModelicaDocument mo = ModelicaParser.parse(modelicaFile);
 
 		// Try to group all dynamic model components that refer to the same static element
 		// We remove the equations that are related to interconnections between static elements
@@ -71,11 +71,12 @@ public class DydFilesFromModelica
 		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
 		ddr.setLocation(ddrLocation.toString());
 		ddr.addParameterSetContainer(PARAMS_NAME);
+		ddr.setSystemDefinitionsName(SYSTEM_NAME);
 
 		mo2dyd(ms, ddr, fakeInitializationResults);
 
 		// Save the dynamic repository objects as XML files, provide default names for the DYD containers
-		ddr.write(SYSTEM_NAME, MODELS_NAME, INIT_NAME);
+		ddr.write();
 
 		// Save fake initialization results for later use
 		Path fakef = ddrLocation.resolve(FAKE_INIT_NAME);
@@ -107,7 +108,7 @@ public class DydFilesFromModelica
 			if (mdef == null) continue;
 			if (addedModels.contains(mdef)) continue;
 
-			ddr.addModel(mdef);
+			ddr.addModel(MODELS_NAME, mdef);
 			addedModels.add(mdef);
 
 			// TODO Infer proper initialization models.
@@ -115,7 +116,7 @@ public class DydFilesFromModelica
 			// taken from the dynamic model definition used for simulation
 			// and storing them in a separate repository.
 			Model mdefi = inferInitializationModel(mdef, ddr);
-			if (mdefi != null) ddr.addInitializationModel(mdefi);
+			if (mdefi != null) ddr.addModel(MODELS_NAME, mdefi);
 		}
 	}
 
@@ -383,7 +384,6 @@ public class DydFilesFromModelica
 	private static final String	PARAMS_NAME		= "params.par";
 	private static final String	SYSTEM_NAME		= "system";
 	private static final String	MODELS_NAME		= "models";
-	private static final String	INIT_NAME		= "init";
 	private static final String	FAKE_INIT_NAME	= "fake_init.csv";
 
 	private static final Logger	LOG				= LoggerFactory

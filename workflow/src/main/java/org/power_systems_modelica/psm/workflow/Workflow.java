@@ -123,7 +123,6 @@ public class Workflow implements Process
 			WorkflowTask t = k.next();
 			updateState(t.getId(), SCHEDULED);
 			t.run();
-			updateState();
 			if (t.getState() == FAILED) break;
 		}
 	}

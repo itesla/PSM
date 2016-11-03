@@ -2,15 +2,10 @@ package org.power_systems_modelica.psm.ddr.dyd;
 
 public class ModelForElement extends Model
 {
-	public ModelForElement(String id, String staticId)
+	public ModelForElement(String staticId, String id)
 	{
-		this.id = id;
+		super(id);
 		this.staticId = staticId;
-	}
-
-	public String getId()
-	{
-		return id;
 	}
 
 	public String getStaticId()
@@ -18,6 +13,5 @@ public class ModelForElement extends Model
 		return staticId;
 	}
 
-	private final String	id;
-	private final String	staticId;
+	private final String staticId;
 }

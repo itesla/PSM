@@ -11,6 +11,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForAssociation;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForEvent;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
@@ -24,21 +25,20 @@ public class ModelXml
 		boolean isInitialization = Boolean.valueOf(
 				Optional.ofNullable(r.getAttributeValue(null, "isInitialization"))
 						.orElse("false"));
-
-		// The model applies either to a staticId, to a type or to an event
-
-		String staticId = r.getAttributeValue(null, "staticId");
 		String id = r.getAttributeValue(null, "id");
 
+		// The model applies either to a staticId, an association, a type or an event
+		String staticId = r.getAttributeValue(null, "staticId");
+		String association = r.getAttributeValue(null, "association");
 		String type = r.getAttributeValue(null, "type");
-
 		String event = r.getAttributeValue(null, "event");
 		String eventInjection = r.getAttributeValue(null, "injection");
 
 		Model m = null;
-		if (type != null) m = new ModelForType(type);
-		else if (event != null) m = new ModelForEvent(event, Injection.valueOf(eventInjection));
-		else m = new ModelForElement(id, staticId);
+		if (event != null) m = new ModelForEvent(event, Injection.valueOf(eventInjection), id);
+		else if (type != null) m = new ModelForType(type, id);
+		else if (association != null) m = new ModelForAssociation(association, id);
+		else m = new ModelForElement(staticId, id);
 		m.setInitialization(isInitialization);
 
 		return m;
@@ -48,14 +48,20 @@ public class ModelXml
 	{
 		w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeAttribute("isInitialization", Boolean.toString(m.isInitialization()));
-		
+		w.writeAttribute("id", m.getId());
+
 		if (m instanceof ModelForElement)
 		{
 			w.writeAttribute("staticId", ((ModelForElement) m).getStaticId());
-			w.writeAttribute("id", ((ModelForElement) m).getId());
+		}
+		else if (m instanceof ModelForAssociation)
+		{
+			w.writeAttribute("association", ((ModelForAssociation) m).getAssociation());
 		}
 		else if (m instanceof ModelForType)
+		{
 			w.writeAttribute("type", ((ModelForType) m).getType());
+		}
 		else if (m instanceof ModelForEvent)
 		{
 			w.writeAttribute("event", ((ModelForEvent) m).getEvent());

@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.ddr.dyd;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
@@ -14,11 +15,16 @@ import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class ModelProvider
 {
+	public ModelProvider(AssociationProvider associations)
+	{
+		this.associations = associations;
+	}
+
 	public Model getModel(Identifiable<?> e)
 	{
-		Model mdef = getDynamicModelForId(ModelicaUtil.normalizedIdentifier(e.getId()));
-		if (mdef == null) mdef = getDynamicModelForStaticType(getType(e));
-		return mdef;
+		return getDynamicModelForId(ModelicaUtil.normalizedIdentifier(e.getId()))
+				.orElse(getDynamicModelForAssociation(e)
+						.orElse(getDynamicModelForStaticType(getType(e)).orElse(null)));
 	}
 
 	public ModelForEvent getModelForEvent(String e)
@@ -26,14 +32,20 @@ public class ModelProvider
 		return dynamicModelsForEvent.get(e);
 	}
 
-	public Model getDynamicModelForId(String id)
+	public Optional<Model> getDynamicModelForId(String id)
 	{
-		return dynamicModelsForElement.get(id);
+		return Optional.ofNullable(dynamicModelsForElement.get(id));
 	}
 
-	public Model getDynamicModelForStaticType(String type)
+	public Optional<Model> getDynamicModelForStaticType(String type)
 	{
-		return dynamicModelsForType.get(type);
+		return Optional.ofNullable(dynamicModelsForType.get(type));
+	}
+
+	public Optional<Model> getDynamicModelForAssociation(Identifiable<?> e)
+	{
+		Optional<Association> association = associations.findAssociation(e);
+		return association.map(a -> dynamicModelsForAssociation.get(a.getId()));
 	}
 
 	public void add(Model m)
@@ -46,6 +58,10 @@ public class ModelProvider
 	{
 		if (m instanceof ModelForElement)
 			dynamicModelsForElement.put(((ModelForElement) m).getStaticId(), (ModelForElement) m);
+		else if (m instanceof ModelForAssociation)
+			dynamicModelsForAssociation.put(
+					((ModelForAssociation) m).getAssociation(),
+					(ModelForAssociation) m);
 		else if (m instanceof ModelForType)
 			dynamicModelsForType.put(((ModelForType) m).getType(), (ModelForType) m);
 		else if (m instanceof ModelForEvent)
@@ -62,7 +78,9 @@ public class ModelProvider
 		return null;
 	}
 
-	private final Map<String, ModelForElement>	dynamicModelsForElement	= new HashMap<>();
-	private final Map<String, ModelForType>		dynamicModelsForType	= new HashMap<>();
-	private final Map<String, ModelForEvent>	dynamicModelsForEvent	= new HashMap<>();
+	private final AssociationProvider				associations;
+	private final Map<String, ModelForElement>		dynamicModelsForElement		= new HashMap<>();
+	private final Map<String, ModelForAssociation>	dynamicModelsForAssociation	= new HashMap<>();
+	private final Map<String, ModelForType>			dynamicModelsForType		= new HashMap<>();
+	private final Map<String, ModelForEvent>		dynamicModelsForEvent		= new HashMap<>();
 }

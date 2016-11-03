@@ -65,9 +65,9 @@ public class IidmNames
 			switch(mname)
 			{
 			case "ur0":
-				return "re(u0)";
+				return "u0_re";
 			case "ui0":
-				return "im(u0)";
+				return "u0_im";
 			case "V2":
 				return "Vnom";
 			}

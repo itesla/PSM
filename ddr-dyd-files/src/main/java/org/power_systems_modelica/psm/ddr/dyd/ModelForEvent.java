@@ -4,8 +4,9 @@ import org.power_systems_modelica.psm.ddr.DynamicDataRepository.Injection;
 
 public class ModelForEvent extends Model
 {
-	public ModelForEvent(String event, Injection injection)
+	public ModelForEvent(String event, Injection injection, String baseId)
 	{
+		super(baseId);
 		this.event = event;
 		this.injection = injection;
 	}

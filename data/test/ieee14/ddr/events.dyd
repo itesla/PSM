@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
-	<model event="BusFault" injection="ADD">
-		<component name="iPSL.Electrical.Events.PwFault">
+	<model event="BusFault" injection="ADD" id="EVT{staticId}">
+		<component name="iPSL.Electrical.Events.PwFault" id="pwFault_{staticId}">
 			<ref name="R" dataSource="EVENT" sourceName="R"/>
 			<ref name="X" dataSource="EVENT" sourceName="X"/>
 			<ref name="t1" dataSource="EVENT" sourceName="t1"/>
@@ -9,42 +9,42 @@
 		</component>
 		<connector pin="p" target="DYNN:bus:p"/>
 	</model>
-	<model event="LineFault" injection="REPLACE">
-		<component name="iPSL.Electrical.Events.PwLineFault">
-            <ref name="R1" dataSource="IIDM" sourceName="R_pu"/>
-            <ref name="X1" dataSource="IIDM" sourceName="X_pu"/>
-            <ref name="G1" dataSource="IIDM" sourceName="G1_pu"/>
-            <ref name="B1" dataSource="IIDM" sourceName="B1_pu"/>
-            <ref name="k" dataSource="EVENT" sourceName="k"/>
-            <ref name="Rfault" dataSource="EVENT" sourceName="Rfault"/>
-            <ref name="Xfault" dataSource="EVENT" sourceName="Xfault"/>
-            <ref name="time_1" dataSource="EVENT" sourceName="startTime"/>
-            <ref name="time_2" dataSource="EVENT" sourceName="endTime"/>
-            <ref name="V1_0" dataSource="IIDM" sourceName="V1_pu"/>
-            <ref name="angle1_0" dataSource="IIDM" sourceName="A1"/>
-            <ref name="V2_0" dataSource="IIDM" sourceName="V2_pu"/>
-            <ref name="angle2_0" dataSource="IIDM" sourceName="A2"/>
+	<model event="LineFault" injection="REPLACE" id="EVT{staticId}">
+		<component name="iPSL.Electrical.Events.PwLineFault" id="pwLineFault_{staticId}">
+			<ref name="R1" dataSource="IIDM" sourceName="R_pu"/>
+			<ref name="X1" dataSource="IIDM" sourceName="X_pu"/>
+			<ref name="G1" dataSource="IIDM" sourceName="G1_pu"/>
+			<ref name="B1" dataSource="IIDM" sourceName="B1_pu"/>
+			<ref name="k" dataSource="EVENT" sourceName="k"/>
+			<ref name="Rfault" dataSource="EVENT" sourceName="Rfault"/>
+			<ref name="Xfault" dataSource="EVENT" sourceName="Xfault"/>
+			<ref name="time_1" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="time_2" dataSource="EVENT" sourceName="endTime"/>
+			<ref name="V1_0" dataSource="IIDM" sourceName="V1_pu"/>
+			<ref name="angle1_0" dataSource="IIDM" sourceName="A1"/>
+			<ref name="V2_0" dataSource="IIDM" sourceName="V2_pu"/>
+			<ref name="angle2_0" dataSource="IIDM" sourceName="A2"/>
 		</component>
-        <connector pin="p" target="DYNN:bus1:p"/>
-        <connector pin="n" target="DYNN:bus2:p"/>
+		<connector pin="p" target="DYNN:bus1:p"/>
+		<connector pin="n" target="DYNN:bus2:p"/>
 	</model>
-	<model event="LineOpenReceiverSide" injection="REPLACE">
-		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving">
-		</component>
-		<connector pin="p"/>
-	</model>
-	<model event="LineOpenBothSides" injection="REPLACE">
-		<component name="iPSL.Electrical.Branches.PwLine2Openings">
+	<model event="LineOpenReceiverSide" injection="REPLACE" id="EVT{staticId}">
+		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving" id="pwLineOpeningReceiving_{staticId}">
 		</component>
 		<connector pin="p"/>
 	</model>
-	<model event="BankModification" injection="REPLACE">
-		<component name="iPSL.Electrical.Banks.PwCapacitorBankWithModification">
+	<model event="LineOpenBothSides" injection="REPLACE" id="EVT{staticId}">
+		<component name="iPSL.Electrical.Branches.PwLine2Openings" id="pwLine2Openings_{staticId}">
 		</component>
 		<connector pin="p"/>
 	</model>
-	<model event="LoadVariation" injection="REPLACE">
-		<component name="iPSL.Electrical.Loads.PwLoadwithVariation">
+	<model event="BankModification" injection="REPLACE" id="EVT{staticId}">
+		<component name="iPSL.Electrical.Banks.PwCapacitorBankWithModification" id="pwCapacitorBankWithModification_{staticId}">
+		</component>
+		<connector pin="p"/>
+	</model>
+	<model event="LoadVariation" injection="REPLACE" id="EVT{staticId}">
+		<component name="iPSL.Electrical.Loads.PwLoadwithVariation" id="pwLoadWithVariation_{staticId}">
 		</component>
 		<connector pin="p"/>
 	</model>

@@ -55,7 +55,7 @@ public class SimpleWorkflowTest
 	public void testWorfkflowListenerTwoSuccessfulTasks() throws WorkflowCreationException
 	{
 		Workflow wf = WF(TD(EmptyTask.class, "task0"), TD(EmptyTask.class, "task1"));
-		
+
 		TestWorkflowListener wfl = new TestWorkflowListener();
 		wf.addListener(wfl);
 		wf.start();
@@ -73,7 +73,8 @@ public class SimpleWorkflowTest
 		expected.add(Arrays.asList(TS("task0", SUCCESS), TS("task1", IDLE)));
 		expected.add(Arrays.asList(TS("task0", SUCCESS), TS("task1", SCHEDULED)));
 		expected.add(Arrays.asList(TS("task0", SUCCESS), TS("task1", SUCCESS)));
-		assertThat(expected, is(equalTo(wfl.getRecordedStates())));
+		List<List<TaskStatePair>> actual = wfl.getRecordedStates();
+		assertThat(actual, is(equalTo(expected)));
 
 		int record = 0;
 		for (List<TaskStatePair> states : wfl.getRecordedStates())

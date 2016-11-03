@@ -4,6 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import eu.itesla_project.iidm.network.Identifiable;
+
 public class ParameterSetProvider
 {
 	public Collection<ParameterSetContainer> getContainers()
@@ -27,16 +33,33 @@ public class ParameterSetProvider
 		return parameterSetContainers.get(name);
 	}
 
-	public ParameterSet get(ParameterSetReference ref)
+	public ParameterSet get(ParameterSetReference ref, Identifiable<?> element)
 	{
 		String container = ref.getContainer();
 		ParameterSetContainer c = parameterSetContainers.get(container);
-		if (c == null) return null;
+		if (c == null)
+		{
+			LOG.warn("Parameter set container not found: {}", container);
+			return EMPTY_PARAMETER_SET;
+		}
 
-		String set = ref.getSet();
-		return c.get(set);
+		// The set identifier of the parameter set reference may contain a variable that must be expanded
+		// parId = "{staticId}_params_for_component_a"
+		String setId = DynamicDataRepositoryDydFiles.dynamicId(ref.getSet(), element);
+		ParameterSet set = c.get(setId);
+		if (set == null)
+		{
+			LOG.warn("Parameter set not found. Container = {}, set = {}",
+					container,
+					setId);
+			return EMPTY_PARAMETER_SET;
+		}
+		return set;
 	}
 
-	private final Map<String, ParameterSetContainer> parameterSetContainers = new HashMap<>();
-
+	private final Map<String, ParameterSetContainer>	parameterSetContainers	= new HashMap<>();
+	private static final ParameterSet					EMPTY_PARAMETER_SET		= new ParameterSet(
+			"empty");
+	private static final Logger							LOG						= LoggerFactory
+			.getLogger(ParameterSetProvider.class);
 }

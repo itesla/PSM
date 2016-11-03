@@ -128,7 +128,7 @@ public class DydFilesFromModelica
 		if (!(m instanceof ModelForElement)) return null;
 		ModelForElement m0 = (ModelForElement) m;
 
-		ModelForElement mi = new ModelForElement(m0.getId(), m0.getStaticId());
+		ModelForElement mi = new ModelForElement(m0.getStaticId(), m0.getId());
 		mi.setInitialization(true);
 		mi.addComponents(m.getComponents()
 				.stream()
@@ -155,7 +155,8 @@ public class DydFilesFromModelica
 		}
 		else if (c.getParameterSetReference() != null)
 		{
-			ParameterSet psi = par.newParameterSet();
+			String psetId = c.getParameterSetReference().getSet().concat("_Init");
+			ParameterSet psi = new ParameterSet(psetId);
 			par.add(psi);
 			List<Parameter> params0 = par.get(c.getParameterSetReference().getSet())
 					.getParameters();
@@ -205,7 +206,8 @@ public class DydFilesFromModelica
 			ModelicaModel mo,
 			DynamicDataRepositoryDydFiles ddr)
 	{
-		Model mdef = new ModelForType(stype);
+		String baseId = "DM{staticId}";
+		Model mdef = new ModelForType(stype, baseId);
 		boolean isGeneric = true;
 		mdef.addConnectors(createConnectors(mo, isGeneric));
 
@@ -216,7 +218,8 @@ public class DydFilesFromModelica
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
 		ParameterSet pset = par.newParameterSet();
 		pset.add(buildParameters(stype, d.getArguments()));
-		Component mdefc = new Component(null, d.getType());
+		String componentId = legacyType(stype).concat("_{staticId}");
+		Component mdefc = new Component(componentId, d.getType());
 		mdefc.setParameterSet(pset);
 		mdef.addComponent(mdefc);
 
@@ -239,7 +242,7 @@ public class DydFilesFromModelica
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
 		String type = whichType(mo);
 
-		ModelForElement mdef = new ModelForElement(id, staticId);
+		ModelForElement mdef = new ModelForElement(staticId, id);
 		boolean isGeneric = false;
 		mdef.addConnectors(createConnectors(mo, isGeneric));
 
@@ -250,7 +253,11 @@ public class DydFilesFromModelica
 			Component mdefc = new Component(idc, name);
 			if (d.getArguments() != null && !d.getArguments().isEmpty())
 			{
-				ParameterSet pset = par.newParameterSet();
+				// The id of the parameter set is a composition of the static id and the component id
+				String did0 = d.getId().replace("_".concat(staticId), "");
+				String psetId = staticId.concat("_").concat(did0);
+
+				ParameterSet pset = new ParameterSet(psetId);
 				pset.add(buildParameters(type, d.getArguments()));
 				par.add(pset);
 				ParameterSetReference pref = new ParameterSetReference(
@@ -379,6 +386,25 @@ public class DydFilesFromModelica
 		}
 
 		return Arrays.asList(connectors);
+	}
+
+	private static String legacyType(String type)
+	{
+		switch (type)
+		{
+		case "Bus":
+			return "bus";
+		case "Line":
+			return "line";
+		case "Transformer":
+			return "trafo";
+		case "Load":
+			return "load";
+		case "Shunt":
+			return "cap";
+		default:
+			return "";
+		}
 	}
 
 	private static final String	PARAMS_NAME		= "params.par";

@@ -16,10 +16,10 @@
 	</xs:element>
 	<xs:element name="model_container">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="model" type="dyd:Model" minOccurs="0"
-					maxOccurs="unbounded" />
-			</xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="association" type="dyd:Association" />
+				<xs:element name="model" type="dyd:Model" />
+			</xs:choice>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="parameters">
@@ -115,6 +115,10 @@
 	</xs:complexType>
 
 	<!-- Dynamic models -->
+	<xs:complexType name="Association">
+		<xs:attribute name="pattern" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
 	<xs:complexType name="Model">
 		<xs:sequence>
 			<xs:element name="component" type="dyd:Component"
@@ -130,12 +134,14 @@
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 		<xs:attribute name="isInitialization" use="optional"
-			type="xs:boolean" default="false"/>
+			type="xs:boolean" default="false" />
 
 		<!-- The model applies either to a staticId, to a type or to an event -->
 
 		<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+
+		<xs:attribute name="association" use="optional" type="dyd:nonEmptyString" />
 
 		<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
 
@@ -176,7 +182,7 @@
 	<!-- Parameters -->
 	<xs:complexType name="ParameterSet">
 		<xs:group ref="dyd:parameterItem" minOccurs="1" maxOccurs="unbounded" />
-		<xs:attribute name="id" use="required" type="xs:integer" />
+		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:group name="parameterItem">
 		<xs:choice>

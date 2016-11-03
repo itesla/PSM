@@ -49,8 +49,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	public DynamicDataRepositoryDydFiles()
 	{
 		modelContainers = new HashMap<>();
-		dynamicModels = new ModelProvider();
-		initializationModels = new ModelProvider();
+		associations = new AssociationProvider();
+		dynamicModels = new ModelProvider(associations);
+		initializationModels = new ModelProvider(associations);
 		systemDefinitions = new SystemDefinitions();
 		parameters = new ParameterSetProvider();
 	}
@@ -143,23 +144,32 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		systemDefinitions.setName(systemName);
 	}
 
-	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(Model mdef,
+	public static String dynamicId(String baseId, Identifiable<?> element)
+	{
+		String staticId = element.getId();
+		String dynamicId = baseId.replace("{staticId}",
+				ModelicaUtil.normalizedIdentifier(staticId));
+		return dynamicId;
+	}
+
+	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(
+			Model mdef,
 			Identifiable<?> element)
 	{
-		ModelicaModel m = new ModelicaModel(buildModelicaModelId(mdef, element));
+		ModelicaModel m = new ModelicaModel(dynamicId(mdef.getId(), element));
 		m.setStaticId(element.getId());
 
 		List<ModelicaDeclaration> ds = new ArrayList<>();
-		for (Component mc : mdef.getComponents())
+		for (Component c : mdef.getComponents())
 		{
-			String type = mc.getName();
-			String id = buildModelicaDeclarationId(mdef, mc, element);
-			List<ModelicaArgument> arguments = buildModelicaArguments(mc);
+			String type = c.getName();
+			String did = dynamicId(c.getId(), element);
+			List<ModelicaArgument> arguments = buildModelicaArguments(c, element);
 			Annotation annotation = null;
 
 			// TODO Every Modelica declaration built from a model component definition is a variable, not a parameter
 			boolean isParameter = false;
-			ds.add(new ModelicaDeclaration(type, id, arguments, isParameter, annotation));
+			ds.add(new ModelicaDeclaration(type, did, arguments, isParameter, annotation));
 		}
 		m.addDeclarations(ds);
 
@@ -170,7 +180,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 						// This is right because we only have generic connectors on models with only one component
 						// The general solution should be: the connector has a relative id to the components
 						// And the exact id can be resolved after all components have been instantiated
-						c.getId() == null || c.getId().isEmpty() ? ds.get(0).getId() : c.getId(),
+						c.getId() == null || c.getId().isEmpty()
+								? ds.get(0).getId()
+								: dynamicId(c.getId(), element),
 						c.getPin(),
 						c.getTarget()))
 				.collect(Collectors.toList()));
@@ -178,8 +190,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		List<ModelicaEquation> meqs = new ArrayList<>(mdef.getConnections().size());
 		for (Connection c : mdef.getConnections())
 		{
-			String ref1 = ModelicaUtil.idvar2ref(c.getId1(), c.getVar1());
-			String ref2 = ModelicaUtil.idvar2ref(c.getId2(), c.getVar2());
+			String ref1 = ModelicaUtil.idvar2ref(dynamicId(c.getId1(), element), c.getVar1());
+			String ref2 = ModelicaUtil.idvar2ref(dynamicId(c.getId2(), element), c.getVar2());
 			meqs.add(new ModelicaConnect(ref1, ref2));
 		}
 		m.addEquations(meqs);
@@ -187,43 +199,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return m;
 	}
 
-	private String buildModelicaModelId(Model m, Identifiable<?> element)
+	private List<ModelicaArgument> buildModelicaArguments(Component c, Identifiable<?> element)
 	{
-		// If the model definition refers to a type build the identifier from the element identifier
-		if (m instanceof ModelForType) return ModelicaUtil.dynamicIdFromStaticId(element.getId());
-		else if (m instanceof ModelForElement) return ((ModelForElement) m).getId();
-		// TODO If many events on same element we should assign different identifiers
-		else if (m instanceof ModelForEvent) return "EVT".concat(element.getId());
-
-		throw new RuntimeException(
-				"Don't know how to build Modelica model id for element " +
-						element.getId() +
-						" on model class " +
-						m.getClass().getName());
-	}
-
-	private String buildModelicaDeclarationId(
-			Model m,
-			Component c,
-			Identifiable<?> element)
-	{
-		// If the model definition refers to a type use a combination of component name and element id
-		if (m instanceof ModelForType)
-			return ModelicaUtil.dynamicDeclarationIdFromModelForType(
-					((ModelForType) m).getType(),
-					c.getName(),
-					element.getId());
-		else if (m instanceof ModelForEvent)
-			return ModelicaUtil.dynamicDeclarationIdFromModelForEvent(
-					((ModelForEvent) m).getEvent(),
-					c.getName(),
-					element.getId());
-		return c.getId();
-	}
-
-	private List<ModelicaArgument> buildModelicaArguments(Component mc)
-	{
-		ParameterSet set = getParameterSet(mc);
+		ParameterSet set = getParameterSet(c, element);
 		if (set == null) return null;
 
 		List<ModelicaArgument> arguments = new ArrayList<>(set.getParameters().size());
@@ -242,13 +220,13 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return arguments;
 	}
 
-	private ParameterSet getParameterSet(Component mc)
+	private ParameterSet getParameterSet(Component c, Identifiable<?> element)
 	{
-		ParameterSet set = mc.getParameterSet();
+		ParameterSet set = c.getParameterSet();
 		if (set == null)
 		{
-			ParameterSetReference pref = mc.getParameterSetReference();
-			if (pref != null) set = parameters.get(pref);
+			ParameterSetReference pref = c.getParameterSetReference();
+			if (pref != null) set = parameters.get(pref, element);
 		}
 		return set;
 	}
@@ -293,9 +271,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			if (dyd instanceof ModelContainer)
 			{
 				ModelContainer mc = (ModelContainer) dyd;
-				mc.getModels().forEach(m -> {
-					addModel(name, m);
-				});
+				mc.getAssociations().forEach(a -> addAssociation(name, a));
+				mc.getModels().forEach(m -> addModel(name, m));
 				resolveParameters(mc);
 			}
 			else if (dyd instanceof SystemDefinitions)
@@ -384,19 +361,31 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	public void addModel(String containerName, Model mdef)
 	{
-		ModelContainer mc = Optional
-				.ofNullable(modelContainers.get(containerName))
-				.orElse(new ModelContainer(containerName));
-		modelContainers.put(containerName, mc);
+		ModelContainer mc = getContainer(containerName);
 		mc.add(mdef);
-		
 		if (mdef.isInitialization()) initializationModels.add(mdef);
 		else dynamicModels.add(mdef);
 	}
 
+	public void addAssociation(String containerName, Association a)
+	{
+		ModelContainer mc = getContainer(containerName);
+		mc.add(a);
+		associations.add(a);
+	}
+
 	public Model getDynamicModelForStaticType(String type)
 	{
-		return dynamicModels.getDynamicModelForStaticType(type);
+		return dynamicModels.getDynamicModelForStaticType(type).orElse(null);
+	}
+
+	private ModelContainer getContainer(String name)
+	{
+		ModelContainer mc = Optional
+				.ofNullable(modelContainers.get(name))
+				.orElse(new ModelContainer(name));
+		modelContainers.put(name, mc);
+		return mc;
 	}
 
 	public ParameterSetContainer getParameterSetContainer(String name)
@@ -424,6 +413,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	private ModelProvider				initializationModels;
 	private SystemDefinitions			systemDefinitions;
 	private ParameterSetProvider		parameters;
+	private AssociationProvider			associations;
 
 	private static final PathMatcher	DYD_MATCHER	= FileSystems
 			.getDefault().getPathMatcher("glob:*.dyd");

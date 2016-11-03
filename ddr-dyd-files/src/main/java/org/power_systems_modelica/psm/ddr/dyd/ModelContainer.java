@@ -41,6 +41,17 @@ public class ModelContainer implements DydContent
 		this.models.add(m);
 	}
 
-	private String				name;
-	private final List<Model>	models	= new ArrayList<>();
+	public void add(Association a)
+	{
+		this.associations.add(a);
+	}
+
+	public List<Association> getAssociations()
+	{
+		return associations;
+	}
+
+	private String					name;
+	private final List<Model>		models			= new ArrayList<>();
+	private final List<Association>	associations	= new ArrayList<>();
 }

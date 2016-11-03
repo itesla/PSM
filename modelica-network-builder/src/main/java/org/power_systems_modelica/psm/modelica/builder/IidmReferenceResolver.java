@@ -153,9 +153,9 @@ public class IidmReferenceResolver implements ReferenceResolver
 
 			switch (name)
 			{
-			case "re(u0)":
+			case "u0_re":
 				return u.getReal();
-			case "im(u0)":
+			case "u0_im":
 				return u.getImaginary();
 			}
 		}

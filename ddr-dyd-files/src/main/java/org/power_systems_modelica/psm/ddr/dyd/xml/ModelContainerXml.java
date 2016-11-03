@@ -31,6 +31,9 @@ public class ModelContainerXml
 		XmlUtil.readUntilEndElement(MODEL_CONTAINER_ELEMENT_NAME, r, () -> {
 			switch (r.getLocalName())
 			{
+			case AssociationXml.ROOT_ELEMENT_NAME:
+				dyd.add(AssociationXml.read(r));
+				break;
 			case ModelXml.ROOT_ELEMENT_NAME:
 				model[0] = ModelXml.read(r);
 				dyd.add(model[0]);

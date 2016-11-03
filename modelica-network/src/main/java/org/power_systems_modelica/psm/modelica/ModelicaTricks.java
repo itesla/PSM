@@ -137,25 +137,6 @@ public class ModelicaTricks
 		return null;
 	}
 
-	public static String legacyType(String type)
-	{
-		switch (type)
-		{
-		case "Bus":
-			return "bus";
-		case "Line":
-			return "line";
-		case "Transformer":
-			return "trafo";
-		case "Load":
-			return "load";
-		case "Shunt":
-			return "cap";
-		default:
-			return "";
-		}
-	}
-
 	public static boolean isSystemConnect(ModelicaConnect eq)
 	{
 		return getKind(eq.getRef1()).equals("system") || getKind(eq.getRef2()).equals("system");

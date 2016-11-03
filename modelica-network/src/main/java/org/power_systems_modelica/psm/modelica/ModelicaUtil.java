@@ -21,23 +21,6 @@ public class ModelicaUtil
 		return parts;
 	}
 
-	public static String dynamicIdFromStaticId(String id)
-	{
-		return normalizedIdentifier("DM".concat(id));
-	}
-
-	public static String dynamicDeclarationIdFromModelForType(String type, String name, String id)
-	{
-		// This is to ease comparison with previous Modelica transformations
-		type = ModelicaTricks.legacyType(type);
-		return normalizedIdentifier(type.concat("_").concat(id));
-	}
-
-	public static String dynamicDeclarationIdFromModelForEvent(String event, String name, String id)
-	{
-		return normalizedIdentifier(event.concat("_").concat(id));
-	}
-
 	public static String normalizedIdentifier(String id)
 	{
 		return id.replace("-", "_").replace(".", "_");
@@ -137,14 +120,14 @@ public class ModelicaUtil
 	}
 
 	private static ModelicaModel buildModelicaModel(
-			String id,
+			String staticId,
 			List<ModelicaDeclaration> declarations,
 			List<ModelicaEquation> equations,
 			List<Annotation> annotations)
 	{
-		String dmid = ModelicaUtil.dynamicIdFromStaticId(id);
+		String dmid = dynamicIdFromStaticId(staticId);
 		ModelicaModel m = new ModelicaModel(dmid);
-		m.setStaticId(id);
+		m.setStaticId(staticId);
 
 		if (declarations != null) m.addDeclarations(declarations);
 		if (equations != null) m.addEquations(equations);
@@ -154,6 +137,11 @@ public class ModelicaUtil
 			m.setConnectors(connectors);
 		}
 		return m;
+	}
+
+	private static String dynamicIdFromStaticId(String staticId)
+	{
+		return "DM".concat(staticId);
 	}
 
 	private static final String	ID_VAR_SEPARATOR		= ".";

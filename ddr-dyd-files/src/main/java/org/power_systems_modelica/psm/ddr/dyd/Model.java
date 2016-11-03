@@ -4,9 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Model
 {
+	public Model(String id)
+	{
+		Objects.requireNonNull(id);
+		this.id = id;
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
 	public void setInitialization(boolean isInitialization)
 	{
 		this.isInitialization = isInitialization;
@@ -64,9 +76,9 @@ public class Model
 		connectors.addAll(c);
 	}
 
+	private final String			id;
+	private boolean					isInitialization	= false;
 	private final List<Component>	components			= new ArrayList<>();
 	private final List<Connection>	connections			= new ArrayList<>();
 	private final List<Connector>	connectors			= new ArrayList<>();
-
-	private boolean					isInitialization	= false;
 }

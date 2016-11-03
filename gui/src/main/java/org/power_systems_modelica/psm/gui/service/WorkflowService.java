@@ -101,7 +101,7 @@ public class WorkflowService {
 		return actions;
 	}
 
-	public static Workflow startWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le,
+	public static Workflow createWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le,
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
 		try {
@@ -115,7 +115,6 @@ public class WorkflowService {
 					TD(LoadFlowTask.class, loadflowId,
 							TC("loadFlowFactoryClass", loadflowClass, "targetStateId", "resultsLoadflow")));
 
-			w.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -128,11 +127,16 @@ public class WorkflowService {
 		WorkflowResult results = new WorkflowResult();
 
 		Network n = (Network) w.getResults("network");
+		
+		// Fix temporal
+		n.getStateManager().setWorkingState("resultsLoadflow");
+		// Fin fix temporal
+		
 		n.getStateManager().allowStateMultiThreadAccess(false);
+		n.getStateManager().setWorkingState("resultsLoadflow");
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
 			Map<String, float[]> bvalues = new HashMap<>();
-			n.getStateManager().setWorkingState("resultsLoadflow");
 			float[] Vs = new float[1];
 			float[] As = new float[1];
 			float[] Ps = new float[1];
@@ -155,7 +159,7 @@ public class WorkflowService {
 		return results;
 	}
 
-	public static Workflow startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits)
+	public static Workflow createCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits)
 			throws WorkflowCreationException {
 
 		try {
@@ -167,8 +171,6 @@ public class WorkflowService {
 									"resultsHelmflow")),
 					TD(LoadFlowTask.class, "loadflowHades2", TC("loadFlowFactoryClass",
 							"com.rte_france.itesla.hades2.Hades2Factory", "targetStateId", "resultsHades2")));
-
-			cl.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -181,6 +183,11 @@ public class WorkflowService {
 		WorkflowResult results = new WorkflowResult();
 
 		Network n = (Network) cl.getResults("network");
+		
+		// Fix temporal
+		n.getStateManager().setWorkingState("resultsHelmflow");
+		// Fin fix temporal
+		
 		n.getStateManager().allowStateMultiThreadAccess(false);
 
 		List<BusData> allBusesValues = new ArrayList<>();

@@ -5,11 +5,11 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.Tooltip;
 
 public class WorkflowStatusController {
 
@@ -25,6 +25,14 @@ public class WorkflowStatusController {
 		else
 			mainApp.showCompareLoadflowsView(null);
 	}
+	
+	public void setTask(Task task) {
+		
+		if (task != null) {
+			statusLabel.textProperty().bind(task.messageProperty());
+			statusBar.progressProperty().bind(task.progressProperty());
+		}
+	}
 
 	public void setMainApp(MainApp mainApp, Workflow w, boolean isWorkflowDetail) {
 		this.mainApp = mainApp;
@@ -35,9 +43,6 @@ public class WorkflowStatusController {
 		else 
 			panel.setText("Compare loadflows detail");
 		createdLabel.setText("" + w.getId());
-		statusLabel.setText(w.getState().name());
-		//statusBar.setProgress(w.getProgress());
-		//statusBar.setTooltip(new Tooltip(String.format("%.2f",w.getProgress()*100) + "%"));
 	}
 
 	@FXML

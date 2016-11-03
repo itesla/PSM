@@ -173,7 +173,7 @@ public class Workflow implements Process
 		broadcast();
 	}
 
-	private void updateState(String taskId, ProcessState state)
+	protected void updateState(String taskId, ProcessState state)
 	{
 		// Only modify the state of the given taskId
 		currentTaskStates = currentTaskStates

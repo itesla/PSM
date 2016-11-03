@@ -1,8 +1,6 @@
 package org.power_systems_modelica.psm.gui;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -11,6 +9,7 @@ import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
+import org.power_systems_modelica.psm.gui.service.TaskService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
@@ -30,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -124,7 +124,8 @@ public class MainApp extends Application {
 		if (w == null)
 			showWorkflowNewView();
 		else {
-			if (w.getState().equals(ProcessState.RUNNING))
+			if (!w.getState().equals(ProcessState.SUCCESS) &&
+					!w.getState().equals(ProcessState.FAILED))
 				showWorkflowStatusView(w, true);
 			else
 				showWorkflowDetailView();
@@ -149,7 +150,11 @@ public class MainApp extends Application {
 	}
 
 	public void showWorkflowDetailView() {
+		
 		try {
+			if (wTask != null)
+				wTask = null;
+			
 			// Load cases overview.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/WorkflowDetail.fxml"));
@@ -166,6 +171,8 @@ public class MainApp extends Application {
 	}
 
 	public void showWorkflowStatusView(Workflow w, boolean isWorkflowDetail) {
+		
+		LOG.info("showWorkflowStatusView");
 		try {
 			// Load cases overview.
 			FXMLLoader loader = new FXMLLoader();
@@ -176,8 +183,13 @@ public class MainApp extends Application {
 			rootLayout.setCenter(workflowsOverview);
 
 			WorkflowStatusController controller = loader.getController();
-			 
 			controller.setMainApp(this, w, isWorkflowDetail);
+			
+			if (isWorkflowDetail) 
+				controller.setTask(wTask);
+			else
+				controller.setTask(clTask);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -187,7 +199,8 @@ public class MainApp extends Application {
 		if (w == null)
 			showCompareLoadflowsNewView();
 		else {
-			if (w.getState().equals(ProcessState.RUNNING))
+			if (!w.getState().equals(ProcessState.SUCCESS) &&
+					!w.getState().equals(ProcessState.FAILED))
 				showWorkflowStatusView(w, false);
 			else
 				showCompareLoadflowsDetailView();
@@ -195,7 +208,11 @@ public class MainApp extends Application {
 	}
 
 	private void showCompareLoadflowsDetailView() {
+		
 		try {
+			if (clTask != null)
+				clTask = null;
+
 			// Load cases overview.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsDetail.fxml"));
@@ -258,14 +275,16 @@ public class MainApp extends Application {
 
 	public void startWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
 			ObservableList events, DsEngine dse) {
-		Workflow w = null;
+		
 		try {
-			w = WorkflowService.startWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
+			Workflow w = WorkflowService.createWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
+			wTask = TaskService.createTask(w, () -> showWorkflowDetailView());
+			showWorkflowStatusView(w, true);
+			TaskService.startTask(wTask);
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		showWorkflowView(w);
 	}
 
 	public WorkflowResult getWorkflowResult(String name) {
@@ -277,14 +296,16 @@ public class MainApp extends Application {
 	}
 
 	public void startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits) {
-		Workflow w = null;
+
 		try {
-			w = WorkflowService.startCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+			Workflow w = WorkflowService.createCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+			clTask = TaskService.createTask(w, () -> showCompareLoadflowsDetailView());
+			showWorkflowStatusView(w, false);
+			TaskService.startTask(clTask);
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		showCompareLoadflowsView(w);
 	}
 
 	public WorkflowResult getCompareLoadflowsResult(String name) {
@@ -294,10 +315,17 @@ public class MainApp extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	public interface InitCompletionHandler {
+        void complete();
+    }
+
+	private Task wTask = null;
+	private Task clTask = null;
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-
+	
 	private static final Logger LOG = LoggerFactory.getLogger(MainApp.class);
 
 

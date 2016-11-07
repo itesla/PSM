@@ -45,11 +45,11 @@ public class OpenModelicaIntegrationTest {
 					.resolve("test")
 					.resolve("ieee14")
 					.resolve("itesla")
-					.resolve("ieee14.mo"));	
+					.resolve("ieee14bus.mo"));	
 		
-		assertTrue(Files.exists(omSimPath.resolve("ieee14_res.csv")));
-		assertTrue(Files.exists(omSimPath.resolve("ieee14_res.mat")));
-		assertEquals(5, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.csv")));
+		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.mat")));
+		assertEquals(6, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	
 	
@@ -99,7 +99,7 @@ public class OpenModelicaIntegrationTest {
 		config.setParameter("startTime", "0");
 		config.setParameter("stopTime", "1");
 		config.setParameter("tolerance", "0.000001");
-		config.setParameter("libraryDirectory", TEST_SAMPLES.resolve("test").resolve("ieee14").resolve("library").toString());
+		config.setParameter("libraryDirectory", TEST_SAMPLES.resolve("test").resolve("library").toString());
 		config.setParameter("resultVariables", varResults);
 		
 		return config;

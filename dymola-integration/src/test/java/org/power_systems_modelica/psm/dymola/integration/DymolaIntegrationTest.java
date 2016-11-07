@@ -93,7 +93,7 @@ public class DymolaIntegrationTest {
 		config.setParameter("startTime", "0");
 		config.setParameter("stopTime", "1");
 		config.setParameter("tolerance", "0.0001");
-		config.setParameter("libraryDirectory", TEST_SAMPLES.resolve("test").resolve("ieee14").resolve("library").toString());
+		config.setParameter("libraryDirectory", TEST_SAMPLES.resolve("test").resolve("library").toString());
 				
 		return config;
 	}

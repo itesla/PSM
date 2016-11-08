@@ -9,6 +9,13 @@
 	<artifactId>gui</artifactId>
 	<name>Power Systems on Modelica GUI</name>
 
+	<repositories>
+		<repository>
+			<id>ossrh</id>
+			<name>OSSRH Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -39,6 +46,11 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>${jodatime.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.gillius</groupId>
+			<artifactId>jfxutils</artifactId>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<!-- modules is required for Hades integration (contains contingencies) -->

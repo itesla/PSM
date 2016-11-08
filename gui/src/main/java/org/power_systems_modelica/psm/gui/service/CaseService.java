@@ -1,20 +1,50 @@
 package org.power_systems_modelica.psm.gui.service;
 
+import static org.power_systems_modelica.psm.workflow.Workflow.TC;
+import static org.power_systems_modelica.psm.workflow.Workflow.TD;
+import static org.power_systems_modelica.psm.workflow.Workflow.WF;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
+import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.Network;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class CaseService {
+
+	public static Network importCase(Case input) throws WorkflowCreationException {
+		
+		Network n = null;
+		try {
+			Path casePath = Utils.findCasePath(Paths.get(input.getLocation()));
+
+			Workflow w = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())));
+			w.start();
+			
+			n = (Network) w.getResults("network");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return n;
+	}
 
 	public static ObservableList<Case> getCases(Catalog catalog) {
 		LOG.debug("getCases " + catalog.getName());
@@ -24,7 +54,7 @@ public class CaseService {
 			Path catalogPath = Paths.get(catalog.getLocation());
 			try
 			{
-				listFiles(cases, catalogPath);
+				searchCatalogCases(cases, catalogPath);
 			}
 			catch (IOException e)
 			{
@@ -58,17 +88,19 @@ public class CaseService {
 		return cases;
 	}
 
-	private static boolean listFiles(ObservableList<Case> cases, Path path) throws IOException {
+	private static boolean searchCatalogCases(ObservableList<Case> cases, Path path) throws IOException {
 		
 		boolean eq = false, sv = false, tp = false;
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
 			for (Path entry : stream) {
 				if (Files.isDirectory(entry)) {
-					if (listFiles(cases, entry)) {
+					if (searchCatalogCases(cases, entry)) {
 						Case c = new Case();
 						c.setName(entry.getFileName().toString());
 						c.setLocation(entry.toString());
 						cases.add(c);
+						
+						getCaseProperties(entry, c);
 					}
 				}
 				else if (entry.toString().endsWith("ME.xml"))
@@ -87,5 +119,26 @@ public class CaseService {
 		return false;
 	}
 
+	private static void getCaseProperties(Path path, Case c) {
+		
+        Properties properties = new Properties();
+        try {
+            try (InputStream is = Files.newInputStream(path.resolve("case.properties"))) {
+                properties.load(is);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+		
+    	String description = properties.getProperty("description");
+    	int size = Integer.parseInt(properties.getProperty("size"));
+    	String format = properties.getProperty("format");
+    	
+    	c.setDescription(description);
+    	c.setSize(size);
+    	c.setFormat(format);
+	}
+
 	private static final Logger LOG = LoggerFactory.getLogger(CaseService.class);
+
 }

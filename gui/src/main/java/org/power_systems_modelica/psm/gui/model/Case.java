@@ -9,13 +9,25 @@ import javafx.beans.property.StringProperty;
 
 public class Case implements Serializable {
 
-	public static int FORMAT_CIM1 = 0;
-	
+	public enum Format {
+		CIM1(0), IIDM(1);
+
+		private int value;
+
+		private Format(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
 	public Case() {
 		this.name = new SimpleStringProperty();
 		this.description = new SimpleStringProperty();
 		this.location = new SimpleStringProperty();
-		this.format = new SimpleIntegerProperty();
+		this.format = new SimpleStringProperty();
 		this.size = new SimpleIntegerProperty();
 	}
 
@@ -55,15 +67,15 @@ public class Case implements Serializable {
 		this.location.set(location);
 	}
 
-	public int getFormat() {
+	public String getFormat() {
 		return format.get();
 	}
 
-	public IntegerProperty formatProperty() {
+	public StringProperty formatProperty() {
 		return format;
 	}
 
-	public void setFormat(int format) {
+	public void setFormat(String format) {
 		this.format.set(format);
 	}
 
@@ -86,6 +98,6 @@ public class Case implements Serializable {
 	private StringProperty name;
 	private StringProperty description;
 	private StringProperty location;
-	private IntegerProperty format;
+	private StringProperty format;
 	private IntegerProperty size;
 }

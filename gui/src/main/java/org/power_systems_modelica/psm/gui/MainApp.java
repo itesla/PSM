@@ -27,6 +27,7 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.Network;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -69,10 +70,12 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void showMenuLayout() {
+	public FXMLLoader showMenuLayout() {
+
+		FXMLLoader loader = null;
 		try {
 			// Load menu layout.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/MenuLayout.fxml"));
 			AnchorPane menuLayout = (AnchorPane) loader.load();
 
@@ -84,12 +87,15 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	public void showCasesOverview() {
+	public FXMLLoader showCasesOverview() {
+
+		FXMLLoader loader = null;
 		try {
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/CasesOverview.fxml"));
 			AnchorPane casesOverview = (AnchorPane) loader.load();
 
@@ -101,12 +107,15 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	public void showDdrsOverview() {
+	public FXMLLoader showDdrsOverview() {
+
+		FXMLLoader loader = null;
 		try {
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/DdrsOverview.fxml"));
 			AnchorPane ddrsOverview = (AnchorPane) loader.load();
 
@@ -118,24 +127,28 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	public void showWorkflowView(Workflow w) {
+	public FXMLLoader showWorkflowView(Workflow w) {
+
 		if (w == null)
-			showWorkflowNewView();
+			return showWorkflowNewView();
 		else {
 			if (!w.getState().equals(ProcessState.SUCCESS) &&
 					!w.getState().equals(ProcessState.FAILED))
-				showWorkflowStatusView(w, true);
+				return showWorkflowStatusView(w, true);
 			else
-				showWorkflowDetailView();
+				return showWorkflowDetailView();
 		}
 	}
 
-	public void showWorkflowNewView() {
+	public FXMLLoader showWorkflowNewView() {
+		
+		FXMLLoader loader = null;
 		try {
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/WorkflowNew.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
@@ -147,16 +160,19 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return loader;
 	}
 
-	public void showWorkflowDetailView() {
+	public FXMLLoader showWorkflowDetailView() {
 		
+		FXMLLoader loader = null;
 		try {
 			if (wTask != null)
 				wTask = null;
 			
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/WorkflowDetail.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
@@ -168,14 +184,15 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	public void showWorkflowStatusView(Workflow w, boolean isWorkflowDetail) {
+	public FXMLLoader showWorkflowStatusView(Workflow w, boolean isWorkflowDetail) {
 		
-		LOG.info("showWorkflowStatusView");
+		FXMLLoader loader = null;
 		try {
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/WorkflowStatus.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
@@ -193,28 +210,30 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	public void showCompareLoadflowsView(Workflow w) {
+	public FXMLLoader showCompareLoadflowsView(Workflow w) {
 		if (w == null)
-			showCompareLoadflowsNewView();
+			return showCompareLoadflowsNewView();
 		else {
 			if (!w.getState().equals(ProcessState.SUCCESS) &&
 					!w.getState().equals(ProcessState.FAILED))
-				showWorkflowStatusView(w, false);
+				return showWorkflowStatusView(w, false);
 			else
-				showCompareLoadflowsDetailView();
+				return showCompareLoadflowsDetailView();
 		}
 	}
 
-	private void showCompareLoadflowsDetailView() {
+	private FXMLLoader showCompareLoadflowsDetailView() {
 		
+		FXMLLoader loader = null;
 		try {
 			if (clTask != null)
 				clTask = null;
 
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsDetail.fxml"));
 			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
 
@@ -226,12 +245,15 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	private void showCompareLoadflowsNewView() {
+	private FXMLLoader showCompareLoadflowsNewView() {
+
+		FXMLLoader loader = null;
 		try {
 			// Load cases overview.
-			FXMLLoader loader = new FXMLLoader();
+			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsNew.fxml"));
 			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
 
@@ -243,18 +265,42 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return loader;
 	}
 
-	public ObservableList getCatalogs() {
-		return CatalogService.getCatalogs();
+	public ObservableList getCatalogs(String name) {
+		return CatalogService.getCatalogs(name);
 	}
 
 	public ObservableList getCases(String catalogName) {
-		return CaseService.getCases(CatalogService.getCatalogByName(catalogName));
+		return CaseService.getCases(CatalogService.getCatalogByName("cases", catalogName));
+	}
+
+	public Network getCaseSummary(Case input) {
+		
+		Network n = null;
+		try {
+			n = CaseService.importCase(input);
+		} catch (WorkflowCreationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return n;
+	}
+	
+	public void setWorkflowCase(Case c) {
+		
+		FXMLLoader menuLoader = showMenuLayout();
+		((MenuLayoutController) menuLoader.getController()).selectWorkflowOption();
+		
+		FXMLLoader loader = showWorkflowNewView();
+		WorkflowNewController controller = loader.getController();
+		controller.setCase(c);
 	}
 
 	public ObservableList getDdrs(String catalogName) {
-		return DdrService.getDdrs(CatalogService.getCatalogByName(catalogName));
+		return DdrService.getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
 	}
 
 	public Workflow getWorkflow() {
@@ -327,6 +373,8 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MainApp.class);
+
+
 
 
 }

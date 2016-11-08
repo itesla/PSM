@@ -5,8 +5,6 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event.ActionEvent;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
@@ -105,7 +104,7 @@ public class WorkflowService {
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
 		try {
-			Path casePath = findCasePath(Paths.get(cs.getLocation()));
+			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
 
 			String loadflowId = le.equals(LoadflowEngine.HADES2) ? "loadflowHades2" : "loadflowHelmflow";
 			String loadflowClass = le.equals(LoadflowEngine.HADES2) ? "com.rte_france.itesla.hades2.Hades2Factory"
@@ -163,7 +162,7 @@ public class WorkflowService {
 			throws WorkflowCreationException {
 
 		try {
-			Path casePath = findCasePath(Paths.get(cs.getLocation()));
+			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
 
 			cl = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())),
 					TD(LoadFlowTask.class, "loadflowHelmflow",
@@ -229,20 +228,6 @@ public class WorkflowService {
 		results.setStats(stats);
 
 		return results;
-	}
-
-	private static Path findCasePath(Path path) throws IOException {
-
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-			for (Path entry : stream) {
-				if (entry.toString().endsWith("ME.xml"))
-					return entry;
-				else if (entry.toString().endsWith("EQ.xml"))
-					return entry;
-			}
-		}
-
-		return null;
 	}
 
 	private static Random rnd = new Random();

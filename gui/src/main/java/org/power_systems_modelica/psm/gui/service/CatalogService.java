@@ -1,9 +1,14 @@
 package org.power_systems_modelica.psm.gui.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,28 +21,39 @@ public class CatalogService {
 			.get(System.getenv("PSM_DATA"))
 			.resolve("test");
 
-	public static ObservableList<Catalog> getCatalogs() {
+	public static ObservableList<Catalog> getCatalogs(String name) {
+		
 		LOG.debug("getCatalogs");
 		ObservableList<Catalog> catalogs = FXCollections.observableArrayList();
-
-		Catalog catalog = new Catalog();
-		catalog.setName("Reference cases");
-		catalog.setDescription("Public IEEE reference cases from Washington archive. Exported to ENTSO-E CIM Profile V1 using ...");
-		catalog.setLocation(DATA_TEST.toString());
-		catalogs.add(catalog);
-
-		catalog = new Catalog();
-		catalog.setName("Internal testing");
-		catalog.setDescription("Private cases used in the development environment");
-		catalog.setLocation("/psm/data/private_samples");
-		catalogs.add(catalog);
-
+		Path path = DATA_TEST.resolve("cfg").resolve(name + ".properties");
+        Properties properties = new Properties();
+        try {
+            try (InputStream is = Files.newInputStream(path)) {
+                properties.load(is);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+		
+        int num = Integer.parseInt(properties.getProperty("catalogs.num"));
+        for(int i=1; i<=num; i++) {
+        	String catalogName = properties.getProperty("catalogs." + i + ".name");
+        	String catalogDescription = properties.getProperty("catalogs." + i + ".description");
+        	String catalogLocation = Utils.translateLocation(properties.getProperty("catalogs." + i + ".location"));
+        	        	
+    		Catalog catalog = new Catalog();
+    		catalog.setName(catalogName);
+    		catalog.setDescription(catalogDescription);
+    		catalog.setLocation(catalogLocation);
+    		catalogs.add(catalog);
+        }
+        
 		return catalogs;
 	}
 
-	public static Catalog getCatalogByName(String catalogName) {
+	public static Catalog getCatalogByName(String name, String catalogName) {
 		
-		ObservableList<Catalog> catalogs = getCatalogs();
+		ObservableList<Catalog> catalogs = getCatalogs(name);
 		for (Catalog c : catalogs) {
 			if (c.getName().equals(catalogName))
 				return c;
@@ -45,6 +61,5 @@ public class CatalogService {
 		return null;
 	}
 
-	ObservableList<Catalog> catalogs;
 	private static final Logger LOG = LoggerFactory.getLogger(CatalogService.class);
 }

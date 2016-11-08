@@ -35,7 +35,7 @@ public class DdrsOverviewController {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 
-		catalogs.setItems(mainApp.getCatalogs());
+		catalogs.setItems(mainApp.getCatalogs("ddrs"));
 		catalogs.getSelectionModel().selectFirst();
 	}
 

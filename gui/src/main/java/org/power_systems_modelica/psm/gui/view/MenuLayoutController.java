@@ -49,6 +49,19 @@ public class MenuLayoutController {
 		Workflow w = mainApp.getCompareLoadflows();
 		mainApp.showCompareLoadflowsView(w);
 	}
+	
+	private void selectOption(Button b) {
+		cases.getStyleClass().remove("active");
+		ddrs.getStyleClass().remove("active");
+		workflow.getStyleClass().remove("active");
+		compareLoadflows.getStyleClass().remove("active");
+		
+		b.getStyleClass().add("active");
+	}
+	
+	public void selectWorkflowOption() {
+		selectOption(workflow);
+	}
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;

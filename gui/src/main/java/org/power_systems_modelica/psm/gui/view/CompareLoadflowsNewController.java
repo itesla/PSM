@@ -45,7 +45,7 @@ public class CompareLoadflowsNewController {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 
-		catalogSource.setItems(mainApp.getCatalogs());
+		catalogSource.setItems(mainApp.getCatalogs("cases"));
 
 	}
 

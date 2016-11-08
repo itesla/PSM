@@ -1,8 +1,5 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -17,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -89,10 +87,23 @@ public class WorkflowNewController {
 		mainApp.startWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
 	}
 
+	public void setCase(Case c) {
+		
+		ObservableList<Catalog> catalogs = mainApp.getCatalogs("cases");
+		
+		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog> (catalogs, catalog -> c.getLocation().contains(catalog.getLocation())); 
+		
+		filteredCatalogs.forEach(catalog -> {
+			catalogSource.getSelectionModel().select(catalog);
+		});
+		
+		caseSource.getSelectionModel().select(c);
+	}
+	
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 
-		catalogSource.setItems(mainApp.getCatalogs());
+		catalogSource.setItems(mainApp.getCatalogs("cases"));
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
 		dsEngine.setItems(mainApp.getDsEngines());

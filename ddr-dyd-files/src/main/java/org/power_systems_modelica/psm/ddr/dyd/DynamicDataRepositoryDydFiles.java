@@ -374,6 +374,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		associations.add(a);
 	}
 
+	public Model getDynamicModelForAssociation(String associationId)
+	{
+		return dynamicModels.getDynamicModelForAssociation(associationId);
+	}
+
 	public Model getDynamicModelForStaticType(String type)
 	{
 		return dynamicModels.getDynamicModelForStaticType(type).orElse(null);

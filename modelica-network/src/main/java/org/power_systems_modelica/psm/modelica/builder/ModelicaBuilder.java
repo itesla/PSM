@@ -89,7 +89,7 @@ public class ModelicaBuilder
 		// problem: the dynamic model of the bus will have two connectors with pin "p" after adding a fault
 		// to solve this, the pin for the bus fault could be declared as "used" (not "reusable")
 		// in general, only pins of buses are "reusables" ???
-		dynamicModelsByStaticId.put(m.getStaticId(), m);
+		dynamicModelsByStaticId.put(ModelicaUtil.normalizedIdentifier(m.getStaticId()), m);
 	}
 
 	protected void removeDynamicModel(ModelicaModel m)

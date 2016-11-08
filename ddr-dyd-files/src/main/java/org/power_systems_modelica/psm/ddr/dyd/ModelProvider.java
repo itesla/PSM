@@ -48,6 +48,11 @@ public class ModelProvider
 		return association.map(a -> dynamicModelsForAssociation.get(a.getId()));
 	}
 
+	public Model getDynamicModelForAssociation(String associationId)
+	{
+		return dynamicModelsForAssociation.get(associationId);
+	}
+
 	public void add(Model m)
 	{
 		// We index each model added explicitly

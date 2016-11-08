@@ -78,9 +78,9 @@ public class ModelicaTextPrinter
 
 	private static String getStaticId(ModelicaDeclaration m)
 	{
-		String modelId = ModelicaTricks.staticIdFromDynamicId(m.getId());
-		if (modelId == null) modelId = "";
-		return modelId;
+		String staticId = ModelicaTricks.staticIdFromDynamicId(m.getId());
+		if (staticId == null) staticId = "";
+		return staticId;
 	}
 
 	private static String getKey(ModelicaEquation eq)

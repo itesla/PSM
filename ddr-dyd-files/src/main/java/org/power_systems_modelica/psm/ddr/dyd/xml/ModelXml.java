@@ -47,7 +47,9 @@ public class ModelXml
 	public static void write(XMLStreamWriter w, Model m) throws XMLStreamException
 	{
 		w.writeStartElement(ROOT_ELEMENT_NAME);
-		w.writeAttribute("isInitialization", Boolean.toString(m.isInitialization()));
+		// isInitialization == false is default value, do not write it
+		if (m.isInitialization())
+			w.writeAttribute("isInitialization", Boolean.toString(m.isInitialization()));
 		w.writeAttribute("id", m.getId());
 
 		if (m instanceof ModelForElement)

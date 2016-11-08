@@ -44,14 +44,54 @@ public class ModelicaBuilderTest
 				"ieee14",
 				"ieee14bus_EQ.xml",
 				"ddr",
-				"itesla/ieee14bus_no_lf.mo");
+				"itesla/ieee14bus_no_lf.mo",
+				14,
+				5);
+	}
+
+	@Test
+	public void buildIeee30() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"ieee30",
+				"ieee30bus_EQ.xml",
+				"ddr",
+				"itesla/ieee30bus_no_lf.mo",
+				30,
+				6);
+	}
+
+	@Test
+	public void buildIeee57() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"ieee57",
+				"ieee57bus_EQ.xml",
+				"ddr",
+				"itesla/ieee57bus_no_lf.mo",
+				57,
+				7);
+	}
+
+	@Test
+	public void buildIeee118() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"ieee118",
+				"ieee118bus_EQ.xml",
+				"ddr",
+				"itesla/ieee118bus_no_lf.mo",
+				118,
+				54);
 	}
 
 	public void testBuild(
 			String foldername,
 			String casename,
 			String ddrname,
-			String expectedmoname)
+			String expectedmoname,
+			int expectedNumBuses,
+			int expectedNumGenerators)
 			throws WorkflowCreationException, IOException
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
@@ -83,8 +123,8 @@ public class ModelicaBuilderTest
 
 		Network n = (Network) wf.getResults("network");
 		assertNotNull(n);
-		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
-		assertEquals(5, n.getGeneratorCount());
+		assertEquals(expectedNumBuses, Iterables.size(n.getBusView().getBuses()));
+		assertEquals(expectedNumGenerators, n.getGeneratorCount());
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
 		assertNotNull(mo);
 

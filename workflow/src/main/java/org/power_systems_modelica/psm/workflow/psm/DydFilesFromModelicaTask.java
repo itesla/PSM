@@ -32,7 +32,7 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 		running();
 		try
 		{
-			DydFilesFromModelica.mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
+			new DydFilesFromModelica().mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
 			succeded();
 		}
 		catch (Exception x)

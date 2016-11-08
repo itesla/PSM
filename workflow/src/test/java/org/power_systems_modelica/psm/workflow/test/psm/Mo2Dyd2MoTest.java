@@ -38,7 +38,7 @@ public class Mo2Dyd2MoTest
 		XmlUtil.isValidationActive = true;
 	}
 
-	 @Test
+	@Test
 	public void rebuildIeee14() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -62,7 +62,7 @@ public class Mo2Dyd2MoTest
 				6);
 	}
 
-//	 @Test //Pending to test because for the transformer Bus 39 - bus 57_1_PT the espected X value is 1.3549 but the actual value is 1.355
+	@Test
 	public void rebuildIeee57() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -74,7 +74,7 @@ public class Mo2Dyd2MoTest
 				7);
 	}
 
-//	 @Test //Pending to test
+	@Test
 	public void rebuildIeee118() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(

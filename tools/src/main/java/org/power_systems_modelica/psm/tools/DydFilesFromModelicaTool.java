@@ -71,6 +71,6 @@ public class DydFilesFromModelicaTool implements Tool
 			System.err.println("Missing DDR output directory");
 			return;
 		}
-		DydFilesFromModelica.mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
+		new DydFilesFromModelica().mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
 	}
 }

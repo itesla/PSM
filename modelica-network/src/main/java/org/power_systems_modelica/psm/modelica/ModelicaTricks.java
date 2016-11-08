@@ -2,8 +2,10 @@ package org.power_systems_modelica.psm.modelica;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ModelicaTricks
@@ -27,7 +29,13 @@ public class ModelicaTricks
 		// We are assuming dynamic component identifiers are built as: <type>_<static_id>
 		// and also that all static identifiers begin with an underscore
 		int p = name.indexOf("__");
-		if (p >= 0) return name.substring(p + 1);
+		if (p >= 0)
+		{
+			String id0 = name.substring(p + 1);
+			if (mappingDynamicId2StaticId.containsKey(id0))
+				return mappingDynamicId2StaticId.get(id0);
+			else return id0;
+		}
 		return null;
 	}
 
@@ -39,17 +47,12 @@ public class ModelicaTricks
 			String[] namevar1 = ModelicaUtil.ref2idvar(((ModelicaConnect) eq).getRef1());
 			String[] namevar2 = ModelicaUtil.ref2idvar(((ModelicaConnect) eq).getRef2());
 
-			int p;
 			String name1 = namevar1[0];
 			String name2 = namevar2[0];
-			String id1 = name1;
-			p = name1.indexOf("__");
-			if (p >= 0) id1 = name1.substring(p);
-			if (id1 == null) id1 = "";
-			String id2 = name2;
-			p = name2.indexOf("__");
-			if (p >= 0) id2 = name2.substring(p);
-			if (id2 == null) id2 = "";
+			String id1 = staticIdFromDynamicId(name1);
+			if (id1 == null) id1 = name1;
+			String id2 = staticIdFromDynamicId(name2);
+			if (id2 == null) id2 = name2;
 
 			String key = id1.concat(":").concat(id2);
 
@@ -202,5 +205,32 @@ public class ModelicaTricks
 		ALL_KINDS.add("other");
 		ALL_KIND_PAIRS.add("other-other");
 		ALL_KIND_PAIRS.add("other-gen");
+	}
+	private static final Map<String, String> mappingDynamicId2StaticId = new HashMap<>();
+	static
+	{
+		mappingDynamicId2StaticId.put("_N__E__16_TN", "_N._E__16_TN");
+		mappingDynamicId2StaticId.put("_N__E__16_EC", "_N._E__16_EC");
+		mappingDynamicId2StaticId.put("_N_NE__45_TN", "_N.NE__45_TN");
+		mappingDynamicId2StaticId.put("_N_NE__45_EC", "_N.NE__45_EC");
+		mappingDynamicId2StaticId.put("_S_KE__43_TN", "_S.KE__43_TN");
+		mappingDynamicId2StaticId.put("_S_KE__43_EC", "_S.KE__43_EC");
+		mappingDynamicId2StaticId.put("_S_TI__41_TN", "_S.TI__41_TN");
+		mappingDynamicId2StaticId.put("_S_TI__41_EC", "_S.TI__41_EC");
+		mappingDynamicId2StaticId.put("_W_KA__61_TN", "_W.KA__61_TN");
+		mappingDynamicId2StaticId.put("_W_LA__46_TN", "_W.LA__46_TN");
+		mappingDynamicId2StaticId.put("_W_LA__46_EC", "_W.LA__46_EC");
+
+		mappingDynamicId2StaticId.put("_N_NE__45_PHIL__49_1_AC", "_N.NE__45_PHIL__49_1_AC");
+		mappingDynamicId2StaticId.put("_N_NE__45_W_LA__46_1_AC", "_N.NE__45_W.LA__46_1_AC");
+		mappingDynamicId2StaticId.put("_N__E__16_SORE__17_1_AC", "_N._E__16_SORE__17_1_AC");
+		mappingDynamicId2StaticId.put("_ROCK__34_S_KE__43_1_AC", "_ROCK__34_S.KE__43_1_AC");
+		mappingDynamicId2StaticId.put("_S_KE__43_WMVE__44_1_AC", "_S.KE__43_WMVE__44_1_AC");
+		mappingDynamicId2StaticId.put("_S_TI__41_HOWA__42_1_AC", "_S.TI__41_HOWA__42_1_AC");
+		mappingDynamicId2StaticId.put("_W_KA__61_NATR__62_1_AC", "_W.KA__61_NATR__62_1_AC");
+		mappingDynamicId2StaticId.put("_W_LA__46_CROO__47_1_AC", "_W.LA__46_CROO__47_1_AC");
+		mappingDynamicId2StaticId.put("_W_LA__46_ZANE__48_1_AC", "_W.LA__46_ZANE__48_1_AC");
+
+		mappingDynamicId2StaticId.put("_W_LA__46_SC", "_W.LA__46_SC");
 	}
 }

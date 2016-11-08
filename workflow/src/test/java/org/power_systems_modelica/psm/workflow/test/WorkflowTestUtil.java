@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -54,13 +55,27 @@ public class WorkflowTestUtil
 		String mo2 = replace(INDENT, mo1, "$1");
 		String mo3 = replace(WHSP_END, mo2, "$1");
 		String mo4 = replace(EMPTY_LINE, mo3, "\n");
-		String mo5 = replace(NUMBER_DECIMAL_DIGITS, mo4, "$1$2");
-		String mo6 = replace(DECIMAL_DIGITS_RIGHT0S, mo5, "$1$2");
-		String mo7 = sortedConnectEquations(mo6);
+		String mo5 = roundNumbers(mo4);
+		String mo7 = sortedConnectEquations(mo5);
 		String mo8 = mo7.replace(CAP_PWCAP_, CAP_);
 		String moo = mo8;
 
 		return moo;
+	}
+
+	private static String roundNumbers(String mo)
+	{
+		StringBuffer result = new StringBuffer();
+		Matcher m = FLOATING_POINT_NUMBER.matcher(mo);
+		while (m.find())
+		{
+			float num = Float.parseFloat(mo.substring(m.start(), m.end()));
+			num = Math.round(num * FLOATING_POINT_ROUNDING) / FLOATING_POINT_ROUNDING;
+			String replacement = "" + num;
+			m.appendReplacement(result, replacement);
+		}
+		m.appendTail(result);
+		return result.toString();
 	}
 
 	private static String sortedConnectEquations(String mo)
@@ -113,10 +128,9 @@ public class WorkflowTestUtil
 	private static final Pattern	EMPTY_LINE				= Pattern
 			.compile("(\\n|\\r|\\r\\n){2,}+");
 	private static final Pattern	ALL_LINE_SEPARATORS		= Pattern.compile("(\\n|\\r|\\r\\n)");
-	private static final Pattern	NUMBER_DECIMAL_DIGITS	= Pattern
-			.compile("([0-9]\\.[0-9]{4})[0-9]+([^0-9eE])");
-	private static final Pattern	DECIMAL_DIGITS_RIGHT0S	= Pattern
-			.compile("([0-9]\\.[0-9]*[1-9])0+([^0-9eE])");
+	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern
+			.compile("[+-]?([0-9]*[.])?[0-9]+([eE][0-9]+)?");
+	private static final float		FLOATING_POINT_ROUNDING	= 1e6f;
 	private static final String		CAP_PWCAP_				= "cap_pwCapacitorBank_";
 	private static final String		CAP_					= "cap_";
 

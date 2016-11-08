@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.power_systems_modelica.psm.ddr.dyd.Association;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Connector;
@@ -83,6 +84,8 @@ public class ModelContainerXml
 		// Sort models before writing
 		for (Model m : sortedModels(mc.getModels()))
 			ModelXml.write(w, m);
+		for (Association a : mc.getAssociations())
+			AssociationXml.write(w, a);
 
 		w.writeEndElement();
 	}

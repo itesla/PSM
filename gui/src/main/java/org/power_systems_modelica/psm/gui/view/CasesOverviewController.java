@@ -65,16 +65,26 @@ public class CasesOverviewController {
                     }  
                 });  
                 contextMenu.getItems().add(summaryMenuItem);  
-                final MenuItem workflowMenuItem = new MenuItem("Workflow");  
+                final MenuItem workflowMenuItem = new MenuItem("Conversion and Simulation");  
                 workflowMenuItem.setOnAction(new EventHandler<ActionEvent>() {  
                     @Override  
                     public void handle(ActionEvent event) {
                     	
                     	Case c = row.getItem();
-                    	mainApp.setWorkflowCase(c);
+                    	mainApp.showWorkflowWithCase(c);
                     }  
                 });  
                 contextMenu.getItems().add(workflowMenuItem);  
+                final MenuItem compareMenuItem = new MenuItem("Compare Loadflows");  
+                compareMenuItem.setOnAction(new EventHandler<ActionEvent>() {  
+                    @Override  
+                    public void handle(ActionEvent event) {
+                    	
+                    	Case c = row.getItem();
+                   		mainApp.showCompareLoadflowsWithCase(c);
+                    }  
+                });  
+                contextMenu.getItems().add(compareMenuItem);  
                // Set context menu on row, but use a binding to make it only show for non-empty rows:  
                 row.contextMenuProperty().bind(  
                         Bindings.when(row.emptyProperty())  

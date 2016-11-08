@@ -289,13 +289,22 @@ public class MainApp extends Application {
 		return n;
 	}
 	
-	public void setWorkflowCase(Case c) {
+	public void showWorkflowWithCase(Case c) {
 		
 		FXMLLoader menuLoader = showMenuLayout();
 		((MenuLayoutController) menuLoader.getController()).selectWorkflowOption();
 		
 		FXMLLoader loader = showWorkflowNewView();
 		WorkflowNewController controller = loader.getController();
+		controller.setCase(c);
+	}
+
+	public void showCompareLoadflowsWithCase(Case c) {
+		FXMLLoader menuLoader = showMenuLayout();
+		((MenuLayoutController) menuLoader.getController()).selectCompareLoadflowsOption();
+		
+		FXMLLoader loader = showCompareLoadflowsNewView();
+		CompareLoadflowsNewController controller = loader.getController();
 		controller.setCase(c);
 	}
 
@@ -373,8 +382,4 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MainApp.class);
-
-
-
-
 }

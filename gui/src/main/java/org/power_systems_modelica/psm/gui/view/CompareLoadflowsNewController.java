@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -42,6 +44,18 @@ public class CompareLoadflowsNewController {
 		mainApp.startCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
 	}
 
+	public void setCase(Case c) {
+		ObservableList<Catalog> catalogs = mainApp.getCatalogs("cases");
+		
+		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog> (catalogs, catalog -> c.getLocation().contains(catalog.getLocation())); 
+		
+		filteredCatalogs.forEach(catalog -> {
+			catalogSource.getSelectionModel().select(catalog);
+		});
+		
+		caseSource.getSelectionModel().select(c);
+	}
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 
@@ -62,4 +76,5 @@ public class CompareLoadflowsNewController {
 	private MainApp mainApp;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CompareLoadflowsNewController.class);
+
 }

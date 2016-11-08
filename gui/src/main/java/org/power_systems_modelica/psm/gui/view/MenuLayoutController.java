@@ -63,10 +63,12 @@ public class MenuLayoutController {
 		selectOption(workflow);
 	}
 
+	public void selectCompareLoadflowsOption() {
+		selectOption(compareLoadflows);
+	}
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-		
-		
 	}
 
 	@FXML
@@ -79,4 +81,5 @@ public class MenuLayoutController {
 	private Button compareLoadflows;
 	
 	private MainApp mainApp;
+
 }

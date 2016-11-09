@@ -1,6 +1,12 @@
 package org.power_systems_modelica.psm.gui.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,6 +54,34 @@ public class Utils {
 		}
 
 		return null;
+	}
+
+	public static StringBuilder loadFile(String location, String file) throws IOException {
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		Path path = Paths.get(location).resolve(file);
+		InputStream inputStream = Files.newInputStream(path);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+		String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            stringBuilder.append(line).append("\n");
+        }
+        bufferedReader.close();
+        inputStream.close();
+        
+        return stringBuilder;
+	}
+
+	public static void saveFile(String location, String file, StringBuilder ddrContent) throws IOException {
+		// TODO Auto-generated method stub
+		
+		Path path = Paths.get(location).resolve(file);
+		OutputStream outputStream = Files.newOutputStream(path);
+		BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+		bufferedWriter.append(ddrContent);
+		bufferedWriter.close();
+		outputStream.close();
 	}
 
 }

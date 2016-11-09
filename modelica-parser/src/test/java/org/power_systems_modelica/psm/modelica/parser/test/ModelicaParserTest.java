@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class ModelicaParserTest
@@ -57,13 +59,42 @@ public class ModelicaParserTest
 		assertEquals(2, mo.getSystemModel().getAnnotations().size());
 	}
 
-	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"))
-			.resolve("test")
-			.resolve("modelica-parser");
+	@Test
+	public void testParseSingleGen() throws FileNotFoundException, IOException
+	{
+		ModelicaDocument mo = parse("singlegen/itesla", "singlegen.mo");
+		Path output = Paths.get(System.getenv("PSM_DATA")).resolve("tmp").resolve("singlegen.mo");
+
+		assertEquals("singlegen", mo.getSystemModel().getName());
+		assertEquals(3, mo.getSystemModel().getDeclarations().size());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		assertEquals("gen_pwGeneratorM2S__GEN____1_SM",
+				mo.getSystemModel().getDeclarations().get(1).getId());
+		assertEquals(4, mo.getSystemModel().getEquations().size());
+
+		PrintWriter out = new PrintWriter(output.toFile());
+		ModelicaTextPrinter p = new ModelicaTextPrinter(mo);
+		p.print(out);
+		out.flush();
+		out.close();
+	}
 
 	private ModelicaDocument parse(String name) throws FileNotFoundException, IOException
 	{
-		Path mo = TEST_SAMPLES.resolve(name);
-		return new ModelicaParser().parse(mo);
+		Path mo = Paths.get(System.getenv("PSM_DATA"))
+				.resolve("test")
+				.resolve("modelica-parser")
+				.resolve(name);
+		return ModelicaParser.parse(mo);
+	}
+
+	private ModelicaDocument parse(String folder, String name)
+			throws FileNotFoundException, IOException
+	{
+		Path mo = Paths.get(System.getenv("PSM_DATA"))
+				.resolve("test")
+				.resolve(folder)
+				.resolve(name);
+		return ModelicaParser.parse(mo);
 	}
 }

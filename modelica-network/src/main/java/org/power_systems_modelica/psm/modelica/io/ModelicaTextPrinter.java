@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.AnnotationItem;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
-import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
@@ -60,20 +59,7 @@ public class ModelicaTextPrinter
 
 	static private String getKind(ModelicaEquation eq)
 	{
-		if (eq instanceof ModelicaConnect)
-		{
-			String ref1 = ((ModelicaConnect) eq).getRef1();
-			String ref2 = ((ModelicaConnect) eq).getRef2();
-			String kind1 = ModelicaTricks.getKind(ref1);
-			String kind2 = ModelicaTricks.getKind(ref2);
-			String kind = new StringBuilder(kind1.length() + kind2.length() + 1)
-					.append(kind1)
-					.append("-")
-					.append(kind2)
-					.toString();
-			return kind;
-		}
-		return null;
+		return ModelicaTricks.getKind(eq);
 	}
 
 	private static String getStaticId(ModelicaDeclaration m)
@@ -162,7 +148,7 @@ public class ModelicaTextPrinter
 
 		Comparator<ModelicaEquation> byType, byKind, byKey;
 		Ordering<ModelicaEquation> byOriginal = Ordering.explicit(eqs0);
-		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allKindPairs());
+		Ordering<String> kindOrdering = Ordering.explicit(ModelicaTricks.allEquationKinds());
 		byType = (eq1, eq2) -> -eq1.getClass().getName().compareTo(eq2.getClass().getName());
 		byKind = (eq1, eq2) -> kindOrdering.compare(
 				ModelicaTricks.normalizeKind(getKind(eq1)),
@@ -180,6 +166,7 @@ public class ModelicaTextPrinter
 		out.printf("equation%n");
 		for (ModelicaEquation eq : sortedEquations())
 		{
+			// out.printf("  // kind = %s%n", ModelicaTricks.normalizeKind(getKind(eq)));
 			out.printf("  %s", eq.getText());
 			Annotation a = eq.getAnnotation();
 			if (a != null && !a.isEmpty())

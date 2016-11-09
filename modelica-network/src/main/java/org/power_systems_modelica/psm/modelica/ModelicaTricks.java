@@ -75,7 +75,25 @@ public class ModelicaTricks
 
 			return key;
 		}
-		return null;
+		return "other";
+	}
+
+	public static String getKind(ModelicaEquation eq)
+	{
+		if (eq instanceof ModelicaConnect)
+		{
+			String ref1 = ((ModelicaConnect) eq).getRef1();
+			String ref2 = ((ModelicaConnect) eq).getRef2();
+			String kind1 = getKind(ref1);
+			String kind2 = getKind(ref2);
+			String kind = new StringBuilder(kind1.length() + kind2.length() + 1)
+					.append(kind1)
+					.append("-")
+					.append(kind2)
+					.toString();
+			return kind;
+		}
+		return "other";
 	}
 
 	public static String[] sortedRefs(ModelicaConnect eqc)
@@ -150,9 +168,9 @@ public class ModelicaTricks
 		return ALL_KINDS;
 	}
 
-	public static List<String> allKindPairs()
+	public static List<String> allEquationKinds()
 	{
-		return ALL_KIND_PAIRS;
+		return ALL_EQUATION_KINDS;
 	}
 
 	public static String normalizeKind(String kind)
@@ -162,7 +180,7 @@ public class ModelicaTricks
 		return kind;
 	}
 
-	private static final List<String>	KINDS			= Arrays.asList(
+	private static final List<String>	KINDS				= Arrays.asList(
 			"system",
 			"bus",
 			"Bus",
@@ -177,7 +195,7 @@ public class ModelicaTricks
 			"gen",
 			"Generator",
 			"reg");
-	private static final List<String>	KIND_PAIRS		= Arrays.asList(
+	private static final List<String>	KIND_PAIRS			= Arrays.asList(
 			"gen-system",
 			"system-gen",
 			"reg-gen",
@@ -197,14 +215,17 @@ public class ModelicaTricks
 			// "trafo-bus" is equivalent to bus-trafo, we have normalized
 			"Bus-Transformer");
 
-	private static final Set<String>	KINDS_SET		= new HashSet<>(KINDS);
-	private static final List<String>	ALL_KINDS		= new ArrayList<>(KINDS);
-	private static final List<String>	ALL_KIND_PAIRS	= new ArrayList<>(KIND_PAIRS);
+	private static final Set<String>	KINDS_SET			= new HashSet<>(KINDS);
+	private static final List<String>	ALL_KINDS			= new ArrayList<>(KINDS);
+	private static final List<String>	ALL_EQUATION_KINDS	= new ArrayList<>(KIND_PAIRS);
 	static
 	{
 		ALL_KINDS.add("other");
-		ALL_KIND_PAIRS.add("other-other");
-		ALL_KIND_PAIRS.add("other-gen");
+
+		ALL_EQUATION_KINDS.add("system");
+		ALL_EQUATION_KINDS.add("other");
+		ALL_EQUATION_KINDS.add("other-other");
+		ALL_EQUATION_KINDS.add("other-gen");
 	}
 	private static final Map<String, String> mappingDynamicId2StaticId = new HashMap<>();
 	static

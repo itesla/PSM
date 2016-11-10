@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.workflow.test;
+package org.power_systems_modelica.psm.workflow.psm.fake;
 
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineFactory;

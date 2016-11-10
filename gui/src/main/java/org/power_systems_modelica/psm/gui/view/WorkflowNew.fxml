@@ -11,7 +11,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane prefHeight="842.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowNewController">
 	<children>
@@ -31,12 +34,44 @@
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="578.0">
 									<children>
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="130.0" text="Catalog:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="54.0" prefHeight="30.0" prefWidth="130.0" text="Case:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="94.0" prefHeight="30.0" prefWidth="130.0" text="DDR:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="84.0" />
-										<ComboBox fx:id="catalogSource" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
-										<ComboBox fx:id="caseSource" layoutX="175.0" layoutY="54.0" prefWidth="300.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="44.0" />
-										<ComboBox fx:id="ddrSource" layoutX="175.0" layoutY="94.0" prefWidth="300.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="84.0" />
+                              <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                    <ColumnConstraints prefWidth="80.0" />
+                                  <ColumnConstraints hgrow="ALWAYS" />
+                                  <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints prefHeight="50.0" />
+                                  <RowConstraints prefHeight="50.0" />
+                                </rowConstraints>
+                                 <padding>
+                                    <Insets bottom="20.0" left="14.0" right="50.0" />
+                                 </padding>
+                                 <children>
+      										<Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="Case:" />
+      										<Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="DDR:" GridPane.rowIndex="1" />
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                       <children>
+            										<ComboBox fx:id="catalogCaseSource" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <children>
+            										<ComboBox fx:id="caseSource" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          		<ComboBox fx:id="catalogDdrSource" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <children>
+            										<ComboBox fx:id="ddrSource" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </GridPane>
 									</children>
 								</AnchorPane>
 							</content>
@@ -48,8 +83,8 @@
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="200.0">
 									<children>
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="130.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<ComboBox fx:id="loadflowEngine" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
+										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="60.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+										<ComboBox fx:id="loadflowEngine" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -73,8 +108,8 @@
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="130.0" prefWidth="200.0">
 									<children>
-										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="100.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="130.0" text="Added events:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="100.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
+										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" text="Added events:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
 										<Button layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="35.0" text="+" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
 										<Button layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="35.0" text="-" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
 									</children>
@@ -88,8 +123,8 @@
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="200.0">
 									<children>
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="130.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<ComboBox fx:id="dsEngine" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
+										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="60.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+										<ComboBox fx:id="dsEngine" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -105,7 +140,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</HBox>
-                  <TitledPane fx:id="addEventPane" animated="false" layoutX="50.0" layoutY="470.0" text="Add event" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                  <TitledPane fx:id="addEventPane" animated="false" collapsible="false" layoutX="50.0" layoutY="470.0" text="Add event" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>

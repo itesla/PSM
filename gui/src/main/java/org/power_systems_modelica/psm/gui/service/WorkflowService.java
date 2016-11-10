@@ -25,6 +25,8 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,10 @@ import javafx.collections.ObservableList;
 
 public class WorkflowService {
 
+	public static final Path	DATA_TMP		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
+	
 	public enum LoadflowEngine {
 		HADES2(0), HELMFLOW(1);
 
@@ -103,6 +109,9 @@ public class WorkflowService {
 	public static Workflow createWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le,
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
+		String fakeInit = Paths.get(ddr.getLocation()).resolve("fake_init.csv").toString();
+		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
+		
 		try {
 			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
 
@@ -112,7 +121,15 @@ public class WorkflowService {
 
 			w = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())),
 					TD(LoadFlowTask.class, loadflowId,
-							TC("loadFlowFactoryClass", loadflowClass, "targetStateId", "resultsLoadflow")));
+							TC("loadFlowFactoryClass", loadflowClass, 
+									"targetStateId", "resultsLoadflow")),
+					TD(ModelicaNetworkBuilderTask.class, "modelica0",
+							TC("ddrType", "DYD",
+									"ddrLocation", ddr.getLocation(),
+									"onlyMainConnectedComponent", Boolean.toString(onlyMainConnectedComponent),
+									"modelicaEngine", "Fake",
+									"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+									"fakeModelicaEngineResults", fakeInit)));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -166,10 +183,11 @@ public class WorkflowService {
 
 			cl = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())),
 					TD(LoadFlowTask.class, "loadflowHelmflow",
-							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory", "targetStateId",
-									"resultsHelmflow")),
-					TD(LoadFlowTask.class, "loadflowHades2", TC("loadFlowFactoryClass",
-							"com.rte_france.itesla.hades2.Hades2Factory", "targetStateId", "resultsHades2")));
+							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory", 
+									"targetStateId", "resultsHelmflow")),
+					TD(LoadFlowTask.class, "loadflowHades2", 
+							TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory", 
+									"targetStateId", "resultsHades2")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

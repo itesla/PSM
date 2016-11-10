@@ -28,11 +28,19 @@ public class WorkflowNewController {
 	private void initialize() {
 
 		addEventPane.setVisible(false);
-		catalogSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
+		catalogCaseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
 				caseSource.setItems(mainApp.getCases(newValue.getName()));
+			}
+
+		});
+
+		catalogDdrSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
 				ddrSource.setItems(mainApp.getDdrs(newValue.getName()));
 			}
 
@@ -50,7 +58,7 @@ public class WorkflowNewController {
 		LOG.debug("handleAddEvent");
 		Event e = new Event();
 		e.setElement(elementEvent.getText());
-		e.setAction((ActionEvent) actionEvent.getSelectionModel().getSelectedItem());
+		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
 		addedEvents.getItems().add(e);
 		addEventPane.setVisible(false);
 	}
@@ -72,15 +80,15 @@ public class WorkflowNewController {
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
 
-		Catalog ctlg = (Catalog) catalogSource.getSelectionModel().getSelectedItem();
-		Case cs = (Case) caseSource.getSelectionModel().getSelectedItem();
-		Ddr ddr = (Ddr) ddrSource.getSelectionModel().getSelectedItem();
+		Catalog ctlg = catalogCaseSource.getSelectionModel().getSelectedItem();
+		Case cs = caseSource.getSelectionModel().getSelectedItem();
+		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
 
-		LoadflowEngine le = (LoadflowEngine) loadflowEngine.getSelectionModel().getSelectedItem();
+		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
 
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 
-		DsEngine dse = (DsEngine) dsEngine.getSelectionModel().getSelectedItem();
+		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
 
 		ObservableList<Event> events = addedEvents.getItems();
 
@@ -94,7 +102,7 @@ public class WorkflowNewController {
 		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog> (catalogs, catalog -> c.getLocation().contains(catalog.getLocation())); 
 		
 		filteredCatalogs.forEach(catalog -> {
-			catalogSource.getSelectionModel().select(catalog);
+			catalogCaseSource.getSelectionModel().select(catalog);
 		});
 		
 		caseSource.getSelectionModel().select(c);
@@ -103,7 +111,8 @@ public class WorkflowNewController {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 
-		catalogSource.setItems(mainApp.getCatalogs("cases"));
+		catalogCaseSource.setItems(mainApp.getCatalogs("cases"));
+		catalogDdrSource.setItems(mainApp.getCatalogs("ddrs"));
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
 		dsEngine.setItems(mainApp.getDsEngines());
@@ -111,14 +120,16 @@ public class WorkflowNewController {
 	}
 
 	@FXML
-	private ComboBox catalogSource;
+	private ComboBox<Catalog> catalogCaseSource;
 	@FXML
-	private ComboBox caseSource;
+	private ComboBox<Case> caseSource;
 	@FXML
-	private ComboBox ddrSource;
+	private ComboBox<Catalog> catalogDdrSource;
+	@FXML
+	private ComboBox<Ddr> ddrSource;
 
 	@FXML
-	private ComboBox loadflowEngine;
+	private ComboBox<LoadflowEngine> loadflowEngine;
 
 	@FXML
 	private CheckBox mainConnectedComponent;
@@ -131,10 +142,10 @@ public class WorkflowNewController {
 	@FXML
 	private TextField elementEvent;
 	@FXML
-	private ComboBox actionEvent;
+	private ComboBox<ActionEvent> actionEvent;
 
 	@FXML
-	private ComboBox dsEngine;
+	private ComboBox<DsEngine> dsEngine;
 
 	private MainApp mainApp;
 

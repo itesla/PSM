@@ -46,6 +46,16 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dymola-integration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>openmodelica-integration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>eu.itesla_project</groupId>
 			<artifactId>loadflow-api</artifactId>
 		</dependency>
@@ -110,6 +120,6 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.14</version>
-		</dependency> 
+		</dependency>
 	</dependencies>
 </project>

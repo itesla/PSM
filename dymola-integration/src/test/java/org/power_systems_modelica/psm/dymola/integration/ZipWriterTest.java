@@ -13,7 +13,7 @@ import org.power_systems_modelica.psm.dymola.integration.utils.ZipWriter;
 
 public class ZipWriterTest {
 
-	@Test
+//	@Test
 	public void test() {
 		String outputName 		= "sampletest.zip";
 		Path directoryToZip 	= TEST_SAMPLES.resolve("models_files");

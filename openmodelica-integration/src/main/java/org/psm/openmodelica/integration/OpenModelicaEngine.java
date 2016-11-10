@@ -1,5 +1,6 @@
 package org.psm.openmodelica.integration;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,19 +33,20 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	@Override
 	public void configure(Configuration config) {
-		this.config = config;
-		this.workingDir = Paths.get(config.getParameter("modelicaEngineWorkingDir"));
-		this.method = config.getParameter("method");
-		this.numberOfIntervals = Integer.valueOf(config.getParameter("numberOfIntervals"));
-		this.outputFixedStepSize = Double.valueOf(config.getParameter("outputFixedStepSize"));
-		this.outputInterval = Double.valueOf(config.getParameter("outputInterval"));
-		this.startTime = Double.valueOf(config.getParameter("startTime"));
-		this.stopTime = Double.valueOf(config.getParameter("stopTime"));
-		this.tolerance = Double.valueOf(config.getParameter("tolerance"));
-		this.libraryDirectory = Paths.get(config.getParameter("libraryDirectory"));
-		this.resultVariables = config.getParameter("resultVariables") == null ? new String[0] : config.getParameter("resultVariables").split(",");	
+		this.config				= config;
+		this.omc				= new OpenModelicaWrapper(OMWRAPPER_NAME);
+		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
+		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));
+		this.resultVariables	= config.getParameter("resultVariables") == null ? new String[0] : config.getParameter("resultVariables").split(",");
 		
-		this.omc = new OpenModelicaWrapper(OMWRAPPER_NAME);
+		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
+		this.startTime			= Double.valueOf(Optional.ofNullable(config.getParameter("startTime")).orElse("0.0"));
+		this.stopTime			= Double.valueOf(Optional.ofNullable(config.getParameter("stopTime")).orElse("1.0"));
+		this.tolerance			= Double.valueOf(Optional.ofNullable(config.getParameter("tolerance")).orElse("0.0001"));
+		
+		this.numOfIntervals		= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervals")).orElse("500"));
+		this.stepSize			= Double.valueOf(Optional.ofNullable(config.getParameter("stepSize")).orElse("0.002")); 
+		this.intervalLength		= Double.valueOf(Optional.ofNullable(config.getParameter("intervalLength")).orElse("0.002"));
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 			long endms = System.currentTimeMillis();
 			LOGGER.info(" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}.", 
-								omSimulationDir, modelFileName, modelName, startTime, stopTime, numberOfIntervals, outputInterval, method,tolerance, outputFixedStepSize);
+								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method,tolerance, stepSize);
 			startms = System.currentTimeMillis();
 
 			try {
@@ -101,7 +104,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				// Simulate the model
-				result = omc.simulate(modelName, startTime, stopTime, numberOfIntervals, method, tolerance); //FIXME pending to think about get only filtered variables
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance); //FIXME pending to think about get only filtered variables
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
@@ -112,6 +115,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				
 				if(resultVariables.length == 0) {
 					result = omc.readSimulationResultVars(matResultsFile);
+										
 					if(result.err != null && !result.err.isEmpty()) {
 						if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 						else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
@@ -149,12 +153,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 		} catch (Exception e) {
 			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}",
-					workingDir, modelFileName, modelName, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, outputFixedStepSize, e);
+					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method, tolerance, stepSize, e);
 
 			throw new RuntimeException("openmodelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
 //		TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
-		readSimulationResults(outputZipFileName, modelName); 
+		readSimulationResults(modelName);
 	}
 	
 	public Path simulateFake(Path modelicaPath) {
@@ -163,17 +167,11 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 		prepareWorkingDirectoryFake(modelicaPath, modelFileName, modelName);
 
-//		Path pathIn = this.omSimulationDir.resolve(inputZipFileName);
-//		Path pathOut = this.omSimulationDir.resolve(outputZipFileName);
-
-//		String outputZipFile = null;
 		try {
 			long startms = System.currentTimeMillis();
-//			Path inputZipFile;
-
 			long endms = System.currentTimeMillis();
 			LOGGER.info(" {} - openmodelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}.", 
-								omSimulationDir, modelFileName, modelName, startTime, stopTime, numberOfIntervals, outputInterval, method,tolerance, outputFixedStepSize);
+								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method,tolerance, stepSize);
 			startms = System.currentTimeMillis();
 
 			try {
@@ -216,7 +214,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				// Simulate the model
-				result = omc.simulate(modelName, startTime, stopTime, numberOfIntervals, method, tolerance); //FIXME pending to think about get only filtered variables
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance); //FIXME pending to think about get only filtered variables
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
@@ -264,12 +262,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 		} catch (Exception e) {
 			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}",
-					workingDir, modelFileName, modelName, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, outputFixedStepSize, e);
+					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method, tolerance, stepSize, e);
 
 			throw new RuntimeException("OpenModelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
 		//TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
-		readSimulationResults(outputZipFileName, modelName); 
+		readSimulationResults(modelName); 
 		return this.omSimulationDir;
 	}
 
@@ -291,8 +289,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
 		{
 			mop.print(out);
-			out.flush();
-			out.close();
 		}
 		catch (Exception e)
 		{
@@ -329,15 +325,14 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 
 	
-	private void readSimulationResults(String outputZipFileName, String modelName) {
+	private void readSimulationResults(String modelName) {
 		//TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
+		this.results = new ModelicaSimulationResults();
+		//The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
+		this.results.addResult(modelName, "simulation", "path", this.omSimulationDir);
 	}
 	
-	private void prepareWorkingDirectoryFake(Path modelicaPath, String moFileName, String modelName) {
-		this.inputZipFileName = modelName + "_in.zip";
-		this.outputZipFileName = modelName + "_out.zip";
-		this.outputErrorsFileName = modelName + "_errors.log";
-		
+	private void prepareWorkingDirectoryFake(Path modelicaPath, String moFileName, String modelName) {		
 		try {
 			this.omSimulationDir = Files.createTempDirectory(this.workingDir, OM_PREFIX);
 			
@@ -351,7 +346,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 			//Copy Models models needed to the simulation directory
 			try {
-				Files.list(this.libraryDirectory).forEach(file -> {
+				Files.list(this.libraryDir).forEach(file -> {
 						try {
 							FileUtils.copyFileToDirectory(file.toFile(), this.omSimulationDir.toFile(), false);
 						}
@@ -361,7 +356,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 						}
 				});
 			} catch (Exception e1) {
-				LOGGER.error("Error copying files from {} to {}, reason is {}", this.libraryDirectory, this.omSimulationDir, e1.getMessage());
+				LOGGER.error("Error copying files from {} to {}, reason is {}", this.libraryDir, this.omSimulationDir, e1.getMessage());
 			}
 		} catch (IOException e) {
 			LOGGER.error("Could not create OpenModelica simulation directory in {} with prefix {}, reason is {}",
@@ -375,28 +370,16 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		String modelFileName = modelName + MO_EXTENSION;
 		Path modelicaPath = Paths.get(modelFileName);
 		
-		this.inputZipFileName = modelName + "_in.zip";
-		this.outputZipFileName = modelName + "_out.zip";
-		this.outputErrorsFileName = modelName + "_errors.log";
-		
 		try {
 			this.omSimulationDir = Files.createTempDirectory(this.workingDir, OM_PREFIX);
 			
 			if(Files.notExists(this.omSimulationDir.resolve(modelicaPath))) { 
 				printModelicaDocument(mo, this.omSimulationDir);
 			}
-			
-//			//Copy the Modelica model to the simulation directory
-//			try {
-//				FileUtils.copyFileToDirectory(modelicaPath.toFile(), this.omSimulationDir.toFile(), false);
-//			} catch (IOException e1) {
-//				LOGGER.error("Error copying file from {} to {}, reason is {}", modelicaPath, this.omSimulationDir, e1.getMessage());
-//				throw new RuntimeException(e1);
-//			}
 
 			//Copy Models models needed to the simulation directory
 			try {
-				Files.list(this.libraryDirectory).forEach(file -> {
+				Files.list(this.libraryDir).forEach(file -> {
 						try {
 							FileUtils.copyFileToDirectory(file.toFile(), this.omSimulationDir.toFile(), false);
 						}
@@ -406,7 +389,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 						}
 				});
 			} catch (Exception e1) {
-				LOGGER.error("Error copying files from {} to {}, reason is {}", this.libraryDirectory, this.omSimulationDir, e1.getMessage());
+				LOGGER.error("Error copying files from {} to {}, reason is {}", this.libraryDir, this.omSimulationDir, e1.getMessage());
 			}
 		} catch (IOException e) {
 			LOGGER.error("Could not create OpenModelica simulation directory in {} with prefix {}, reason is {}",
@@ -436,20 +419,16 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private Path			workingDir;
 	private Path			omSimulationDir;
 	private String			method;
-	private int				numberOfIntervals;
-	private double			outputFixedStepSize;
-	private double			outputInterval;
+	private int				numOfIntervals;
+	private double			stepSize;
+	private double			intervalLength;
 	private double			startTime;
 	private double			stopTime;
 	private double			tolerance;
-	private String			inputZipFileName;
-	private String			outputZipFileName;
-	private String			outputErrorsFileName;
-	private Path			libraryDirectory;
+	private Path			libraryDir;
 	private String[]		resultVariables;
 	
 	private ModelicaSimulationResults	results;
-	
 	private OpenModelicaWrapper			omc = null;
 
 	private boolean						debug = false;
@@ -459,7 +438,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private static final String			MO_EXTENSION			= ".mo";
 	private static final String			MAT_EXTENSION 			= ".mat";
 	private static final String			CSV_EXTENSION 			= ".csv";
-	private static final String			SEMICOLON				= ";";
 	private static final String			COMMA					= ",";
 	private static final Pattern		RESULTS_PATTERN			= Pattern.compile("(\\{([0-9]+(\\.[0-9]*)?\\,?)+\\})");
 	private static final String			NEW_LINE				= System.getProperty("line.separator").toString();

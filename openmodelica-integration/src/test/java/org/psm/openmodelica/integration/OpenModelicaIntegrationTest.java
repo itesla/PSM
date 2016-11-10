@@ -11,23 +11,42 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
+import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class OpenModelicaIntegrationTest {
 
-	@Test
+//	@Test
 	public void testSinglegen() throws FileNotFoundException, IOException {
-//		ModelicaParser moParser = new ModelicaParser();
-//		ModelicaDocument mo = moParser.parse(TEST_SAMPLES.resolve("test").resolve("singlegen").resolve("itesla").resolve("singlegen.mo"));
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("singlegen").resolve("itesla").resolve("singlegen.mo"));
 		
-		Configuration config = setSinglegenConfiguration();
+		String varResults = "gen_pwGeneratorM2S__GEN____1_SM.pin_EFD," + 
+							"gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA," + 
+							"gen_pwGeneratorM2S__GEN____1_SM.pin_CM," +  
+							"gen_pwGeneratorM2S__GEN____1_SM.omegaRef";
+		Configuration config = setConfiguration(
+											DATA_TMP.toString(),
+											DATA_TEST.resolve("singlegen").resolve("library").toString(),
+											varResults,
+											"dassl",
+											"0.0",
+											"1.0",
+											"0.000001",
+											"500",
+											"0.002",
+											"0.002");
+		
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
-		Path omSimPath = omEngine.simulateFake(TEST_SAMPLES
-									.resolve("test")
-									.resolve("singlegen")
-									.resolve("itesla")
-									.resolve("singlegen.mo"));
-
+		omEngine.simulate(mo);
+		
+		assertEquals("singlegen", mo.getSystemModel().getName());
+		assertEquals(3, mo.getSystemModel().getDeclarations().size());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		assertEquals("gen_pwGeneratorM2S__GEN____1_SM", mo.getSystemModel().getDeclarations().get(1).getId());
+		assertEquals(4, mo.getSystemModel().getEquations().size());
+		
+		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("singlegen_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("singlegen_res.mat")));
 		assertEquals(4, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
@@ -35,46 +54,8 @@ public class OpenModelicaIntegrationTest {
 	
 	@Test
 	public void testIEEE14() throws FileNotFoundException, IOException {
-//		ModelicaParser moParser = new ModelicaParser();
-//		ModelicaDocument mo = moParser.parse(TEST_SAMPLES.resolve("test").resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo"));
-		
-		Configuration config = setTestIEEE14Configuration();
-		OpenModelicaEngine omEngine = new OpenModelicaEngine();
-		omEngine.configure(config);
-		Path omSimPath = omEngine.simulateFake(TEST_SAMPLES
-					.resolve("test")
-					.resolve("ieee14")
-					.resolve("itesla")
-					.resolve("ieee14bus.mo"));	
-		
-		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.csv")));
-		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.mat")));
-		assertEquals(6, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
-	}
-	
-	
-	private Configuration setSinglegenConfiguration() {
-		String varResults = "gen_pwGeneratorM2S__GEN____1_SM.pin_EFD," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.pin_CM," +  
-							"gen_pwGeneratorM2S__GEN____1_SM.omegaRef";
-
-		Configuration config = new Configuration();
-		config.setParameter("modelicaEngineWorkingDir", TEST_SAMPLES.resolve("tmp").toString());
-		config.setParameter("method", "dassl");
-		config.setParameter("numberOfIntervals", "500");
-		config.setParameter("outputFixedStepSize", "0.002");
-		config.setParameter("outputInterval", "0.002");
-		config.setParameter("startTime", "0.0");
-		config.setParameter("stopTime", "1.0");
-		config.setParameter("tolerance", "0.000001");
-		config.setParameter("libraryDirectory", TEST_SAMPLES.resolve("test").resolve("singlegen").resolve("library").toString());
-		config.setParameter("resultVariables", varResults);
-
-		return config;
-	}
-
-	private Configuration setTestIEEE14Configuration() {
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo"));
+				
 		String varResults = "bus__BUS___10_TN.V," + "bus__BUS___10_TN.angle," +
 							"bus__BUS___11_TN.V," + "bus__BUS___11_TN.angle," +
 							"bus__BUS___12_TN.V," + "bus__BUS___12_TN.angle," +
@@ -89,21 +70,60 @@ public class OpenModelicaIntegrationTest {
 							"bus__BUS____7_TN.V," + "bus__BUS____7_TN.angle," + 
 							"bus__BUS____8_TN.V," + "bus__BUS____8_TN.angle," +
 							"bus__BUS____9_TN.V," + "bus__BUS____9_TN.angle";
+		Configuration config = setConfiguration(
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("library").toString(),
+												varResults,
+												"dassl",
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500",
+												"0.002",
+												"0.002"
+												);
 
-		Configuration config = new Configuration();
-		config.setParameter("modelicaEngineWorkingDir", TEST_SAMPLES.resolve("tmp").toString());
-		config.setParameter("method", "dassl");
-		config.setParameter("numberOfIntervals", "500");
-		config.setParameter("outputFixedStepSize", "0.002");
-		config.setParameter("outputInterval", "0.002");
-		config.setParameter("startTime", "0");
-		config.setParameter("stopTime", "1");
-		config.setParameter("tolerance", "0.000001");
-		config.setParameter("libraryDirectory", TEST_SAMPLES.resolve("test").resolve("library").toString());
-		config.setParameter("resultVariables", varResults);
+		OpenModelicaEngine omEngine = new OpenModelicaEngine();
+		omEngine.configure(config);
+		omEngine.simulate(mo);
 		
+		assertEquals("ieee14bus", mo.getSystemModel().getName());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		
+		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
+		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.csv")));
+		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.mat")));
+		assertEquals(6, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+	}
+	
+	private Configuration setConfiguration(String modelicaEngineWorkingDir,
+											String libraryDir,
+											String resultVariables,
+											String method,
+											String startTime,
+											String stopTime,
+											String tolerance,
+											String numOfIntervals,
+											String stepSize,
+											String intervalLength)
+	{
+		Configuration config = new Configuration();
+		config.setParameter("modelicaEngineWorkingDir", modelicaEngineWorkingDir);
+		config.setParameter("libraryDir", libraryDir);
+		config.setParameter("resultVariables", resultVariables);
+		
+		config.setParameter("method", method);
+		config.setParameter("startTime", startTime);
+		config.setParameter("stopTime", stopTime);
+		config.setParameter("tolerance", tolerance);
+		
+		config.setParameter("numOfIntervals", numOfIntervals);
+		config.setParameter("stepSize", stepSize);
+		config.setParameter("intervalLength", intervalLength);
+	
 		return config;
 	}
 
-	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"));
+	private static final Path DATA_TEST = Paths.get(System.getenv("PSM_DATA")).resolve("test");
+	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
 }

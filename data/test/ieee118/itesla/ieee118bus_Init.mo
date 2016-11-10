@@ -482,13 +482,6 @@ model _GEN__107_SM_Initialization
 	pPuWLMDV = 228.0,
 	xTfoIn = 0.1
     ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN__107_SM
- (
-	PNALT = 228.0,
-	SN = 250.0,
-	SNREF = 100.0,
-	PN = 242.0
-  ) annotation (Placement(transformation()));
   pssi3e2b_init pssi3e2b__GEN__107_SM
  (
 	PNALT = 228.0,
@@ -803,13 +796,6 @@ model _GEN__112_SM_Initialization
 	pPuWLMDV = 1485.0,
 	xTfoIn = 0.1
     ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN__112_SM
- (
-	PNALT = 1485.0,
-	SN = 1650.0,
-	SNREF = 100.0,
-	PN = 1485.0
-  ) annotation (Placement(transformation()));
   sexs_init sexs__GEN__112_SM
  (
 	PNALT = 1485.0,
@@ -904,13 +890,6 @@ model _GEN__113_SM_Initialization
 	pPuWLMDV = 1539.0,
 	xTfoIn = 0.1
     ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN__113_SM
- (
-	PNALT = 1539.0,
-	SN = 1710.0,
-	SNREF = 100.0,
-	PN = 1539.0
-  ) annotation (Placement(transformation()));
   pssi3e2b_init pssi3e2b__GEN__113_SM
  (
 	PNALT = 1539.0,
@@ -1048,13 +1027,6 @@ model _GEN__116_SM_Initialization
 	T10 = 0.,
 	T11 = 0.,
 	VSI2MIN = -999.,
-	PN = 1539.0
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN__116_SM
- (
-	PNALT = 1539.0,
-	SN = 1710.0,
-	SNREF = 100.0,
 	PN = 1539.0
   ) annotation (Placement(transformation()));
     equation
@@ -1701,13 +1673,6 @@ model _GEN___24_SM_Initialization
 	PN = 1008.0,
 	EMAX = 4.
   ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___24_SM
- (
-	PNALT = 1008.0,
-	SN = 1120.0,
-	SNREF = 100.0,
-	PN = 1008.0
-  ) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__GEN___24_SM.pin_ActivePowerSN, pssi3e2b__GEN___24_SM.pin_ActivePowerSN) annotation (Line());
 	connect(gen_pwGeneratorM2S__GEN___24_SM.pin_TerminalVoltage, sexs__GEN___24_SM.pin_TerminalVoltage) annotation (Line());
@@ -2020,13 +1985,6 @@ model _GEN___27_SM_Initialization
 	T10 = 0.,
 	T11 = 0.,
 	VSI2MIN = -999.,
-	PN = 1008.0
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___27_SM
- (
-	PNALT = 1008.0,
-	SN = 1120.0,
-	SNREF = 100.0,
 	PN = 1008.0
   ) annotation (Placement(transformation()));
     equation
@@ -2547,13 +2505,6 @@ model _GEN___40_SM_Initialization
 	VSI2MIN = -999.,
 	PN = 1539.0
   ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___40_SM
- (
-	PNALT = 1539.0,
-	SN = 1710.0,
-	SNREF = 100.0,
-	PN = 1539.0
-  ) annotation (Placement(transformation()));
   sexs_init sexs__GEN___40_SM
  (
 	PNALT = 1539.0,
@@ -2662,13 +2613,6 @@ model _GEN___42_SM_Initialization
 	T10 = 0.,
 	T11 = 0.,
 	VSI2MIN = -999.,
-	PN = 1485.0
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___42_SM
- (
-	PNALT = 1485.0,
-	SN = 1650.0,
-	SNREF = 100.0,
 	PN = 1485.0
   ) annotation (Placement(transformation()));
     equation
@@ -4069,13 +4013,6 @@ model _GEN___72_SM_Initialization
 	VSI2MIN = -999.,
 	PN = 1090.0
   ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___72_SM
- (
-	PNALT = 1090.0,
-	SN = 1211.0,
-	SNREF = 100.0,
-	PN = 1090.0
-  ) annotation (Placement(transformation()));
   sexs_init sexs__GEN___72_SM
  (
 	PNALT = 1090.0,
@@ -4184,13 +4121,6 @@ model _GEN___73_SM_Initialization
 	T10 = 0.,
 	T11 = 0.,
 	VSI2MIN = -999.,
-	PN = 1090.0
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___73_SM
- (
-	PNALT = 1090.0,
-	SN = 1211.0,
-	SNREF = 100.0,
 	PN = 1090.0
   ) annotation (Placement(transformation()));
     equation
@@ -5012,13 +4942,6 @@ model _GEN___90_SM_Initialization
 	pPuWLMDV = 1090.0,
 	xTfoIn = 0.1
     ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___90_SM
- (
-	PNALT = 1090.0,
-	SN = 1211.0,
-	SNREF = 100.0,
-	PN = 1090.0
-  ) annotation (Placement(transformation()));
   pssi3e2b_init pssi3e2b__GEN___90_SM
  (
 	PNALT = 1090.0,
@@ -5140,13 +5063,6 @@ model _GEN___91_SM_Initialization
 	T10 = 0.,
 	T11 = 0.,
 	VSI2MIN = -999.,
-	PN = 1090.0
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___91_SM
- (
-	PNALT = 1090.0,
-	SN = 1211.0,
-	SNREF = 100.0,
 	PN = 1090.0
   ) annotation (Placement(transformation()));
   sexs_init sexs__GEN___91_SM
@@ -5369,13 +5285,6 @@ model _GEN___99_SM_Initialization
 	VSI2MIN = -999.,
 	PN = 1539.0
   ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN___99_SM
- (
-	PNALT = 1539.0,
-	SN = 1710.0,
-	SNREF = 100.0,
-	PN = 1539.0
-  ) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__GEN___99_SM.pin_TerminalVoltage, sexs__GEN___99_SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__GEN___99_SM.pin_EFD, sexs__GEN___99_SM.pin_EFD) annotation (Line());
@@ -5550,13 +5459,6 @@ model _GEN____4_SM_Initialization
 	SN = 1120.0,
 	PN = 1008.0,
 	EMAX = 4.
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN____4_SM
- (
-	PNALT = 1008.0,
-	SN = 1120.0,
-	SNREF = 100.0,
-	PN = 1008.0
   ) annotation (Placement(transformation()));
   pssi3e2b_init pssi3e2b__GEN____4_SM
  (
@@ -5790,13 +5692,6 @@ model _GEN____8_SM_Initialization
 	SN = 1710.0,
 	PN = 1539.0,
 	EMAX = 4.
-  ) annotation (Placement(transformation()));
-  cmconst_init cmconst__GEN____8_SM
- (
-	PNALT = 1539.0,
-	SN = 1710.0,
-	SNREF = 100.0,
-	PN = 1539.0
   ) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__GEN____8_SM.pin_ActivePowerSN, pssi3e2b__GEN____8_SM.pin_ActivePowerSN) annotation (Line());

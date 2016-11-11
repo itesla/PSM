@@ -15,17 +15,21 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.power_systems_modelica.psm.ddr.ConnectionException;
+import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.Event.ActionEvent;
+import org.power_systems_modelica.psm.gui.model.EventParam;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
@@ -96,21 +100,44 @@ public class WorkflowService {
 		return engines;
 	}
 
-	public static ObservableList<ActionEvent> getActionEvents() {
+	public static ObservableList<String> getActionEvents(Ddr intput) {
 
-		ObservableList<ActionEvent> actions = FXCollections.observableArrayList();
-		actions.add(ActionEvent.OPEN);
-		actions.add(ActionEvent.CLOSE);
-		actions.add(ActionEvent.MODIFY);
+		ObservableList<String> actions = FXCollections.observableArrayList();
+		ddr = DynamicDataRepositoryMainFactory.create("DYD", intput.getLocation());
+		try {
+			ddr.connect();
+			
+			actions.addAll(ddr.getEvents());
+		} catch (ConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return actions;
 	}
 
-	public static Workflow createWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le,
+	public static ObservableList<EventParam> getEventParams(String event) {
+		
+		ObservableList<EventParam> eventParams = FXCollections.observableArrayList();
+		List<String> parameters = ddr.getEventParameters(event);
+		
+		parameters.forEach(p -> {
+			EventParam ep = new EventParam();
+			ep.setName(p);
+			ep.setValue("");
+			eventParams.add(ep);
+		});
+		
+		return eventParams;
+	}
+
+	public static Workflow createWorkflow(Catalog ctlg, Case cs, Ddr ddr0, LoadflowEngine le,
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
-		String fakeInit = Paths.get(ddr.getLocation()).resolve("fake_init.csv").toString();
+		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
+		String outname = DATA_TMP.resolve("eventAdder_initial.mo").toString();
+		String outnameev = DATA_TMP.resolve("eventAdder_events.mo").toString();
 		
 		try {
 			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
@@ -119,17 +146,32 @@ public class WorkflowService {
 			String loadflowClass = le.equals(LoadflowEngine.HADES2) ? "com.rte_france.itesla.hades2.Hades2Factory"
 					: "com.elequant.helmflow.ipst.HelmFlowFactory";
 
-			w = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())),
+			w = WF(
+					TD(StaticNetworkImporterTask.class, "importer0", 
+							TC("source", casePath.toString())),
 					TD(LoadFlowTask.class, loadflowId,
 							TC("loadFlowFactoryClass", loadflowClass, 
 									"targetStateId", "resultsLoadflow")),
 					TD(ModelicaNetworkBuilderTask.class, "modelica0",
 							TC("ddrType", "DYD",
-									"ddrLocation", ddr.getLocation(),
+									"ddrLocation", ddr0.getLocation(),
 									"onlyMainConnectedComponent", Boolean.toString(onlyMainConnectedComponent),
 									"modelicaEngine", "Fake",
 									"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-									"fakeModelicaEngineResults", fakeInit)));
+									"fakeModelicaEngineResults", fakeInit)),
+					TD(ModelicaExporterTask.class, "exporter0",
+							TC("source", "mo",
+									"target", outname,
+									"includePsmAnnotations", "true")),
+					TD(ModelicaEventAdderTask.class, "eventAdder0",
+							TC("ddrType", "DYD",
+									"ddrLocation", ddr0.getLocation(),
+									"events", (String) events.stream().map(Object::toString).collect(Collectors.joining("\n")))),
+					TD(ModelicaExporterTask.class, "exporter1",
+							TC("source", "moWithEvents",
+									"target", outnameev,
+									"includePsmAnnotations", "true"))
+					);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -175,7 +217,7 @@ public class WorkflowService {
 		return results;
 	}
 
-	public static Workflow createCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits)
+	public static Workflow createCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr0, boolean generatorsReactiveLimits)
 			throws WorkflowCreationException {
 
 		try {
@@ -251,7 +293,7 @@ public class WorkflowService {
 	private static Random rnd = new Random();
 	private static Workflow w = null;
 	private static Workflow cl = null;
+	private static DynamicDataRepository ddr = null;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowService.class);
-
 }

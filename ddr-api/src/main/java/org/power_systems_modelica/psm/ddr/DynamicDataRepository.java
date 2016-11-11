@@ -33,4 +33,8 @@ public interface DynamicDataRepository
 	}
 
 	Injection getInjectionForEvent(String id);
+
+	List<String> getEvents();
+	
+	List<String> getEventParameters(String event);
 }

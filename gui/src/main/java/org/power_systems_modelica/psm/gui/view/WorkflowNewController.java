@@ -5,7 +5,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
-import org.power_systems_modelica.psm.gui.model.Event.ActionEvent;
+import org.power_systems_modelica.psm.gui.model.EventParam;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.slf4j.Logger;
@@ -15,12 +15,18 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 public class WorkflowNewController {
 
@@ -45,20 +51,59 @@ public class WorkflowNewController {
 			}
 
 		});
+
+		ddrSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Ddr>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Ddr> observable, Ddr oldValue, Ddr newValue) {
+				actionEvent.setItems(mainApp.getActionEvents(newValue));
+			}
+
+		});
+
+		parametersView.setEditable(true);
+		nameParamColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		valueParamColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
+		valueParamColumn.setCellValueFactory(new PropertyValueFactory<EventParam, String>("value"));
+		valueParamColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		valueParamColumn.setOnEditCommit(
+		    new EventHandler<CellEditEvent<EventParam, String>>() {
+		        @Override
+		        public void handle(CellEditEvent<EventParam, String> t) {
+		            ((EventParam) t.getTableView().getItems().get(
+		                t.getTablePosition().getRow())
+		                ).setValue(t.getNewValue());
+		        }
+		    }
+		);
 	}
 
 	@FXML
 	private void handleOpenAddEvent() {
 		LOG.debug("handleAddEvent");
+		actionEvent.getSelectionModel().clearSelection();
+		elementEvent.clear();
+		parametersView.setItems(null);
 		addEventPane.setVisible(true);
+	}
+	
+	@FXML
+	private void handleActionSelectedEvent() {
+		
+		String event = actionEvent.getSelectionModel().getSelectedItem();
+		if (event != null)
+			parametersView.setItems(mainApp.getEventParams(event));
 	}
 
 	@FXML
 	private void handleAddEvent() {
 		LOG.debug("handleAddEvent");
+		
 		Event e = new Event();
 		e.setElement(elementEvent.getText());
 		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
+		e.setParams(parametersView.getItems());
+		
 		addedEvents.getItems().add(e);
 		addEventPane.setVisible(false);
 	}
@@ -95,6 +140,11 @@ public class WorkflowNewController {
 		mainApp.startWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
 	}
 
+	@FXML
+	private void handleEditCommitEvent() {
+		
+	}
+	
 	public void setCase(Case c) {
 		
 		ObservableList<Catalog> catalogs = mainApp.getCatalogs("cases");
@@ -116,7 +166,6 @@ public class WorkflowNewController {
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
 		dsEngine.setItems(mainApp.getDsEngines());
-		actionEvent.setItems(mainApp.getActionEvents());
 	}
 
 	@FXML
@@ -142,7 +191,13 @@ public class WorkflowNewController {
 	@FXML
 	private TextField elementEvent;
 	@FXML
-	private ComboBox<ActionEvent> actionEvent;
+	private ComboBox<String> actionEvent;
+	@FXML
+	private TableView<EventParam> parametersView;
+    @FXML
+    private TableColumn<EventParam, String> nameParamColumn;
+    @FXML
+    private TableColumn<EventParam, String> valueParamColumn;
 
 	@FXML
 	private ComboBox<DsEngine> dsEngine;

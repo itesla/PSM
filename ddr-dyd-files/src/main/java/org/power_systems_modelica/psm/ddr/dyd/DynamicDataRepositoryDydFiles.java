@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +138,47 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
 		return mdef.getInjection();
+	}
+
+	@Override
+	public List<String> getEvents() {
+		
+		List<String> expectedEvents = Arrays.asList(
+				"BusFault",
+				"LineFault",
+				"LineOpenReceiverSide",
+				"LineOpenBothSides",
+				"BankModification",
+				"LoadVariation");
+		
+		return expectedEvents;
+	}
+	
+	@Override
+	public List<String> getEventParameters(String event) {
+		
+		List<String> expectedParameters = null;
+		
+		if (event.equals("BusFault")){
+			expectedParameters = Arrays.asList(
+				"R",
+				"X",
+				"t1",
+				"t2");
+		}
+		else if (event.equals("LineFault")) {
+			expectedParameters = Arrays.asList(
+					"k",
+					"Rfault",
+					"Xfault",
+					"startTime",
+					"endTime");
+		}
+		else {
+			expectedParameters = Arrays.asList();
+		}
+		
+		return expectedParameters;
 	}
 
 	public void setSystemDefinitionsName(String systemName)

@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -110,8 +112,8 @@
 									<children>
 										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="100.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
 										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" text="Added events:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<Button layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="35.0" text="+" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
-										<Button layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="35.0" text="-" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
+										<Button layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="35.0" styleClass="btn-default" text="+" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
+										<Button layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="35.0" styleClass="btn-default" text="-" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -140,20 +142,28 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</HBox>
-                  <TitledPane fx:id="addEventPane" animated="false" collapsible="false" layoutX="50.0" layoutY="470.0" text="Add event" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                  <TitledPane fx:id="addEventPane" animated="false" collapsible="false" layoutX="50.0" layoutY="323.0" prefHeight="353.0" prefWidth="498.0" text="Add event" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="37.0" layoutY="33.0" prefHeight="30.0" text="Element:" AnchorPane.leftAnchor="40.0" />
-                              <TextField fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="40.0" />
-                              <Label layoutX="50.0" layoutY="63.0" prefHeight="30.0" text="Action:" AnchorPane.leftAnchor="40.0" />
-                              <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="66.0" prefWidth="150.0" AnchorPane.leftAnchor="100.0" />
-                              <HBox layoutX="110.0" layoutY="114.0" spacing="10.0">
+                              <TextField fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="40.0" />
+                              <Label layoutX="50.0" layoutY="33.0" prefHeight="30.0" text="Action:" AnchorPane.leftAnchor="40.0" />
+                              <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="33.0" onAction="#handleActionSelectedEvent" prefWidth="150.0" AnchorPane.leftAnchor="100.0" />
+                              <HBox layoutX="110.0" layoutY="114.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#handleAddEvent" text="Add" />
-                                    <Button mnemonicParsing="false" onAction="#handleCancelEvent" text="Cancel" />
+                                    <Button mnemonicParsing="false" onAction="#handleAddEvent" styleClass="btn-default" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#handleCancelEvent" styleClass="btn-default" text="Cancel" />
                                  </children>
                               </HBox>
+                              <TableView fx:id="parametersView" layoutX="50.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
+                                <columns>
+                                  <TableColumn fx:id="nameParamColumn" editable="false" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="valueParamColumn" onEditCommit="#handleEditCommitEvent" prefWidth="75.0" text="Value" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
                            </children>
                         </AnchorPane>
                     </content>

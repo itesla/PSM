@@ -1,28 +1,17 @@
 package org.power_systems_modelica.psm.gui.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Event implements Serializable  {
 
-	public enum ActionEvent {
-		OPEN(0), CLOSE(1), MODIFY(2);
-
-		private int value;
-
-		private ActionEvent(int value) {
-			this.value = value;
-		}
-
-		public int getValue() {
-			return value;
-		}
-	}
-
-	public ActionEvent getAction() {
+	public String getAction() {
 		return action;
 	}
 	
-	public void setAction(ActionEvent action) {
+	public void setAction(String action) {
 		this.action = action;
 	}
 	
@@ -34,22 +23,27 @@ public class Event implements Serializable  {
 		this.element = element;
 	}
 	
+	public List<EventParam> getParams() {
+		return params;
+	}
+
+	public void setParams(List<EventParam> params) {
+		this.params = params;
+	}
+
 	@Override
 	public String toString() {
-		String txt = "Action: ";
 		
-		if (action == ActionEvent.OPEN)
-			txt += "OPEN";
-		else if (action == ActionEvent.CLOSE)
-			txt += "CLOSE";
-		else if (action == ActionEvent.MODIFY)
-			txt += "MODIFY";
-		txt += ", ";
-		txt += "Element: " + element;
+		String t = action +
+				"," +
+				element +
+				"," +
+				params.stream().map(Object::toString).collect(Collectors.joining(","));
 		
-		return txt;
+		return t;
 	}
 	
-	private ActionEvent action;
+	private String action;
 	private String element;
+	private List<EventParam> params;
 }

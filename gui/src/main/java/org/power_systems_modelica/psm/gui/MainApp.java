@@ -355,10 +355,10 @@ public class MainApp extends Application {
 		return WorkflowService.getCompareLoadflow();
 	}
 
-	public void startCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr, boolean generatorsReactiveLimits) {
+	public void startCompareLoadflows(Catalog ctlg, Case cs, boolean generatorsReactiveLimits) {
 
 		try {
-			Workflow w = WorkflowService.createCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+			Workflow w = WorkflowService.createCompareLoadflows(ctlg, cs, generatorsReactiveLimits);
 			clTask = TaskService.createTask(w, () -> showCompareLoadflowsDetailView());
 			showWorkflowStatusView(w, false);
 			TaskService.startTask(clTask);

@@ -25,7 +25,6 @@ public class CompareLoadflowsNewController {
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
 				caseSource.setItems(mainApp.getCases(newValue.getName()));
-				ddrSource.setItems(mainApp.getDdrs(newValue.getName()));
 			}
 
 		});
@@ -37,11 +36,10 @@ public class CompareLoadflowsNewController {
 
 		Catalog ctlg = (Catalog) catalogSource.getSelectionModel().getSelectedItem();
 		Case cs = (Case) caseSource.getSelectionModel().getSelectedItem();
-		Ddr ddr = (Ddr) ddrSource.getSelectionModel().getSelectedItem();
 
 		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
 
-		mainApp.startCompareLoadflows(ctlg, cs, ddr, generatorsReactiveLimits);
+		mainApp.startCompareLoadflows(ctlg, cs, generatorsReactiveLimits);
 	}
 
 	public void setCase(Case c) {
@@ -67,8 +65,6 @@ public class CompareLoadflowsNewController {
 	private ComboBox catalogSource;
 	@FXML
 	private ComboBox caseSource;
-	@FXML
-	private ComboBox ddrSource;
 
 	@FXML
 	private CheckBox enforceGeneratorsReactiveLimits;

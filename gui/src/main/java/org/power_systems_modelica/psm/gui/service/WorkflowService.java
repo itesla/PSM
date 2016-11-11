@@ -217,7 +217,7 @@ public class WorkflowService {
 		return results;
 	}
 
-	public static Workflow createCompareLoadflows(Catalog ctlg, Case cs, Ddr ddr0, boolean generatorsReactiveLimits)
+	public static Workflow createCompareLoadflows(Catalog ctlg, Case cs, boolean generatorsReactiveLimits)
 			throws WorkflowCreationException {
 
 		try {

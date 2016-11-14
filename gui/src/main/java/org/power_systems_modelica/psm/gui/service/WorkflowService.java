@@ -25,7 +25,11 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.EventParam;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.XXXDelayTask;
+import org.power_systems_modelica.psm.workflow.TaskDefinition;
+import org.power_systems_modelica.psm.workflow.TaskFactory;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowConfiguration;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -145,33 +149,50 @@ public class WorkflowService {
 			String loadflowId = le.equals(LoadflowEngine.HADES2) ? "loadflowHades2" : "loadflowHelmflow";
 			String loadflowClass = le.equals(LoadflowEngine.HADES2) ? "com.rte_france.itesla.hades2.Hades2Factory"
 					: "com.elequant.helmflow.ipst.HelmFlowFactory";
+			
+			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
+			
+			tasks.add(TD(StaticNetworkImporterTask.class, "importer0", 
+					TC("source", casePath.toString())));
+			tasks.add(TD(XXXDelayTask.class, "delay0", 
+					null));
+			tasks.add(TD(LoadFlowTask.class, loadflowId,
+					TC("loadFlowFactoryClass", loadflowClass, 
+							"targetStateId", "resultsLoadflow")));
+			tasks.add(TD(XXXDelayTask.class, "delay1", 
+					null));
+			tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
+					TC("ddrType", "DYD",
+							"ddrLocation", ddr0.getLocation(),
+							"onlyMainConnectedComponent", Boolean.toString(onlyMainConnectedComponent),
+							"modelicaEngine", "Fake",
+							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+							"fakeModelicaEngineResults", fakeInit)));
+			tasks.add(TD(XXXDelayTask.class, "delay2", 
+					null));
+			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
+					TC("source", "mo",
+							"target", outname,
+							"includePsmAnnotations", "true")));
+			if (!events.isEmpty()) {
+				tasks.add(TD(XXXDelayTask.class, "delay3", 
+						null));
+				tasks.add(TD(ModelicaEventAdderTask.class, "eventAdder0",
+						TC("ddrType", "DYD",
+								"ddrLocation", ddr0.getLocation(),
+								"events", (String) events.stream().map(Object::toString).collect(Collectors.joining("\n")))));
+				tasks.add(TD(XXXDelayTask.class, "delay4", 
+						null));
+				tasks.add(TD(ModelicaExporterTask.class, "exporter1",
+						TC("source", "moWithEvents",
+								"target", outnameev,
+								"includePsmAnnotations", "true")));
+			}
 
-			w = WF(
-					TD(StaticNetworkImporterTask.class, "importer0", 
-							TC("source", casePath.toString())),
-					TD(LoadFlowTask.class, loadflowId,
-							TC("loadFlowFactoryClass", loadflowClass, 
-									"targetStateId", "resultsLoadflow")),
-					TD(ModelicaNetworkBuilderTask.class, "modelica0",
-							TC("ddrType", "DYD",
-									"ddrLocation", ddr0.getLocation(),
-									"onlyMainConnectedComponent", Boolean.toString(onlyMainConnectedComponent),
-									"modelicaEngine", "Fake",
-									"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-									"fakeModelicaEngineResults", fakeInit)),
-					TD(ModelicaExporterTask.class, "exporter0",
-							TC("source", "mo",
-									"target", outname,
-									"includePsmAnnotations", "true")),
-					TD(ModelicaEventAdderTask.class, "eventAdder0",
-							TC("ddrType", "DYD",
-									"ddrLocation", ddr0.getLocation(),
-									"events", (String) events.stream().map(Object::toString).collect(Collectors.joining("\n")))),
-					TD(ModelicaExporterTask.class, "exporter1",
-							TC("source", "moWithEvents",
-									"target", outnameev,
-									"includePsmAnnotations", "true"))
-					);
+			WorkflowConfiguration config = new WorkflowConfiguration();
+			config.setTaskDefinitions(tasks);
+			TaskFactory tf = new TaskFactory();
+			w = Workflow.create(config, tf);
 
 		} catch (IOException e) {
 			e.printStackTrace();

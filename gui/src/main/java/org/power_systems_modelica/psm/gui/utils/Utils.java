@@ -9,10 +9,14 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Utils {
 
@@ -83,4 +87,25 @@ public class Utils {
 		bufferedWriter.close();
 		outputStream.close();
 	}
+
+	public static void showWarning(String title, String message) {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+
+		alert.showAndWait();
+	}
+
+	public static boolean existsFile(String location, String file) {
+
+		try {
+			Path path = Paths.get(location).resolve(file);
+			return Files.exists(path);
+		}
+		catch (InvalidPathException e) {
+			return false;
+		}
+	}
+
 }

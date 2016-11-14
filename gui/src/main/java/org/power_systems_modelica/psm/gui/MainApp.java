@@ -332,11 +332,11 @@ public class MainApp extends Application {
 		return WorkflowService.getActionEvents(ddr);
 	}
 
-	public void startWorkflow(Catalog ctlg, Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
+	public void startWorkflow(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
 			ObservableList events, DsEngine dse) {
 
 		try {
-			Workflow w = WorkflowService.createWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
+			Workflow w = WorkflowService.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse);
 			wTask = TaskService.createTask(w, () -> showWorkflowDetailView());
 			showWorkflowStatusView(w, true);
 			TaskService.startTask(wTask);
@@ -354,10 +354,10 @@ public class MainApp extends Application {
 		return WorkflowService.getCompareLoadflow();
 	}
 
-	public void startCompareLoadflows(Catalog ctlg, Case cs, boolean generatorsReactiveLimits) {
+	public void startCompareLoadflows(Case cs, boolean generatorsReactiveLimits) {
 
 		try {
-			Workflow w = WorkflowService.createCompareLoadflows(ctlg, cs, generatorsReactiveLimits);
+			Workflow w = WorkflowService.createCompareLoadflows(cs, generatorsReactiveLimits);
 			clTask = TaskService.createTask(w, () -> showCompareLoadflowsDetailView());
 			showWorkflowStatusView(w, false);
 			TaskService.startTask(clTask);

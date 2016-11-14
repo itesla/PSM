@@ -134,7 +134,7 @@ public class WorkflowService {
 		return eventParams;
 	}
 
-	public static Workflow createWorkflow(Catalog ctlg, Case cs, Ddr ddr0, LoadflowEngine le,
+	public static Workflow createWorkflow(Case cs, Ddr ddr0, LoadflowEngine le,
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
 		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
@@ -227,7 +227,7 @@ public class WorkflowService {
 		return results;
 	}
 
-	public static Workflow createCompareLoadflows(Catalog ctlg, Case cs, boolean generatorsReactiveLimits)
+	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits)
 			throws WorkflowCreationException {
 
 		try {

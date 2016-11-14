@@ -4,6 +4,7 @@ import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,12 +35,15 @@ public class CompareLoadflowsNewController {
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
 
-		Catalog ctlg = (Catalog) catalogSource.getSelectionModel().getSelectedItem();
 		Case cs = (Case) caseSource.getSelectionModel().getSelectedItem();
+		if (cs == null) {
+			Utils.showWarning("Warning", "Select a case");
+			return;
+		}
 
 		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
 
-		mainApp.startCompareLoadflows(ctlg, cs, generatorsReactiveLimits);
+		mainApp.startCompareLoadflows(cs, generatorsReactiveLimits);
 	}
 
 	public void setCase(Case c) {

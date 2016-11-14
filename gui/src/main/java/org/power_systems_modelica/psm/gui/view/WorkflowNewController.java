@@ -8,6 +8,7 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParam;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,21 +126,36 @@ public class WorkflowNewController {
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
 
-		Catalog ctlg = catalogCaseSource.getSelectionModel().getSelectedItem();
 		Case cs = caseSource.getSelectionModel().getSelectedItem();
+		if (cs == null) {
+			Utils.showWarning("Warning", "Select a case");
+			return;
+		}
 		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
+		if (ddr == null) {
+			Utils.showWarning("Warning", "Select a DDR");
+			return;
+		}
 
 		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
+		if (le == null) {
+			Utils.showWarning("Warning", "Select a Loadflow engine");
+			return;
+		}
 
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
+		if (dse == null) {
+			Utils.showWarning("Warning", "Select a Dynamic simulation engine");
+			return;
+		}
 
 		ObservableList<Event> events = addedEvents.getItems();
 
-		mainApp.startWorkflow(ctlg, cs, ddr, le, onlyMainConnectedComponent, events, dse);
+		mainApp.startWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse);
 	}
-
+	
 	@FXML
 	private void handleEditCommitEvent() {
 		

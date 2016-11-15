@@ -6,246 +6,246 @@ model ieee30bus
 
 // BUSES
   iPSL.Electrical.Buses.Bus bus__BLAI___7_TN (
-	 V_0 = 1.0024583,
-	 angle_0 = -12.867454
+	 V_0 = 1.0023613,
+	 angle_0 = -12.866136
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___14_TN (
-	 V_0 = 1.0409689,
-	 angle_0 = -15.8278475
+	 V_0 = 1.0422646,
+	 angle_0 = -15.836306
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___15_TN (
-	 V_0 = 1.0368334,
-	 angle_0 = -15.927121
+	 V_0 = 1.0376658,
+	 angle_0 = -15.9282465
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___16_TN (
-	 V_0 = 1.0438741,
-	 angle_0 = -15.531325
+	 V_0 = 1.0443734,
+	 angle_0 = -15.527196
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___17_TN (
-	 V_0 = 1.0405275,
-	 angle_0 = -15.865252
+	 V_0 = 1.0398848,
+	 angle_0 = -15.862269
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___18_TN (
-	 V_0 = 1.0280039,
-	 angle_0 = -16.5441
+	 V_0 = 1.028136,
+	 angle_0 = -16.542593
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___19_TN (
-	 V_0 = 1.0259176,
-	 angle_0 = -16.719124
+	 V_0 = 1.0256345,
+	 angle_0 = -16.716347
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___20_TN (
-	 V_0 = 1.0302206,
-	 angle_0 = -16.523445
+	 V_0 = 1.0297201,
+	 angle_0 = -16.519783
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___21_TN (
-	 V_0 = 1.033987,
-	 angle_0 = -16.147226
+	 V_0 = 1.0327083,
+	 angle_0 = -16.143284
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___22_TN (
-	 V_0 = 1.0345523,
-	 angle_0 = -16.132868
+	 V_0 = 1.0332395,
+	 angle_0 = -16.129047
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___23_TN (
-	 V_0 = 1.0274578,
-	 angle_0 = -16.32024
+	 V_0 = 1.0271647,
+	 angle_0 = -16.318964
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___24_TN (
-	 V_0 = 1.0233569,
-	 angle_0 = -16.499044
+	 V_0 = 1.0215647,
+	 angle_0 = -16.495577
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___25_TN (
-	 V_0 = 1.0217563,
-	 angle_0 = -16.081306
+	 V_0 = 1.0173179,
+	 angle_0 = -16.067736
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___26_TN (
-	 V_0 = 1.0041584,
-	 angle_0 = -16.497278
+	 V_0 = 0.9996403,
+	 angle_0 = -16.48741
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___29_TN (
-	 V_0 = 1.0095617,
-	 angle_0 = -16.778797
+	 V_0 = 1.0033891,
+	 angle_0 = -16.77335
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__BUS___30_TN (
-	 V_0 = 0.9981611,
-	 angle_0 = -17.65078
+	 V_0 = 0.9919142,
+	 angle_0 = -17.656214
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__CLAY___2_TN (
 	 V_0 = 1.043,
-	 angle_0 = -5.348747
+	 angle_0 = -5.3499928
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__CLOV__27_TN (
-	 V_0 = 1.0292721,
-	 angle_0 = -15.563498
+	 V_0 = 1.0232285,
+	 angle_0 = -15.543357
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__CLOV__28_TN (
-	 V_0 = 1.0065662,
-	 angle_0 = -11.695438
+	 V_0 = 1.0067967,
+	 angle_0 = -11.689286
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__FIEL___5_TN (
 	 V_0 = 1.0100001,
-	 angle_0 = -14.165995
+	 angle_0 = -14.167108
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__GLEN___1_TN (
 	 V_0 = 1.06,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__HANC__12_TN (
-	 V_0 = 1.0553659,
-	 angle_0 = -14.93606
+	 V_0 = 1.0571039,
+	 angle_0 = -14.944126
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__HANC__13_TN (
 	 V_0 = 1.071,
-	 angle_0 = -14.93606
+	 angle_0 = -14.944126
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__HANC___4_TN (
-	 V_0 = 1.0126953,
-	 angle_0 = -9.291033
+	 V_0 = 1.011726,
+	 angle_0 = -9.284511
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__KUMI___3_TN (
-	 V_0 = 1.021495,
-	 angle_0 = -7.5382876
+	 V_0 = 1.0207102,
+	 angle_0 = -7.532284
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__REUS___8_TN (
 	 V_0 = 1.0100001,
-	 angle_0 = -11.816617
+	 angle_0 = -11.814544
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__ROAN__10_TN (
-	 V_0 = 1.0462639,
-	 angle_0 = -15.706151
+	 V_0 = 1.0451093,
+	 angle_0 = -15.700556
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__ROAN__11_TN (
 	 V_0 = 1.082,
-	 angle_0 = -14.117668
+	 angle_0 = -14.109797
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__ROAN___6_TN (
-	 V_0 = 1.0103933,
-	 angle_0 = -11.068517
+	 V_0 = 1.0102308,
+	 angle_0 = -11.065386
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__ROAN___9_TN (
-	 V_0 = 1.0509585,
-	 angle_0 = -14.117668
+	 V_0 = 1.0508965,
+	 angle_0 = -14.109797
 	 ) annotation (Placement(transformation()));
 
 // LOADS
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__10_EC (
-	 V_0 = 1.0462639,
+	 V_0 = 1.0451093,
 	 P_0 = 5.8,
 	 Q_0 = 2.0,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -15.706151
+	 angle_0 = -15.700556
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__12_EC (
-	 V_0 = 1.0553659,
+	 V_0 = 1.0571039,
 	 P_0 = 11.2,
 	 Q_0 = 7.5,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -14.93606
+	 angle_0 = -14.944126
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__14_EC (
-	 V_0 = 1.0409689,
+	 V_0 = 1.0422646,
 	 P_0 = 6.2,
 	 Q_0 = 1.6,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -15.8278475
+	 angle_0 = -15.836306
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__15_EC (
-	 V_0 = 1.0368334,
+	 V_0 = 1.0376658,
 	 P_0 = 8.2,
 	 Q_0 = 2.5,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -15.927121
+	 angle_0 = -15.9282465
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__16_EC (
-	 V_0 = 1.0438741,
+	 V_0 = 1.0443734,
 	 P_0 = 3.5,
 	 Q_0 = 1.8,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -15.531325
+	 angle_0 = -15.527196
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__17_EC (
-	 V_0 = 1.0405275,
+	 V_0 = 1.0398848,
 	 P_0 = 9.0,
 	 Q_0 = 5.8,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -15.865252
+	 angle_0 = -15.862269
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__18_EC (
-	 V_0 = 1.0280039,
+	 V_0 = 1.028136,
 	 P_0 = 3.2,
 	 Q_0 = 0.9,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.5441
+	 angle_0 = -16.542593
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__19_EC (
-	 V_0 = 1.0259176,
+	 V_0 = 1.0256345,
 	 P_0 = 9.5,
 	 Q_0 = 3.4,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.719124
+	 angle_0 = -16.716347
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__20_EC (
-	 V_0 = 1.0302206,
+	 V_0 = 1.0297201,
 	 P_0 = 2.2,
 	 Q_0 = 0.7,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.523445
+	 angle_0 = -16.519783
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__21_EC (
-	 V_0 = 1.033987,
+	 V_0 = 1.0327083,
 	 P_0 = 17.5,
 	 Q_0 = 11.2,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.147226
+	 angle_0 = -16.143284
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__23_EC (
-	 V_0 = 1.0274578,
+	 V_0 = 1.0271647,
 	 P_0 = 3.2,
 	 Q_0 = 1.6,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.32024
+	 angle_0 = -16.318964
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__24_EC (
-	 V_0 = 1.0233569,
+	 V_0 = 1.0215647,
 	 P_0 = 8.7,
 	 Q_0 = 6.7,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.499044
+	 angle_0 = -16.495577
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__26_EC (
-	 V_0 = 1.0041584,
+	 V_0 = 0.9996403,
 	 P_0 = 3.5,
 	 Q_0 = 2.3,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.497278
+	 angle_0 = -16.48741
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__29_EC (
-	 V_0 = 1.0095617,
+	 V_0 = 1.0033891,
 	 P_0 = 2.4,
 	 Q_0 = 0.9,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -16.778797
+	 angle_0 = -16.77335
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__30_EC (
-	 V_0 = 0.9981611,
+	 V_0 = 0.9919142,
 	 P_0 = 10.6,
 	 Q_0 = 1.9,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -17.65078
+	 angle_0 = -17.656214
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___2_EC (
 	 V_0 = 1.043,
@@ -253,23 +253,23 @@ model ieee30bus
 	 Q_0 = 12.7,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -5.348747
+	 angle_0 = -5.3499928
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___3_EC (
-	 V_0 = 1.021495,
+	 V_0 = 1.0207102,
 	 P_0 = 2.4,
 	 Q_0 = 1.2,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -7.5382876
+	 angle_0 = -7.532284
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___4_EC (
-	 V_0 = 1.0126953,
+	 V_0 = 1.011726,
 	 P_0 = 7.6,
 	 Q_0 = 1.6,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -9.291033
+	 angle_0 = -9.284511
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___5_EC (
 	 V_0 = 1.0100001,
@@ -277,15 +277,15 @@ model ieee30bus
 	 Q_0 = 19.0,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -14.165995
+	 angle_0 = -14.167108
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___7_EC (
-	 V_0 = 1.0024583,
+	 V_0 = 1.0023613,
 	 P_0 = 22.8,
 	 Q_0 = 10.9,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -12.867454
+	 angle_0 = -12.866136
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___8_EC (
 	 V_0 = 1.0100001,
@@ -293,12 +293,12 @@ model ieee30bus
 	 Q_0 = 30.0,
 	 alpha = 1.5,
 	 beta = 2.5,
-	 angle_0 = -11.816617
+	 angle_0 = -11.814544
 	 ) annotation (Placement(transformation()));
 
 // TAP CHANGER TRANSFORMERS
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__CLOV__28_CLOV__27_1_PT (
-	 r = 1.0416667,
+	 r = 1.0330578,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -306,7 +306,7 @@ model ieee30bus
 	 X = 0.3959997648268911
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__HANC___4_HANC__12_1_PT (
-	 r = 1.0638298,
+	 r = 1.0729614,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -314,7 +314,7 @@ model ieee30bus
 	 X = 0.25599977267346763
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__ROAN___6_ROAN__10_1_PT (
-	 r = 1.0416667,
+	 r = 1.0319917,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -322,7 +322,7 @@ model ieee30bus
 	 X = 0.5559997838828628
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__ROAN___6_ROAN___9_1_PT (
-	 r = 1.0204082,
+	 r = 1.0224949,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -569,9 +569,10 @@ model ieee30bus
 // GENERATORS
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN___11_SM (
 	 SNREF = SNREF, 
-	 ur0 = 1.0493202047820007, 
-	 ui0 = -0.2639150336448885, 
-	 transformerIncluded = false, 
+	 ur0 = 1.0493564538236038, 
+	 ui0 = -0.2637708664092251, 
+	 transformerIncluded = true, 
+	 V2 = 33.0, 
 	 Saturated = false, 
 	 TX = 0, 
 	 md = 0, 
@@ -580,31 +581,37 @@ model ieee30bus
 	 mq = 0, 
 	 snd = 0, 
 	 snq = 0, 
-	 init_theta = -0.2467239643695314, 
+	 init_theta = -0.2465812394291688, 
 	 init_omega = 1.0, 
-	 init_efd = 0.6142867676866529, 
+	 init_efd = 0.6256848634263663, 
 	 WLMDVPu = 0.6941167416525881, 
-	 init_lambdaad = -1.123116873214723, 
-	 init_cm = 0.000209784661966909, 
-	 init_lambdaq1 = 0.0001841375309146513, 
-	 init_lambdaq2 = 0.0001841375309146513, 
-	 init_iq = 4.837929766655924e-05, 
-	 init_id = 0.1492385202897147, 
-	 init_lambdaaq = 0.0001841375309146513, 
-	 init_lambdad = -1.123116873214723, 
-	 init_lambdaf = -1.24703810372081,
+	 init_lambdaad = -1.153716425297699, 
+	 init_cm = 0.0002106220826223338, 
+	 init_lambdaq1 = 0.0001814675540514541, 
+	 init_lambdaq2 = 0.0001814675540514541, 
+	 init_iq = 4.767780240493014e-05, 
+	 init_id = 0.1495360898419885, 
+	 init_lambdaaq = 0.0001814675540514541, 
+	 init_lambdad = -1.153716425297699, 
+	 init_lambdaf = -1.279937015197137,
 	 PNALT = 39.2,
 	 IENR = 3,
 	 DIn = 0.0,
 	 HIn = 5.22,
 	 TSD0 = 0.033,
 	 XPD = 0.253,
+	 RTfoPu = 0.0,
 	 TPD0 = 5.51,
+	 XTfoPu = 0.1,
 	 rStatIn = 0.0018,
+	 U1N = 11.0,
 	 TSQ0 = 0.034,
 	 SN = 49.0,
+	 V1 = 11.0,
 	 XSD = 0.171,
 	 XD = 2.07,
+	 U2N = 33.0,
+	 SNtfo = 49.0,
 	 lStatIn = 0.135,
 	 XSQ = 0.198,
 	 XQ = 2.0,
@@ -613,9 +620,10 @@ model ieee30bus
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN___13_SM (
 	 SNREF = SNREF, 
-	 ur0 = 1.0348152380158917, 
-	 ui0 = -0.27604054099341246, 
-	 transformerIncluded = false, 
+	 ur0 = 1.034776365069819, 
+	 ui0 = -0.2761862259322773, 
+	 transformerIncluded = true, 
+	 V2 = 33.0, 
 	 Saturated = false, 
 	 TX = 0, 
 	 md = 0, 
@@ -624,31 +632,37 @@ model ieee30bus
 	 mq = 0, 
 	 snd = 0, 
 	 snq = 0, 
-	 init_theta = -0.2614416199953252, 
+	 init_theta = -0.261494367967728, 
 	 init_omega = 1.0, 
-	 init_efd = 0.7602561199617732, 
+	 init_efd = 0.7474786382593582, 
 	 WLMDVPu = 0.6325921276173984, 
-	 init_lambdaad = -1.14757501354403, 
-	 init_cm = 0.0003340309729625336, 
-	 init_lambdaq1 = 8.708863436090241e-05, 
-	 init_lambdaq2 = 8.708863436090241e-05, 
-	 init_iq = 8.466950562860051e-05, 
-	 init_id = 0.1116713145276887, 
-	 init_lambdaaq = 8.708863436090241e-05, 
-	 init_lambdad = -1.14757501354403, 
-	 init_lambdaf = -1.369819424940058,
+	 init_lambdaad = -1.167422584569704, 
+	 init_cm = 0.0002638982007783914, 
+	 init_lambdaq1 = 6.841989855563076e-05, 
+	 init_lambdaq2 = 6.841989855563076e-05, 
+	 init_iq = 6.651934581793431e-05, 
+	 init_id = 0.09925822419781291, 
+	 init_lambdaaq = 6.841989855563076e-05, 
+	 init_lambdad = -1.167422584569704, 
+	 init_lambdaf = -1.38593177591881,
 	 PNALT = 32.0,
 	 IENR = 3,
 	 DIn = 0.0,
 	 HIn = 3.657,
 	 TSD0 = 0.15,
 	 XPD = 0.38,
+	 RTfoPu = 0.0,
 	 TPD0 = 9.4,
+	 XTfoPu = 0.1,
 	 rStatIn = 0.003,
+	 U1N = 11.0,
 	 TSQ0 = 0.2,
 	 SN = 35.0,
+	 V1 = 11.0,
 	 XSD = 0.29,
 	 XD = 1.54,
+	 U2N = 33.0,
+	 SNtfo = 35.0,
 	 lStatIn = 0.24,
 	 XSQ = 0.4,
 	 XQ = 0.6,
@@ -663,19 +677,19 @@ model ieee30bus
 	 V2 = 132.0, 
 	 Saturated = true, 
 	 TX = 0, 
-	 init_theta = 0.3448392943611234, 
+	 init_theta = 0.3446254629968569, 
 	 init_omega = 1.0, 
-	 init_efd = 0.4534060957079337, 
+	 init_efd = 0.4537557066891391, 
 	 WLMDVPu = 0.6296504227510634, 
-	 init_lambdaad = -1.015129595923705, 
-	 init_cm = 0.2394987523803437, 
-	 init_lambdaq1 = 0.2993627466859302, 
-	 init_lambdaq2 = 0.2993627466859302, 
-	 init_iq = 2.370778949826689, 
-	 init_id = 0.6810751365722156, 
-	 init_lambdaaq = 0.2993627466859302, 
-	 init_lambdad = -1.015129595923705, 
-	 init_lambdaf = -1.176768819318002,
+	 init_lambdaad = -1.015302933144443, 
+	 init_cm = 0.2395342095159434, 
+	 init_lambdaq1 = 0.2991763785181839, 
+	 init_lambdaq2 = 0.2991763785181839, 
+	 init_iq = 2.369733969141769, 
+	 init_id = 0.6849639503530094, 
+	 init_lambdaaq = 0.2991763785181839, 
+	 init_lambdad = -1.015302933144443, 
+	 init_lambdaf = -1.177066792815197,
 	 PNALT = 1090.0,
 	 IENR = 4,
 	 DIn = 0.0,
@@ -708,25 +722,25 @@ model ieee30bus
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____2_SM (
 	 SNREF = SNREF, 
-	 ur0 = 1.0384584998705986, 
-	 ui0 = -0.09722606768733962, 
+	 ur0 = 1.038456385128693, 
+	 ui0 = -0.09724865231397534, 
 	 transformerIncluded = true, 
 	 V2 = 132.0, 
 	 Saturated = true, 
 	 TX = 0, 
-	 init_theta = -0.02110752011005718, 
+	 init_theta = -0.02112926835481956, 
 	 init_omega = 1.0, 
-	 init_efd = 0.3909768857038512, 
+	 init_efd = 0.3909768857038509, 
 	 WLMDVPu = 0.717262019773382, 
 	 init_lambdaad = -1.054796920759688, 
-	 init_cm = 0.03969445772464726, 
-	 init_lambdaq1 = 0.06553889799168311, 
-	 init_lambdaq2 = 0.06553889799168311, 
-	 init_iq = 0.3479052019530076, 
-	 init_id = 0.5058186686682055, 
-	 init_lambdaaq = 0.06553889799168311, 
+	 init_cm = 0.03969445772464725, 
+	 init_lambdaq1 = 0.06553889799168315, 
+	 init_lambdaq2 = 0.06553889799168315, 
+	 init_iq = 0.3479052019530077, 
+	 init_id = 0.5058186686682058, 
+	 init_lambdaaq = 0.06553889799168315, 
 	 init_lambdad = -1.054796920759688, 
-	 init_lambdaf = -1.174070423417887,
+	 init_lambdaf = -1.174070423417886,
 	 PNALT = 1008.0,
 	 IENR = 4,
 	 DIn = 0.0,
@@ -759,25 +773,25 @@ model ieee30bus
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____5_SM (
 	 SNREF = SNREF, 
-	 ur0 = 0.9792867827146917, 
-	 ui0 = -0.24717932506353346, 
+	 ur0 = 0.9792819832436682, 
+	 ui0 = -0.2471983390577364, 
 	 transformerIncluded = true, 
 	 V2 = 132.0, 
 	 Saturated = true, 
 	 TX = 0, 
-	 init_theta = -0.2473087434929279, 
+	 init_theta = -0.2473283031326393, 
 	 init_omega = 1.0, 
-	 init_efd = 0.3225579763070924, 
+	 init_efd = 0.3226034481962886, 
 	 WLMDVPu = 0.7262486573072185, 
-	 init_lambdaad = -1.01787222182618, 
-	 init_cm = 1.716828281405212e-06, 
-	 init_lambdaq1 = 3.217496260514704e-06, 
-	 init_lambdaq2 = 3.217496260514704e-06, 
-	 init_iq = 2.389392983528915e-05, 
-	 init_id = 0.3648590190047269, 
-	 init_lambdaaq = 3.217496260514704e-06, 
-	 init_lambdad = -1.01787222182618, 
-	 init_lambdaf = -1.150584483098172,
+	 init_lambdaad = -1.017890434124453, 
+	 init_cm = 1.724781305340306e-06, 
+	 init_lambdaq1 = 3.23197055892781e-06, 
+	 init_lambdaq2 = 3.23197055892781e-06, 
+	 init_iq = 2.400166051555463e-05, 
+	 init_id = 0.3657031278187102, 
+	 init_lambdaaq = 3.23197055892781e-06, 
+	 init_lambdad = -1.017890434124453, 
+	 init_lambdaf = -1.15062140421062,
 	 PNALT = 1485.0,
 	 IENR = 4,
 	 DIn = 0.0,
@@ -810,25 +824,25 @@ model ieee30bus
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN____8_SM (
 	 SNREF = SNREF, 
-	 ur0 = 0.9885962255301741, 
-	 ui0 = -0.2068277650753125, 
+	 ur0 = 0.9886037109971286, 
+	 ui0 = -0.2067919827780116, 
 	 transformerIncluded = true, 
 	 V2 = 132.0, 
 	 Saturated = true, 
 	 TX = 0, 
-	 init_theta = -0.2063045215155117, 
+	 init_theta = -0.2062687927231382, 
 	 init_omega = 1.0, 
-	 init_efd = 0.3132787003479323, 
+	 init_efd = 0.3134219436555847, 
 	 WLMDVPu = 0.7304917626978259, 
-	 init_lambdaad = -1.017807200651786, 
-	 init_cm = 1.664796979201526e-06, 
-	 init_lambdaq1 = 3.240264167394047e-06, 
-	 init_lambdaq2 = 3.240264167394047e-06, 
-	 init_iq = 2.400855191253548e-05, 
-	 init_id = 0.3657567515749268, 
-	 init_lambdaaq = 3.240264167394047e-06, 
-	 init_lambdad = -1.017807200651786, 
-	 init_lambdaf = -1.150485666926865,
+	 init_lambdaad = -1.017865789616657, 
+	 init_cm = 1.689877946137202e-06, 
+	 init_lambdaq1 = 3.287657613808784e-06, 
+	 init_lambdaq2 = 3.287657613808784e-06, 
+	 init_iq = 2.436049501224058e-05, 
+	 init_id = 0.3685016027447927, 
+	 init_lambdaaq = 3.287657613808784e-06, 
+	 init_lambdad = -1.017865789616657, 
+	 init_lambdaf = -1.15060492168977,
 	 PNALT = 1539.0,
 	 IENR = 4,
 	 DIn = 0.0,
@@ -866,7 +880,7 @@ model ieee30bus
 	 SN = 49.0,
 	 PN = 39.0,
 	 PNALT = 39.2,
-	 init_APREF = -1.416100796715761e-17,
+	 init_APREF = 0.0,
 	 T4 = 0.015,
 	 T6 = 0.,
 	 VSTMIN = -0.1,
@@ -895,9 +909,9 @@ model ieee30bus
 	 SN = 49.0,
 	 PN = 39.0,
 	 PNALT = 39.2,
-	 init_EFD = 0.6142867676866529,
-	 init_VREF = 1.085071451004571,
-	 init_YLL = 0.003071433838433265,
+	 init_EFD = 0.6256848634263663,
+	 init_VREF = 1.115646012389951,
+	 init_YLL = 0.003128424317131832,
 	 TE = 0.05,
 	 EFDMIN = -999.,
 	 KC = 1.,
@@ -913,9 +927,9 @@ model ieee30bus
 	 SN = 49.0,
 	 PN = 39.0,
 	 PNALT = 39.2,
-	 init_REF = 1.048923309834545e-05,
-	 init_PMECH = 0.000209784661966909,
-	 init_CM = 0.000209784661966909,
+	 init_REF = 1.053110413111669e-05,
+	 init_PMECH = 0.0002106220826223338,
+	 init_CM = 0.0002106220826223338,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -929,7 +943,7 @@ model ieee30bus
 	 SN = 35.0,
 	 PN = 32.0,
 	 PNALT = 32.0,
-	 init_APREF = 1.982541115402065e-17,
+	 init_APREF = 0.0,
 	 T4 = 0.015,
 	 T6 = 0.,
 	 VSTMIN = -0.1,
@@ -958,9 +972,9 @@ model ieee30bus
 	 SN = 35.0,
 	 PN = 32.0,
 	 PNALT = 32.0,
-	 init_EFD = 0.7602561199617732,
-	 init_VREF = 1.074801260572648,
-	 init_YLL = 0.003801280599808866,
+	 init_EFD = 0.7474786382593582,
+	 init_VREF = 1.103096872160497,
+	 init_YLL = 0.003737393191296791,
 	 TE = 0.05,
 	 EFDMIN = -999.,
 	 KC = 1.,
@@ -976,9 +990,9 @@ model ieee30bus
 	 SN = 35.0,
 	 PN = 32.0,
 	 PNALT = 32.0,
-	 init_REF = 1.670154864812668e-05,
-	 init_PMECH = 0.0003340309729625336,
-	 init_CM = 0.0003340309729625336,
+	 init_REF = 1.319491003891957e-05,
+	 init_PMECH = 0.0002638982007783914,
+	 init_CM = 0.0002638982007783914,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -992,7 +1006,7 @@ model ieee30bus
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
-	 init_APREF = 0.2154526507018993,
+	 init_APREF = 0.2154845582163502,
 	 T4 = 0.015,
 	 T6 = 0.,
 	 VSTMIN = -0.1,
@@ -1021,9 +1035,9 @@ model ieee30bus
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
-	 init_EFD = 0.4534060957079337,
-	 init_VREF = 1.061137128644549,
-	 init_YLL = 0.002267030478539669,
+	 init_EFD = 0.4537557066891391,
+	 init_VREF = 1.061176413439499,
+	 init_YLL = 0.002268778533445696,
 	 TE = 0.05,
 	 EFDMIN = -999.,
 	 KC = 1.,
@@ -1039,9 +1053,9 @@ model ieee30bus
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
-	 init_REF = 0.01197493761901719,
-	 init_PMECH = 0.2394987523803437,
-	 init_CM = 0.2394987523803437,
+	 init_REF = 0.01197671047579717,
+	 init_PMECH = 0.2395342095159434,
+	 init_CM = 0.2395342095159434,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -1055,7 +1069,7 @@ model ieee30bus
 	 SN = 1120.0,
 	 PN = 1008.0,
 	 PNALT = 1008.0,
-	 init_APREF = 0.03571428571428572,
+	 init_APREF = 0.03571428571428571,
 	 T4 = 0.015,
 	 T6 = 0.,
 	 VSTMIN = -0.1,
@@ -1084,9 +1098,9 @@ model ieee30bus
 	 SN = 1120.0,
 	 PN = 1008.0,
 	 PNALT = 1008.0,
-	 init_EFD = 0.3909768857038512,
+	 init_EFD = 0.3909768857038509,
 	 init_VREF = 1.049240700767265,
-	 init_YLL = 0.001954884428519256,
+	 init_YLL = 0.001954884428519254,
 	 TE = 0.05,
 	 EFDMIN = -999.,
 	 KC = 1.,
@@ -1103,8 +1117,8 @@ model ieee30bus
 	 PN = 1008.0,
 	 PNALT = 1008.0,
 	 init_REF = 0.001984722886232363,
-	 init_PMECH = 0.03969445772464726,
-	 init_CM = 0.03969445772464726,
+	 init_PMECH = 0.03969445772464725,
+	 init_CM = 0.03969445772464725,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -1118,7 +1132,7 @@ model ieee30bus
 	 SN = 1650.0,
 	 PN = 1485.0,
 	 PNALT = 1485.0,
-	 init_APREF = 8.410780489584519e-19,
+	 init_APREF = -8.410780489584519e-19,
 	 T4 = 0.015,
 	 T6 = 0.,
 	 VSTMIN = -0.1,
@@ -1147,9 +1161,9 @@ model ieee30bus
 	 SN = 1650.0,
 	 PN = 1485.0,
 	 PNALT = 1485.0,
-	 init_EFD = 0.3225579763070924,
-	 init_VREF = 1.01382416634067,
-	 init_YLL = 0.001612789881535462,
+	 init_EFD = 0.3226034481962886,
+	 init_VREF = 1.013829509511142,
+	 init_YLL = 0.001613017240981443,
 	 TE = 0.05,
 	 EFDMIN = -999.,
 	 KC = 1.,
@@ -1165,9 +1179,9 @@ model ieee30bus
 	 SN = 1650.0,
 	 PN = 1485.0,
 	 PNALT = 1485.0,
-	 init_REF = 8.584141407026062e-08,
-	 init_PMECH = 1.716828281405212e-06,
-	 init_CM = 1.716828281405212e-06,
+	 init_REF = 8.623906526701528e-08,
+	 init_PMECH = 1.724781305340306e-06,
+	 init_CM = 1.724781305340306e-06,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -1181,7 +1195,7 @@ model ieee30bus
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
-	 init_APREF = 1.623133076937363e-18,
+	 init_APREF = 8.115665384686816e-19,
 	 T4 = 0.015,
 	 T6 = 0.,
 	 VSTMIN = -0.1,
@@ -1210,9 +1224,9 @@ model ieee30bus
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
-	 init_EFD = 0.3132787003479323,
-	 init_VREF = 1.013705431550677,
-	 init_YLL = 0.001566393501739662,
+	 init_EFD = 0.3134219436555847,
+	 init_VREF = 1.013722199528543,
+	 init_YLL = 0.001567109718277924,
 	 TE = 0.05,
 	 EFDMIN = -999.,
 	 KC = 1.,
@@ -1228,9 +1242,9 @@ model ieee30bus
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
-	 init_REF = 8.323984896007631e-08,
-	 init_PMECH = 1.664796979201526e-06,
-	 init_CM = 1.664796979201526e-06,
+	 init_REF = 8.449389730686012e-08,
+	 init_PMECH = 1.689877946137202e-06,
+	 init_CM = 1.689877946137202e-06,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -1239,7 +1253,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-
+iPSL.Electrical.Events.PwFault pwFault(R=0.5,X=0.5,t1=1.,t2=1.2);
 equation
   omegaRef = (gen_pwGeneratorM2S__GEN___11_SM.omega*gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.omega*gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.omega*gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn);
 
@@ -1426,5 +1440,6 @@ equation
   connect(trafo__ROAN___6_ROAN___9_1_PT.n, bus__ROAN___9_TN.p) annotation (Line());
 
 // Connecting OTHERS
+connect(bus__ROAN__10_TN.p, pwFault.p);
 end ieee30bus;
 

@@ -1,5 +1,5 @@
 within ;
-model ieee30bus
+model ieee30bus_no_lf
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Interfaces.RealOutput omegaRef;
 
@@ -131,174 +131,174 @@ model ieee30bus
 	 V_0 = 1.0450001,
 	 P_0 = 5.8,
 	 Q_0 = 2.0,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -15.97
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__12_EC (
 	 V_0 = 1.057,
 	 P_0 = 11.2,
 	 Q_0 = 7.5,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -15.24
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__14_EC (
 	 V_0 = 1.042,
 	 P_0 = 6.2,
 	 Q_0 = 1.6,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.13
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__15_EC (
 	 V_0 = 1.0380001,
 	 P_0 = 8.2,
 	 Q_0 = 2.5,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.22
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__16_EC (
 	 V_0 = 1.0450001,
 	 P_0 = 3.5,
 	 Q_0 = 1.8,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -15.83
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__17_EC (
 	 V_0 = 1.04,
 	 P_0 = 9.0,
 	 Q_0 = 5.8,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.14
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__18_EC (
 	 V_0 = 1.028,
 	 P_0 = 3.2,
 	 Q_0 = 0.9,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.82
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__19_EC (
 	 V_0 = 1.026,
 	 P_0 = 9.5,
 	 Q_0 = 3.4,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -17.0
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__20_EC (
 	 V_0 = 1.0300001,
 	 P_0 = 2.2,
 	 Q_0 = 0.7,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.8
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__21_EC (
 	 V_0 = 1.033,
 	 P_0 = 17.5,
 	 Q_0 = 11.2,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.42
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__23_EC (
 	 V_0 = 1.027,
 	 P_0 = 3.2,
 	 Q_0 = 1.6,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.61
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__24_EC (
 	 V_0 = 1.021,
 	 P_0 = 8.7,
 	 Q_0 = 6.7,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.78
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__26_EC (
 	 V_0 = 1.0,
 	 P_0 = 3.5,
 	 Q_0 = 2.3,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -16.77
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__29_EC (
 	 V_0 = 1.003,
 	 P_0 = 2.4,
 	 Q_0 = 0.9,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -17.06
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD__30_EC (
 	 V_0 = 0.992,
 	 P_0 = 10.6,
 	 Q_0 = 1.9,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -17.94
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___2_EC (
 	 V_0 = 1.043,
 	 P_0 = 21.7,
 	 Q_0 = 12.7,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -5.48
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___3_EC (
 	 V_0 = 1.021,
 	 P_0 = 2.4,
 	 Q_0 = 1.2,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -7.96
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___4_EC (
 	 V_0 = 1.012,
 	 P_0 = 7.6,
 	 Q_0 = 1.6,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -9.62
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___5_EC (
 	 V_0 = 1.0100001,
 	 P_0 = 94.2,
 	 Q_0 = 19.0,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -14.37
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___7_EC (
 	 V_0 = 1.0020001,
 	 P_0 = 22.8,
 	 Q_0 = 10.9,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -13.12
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__LOAD___8_EC (
 	 V_0 = 1.0100001,
 	 P_0 = 30.0,
 	 Q_0 = 30.0,
-	 alpha = 1,
-	 beta = 2,
+	 alpha = 1.5,
+	 beta = 2.5,
 	 angle_0 = -12.1
 	 ) annotation (Placement(transformation()));
 
 // TAP CHANGER TRANSFORMERS
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__CLOV__28_CLOV__27_1_PT (
-	 r = 1.0416667,
+	 r = 1.0330578,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -306,7 +306,7 @@ model ieee30bus
 	 X = 0.3959997648268911
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__HANC___4_HANC__12_1_PT (
-	 r = 1.0638298,
+	 r = 1.0729614,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -314,7 +314,7 @@ model ieee30bus
 	 X = 0.25599977267346763
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__ROAN___6_ROAN__10_1_PT (
-	 r = 1.0416667,
+	 r = 1.0319917,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -322,7 +322,7 @@ model ieee30bus
 	 X = 0.5559997838828628
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__ROAN___6_ROAN___9_1_PT (
-	 r = 1.0204082,
+	 r = 1.0224949,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -1440,5 +1440,5 @@ equation
   connect(trafo__ROAN___6_ROAN___9_1_PT.n, bus__ROAN___9_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee30bus;
+end ieee30bus_no_lf;
 

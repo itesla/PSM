@@ -134,7 +134,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.33333</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   10-BUS   51-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -316,7 +316,7 @@
 	<cim:TapChanger.highStep>9</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>5</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>5</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>5.25</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   13-BUS   49-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -540,7 +540,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.25</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   15-BUS   45-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -786,7 +786,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>18</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.15</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   21-BUS   20-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -1148,7 +1148,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>18</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.15</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   24-BUS   26-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -1710,7 +1710,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>18</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.5</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   34-BUS   32-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -2194,7 +2194,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>18</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.1</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS   40-BUS   56-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -3030,7 +3030,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>1.65</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>BUS    7-BUS   29-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -3808,7 +3808,7 @@
 	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
 	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
 	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
-	<cim:SynchronousMachine.maxQ>0</cim:SynchronousMachine.maxQ>
+	<cim:SynchronousMachine.maxQ>129</cim:SynchronousMachine.maxQ>
 	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_KANA___1_SM_RC"/>
 	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_KANA___1_VL"/>
 	<cim:IdentifiedObject.name>KANA   1</cim:IdentifiedObject.name>
@@ -4369,7 +4369,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>3</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>SPRI   4-SPRI  18-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -4436,7 +4436,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.2</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>SPRI   4-SPRI  18-2_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -4545,7 +4545,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.25</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>TAZE  11-TAZE  41-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>
@@ -4612,7 +4612,7 @@
 	<cim:TapChanger.highStep>11</cim:TapChanger.highStep>
 	<cim:TapChanger.neutralU>69</cim:TapChanger.neutralU>
 	<cim:TapChanger.neutralStep>6</cim:TapChanger.neutralStep>
-	<cim:TapChanger.stepVoltageIncrement>2</cim:TapChanger.stepVoltageIncrement>
+	<cim:TapChanger.stepVoltageIncrement>2.1</cim:TapChanger.stepVoltageIncrement>
 	<cim:TapChanger.lowStep>1</cim:TapChanger.lowStep>
 	<cim:IdentifiedObject.name>TAZE  11-TAZE  43-1_RTC_OR</cim:IdentifiedObject.name>
 </cim:RatioTapChanger>

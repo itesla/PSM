@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Optimize start JIT compilation in Java virtual machine for short run 
+export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+
+export MAIN_CLASS="org.power_systems_modelica.psm.gui.MainApp"
+mvn exec:java --projects gui -Dexec.mainClass=$MAIN_CLASS -Dexec.args="$*" -Ditesla.config.dir=$PSM_DATA/test/cfg

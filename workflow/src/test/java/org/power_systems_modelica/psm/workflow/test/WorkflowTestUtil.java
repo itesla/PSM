@@ -19,12 +19,8 @@ import com.google.common.io.ByteStreams;
 
 public class WorkflowTestUtil
 {
-	public static final Path	DATA_TMP		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
-	public static final Path	TEST_SAMPLES	= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test");
+	public static final Path	DATA_TMP		= Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
+	public static final Path	TEST_SAMPLES	= Paths.get(System.getenv("PSM_DATA")).resolve("test");
 
 	public static void assertEqualsText(InputStream expected, InputStream actual)
 			throws IOException

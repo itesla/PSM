@@ -1,10 +1,13 @@
 package org.psm.openmodelica.integration;
 
+import java.util.List;
+
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.openmodelica.corba.SmartProxy;
 
 public class OpenModelicaWrapper extends SmartProxy {
+	//FIXME increase timeout
 
 	public OpenModelicaWrapper(String corbaSessionName) {
 		super(corbaSessionName);
@@ -19,6 +22,8 @@ public class OpenModelicaWrapper extends SmartProxy {
 	{
 		return sendExpression("clear()");
 	}
+	
+	
 	
 	/**
 	 * Change the directory to the given path
@@ -207,25 +212,23 @@ public class OpenModelicaWrapper extends SmartProxy {
 //		return result;
 //		
 //	}
-	public Result readSimulationResult(String resultsFile, String[] resultVariables) throws ConnectException {
+	
+	public Result readSimulationResult(String resultsFile, List<String> resultVariables) throws ConnectException {
 		String resultVars = null;
 		for(String st : resultVariables) {
 			if(resultVars == null) {
-				resultVars = st;
+				resultVars = st.substring(1,st.length()-1);
 			}
 			else {
-				resultVars = resultVars + "," + st;
+				resultVars = resultVars + "," + st.substring(1,st.length()-1);
 			}
 		}
 		
 		return sendExpression(new StringBuilder().append("readSimulationResult(\"").append(resultsFile).append("\"")
 													.append(", ").append("{" + resultVars + "}")
 													.append(")").toString());
-		
-//		return sendExpression(new StringBuilder().append("readSimulationResult(\"").append(resultsFile).append("\"")
-//				.append(", ").append("{" + resultVars + "}")
-//				.append(")").toString());
 	}
+	
 	
 	/**
 	 * Returns the variables in the simulation file.

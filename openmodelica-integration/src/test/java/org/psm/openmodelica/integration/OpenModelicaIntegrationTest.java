@@ -16,18 +16,18 @@ import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class OpenModelicaIntegrationTest {
 
-//	@Test
+	@Test
 	public void testSinglegen() throws FileNotFoundException, IOException {
+		if(!isOpenModelicaAvailable()) return;
+		
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("singlegen").resolve("itesla").resolve("singlegen.mo"));
 		
-		String varResults = "gen_pwGeneratorM2S__GEN____1_SM.pin_EFD," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.pin_CM," +  
-							"gen_pwGeneratorM2S__GEN____1_SM.omegaRef";
+		String filterResVariables = "pin_EFD,pin_OMEGA,pin_CM,omegaRef";
+		
 		Configuration config = setConfiguration(
 											DATA_TMP.toString(),
 											DATA_TEST.resolve("singlegen").resolve("library").toString(),
-											varResults,
+											filterResVariables,
 											"dassl",
 											"0.0",
 											"1.0",
@@ -54,35 +54,25 @@ public class OpenModelicaIntegrationTest {
 	
 	@Test
 	public void testIEEE14() throws FileNotFoundException, IOException {
+		if(!isOpenModelicaAvailable()) return;
+		
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo"));
-				
-		String varResults = "bus__BUS___10_TN.V," + "bus__BUS___10_TN.angle," +
-							"bus__BUS___11_TN.V," + "bus__BUS___11_TN.angle," +
-							"bus__BUS___12_TN.V," + "bus__BUS___12_TN.angle," +
-							"bus__BUS___13_TN.V," + "bus__BUS___13_TN.angle," +
-							"bus__BUS___14_TN.V," + "bus__BUS___14_TN.angle," +
-							"bus__BUS____1_TN.V," + "bus__BUS____1_TN.angle," +
-							"bus__BUS____2_TN.V," + "bus__BUS____2_TN.angle," + 
-							"bus__BUS____3_TN.V," + "bus__BUS____3_TN.angle," +
-							"bus__BUS____4_TN.V," + "bus__BUS____4_TN.angle," + 
-							"bus__BUS____5_TN.V," + "bus__BUS____5_TN.angle," + 
-							"bus__BUS____6_TN.V," + "bus__BUS____6_TN.angle," + 
-							"bus__BUS____7_TN.V," + "bus__BUS____7_TN.angle," + 
-							"bus__BUS____8_TN.V," + "bus__BUS____8_TN.angle," +
-							"bus__BUS____9_TN.V," + "bus__BUS____9_TN.angle";
+		
+		String filterResVariables = "V,angle";
+		
 		Configuration config = setConfiguration(
-												DATA_TMP.toString(),
-												DATA_TEST.resolve("library").toString(),
-												varResults,
-												"dassl",
-												"0.0",
-												"1.0",
-												"0.000001",
-												"500",
-												"0.002",
-												"0.002"
-												);
-
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				filterResVariables,
+				"dassl",
+				"0.0",
+				"1.0",
+				"0.000001",
+				"500",
+				"0.002",
+				"0.002"
+				);
+	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
@@ -93,8 +83,111 @@ public class OpenModelicaIntegrationTest {
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.mat")));
-		assertEquals(6, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
+	
+	@Test
+	public void testIEEE30() throws FileNotFoundException, IOException {
+		if(!isOpenModelicaAvailable()) return;
+		
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus.mo"));
+		
+		String filterResVariables = "V,angle";
+		
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				filterResVariables,
+				"dassl",
+				"0.0",
+				"1.0",
+				"0.000001",
+				"500",
+				"0.002",
+				"0.002"
+				);
+	
+		OpenModelicaEngine omEngine = new OpenModelicaEngine();
+		omEngine.configure(config);
+		omEngine.simulate(mo);
+		
+		assertEquals("ieee30bus", mo.getSystemModel().getName());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		
+		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
+		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res.csv")));
+		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res.mat")));
+		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+	}
+	
+//	@Test //PENDING
+	public void testIEEE57() throws FileNotFoundException, IOException {
+		if(!isOpenModelicaAvailable()) return;
+		
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus.mo"));
+		
+		String filterResVariables = "V,angle";
+		
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				filterResVariables,
+				"dassl",
+				"0.0",
+				"1.0",
+				"0.000001",
+				"500",
+				"0.002",
+				"0.002"
+				);
+	
+		OpenModelicaEngine omEngine = new OpenModelicaEngine();
+		omEngine.configure(config);
+		omEngine.simulate(mo);
+		
+		assertEquals("ieee57bus", mo.getSystemModel().getName());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		
+		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
+		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res.csv")));
+		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res.mat")));
+		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+	}
+	
+//	@Test //TODO PENDING
+	public void testIEEE118() throws FileNotFoundException, IOException {
+		if(!isOpenModelicaAvailable()) return;
+		
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee118").resolve("itesla").resolve("ieee118bus.mo"));
+		
+		String filterResVariables = "V,angle";
+		
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				filterResVariables,
+				"dassl",
+				"0.0",
+				"1.0",
+				"0.000001",
+				"500",
+				"0.002",
+				"0.002"
+				);
+	
+		OpenModelicaEngine omEngine = new OpenModelicaEngine();
+		omEngine.configure(config);
+		omEngine.simulate(mo);
+		
+		assertEquals("ieee118bus", mo.getSystemModel().getName());
+		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+		
+		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
+		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res.csv")));
+		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res.mat")));
+		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+	}
+	
 	
 	private Configuration setConfiguration(String modelicaEngineWorkingDir,
 											String libraryDir,
@@ -124,6 +217,11 @@ public class OpenModelicaIntegrationTest {
 		return config;
 	}
 
+	private boolean isOpenModelicaAvailable()
+	{
+		return Boolean.valueOf(System.getProperty("OpenModelicaAvailable"));
+	}
+	
 	private static final Path DATA_TEST = Paths.get(System.getenv("PSM_DATA")).resolve("test");
 	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
 }

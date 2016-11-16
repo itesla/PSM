@@ -1,6 +1,5 @@
 package org.psm.openmodelica.integration;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -9,13 +8,13 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import org.openmodelica.corba.Result;
@@ -36,8 +35,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		this.config				= config;
 		this.omc				= new OpenModelicaWrapper(OMWRAPPER_NAME);
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
-		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));
-		this.resultVariables	= config.getParameter("resultVariables") == null ? new String[0] : config.getParameter("resultVariables").split(",");
+		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));	
+		this.resultVariables	= config.getParameter("resultVariables") == null ? new ArrayList<String>() : Arrays.asList(config.getParameter("resultVariables").split(","));
 		
 		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
 		this.startTime			= Double.valueOf(Optional.ofNullable(config.getParameter("startTime")).orElse("0.0"));
@@ -113,18 +112,27 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				String matResultsFile = modelName + "_res" + MAT_EXTENSION;
 				String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
 				
-				if(resultVariables.length == 0) {
-					result = omc.readSimulationResultVars(matResultsFile);
-										
-					if(result.err != null && !result.err.isEmpty()) {
-						if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
-						else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
-					}
-					String res = result.res;
-					resultVariables = res.substring(1, res.length()-2).split(COMMA);
+				result = omc.readSimulationResultVars(matResultsFile);
+				if(result.err != null && !result.err.isEmpty()) {
+					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
+					else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
 				}
-				result = omc.readSimulationResult(matResultsFile, resultVariables);
+				String res = result.res;
+				List<String> allResultVariables = Arrays.asList(res.substring(1, res.length()-2).split(COMMA));
 				
+				List<String> filterResultVariables;
+				if(resultVariables != null && !resultVariables.isEmpty()) {
+					String regex = "\"" + "[a-zA-Z0-9_]*.(" + resultVariables.stream().collect(Collectors.joining("|")) + ")\"";
+					Pattern pattern = Pattern.compile(regex);
+					filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+					System.out.println(filterResultVariables);
+				}
+				else {
+					filterResultVariables = allResultVariables;
+				}
+				
+				result = omc.readSimulationResult(matResultsFile, filterResultVariables);
+
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.startsWith("Warning")) LOGGER.warn(result.err.replace("\"", ""));
 					else LOGGER.error("Error getting simulation results from " + matResultsFile + ". ", result.err.replace("\"", ""));
@@ -133,7 +141,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
 
 				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
-					  	writeResultsCsv(printStream, resultVariables, result.res, resultSize);
+					  	writeResultsCsv(printStream, filterResultVariables, result.res, resultSize);
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				}			
@@ -223,17 +231,21 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				String matResultsFile = modelName + "_res" + MAT_EXTENSION;
 				String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
 				
-				if(resultVariables.length == 0) {
-					result = omc.readSimulationResultVars(matResultsFile);
-					if(result.err != null && !result.err.isEmpty()) {
-						if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
-						else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
-					}
-					String res = result.res;
-					resultVariables = res.substring(1, res.length()-2).split(COMMA);
+				result = omc.readSimulationResultVars(matResultsFile);
+				if(result.err != null && !result.err.isEmpty()) {
+					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
+					else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
 				}
-				result = omc.readSimulationResult(matResultsFile, resultVariables);
+				String res = result.res;
+				List<String> allResultVariables = Arrays.asList(res.substring(1, res.length()-2).split(COMMA));
 				
+				String regex = "\"" + "[a-zA-Z0-9_]*.(" + resultVariables.stream().collect(Collectors.joining("|")) + ")\"";
+				Pattern pattern = Pattern.compile(regex);
+				List<String> filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+				System.out.println(filterResultVariables);
+				
+				result = omc.readSimulationResult(matResultsFile, filterResultVariables);
+								
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.startsWith("Warning")) LOGGER.warn(result.err.replace("\"", ""));
 					else LOGGER.error("Error getting simulation results from " + matResultsFile + ". ", result.err.replace("\"", ""));
@@ -242,7 +254,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
 
 				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
-					  	writeResultsCsv(printStream, resultVariables, result.res, resultSize); //TODO pending to write results in a csv file
+					  	writeResultsCsv(printStream, filterResultVariables, result.res, resultSize);
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				}			
@@ -296,12 +308,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		}
 	}
 	
-	private void writeResultsCsv(PrintStream printStream, String[] resultVariables, String result, int resultSize) {
+	private void writeResultsCsv(PrintStream printStream, List<String> filterResultVariables, String result, int resultSize) {
 		//The string result is the result obtained from the Modelica function readSimulationResult.
 		Matcher matcher =  RESULTS_PATTERN.matcher(result);
 		
-		String[][] resultValues = new String[resultSize][resultVariables.length];
-		String strLine = Stream.of(resultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;
+		String[][] resultValues = new String[resultSize][filterResultVariables.size()];
+		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString() + NEW_LINE;
 		int j = 0;
 		while (matcher.find()) {
 			String val = matcher.group(1);
@@ -426,7 +438,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private double			stopTime;
 	private double			tolerance;
 	private Path			libraryDir;
-	private String[]		resultVariables;
+	private List<String>	resultVariables;
 	
 	private ModelicaSimulationResults	results;
 	private OpenModelicaWrapper			omc = null;

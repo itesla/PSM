@@ -48,6 +48,7 @@
 		<guava.version>19.0</guava.version>
 		<commonscli.version>1.3.1</commonscli.version>
 		<apache.commonsio.version>1.3.2</apache.commonsio.version>
+		<supercsv.version>2.4.0</supercsv.version>
 
 		<ipst.version>0.1-SNAPSHOT</ipst.version>
 		<hades2.integration.version>0.1</hades2.integration.version>
@@ -246,6 +247,13 @@
 				<version>${apache.commonsio.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>net.sf.supercsv</groupId>
+				<artifactId>super-csv</artifactId>
+				<version>${supercsv.version}</version>
+			</dependency>
+
+			<!-- ipst -->
+			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>cim1-model</artifactId>
 				<version>${ipst.version}</version>
@@ -291,7 +299,6 @@
 				<artifactId>online-workflow</artifactId>
 				<version>${ipst.version}</version>
 			</dependency>
-
 
 			<!-- Hades2 integration -->
 			<dependency>

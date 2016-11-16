@@ -18,10 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.supercsv.cellprocessor.ParseDouble;
+import org.supercsv.cellprocessor.StrReplace;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
@@ -30,14 +32,18 @@ import org.supercsv.prefs.CsvPreference;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class Utils {
+public class Utils
+{
 
-	public static String translateLocation(String input) {
+	public static String translateLocation(String input)
+	{
 
 		String[] inputTokens = input.split("/");
 		List<String> outputTokens = new ArrayList<String>();
-		for (String token : inputTokens) {
-			if (token.startsWith("$")) {
+		for (String token : inputTokens)
+		{
+			if (token.startsWith("$"))
+			{
 				Path path = Paths.get(System.getenv(token.replace("$", "")));
 				token = path.toString();
 			}
@@ -45,8 +51,10 @@ public class Utils {
 		}
 
 		Path path = null;
-		for (String token : outputTokens) {
-			if (path == null) {
+		for (String token : outputTokens)
+		{
+			if (path == null)
+			{
 				path = Paths.get(token);
 				continue;
 			}
@@ -58,10 +66,13 @@ public class Utils {
 		return path.toString();
 	}
 
-	public static Path findCasePath(Path path) throws IOException {
+	public static Path findCasePath(Path path) throws IOException
+	{
 
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-			for (Path entry : stream) {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))
+		{
+			for (Path entry : stream)
+			{
 				if (entry.toString().endsWith("ME.xml"))
 					return entry;
 				else if (entry.toString().endsWith("EQ.xml"))
@@ -72,7 +83,8 @@ public class Utils {
 		return null;
 	}
 
-	public static StringBuilder loadFile(String location, String file) throws IOException {
+	public static StringBuilder loadFile(String location, String file) throws IOException
+	{
 
 		StringBuilder stringBuilder = new StringBuilder();
 
@@ -80,7 +92,8 @@ public class Utils {
 		InputStream inputStream = Files.newInputStream(path);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 		String line;
-		while ((line = bufferedReader.readLine()) != null) {
+		while ((line = bufferedReader.readLine()) != null)
+		{
 			stringBuilder.append(line).append("\n");
 		}
 		bufferedReader.close();
@@ -89,7 +102,9 @@ public class Utils {
 		return stringBuilder;
 	}
 
-	public static void saveFile(String location, String file, StringBuilder ddrContent) throws IOException {
+	public static void saveFile(String location, String file, StringBuilder ddrContent)
+			throws IOException
+	{
 		// TODO Auto-generated method stub
 
 		Path path = Paths.get(location).resolve(file);
@@ -100,7 +115,8 @@ public class Utils {
 		outputStream.close();
 	}
 
-	public static void showWarning(String title, String message) {
+	public static void showWarning(String title, String message)
+	{
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
@@ -109,71 +125,85 @@ public class Utils {
 		alert.showAndWait();
 	}
 
-	public static boolean existsFile(String location, String file) {
+	public static boolean existsFile(String location, String file)
+	{
 
-		try {
+		try
+		{
 			Path path = Paths.get(location).resolve(file);
 			return Files.exists(path);
-		} catch (InvalidPathException e) {
+		}
+		catch (InvalidPathException e)
+		{
 			return false;
 		}
 	}
 
-	private static CellProcessor[] getProcessors(int num) {
-
-		CellProcessor[] processors = new CellProcessor[num];
-		
-		for (int i = 0; i < num; i++) {
-			processors[i] = new ParseDouble();
-		}
-
-		return processors;
-	}
-
-	public static Map<String, List<DsData>> readVariableColumnsWithCsvListReader(String location, String extension) throws Exception {
+	public static Map<String, List<DsData>> readVariableColumnsWithCsvListReader(
+			String location,
+			String extension) throws Exception
+	{
 
 		Map<String, List<DsData>> values = new HashMap<String, List<DsData>>();
 		ICsvListReader listReader = null;
-		try {
+		try
+		{
+			Optional<Path> path = Files
+					.walk(Paths.get(location), FileVisitOption.FOLLOW_LINKS)
+					.filter((p) -> !p.toFile().isDirectory()
+							&& p.toFile().getAbsolutePath().endsWith(extension))
+					.findFirst();
+			if (!path.isPresent()) return null;
 
-			List<Path> paths = Files.walk(Paths.get(location), FileVisitOption.FOLLOW_LINKS)
-					.filter((p) -> !p.toFile().isDirectory() && p.toFile().getAbsolutePath().endsWith(extension))
-					.collect(Collectors.toList());
-			
-			System.out.println("location: " + location + " extension: " + extension + " paths: " + paths.toString());
-			listReader = new CsvListReader(new FileReader(paths.get(0).toFile()), CsvPreference.STANDARD_PREFERENCE);
+			System.out.println("location: " + location +
+					" extension: " + extension +
+					" first file found: " + path.get().toString());
+			listReader = new CsvListReader(
+					new FileReader(path.get().toFile()),
+					CsvPreference.STANDARD_PREFERENCE);
 
-			listReader.getHeader(true); // skip the header (can't be used with
-										// CsvListReader)
-			
+			// Read and process the header
+			listReader.getHeader(true);
 			int columns = listReader.length();
-			for (int i = 1; i < columns; i++) {
-				
+			System.out.println("discovering column names from header");
+			String[] columnNames = new String[columns];
+			for (int i = 1; i < columns; i++)
+			{
 				List<DsData> dsData = new ArrayList<DsData>();
-				values.put(listReader.get(i), dsData);
+				columnNames[i] = listReader.get(i);
+				values.put(columnNames[i], dsData);
+				System.out.println("    " + i + "\t" + columnNames[i]);
 			}
-			
-			while ((listReader.read()) != null) {
+			final CellProcessor[] processors = getProcessors(columns);
 
-				// use different processors depending on the number of columns
-				final CellProcessor[] processors = getProcessors(columns);
-
-				final List<Object> customerList = listReader.executeProcessors(processors);
-				
-				for (int i = 1; i < columns; i++) {
-					
-					List<DsData> dsData = values.get(listReader.get(i));
-					dsData.add(new DsData((Double) customerList.get(0), (Double) customerList.get(i)));
+			while ((listReader.read()) != null)
+			{
+				final List<Object> columnValues = listReader.executeProcessors(processors);
+				Double time = (Double) columnValues.get(0);
+				for (int i = 1; i < columns; i++)
+				{
+					List<DsData> dsData = values.get(columnNames[i]);
+					dsData.add(new DsData(time, (Double) columnValues.get(i)));
 				}
-				
 			}
-			
-		} finally {
-			if (listReader != null) {
+		}
+		finally
+		{
+			if (listReader != null)
+			{
 				listReader.close();
 			}
 		}
 		return values;
 	}
 
+	private static CellProcessor[] getProcessors(int num)
+	{
+		CellProcessor[] processors = new CellProcessor[num];
+		for (int i = 0; i < num; i++)
+			processors[i] = new StrReplace("null", STR_DOUBLE_NAN, new ParseDouble());
+		return processors;
+	}
+
+	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
 }

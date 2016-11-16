@@ -1,30 +1,33 @@
 package org.power_systems_modelica.psm.gui.model;
 
-import java.util.List;
-
-public class DsData {
-
-	public DsData(Double x, Double y) {
+public class DsData
+{
+	public DsData(Double x, Double y)
+	{
 		this.x = x;
 		this.y = y;
 	}
 
-	public double getX() {
+	public double getX()
+	{
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(double x)
+	{
 		this.x = x;
 	}
 
-	public double getY() {
+	public double getY()
+	{
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(double y)
+	{
 		this.y = y;
 	}
 
-	private double x;
-	private double y;
+	private double	x;
+	private double	y;
 }

@@ -1907,7 +1907,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-iPSL.Electrical.Events.PwFault pwFault(R=0.5,X=0.5,t1=1.,t2=1.2);
+
 equation
   omegaRef = (gen_pwGeneratorM2S__BEAV___6_SM.omega*gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.omega*gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.omega*gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.omega*gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.omega*gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.omega*gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.omega*gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn) / (gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn);
 
@@ -2204,6 +2204,6 @@ equation
   connect(trafo__TAZE__11_TAZE__43_1_PT.n, bus__TAZE__43_TN.p) annotation (Line());
 
 // Connecting OTHERS
-connect(bus__TAZE__11_TN.p, pwFault.p);
+
 end ieee57bus;
 

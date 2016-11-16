@@ -1253,7 +1253,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-iPSL.Electrical.Events.PwFault pwFault(R=0.5,X=0.5,t1=1.,t2=1.2);
+
 equation
   omegaRef = (gen_pwGeneratorM2S__GEN___11_SM.omega*gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.omega*gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.omega*gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn);
 
@@ -1440,6 +1440,6 @@ equation
   connect(trafo__ROAN___6_ROAN___9_1_PT.n, bus__ROAN___9_TN.p) annotation (Line());
 
 // Connecting OTHERS
-connect(bus__ROAN__10_TN.p, pwFault.p);
+
 end ieee30bus;
 

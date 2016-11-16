@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.workflow.psm;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -23,6 +24,7 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 	public void configure(Configuration config)
 	{
 		modelicaFile = config.getParameter("modelicaFile");
+		modelicaFileInit = config.getParameter("modelicaFileInit");
 		ddrLocation = config.getParameter("ddrLocation");
 	}
 
@@ -32,7 +34,15 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 		running();
 		try
 		{
-			new DydFilesFromModelica().mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
+			// If there is no Modelica file with initialization models
+			// they will be built (inferred) from simulation models
+			Path pmoinit = null;
+			if (modelicaFileInit != null) pmoinit = Paths.get(modelicaFileInit);
+
+			new DydFilesFromModelica().mo2dyd(
+					Paths.get(modelicaFile),
+					pmoinit,
+					Paths.get(ddrLocation));
 			succeded();
 		}
 		catch (Exception x)
@@ -42,5 +52,6 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 	}
 
 	private String	modelicaFile;
+	private String	modelicaFileInit;
 	private String	ddrLocation;
 }

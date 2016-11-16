@@ -33,7 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>iidm-xml-import-export</artifactId>
+			<artifactId>iidm-xml-converter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

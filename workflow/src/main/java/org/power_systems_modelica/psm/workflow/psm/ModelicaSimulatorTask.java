@@ -28,6 +28,8 @@ public class ModelicaSimulatorTask extends WorkflowTask
 	public void configure(Configuration config)
 	{
 		this.config = config;
+		source = config.getParameter("source");
+		if (source == null) source = "mo";
 		modelicaEngine	= Optional.ofNullable(config.getParameter("modelicaEngine")).orElse("OpenModelica");
 		
 		//TODO get Modelica Simulation engine parameters (method, tolerance, etc...) from task configuration
@@ -40,7 +42,7 @@ public class ModelicaSimulatorTask extends WorkflowTask
 
 		try
 		{
-			ModelicaDocument mo = (ModelicaDocument) workflow.getResults("mo");
+			ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
 
 			ModelicaEngine me = ModelicaEngineMainFactory.create(modelicaEngine);
 			me.configure(config);
@@ -61,5 +63,6 @@ public class ModelicaSimulatorTask extends WorkflowTask
 	private Configuration				config;
 	private ModelicaSimulationResults	dynSimulationParams;
 	private String						modelicaEngine;
+	private String						source;
 
 }

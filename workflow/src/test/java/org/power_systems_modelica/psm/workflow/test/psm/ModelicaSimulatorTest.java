@@ -101,7 +101,8 @@ public class ModelicaSimulatorTest {
 						TC("source", moInput
 							)),
 				TD(ModelicaSimulatorTask.class, "dynamicsim0",
-						TC("modelicaEngine", modelicaEngine,
+						TC("source", "mo", 
+							"modelicaEngine", modelicaEngine,
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 							"libraryDir", libraryDir.toString(),
 							"resultVariables", resultVariables

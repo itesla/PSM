@@ -125,12 +125,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 					String regex = "\"" + "[a-zA-Z0-9_]*.(" + resultVariables.stream().collect(Collectors.joining("|")) + ")\"";
 					Pattern pattern = Pattern.compile(regex);
 					filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
-					System.out.println(filterResultVariables);
 				}
 				else {
 					filterResultVariables = allResultVariables;
 				}
 				
+				filterResultVariables.add(0, "\"time\"");
 				result = omc.readSimulationResult(matResultsFile, filterResultVariables);
 
 				if(result.err != null && !result.err.isEmpty()) {
@@ -237,13 +237,14 @@ public class OpenModelicaEngine implements ModelicaEngine {
 					else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
 				}
 				String res = result.res;
+				
 				List<String> allResultVariables = Arrays.asList(res.substring(1, res.length()-2).split(COMMA));
 				
 				String regex = "\"" + "[a-zA-Z0-9_]*.(" + resultVariables.stream().collect(Collectors.joining("|")) + ")\"";
 				Pattern pattern = Pattern.compile(regex);
 				List<String> filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
-				System.out.println(filterResultVariables);
 				
+				filterResultVariables.add(0, "\"time\"");
 				result = omc.readSimulationResult(matResultsFile, filterResultVariables);
 								
 				if(result.err != null && !result.err.isEmpty()) {

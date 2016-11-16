@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 import org.junit.Test;
+import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -57,8 +58,22 @@ public class ModelicaEventAdderTest
 				1,
 				1);
 		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
-		assertTrue(models.get("_BUS___10_TN").getDeclarations().stream()
+		ModelicaModel mb = models.get("_BUS___10_TN");
+		String busId = "bus__BUS___10_TN";
+		String faultId = "pwFault__BUS___10_TN";
+		assertTrue(mb.getDeclarations().stream()
 				.filter(d -> d.getType().endsWith("PwFault"))
+				.findFirst()
+				.isPresent());
+		assertTrue(mb.getEquations().stream()
+				.filter(eq -> eq instanceof ModelicaConnect)
+				.filter(eq -> {
+					ModelicaConnect eqc = ((ModelicaConnect) eq);
+					String id1 = ModelicaUtil.ref2idvar(eqc.getRef1())[0];
+					String id2 = ModelicaUtil.ref2idvar(eqc.getRef2())[0];
+					return id1.equals(busId) && id2.equals(faultId) ||
+							id1.equals(faultId) && id1.equals(busId);
+				})
 				.findFirst()
 				.isPresent());
 	}

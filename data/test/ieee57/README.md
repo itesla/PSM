@@ -8,7 +8,7 @@ These CIM files:
 are a modified version from the source CIM files sent by RTE with the following change/s:
 
 	- The step voltage increment has been modified for some tap changer transformers in order to have the same ratio as in Eurostag.
-	- The Qmin and Qmax of the slack bus have been modified to distribute Q in a similar way to Eurostag.
+	- The Qmin and Qmax of the generator connected to the slack bus have been modified to distribute Q in a similar way to Eurostag.
 
 In the folder 
 	

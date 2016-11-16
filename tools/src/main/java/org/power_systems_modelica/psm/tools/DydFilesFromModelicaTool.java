@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.tools;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.cli.CommandLine;
@@ -65,12 +66,21 @@ public class DydFilesFromModelicaTool implements Tool
 			System.err.println("Missing modelica input file");
 			return;
 		}
+		Path pmo = Paths.get(modelicaFile);
+
+		// If there is no Modelica file with initialization models
+		// they will be built (inferred) from simulation models
+		Path pmoinit = null;
+		String modelicaFileInit = cmd.getOptionValue("modelicaFileInit");
+		if (modelicaFileInit != null) pmoinit = Paths.get(modelicaFileInit);
+
 		String ddrLocation = cmd.getOptionValue("ddrLocation");
 		if (ddrLocation == null)
 		{
 			System.err.println("Missing DDR output directory");
 			return;
 		}
-		new DydFilesFromModelica().mo2dyd(Paths.get(modelicaFile), Paths.get(ddrLocation));
+
+		new DydFilesFromModelica().mo2dyd(pmo, pmoinit, Paths.get(ddrLocation));
 	}
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,8 +20,12 @@ import com.google.common.io.ByteStreams;
 
 public class WorkflowTestUtil
 {
-	public static final Path	DATA_TMP		= Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
-	public static final Path	TEST_SAMPLES	= Paths.get(System.getenv("PSM_DATA")).resolve("test");
+	public static final Path	DATA_TMP		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
+	public static final Path	TEST_SAMPLES	= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("test");
 
 	public static void assertEqualsText(InputStream expected, InputStream actual)
 			throws IOException
@@ -41,6 +46,17 @@ public class WorkflowTestUtil
 		String expected = normalizeModelicaText("expected", expected0);
 		String actual = normalizeModelicaText("actual", actual0);
 
+		if (DEBUG_MO)
+		{
+			try (PrintWriter oute = new PrintWriter(DATA_TMP.resolve("expected.mo").toFile()))
+			{
+				oute.print(expected);
+			}
+			try (PrintWriter outa = new PrintWriter(DATA_TMP.resolve("actual.mo").toFile()))
+			{
+				outa.print(actual);
+			}
+		}
 		assertEquals(expected, actual);
 	}
 
@@ -131,4 +147,6 @@ public class WorkflowTestUtil
 	private static final String		CAP_					= "cap_";
 
 	private static final String		LINE_SEPARATOR			= System.getProperty("line.separator");
+
+	private static final boolean	DEBUG_MO				= false;
 }

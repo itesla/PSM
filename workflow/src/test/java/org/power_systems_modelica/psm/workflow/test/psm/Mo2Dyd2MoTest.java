@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.DydFilesFromModelicaTask;
@@ -44,6 +45,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee14",
 				"itesla/ieee14bus_no_lf.mo",
+				"itesla/ieee14bus_Init.mo",
 				"ieee14bus_EQ.xml",
 				"ieee14_ddr",
 				14,
@@ -56,6 +58,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee30",
 				"itesla/ieee30bus_no_lf.mo",
+				"itesla/ieee30bus_Init.mo",
 				"ieee30bus_EQ.xml",
 				"ieee30_ddr",
 				30,
@@ -68,6 +71,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee57",
 				"itesla/ieee57bus_no_lf.mo",
+				"itesla/ieee57bus_Init.mo",
 				"ieee57bus_EQ.xml",
 				"ieee57_ddr",
 				57,
@@ -80,6 +84,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee118",
 				"itesla/ieee118bus_no_lf.mo",
+				"itesla/ieee118bus_Init.mo",
 				"ieee118bus_EQ.xml",
 				"ieee118_ddr",
 				118,
@@ -89,6 +94,7 @@ public class Mo2Dyd2MoTest
 	private void testRebuildModelica(
 			String foldername,
 			String moname,
+			String monameinit,
 			String casename,
 			String ddrLocation,
 			int numOfBuses,
@@ -101,16 +107,30 @@ public class Mo2Dyd2MoTest
 		ddrLocation = DATA_TMP.resolve(ddrLocation).toAbsolutePath().toString();
 		Files.createDirectories(Paths.get(ddrLocation));
 		String moInput = folder.resolve(moname).toString();
+		String moInputInit = folder.resolve(monameinit).toString();
 		String cim = folder.resolve(casename).toString();
 		String fakeInit = folder.resolve(ddrLocation).resolve("fake_init.csv").toString();
 		String moOutput = DATA_TMP.resolve("mo2dyd2mo.mo").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("mo2dyd2mo");
 		Files.createDirectories(modelicaEngineWorkingDir);
 
+		TaskDefinition mo2dyd;
+		if (EXPLICIT_INIT_FILES)
+		{
+			mo2dyd = TD(DydFilesFromModelicaTask.class, "mo2dyd0",
+					TC("ddrLocation", ddrLocation,
+							"modelicaFile", moInput,
+							"modelicaFileInit", moInputInit));
+		}
+		else
+		{
+			mo2dyd = TD(DydFilesFromModelicaTask.class, "mo2dyd0",
+					TC("ddrLocation", ddrLocation,
+							"modelicaFile", moInput));
+		}
+
 		Workflow wf = WF(
-				TD(DydFilesFromModelicaTask.class, "mo2dyd0",
-						TC("ddrLocation", ddrLocation,
-								"modelicaFile", moInput)),
+				mo2dyd,
 				TD(StaticNetworkImporterTask.class, "importer0",
 						TC("source", cim)),
 				TD(ModelicaNetworkBuilderTask.class, "modelica0",
@@ -144,4 +164,6 @@ public class Mo2Dyd2MoTest
 				Files.newInputStream(expected),
 				Files.newInputStream(actual));
 	}
+
+	private static final boolean EXPLICIT_INIT_FILES = false;
 }

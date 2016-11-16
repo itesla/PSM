@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +17,11 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.ddr.EventParameter;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
-import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.EventParam;
+import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -119,14 +118,14 @@ public class WorkflowService {
 		return actions;
 	}
 
-	public static ObservableList<EventParam> getEventParams(String event) {
+	public static ObservableList<EventParamGui> getEventParams(String event) {
 		
-		ObservableList<EventParam> eventParams = FXCollections.observableArrayList();
-		List<String> parameters = ddr.getEventParameters(event);
+		ObservableList<EventParamGui> eventParams = FXCollections.observableArrayList();
+		List<EventParameter> parameters = ddr.getEventParameters(event);
 		
 		parameters.forEach(p -> {
-			EventParam ep = new EventParam();
-			ep.setName(p);
+			EventParamGui ep = new EventParamGui();
+			ep.setName(p.getName() + " (" + p.getUnit() + ")");
 			ep.setValue("");
 			eventParams.add(ep);
 		});
@@ -288,14 +287,20 @@ public class WorkflowService {
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
 			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError(err);
+			bv.setError("V", err);
+			values = bv.getData().get("A");
+			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
+			bv.setError("A", err);
+			values = bv.getData().get("P");
+			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
+			bv.setError("P", err);
+			values = bv.getData().get("Q");
+			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
+			bv.setError("Q", err);
 		});
-		DoubleSummaryStatistics stats = allBusesValues.stream().map(BusData::getError)
-				.collect(Collectors.summarizingDouble(Float::doubleValue));
-
+		
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
-		results.setStats(stats);
 
 		return results;
 	}

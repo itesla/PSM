@@ -23,11 +23,11 @@ public class Event implements Serializable  {
 		this.element = element;
 	}
 	
-	public List<EventParam> getParams() {
+	public List<EventParamGui> getParams() {
 		return params;
 	}
 
-	public void setParams(List<EventParam> params) {
+	public void setParams(List<EventParamGui> params) {
 		this.params = params;
 	}
 
@@ -45,5 +45,5 @@ public class Event implements Serializable  {
 	
 	private String action;
 	private String element;
-	private List<EventParam> params;
+	private List<EventParamGui> params;
 }

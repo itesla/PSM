@@ -38,14 +38,6 @@ public class WorkflowResult implements Serializable {
 		this.allBusesValues = allBusesValues;
 	}
 	
-	public DoubleSummaryStatistics getStats() {
-		return stats;
-	}
-
-	public void setStats(DoubleSummaryStatistics stats) {
-		this.stats = stats;
-	}
-
 	public void getBusesVoltages() {
 		List<Float> valuesV = allBusesValues.stream()
 				.map(bv -> bv.getData().get("V")[0])
@@ -98,5 +90,4 @@ public class WorkflowResult implements Serializable {
 	private String id;
 
 	private List<BusData> allBusesValues;
-	DoubleSummaryStatistics stats;
 }

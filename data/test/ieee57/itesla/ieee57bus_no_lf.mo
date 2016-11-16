@@ -1,5 +1,5 @@
 within ;
-model ieee57bus_no_lf
+model ieee57bus
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Interfaces.RealOutput omegaRef;
 
@@ -2204,5 +2204,5 @@ equation
   connect(trafo__TAZE__11_TAZE__43_1_PT.n, bus__TAZE__43_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee57bus_no_lf;
+end ieee57bus;
 

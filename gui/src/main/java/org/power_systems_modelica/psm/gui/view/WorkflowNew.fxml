@@ -146,9 +146,10 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="40.0" />
-                              <Label layoutX="50.0" layoutY="33.0" prefHeight="30.0" text="Action:" AnchorPane.leftAnchor="40.0" />
-                              <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="33.0" onAction="#handleActionSelectedEvent" prefWidth="150.0" AnchorPane.leftAnchor="100.0" />
+                              <Label layoutX="122.0" layoutY="33.0" prefHeight="30.0" text="Element:" AnchorPane.leftAnchor="260.0" />
+                              <TextField fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="40.0" />
+                              <Label layoutX="50.0" layoutY="33.0" prefHeight="30.0" text="Type:" AnchorPane.leftAnchor="40.0" />
+                              <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="33.0" onAction="#handleActionSelectedEvent" prefWidth="150.0" AnchorPane.leftAnchor="80.0" />
                               <HBox layoutX="110.0" layoutY="114.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#handleAddEvent" styleClass="btn-default" text="Add" />

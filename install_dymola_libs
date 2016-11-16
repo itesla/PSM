@@ -1,4 +1,4 @@
-FILE_PATH=dymola_interface.jar
+FILE_PATH=dymola_interface-2016.jar
 GROUP=com.dassault_systemes.dymola
 ARTIFACT=dymola_interface
 VERSION=2016

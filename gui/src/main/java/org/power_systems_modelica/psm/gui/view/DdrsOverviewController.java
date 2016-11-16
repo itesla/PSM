@@ -74,6 +74,17 @@ public class DdrsOverviewController {
 
 				});
 				contextMenu.getItems().add(systemMenuItem);
+				final MenuItem eventsMenuItem = new MenuItem("events.dyd");
+				eventsMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+
+						Ddr ddr = row.getItem();
+						showDdrFileContent(ddr, "events.dyd");
+					}
+
+				});
+				contextMenu.getItems().add(eventsMenuItem);
 				final MenuItem paramsMenuItem = new MenuItem("params.par");
 				paramsMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 					@Override

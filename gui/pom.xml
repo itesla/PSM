@@ -9,6 +9,10 @@
 	<artifactId>gui</artifactId>
 	<name>Power Systems on Modelica GUI</name>
 
+	<properties>
+		<supercsv.version>2.4.0</supercsv.version>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>ossrh</id>
@@ -56,6 +60,11 @@
 			<!-- modules is required for Hades integration (contains contingencies) -->
 			<groupId>eu.itesla_project</groupId>
 			<artifactId>commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.supercsv</groupId>
+			<artifactId>super-csv</artifactId>
+			<version>${supercsv.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

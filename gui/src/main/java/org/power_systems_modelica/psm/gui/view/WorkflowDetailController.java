@@ -1,12 +1,16 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.util.List;
-import java.util.Set;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
+import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -17,19 +21,26 @@ import org.slf4j.LoggerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Path;
+import javafx.scene.control.TitledPane;
 
 public class WorkflowDetailController {
 
+	public static final Path	DATA_TMP		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
+	
 	@FXML
 	private void initialize() {
+
+		fileContentPane.setVisible(false);
+		
+		dsChart.setCreateSymbols(false);
 
 		voltageChart.setLegendVisible(false);
 		phaseChart.setLegendVisible(false);
@@ -57,6 +68,60 @@ public class WorkflowDetailController {
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
 		mainApp.showWorkflowView(null);
+	}
+
+	@FXML
+	private void handleFileEvent() {
+		LOG.debug("handleFileEvent");
+		showModelicaFileContent("eventAdder_initial.mo");
+	}
+
+	@FXML
+	private void handleFileWithEventsEvent() {
+		LOG.debug("handleFileWithEventsEvent");
+		showModelicaFileContent("eventAdder_events.mo");
+	}
+
+	@FXML
+	private void handleSaveFileContentEvent() {
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		try {
+			Utils.saveFile(location, file, ddrContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		fileContentPane.setVisible(false);
+	}
+
+	@FXML
+	private void handleRevertFileContentEvent() {
+		codeEditor.revertEdits();
+	}
+
+	@FXML
+	private void handleCloseFileContentEvent() {
+		fileContentPane.setVisible(false);
+	}
+
+	private void showModelicaFileContent(String file) {
+
+		StringBuilder fileContent = new StringBuilder();
+		try {
+			fileContent = Utils.loadFile(DATA_TMP.toString(), file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		codeEditor.setEditingFile(DATA_TMP.toString(), file);
+		codeEditor.setCode(fileContent);
+		codeEditor.setVisible(true);
+		fileContentPane.setVisible(true);
 	}
 
 	private void addSeries(WorkflowResult results) {
@@ -91,6 +156,23 @@ public class WorkflowDetailController {
 		phaseChart.getData().addAll(displayedPhaseSeries);
 		activeChart.getData().addAll(displayedActiveSeries);
 		reactiveChart.getData().addAll(displayedReactiveSeries);
+		
+		ObservableList<XYChart.Series> displayedDsSeries = FXCollections.observableArrayList();
+
+		for (String key : results.getDsValues().keySet()) {
+			
+			if (!key.endsWith(".V")) continue;
+			
+			XYChart.Series<Double, Double> valuesDS = new XYChart.Series<>();
+			valuesDS.setName(key);
+
+			for (DsData xyValue : results.getDsValues().get(key)) {
+				valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
+			}
+			displayedDsSeries.add(valuesDS);
+		}
+
+		dsChart.getData().addAll(displayedDsSeries);
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -110,6 +192,11 @@ public class WorkflowDetailController {
 			addSeries(mainApp.getWorkflowResult("" + w.getId()));
 		}
 	}
+
+	@FXML
+	private TitledPane fileContentPane;
+	@FXML
+	private CodeEditor codeEditor;
 
 	@FXML
 	private Label createdLabel;
@@ -145,6 +232,13 @@ public class WorkflowDetailController {
 	private CategoryAxis xReactiveAxis;
 	@FXML
 	private NumberAxis yReactiveAxis;
+	
+	@FXML
+	private LineChart dsChart;
+	@FXML
+	private NumberAxis xDsAxis;
+	@FXML
+	private NumberAxis yDsAxis;
 
 	private MainApp mainApp;
 

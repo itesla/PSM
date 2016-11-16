@@ -37,10 +37,14 @@ public class EventParamGui implements Serializable  {
 		this.value.set(description);
 	}
 
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
 	@Override
 	public String toString() {
 		
-		String t = name.get() +
+		String t = name.get().replace(" (" + unit + ")", "") +
 				"=" +
 				value.get();
 		
@@ -48,5 +52,6 @@ public class EventParamGui implements Serializable  {
 	}
 	
 	private StringProperty name;
+	private String unit;
 	private StringProperty value;
 }

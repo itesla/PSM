@@ -4,6 +4,7 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,6 +24,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
@@ -33,6 +35,7 @@ import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +49,10 @@ public class WorkflowService {
 	public static final Path	DATA_TMP		= Paths
 			.get(System.getenv("PSM_DATA"))
 			.resolve("tmp");
+	
+	public static final Path	LIBRARY		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("test").resolve("library");
 	
 	public enum LoadflowEngine {
 		HADES2(0), HELMFLOW(1);
@@ -126,6 +133,7 @@ public class WorkflowService {
 		parameters.forEach(p -> {
 			EventParamGui ep = new EventParamGui();
 			ep.setName(p.getName() + " (" + p.getUnit() + ")");
+			ep.setUnit(p.getUnit());
 			ep.setValue("");
 			eventParams.add(ep);
 		});
@@ -138,6 +146,7 @@ public class WorkflowService {
 
 		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
+		new File(modelicaEngineWorkingDir.toString()).mkdir();
 		String outname = DATA_TMP.resolve("eventAdder_initial.mo").toString();
 		String outnameev = DATA_TMP.resolve("eventAdder_events.mo").toString();
 		
@@ -147,6 +156,9 @@ public class WorkflowService {
 			String loadflowId = le.equals(LoadflowEngine.HADES2) ? "loadflowHades2" : "loadflowHelmflow";
 			String loadflowClass = le.equals(LoadflowEngine.HADES2) ? "com.rte_france.itesla.hades2.Hades2Factory"
 					: "com.elequant.helmflow.ipst.HelmFlowFactory";
+			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
+			String simulationSource = "mo";
+			String resultVariables = "V,angle";
 			
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			
@@ -175,7 +187,16 @@ public class WorkflowService {
 						TC("source", "moWithEvents",
 								"target", outnameev,
 								"includePsmAnnotations", "true")));
+				
+				simulationSource = "moWithEvents";
 			}
+			
+			tasks.add(TD(ModelicaSimulatorTask.class, "dynamicsim0",
+					TC("source", simulationSource,
+						"modelicaEngine", simulationEngine,
+						"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+						"libraryDir", LIBRARY.toString(),
+						"resultVariables", resultVariables)));
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
 			config.setTaskDefinitions(tasks);
@@ -222,6 +243,14 @@ public class WorkflowService {
 
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
+		
+		try {
+			Map<String, List<DsData>> values = Utils.readVariableColumnsWithCsvListReader(w.getResults("simres").toString(), ".csv");
+			results.setDsValues(values);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return results;
 	}

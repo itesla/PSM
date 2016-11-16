@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class WorkflowResult implements Serializable {
@@ -86,8 +87,17 @@ public class WorkflowResult implements Serializable {
 				.collect(Collectors.toList());
 	}
 
+	public void setDsValues(Map<String, List<DsData>> values) {
+		dsValues = values;
+	}
+
+	public Map<String, List<DsData>> getDsValues() {
+		return dsValues;
+	}
+
 	private String workflow;
 	private String id;
 
 	private List<BusData> allBusesValues;
+	private Map<String, List<DsData>> dsValues;
 }

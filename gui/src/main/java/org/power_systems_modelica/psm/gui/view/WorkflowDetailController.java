@@ -19,8 +19,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -31,12 +31,26 @@ public class WorkflowDetailController {
 	@FXML
 	private void initialize() {
 
-		//lineChart.setCreateSymbols(false);
-		//lineChart.setLegendVisible(false);
+		voltageChart.setLegendVisible(false);
+		phaseChart.setLegendVisible(false);
+		activeChart.setLegendVisible(false);
+		reactiveChart.setLegendVisible(false);
 
-		yAxis.setLowerBound(0);
-		yAxis.setUpperBound(2.25);
-		yAxis.setTickUnit(0.25);
+		yVoltageAxis.setLowerBound(0);
+		yVoltageAxis.setUpperBound(2.25);
+		yVoltageAxis.setTickUnit(0.25);
+
+		yPhaseAxis.setLowerBound(0);
+		yPhaseAxis.setUpperBound(2.25);
+		yPhaseAxis.setTickUnit(0.25);
+
+		yActiveAxis.setLowerBound(0);
+		yActiveAxis.setUpperBound(2.25);
+		yActiveAxis.setTickUnit(0.25);
+
+		yReactiveAxis.setLowerBound(0);
+		yReactiveAxis.setUpperBound(2.25);
+		yReactiveAxis.setTickUnit(0.25);
 	}
 
 	@FXML
@@ -45,80 +59,12 @@ public class WorkflowDetailController {
 		mainApp.showWorkflowView(null);
 	}
 
-	private void highlightSeriesOnHover(List<XYChart.Series> seriesList) {
-
-		for (XYChart.Series series : seriesList) {
-			Node seriesNode = series.getNode();
-			// seriesNode will be null if this method is called before the scene
-			// CSS has been applied
-			if (seriesNode != null && seriesNode instanceof Path) {
-				Path seriesPath = (Path) seriesNode;
-
-				seriesPath.setOnMouseEntered(event -> {
-					highlightSerie(seriesList, seriesPath);
-				});
-				seriesPath.setOnMouseExited(event -> {
-					// Reset
-					highlightSerie(seriesList, null);
-				});
-			}
-		}
-	}
-
-	private void highlightSerie(List<XYChart.Series> seriesList, Path seriesPath) {
-		
-		for (XYChart.Series series : seriesList) {
-			Node seriesNode = series.getNode();
-			// seriesNode will be null if this method is called before the scene
-			// CSS has been applied
-			if (seriesNode != null && seriesNode instanceof Path) {
-				Color color = Color.RED;
-				String dColor = ".default-color0";
-				if (series.getName().equals("V")) {
-					color = Color.RED;
-					dColor = ".default-color0";
-				}
-				else if (series.getName().equals("A")) {
-					color = Color.GREEN;
-					dColor = ".default-color1";
-				}
-				else if (series.getName().equals("P")) {
-					color = Color.YELLOW;
-					dColor = ".default-color2";
-				}
-				else if (series.getName().equals("Q")) {
-					color = Color.BLUE;
-					dColor = ".default-color3";
-				}
-				int strokeWidth = 2;
-				double opacity = 1;
-				Path sPath = (Path) seriesNode;
-				if (seriesPath != null) {
-					if (sPath == seriesPath) {
-						color = color.darker();
-						strokeWidth = 4;
-					} else {
-						color = Color.GRAY;
-						strokeWidth = 1;
-						opacity = 0.5;
-					}
-				}
-				
-				Set<Node> nodes = lineChart.lookupAll(dColor + ".chart-line-symbol");
-				for (final Node node : nodes) {
-					String colorName = color.toString();
-					node.setStyle("-fx-background-color: #" + colorName.substring(2,colorName.length()-2) + ";");
-				}
-				sPath.setStroke(color);
-				sPath.setStrokeWidth(strokeWidth);
-				sPath.setOpacity(opacity);
-			}
-		}
-	}
-
 	private void addSeries(WorkflowResult results) {
 
-		ObservableList<XYChart.Series> displayedSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series> displayedVoltageSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series> displayedPhaseSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series> displayedActiveSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series> displayedReactiveSeries = FXCollections.observableArrayList();
 		XYChart.Series<String, Float> valuesV = new XYChart.Series<>();
 		valuesV.setName("V");
 		XYChart.Series<String, Float> valuesA = new XYChart.Series<>();
@@ -136,14 +82,15 @@ public class WorkflowDetailController {
 			valuesQ.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("Q",0)));
 		}
 		
-		displayedSeries.add(valuesV);
-		displayedSeries.add(valuesA);
-		displayedSeries.add(valuesP);
-		displayedSeries.add(valuesQ);
+		displayedVoltageSeries.add(valuesV);
+		displayedPhaseSeries.add(valuesA);
+		displayedActiveSeries.add(valuesP);
+		displayedReactiveSeries.add(valuesQ);
 		
-		lineChart.getData().addAll(displayedSeries);
-		highlightSerie(displayedSeries, null);
-		highlightSeriesOnHover(displayedSeries); 
+		voltageChart.getData().addAll(displayedVoltageSeries);
+		phaseChart.getData().addAll(displayedPhaseSeries);
+		activeChart.getData().addAll(displayedActiveSeries);
+		reactiveChart.getData().addAll(displayedReactiveSeries);
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -172,11 +119,32 @@ public class WorkflowDetailController {
 	private Label loadflowLabel;
 
 	@FXML
-	private LineChart lineChart;
+	private ScatterChart voltageChart;
 	@FXML
-	private CategoryAxis xAxis;
+	private CategoryAxis xVoltageAxis;
 	@FXML
-	private NumberAxis yAxis;
+	private NumberAxis yVoltageAxis;
+
+	@FXML
+	private ScatterChart phaseChart;
+	@FXML
+	private CategoryAxis xPhaseAxis;
+	@FXML
+	private NumberAxis yPhaseAxis;
+
+	@FXML
+	private ScatterChart activeChart;
+	@FXML
+	private CategoryAxis xActiveAxis;
+	@FXML
+	private NumberAxis yActiveAxis;
+
+	@FXML
+	private ScatterChart reactiveChart;
+	@FXML
+	private CategoryAxis xReactiveAxis;
+	@FXML
+	private NumberAxis yReactiveAxis;
 
 	private MainApp mainApp;
 

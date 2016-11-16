@@ -36,5 +36,5 @@ public interface DynamicDataRepository
 
 	List<String> getEvents();
 	
-	List<String> getEventParameters(String event);
+	List<EventParameter> getEventParameters(String event);
 }

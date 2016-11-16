@@ -5,7 +5,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
-import org.power_systems_modelica.psm.gui.model.EventParam;
+import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -65,13 +65,13 @@ public class WorkflowNewController {
 		parametersView.setEditable(true);
 		nameParamColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		valueParamColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
-		valueParamColumn.setCellValueFactory(new PropertyValueFactory<EventParam, String>("value"));
+		valueParamColumn.setCellValueFactory(new PropertyValueFactory<EventParamGui, String>("value"));
 		valueParamColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		valueParamColumn.setOnEditCommit(
-		    new EventHandler<CellEditEvent<EventParam, String>>() {
+		    new EventHandler<CellEditEvent<EventParamGui, String>>() {
 		        @Override
-		        public void handle(CellEditEvent<EventParam, String> t) {
-		            ((EventParam) t.getTableView().getItems().get(
+		        public void handle(CellEditEvent<EventParamGui, String> t) {
+		            ((EventParamGui) t.getTableView().getItems().get(
 		                t.getTablePosition().getRow())
 		                ).setValue(t.getNewValue());
 		        }
@@ -209,11 +209,11 @@ public class WorkflowNewController {
 	@FXML
 	private ComboBox<String> actionEvent;
 	@FXML
-	private TableView<EventParam> parametersView;
+	private TableView<EventParamGui> parametersView;
     @FXML
-    private TableColumn<EventParam, String> nameParamColumn;
+    private TableColumn<EventParamGui, String> nameParamColumn;
     @FXML
-    private TableColumn<EventParam, String> valueParamColumn;
+    private TableColumn<EventParamGui, String> valueParamColumn;
 
 	@FXML
 	private ComboBox<DsEngine> dsEngine;

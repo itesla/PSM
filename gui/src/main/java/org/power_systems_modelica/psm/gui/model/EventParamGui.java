@@ -6,9 +6,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class EventParam implements Serializable  {
+public class EventParamGui implements Serializable  {
 
-	public EventParam() {
+	public EventParamGui() {
 		this.name = new SimpleStringProperty();
 		this.value = new SimpleStringProperty();
 	}

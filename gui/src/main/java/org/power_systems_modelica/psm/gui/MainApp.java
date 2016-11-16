@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.EventParam;
+import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
@@ -312,7 +312,7 @@ public class MainApp extends Application {
 		return DdrService.getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
 	}
 
-	public ObservableList<EventParam> getEventParams(String event) {
+	public ObservableList<EventParamGui> getEventParams(String event) {
 		return WorkflowService.getEventParams(event);
 	}
 

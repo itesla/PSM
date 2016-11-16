@@ -24,6 +24,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.EventParameter;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
@@ -155,24 +156,24 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 	
 	@Override
-	public List<String> getEventParameters(String event) {
+	public List<EventParameter> getEventParameters(String event) {
 		
-		List<String> expectedParameters = null;
+		List<EventParameter> expectedParameters = null;
 		
 		if (event.equals("BusFault")){
 			expectedParameters = Arrays.asList(
-				"R",
-				"X",
-				"t1",
-				"t2");
+				new EventParameter("R","pu"),
+				new EventParameter("X","pu"),
+				new EventParameter("t1","s"),
+				new EventParameter("t2","s"));
 		}
 		else if (event.equals("LineFault")) {
 			expectedParameters = Arrays.asList(
-					"k",
-					"Rfault",
-					"Xfault",
-					"startTime",
-					"endTime");
+				new EventParameter("k","pu"),
+				new EventParameter("Rfault","pu"),
+				new EventParameter("Xfault","pu"),
+				new EventParameter("startTime","s"),
+				new EventParameter("endTime","s"));
 		}
 		else {
 			expectedParameters = Arrays.asList();
@@ -453,6 +454,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Objects.requireNonNull(name);
 		return location.resolve(name + ".dyd");
 	}
+	
+	
 
 	private Path						location;
 	private Map<String, ModelContainer>	modelContainers;

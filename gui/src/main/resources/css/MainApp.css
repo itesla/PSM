@@ -42,6 +42,13 @@
 	-fx-font-weight: bold;
 }
 
+/* tab pane header color */
+.tab-pane  .tab-header-area .tab-header-background {
+	-fx-background-color: white;
+	-fx-effect: null;
+}
+
+/* default chart colors */
 .default-color0.chart-series-line { -fx-stroke: red; }
 .default-color1.chart-series-line { -fx-stroke: green; }
 .default-color2.chart-series-line { -fx-stroke: yellow; }

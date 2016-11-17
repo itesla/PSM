@@ -3,7 +3,6 @@ package org.power_systems_modelica.psm.gui;
 import java.io.IOException;
 
 import org.power_systems_modelica.psm.gui.model.Case;
-import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
@@ -12,7 +11,6 @@ import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
 import org.power_systems_modelica.psm.gui.service.TaskService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
-import org.power_systems_modelica.psm.gui.service.WorkflowTask;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
@@ -46,7 +44,6 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Power Systems on Modelica");
-		primaryStage.setMaximized(true);
 
 		initRootLayout();
 

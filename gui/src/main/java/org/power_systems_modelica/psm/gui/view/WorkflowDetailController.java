@@ -1,8 +1,11 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
@@ -21,24 +24,28 @@ import org.slf4j.LoggerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Path;
 
 public class WorkflowDetailController {
 
-	public static final Path	DATA_TMP		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
-	
 	@FXML
 	private void initialize() {
 
 		fileContentPane.setVisible(false);
+		
+		modelicaFileButton.setDisable(true);
+		modelicaEventsFileButton.setDisable(true);
 		
 		dsChart.setCreateSymbols(false);
 
@@ -112,19 +119,74 @@ public class WorkflowDetailController {
 
 		StringBuilder fileContent = new StringBuilder();
 		try {
-			fileContent = Utils.loadFile(DATA_TMP.toString(), file);
+			fileContent = Utils.loadFile(Utils.DATA_TMP.toString(), file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		codeEditor.setEditingFile(DATA_TMP.toString(), file);
+		codeEditor.setEditingFile(Utils.DATA_TMP.toString(), file);
 		codeEditor.setCode(fileContent);
 		codeEditor.setVisible(true);
 		fileContentPane.setVisible(true);
 	}
 
-	private void addSeries(WorkflowResult results) {
+    private void highlightSeriesOnHover(List<XYChart.Series> seriesList) {
+
+        for (XYChart.Series series : seriesList) {
+            Node seriesNode = series.getNode();
+            // seriesNode will be null if this method is called before the scene
+            // CSS has been applied
+            if (seriesNode != null && seriesNode instanceof Path) {
+                Path seriesPath = (Path) seriesNode;
+                
+                seriesPath.setOnMouseEntered(event -> {
+                    highlightSerie(seriesList, seriesPath);
+                });
+                seriesPath.setOnMouseExited(event -> {
+                    // Reset
+                    highlightSerie(seriesList, null);
+                });
+            }
+        }
+    }
+
+    private void highlightSerie(List<XYChart.Series> seriesList, Path seriesPath) {
+        
+        for (XYChart.Series series : seriesList) {
+            Node seriesNode = series.getNode();
+            // seriesNode will be null if this method is called before the scene
+            // CSS has been applied
+            if (seriesNode != null && seriesNode instanceof Path) {
+            	
+                Path sPath = (Path) seriesNode;
+            	Paint color = colors.get(series.getName());
+            	if (color == null) {
+                    System.out.println("serie: " + series.getName() + " color: " + sPath.getStroke().toString());
+            		color = sPath.getStroke();
+            		colors.put(series.getName(), color);
+            	}
+                int strokeWidth = 2;
+                double opacity = 1;
+                if (seriesPath != null) {
+                    if (sPath == seriesPath) {
+                        color = ((Color) color).darker();
+                        strokeWidth = 4;
+                    } else {
+                        color = Color.GRAY;
+                        strokeWidth = 1;
+                        opacity = 0.5;
+                    }
+                }
+                
+                sPath.setStroke(color);
+                sPath.setStrokeWidth(strokeWidth);
+                sPath.setOpacity(opacity);
+            }
+        }
+    }
+
+    private void addSeries(WorkflowResult results) {
 
 		ObservableList<XYChart.Series> displayedVoltageSeries = FXCollections.observableArrayList();
 		ObservableList<XYChart.Series> displayedPhaseSeries = FXCollections.observableArrayList();
@@ -173,6 +235,7 @@ public class WorkflowDetailController {
 		}
 
 		dsChart.getData().addAll(displayedDsSeries);
+		highlightSeriesOnHover(displayedDsSeries);
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -191,12 +254,26 @@ public class WorkflowDetailController {
 		if (w.getState().equals(ProcessState.SUCCESS)) {
 			addSeries(mainApp.getWorkflowResult("" + w.getId()));
 		}
+		
+		if (Files.exists(Utils.DATA_TMP.resolve("eventAdder_initial.mo"), LinkOption.NOFOLLOW_LINKS)) {
+			modelicaFileButton.setDisable(false);
+		}
+		
+		if (Files.exists(Utils.DATA_TMP.resolve("eventAdder_events.mo"), LinkOption.NOFOLLOW_LINKS)) {
+			modelicaFileButton.setDisable(false);
+		}
 	}
 
 	@FXML
 	private TitledPane fileContentPane;
 	@FXML
 	private CodeEditor codeEditor;
+	
+	
+	@FXML
+	private Button modelicaFileButton;
+	@FXML
+	private Button modelicaEventsFileButton;
 
 	@FXML
 	private Label createdLabel;
@@ -240,6 +317,7 @@ public class WorkflowDetailController {
 	@FXML
 	private NumberAxis yDsAxis;
 
+	private Map<String, Paint> colors = new HashMap<String, Paint>();
 	private MainApp mainApp;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowDetailController.class);

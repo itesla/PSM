@@ -6,9 +6,13 @@ import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +26,9 @@ import org.power_systems_modelica.psm.ddr.EventParameter;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
@@ -46,14 +50,6 @@ import javafx.collections.ObservableList;
 
 public class WorkflowService {
 
-	public static final Path	DATA_TMP		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
-	
-	public static final Path	LIBRARY		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test").resolve("library");
-	
 	public enum LoadflowEngine {
 		HADES2(0), HELMFLOW(1);
 
@@ -145,12 +141,22 @@ public class WorkflowService {
 			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse) throws WorkflowCreationException {
 
 		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
-		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
-		new File(modelicaEngineWorkingDir.toString()).mkdir();
-		String outname = DATA_TMP.resolve("eventAdder_initial.mo").toString();
-		String outnameev = DATA_TMP.resolve("eventAdder_events.mo").toString();
+		Path modelicaEngineWorkingDir = Utils.DATA_TMP.resolve("moBuilder");
+		String outname = Utils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
+		String outnameev = Utils.DATA_TMP.resolve("eventAdder_events.mo").toString();
 		
 		try {
+			if (Files.exists(modelicaEngineWorkingDir, LinkOption.NOFOLLOW_LINKS)) {
+				Files.walk(modelicaEngineWorkingDir, FileVisitOption.FOLLOW_LINKS)
+					.sorted(Comparator.reverseOrder())
+					.map(Path::toFile)
+					.peek(System.out::println)
+					.forEach(File::delete);
+			}
+			new File(modelicaEngineWorkingDir.toString()).mkdir();
+			Files.deleteIfExists(Paths.get(outname));
+			Files.deleteIfExists(Paths.get(outnameev));
+
 			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
 
 			String loadflowId = le.equals(LoadflowEngine.HADES2) ? "loadflowHades2" : "loadflowHelmflow";
@@ -195,7 +201,7 @@ public class WorkflowService {
 					TC("source", simulationSource,
 						"modelicaEngine", simulationEngine,
 						"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-						"libraryDir", LIBRARY.toString(),
+						"libraryDir", Utils.LIBRARY.toString(),
 						"resultVariables", resultVariables)));
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
@@ -230,7 +236,7 @@ public class WorkflowService {
 			float[] Ps = new float[1];
 			float[] Qs = new float[1];
 
-			Vs[0] = b.getV();
+			Vs[0] = b.getV()/b.getVoltageLevel().getNominalV();
 			As[0] = b.getAngle();
 			Ps[0] = b.getP();
 			Qs[0] = b.getQ();
@@ -296,12 +302,12 @@ public class WorkflowService {
 			float[] Qs = new float[2];
 
 			n.getStateManager().setWorkingState("resultsHelmflow");
-			Vs[0] = b.getV();
+			Vs[0] = b.getV()/b.getVoltageLevel().getNominalV();
 			As[0] = b.getAngle();
 			Ps[0] = b.getP();
 			Qs[0] = b.getQ();
 			n.getStateManager().setWorkingState("resultsHades2");
-			Vs[1] = b.getV();
+			Vs[1] = b.getV()/b.getVoltageLevel().getNominalV();
 			As[1] = b.getAngle();
 			Ps[1] = b.getP();
 			Qs[1] = b.getQ();

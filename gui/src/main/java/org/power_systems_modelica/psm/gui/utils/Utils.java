@@ -35,6 +35,18 @@ import javafx.scene.control.Alert.AlertType;
 public class Utils
 {
 
+	public static final Path	DATA_TEST		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("test");
+
+	public static final Path	DATA_TMP		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
+	
+	public static final Path	LIBRARY		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("test").resolve("library");
+	
 	public static String translateLocation(String input)
 	{
 

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -17,15 +16,11 @@ import javafx.collections.ObservableList;
 
 public class CatalogService {
 	
-	public static final Path	DATA_TEST		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test");
-
 	public static ObservableList<Catalog> getCatalogs(String name) {
 		
 		LOG.debug("getCatalogs");
 		ObservableList<Catalog> catalogs = FXCollections.observableArrayList();
-		Path path = DATA_TEST.resolve("cfg").resolve(name + ".properties");
+		Path path = Utils.DATA_TEST.resolve("cfg").resolve(name + ".properties");
         Properties properties = new Properties();
         try {
             try (InputStream is = Files.newInputStream(path)) {

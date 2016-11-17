@@ -43,7 +43,7 @@ public class ModelicaBuilderTest
 		testBuild(
 				"ieee14",
 				"ieee14bus_EQ.xml",
-				"ddr",
+				"ieee14/ddr",
 				"itesla/ieee14bus_no_lf.mo",
 				14,
 				5);
@@ -55,7 +55,7 @@ public class ModelicaBuilderTest
 		testBuild(
 				"ieee30",
 				"ieee30bus_EQ.xml",
-				"ddr",
+				"ieee30/ddr",
 				"itesla/ieee30bus_no_lf.mo",
 				30,
 				6);
@@ -67,7 +67,7 @@ public class ModelicaBuilderTest
 		testBuild(
 				"ieee57",
 				"ieee57bus_EQ.xml",
-				"ddr",
+				"ieee57/ddr",
 				"itesla/ieee57bus_no_lf.mo",
 				57,
 				7);
@@ -79,7 +79,7 @@ public class ModelicaBuilderTest
 		testBuild(
 				"ieee118",
 				"ieee118bus_EQ.xml",
-				"ddr",
+				"ieee118/ddr",
 				"itesla/ieee118bus_no_lf.mo",
 				118,
 				54);
@@ -97,8 +97,8 @@ public class ModelicaBuilderTest
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		String cim = folder.resolve(casename).toString();
-		String ddr = folder.resolve(ddrname).toString();
-		String fakeInit = folder.resolve(ddrname).resolve("fake_init.csv").toString();
+		String ddr = TEST_SAMPLES.resolve(ddrname).toString();
+		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();
 		String outname = DATA_TMP.resolve("moBuilder.mo").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
 		Files.createDirectories(modelicaEngineWorkingDir);

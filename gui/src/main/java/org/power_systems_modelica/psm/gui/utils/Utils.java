@@ -167,24 +167,21 @@ public class Utils
 					.findFirst();
 			if (!path.isPresent()) return null;
 
-			System.out.println("location: " + location +
-					" extension: " + extension +
-					" first file found: " + path.get().toString());
 			listReader = new CsvListReader(
 					new FileReader(path.get().toFile()),
 					CsvPreference.STANDARD_PREFERENCE);
 
 			// Read and process the header
+			// https://super-csv.github.io/super-csv/apidocs/org/supercsv/io/ICsvReader.html#get-int-
+			// column indexes begin at 1
 			listReader.getHeader(true);
 			int columns = listReader.length();
-			System.out.println("discovering column names from header");
 			String[] columnNames = new String[columns];
-			for (int i = 1; i < columns; i++)
+			for (int i = 2; i <= columns; i++)
 			{
 				List<DsData> dsData = new ArrayList<DsData>();
-				columnNames[i] = listReader.get(i);
-				values.put(columnNames[i], dsData);
-				System.out.println("    " + i + "\t" + columnNames[i]);
+				columnNames[i-1] = listReader.get(i);
+				values.put(columnNames[i-1], dsData);
 			}
 			final CellProcessor[] processors = getProcessors(columns);
 

@@ -81,10 +81,12 @@ public class WorkflowTestUtil
 		Matcher m = FLOATING_POINT_NUMBER.matcher(mo);
 		while (m.find())
 		{
-			float num = Float.parseFloat(mo.substring(m.start(), m.end()));
-			num = Math.round(num * FLOATING_POINT_ROUNDING) / FLOATING_POINT_ROUNDING;
-			String replacement = "" + num;
-			m.appendReplacement(result, replacement);
+			String snum = m.group("number");
+			float num = Float.parseFloat(snum);
+			float num1 = Math.round(num * FLOATING_POINT_ROUNDING) / FLOATING_POINT_ROUNDING;
+			String replacement = "" + num1;
+			if (!snum.equals(replacement))
+				m.appendReplacement(result, replacement);
 		}
 		m.appendTail(result);
 		return result.toString();
@@ -140,8 +142,8 @@ public class WorkflowTestUtil
 	private static final Pattern	EMPTY_LINE				= Pattern
 			.compile("(\\n|\\r|\\r\\n){2,}+");
 	private static final Pattern	ALL_LINE_SEPARATORS		= Pattern.compile("(\\n|\\r|\\r\\n)");
-	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern
-			.compile("[+-]?([0-9]*[.])?[0-9]+([eE][0-9]+)?");
+	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern.compile(
+			"(?<number>[\\+\\-]?([0-9]*[.])?[0-9]+([eE][\\+\\-]?[0-9]+)?)");
 	private static final float		FLOATING_POINT_ROUNDING	= 1e6f;
 	private static final String		CAP_PWCAP_				= "cap_pwCapacitorBank_";
 	private static final String		CAP_					= "cap_";

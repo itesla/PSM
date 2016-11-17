@@ -40,6 +40,7 @@
 .titled-pane > .title 
 {
 	-fx-font-weight: bold;
+	-fx-padding: 5
 }
 
 /* tab pane header color */

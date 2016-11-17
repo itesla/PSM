@@ -161,7 +161,7 @@
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 			</padding>
 		</ScrollPane>
-		<TitledPane fx:id="fileContentPane" animated="false"
+ 		<TitledPane fx:id="fileContentPane" animated="false"
 			collapsible="false" text="File Content" AnchorPane.bottomAnchor="40.0"
 			AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0"
 			AnchorPane.topAnchor="40.0">
@@ -187,7 +187,7 @@
 					</children>
 				</AnchorPane>
 			</content>
-		</TitledPane>
+		</TitledPane> 
 	</children>
 	<stylesheets>
 		<URL value="@/css/bootstrap3.css" />

@@ -197,7 +197,7 @@ public class WorkflowService {
 				simulationSource = "moWithEvents";
 			}
 			
-			tasks.add(TD(ModelicaSimulatorTask.class, "dynamicsim0",
+			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
 					TC("source", simulationSource,
 						"modelicaEngine", simulationEngine,
 						"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),

@@ -11,6 +11,7 @@ import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -18,6 +19,7 @@ import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -245,10 +247,11 @@ public class WorkflowDetailController {
 		
 		createdLabel.setText("" + w.getId());
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
-			if (!td.getTaskClass().equals(LoadFlowTask.class))
-				continue;
+			if (td.getTaskClass().equals(LoadFlowTask.class))
+				loadflowLabel.setText(td.getTaskId().equals("loadflowHades2")?LoadflowEngine.HADES2.name():LoadflowEngine.HELMFLOW.name());
 			
-			loadflowLabel.setText(td.getTaskId().equals("loadflowHades2")?LoadflowEngine.HADES2.name():LoadflowEngine.HELMFLOW.name());
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+				dsLabel.setText(td.getTaskId().equals("OpenModelica")?DsEngine.OPENMODELICA.name():DsEngine.DYMOLA.name());
 		}
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {
@@ -281,6 +284,8 @@ public class WorkflowDetailController {
 	private Label statusLabel;
 	@FXML
 	private Label loadflowLabel;
+	@FXML
+	private Label dsLabel;
 
 	@FXML
 	private ScatterChart voltageChart;

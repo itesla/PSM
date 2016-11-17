@@ -452,7 +452,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private static final String			MAT_EXTENSION 			= ".mat";
 	private static final String			CSV_EXTENSION 			= ".csv";
 	private static final String			COMMA					= ",";
-	private static final Pattern		RESULTS_PATTERN			= Pattern.compile("(\\{([0-9]+(\\.[0-9]*)?\\,?)+\\})");
+	private static final Pattern		RESULTS_PATTERN			= Pattern.compile("(\\{[^\\{\\}]+\\})");
 	private static final String			NEW_LINE				= System.getProperty("line.separator").toString();
 	
 	private static final Logger			LOGGER					= LoggerFactory.getLogger(OpenModelicaEngine.class);

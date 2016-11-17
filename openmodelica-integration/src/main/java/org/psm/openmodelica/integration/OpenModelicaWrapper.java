@@ -229,6 +229,14 @@ public class OpenModelicaWrapper extends SmartProxy {
 													.append(")").toString());
 	}
 	
+	public Result readSimulationResult(String resultsFile, String resultVariable) throws ConnectException {
+		resultVariable = resultVariable.substring(1,  resultVariable.length()-1);
+		
+		return sendExpression(new StringBuilder().append("readSimulationResult(\"").append(resultsFile).append("\"")
+													.append(", ").append("{" + resultVariable + "}")
+													.append(")").toString());
+	}
+	
 	
 	/**
 	 * Returns the variables in the simulation file.

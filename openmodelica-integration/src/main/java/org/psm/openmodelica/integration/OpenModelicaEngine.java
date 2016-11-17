@@ -313,8 +313,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				else LOGGER.error("Error getting simulation result variable {} from  {}. {}", resVar, matResultsFile, result.err.replace("\"", ""));
 				continue;
 			}
-			
-			String[] values = result.res.substring(2, result.res.length()-2).split(COMMA);
+			String[] values = result.res.substring(2, result.res.length()-3).split(COMMA);
 			
 			for(int i=0; i<resultSize; i++) {
 				resultValues[i][j] = values[i];

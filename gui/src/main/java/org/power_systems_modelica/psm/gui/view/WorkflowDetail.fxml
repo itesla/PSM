@@ -8,56 +8,42 @@
 <?import javafx.scene.chart.ScatterChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
 <?import org.power_systems_modelica.psm.gui.utils.CodeEditor?>
 
-<AnchorPane prefHeight="1100.0" prefWidth="600.0"
-	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
+<AnchorPane prefHeight="1100.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
 	<children>
-		<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" 
-			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: white;">
 					<children>
 						<HBox spacing="10.0" AnchorPane.rightAnchor="0.0">
 							<children>
-								<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false"
-									onAction="#handleNewWorkflow" styleClass="btn-default"
-									text="New conversion and simulation" AnchorPane.rightAnchor="0.0" />
+								<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleNewWorkflow" styleClass="btn-default" text="New conversion and simulation" AnchorPane.rightAnchor="0.0" />
 							</children>
 							<padding>
 								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
 							</padding>
 						</HBox>
-						<TitledPane collapsible="false" layoutX="18.6" layoutY="460.0"
-							text="Loadflow Result" AnchorPane.leftAnchor="0.0"
-							AnchorPane.rightAnchor="0.0">
+						<TitledPane collapsible="false" layoutX="18.6" layoutY="785.0" text="Loadflow Result" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
 								<AnchorPane>
 									<children>
-										<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0"
-											text="Created:" />
-										<Label fx:id="createdLabel" layoutX="160.0" layoutY="14.0"
-											prefHeight="30.0" text="Label" />
-										<Label layoutX="24.0" layoutY="44.0" prefHeight="30.0"
-											text="Loadflow:" />
-										<Label fx:id="loadflowLabel" layoutX="160.0" layoutY="44.0"
-											prefHeight="30.0" text="Label" />
-										<TabPane layoutY="140.0" style="-fx-background-color: white;"
-											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+										<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Created:" />
+										<Label fx:id="createdLabel" layoutX="160.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+										<Label layoutX="24.0" layoutY="44.0" prefHeight="30.0" text="Loadflow:" />
+										<Label fx:id="loadflowLabel" layoutX="160.0" layoutY="44.0" prefHeight="30.0" text="Label" />
+										<TabPane layoutY="140.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 											<tabs>
 												<Tab closable="false" text="Voltage">
 													<content>
-														<ScatterChart fx:id="voltageChart"
-															prefHeight="361.0" prefWidth="518.0">
+														<ScatterChart fx:id="voltageChart" prefHeight="361.0" prefWidth="518.0">
 															<xAxis>
 																<CategoryAxis side="BOTTOM" fx:id="xVoltageAxis" />
 															</xAxis>
@@ -105,14 +91,10 @@
 												</Tab>
 											</tabs>
 										</TabPane>
-										<Label layoutX="24.0" layoutY="74.0" prefHeight="30.0"
-											text="Dynamic simulator:" />
-										<Label fx:id="dsLabel" layoutX="160.0" layoutY="74.0"
-											prefHeight="30.0" text="Label" />
-										<Label layoutX="24.0" layoutY="104.0" prefHeight="30.0"
-											text="Status:" />
-										<Label fx:id="statusLabel" layoutX="160.0" layoutY="104.0"
-											prefHeight="30.0" text="Label" />
+										<Label layoutX="24.0" layoutY="74.0" prefHeight="30.0" text="Dynamic simulator:" />
+										<Label fx:id="dsLabel" layoutX="160.0" layoutY="74.0" prefHeight="30.0" text="Label" />
+										<Label layoutX="24.0" layoutY="104.0" prefHeight="30.0" text="Status:" />
+										<Label fx:id="statusLabel" layoutX="160.0" layoutY="104.0" prefHeight="30.0" text="Label" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -120,9 +102,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane collapsible="false" layoutX="18.6" layoutY="40.0"
-							prefHeight="72.0" prefWidth="559.0" text="Modelica Files"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+						<TitledPane collapsible="false" layoutX="18.6" layoutY="40.0" prefHeight="72.0" prefWidth="559.0" text="Modelica Files" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<padding>
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
@@ -131,11 +111,8 @@
 									<children>
 										<HBox layoutX="24.0" spacing="10.0">
 											<children>
-												<Button fx:id="modelicaFileButton" mnemonicParsing="false"
-													onAction="#handleFileEvent" styleClass="btn-default" text="Modelica file" />
-												<Button fx:id="modelicaEventsFileButton"
-													mnemonicParsing="false" onAction="#handleFileWithEventsEvent"
-													styleClass="btn-default" text="Modelica file wih events" />
+												<Button fx:id="modelicaFileButton" mnemonicParsing="false" onAction="#handleFileEvent" styleClass="btn-default" text="Modelica file" />
+												<Button fx:id="modelicaEventsFileButton" mnemonicParsing="false" onAction="#handleFileWithEventsEvent" styleClass="btn-default" text="Modelica file wih events" />
 											</children>
 											<padding>
 												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -145,16 +122,14 @@
 								</AnchorPane>
 							</content>
 						</TitledPane>
-						<TitledPane collapsible="false" layoutX="18.6" layoutY="160.0"
-							prefHeight="310.0" prefWidth="559.0" text="Dynamic Simulation"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+						<TitledPane collapsible="false" layoutX="18.6" layoutY="160.0" prefHeight="635.0" prefWidth="559.0" text="Dynamic Simulation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<padding>
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 							<content>
 								<LineChart fx:id="dsChart">
 									<xAxis>
-										<NumberAxis fx:id="xDsAxis" side="BOTTOM" />
+										<NumberAxis side="BOTTOM" fx:id="xDsAxis" />
 									</xAxis>
 									<yAxis>
 										<NumberAxis fx:id="yDsAxis" side="LEFT" />
@@ -169,24 +144,15 @@
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 			</padding>
 		</ScrollPane>
-		<TitledPane fx:id="fileContentPane" animated="false"
-			collapsible="false" text="File Content" AnchorPane.bottomAnchor="40.0"
-			AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0"
-			AnchorPane.topAnchor="40.0">
+		<TitledPane fx:id="fileContentPane" animated="false" collapsible="false" text="File Content" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-					prefWidth="200.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 					<children>
-						<HBox layoutX="448.3999938964844" layoutY="19.600000381469727"
-							spacing="10.0" AnchorPane.rightAnchor="10.0"
-							AnchorPane.topAnchor="10.0">
+						<HBox layoutX="448.3999938964844" layoutY="19.600000381469727" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 							<children>
-								<Button mnemonicParsing="false" onAction="#handleRevertFileContentEvent"
-									styleClass="btn-default" text="Revert" />
-								<Button mnemonicParsing="false" onAction="#handleSaveFileContentEvent"
-									styleClass="btn-default" text="Save" />
-								<Button mnemonicParsing="false" onAction="#handleCloseFileContentEvent"
-									styleClass="btn-default" text="Close" />
+								<Button mnemonicParsing="false" onAction="#handleRevertFileContentEvent" styleClass="btn-default" text="Revert" />
+								<Button mnemonicParsing="false" onAction="#handleSaveFileContentEvent" styleClass="btn-default" text="Save" />
+								<Button mnemonicParsing="false" onAction="#handleCloseFileContentEvent" styleClass="btn-default" text="Close" />
 							</children>
 						</HBox>
 						<CodeEditor fx:id="codeEditor" AnchorPane.bottomAnchor="0.0"

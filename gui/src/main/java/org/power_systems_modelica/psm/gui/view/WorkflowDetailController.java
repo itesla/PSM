@@ -50,27 +50,25 @@ public class WorkflowDetailController {
 		modelicaEventsFileButton.setDisable(true);
 		
 		dsChart.setCreateSymbols(false);
+		yDsAxis.setForceZeroInRange(false);
+		yDsAxis.setAutoRanging(true);
 
 		voltageChart.setLegendVisible(false);
 		phaseChart.setLegendVisible(false);
 		activeChart.setLegendVisible(false);
 		reactiveChart.setLegendVisible(false);
 
-		yVoltageAxis.setLowerBound(0);
-		yVoltageAxis.setUpperBound(2.25);
-		yVoltageAxis.setTickUnit(0.25);
+		yVoltageAxis.setForceZeroInRange(false);
+		yVoltageAxis.setAutoRanging(true);
 
-		yPhaseAxis.setLowerBound(0);
-		yPhaseAxis.setUpperBound(2.25);
-		yPhaseAxis.setTickUnit(0.25);
+		yPhaseAxis.setForceZeroInRange(false);
+		yPhaseAxis.setAutoRanging(true);
 
-		yActiveAxis.setLowerBound(0);
-		yActiveAxis.setUpperBound(2.25);
-		yActiveAxis.setTickUnit(0.25);
+		yActiveAxis.setForceZeroInRange(false);
+		yActiveAxis.setAutoRanging(true);
 
-		yReactiveAxis.setLowerBound(0);
-		yReactiveAxis.setUpperBound(2.25);
-		yReactiveAxis.setTickUnit(0.25);
+		yReactiveAxis.setForceZeroInRange(false);
+		yReactiveAxis.setAutoRanging(true);
 	}
 
 	@FXML

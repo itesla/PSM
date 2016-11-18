@@ -21,9 +21,9 @@ public class ParameterValueXml
 	public static void write(XMLStreamWriter w, ParameterValue p) throws XMLStreamException
 	{
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
-		w.writeAttribute("type", p.getType());
+		if (p.getType() != null) w.writeAttribute("type", p.getType());
 		w.writeAttribute("name", p.getName());
-		// FIXME Proper serialization of p.getValue() 
+		// FIXME Proper serialization of p.getValue()
 		w.writeAttribute("value", p.getValue().toString());
 	}
 }

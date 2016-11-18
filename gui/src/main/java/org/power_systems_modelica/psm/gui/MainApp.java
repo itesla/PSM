@@ -333,10 +333,10 @@ public class MainApp extends Application {
 	}
 
 	public void startWorkflow(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
-			ObservableList events, DsEngine dse) {
+			ObservableList events, DsEngine dse, String stopTime) {
 
 		try {
-			Workflow w = WorkflowService.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse);
+			Workflow w = WorkflowService.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
 			wTask = TaskService.createTask(w, () -> showWorkflowDetailView());
 			showWorkflowStatusView(w, true);
 			TaskService.startTask(wTask);

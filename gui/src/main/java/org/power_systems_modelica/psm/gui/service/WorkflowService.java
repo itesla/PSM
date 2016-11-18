@@ -155,7 +155,7 @@ public class WorkflowService
 	}
 
 	public static Workflow createWorkflow(Case cs, Ddr ddr0, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse)
+			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse, String stopTime)
 			throws WorkflowCreationException
 	{
 
@@ -241,6 +241,7 @@ public class WorkflowService
 					TC("source", simulationSource,
 							"modelicaEngine", simulationEngine,
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+							"stopTime", stopTime, 
 							"libraryDir", Utils.LIBRARY.toString(),
 							"resultVariables", resultVariables)));
 

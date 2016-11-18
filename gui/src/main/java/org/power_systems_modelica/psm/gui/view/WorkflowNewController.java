@@ -143,6 +143,8 @@ public class WorkflowNewController {
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 		addedEvents.getItems().clear();
 		
+		stopTimeText.setText("1");
+		
 		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
 	}
 	
@@ -174,10 +176,12 @@ public class WorkflowNewController {
 			Utils.showWarning("Warning", "Select a Dynamic simulation engine");
 			return;
 		}
+		
+		String stopTime = stopTimeText.getText();
 
 		ObservableList<Event> events = addedEvents.getItems();
 
-		mainApp.startWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse);
+		mainApp.startWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
 	}
 	
 	@FXML
@@ -229,8 +233,12 @@ public class WorkflowNewController {
 			if (td.getTaskClass().equals(LoadFlowTask.class))
 				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(td.getTaskId()));
 			
-			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class)) {
+				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
+				stopTimeText.setText(stopTime);
+				
 				dsEngine.getSelectionModel().select(Utils.getDsEngine(td.getTaskId()));
+			}
 		}
 	}
 
@@ -242,9 +250,12 @@ public class WorkflowNewController {
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
 		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
+		
 		dsEngine.setItems(mainApp.getDsEngines());
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+		stopTimeText.setText("1");
 
+		
 		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
 	}
 
@@ -281,6 +292,8 @@ public class WorkflowNewController {
 
 	@FXML
 	private ComboBox<DsEngine> dsEngine;
+	@FXML
+	private TextField stopTimeText;
 
 	private MainApp mainApp;
 

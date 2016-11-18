@@ -9,6 +9,12 @@ import javafx.scene.control.Button;
 public class MenuLayoutController {
 
 	@FXML
+	private void initialize() {
+		compareLoadflows.setVisible(!DISABLECOMPARELOADFLOWS);
+		compareLoadflows.setDisable(DISABLECOMPARELOADFLOWS);
+	}
+
+	@FXML
 	private void handleCasesOverview() {
 		cases.getStyleClass().add("active");
 		ddrs.getStyleClass().remove("active");
@@ -82,4 +88,5 @@ public class MenuLayoutController {
 	
 	private MainApp mainApp;
 
+	private static final Boolean DISABLECOMPARELOADFLOWS = new Boolean(true); 
 }

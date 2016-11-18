@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
@@ -170,6 +171,10 @@ public class CompareLoadflowsDetailController {
 			maxReactiveErrorLabel.setText(String.format("%,.2f%%", reactiveStats.getMax()*100));	
 
 			addSeries(wr);
+			Utils.addTooltipScatterChart(voltageChart);
+			Utils.addTooltipScatterChart(phaseChart);
+			Utils.addTooltipScatterChart(activeChart);
+			Utils.addTooltipScatterChart(reactiveChart);
 		}
 	}
 

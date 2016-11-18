@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -34,9 +33,14 @@ import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
+import javafx.collections.ObservableList;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tooltip;
 
 public class Utils
 {
@@ -256,6 +260,26 @@ public class Utils
 					
 		return DsEngine.DYMOLA;
 	}
+	
+	public static void addTooltipLineChart(LineChart chart) {
+
+		ObservableList<XYChart.Series> displayedDsSeries = chart.getData(); 
+		for (XYChart.Series<Number, Number> s : displayedDsSeries) {
+			Tooltip.install(s.getNode(), new Tooltip(s.getName()));
+		}
+		
+	}
+	
+	public static void addTooltipScatterChart(ScatterChart chart) {
+		
+		ObservableList<XYChart.Series> displayedVoltageSeries = chart.getData(); 
+		for (XYChart.Series<String, Number> s : displayedVoltageSeries) {
+			for (XYChart.Data<String, Number> d : s.getData()) {
+				Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue()));
+			}
+		}
+	}
+
 
 	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
 

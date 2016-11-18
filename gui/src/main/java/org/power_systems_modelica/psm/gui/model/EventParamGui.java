@@ -41,6 +41,14 @@ public class EventParamGui implements Serializable  {
 		this.unit = unit;
 	}
 
+	public void fromString(String param) {
+		
+		String[] paramVar = param.split("=");
+		
+		name.set(paramVar[0]);
+		value.set(paramVar[1]);
+	}
+
 	@Override
 	public String toString() {
 		

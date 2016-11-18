@@ -9,6 +9,13 @@ import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.workflow.TaskDefinition;
+import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
+import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +46,8 @@ public class WorkflowNewController {
 
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				caseSource.setItems(mainApp.getCases(newValue.getName()));
+				if (newValue != null)
+					caseSource.setItems(mainApp.getCases(newValue.getName()));
 			}
 
 		});
@@ -48,7 +56,8 @@ public class WorkflowNewController {
 
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				ddrSource.setItems(mainApp.getDdrs(newValue.getName()));
+				if (newValue != null)
+					ddrSource.setItems(mainApp.getDdrs(newValue.getName()));
 			}
 
 		});
@@ -57,7 +66,8 @@ public class WorkflowNewController {
 
 			@Override
 			public void changed(ObservableValue<? extends Ddr> observable, Ddr oldValue, Ddr newValue) {
-				actionEvent.setItems(mainApp.getActionEvents(newValue));
+				if (newValue != null)
+					actionEvent.setItems(mainApp.getActionEvents(newValue));
 			}
 
 		});
@@ -123,6 +133,20 @@ public class WorkflowNewController {
 	}
 
 	@FXML
+	private void handleCleanWorkflow() {
+		caseSource.getSelectionModel().clearSelection();
+		catalogCaseSource.getSelectionModel().clearSelection();
+		ddrSource.getSelectionModel().clearSelection();
+		catalogDdrSource.getSelectionModel().clearSelection();
+
+		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
+		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+		addedEvents.getItems().clear();
+		
+		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
+	}
+	
+	@FXML
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
 
@@ -174,6 +198,42 @@ public class WorkflowNewController {
 		caseSource.getSelectionModel().select(c);
 	}
 	
+	public void setWorkflow(Workflow w) {
+		
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
+			
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+				String casePath = td.getTaskConfiguration().getParameter("source");
+				Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
+			}
+			
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class)) {
+				String ddrPath = td.getTaskConfiguration().getParameter("ddrLocation");
+				Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
+				
+				Boolean onlyMainConnectedComponent = td.getTaskConfiguration().getBoolean("onlyMainConnectedComponent");
+				mainConnectedComponent.setSelected(onlyMainConnectedComponent);
+			}
+			
+			if (td.getTaskClass().equals(ModelicaEventAdderTask.class)) {
+				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
+				for (String event: events) {
+					
+					Event e = new Event();
+					e.fromString(event);
+					addedEvents.getItems().add(e);
+				}
+			}
+			
+
+			if (td.getTaskClass().equals(LoadFlowTask.class))
+				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(td.getTaskId()));
+			
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+				dsEngine.getSelectionModel().select(Utils.getDsEngine(td.getTaskId()));
+		}
+	}
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 
@@ -181,7 +241,11 @@ public class WorkflowNewController {
 		catalogDdrSource.setItems(mainApp.getCatalogs("ddrs"));
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
+		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
 		dsEngine.setItems(mainApp.getDsEngines());
+		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+
+		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
 	}
 
 	@FXML
@@ -220,5 +284,7 @@ public class WorkflowNewController {
 
 	private MainApp mainApp;
 
+	private static final Boolean MAINCONNECTEDCOMPONENTDEFAULT = new Boolean(true);
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowNewController.class);
+
 }

@@ -19,9 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.DsData;
+import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.StrReplace;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -31,6 +36,7 @@ import org.supercsv.prefs.CsvPreference;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 
 public class Utils
 {
@@ -213,6 +219,44 @@ public class Utils
 			processors[i] = new StrReplace("null", STR_DOUBLE_NAN, new ParseDouble());
 		return processors;
 	}
+	
+	public static void resolveCasePath(String uri, ComboBox<Catalog> catalogCaseSource,
+			ComboBox<Case> caseSource) {
+		
+		Path path = Paths.get(uri);
+		Path casePath = path.getParent();
+		Path catalogPath = casePath.getParent();
+		
+		catalogCaseSource.getItems().stream().filter(c -> c.getLocation().equals(catalogPath.toString())).findAny().ifPresent(c -> catalogCaseSource.getSelectionModel().select(c));
+		caseSource.getItems().stream().filter(c -> c.getLocation().equals(casePath.toString())).findAny().ifPresent(c -> caseSource.getSelectionModel().select(c));
+	}
+
+	public static void resolveDdrPath(String uri, ComboBox<Catalog> catalogDdrSource, ComboBox<Ddr> ddrSource) {
+
+		Path ddrPath = Paths.get(uri);
+		Path catalogPath = ddrPath.getParent().getParent();
+		
+		catalogDdrSource.getItems().stream().filter(c -> c.getLocation().equals(catalogPath.toString())).findAny().ifPresent(c -> catalogDdrSource.getSelectionModel().select(c));
+		ddrSource.getItems().stream().filter(c -> c.getLocation().equals(ddrPath.toString())).findAny().ifPresent(c -> ddrSource.getSelectionModel().select(c));
+	}
+
+	public static LoadflowEngine getLoadflowEngine(String engine) {
+		if (engine.equals("loadflowHades2"))
+			return LoadflowEngine.HADES2;
+		if (engine.equals("loadflowHelmflow"))
+			return LoadflowEngine.HELMFLOW;
+		
+		return LoadflowEngine.NONE;
+	}
+
+	public static DsEngine getDsEngine(String engine) {
+		
+		if (engine.equals("OpenModelica"))
+			return DsEngine.OPENMODELICA;
+					
+		return DsEngine.DYMOLA;
+	}
 
 	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
+
 }

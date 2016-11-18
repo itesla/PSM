@@ -268,7 +268,11 @@ public class WorkflowService
 		/*
 		 * LUMA: no specific state for loadflow results, use current network state
 		 * 
-		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); // Fin fix temporal n.getStateManager().allowStateMultiThreadAccess(false); n.getStateManager().setWorkingState("resultsLoadflow");
+		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); 
+		 * // Fin fix temporal
+		 *  
+		 * n.getStateManager().allowStateMultiThreadAccess(false); 
+		 * n.getStateManager().setWorkingState("resultsLoadflow");
 		 */
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {

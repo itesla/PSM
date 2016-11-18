@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,25 @@ public class Event implements Serializable  {
 
 	public void setParams(List<EventParamGui> params) {
 		this.params = params;
+	}
+
+	public void fromString(String event) {
+		
+		String[] eventVar = event.split(",");
+		
+		action = eventVar[0];
+		element = eventVar[1];
+		params = new ArrayList<EventParamGui>();
+		
+		int i = 2;
+		while (i < eventVar.length) {
+			
+			EventParamGui p = new EventParamGui();
+			p.fromString(eventVar[i]);
+			i++;
+			
+			params.add(p);
+		}
 	}
 
 	@Override

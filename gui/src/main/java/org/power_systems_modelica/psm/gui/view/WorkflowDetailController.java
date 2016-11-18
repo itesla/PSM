@@ -76,7 +76,7 @@ public class WorkflowDetailController {
 	@FXML
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
-		mainApp.showWorkflowView(null);
+		mainApp.showWorkflowNewView(mainApp.getWorkflow());
 	}
 
 	@FXML
@@ -248,10 +248,10 @@ public class WorkflowDetailController {
 		createdLabel.setText("" + w.getId());
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 			if (td.getTaskClass().equals(LoadFlowTask.class))
-				loadflowLabel.setText(td.getTaskId().equals("loadflowHades2")?LoadflowEngine.HADES2.name():LoadflowEngine.HELMFLOW.name());
+				loadflowLabel.setText(Utils.getLoadflowEngine(td.getTaskId()).name());
 			
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
-				dsLabel.setText(td.getTaskId().equals("OpenModelica")?DsEngine.OPENMODELICA.name():DsEngine.DYMOLA.name());
+				dsLabel.setText(Utils.getDsEngine(td.getTaskId()).name());
 		}
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {

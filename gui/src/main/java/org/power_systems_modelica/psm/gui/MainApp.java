@@ -133,7 +133,7 @@ public class MainApp extends Application {
 	public FXMLLoader showWorkflowView(Workflow w) {
 
 		if (w == null)
-			return showWorkflowNewView();
+			return showWorkflowNewView(w);
 		else {
 			if (!w.getState().equals(ProcessState.SUCCESS) && !w.getState().equals(ProcessState.FAILED))
 				return showWorkflowStatusView(w, true);
@@ -142,7 +142,7 @@ public class MainApp extends Application {
 		}
 	}
 
-	public FXMLLoader showWorkflowNewView() {
+	public FXMLLoader showWorkflowNewView(Workflow w) {
 
 		FXMLLoader loader = null;
 		try {
@@ -156,6 +156,8 @@ public class MainApp extends Application {
 
 			WorkflowNewController controller = loader.getController();
 			controller.setMainApp(this);
+			if (w != null)
+				controller.setWorkflow(w);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -292,7 +294,7 @@ public class MainApp extends Application {
 		FXMLLoader menuLoader = showMenuLayout();
 		((MenuLayoutController) menuLoader.getController()).selectWorkflowOption();
 
-		FXMLLoader loader = showWorkflowNewView();
+		FXMLLoader loader = showWorkflowNewView(null);
 		WorkflowNewController controller = loader.getController();
 		controller.setCase(c);
 	}

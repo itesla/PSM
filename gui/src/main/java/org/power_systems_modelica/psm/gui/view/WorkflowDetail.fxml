@@ -21,13 +21,23 @@
 	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
 	<children>
-		<ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+		<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" 
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<content>
 				<AnchorPane minHeight="0.0" minWidth="0.0">
 					<children>
-						<TitledPane collapsible="false" layoutX="18.6" layoutY="420.0"
+						<HBox spacing="10.0" AnchorPane.rightAnchor="0.0">
+							<children>
+								<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false"
+									onAction="#handleNewWorkflow" styleClass="btn-default"
+									text="New conversion and simulation" AnchorPane.rightAnchor="0.0" />
+							</children>
+							<padding>
+								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+							</padding>
+						</HBox>
+						<TitledPane collapsible="false" layoutX="18.6" layoutY="460.0"
 							text="Loadflow Result" AnchorPane.leftAnchor="0.0"
 							AnchorPane.rightAnchor="0.0">
 							<content>
@@ -110,7 +120,7 @@
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane collapsible="false" layoutX="18.6"
+						<TitledPane collapsible="false" layoutX="18.6" layoutY="40.0"
 							prefHeight="72.0" prefWidth="559.0" text="Modelica Files"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<padding>
@@ -121,13 +131,11 @@
 									<children>
 										<HBox layoutX="24.0" spacing="10.0">
 											<children>
-												<Button fx:id="modelicaFileButton" mnemonicParsing="false" onAction="#handleFileEvent"
-													styleClass="btn-default" text="Modelica file" />
-												<Button fx:id="modelicaEventsFileButton" mnemonicParsing="false" onAction="#handleFileWithEventsEvent"
+												<Button fx:id="modelicaFileButton" mnemonicParsing="false"
+													onAction="#handleFileEvent" styleClass="btn-default" text="Modelica file" />
+												<Button fx:id="modelicaEventsFileButton"
+													mnemonicParsing="false" onAction="#handleFileWithEventsEvent"
 													styleClass="btn-default" text="Modelica file wih events" />
-												<Button layoutX="492.0" layoutY="14.0"
-													mnemonicParsing="false" onAction="#handleNewWorkflow"
-													styleClass="btn-default" text="New conversion and simulation" AnchorPane.rightAnchor="0.0" />
 											</children>
 											<padding>
 												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -137,7 +145,7 @@
 								</AnchorPane>
 							</content>
 						</TitledPane>
-						<TitledPane collapsible="false" layoutX="18.6" layoutY="120.0"
+						<TitledPane collapsible="false" layoutX="18.6" layoutY="160.0"
 							prefHeight="310.0" prefWidth="559.0" text="Dynamic Simulation"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<padding>
@@ -161,7 +169,7 @@
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 			</padding>
 		</ScrollPane>
- 		<TitledPane fx:id="fileContentPane" animated="false"
+		<TitledPane fx:id="fileContentPane" animated="false"
 			collapsible="false" text="File Content" AnchorPane.bottomAnchor="40.0"
 			AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0"
 			AnchorPane.topAnchor="40.0">
@@ -187,7 +195,7 @@
 					</children>
 				</AnchorPane>
 			</content>
-		</TitledPane> 
+		</TitledPane>
 	</children>
 	<stylesheets>
 		<URL value="@/css/bootstrap3.css" />

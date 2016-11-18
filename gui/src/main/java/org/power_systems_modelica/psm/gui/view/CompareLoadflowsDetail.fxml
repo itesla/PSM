@@ -11,15 +11,15 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="620.0" prefWidth="600.0"
+<AnchorPane prefHeight="680.0" prefWidth="600.0"
 	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController">
 	<children>
-		<TitledPane animated="false" collapsible="false"
-			text="Compare loadflows detail" AnchorPane.bottomAnchor="0.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-			AnchorPane.topAnchor="0.0">
+		<TitledPane animated="false" collapsible="false" layoutY="40.0"
+			text="Compare loadflows detail" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<content>
 				<AnchorPane minHeight="0.0" minWidth="0.0">
 					<children>
@@ -42,7 +42,9 @@
 												text="Max Error:" />
 											<Label fx:id="maxVoltageErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
-											<ScatterChart fx:id="voltageChart" layoutX="14.0" layoutY="74.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+											<ScatterChart fx:id="voltageChart" layoutX="14.0"
+												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xVoltageAxis" />
 												</xAxis>
@@ -64,7 +66,9 @@
 												text="Max Error:" />
 											<Label fx:id="maxPhaseErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
-											<ScatterChart fx:id="phaseChart" layoutX="14.0" layoutY="74.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+											<ScatterChart fx:id="phaseChart" layoutX="14.0"
+												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xPhaseAxis" />
 												</xAxis>
@@ -86,7 +90,9 @@
 												text="Max Error:" />
 											<Label fx:id="maxActiveErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
-											<ScatterChart fx:id="activeChart" layoutX="14.0" layoutY="74.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+											<ScatterChart fx:id="activeChart" layoutX="14.0"
+												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xActiveAxis" />
 												</xAxis>
@@ -108,7 +114,9 @@
 												text="Max Error:" />
 											<Label fx:id="maxReactiveErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
-											<ScatterChart fx:id="reactiveChart" layoutX="14.0" layoutY="74.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+											<ScatterChart fx:id="reactiveChart" layoutX="14.0"
+												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xReactiveAxis" />
 												</xAxis>
@@ -121,9 +129,6 @@
 								</Tab>
 							</tabs>
 						</TabPane>
-						<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false"
-							onAction="#handleNewWorkflow" styleClass="btn-default" text="New"
-							AnchorPane.rightAnchor="0.0" />
 						<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Created:" />
 					</children>
 				</AnchorPane>
@@ -132,6 +137,15 @@
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 			</padding>
 		</TitledPane>
+		<HBox spacing="10.0" AnchorPane.rightAnchor="0.0">
+			<children>
+				<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleNewWorkflow"
+					styleClass="btn-default" text="New" />
+			</children>
+			<padding>
+				<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+			</padding>
+		</HBox>
 	</children>
 	<stylesheets>
 		<URL value="@/css/bootstrap3.css" />

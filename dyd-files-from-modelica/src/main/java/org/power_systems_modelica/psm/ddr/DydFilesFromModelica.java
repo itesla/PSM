@@ -476,7 +476,8 @@ public class DydFilesFromModelica
 
 			p = checkInitializationReference(a);
 			if (p == null) p = checkIidmReference(stype, a);
-			if (p == null) p = new ParameterValue("STRING", a.getName(), a.getValue());
+			String defaultType = null;
+			if (p == null) p = new ParameterValue(defaultType, a.getName(), a.getValue());
 			params.add(p);
 		}
 		return params;

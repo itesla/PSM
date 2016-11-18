@@ -191,7 +191,8 @@
 		</xs:choice>
 	</xs:group>
 	<xs:complexType name="ParameterValue">
-		<xs:attribute name="type" use="required" type="dyd:ValueType" />
+		<xs:attribute name="type" use="optional" type="dyd:ValueType"
+			default="STRING" />
 		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
 		<xs:attribute name="value" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>

@@ -20,10 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.DsData;
+import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
 import org.supercsv.cellprocessor.ParseDouble;
@@ -283,6 +285,30 @@ public class Utils
 		}
 	}
 	
+	public static void addTooltipComparisonChart(ScatterChart chart, WorkflowResult results, String variable, boolean formatY) {
+		
+		List<BusData> buses = results.getAllBusesValues();
+		
+		ObservableList<XYChart.Series> displayedVoltageSeries = chart.getData(); 
+		for (XYChart.Series<String, Number> s : displayedVoltageSeries) {
+			for (XYChart.Data<String, Number> d : s.getData()) {
+				String busName = d.getXValue();
+				
+				buses.stream().filter(b -> b.getName().equals(busName)).findAny().ifPresent(b -> {
+					
+					String comparisonString = "\nHelmflow: " + b.getData().get(variable)[0] + "\n"
+							+ "Hades2: " + b.getData().get(variable)[1]; 
+					
+					if (formatY)
+						Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + String.format("%,.4f%%", d.getYValue().doubleValue()*100) + comparisonString));
+					else
+						Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue() + comparisonString));
+				});
+				
+			}
+		}
+	}
+
 	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
 
 }

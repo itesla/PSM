@@ -171,10 +171,10 @@ public class CompareLoadflowsDetailController {
 			maxReactiveErrorLabel.setText(String.format("%,.4f%%", reactiveStats.getMax()*100));	
 
 			addSeries(wr);
-			Utils.addTooltipScatterChart(voltageChart, true);
-			Utils.addTooltipScatterChart(phaseChart, true);
-			Utils.addTooltipScatterChart(activeChart, true);
-			Utils.addTooltipScatterChart(reactiveChart, true);
+			Utils.addTooltipComparisonChart(voltageChart, wr, "V", true);
+			Utils.addTooltipComparisonChart(phaseChart, wr, "A", true);
+			Utils.addTooltipComparisonChart(activeChart, wr, "P", true);
+			Utils.addTooltipComparisonChart(reactiveChart, wr, "Q", true);
 		}
 	}
 

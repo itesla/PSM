@@ -29,9 +29,6 @@ public class BusData {
 		float[] input = new float[1];
 		input[0] = err;
 		
-		if (variable == null) System.out.println("variable null");
-		if (input == null) System.out.println("input null");
-		if (this.err == null) System.out.println("this.err null");
 		this.err.put(variable, input);
 	}
 

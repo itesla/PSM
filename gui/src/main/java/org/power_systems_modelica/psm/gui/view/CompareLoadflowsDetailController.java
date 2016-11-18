@@ -33,7 +33,7 @@ public class CompareLoadflowsDetailController {
 		yVoltageAxis.setTickUnit(0.25);
 		yVoltageAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
 			@Override public String toString(Number object) { 
-				return String.format("%,.2f%%", object.floatValue()*100); 
+				return String.format("%,.4f%%", object.floatValue()*100); 
 			} 
 		});
 
@@ -44,7 +44,7 @@ public class CompareLoadflowsDetailController {
 		yPhaseAxis.setTickUnit(0.25);
 		yPhaseAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
 			@Override public String toString(Number object) { 
-				return String.format("%,.2f%%", object.floatValue()*100); 
+				return String.format("%,.4f%%", object.floatValue()*100); 
 			} 
 		});
 
@@ -55,7 +55,7 @@ public class CompareLoadflowsDetailController {
 		yActiveAxis.setTickUnit(0.25);
 		yActiveAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
 			@Override public String toString(Number object) { 
-				return String.format("%,.2f%%", object.floatValue()*100); 
+				return String.format("%,.4f%%", object.floatValue()*100); 
 			} 
 		});
 
@@ -66,7 +66,7 @@ public class CompareLoadflowsDetailController {
 		yReactiveAxis.setTickUnit(0.25);
 		yReactiveAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
 			@Override public String toString(Number object) { 
-				return String.format("%,.2f%%", object.floatValue()*100); 
+				return String.format("%,.4f%%", object.floatValue()*100); 
 			} 
 		});
 	}
@@ -149,32 +149,32 @@ public class CompareLoadflowsDetailController {
 			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("V"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 			
-		    avgVoltageErrorLabel.setText(String.format("%,.2f%%", voltageStats.getAverage()*100));	
-			maxVoltageErrorLabel.setText(String.format("%,.2f%%", voltageStats.getMax()*100));	
+		    avgVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getAverage()*100));	
+			maxVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getMax()*100));	
 
 			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("A"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 			
-		    avgPhaseErrorLabel.setText(String.format("%,.2f%%", phaseStats.getAverage()*100));	
-			maxPhaseErrorLabel.setText(String.format("%,.2f%%", phaseStats.getMax()*100));	
+		    avgPhaseErrorLabel.setText(String.format("%,.4f%%", phaseStats.getAverage()*100));	
+			maxPhaseErrorLabel.setText(String.format("%,.4f%%", phaseStats.getMax()*100));	
 
 			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("P"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 			
-		    avgActiveErrorLabel.setText(String.format("%,.2f%%", activeStats.getAverage()*100));	
-			maxActiveErrorLabel.setText(String.format("%,.2f%%", activeStats.getMax()*100));	
+		    avgActiveErrorLabel.setText(String.format("%,.4f%%", activeStats.getAverage()*100));	
+			maxActiveErrorLabel.setText(String.format("%,.4f%%", activeStats.getMax()*100));	
 
 			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("Q"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 			
-		    avgReactiveErrorLabel.setText(String.format("%,.2f%%", reactiveStats.getAverage()*100));	
-			maxReactiveErrorLabel.setText(String.format("%,.2f%%", reactiveStats.getMax()*100));	
+		    avgReactiveErrorLabel.setText(String.format("%,.4f%%", reactiveStats.getAverage()*100));	
+			maxReactiveErrorLabel.setText(String.format("%,.4f%%", reactiveStats.getMax()*100));	
 
 			addSeries(wr);
-			Utils.addTooltipScatterChart(voltageChart);
-			Utils.addTooltipScatterChart(phaseChart);
-			Utils.addTooltipScatterChart(activeChart);
-			Utils.addTooltipScatterChart(reactiveChart);
+			Utils.addTooltipScatterChart(voltageChart, true);
+			Utils.addTooltipScatterChart(phaseChart, true);
+			Utils.addTooltipScatterChart(activeChart, true);
+			Utils.addTooltipScatterChart(reactiveChart, true);
 		}
 	}
 

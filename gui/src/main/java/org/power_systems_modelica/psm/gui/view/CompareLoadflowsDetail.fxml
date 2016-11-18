@@ -43,7 +43,7 @@
 											<Label fx:id="maxVoltageErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
 											<ScatterChart fx:id="voltageChart" layoutX="14.0"
-												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												layoutY="74.0" AnchorPane.leftAnchor="20.0"
 												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xVoltageAxis" />
@@ -67,7 +67,7 @@
 											<Label fx:id="maxPhaseErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
 											<ScatterChart fx:id="phaseChart" layoutX="14.0"
-												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												layoutY="74.0" AnchorPane.leftAnchor="20.0"
 												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xPhaseAxis" />
@@ -91,7 +91,7 @@
 											<Label fx:id="maxActiveErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
 											<ScatterChart fx:id="activeChart" layoutX="14.0"
-												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												layoutY="74.0" AnchorPane.leftAnchor="20.0"
 												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xActiveAxis" />
@@ -115,7 +115,7 @@
 											<Label fx:id="maxReactiveErrorLabel" layoutX="110.0"
 												layoutY="44.0" prefHeight="30.0" text="Label" />
 											<ScatterChart fx:id="reactiveChart" layoutX="14.0"
-												layoutY="74.0" AnchorPane.leftAnchor="0.0"
+												layoutY="74.0" AnchorPane.leftAnchor="20.0"
 												AnchorPane.rightAnchor="0.0">
 												<xAxis>
 													<CategoryAxis side="BOTTOM" fx:id="xReactiveAxis" />

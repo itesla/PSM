@@ -254,10 +254,10 @@ public class WorkflowDetailController {
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {
 			addSeries(mainApp.getWorkflowResult("" + w.getId()));
-			Utils.addTooltipScatterChart(voltageChart);
-			Utils.addTooltipScatterChart(phaseChart);
-			Utils.addTooltipScatterChart(activeChart);
-			Utils.addTooltipScatterChart(reactiveChart);
+			Utils.addTooltipScatterChart(voltageChart, false);
+			Utils.addTooltipScatterChart(phaseChart, false);
+			Utils.addTooltipScatterChart(activeChart, false);
+			Utils.addTooltipScatterChart(reactiveChart, false);
 			Utils.addTooltipLineChart(dsChart);
 		}
 

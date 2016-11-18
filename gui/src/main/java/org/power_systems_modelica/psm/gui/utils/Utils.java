@@ -270,17 +270,19 @@ public class Utils
 		
 	}
 	
-	public static void addTooltipScatterChart(ScatterChart chart) {
+	public static void addTooltipScatterChart(ScatterChart chart, boolean formatY) {
 		
 		ObservableList<XYChart.Series> displayedVoltageSeries = chart.getData(); 
 		for (XYChart.Series<String, Number> s : displayedVoltageSeries) {
 			for (XYChart.Data<String, Number> d : s.getData()) {
-				Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue()));
+				if (formatY)
+					Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + String.format("%,.4f%%", d.getYValue().doubleValue()*100)));
+				else
+					Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue()));
 			}
 		}
 	}
-
-
+	
 	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
 
 }

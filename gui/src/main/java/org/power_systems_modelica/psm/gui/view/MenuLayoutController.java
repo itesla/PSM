@@ -88,5 +88,5 @@ public class MenuLayoutController {
 	
 	private MainApp mainApp;
 
-	private static final Boolean DISABLECOMPARELOADFLOWS = new Boolean(true); 
+	private static final Boolean DISABLECOMPARELOADFLOWS = new Boolean(false); 
 }

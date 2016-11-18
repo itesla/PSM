@@ -266,7 +266,7 @@ public class WorkflowDetailController {
 		}
 
 		if (Files.exists(Utils.DATA_TMP.resolve("eventAdder_events.mo"), LinkOption.NOFOLLOW_LINKS)) {
-			modelicaFileButton.setDisable(false);
+			modelicaEventsFileButton.setDisable(false);
 		}
 	}
 

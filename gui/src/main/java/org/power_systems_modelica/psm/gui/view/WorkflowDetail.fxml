@@ -152,6 +152,7 @@
 							<children>
 								<Button mnemonicParsing="false" onAction="#handleRevertFileContentEvent" styleClass="btn-default" text="Revert" />
 								<Button mnemonicParsing="false" onAction="#handleSaveFileContentEvent" styleClass="btn-default" text="Save" />
+                        		<Button mnemonicParsing="false" onAction="#handleSaveAsFileContentEvent" styleClass="btn-default" text="Save As" />
 								<Button mnemonicParsing="false" onAction="#handleCloseFileContentEvent" styleClass="btn-default" text="Close" />
 							</children>
 						</HBox>

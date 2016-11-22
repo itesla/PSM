@@ -6,6 +6,7 @@ import java.awt.Point;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 
 import com.google.common.collect.Iterables;
 
@@ -14,6 +15,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
@@ -31,6 +34,7 @@ public class CasesOverviewController {
     private void initialize() {
         
     	summaryPane.setVisible(false);
+    	Utils.setDragablePane(summaryPane);
     	
     	nameCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
     	descriptionCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());

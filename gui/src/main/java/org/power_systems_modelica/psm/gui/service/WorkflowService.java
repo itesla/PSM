@@ -29,6 +29,8 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.utils.CsvReader;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
@@ -160,9 +162,9 @@ public class WorkflowService
 	{
 
 		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
-		Path modelicaEngineWorkingDir = Utils.DATA_TMP.resolve("moBuilder");
-		String outname = Utils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
-		String outnameev = Utils.DATA_TMP.resolve("eventAdder_events.mo").toString();
+		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("moBuilder");
+		String outname = PathUtils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
+		String outnameev = PathUtils.DATA_TMP.resolve("eventAdder_events.mo").toString();
 
 		try
 		{
@@ -178,7 +180,7 @@ public class WorkflowService
 			Files.deleteIfExists(Paths.get(outname));
 			Files.deleteIfExists(Paths.get(outnameev));
 
-			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
+			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
 			String loadflowId;
 			String loadflowClass;
@@ -242,7 +244,7 @@ public class WorkflowService
 							"modelicaEngine", simulationEngine,
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 							"stopTime", stopTime, 
-							"libraryDir", Utils.LIBRARY.toString(),
+							"libraryDir", PathUtils.LIBRARY.toString(),
 							"resultVariables", resultVariables)));
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
@@ -299,7 +301,7 @@ public class WorkflowService
 
 		try
 		{
-			Map<String, List<DsData>> values = Utils.readVariableColumnsWithCsvListReader(
+			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
 					w.getResults("simres").toString(), ".csv");
 			results.setDsValues(values);
 		}
@@ -318,7 +320,7 @@ public class WorkflowService
 
 		try
 		{
-			Path casePath = Utils.findCasePath(Paths.get(cs.getLocation()));
+			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
 			cl = WF(TD(StaticNetworkImporterTask.class, "importer0",
 					TC("source", casePath.toString())),

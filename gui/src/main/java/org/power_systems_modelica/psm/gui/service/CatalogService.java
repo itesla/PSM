@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class CatalogService {
 		
 		LOG.debug("getCatalogs");
 		ObservableList<Catalog> catalogs = FXCollections.observableArrayList();
-		Path path = Utils.DATA_TEST.resolve("cfg").resolve(name + ".properties");
+		Path path = PathUtils.DATA_TEST.resolve("cfg").resolve(name + ".properties");
         Properties properties = new Properties();
         try {
             try (InputStream is = Files.newInputStream(path)) {
@@ -34,7 +34,7 @@ public class CatalogService {
         for(int i=1; i<=num; i++) {
         	String catalogName = properties.getProperty("catalogs." + i + ".name");
         	String catalogDescription = properties.getProperty("catalogs." + i + ".description");
-        	String catalogLocation = Utils.translateLocation(properties.getProperty("catalogs." + i + ".location"));
+        	String catalogLocation = PathUtils.translateLocation(properties.getProperty("catalogs." + i + ".location"));
         	        	
     		Catalog catalog = new Catalog();
     		catalog.setName(catalogName);

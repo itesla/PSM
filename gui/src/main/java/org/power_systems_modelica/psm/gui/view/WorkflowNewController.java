@@ -42,6 +42,8 @@ public class WorkflowNewController {
 	private void initialize() {
 
 		addEventPane.setVisible(false);
+		Utils.setDragablePane(addEventPane);
+		
 		catalogCaseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
 
 			@Override

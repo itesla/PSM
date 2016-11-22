@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
@@ -31,7 +31,7 @@ public class CaseService {
 		
 		Network n = null;
 		try {
-			Path casePath = Utils.findCasePath(Paths.get(input.getLocation()));
+			Path casePath = PathUtils.findCasePath(Paths.get(input.getLocation()));
 
 			Workflow w = WF(TD(StaticNetworkImporterTask.class, "importer0", TC("source", casePath.toString())));
 			w.start();

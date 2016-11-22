@@ -7,6 +7,7 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 
 import javafx.beans.binding.Bindings;
@@ -29,6 +30,7 @@ public class DdrsOverviewController {
 	private void initialize() {
 
 		fileContentPane.setVisible(false);
+		Utils.setDragablePane(fileContentPane);
 
 		nameCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		descriptionCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
@@ -103,7 +105,7 @@ public class DdrsOverviewController {
 				    	  ObservableList<MenuItem> items = contextMenu.getItems();
 				    	  for (MenuItem item: items) {
 				    		  String file = item.getText();
-				    		  if (Utils.existsFile(ddr.getLocation(), file))
+				    		  if (PathUtils.existsFile(ddr.getLocation(), file))
 				    			  item.setDisable(false);
 				    		  else
 				    			  item.setDisable(true);
@@ -126,7 +128,7 @@ public class DdrsOverviewController {
 		String file = codeEditor.getEditingFile();
 
 		try {
-			Utils.saveFile(location, file, ddrContent);
+			PathUtils.saveFile(location, file, ddrContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,6 +137,23 @@ public class DdrsOverviewController {
 		fileContentPane.setVisible(false);
 	}
 
+	@FXML
+	private void handleSaveAsFileContentEvent() {
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		boolean close = true;
+		try {
+			close = PathUtils.saveAsDdrFile(mainApp.getPrimaryStage(), location, file, ddrContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		fileContentPane.setVisible(!close);
+	}
+	
 	@FXML
 	private void handleRevertFileContentEvent() {
 		codeEditor.revertEdits();
@@ -149,7 +168,7 @@ public class DdrsOverviewController {
 
 		StringBuilder ddrContent = new StringBuilder();
 		try {
-			ddrContent = Utils.loadFile(ddr.getLocation(), file);
+			ddrContent = PathUtils.loadFile(ddr.getLocation(), file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,143 +1,36 @@
 package org.power_systems_modelica.psm.gui.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.file.DirectoryStream;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.StrReplace;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvListReader;
-import org.supercsv.io.ICsvListReader;
-import org.supercsv.prefs.CsvPreference;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 
 public class Utils
 {
-
-	public static final Path	DATA_TEST		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test");
-
-	public static final Path	DATA_TMP		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
-	
-	public static final Path	LIBRARY		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test").resolve("library");
-	
-	public static String translateLocation(String input)
-	{
-
-		String[] inputTokens = input.split("/");
-		List<String> outputTokens = new ArrayList<String>();
-		for (String token : inputTokens)
-		{
-			if (token.startsWith("$"))
-			{
-				Path path = Paths.get(System.getenv(token.replace("$", "")));
-				token = path.toString();
-			}
-			outputTokens.add(token);
-		}
-
-		Path path = null;
-		for (String token : outputTokens)
-		{
-			if (path == null)
-			{
-				path = Paths.get(token);
-				continue;
-			}
-
-			Path p = path.resolve(token);
-			path = p;
-		}
-
-		return path.toString();
-	}
-
-	public static Path findCasePath(Path path) throws IOException
-	{
-
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))
-		{
-			for (Path entry : stream)
-			{
-				if (entry.toString().endsWith("ME.xml"))
-					return entry;
-				else if (entry.toString().endsWith("EQ.xml"))
-					return entry;
-			}
-		}
-
-		return null;
-	}
-
-	public static StringBuilder loadFile(String location, String file) throws IOException
-	{
-
-		StringBuilder stringBuilder = new StringBuilder();
-
-		Path path = Paths.get(location).resolve(file);
-		InputStream inputStream = Files.newInputStream(path);
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-		String line;
-		while ((line = bufferedReader.readLine()) != null)
-		{
-			stringBuilder.append(line).append("\n");
-		}
-		bufferedReader.close();
-		inputStream.close();
-
-		return stringBuilder;
-	}
-
-	public static void saveFile(String location, String file, StringBuilder ddrContent)
-			throws IOException
-	{
-		// TODO Auto-generated method stub
-
-		Path path = Paths.get(location).resolve(file);
-		OutputStream outputStream = Files.newOutputStream(path);
-		BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-		bufferedWriter.append(ddrContent);
-		bufferedWriter.close();
-		outputStream.close();
-	}
 
 	public static void showWarning(String title, String message)
 	{
@@ -149,83 +42,6 @@ public class Utils
 		alert.showAndWait();
 	}
 
-	public static boolean existsFile(String location, String file)
-	{
-
-		try
-		{
-			Path path = Paths.get(location).resolve(file);
-			return Files.exists(path);
-		}
-		catch (InvalidPathException e)
-		{
-			return false;
-		}
-	}
-
-	public static Map<String, List<DsData>> readVariableColumnsWithCsvListReader(
-			String location,
-			String extension) throws Exception
-	{
-
-		Map<String, List<DsData>> values = new HashMap<String, List<DsData>>();
-		ICsvListReader listReader = null;
-		try
-		{
-			Optional<Path> path = Files
-					.walk(Paths.get(location), FileVisitOption.FOLLOW_LINKS)
-					.filter((p) -> !p.toFile().isDirectory()
-							&& p.toFile().getAbsolutePath().endsWith(extension))
-					.findFirst();
-			if (!path.isPresent()) return null;
-
-			listReader = new CsvListReader(
-					new FileReader(path.get().toFile()),
-					CsvPreference.STANDARD_PREFERENCE);
-
-			// Read and process the header
-			// https://super-csv.github.io/super-csv/apidocs/org/supercsv/io/ICsvReader.html#get-int-
-			// column indexes begin at 1
-			listReader.getHeader(true);
-			int columns = listReader.length();
-			String[] columnNames = new String[columns];
-			for (int i = 2; i <= columns; i++)
-			{
-				List<DsData> dsData = new ArrayList<DsData>();
-				columnNames[i-1] = listReader.get(i);
-				values.put(columnNames[i-1], dsData);
-			}
-			final CellProcessor[] processors = getProcessors(columns);
-
-			while ((listReader.read()) != null)
-			{
-				final List<Object> columnValues = listReader.executeProcessors(processors);
-				Double time = (Double) columnValues.get(0);
-				for (int i = 1; i < columns; i++)
-				{
-					List<DsData> dsData = values.get(columnNames[i]);
-					dsData.add(new DsData(time, (Double) columnValues.get(i)));
-				}
-			}
-		}
-		finally
-		{
-			if (listReader != null)
-			{
-				listReader.close();
-			}
-		}
-		return values;
-	}
-
-	private static CellProcessor[] getProcessors(int num)
-	{
-		CellProcessor[] processors = new CellProcessor[num];
-		for (int i = 0; i < num; i++)
-			processors[i] = new StrReplace("null", STR_DOUBLE_NAN, new ParseDouble());
-		return processors;
-	}
-	
 	public static void resolveCasePath(String uri, ComboBox<Catalog> catalogCaseSource,
 			ComboBox<Case> caseSource) {
 		
@@ -272,20 +88,51 @@ public class Utils
 		
 	}
 	
-	public static void addTooltipScatterChart(ScatterChart chart, boolean formatY) {
+	public static void addTooltipLineChartPosition(LineChart chart, String xVar, String xUnit, String yVar, String yUnit) {
+
+		NumberAxis xAxis = (NumberAxis) chart.getXAxis();
+		NumberAxis yAxis = (NumberAxis) chart.getYAxis();
+		ObservableList<XYChart.Series> displayedDsSeries = chart.getData(); 
+		for (XYChart.Series<Number, Number> s : displayedDsSeries) {
+
+			ObjectProperty<Point2D> mouseLocationInScene = new SimpleObjectProperty<>();
+
+		    Tooltip tooltip = new Tooltip();
+
+		    s.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, evt -> {
+		        if (! tooltip.isShowing()) {
+		            mouseLocationInScene.set(new Point2D(evt.getSceneX(), evt.getSceneY()));
+		        }
+		    });
+
+		    tooltip.textProperty().bind(Bindings.createStringBinding(() -> {
+		        if (mouseLocationInScene.isNull().get()) {
+		            return "" ;
+		        }
+		        double xInXAxis = xAxis.sceneToLocal(mouseLocationInScene.get()).getX() ;
+		        double x = xAxis.getValueForDisplay(xInXAxis).doubleValue();
+		        double yInYAxis = yAxis.sceneToLocal(mouseLocationInScene.get()).getY() ;
+		        double y = yAxis.getValueForDisplay(yInYAxis).doubleValue() ;
+		        return s.getName() + "\n" + xVar + ": " + String.format("%.3f %s", x, xUnit) + "\n" + yVar + ": " + String.format("%.3f %s", y, yUnit);
+		    }, mouseLocationInScene, xAxis.lowerBoundProperty(), xAxis.upperBoundProperty(),
+		    yAxis.lowerBoundProperty(), yAxis.upperBoundProperty()));
+
+		    Tooltip.install(s.getNode(), tooltip);
+		}
+		
+	}
+
+	public static void addTooltipScatterChart(ScatterChart chart, String unit) {
 		
 		ObservableList<XYChart.Series> displayedVoltageSeries = chart.getData(); 
 		for (XYChart.Series<String, Number> s : displayedVoltageSeries) {
 			for (XYChart.Data<String, Number> d : s.getData()) {
-				if (formatY)
-					Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + String.format("%,.4f%%", d.getYValue().doubleValue()*100)));
-				else
-					Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue()));
+				Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue() + " " + unit));
 			}
 		}
 	}
 	
-	public static void addTooltipComparisonChart(ScatterChart chart, WorkflowResult results, String variable, boolean formatY) {
+	public static void addTooltipComparisonChart(ScatterChart chart, WorkflowResult results, String variable, String unit) {
 		
 		List<BusData> buses = results.getAllBusesValues();
 		
@@ -296,19 +143,34 @@ public class Utils
 				
 				buses.stream().filter(b -> b.getName().equals(busName)).findAny().ifPresent(b -> {
 					
-					String comparisonString = "\nHelmflow: " + b.getData().get(variable)[0] + "\n"
-							+ "Hades2: " + b.getData().get(variable)[1]; 
+					String comparisonString = "\nHelmflow: " + b.getData().get(variable)[0] + " " + unit + "\n"
+							+ "Hades2: " + b.getData().get(variable)[1] + " " + unit; 
 					
-					if (formatY)
-						Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + String.format("%,.4f%%", d.getYValue().doubleValue()*100) + comparisonString));
-					else
-						Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + d.getYValue() + comparisonString));
+					Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": " + String.format("%,.4f%%", d.getYValue().doubleValue()*100) + comparisonString));
 				});
 				
 			}
 		}
 	}
-
-	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
-
+	
+	public static void setDragablePane(Node node) {
+    	// allow the clock background to be used to drag the clock around.
+        final Delta dragDelta = new Delta();
+        node.setOnMousePressed(new EventHandler<MouseEvent>() {
+          @Override public void handle(MouseEvent mouseEvent) {
+            // record a delta distance for the drag and drop operation.
+            dragDelta.x = node.getLayoutX() - mouseEvent.getScreenX();
+            dragDelta.y = node.getLayoutY() - mouseEvent.getScreenY();
+          }
+        });
+        node.setOnMouseDragged(new EventHandler<MouseEvent>() {
+          @Override public void handle(MouseEvent mouseEvent) {
+        	  node.setLayoutX(mouseEvent.getScreenX() + dragDelta.x);
+        	  node.setLayoutY(mouseEvent.getScreenY() + dragDelta.y);
+          }
+        });
+		
+	}
+	
+	static class Delta { double x, y; }
 }

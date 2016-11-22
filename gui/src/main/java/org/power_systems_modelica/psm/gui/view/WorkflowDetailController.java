@@ -12,6 +12,7 @@ import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -33,7 +34,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
@@ -44,6 +44,7 @@ public class WorkflowDetailController {
 	private void initialize() {
 
 		fileContentPane.setVisible(false);
+		Utils.setDragablePane(fileContentPane);
 
 		modelicaFileButton.setDisable(true);
 		modelicaEventsFileButton.setDisable(true);
@@ -95,7 +96,7 @@ public class WorkflowDetailController {
 		String file = codeEditor.getEditingFile();
 
 		try {
-			Utils.saveFile(location, file, ddrContent);
+			PathUtils.saveFile(location, file, ddrContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,6 +105,23 @@ public class WorkflowDetailController {
 		fileContentPane.setVisible(false);
 	}
 
+	@FXML
+	private void handleSaveAsFileContentEvent() {
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		boolean close = true;
+		try {
+			close = PathUtils.saveAsMoFile(mainApp.getPrimaryStage(), location, file, ddrContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		fileContentPane.setVisible(!close);
+	}
+	
 	@FXML
 	private void handleRevertFileContentEvent() {
 		codeEditor.revertEdits();
@@ -118,13 +136,13 @@ public class WorkflowDetailController {
 
 		StringBuilder fileContent = new StringBuilder();
 		try {
-			fileContent = Utils.loadFile(Utils.DATA_TMP.toString(), file);
+			fileContent = PathUtils.loadFile(PathUtils.DATA_TMP.toString(), file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		codeEditor.setEditingFile(Utils.DATA_TMP.toString(), file);
+		codeEditor.setEditingFile(PathUtils.DATA_TMP.toString(), file);
 		codeEditor.setCode(fileContent);
 		codeEditor.setVisible(true);
 		fileContentPane.setVisible(true);
@@ -254,18 +272,18 @@ public class WorkflowDetailController {
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {
 			addSeries(mainApp.getWorkflowResult("" + w.getId()));
-			Utils.addTooltipScatterChart(voltageChart, false);
-			Utils.addTooltipScatterChart(phaseChart, false);
-			Utils.addTooltipScatterChart(activeChart, false);
-			Utils.addTooltipScatterChart(reactiveChart, false);
-			Utils.addTooltipLineChart(dsChart);
+			Utils.addTooltipScatterChart(voltageChart, "pu");
+			Utils.addTooltipScatterChart(phaseChart, "º");
+			Utils.addTooltipScatterChart(activeChart, "MW");
+			Utils.addTooltipScatterChart(reactiveChart, "MVar");
+			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 		}
 
-		if (Files.exists(Utils.DATA_TMP.resolve("eventAdder_initial.mo"), LinkOption.NOFOLLOW_LINKS)) {
+		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_initial.mo"), LinkOption.NOFOLLOW_LINKS)) {
 			modelicaFileButton.setDisable(false);
 		}
 
-		if (Files.exists(Utils.DATA_TMP.resolve("eventAdder_events.mo"), LinkOption.NOFOLLOW_LINKS)) {
+		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_events.mo"), LinkOption.NOFOLLOW_LINKS)) {
 			modelicaEventsFileButton.setDisable(false);
 		}
 	}

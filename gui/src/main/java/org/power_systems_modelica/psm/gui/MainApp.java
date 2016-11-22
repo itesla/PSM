@@ -32,6 +32,7 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -379,6 +380,11 @@ public class MainApp extends Application {
 		void complete();
 	}
 
+	public Stage getPrimaryStage() {
+
+		return primaryStage;
+	}
+
 	private Task wTask = null;
 	private Task clTask = null;
 
@@ -386,5 +392,6 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 
 	private static final Logger LOG = LoggerFactory.getLogger(MainApp.class);
+
 
 }

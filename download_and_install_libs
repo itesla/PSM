@@ -1,5 +1,6 @@
 mkdir -p ./temp
 cd ./temp
+cp ../*_libs .
 ./download_libs
 ./install_dymola_libs
 ./install_hades_integration_libs

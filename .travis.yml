@@ -1,5 +1,15 @@
 language: java
+# Following lines are required to install latest JDK 8 for JavaFX features
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+# Use Java JDK 8
 jdk: 
   - oraclejdk8
+# We do not yet have a valid repository for ipst, helmflow, hades, dymola and open modelica libraries, 
+# So we have decided to download from a Dropbox public folder and install them locally
 before_install:
   - ./download_and_install_libs
+  

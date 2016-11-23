@@ -11,9 +11,11 @@ function install_one_file {
 install_one_file cim1-import 
 install_one_file cim1-model 
 install_one_file commons 
+install_one_file computation
+install_one_file computation-local
 install_one_file iidm-network-api 
 install_one_file iidm-network-impl 
-install_one_file iidm_converter-api
+install_one_file iidm-converter-api
 install_one_file iidm-xml-converter 
 install_one_file loadflow-api 
 install_one_file modules 

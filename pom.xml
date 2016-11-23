@@ -46,6 +46,7 @@
 		<mockito.version>1.10.19</mockito.version>
 		<jodatime.version>2.9.2</jodatime.version>
 		<guava.version>19.0</guava.version>
+        <commonsmath3.version>3.6</commonsmath3.version>
 		<commonscli.version>1.3.1</commonscli.version>
 		<apache.commonsio.version>1.3.2</apache.commonsio.version>
 		<supercsv.version>2.4.0</supercsv.version>
@@ -246,6 +247,11 @@
 				<artifactId>commons-io</artifactId>
 				<version>${apache.commonsio.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>${commonsmath3.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>net.sf.supercsv</groupId>
 				<artifactId>super-csv</artifactId>
@@ -275,6 +281,11 @@
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
+				<artifactId>iidm-converter-api</artifactId>
+				<version>${ipst.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
 				<artifactId>iidm-xml-converter</artifactId>
 				<version>${ipst.version}</version>
 			</dependency>
@@ -291,6 +302,16 @@
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>modules</artifactId>
+				<version>${ipst.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>computation</artifactId>
+				<version>${ipst.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>computation-local</artifactId>
 				<version>${ipst.version}</version>
 			</dependency>
 			<!-- online workflow is only used to export network data to csv files -->

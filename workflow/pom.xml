@@ -60,6 +60,14 @@
 			<artifactId>loadflow-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>computation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>computation-local</artifactId>
+		</dependency>
+		<dependency>
 			<!-- modules is required for Hades integration (contains contingencies) -->
 			<groupId>eu.itesla_project</groupId>
 			<artifactId>modules</artifactId>

@@ -11,13 +11,8 @@ wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow-ipst-int
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow_core-2.2.4.201606211030.0.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-network-api-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-network-impl-0.1-SNAPSHOT.jar
+wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-converter-api-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-xml-converter-0.1-SNAPSHOT.jar
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/install_dymola_libs
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/install_hades_integration_libs
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/install_helmflow_integration_libs
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/install_ipst_libs
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/install_openmodelica_libs
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/ipst
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/loadflow-api-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/modelica_java.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/modules-0.1-SNAPSHOT.jar

@@ -1,27 +1,21 @@
+#!/bin/bash
 GROUP=eu.itesla_project
 VERSION=0.1-SNAPSHOT
+MVN_OPTIONS="--non-recursive --offline"
+PLUGIN="org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file"
 
-ARTIFACT=cim1-import
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=cim1-model
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=commons
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=helmflow-api
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=helmflow-api-impl
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=helmflow-ipst-integration
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=iidm-network-api
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=iidm-network-impl
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=iidm-xml-converter
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=loadflow-api
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=modules
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
-ARTIFACT=online-workflow
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
+function install_one_file {
+	mvn ${MVN_OPTIONS} ${PLUGIN} -Dfile=$1-${VERSION}.jar 
+}
+
+install_one_file cim1-import 
+install_one_file cim1-model 
+install_one_file commons 
+install_one_file iidm-network-api 
+install_one_file iidm-network-impl 
+install_one_file iidm_converter-api
+install_one_file iidm-xml-converter 
+install_one_file loadflow-api 
+install_one_file modules 
+install_one_file online-workflow
+

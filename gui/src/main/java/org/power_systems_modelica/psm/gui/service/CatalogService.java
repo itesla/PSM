@@ -25,6 +25,7 @@ public class CatalogService {
         try {
             try (InputStream is = Files.newInputStream(path)) {
                 properties.load(is);
+                is.close();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

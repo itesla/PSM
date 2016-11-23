@@ -1,13 +1,17 @@
 package org.power_systems_modelica.psm.gui.utils;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
@@ -172,5 +176,42 @@ public class Utils
 		
 	}
 	
+	public static Properties getWorkflowProperties(Case cs, Ddr ddr, LoadflowEngine le,
+			boolean onlyMainConnectedComponent, ObservableList<Event> events, DsEngine dse, 
+			String stopTime) throws IOException {
+		
+		Properties properties = new Properties();
+		
+		properties.setProperty("casePath", PathUtils.findCasePath(Paths.get(cs.getLocation())).toString());
+		properties.setProperty("ddrPath", ddr.getLocation());
+		
+		String loadflowId;
+		switch (le)
+		{
+		case HADES2:
+			loadflowId = "loadflowHades2";
+			properties.setProperty("loadflowEngine", loadflowId);
+			break;
+		case HELMFLOW:
+			loadflowId = "loadflowHelmflow";
+			break;
+		default:
+			loadflowId = "none";
+			break;
+		}		
+		properties.setProperty("loadflowEngine", loadflowId);
+		properties.setProperty("onlyMainConnectedComponent", Boolean.toString(onlyMainConnectedComponent));
+		
+		if (!events.isEmpty())
+			properties.setProperty("events", (String) events.stream().map(Object::toString).collect(Collectors.joining("\n")));
+		
+		String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
+		properties.setProperty("dsEngine", simulationEngine);
+		properties.setProperty("dsStopTime", stopTime);
+		
+		return properties;
+	}
+
 	static class Delta { double x, y; }
+
 }

@@ -26,6 +26,8 @@
 					<children>
 						<HBox spacing="10.0" AnchorPane.rightAnchor="0.0">
 							<children>
+								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleLoadWorkflow" styleClass="btn-default" text="Load" />
+								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleSaveWorkflow" styleClass="btn-default" text="Save" />
 								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleCleanWorkflow" styleClass="btn-default" text="Clean" />
 								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Start" />
 							</children>

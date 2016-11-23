@@ -1,5 +1,8 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -8,6 +11,7 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -43,7 +47,7 @@ public class WorkflowNewController {
 
 		addEventPane.setVisible(false);
 		Utils.setDragablePane(addEventPane);
-		
+
 		catalogCaseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
 
 			@Override
@@ -79,16 +83,13 @@ public class WorkflowNewController {
 		valueParamColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
 		valueParamColumn.setCellValueFactory(new PropertyValueFactory<EventParamGui, String>("value"));
 		valueParamColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		valueParamColumn.setOnEditCommit(
-		    new EventHandler<CellEditEvent<EventParamGui, String>>() {
-		        @Override
-		        public void handle(CellEditEvent<EventParamGui, String> t) {
-		            ((EventParamGui) t.getTableView().getItems().get(
-		                t.getTablePosition().getRow())
-		                ).setValue(t.getNewValue());
-		        }
-		    }
-		);
+		valueParamColumn.setOnEditCommit(new EventHandler<CellEditEvent<EventParamGui, String>>() {
+			@Override
+			public void handle(CellEditEvent<EventParamGui, String> t) {
+				((EventParamGui) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setValue(t.getNewValue());
+			}
+		});
 	}
 
 	@FXML
@@ -99,10 +100,10 @@ public class WorkflowNewController {
 		parametersView.setItems(null);
 		addEventPane.setVisible(true);
 	}
-	
+
 	@FXML
 	private void handleActionSelectedEvent() {
-		
+
 		String event = actionEvent.getSelectionModel().getSelectedItem();
 		if (event != null)
 			parametersView.setItems(mainApp.getEventParams(event));
@@ -111,12 +112,12 @@ public class WorkflowNewController {
 	@FXML
 	private void handleAddEvent() {
 		LOG.debug("handleAddEvent");
-		
+
 		Event e = new Event();
 		e.setElement(elementEvent.getText());
 		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
 		e.setParams(parametersView.getItems());
-		
+
 		addedEvents.getItems().add(e);
 		addEventPane.setVisible(false);
 	}
@@ -135,6 +136,89 @@ public class WorkflowNewController {
 	}
 
 	@FXML
+	private void handleLoadWorkflow() {
+
+		handleCleanWorkflow();
+		try {
+			Properties workflowProperties = PathUtils.loadWorkflowFile(mainApp.getPrimaryStage(),
+					System.getProperty("user.home"));
+			loadWorkflow(workflowProperties);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void loadWorkflow(Properties workflowProperties) {
+
+		if (workflowProperties.containsKey("casePath")) {
+			String casePath = workflowProperties.getProperty("casePath");
+			Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
+		}
+
+		if (workflowProperties.containsKey("ddrPath")) {
+			String ddrPath = workflowProperties.getProperty("ddrPath");
+			Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
+		}
+
+		if (workflowProperties.containsKey("loadflowEngine")) {
+			String le = workflowProperties.getProperty("loadflowEngine");
+			loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(le));
+		}
+
+		if (workflowProperties.containsKey("onlyMainConnectedComponent")) {
+			Boolean onlyMainConnectedComponent = Boolean
+					.valueOf(workflowProperties.getProperty("onlyMainConnectedComponent"));
+			mainConnectedComponent.setSelected(onlyMainConnectedComponent);
+		}
+
+		if (workflowProperties.containsKey("dsEngine")) {
+			String dse = workflowProperties.getProperty("dsEngine");
+			dsEngine.getSelectionModel().select(Utils.getDsEngine(dse));
+		}
+
+		if (workflowProperties.containsKey("dsStopTime")) {
+			String stopTime = workflowProperties.getProperty("dsStopTime");
+			stopTimeText.setText(stopTime);
+		}
+
+		if (workflowProperties.containsKey("events")) {
+			String[] events = workflowProperties.getProperty("events").split("\n");
+			for (String event : events) {
+
+				Event e = new Event();
+				e.fromString(event);
+				addedEvents.getItems().add(e);
+			}
+		}
+	}
+
+	@FXML
+	private void handleSaveWorkflow() {
+
+		Case cs = caseSource.getSelectionModel().getSelectedItem();
+		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
+		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
+		System.out.println(le.toString());
+		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
+		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
+		System.out.println(dse.toString());
+		String stopTime = stopTimeText.getText();
+
+		ObservableList<Event> events = addedEvents.getItems();
+
+		Properties workflowProperties;
+		try {
+			workflowProperties = Utils.getWorkflowProperties(cs, ddr, le, onlyMainConnectedComponent, events, dse,
+					stopTime);
+			PathUtils.saveWorkflowFile(mainApp.getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
 	private void handleCleanWorkflow() {
 		caseSource.getSelectionModel().clearSelection();
 		catalogCaseSource.getSelectionModel().clearSelection();
@@ -144,12 +228,12 @@ public class WorkflowNewController {
 		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 		addedEvents.getItems().clear();
-		
+
 		stopTimeText.setText("1");
-		
+
 		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
 	}
-	
+
 	@FXML
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
@@ -178,67 +262,69 @@ public class WorkflowNewController {
 			Utils.showWarning("Warning", "Select a Dynamic simulation engine");
 			return;
 		}
-		
+
 		String stopTime = stopTimeText.getText();
 
 		ObservableList<Event> events = addedEvents.getItems();
 
 		mainApp.startWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
 	}
-	
+
 	@FXML
 	private void handleEditCommitEvent() {
-		
+
 	}
-	
+
 	public void setCase(Case c) {
-		
+
 		ObservableList<Catalog> catalogs = mainApp.getCatalogs("cases");
-		
-		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog> (catalogs, catalog -> c.getLocation().contains(catalog.getLocation())); 
-		
+
+		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog>(catalogs,
+				catalog -> c.getLocation().contains(catalog.getLocation()));
+
 		filteredCatalogs.forEach(catalog -> {
 			catalogCaseSource.getSelectionModel().select(catalog);
 		});
-		
+
 		caseSource.getSelectionModel().select(c);
 	}
-	
+
 	public void setWorkflow(Workflow w) {
-		
+
+		handleCleanWorkflow();
+
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
-			
+
 			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
 				String casePath = td.getTaskConfiguration().getParameter("source");
 				Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
 			}
-			
+
 			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class)) {
 				String ddrPath = td.getTaskConfiguration().getParameter("ddrLocation");
 				Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
-				
+
 				Boolean onlyMainConnectedComponent = td.getTaskConfiguration().getBoolean("onlyMainConnectedComponent");
 				mainConnectedComponent.setSelected(onlyMainConnectedComponent);
 			}
-			
+
 			if (td.getTaskClass().equals(ModelicaEventAdderTask.class)) {
 				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
-				for (String event: events) {
-					
+				for (String event : events) {
+
 					Event e = new Event();
 					e.fromString(event);
 					addedEvents.getItems().add(e);
 				}
 			}
-			
 
 			if (td.getTaskClass().equals(LoadFlowTask.class))
 				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(td.getTaskId()));
-			
+
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class)) {
 				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
 				stopTimeText.setText(stopTime);
-				
+
 				dsEngine.getSelectionModel().select(Utils.getDsEngine(td.getTaskId()));
 			}
 		}
@@ -252,13 +338,15 @@ public class WorkflowNewController {
 
 		loadflowEngine.setItems(mainApp.getLoadflowEngines());
 		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
-		
-		dsEngine.setItems(mainApp.getDsEngines());
-		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
-		stopTimeText.setText("1");
 
-		
-		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
+		handleCleanWorkflow();
+		try {
+			Properties workflowProperties = PathUtils.loadDefaultWorkflowFile();
+			loadWorkflow(workflowProperties);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -287,10 +375,10 @@ public class WorkflowNewController {
 	private ComboBox<String> actionEvent;
 	@FXML
 	private TableView<EventParamGui> parametersView;
-    @FXML
-    private TableColumn<EventParamGui, String> nameParamColumn;
-    @FXML
-    private TableColumn<EventParamGui, String> valueParamColumn;
+	@FXML
+	private TableColumn<EventParamGui, String> nameParamColumn;
+	@FXML
+	private TableColumn<EventParamGui, String> valueParamColumn;
 
 	@FXML
 	private ComboBox<DsEngine> dsEngine;

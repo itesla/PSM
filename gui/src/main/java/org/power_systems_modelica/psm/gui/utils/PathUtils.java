@@ -3,6 +3,8 @@ package org.power_systems_modelica.psm.gui.utils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -103,7 +106,6 @@ public class PathUtils {
 	public static void saveFile(String location, String file, StringBuilder ddrContent)
 			throws IOException
 	{
-		// TODO Auto-generated method stub
 
 		Path path = Paths.get(location).resolve(file);
 		OutputStream outputStream = Files.newOutputStream(path);
@@ -111,6 +113,70 @@ public class PathUtils {
 		bufferedWriter.append(ddrContent);
 		bufferedWriter.close();
 		outputStream.close();
+	}
+	
+	public static Properties loadDefaultWorkflowFile() throws IOException{
+		Path defaultFile = DATA_TEST.resolve("cfg").resolve("workflow.properties");
+		
+		Properties properties = new Properties();
+		InputStream is = Files.newInputStream(defaultFile);
+		properties.load(is);
+		is.close();
+		
+		String workflowFile = properties.getProperty("workflowPropertiesFile");
+		
+		Properties props = new Properties();
+		Path workflowPath = Paths.get(workflowFile);
+    	is = Files.newInputStream(workflowPath);
+    	props.load( is );
+    	is.close();
+    	
+    	return props;
+	}
+	
+	public static Properties loadWorkflowFile(Stage stage, String location) throws IOException{
+		FileChooser fileChooser = new FileChooser();
+		  
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Properties files (*.properties)", "*.properties");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialDirectory(new File(location));
+		
+        //Show save file dialog
+        Properties props = new Properties();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if(selectedFile != null){
+        	InputStream is = new FileInputStream(selectedFile);
+        	props.load( is );
+        	is.close();
+        }
+        
+        return props;
+	}
+
+	public static void saveWorkflowFile(Stage stage, String location, Properties props) throws IOException{
+		FileChooser fileChooser = new FileChooser();
+		  
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Properties files (*.properties)", "*.properties");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialDirectory(new File(location));
+		
+        //Show save file dialog
+        File selectedFile = fileChooser.showSaveDialog(stage);
+        if(selectedFile != null){
+        	OutputStream out = new FileOutputStream(selectedFile);
+            props.store(out, "Worflow configuration file");
+            out.close();
+
+            Properties defaultProperties = new Properties();
+            defaultProperties.setProperty("workflowPropertiesFile", selectedFile.getAbsolutePath());
+            Path defaultFile = DATA_TEST.resolve("cfg").resolve("workflow.properties");
+            out = Files.newOutputStream(defaultFile);
+            defaultProperties.store(out, "Default worflow configuration file");
+            out.close();
+        }
+        
 	}
 	
 	public static boolean saveAsMoFile(Stage stage, String location, String file, StringBuilder ddrContent) throws IOException{ 

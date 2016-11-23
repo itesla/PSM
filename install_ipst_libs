@@ -1,0 +1,27 @@
+GROUP=eu.itesla_project
+VERSION=0.1-SNAPSHOT
+
+ARTIFACT=cim1-import
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=cim1-model
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=commons
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=helmflow-api
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=helmflow-api-impl
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=helmflow-ipst-integration
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=iidm-network-api
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=iidm-network-impl
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=iidm-xml-converter
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=loadflow-api
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=modules
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+ARTIFACT=online-workflow
+mvn install:install-file -Dfile=${ARTIFACT}-${VERSION} -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar

@@ -57,9 +57,9 @@
 		<skipTest.regex>none</skipTest.regex>
 	</properties>
 	<scm>
-		<connection>scm:git:https://bitbucket.org/rte-france/psm.git</connection>
-		<developerConnection>scm:git:https://bitbucket.org/rte-france/psm.git</developerConnection>
-		<url>https://bitbucket.org/rte-france/psm</url>
+		<connection>scm:git:https://github.com/iTesla-RTE/psm.git</connection>
+		<developerConnection>scm:git:https://github.com/iTesla-RTE/psm.git</developerConnection>
+		<url>https://github.com/iTesla-RTE/psm</url>
 	</scm>
 	<repositories>
 		<!-- <repository> -->

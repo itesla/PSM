@@ -1,11 +1,10 @@
 #!/bin/bash
-GROUP=eu.itesla_project
+
 VERSION=0.1-SNAPSHOT
-MVN_OPTIONS="--non-recursive --offline"
 PLUGIN="org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file"
 
 function install_one_file {
-	mvn ${MVN_OPTIONS} ${PLUGIN} -Dfile=$1-${VERSION}.jar 
+	mvn ${PLUGIN} -Dfile=$1-${VERSION}.jar 
 }
 
 install_one_file cim1-import 

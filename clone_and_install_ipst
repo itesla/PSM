@@ -3,4 +3,7 @@ rm -rf temp_ipst
 mkdir -p temp_ipst
 cd temp_ipst
 git clone https://github.com/itesla/ipst.git
+cd ipst
 mvn clean install -DskipTests
+cd ../..
+rm -rf temp_ipst

@@ -2,26 +2,26 @@ GROUP=eu.itesla_project
 VERSION=0.1-SNAPSHOT
 
 ARTIFACT=cim1-import
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=cim1-model
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=commons
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=helmflow-api
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=helmflow-api-impl
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=helmflow-ipst-integration
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=iidm-network-api
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=iidm-network-impl
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=iidm-xml-converter
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=loadflow-api
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=modules
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 
 ARTIFACT=online-workflow
-mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+mvn --non-recursive --offline install:install-file -Dfile=${ARTIFACT}-${VERSION}.jar 

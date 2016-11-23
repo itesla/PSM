@@ -100,7 +100,17 @@ public class CaseService {
 						c.setLocation(entry.toString());
 						cases.add(c);
 						
-						getCaseProperties(entry, c);
+						Properties properties = getCaseProperties(entry);
+						if (!properties.isEmpty()) {
+						
+					    	String description = properties.getProperty("description");
+					    	int size = Integer.parseInt(properties.getProperty("size"));
+					    	String format = properties.getProperty("format");
+					    	
+					    	c.setDescription(description);
+					    	c.setSize(size);
+					    	c.setFormat(format);
+						}
 					}
 				}
 				else if (entry.toString().endsWith("ME.xml"))
@@ -119,7 +129,20 @@ public class CaseService {
 		return false;
 	}
 
-	private static void getCaseProperties(Path path, Case c) {
+	public static String getDefaultDdrLocation(Case c) {
+
+		Path path = Paths.get(c.getLocation());
+		Properties properties = getCaseProperties(path);
+		
+		if (!properties.isEmpty()) {
+			String ddrLocation = properties.getProperty("ddrLocation");
+			return path.resolve(ddrLocation).toString();
+		}
+		
+		return null;
+	}
+
+	private static Properties getCaseProperties(Path path) {
 		
         Properties properties = new Properties();
         try {
@@ -129,14 +152,7 @@ public class CaseService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-		
-    	String description = properties.getProperty("description");
-    	int size = Integer.parseInt(properties.getProperty("size"));
-    	String format = properties.getProperty("format");
-    	
-    	c.setDescription(description);
-    	c.setSize(size);
-    	c.setFormat(format);
+		return properties;
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(CaseService.class);

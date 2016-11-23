@@ -1,0 +1,9 @@
+mkdir -p ./temp
+cd ./temp
+./download_libs
+./install_dymola_libs
+./install_hades_integration_libs
+./install_helmflow_integration_libs
+./install_ipst_libs
+./install_openmodelica_libs
+cd ..

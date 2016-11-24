@@ -207,6 +207,7 @@
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.2.0</version>
 					<configuration>
+						<serviceName>travis-pro</serviceName>
 						<repoToken>N0o73tI21OMUIoq6TFA1nUlw0l8acBjKv</repoToken>
 						<sourceDirectories>
 							<sourceDirectory>modelica-parser/target/generated-sources/antlr4</sourceDirectory>

@@ -32,8 +32,13 @@ public class StaticNetworkImporter
 			LOG.info("importing file [" + basename1 + "]");
 			if (basename.toString().endsWith(".xml"))
 				n = Importers.import_("CIM1", path.toString(), basename1, parameters);
-			else if (basename.endsWith(".zip")) n = Importers.import_("CIM1",
-					new ZipFileDataSource(path, basename.toString(), basename1), parameters);
+			else if (basename.toString().endsWith(".zip"))
+			{
+				ZipFileDataSource zipDataSource = new ZipFileDataSource(path, basename.toString(),
+						basename1);
+				n = Importers.import_("CIM1",
+						zipDataSource, parameters);
+			}
 		}
 		catch (Exception x)
 		{

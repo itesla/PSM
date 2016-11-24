@@ -25,4 +25,21 @@ public class StaticNetworkImporterTest
 		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
 		assertEquals(5, n.getGeneratorCount());
 	}
+
+	@Test
+	public void testImportZippedIEEE14()
+	{
+		Path file = TEST_SAMPLES.resolve("ieee14/ieee14bus.zip");
+		Network n = StaticNetworkImporter.import_(file);
+		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
+		assertEquals(5, n.getGeneratorCount());
+	}
+
+	@Test
+	public void testImportMissingFiles()
+	{
+		Path file = TEST_SAMPLES.resolve("missing_non_existent_EQ.xml");
+		Network n = StaticNetworkImporter.import_(file);
+		assertEquals(null, n);
+	}
 }

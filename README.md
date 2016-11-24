@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/iTesla-RTE/psm.svg?token=9R2QPTT2RxGGn7SCGoBz&branch=master)](https://travis-ci.com/iTesla-RTE/psm)
+[![Coverage Status](https://coveralls.io/repos/github/iTesla-RTE/psm/badge.svg?branch=master&t=FfZvS7)](https://coveralls.io/github/iTesla-RTE/psm?branch=master)
 
 # Power Systems on Modelica
 

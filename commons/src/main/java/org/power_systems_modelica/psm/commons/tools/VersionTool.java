@@ -6,14 +6,14 @@
  */
 package org.power_systems_modelica.psm.commons.tools;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.power_systems_modelica.psm.commons.Version;
+
 import com.google.auto.service.AutoService;
 
 import eu.itesla_project.commons.tools.Command;
 import eu.itesla_project.commons.tools.Tool;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
-import org.power_systems_modelica.psm.commons.Version;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>

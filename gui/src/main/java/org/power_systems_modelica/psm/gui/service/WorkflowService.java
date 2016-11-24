@@ -201,7 +201,7 @@ public class WorkflowService
 			}
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
-			String resultVariables = "V,angle";
+			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 

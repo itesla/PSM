@@ -210,6 +210,7 @@
 						<serviceName>travis-pro</serviceName>
 						<repoToken>N0o73tI21OMUIoq6TFA1nUlw0l8acBjKv</repoToken>
 						<sourceDirectories>
+							<sourceDirectory>commons/target/generated-sources/java-templates</sourceDirectory>
 							<sourceDirectory>modelica-parser/target/generated-sources/antlr4</sourceDirectory>
 						</sourceDirectories>
 					</configuration>

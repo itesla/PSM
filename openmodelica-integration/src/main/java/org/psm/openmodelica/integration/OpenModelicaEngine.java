@@ -8,11 +8,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -37,7 +35,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		this.omc				= new OpenModelicaWrapper(OMWRAPPER_NAME);
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));	
-		this.resultVariables	= config.getParameter("resultVariables") == null ? new ArrayList<String>() : Arrays.asList(config.getParameter("resultVariables").split(","));
+		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse("");
 		
 		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
 		this.startTime			= Double.valueOf(Optional.ofNullable(config.getParameter("startTime")).orElse("0.0"));
@@ -123,15 +121,14 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				
 				List<String> filterResultVariables;
 				if(resultVariables != null && !resultVariables.isEmpty()) {
-					String regex = "\"" + "[a-zA-Z0-9_]*.(" + resultVariables.stream().collect(Collectors.joining("|")) + ")\"";
+					String regex = "\"" + resultVariables + "\"";
 					Pattern pattern = Pattern.compile(regex);
 					filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+					filterResultVariables.add(0, "\"time\"");
 				}
 				else {
 					filterResultVariables = allResultVariables;
 				}
-				
-				filterResultVariables.add(0, "\"time\"");
 				
 				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
 
@@ -235,7 +232,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				
 				List<String> allResultVariables = Arrays.asList(res.substring(1, res.length()-2).split(COMMA));
 				
-				String regex = "\"" + "[a-zA-Z0-9_]*.(" + resultVariables.stream().collect(Collectors.joining("|")) + ")\"";
+				String regex = "\"" + resultVariables + "\"";
 				Pattern pattern = Pattern.compile(regex);
 				List<String> filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
 				
@@ -432,7 +429,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private double			stopTime;
 	private double			tolerance;
 	private Path			libraryDir;
-	private List<String>	resultVariables;
+	private String			resultVariables;
 	
 	private ModelicaSimulationResults	results;
 	private OpenModelicaWrapper			omc = null;

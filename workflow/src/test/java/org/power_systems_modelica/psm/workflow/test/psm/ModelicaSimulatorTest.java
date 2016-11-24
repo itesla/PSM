@@ -26,7 +26,7 @@ public class ModelicaSimulatorTest {
 	public void testSinglegen() throws WorkflowCreationException, IOException
 	{
 		if(!isOpenModelicaAvailable()) return; 
-		String varResults = "pin_EFD,pin_OMEGA,pin_CM,omegaRef";
+		String varResults = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 			
 		testBuild(
 				"singlegen",
@@ -42,7 +42,7 @@ public class ModelicaSimulatorTest {
 	public void testIeee14() throws WorkflowCreationException, IOException
 	{
 		if(!isOpenModelicaAvailable()) return; 
-		String varResults = "V,angle";
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		
 		testBuild(
 				"ieee14",
@@ -59,7 +59,7 @@ public class ModelicaSimulatorTest {
 	public void testIeee30() throws WorkflowCreationException, IOException
 	{
 		if(!isOpenModelicaAvailable()) return; 
-		String varResults = "V,angle";
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";		
 		
 		testBuild(
 				"ieee30",
@@ -71,14 +71,36 @@ public class ModelicaSimulatorTest {
 				);
 	}
 	
+//	@Test
 	public void testIeee57() throws WorkflowCreationException, IOException
 	{
-		//TODO
+		if(!isOpenModelicaAvailable()) return; 
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";		
+		
+		testBuild(
+				"ieee57",
+				"itesla/ieee57bus.mo",
+				"library",
+				"OpenModelica",
+				varResults,
+				null
+				);
 	}
 	
+//	@Test
 	public void testIeee118() throws WorkflowCreationException, IOException
 	{
-		//TODO
+		if(!isOpenModelicaAvailable()) return; 
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";		
+		
+		testBuild(
+				"ieee118",
+				"itesla/ieee118bus.mo",
+				"library",
+				"OpenModelica",
+				varResults,
+				null
+				);
 	}
 	
 	public void testBuild(

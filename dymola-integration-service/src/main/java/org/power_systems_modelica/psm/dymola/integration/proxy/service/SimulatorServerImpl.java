@@ -22,11 +22,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
@@ -111,7 +112,18 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     public
     @XmlMimeType("application/octet-stream")
-    DataHandler simulate(String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String[] resultVariables, @XmlMimeType("application/octet-stream") DataHandler data) {
+    DataHandler simulate(String inputFileName, 
+    						String problem, 
+    						double startTime, 
+    						double stopTime, 
+    						int numberOfIntervals, 
+    						double outputInterval, 
+    						String method, 
+    						double tolerance, 
+    						double fixedstepsize, 
+    						String resultsFileName, 
+    						String resultVariables, 
+    						@XmlMimeType("application/octet-stream") DataHandler data) {
         Path workingDir = null;
         String outputZipFile = null;
         try {
@@ -173,7 +185,7 @@ public class SimulatorServerImpl implements SimulatorServer {
     }
 
     //testing only, get results for a precomputed simulation
-    protected void simulateDymolaFake(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String[] resultVariables) throws DymolaException {
+    protected void simulateDymolaFake(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String resultVariables) throws DymolaException {
         DymolaInterface dymola = null;
         int port = -1;
         try {
@@ -218,7 +230,7 @@ public class SimulatorServerImpl implements SimulatorServer {
     }
 
     
-    protected void simulateDymola(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String[] resultVariables) throws DymolaException {
+    protected void simulateDymola(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String resultVariables) throws DymolaException {
     	
         DymolaInterface dymola = null;
         int port = -1;
@@ -261,16 +273,38 @@ public class SimulatorServerImpl implements SimulatorServer {
             	throw new RuntimeException("simulateModel: " + dymola.getLastError());
             }
             
-            int trajSize = dymola.readTrajectorySize(resultsFileName + ".mat");
-            String[] trajNames = dymola.readTrajectoryNames(resultsFileName + ".mat");
+            int resultSize = dymola.readTrajectorySize(resultsFileName + ".mat");
+            String[] resultNames = dymola.readTrajectoryNames(resultsFileName + ".mat");
             
-            double[][] trajVarsValues = dymola.readTrajectory(resultsFileName + ".mat", 
-            													resultVariables.length == 0 ? trajNames : resultVariables, 
-            													trajSize);
-
+    		Pattern pattern = Pattern.compile(resultVariables);
+    		Matcher matcher = pattern.matcher(Arrays.toString(resultNames));
+    		int count = 0;
+    		while(matcher.find()) count++;
+    		String[] filterResultVariables = new String[count];
+    		filterResultVariables[0] = "Time";
+    		
+    		int j = 1;
+    		for(int i=0; i< resultNames.length; i++) {
+    			matcher = pattern.matcher(resultNames[i]);
+    			if(matcher.matches()) {
+    				filterResultVariables[j] = matcher.group();
+    				j++;
+    			}
+    		}
+            
+    		//Check if filterResultVariables only has the variable Time.
+    		if(filterResultVariables[1] == null) {
+    			filterResultVariables = resultNames;
+    		}    		
+    		
+    		double[][] trajVarsValues = dymola.readTrajectory(resultsFileName + ".mat", 
+											    				filterResultVariables, 
+											    				resultSize);
+    		
             if(trajVarsValues != null) {
 	            try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + resultsFileName + ".csv")))) {
-	            	printResultVariables(printStream, resultVariables.length == 0 ? trajNames : resultVariables, Utils.transpose().apply(trajVarsValues));
+//	            	printResultVariables(printStream, resultVariables.length == 0 ? trajNames : resultVariables, Utils.transpose().apply(trajVarsValues));
+	            	printResultVariables(printStream, filterResultVariables, Utils.transpose().apply(trajVarsValues));
 	            } catch (IOException e) {
 	                LOGGER.error("Error printing errors file. {}", e.getMessage());
 	            }
@@ -294,6 +328,39 @@ public class SimulatorServerImpl implements SimulatorServer {
             }
         }
 
+    }
+    
+    private void writeResultsCsv(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize) {
+    	
+    	
+//    	String[][] resultValues = new String[resultSize][filterResultVariables.size()];
+//		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString() + NEW_LINE;
+//		
+//		for(int j=0; j<filterResultVariables.size(); j++) 
+//		{
+//			String resVar = filterResultVariables.get(j);
+//			Result result = omc.readSimulationResult(matResultsFile, resVar);
+//			
+//			if(result.err != null && !result.err.isEmpty()) {
+//				if(result.err.startsWith("Warning")) LOGGER.warn(result.err.replace("\"", ""));
+//				else LOGGER.error("Error getting simulation result variable {} from  {}. {}", resVar, matResultsFile, result.err.replace("\"", ""));
+//				continue;
+//			}
+//			String[] values = result.res.substring(2, result.res.length()-3).split(COMMA);
+//			
+//			for(int i=0; i<resultSize; i++) {
+//				resultValues[i][j] = values[i];
+//			}
+//		}
+//		
+//		for (int i = 0; i < resultValues.length; i++) {
+//			for (int k = 0; k < resultValues[i].length; k++) {
+//				if(k == 0) strLine = strLine + resultValues[i][k];
+//				else strLine = strLine + "," + resultValues[i][k]; 
+//			}
+//			strLine = strLine + NEW_LINE;
+//		}			
+//		printStream.print(strLine);
     }
     
     private void printResultVariables(PrintStream printStream, String[] resultVariables, double[][] trajVarsValues) {

@@ -20,9 +20,12 @@ public class OpenModelicaIntegrationTest {
 	public void testSinglegen() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
 		
-		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("singlegen").resolve("itesla").resolve("singlegen.mo"));
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST
+													.resolve("singlegen")
+													.resolve("itesla")
+													.resolve("singlegen.mo"));
 		
-		String filterResVariables = "pin_EFD,pin_OMEGA,pin_CM,omegaRef";
+		String filterResVariables = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 		
 		Configuration config = setConfiguration(
 											DATA_TMP.toString(),
@@ -58,20 +61,20 @@ public class OpenModelicaIntegrationTest {
 		
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo"));
 		
-		String filterResVariables = "V,angle";
+		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(),
-				filterResVariables,
-				"dassl",
-				"0.0",
-				"1.0",
-				"0.000001",
-				"500",
-				"0.002",
-				"0.002"
-				);
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("library").toString(),
+												filterResVariables,
+												"dassl",
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500",
+												"0.002",
+												"0.002"
+												);
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
@@ -92,21 +95,21 @@ public class OpenModelicaIntegrationTest {
 		
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus.mo"));
 		
-		String filterResVariables = "V,angle";
+		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(),
-				filterResVariables,
-				"dassl",
-				"0.0",
-				"1.0",
-				"0.000001",
-				"500",
-				"0.002",
-				"0.002"
-				);
-	
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("library").toString(),
+												filterResVariables,
+												"dassl",
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500",
+												"0.002",
+												"0.002"
+												);
+									
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
@@ -120,26 +123,26 @@ public class OpenModelicaIntegrationTest {
 		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	
-//	@Test //PENDING
+//	@Test 
 	public void testIEEE57() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
 		
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus.mo"));
 		
-		String filterResVariables = "V,angle";
+		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(),
-				filterResVariables,
-				"dassl",
-				"0.0",
-				"1.0",
-				"0.000001",
-				"500",
-				"0.002",
-				"0.002"
-				);
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("library").toString(),
+												filterResVariables,
+												"dassl",
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500",
+												"0.002",
+												"0.002"
+												);
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
@@ -160,7 +163,7 @@ public class OpenModelicaIntegrationTest {
 		
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee118").resolve("itesla").resolve("ieee118bus.mo"));
 		
-		String filterResVariables = "V,angle";
+		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		
 		Configuration config = setConfiguration(
 				DATA_TMP.toString(),

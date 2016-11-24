@@ -31,6 +31,6 @@ public interface SimulatorServer {
 																	double tolerance, 
 																	double fixedstepsize, 
 																	String resultsFileName, 
-																	String[] resultsVars,
+																	String resultsVars,
 																	@XmlMimeType("application/octet-stream") DataHandler data);
 }

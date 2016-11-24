@@ -237,25 +237,6 @@ public class OpenModelicaWrapper extends SmartProxy {
 													.append(")").toString());
 	}
 	
-	
-	/**
-	 * Returns the variables in the simulation file.
-	 * @param resultsFile
-	 * @return
-	 * @throws ConnectException
-	 */
-//	public ModelicaArray<ModelicaString> readSimulationResultVars(String resultsFile) throws ConnectException {
-////		return sendExpression(new StringBuilder().append("readSimulationResultVars(").append(resultsFile).toString());
-//		ModelicaArray<ModelicaString> result = null;
-//		try {
-//			result = (ModelicaArray<ModelicaString>) callModelicaFunction("readSimulationResultVars", new ModelicaString(resultsFile));
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
-	
 	/**
 	 * Returns the variables in the simulation file.
 	 * @param resultsFile
@@ -278,8 +259,6 @@ public class OpenModelicaWrapper extends SmartProxy {
 		return sendExpression(new StringBuilder().append("readSimulationResultSize(\"").append(resultsFile).append("\"")
 													.append(")").toString());
 	}
-	
-	
 	
 	private boolean	systemLibraryLoaded		= false;
 }

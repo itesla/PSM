@@ -35,7 +35,7 @@ public class DymolaEngine implements ModelicaEngine {
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));
 		this.dymSimulationDir	= Optional.ofNullable(Paths.get(this.workingDir.toString() + File.separator + DYM_PREFIX)).orElse(Paths.get("")); //TODO change by default dir
-		this.resultVariables	= config.getParameter("resultVariables") == null ? new String[0] : config.getParameter("resultVariables").split(","); 
+		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse(""); 
 				
 		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
 		this.startTime			= Double.valueOf(Optional.ofNullable(config.getParameter("startTime")).orElse("0.0"));
@@ -223,7 +223,7 @@ public class DymolaEngine implements ModelicaEngine {
 	private String			outputDymolaFileName;
 	private String			outputErrorsFileName;
 	private Path			libraryDir;
-	private String[]		resultVariables;
+	private String			resultVariables;
 	
 	private ModelicaSimulationResults	results;
 	

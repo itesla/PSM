@@ -18,13 +18,16 @@ public class DymolaIntegrationTest {
 
 	@Test
 	public void testSinglegen() throws FileNotFoundException, IOException {
-		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve("singlegen").resolve("itesla").resolve("singlegen.mo"));
+		if(!isDymolaAvailable()) return;
+		
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST
+											.resolve("singlegen")
+											.resolve("itesla")
+											.resolve("singlegen.mo"));
 
-		String varResults = "gen_pwGeneratorM2S__GEN____1_SM.pin_EFD," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.pin_CM," + 
-							"gen_pwGeneratorM2S__GEN____1_SM.omegaRef";
+		
+		String varResults = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
+		
 		Configuration config = setConfiguration(
 												"http://localhost:8888/dymservice?wsdl", 
 												DATA_TMP.toString(),
@@ -57,25 +60,18 @@ public class DymolaIntegrationTest {
 		assertEquals(4, Files.walk(dymSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 
-	// TODO Only with Dymola License because it's a too complex system for trial version and the iPSL is too big
+	//TODO Only with Dymola License because it's a too complex system for trial version and the iPSL is too big
 	// @Test
 	public void testIEEE14() throws FileNotFoundException, IOException {
-		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo"));
+		if(!isDymolaAvailable()) return;
+		
+		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST
+											.resolve("ieee14")
+											.resolve("itesla")
+											.resolve("ieee14bus.mo"));
 
-		String varResults = "bus__BUS___10_TN.V," + "bus__BUS___10_TN.angle," +
-							"bus__BUS___11_TN.V," + "bus__BUS___11_TN.angle," +
-							"bus__BUS___12_TN.V," + "bus__BUS___12_TN.angle," +
-							"bus__BUS___13_TN.V," + "bus__BUS___13_TN.angle," +
-							"bus__BUS___14_TN.V," + "bus__BUS___14_TN.angle," +
-							"bus__BUS____1_TN.V," + "bus__BUS____1_TN.angle," +
-							"bus__BUS____2_TN.V," + "bus__BUS____2_TN.angle," + 
-							"bus__BUS____3_TN.V," + "bus__BUS____3_TN.angle," +
-							"bus__BUS____4_TN.V," + "bus__BUS____4_TN.angle," + 
-							"bus__BUS____5_TN.V," + "bus__BUS____5_TN.angle," + 
-							"bus__BUS____6_TN.V," + "bus__BUS____6_TN.angle," + 
-							"bus__BUS____7_TN.V," + "bus__BUS____7_TN.angle," + 
-							"bus__BUS____8_TN.V," + "bus__BUS____8_TN.angle," +
-							"bus__BUS____9_TN.V," + "bus__BUS____9_TN.angle";
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
+		
 		Configuration config = setConfiguration(
 												"http://localhost:8888/dymservice?wsdl", 
 												DATA_TMP.toString(),
@@ -135,6 +131,11 @@ public class DymolaIntegrationTest {
 		return config;
 	}
 
+	private boolean isDymolaAvailable()
+	{
+		return Boolean.valueOf(System.getProperty("DymolaAvailable"));
+	}
+	
 	private static final Path DATA_TEST = Paths.get(System.getenv("PSM_DATA")).resolve("test");
 	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
 }

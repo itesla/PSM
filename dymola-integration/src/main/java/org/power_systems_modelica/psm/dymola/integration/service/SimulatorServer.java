@@ -70,7 +70,7 @@ public interface SimulatorServer {
         @WebParam(name = "arg9", partName = "arg9")
         String arg9,
         @WebParam(name = "arg10", partName = "arg10")
-        String[] arg10,
+        String arg10,
         @WebParam(name = "arg11", partName = "arg11")
         DataHandler arg11)
     	;

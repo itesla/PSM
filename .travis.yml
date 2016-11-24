@@ -13,4 +13,4 @@ jdk:
 before_install:
   - ./download_and_install_libs
 after_success:
-  - mvnw clean test jacoco:report coveralls:report
+  - ./mvnw jacoco:report coveralls:report

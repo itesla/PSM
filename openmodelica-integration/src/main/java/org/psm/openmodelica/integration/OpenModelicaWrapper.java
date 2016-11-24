@@ -180,39 +180,7 @@ public class OpenModelicaWrapper extends SmartProxy {
 													.append(", ").append("{" + resultVars + "}")
 													.append(")").toString());
 	}
-	
-	/**
-	 * Reads a result file, returning a matrix corresponding to the variables and size given.
-	 * @param resultsFile
-	 * @param resultVariables
-	 * @return
-	 * @throws ConnectException
-	 */
-//	public ModelicaArray<ModelicaReal> readSimulationResult(String resultsFile, String[] resultVariables) throws ConnectException {
-////		return sendExpression(new StringBuilder().append("readSimulationResult(").append(resultsFile)
-////													.append(", ").append("{" + resultVariables + "}")
-////													.append(")").toString());
-//		ModelicaArray<ModelicaReal> result = null;		
-//		List<ModelicaObject> resVariables = new ArrayList<ModelicaObject>();
-//		for(String st : resultVariables) {
-//			resVariables.add(new ModelicaString(st));
-//		}
-//		
-//		try {
-//			result = (ModelicaArray<ModelicaReal>) callModelicaFunction("readSimulationResult", new ModelicaString(resultsFile), ModelicaArray.createModelicaArray(resVariables));
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ModelicaObjectException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		return result;
-//		
-//	}
-	
+		
 	public Result readSimulationResult(String resultsFile, List<String> resultVariables) throws ConnectException {
 		String resultVars = null;
 		for(String st : resultVariables) {
@@ -258,6 +226,24 @@ public class OpenModelicaWrapper extends SmartProxy {
 	public Result readSimulationResultSize(String resultsFile) throws ConnectException {
 		return sendExpression(new StringBuilder().append("readSimulationResultSize(\"").append(resultsFile).append("\"")
 													.append(")").toString());
+	}
+	
+	public Result filterSimulationResults(String resultsFile, String outputFile, List<String> resultVariables, int resultSize) throws ConnectException {
+		String resultVars = null;
+		for(String st : resultVariables) {
+			if(resultVars == null) {
+				resultVars = st; //.substring(1,st.length()-1);
+			}
+			else {
+				resultVars = resultVars + "," + st; //.substring(1,st.length()-1);
+			}
+		}
+		
+		return sendExpression(new StringBuilder().append("filterSimulationResults(\"").append(resultsFile).append("\"")
+				.append(", \"").append(outputFile).append("\"")
+				.append(", ").append("{" + resultVars + "}")
+				.append(", ").append(resultSize)
+				.append(")").toString());
 	}
 	
 	private boolean	systemLibraryLoaded		= false;

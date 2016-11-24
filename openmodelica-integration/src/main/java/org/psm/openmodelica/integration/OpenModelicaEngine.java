@@ -109,6 +109,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				String matResultsFile = modelName + "_res" + MAT_EXTENSION;
+				String matResultsFileFiltered = modelName + "_res_filtered" + MAT_EXTENSION;
 				String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
 				
 				result = omc.readSimulationResultVars(matResultsFile);
@@ -136,7 +137,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 					  	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize);
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
-				}			
+				}
+				
+				result = omc.filterSimulationResults(matResultsFile, matResultsFileFiltered, filterResultVariables, resultSize);
+				
+//				TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
+				readSimulationResults(modelName);
 			} finally {
 				//Delete all the C files created for the simulation
 				deleteSimulationFiles();
@@ -157,8 +163,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 			throw new RuntimeException("openmodelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
-//		TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
-		readSimulationResults(modelName);
 	}
 	
 	public Path simulateFake(Path modelicaPath) {
@@ -245,7 +249,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				    throw new RuntimeException("Error writing simulation results on CSV file - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
-				}			
+				}
 			} finally {
 				//Delete all the C files created for the simulation
 				deleteSimulationFiles();

@@ -42,22 +42,22 @@ model pssi3e2b
   parameter Real PN;
   parameter Real PNALT;
   parameter Real init_APREF;
-  iPSL.NonElectrical.Continuous.DerivativeLag DerivativeLag_3 (K=TW1, T=TW1, y_start=0, x_start=init_3); //Eurostag Block number: 3
+  Modelica.Blocks.Continuous.Derivative Derivative_3 (k=TW1, T=TW1, y_start=0, x_start=init_3, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 3
   Modelica.Blocks.Math.MultiSum MultiSum_16 (nu =2, k={1, -1}); //Eurostag Block number: 16
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_2 (K=KS2, T=T7, y_start=init_2, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 2
-  iPSL.NonElectrical.Continuous.DerivativeLag DerivativeLag_15 (K=TW2, T=TW2, y_start=0, x_start=init_15); //Eurostag Block number: 15
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_2 (K=KS2, T=T7, y_start=init_2); //Eurostag Block number: 2
+  Modelica.Blocks.Continuous.Derivative Derivative_15 (k=TW2, T=TW2, y_start=0, x_start=init_15, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 15
   Modelica.Blocks.Math.MultiSum MultiSum_20 (nu =2, k={KS3, 1}); //Eurostag Block number: 20
   Modelica.Blocks.Math.MultiSum MultiSum_27 (nu =2, k={-1, 1}); //Eurostag Block number: 27
-  iPSL.NonElectrical.Continuous.DerivativeLag DerivativeLag_4 (K=TW3, T=TW3, y_start=0, x_start=init_4); //Eurostag Block number: 4
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_7 (K=1, T=T6, y_start=init_7, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 7
+  Modelica.Blocks.Continuous.Derivative Derivative_4 (k=TW3, T=TW3, y_start=0, x_start=init_4, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 4
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_7 (K=1, T=T6, y_start=init_7); //Eurostag Block number: 7
   iPSL.NonElectrical.Continuous.LeadLag LeadLag_5 (K=KS1, T1=T1, T2=T2, y_start=init_5); //Eurostag Block number: 5
   iPSL.NonElectrical.Continuous.LeadLag LeadLag_8 (K=1, T1=T3, T2=T4, y_start=init_8); //Eurostag Block number: 8
   Modelica.Blocks.Nonlinear.Limiter Limiter_10 (uMax=VSTMAX, uMin=VSTMIN); //Eurostag Block number: 10
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_12 (K=1, T=T9, y_start=init_12, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 12
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_13 (K=1, T=T9, y_start=init_13, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 13
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_14 (K=1, T=T9, y_start=init_14, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 14
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_17 (K=1, T=T9, y_start=init_17, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 17
-  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_18 (K=1, T=T9, y_start=init_18, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 18
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_12 (K=1, T=T9, y_start=init_12); //Eurostag Block number: 12
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_13 (K=1, T=T9, y_start=init_13); //Eurostag Block number: 13
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_14 (K=1, T=T9, y_start=init_14); //Eurostag Block number: 14
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_17 (K=1, T=T9, y_start=init_17); //Eurostag Block number: 17
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_18 (K=1, T=T9, y_start=init_18); //Eurostag Block number: 18
   iPSL.NonElectrical.Continuous.LeadLag LeadLag_11 (K=1, T1=T8, T2=T9, y_start=init_11); //Eurostag Block number: 11
   iPSL.NonElectrical.Continuous.LeadLag LeadLag_6 (K=1, T1=T10, T2=T11, y_start=init_6); //Eurostag Block number: 6
   Modelica.Blocks.Nonlinear.Limiter Limiter_9 (uMax=VSI2MAX, uMin=VSI2MIN); //Eurostag Block number: 9
@@ -71,13 +71,13 @@ equation
   connect(LeadLag_11.y, SimpleLag_12.u);
   connect(SimpleLag_2.y, MultiSum_20.u[1]);
   connect(SimpleLag_7.y, MultiSum_20.u[2]);
-  connect(DerivativeLag_3.y, DerivativeLag_15.u);
-  connect(DerivativeLag_15.y, SimpleLag_7.u);
+  connect(Derivative_3.y, Derivative_15.u);
+  connect(Derivative_15.y, SimpleLag_7.u);
   connect(pin_ActivePowerSN, Limiter_9.u);
-  connect(Limiter_9.y, DerivativeLag_4.u);
+  connect(Limiter_9.y, Derivative_4.u);
   connect(MultiSum_16.y, Limiter_19.u);
-  connect(Limiter_19.y, DerivativeLag_3.u);
-  connect(DerivativeLag_4.y, SimpleLag_2.u);
+  connect(Limiter_19.y, Derivative_3.u);
+  connect(Derivative_4.y, SimpleLag_2.u);
   connect(MultiSum_27.y, LeadLag_5.u);
   connect(MultiSum_20.y, LeadLag_11.u);
   connect(SimpleLag_2.y, MultiSum_27.u[1]);

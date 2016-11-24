@@ -3,4 +3,5 @@
 .settings/
 **kk*
 .metadata/
+**coveralls.json
 gui-0.1-SNAPSHOT.jar

@@ -290,6 +290,10 @@ public class MainApp extends Application {
 		return n;
 	}
 
+	public String getDefaultDdrLocation(Case c) {
+		return CaseService.getDefaultDdrLocation(c);
+	}
+
 	public void showWorkflowWithCase(Case c) {
 
 		FXMLLoader menuLoader = showMenuLayout();
@@ -392,6 +396,7 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 
 	private static final Logger LOG = LoggerFactory.getLogger(MainApp.class);
+
 
 
 }

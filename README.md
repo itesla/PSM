@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/iTesla-RTE/psm.svg?token=9R2QPTT2RxGGn7SCGoBz&branch=master)](https://travis-ci.com/iTesla-RTE/psm)
+
 # Power Systems on Modelica
 
 Modelica-based tool for power system dynamic simulation.

@@ -58,6 +58,15 @@ public class WorkflowNewController {
 
 		});
 
+		caseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Case>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Case> observable, Case oldValue, Case newValue) {
+				if (newValue != null)
+					setDdr(newValue);
+			}
+		});
+
 		catalogDdrSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
 
 			@Override
@@ -277,16 +286,15 @@ public class WorkflowNewController {
 
 	public void setCase(Case c) {
 
-		ObservableList<Catalog> catalogs = mainApp.getCatalogs("cases");
+		Utils.resolveCasePath(c.getLocation(), catalogCaseSource, caseSource);
+		setDdr(c);
+	}
 
-		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog>(catalogs,
-				catalog -> c.getLocation().contains(catalog.getLocation()));
-
-		filteredCatalogs.forEach(catalog -> {
-			catalogCaseSource.getSelectionModel().select(catalog);
-		});
-
-		caseSource.getSelectionModel().select(c);
+	private void setDdr(Case c) {
+		String ddrLocation = mainApp.getDefaultDdrLocation(c);
+		if (ddrLocation != null) {
+			Utils.resolveDdrPath(ddrLocation, catalogDdrSource, ddrSource);
+		}
 	}
 
 	public void setWorkflow(Workflow w) {
@@ -344,8 +352,6 @@ public class WorkflowNewController {
 			Properties workflowProperties = PathUtils.loadDefaultWorkflowFile();
 			loadWorkflow(workflowProperties);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

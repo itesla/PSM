@@ -53,10 +53,6 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>iidm-converter-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>eu.itesla_project</groupId>
 			<artifactId>iidm-network-api</artifactId>
 		</dependency>
 		<dependency>
@@ -69,6 +65,47 @@
 			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Temporal transitive dependencies -->
+		<!-- we are forced to put them explicitly because -->
+		<!-- ipst pom files we are using do not contain deps -->
+		<!-- (install:install-file does not copy the pom on the repository) -->
+		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>iidm-converter-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>computation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>eu.itesla_project</groupId>
+			<artifactId>computation-local</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>eu.itesla_project</groupId>
+            <artifactId>entsoe-util</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>eu.itesla_project</groupId>
+            <artifactId>graph</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.gdata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+        </dependency>
 	</dependencies>
 </project>
 

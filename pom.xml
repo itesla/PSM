@@ -50,6 +50,10 @@
 		<commonscli.version>1.3.1</commonscli.version>
 		<apache.commonsio.version>1.3.2</apache.commonsio.version>
 		<supercsv.version>2.4.0</supercsv.version>
+        <gdata.version>1.41.1_1</gdata.version>
+        <jgrapht.version>0.9.1</jgrapht.version>
+        <trove4j.version>3.0.3</trove4j.version>
+        <javacsv.version>2.0</javacsv.version>
 
 		<ipst.version>0.1-SNAPSHOT</ipst.version>
 		<hades2.integration.version>0.1</hades2.integration.version>
@@ -178,6 +182,11 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.12</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -349,6 +358,38 @@
 				<artifactId>helmflow-ipst-integration</artifactId>
 				<version>${helmflow.integration.version}</version>
 			</dependency>
+			
+			<!-- Temporal transitive dependencies -->
+	        <dependency>
+	            <groupId>eu.itesla_project</groupId>
+	            <artifactId>entsoe-util</artifactId>
+	            <version>${ipst.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>eu.itesla_project</groupId>
+	            <artifactId>graph</artifactId>
+	            <version>${ipst.version}</version>
+	        </dependency>
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.gdata</artifactId>
+                <version>${gdata.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jgrapht</groupId>
+                <artifactId>jgrapht-core</artifactId>
+                <version>${jgrapht.version}</version>
+            </dependency>
+	        <dependency>
+	            <groupId>net.sf.trove4j</groupId>
+	            <artifactId>trove4j</artifactId>
+	            <version>${trove4j.version}</version>
+	        </dependency>
+            <dependency>
+                <groupId>net.sourceforge.javacsv</groupId>
+                <artifactId>javacsv</artifactId>
+                <version>${javacsv.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

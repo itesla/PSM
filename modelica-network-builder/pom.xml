@@ -66,6 +66,16 @@
 			<artifactId>iidm-network-impl</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Temporal transitive dependencies -->
+        <dependency>
+            <groupId>eu.itesla_project</groupId>
+            <artifactId>graph</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+        </dependency>
 	</dependencies>
 </project>
 

@@ -207,7 +207,7 @@
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.2.0</version>
 					<configuration>
-						<repoToken>9R2QPTT2RxGGn7SCGoBz</repoToken>
+						<!--<repoToken>9R2QPTT2RxGGn7SCGoBz</repoToken>-->
 						<sourceDirectories>
 							<sourceDirectory>modelica-parser/target/generated-sources/antlr4</sourceDirectory>
 						</sourceDirectories>

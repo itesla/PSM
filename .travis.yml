@@ -12,4 +12,5 @@ jdk:
 # So we have decided to download from a Dropbox public folder and install them locally
 before_install:
   - ./download_and_install_libs
-  
+after_success:
+  - coveralls  

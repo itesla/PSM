@@ -28,16 +28,15 @@ public class OpenModelicaIntegrationTest {
 		String filterResVariables = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 		
 		Configuration config = setConfiguration(
-											DATA_TMP.toString(),
-											DATA_TEST.resolve("singlegen").resolve("library").toString(),
-											filterResVariables,
-											"dassl",
-											"0.0",
-											"1.0",
-											"0.000001",
-											"500",
-											"0.002",
-											"0.002");
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("singlegen").resolve("library").toString(),
+												filterResVariables,
+												"dassl",
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500"
+												);
 		
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
@@ -71,9 +70,7 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500",
-												"0.002",
-												"0.002"
+												"500"
 												);
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
@@ -105,9 +102,7 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500",
-												"0.002",
-												"0.002"
+												"500"
 												);
 									
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
@@ -139,9 +134,7 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500",
-												"0.002",
-												"0.002"
+												"500"
 												);
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
@@ -173,9 +166,7 @@ public class OpenModelicaIntegrationTest {
 				"0.0",
 				"1.0",
 				"0.000001",
-				"500",
-				"0.002",
-				"0.002"
+				"500"
 				);
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
@@ -199,9 +190,7 @@ public class OpenModelicaIntegrationTest {
 											String startTime,
 											String stopTime,
 											String tolerance,
-											String numOfIntervals,
-											String stepSize,
-											String intervalLength)
+											String numOfIntervalsPerSecond)
 	{
 		Configuration config = new Configuration();
 		config.setParameter("modelicaEngineWorkingDir", modelicaEngineWorkingDir);
@@ -213,9 +202,7 @@ public class OpenModelicaIntegrationTest {
 		config.setParameter("stopTime", stopTime);
 		config.setParameter("tolerance", tolerance);
 		
-		config.setParameter("numOfIntervals", numOfIntervals);
-		config.setParameter("stepSize", stepSize);
-		config.setParameter("intervalLength", intervalLength);
+		config.setParameter("numOfIntervals", numOfIntervalsPerSecond);
 	
 		return config;
 	}

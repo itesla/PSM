@@ -42,9 +42,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		this.stopTime			= Double.valueOf(Optional.ofNullable(config.getParameter("stopTime")).orElse("1.0"));
 		this.tolerance			= Double.valueOf(Optional.ofNullable(config.getParameter("tolerance")).orElse("0.0001"));
 		
-		this.numOfIntervals		= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervals")).orElse("500"));
-		this.stepSize			= Double.valueOf(Optional.ofNullable(config.getParameter("stepSize")).orElse("0.002")); 
-		this.intervalLength		= Double.valueOf(Optional.ofNullable(config.getParameter("intervalLength")).orElse("0.002"));
+		this.numOfIntervalsPerSecond	= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervalsPerSecond")).orElse("500"));
+		this.numOfIntervals				= (int) this.stopTime * this.numOfIntervalsPerSecond;
 	}
 
 	@Override
@@ -58,8 +57,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 			long startms = System.currentTimeMillis();
 
 			long endms = System.currentTimeMillis();
-			LOGGER.info(" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}.", 
-								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method,tolerance, stepSize);
+			LOGGER.info(" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}.", 
+								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance);
 			startms = System.currentTimeMillis();
 
 			try {
@@ -102,7 +101,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				// Simulate the model
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance); //FIXME pending to think about get only filtered variables
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance);
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
@@ -158,8 +157,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 			LOGGER.info(" {} - openmodelica simulation terminated - simulation time: {} ms.", workingDir, simulationTime);
 
 		} catch (Exception e) {
-			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}",
-					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method, tolerance, stepSize, e);
+			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}: {}",
+					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance, e);
 
 			throw new RuntimeException("openmodelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
@@ -174,8 +173,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		try {
 			long startms = System.currentTimeMillis();
 			long endms = System.currentTimeMillis();
-			LOGGER.info(" {} - openmodelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}.", 
-								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method,tolerance, stepSize);
+			LOGGER.info(" {} - openmodelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}.", 
+								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance);
 			startms = System.currentTimeMillis();
 
 			try {
@@ -218,7 +217,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				// Simulate the model
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance); //FIXME pending to think about get only filtered variables
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance); 
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
@@ -265,8 +264,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 			LOGGER.info(" {} - openmodelica simulation terminated - simulation time: {} ms.", workingDir, simulationTime);
 
 		} catch (Exception e) {
-			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, outputFixedStepSize:{}",
-					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervals, intervalLength, method, tolerance, stepSize, e);
+			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}: {}",
+					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance, e);
 
 			throw new RuntimeException("OpenModelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
@@ -426,9 +425,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private Path			workingDir;
 	private Path			omSimulationDir;
 	private String			method;
+	private int				numOfIntervalsPerSecond;
 	private int				numOfIntervals;
-	private double			stepSize;
-	private double			intervalLength;
 	private double			startTime;
 	private double			stopTime;
 	private double			tolerance;

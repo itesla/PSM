@@ -28,8 +28,7 @@ public interface SimulatorServer {
 																	int numberOfIntervals, 
 																	double outputInterval, 
 																	String method, 
-																	double tolerance, 
-																	double fixedstepsize, 
+																	double tolerance,  
 																	String resultsFileName, 
 																	String resultsVars,
 																	@XmlMimeType("application/octet-stream") DataHandler data);

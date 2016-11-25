@@ -119,8 +119,7 @@ public class SimulatorServerImpl implements SimulatorServer {
     						int numberOfIntervals, 
     						double outputInterval, 
     						String method, 
-    						double tolerance, 
-    						double fixedstepsize, 
+    						double tolerance,  
     						String resultsFileName, 
     						String resultVariables, 
     						@XmlMimeType("application/octet-stream") DataHandler data) {
@@ -140,12 +139,13 @@ public class SimulatorServerImpl implements SimulatorServer {
                 ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
             }
             long endms=System.currentTimeMillis();
-            LOGGER.info(" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, fixedstepsize:{}, resultsFileName:{}, input data unzipped in: {} ms.", workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,fixedstepsize,resultsFileName,(endms - startms));
+            LOGGER.info(" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.", 
+            			workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,resultsFileName,(endms - startms));
             startms=System.currentTimeMillis();
             if (fakeSourceDir==null) {
-                simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, fixedstepsize, resultsFileName, resultVariables);
+                simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables);
             } else {
-                simulateDymolaFake(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, fixedstepsize, resultsFileName, resultVariables);
+                simulateDymolaFake(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables);
             }
 
             endms=System.currentTimeMillis();
@@ -166,8 +166,8 @@ public class SimulatorServerImpl implements SimulatorServer {
             DataHandler outputFileDataHandler = new DataHandler(outDataSource);
             return outputFileDataHandler;
         } catch (Exception e) {
-            LOGGER.error(" {} - dymola simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, fixedstepsize:{}, resultsFileName:{}",
-                     workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,fixedstepsize,resultsFileName,e);
+            LOGGER.error(" {} - dymola simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, resultsFileName:{}",
+                     workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,resultsFileName,e);
 
             String errMessg=e.getMessage();
             errMessg=((errMessg != null) && (errMessg.length() > MSGERRLEN)) ? errMessg.substring(0, MSGERRLEN) +" ..." : errMessg;
@@ -185,7 +185,8 @@ public class SimulatorServerImpl implements SimulatorServer {
     }
 
     //testing only, get results for a precomputed simulation
-    protected void simulateDymolaFake(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String resultVariables) throws DymolaException {
+    protected void simulateDymolaFake(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, 
+    		int numberOfIntervals, double outputInterval, String method, double tolerance, String resultsFileName, String resultVariables) throws DymolaException {
         DymolaInterface dymola = null;
         int port = -1;
         try {
@@ -230,7 +231,9 @@ public class SimulatorServerImpl implements SimulatorServer {
     }
 
     
-    protected void simulateDymola(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, int numberOfIntervals, double outputInterval, String method, double tolerance, double fixedstepsize, String resultsFileName, String resultVariables) throws DymolaException {
+    protected void simulateDymola(String workingDirectory, String inputFileName, String problem, 
+    		double startTime, double stopTime, int numberOfIntervals, double outputInterval, 
+    		String method, double tolerance, String resultsFileName, String resultVariables) throws DymolaException {
     	
         DymolaInterface dymola = null;
         int port = -1;
@@ -266,8 +269,8 @@ public class SimulatorServerImpl implements SimulatorServer {
             	throw new RuntimeException("checkModel: " + dymola.getLastError());
             }
             
-            // Simulate the model         
-            result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, fixedstepsize, resultsFileName);
+            // Simulate the model
+            result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, 0, resultsFileName);
 
             if (!result) {
             	throw new RuntimeException("simulateModel: " + dymola.getLastError());

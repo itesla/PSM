@@ -42,9 +42,9 @@ public class DymolaEngine implements ModelicaEngine {
 		this.stopTime			= Double.valueOf(Optional.ofNullable(config.getParameter("stopTime")).orElse("1.0"));
 		this.tolerance			= Double.valueOf(Optional.ofNullable(config.getParameter("tolerance")).orElse("0.0001"));
 		
-		this.numOfIntervals		= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervals")).orElse("500"));
-		this.stepSize			= Double.valueOf(Optional.ofNullable(config.getParameter("stepSize")).orElse("0.002"));
-		this.intervalSize		= Double.valueOf(Optional.ofNullable(config.getParameter("intervalLength")).orElse("0.002"));
+		this.numOfIntervalsPerSecond	= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervalsPerSecond")).orElse("500"));
+		this.numOfIntervals				= (int) this.stopTime * this.numOfIntervalsPerSecond;
+		this.intervalSize				= this.stopTime / this.numOfIntervals;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class DymolaEngine implements ModelicaEngine {
 		
 		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 		
-		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numOfIntervals, stepSize, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
+		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numOfIntervals, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 		
 		String simResults = "";
@@ -84,7 +84,7 @@ public class DymolaEngine implements ModelicaEngine {
 		
 		prepareWorkingDirectory(modelicaPath, moFileName, modelName);
 		
-		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numOfIntervals, stepSize, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
+		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numOfIntervals, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 		
 		String simResults = "";
@@ -211,8 +211,8 @@ public class DymolaEngine implements ModelicaEngine {
 	private Path			workingDir;
 	private Path			dymSimulationDir;
 	private String			method;
+	private int				numOfIntervalsPerSecond;
 	private int				numOfIntervals;
-	private double			stepSize;
 	private double			intervalSize;
 	private double			startTime;
 	private double			stopTime;

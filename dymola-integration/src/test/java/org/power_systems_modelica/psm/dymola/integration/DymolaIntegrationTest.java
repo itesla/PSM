@@ -37,9 +37,7 @@ public class DymolaIntegrationTest {
 												"0.0", 
 												"1.0",
 												"0.000001", 
-												"500", 
-												"0.002", 
-												"0.002");
+												"500");
 
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
@@ -81,9 +79,8 @@ public class DymolaIntegrationTest {
 												"0.0", 
 												"1.0",
 												"0.000001", 
-												"500", 
-												"0.002", 
-												"0.002");
+												"500"
+												);
 
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
@@ -109,9 +106,7 @@ public class DymolaIntegrationTest {
 											String startTime, 
 											String stopTime, 
 											String tolerance, 
-											String numOfIntervals, 
-											String stepSize,
-											String intervalLength)
+											String numOfIntervals)
 	{
 		Configuration config = new Configuration();
 		config.setParameter("webService", webService);
@@ -125,8 +120,6 @@ public class DymolaIntegrationTest {
 		config.setParameter("tolerance", tolerance);
 
 		config.setParameter("numOfIntervals", numOfIntervals);
-		config.setParameter("stepSize", stepSize);
-		config.setParameter("intervalLength", intervalLength);
 
 		return config;
 	}

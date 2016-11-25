@@ -31,7 +31,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	@Override
 	public void configure(Configuration config) {
-		this.config				= config;
 		this.omc				= new OpenModelicaWrapper(OMWRAPPER_NAME);
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));	
@@ -162,116 +161,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 			throw new RuntimeException("openmodelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
-	}
-	
-	public Path simulateFake(Path modelicaPath) {
-		String modelFileName = modelicaPath.getFileName().toString();
-		String modelName = modelFileName.substring(0, modelFileName.indexOf("."));
-
-		prepareWorkingDirectoryFake(modelicaPath, modelFileName, modelName);
-
-		try {
-			long startms = System.currentTimeMillis();
-			long endms = System.currentTimeMillis();
-			LOGGER.info(" {} - openmodelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}.", 
-								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance);
-			startms = System.currentTimeMillis();
-
-			try {
-				Result result;
-
-				result = omc.clear();
-				if (!result.res.contains("true")) {
-					throw new RuntimeException("Clear : " + result.err.replace("\"", ""));
-				}
-
-				result = omc.cd("\"" + this.omSimulationDir.toString().replace("\\", "/") + "\"");
-				 if (result.err != null && !result.err.isEmpty()) {
-					if(result.err.contains("Warning")) LOGGER.warn(result.err.replace("\"", ""));
-					else throw new RuntimeException("Error setting the working directory " + omSimulationDir + ". " + result.err.replace("\"", ""));
-				 }
-				
-				result = omc.loadStandardLibrary();
-				if(result.err != null && !result.err.isEmpty()) {					
-					if(result.err.contains("Warning")) LOGGER.warn(result.err.replace("\"", ""));
-					else throw new RuntimeException("Error loading the standard library. " + result.err.replace("\"", ""));
-				}
-
-				//load to the engine all .mo files
-				try (DirectoryStream<Path> stream = Files.newDirectoryStream(omSimulationDir, "*.mo")) {
-					for(Path p : stream) {
-						result = omc.loadFile("\"" + p.getFileName().toString() + "\"");
-						if(result.err != null && !result.err.isEmpty()) {					
-							if(result.err.contains("Warning")) LOGGER.warn(result.err.replace("\"", ""));
-							else throw new RuntimeException("Error loading Modelica model: " + p.toFile().getName() + ". " + result.err.replace("\"", ""));
-						}						
-					}
-				} catch (IOException e) {
-					throw new RuntimeException("Error reading directory " + omSimulationDir +  ".", e);
-				}
-				
-				result = omc.checkModel(modelName);
-				if (result.err != null && !result.err.isEmpty()) {
-					if(result.err.contains("Warning")) LOGGER.warn(result.err.replace("\"", ""));
-					else throw new RuntimeException("Error checking model " + modelName + ". {" + result.err.replace("\"", "") + "}"); 
-				}
-				
-				// Simulate the model
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance); 
-				if(result.err != null && !result.err.isEmpty()) {
-					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
-					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
-				}
-				
-				String matResultsFile = modelName + "_res" + MAT_EXTENSION;
-				String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
-				
-				result = omc.readSimulationResultVars(matResultsFile);
-				if(result.err != null && !result.err.isEmpty()) {
-					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
-					else throw new RuntimeException("Error reading simulation results variables from " + matResultsFile + ". " + result.err.replace("\"", ""));
-				}
-				String res = result.res;
-				
-				List<String> allResultVariables = Arrays.asList(res.substring(1, res.length()-2).split(COMMA));
-				
-				String regex = "\"" + resultVariables + "\"";
-				Pattern pattern = Pattern.compile(regex);
-				List<String> filterResultVariables = allResultVariables.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
-				
-				filterResultVariables.add(0, "\"time\"");
-				
-				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
-
-				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
-					  	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize);
-				} catch (IOException e) {
-				    LOGGER.error("Error printing errors file. {}", e.getMessage());
-				    throw new RuntimeException("Error writing simulation results on CSV file - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
-				}
-			} finally {
-				//Delete all the C files created for the simulation
-				deleteSimulationFiles();
-				// The connection to OpenModelica is closed and OpenModelica is terminated
-				if (omc != null) {
-					omc.stopServer();
-				}
-				omc = null;
-			}
-
-			endms = System.currentTimeMillis();
-			long simulationTime = endms - startms;
-			LOGGER.info(" {} - openmodelica simulation terminated - simulation time: {} ms.", workingDir, simulationTime);
-
-		} catch (Exception e) {
-			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}: {}",
-					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance, e);
-
-			throw new RuntimeException("OpenModelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
-		}
-		//TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
-		readSimulationResults(modelName); 
-		return this.omSimulationDir;
 	}
 
 	@Override
@@ -421,7 +310,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		}
 	}
 	
-	private Configuration	config;
 	private Path			workingDir;
 	private Path			omSimulationDir;
 	private String			method;

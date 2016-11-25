@@ -30,7 +30,6 @@ public class DymolaEngine implements ModelicaEngine {
 
 	@Override
 	public void configure(Configuration config) {
-		this.config				= config;
 		this.wsdlService		= config.getParameter("webService");
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));
@@ -78,32 +77,6 @@ public class DymolaEngine implements ModelicaEngine {
         readSimulationResults(outputZipFileName, modelName);
 	}
 	
-	public Path simulateFake(Path modelicaPath) {
-		String moFileName = modelicaPath.getFileName().toString();
-		String modelName = moFileName.substring(0, moFileName.indexOf("."));
-		
-		prepareWorkingDirectory(modelicaPath, moFileName, modelName);
-		
-		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numOfIntervals, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
-		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
-		
-		String simResults = "";
-		try {
-			simResults = dymolaClient.runDymola(this.dymSimulationDir, inputZipFileName, outputZipFileName, moFileName, modelName, outputDymolaFileName);
-		} catch (InterruptedException e) {
-			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
-		}
-
-        try (PrintStream printStream = new PrintStream(Files.newOutputStream(this.dymSimulationDir.resolve(outputErrorsFileName)))) {
-            printStream.print(simResults);
-        } catch (IOException e) {
-            LOGGER.error("Error printing errors file. {}", e.getMessage());
-        }
-        
-        readSimulationResults(outputZipFileName, modelName);
-        return this.dymSimulationDir;
-	}
-
 	@Override
 	public void simulate(Collection<ModelicaDocument> mos) {
 		// Just as an exercise, do it in parallel
@@ -199,15 +172,11 @@ public class DymolaEngine implements ModelicaEngine {
             File f = entry.toFile();
             return f.getName().endsWith(MO_EXTENSION);
 		};
-		
-//		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.dymSimulationDir, this.workingDir, filesFilter);
+
 		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.dymSimulationDir, this.dymSimulationDir, filesFilter);
 		zipper.createZip();		
 	}
 
-	
-	
-	private Configuration	config;
 	private Path			workingDir;
 	private Path			dymSimulationDir;
 	private String			method;

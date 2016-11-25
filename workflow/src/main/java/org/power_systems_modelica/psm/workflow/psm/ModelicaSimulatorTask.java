@@ -30,9 +30,10 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		this.config = config;
 		source = config.getParameter("source");
 		if (source == null) source = "mo";
-		modelicaEngine	= Optional.ofNullable(config.getParameter("modelicaEngine")).orElse("OpenModelica");
-		
-		//TODO get Modelica Simulation engine parameters (method, tolerance, etc...) from task configuration
+		modelicaEngine = Optional.ofNullable(config.getParameter("modelicaEngine"))
+				.orElse("OpenModelica");
+
+		// TODO get Modelica Simulation engine parameters (method, tolerance, etc...) from task configuration
 	}
 
 	@Override
@@ -48,11 +49,16 @@ public class ModelicaSimulatorTask extends WorkflowTask
 			me.configure(config);
 			me.simulate(mo);
 			dynSimulationParams = me.getSimulationResults();
-			
-			publish(SCOPE_GLOBAL, "simres", dynSimulationParams.getValue(mo.getSystemModel().getName(), "simulation", "path"));
-			
+
+			publish(SCOPE_GLOBAL,
+					"simres",
+					dynSimulationParams.getValue(
+							mo.getSystemModel().getId(),
+							"simulation",
+							"path"));
+
 			succeded();
-			
+
 		}
 		catch (Exception x)
 		{

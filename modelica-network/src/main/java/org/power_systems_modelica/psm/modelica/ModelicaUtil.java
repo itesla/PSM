@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.modelica;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,8 @@ public class ModelicaUtil
 	public static List<ModelicaEquation> getInterconnections(
 			Map<String, ModelicaModel> dynamicModelsByStaticId)
 	{
+		if (!dynamicModelsByStaticId.containsKey(INTERCONNECTIONS_ID))
+			return Collections.<ModelicaEquation> emptyList();
 		return dynamicModelsByStaticId.get(INTERCONNECTIONS_ID).getEquations();
 	}
 
@@ -108,7 +111,13 @@ public class ModelicaUtil
 	private static String getNormalizedStaticId(ModelicaConnect eqc, int side, String dynamicId)
 	{
 		String id = null;
-		if (eqc.getAnnotation() != null) id = eqc.getAnnotation().getStaticId(side);
+		if (eqc.getAnnotation() != null)
+		{
+			// If the equation is an interconnection it will have two different staticIds
+			id = eqc.getAnnotation().getStaticId(side);
+			// If the equation is a connection inside components of the same dynamic model there is only one staticId
+			if (id == null) id = eqc.getAnnotation().getStaticId();
+		}
 		if (id == null) id = getStaticIdFromDynamicId(dynamicId);
 		if (id == null) id = SYSTEM_ID;
 		return normalizedIdentifier(id);

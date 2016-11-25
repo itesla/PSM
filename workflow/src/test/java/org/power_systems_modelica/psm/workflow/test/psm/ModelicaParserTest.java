@@ -2,14 +2,13 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -18,7 +17,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
-import org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil;
+import org.power_systems_modelica.psm.workflow.test.WorkflowModelicaTestUtil;
 
 public class ModelicaParserTest
 {
@@ -51,8 +50,6 @@ public class ModelicaParserTest
 		Path expected = folder.resolve(moInput);
 		Path actual = Paths.get(moOutput);
 
-		WorkflowTestUtil.assertEqualsModelicaText(
-				Files.newInputStream(expected),
-				Files.newInputStream(actual));
+		WorkflowModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 	}
 }

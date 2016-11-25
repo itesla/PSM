@@ -48,7 +48,7 @@ public class DymolaEngine implements ModelicaEngine {
 
 	@Override
 	public void simulate(ModelicaDocument mo) {
-		String modelName = mo.getSystemModel().getName();
+		String modelName = mo.getSystemModel().getId();
 		String moFileName = modelName + ".mo";
 		Path modelDirectory = Paths.get(moFileName);
 		
@@ -118,7 +118,7 @@ public class DymolaEngine implements ModelicaEngine {
 	}
 	
 	private void printModelicaDocument(ModelicaDocument mo, Path outputPath) {
-		String moFileName = mo.getSystemModel().getName() + ".mo";
+		String moFileName = mo.getSystemModel().getId() + ".mo";
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
 		{

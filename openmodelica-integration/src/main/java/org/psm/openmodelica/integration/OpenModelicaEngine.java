@@ -47,7 +47,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	@Override
 	public void simulate(ModelicaDocument mo) {
-		String modelName = mo.getSystemModel().getName();
+		String modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
 		
 		prepareWorkingDirectory(mo);
@@ -176,7 +176,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 	
 	private void printModelicaDocument(ModelicaDocument mo, Path outputPath) {
-		String moFileName = mo.getSystemModel().getName() + MO_EXTENSION;
+		String moFileName = mo.getSystemModel().getId() + MO_EXTENSION;
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
 		{
@@ -261,7 +261,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 	
 	private void prepareWorkingDirectory(ModelicaDocument mo) {
-		String modelName = mo.getSystemModel().getName();
+		String modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
 		Path modelicaPath = Paths.get(modelFileName);
 		

@@ -282,12 +282,12 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
-		String id = mo.getName();
+		String id = mo.getId();
 		String staticId = mo.getStaticId();
 		if (staticId == null)
 		{
 			String reason = "staticId is empty and we are trying to generalize a dynamic model so it is valid for an association";
-			LOG.warn("Ignored ModelicaModel {}: {}", mo.getName(), reason);
+			LOG.warn("Ignored ModelicaModel {}: {}", mo.getId(), reason);
 			return null;
 		}
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
@@ -354,7 +354,7 @@ public class DydFilesFromModelica
 		if (staticId == null)
 		{
 			String reason = "staticId is empty and we want to store parameters for a specific staticId";
-			LOG.warn("Ignored ModelicaModel {}: {}", mo.getName(), reason);
+			LOG.warn("Ignored ModelicaModel {}: {}", mo.getId(), reason);
 			return;
 		}
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
@@ -387,12 +387,12 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
-		String id = mo.getName();
+		String id = mo.getId();
 		String staticId = mo.getStaticId();
 		if (staticId == null)
 		{
 			String reason = "staticId is empty and we are trying to create a DYD item for a specific element";
-			LOG.warn("Ignored ModelicaModel {}: {}", mo.getName(), reason);
+			LOG.warn("Ignored ModelicaModel {}: {}", mo.getId(), reason);
 			return null;
 		}
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);

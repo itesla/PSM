@@ -20,7 +20,7 @@ public class ModelicaParserTest
 	{
 		ModelicaDocument mo = parse("mini.mo");
 
-		assertEquals("N44_h21", mo.getSystemModel().getName());
+		assertEquals("N44_h21", mo.getSystemModel().getId());
 		assertEquals(7, mo.getSystemModel().getDeclarations().size());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		assertEquals("bus__f17695ab_9aeb_11e5_91da_b8763fd99c5f",
@@ -32,7 +32,7 @@ public class ModelicaParserTest
 	public void testParserN44() throws FileNotFoundException, IOException
 	{
 		ModelicaDocument mo = parse("N44_h21.mo");
-		assertEquals("N44_h21", mo.getSystemModel().getName());
+		assertEquals("N44_h21", mo.getSystemModel().getId());
 		assertEquals(476, mo.getSystemModel().getDeclarations().size());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		assertEquals("bus__f17695ab_9aeb_11e5_91da_b8763fd99c5f",
@@ -50,7 +50,7 @@ public class ModelicaParserTest
 	public void testParseGenerator() throws FileNotFoundException, IOException
 	{
 		ModelicaDocument mo = parse("generator.mo");
-		assertEquals("one_generator", mo.getSystemModel().getName());
+		assertEquals("one_generator", mo.getSystemModel().getId());
 		assertEquals(3, mo.getSystemModel().getDeclarations().size());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		assertEquals("gen_pwGeneratorM2S__GEN____1_SM",
@@ -65,7 +65,7 @@ public class ModelicaParserTest
 		ModelicaDocument mo = parse("singlegen/itesla", "singlegen.mo");
 		Path output = Paths.get(System.getenv("PSM_DATA")).resolve("tmp").resolve("singlegen.mo");
 
-		assertEquals("singlegen", mo.getSystemModel().getName());
+		assertEquals("singlegen", mo.getSystemModel().getId());
 		assertEquals(3, mo.getSystemModel().getDeclarations().size());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		assertEquals("gen_pwGeneratorM2S__GEN____1_SM",

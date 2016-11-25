@@ -20,115 +20,108 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 
-public class ModelicaSimulatorTest {
+public class ModelicaSimulatorTest
+{
 
 	@Test
 	public void testSinglegen() throws WorkflowCreationException, IOException
 	{
-		if(!isOpenModelicaAvailable()) return; 
+		if (!isOpenModelicaAvailable()) return;
 		String varResults = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
-			
+
 		testBuild(
 				"singlegen",
 				"itesla/singlegen.mo",
 				"singlegen/library",
 				"OpenModelica",
-				varResults ,
-				null
-				);	
+				varResults,
+				null);
 	}
-	
+
 	@Test
 	public void testIeee14() throws WorkflowCreationException, IOException
 	{
-		if(!isOpenModelicaAvailable()) return; 
+		if (!isOpenModelicaAvailable()) return;
 		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
-		
+
 		testBuild(
 				"ieee14",
 				"itesla/ieee14bus.mo",
 				"library",
 				"OpenModelica",
 				varResults,
-				null
-				);
-		
+				null);
+
 	}
-	
+
 	@Test
 	public void testIeee30() throws WorkflowCreationException, IOException
 	{
-		if(!isOpenModelicaAvailable()) return; 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";		
-		
+		if (!isOpenModelicaAvailable()) return;
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
+
 		testBuild(
 				"ieee30",
 				"itesla/ieee30bus.mo",
 				"library",
 				"OpenModelica",
 				varResults,
-				null
-				);
+				null);
 	}
-	
-//	@Test
+
+	// @Test
 	public void testIeee57() throws WorkflowCreationException, IOException
 	{
-		if(!isOpenModelicaAvailable()) return; 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";		
-		
+		if (!isOpenModelicaAvailable()) return;
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
+
 		testBuild(
 				"ieee57",
 				"itesla/ieee57bus.mo",
 				"library",
 				"OpenModelica",
 				varResults,
-				null
-				);
+				null);
 	}
-	
-//	@Test
+
+	// @Test
 	public void testIeee118() throws WorkflowCreationException, IOException
 	{
-		if(!isOpenModelicaAvailable()) return; 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";		
-		
+		if (!isOpenModelicaAvailable()) return;
+		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
+
 		testBuild(
 				"ieee118",
 				"itesla/ieee118bus.mo",
 				"library",
 				"OpenModelica",
 				varResults,
-				null
-				);
+				null);
 	}
-	
+
 	public void testBuild(
-							String folderName,
-							String caseName,
-							String libFolderName,
-							String modelicaEngine,
-							String resultVariables,
-							String webService
-						) throws WorkflowCreationException, IOException
+			String folderName,
+			String caseName,
+			String libFolderName,
+			String modelicaEngine,
+			String resultVariables,
+			String webService) throws WorkflowCreationException, IOException
 	{
 		Path folder = TEST_SAMPLES.resolve(folderName);
 		Path modelicaEngineWorkingDir = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
 		Files.createDirectories(modelicaEngineWorkingDir);
 		Path libraryDir = TEST_SAMPLES.resolve(libFolderName);
 		String moInput = folder.resolve(caseName).toString();
-		
+
 		Workflow wf = WF(
 				TD(ModelicaParserTask.class, "moparser0",
-						TC("source", moInput
-							)),
+						TC("source", moInput)),
 				TD(ModelicaSimulatorTask.class, "dynamicsim0",
-						TC("source", "mo", 
-							"modelicaEngine", modelicaEngine,
-							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-							"libraryDir", libraryDir.toString(),
-							"resultVariables", resultVariables
-							)));
+						TC("source", "mo",
+								"modelicaEngine", modelicaEngine,
+								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+								"libraryDir", libraryDir.toString(),
+								"resultVariables", resultVariables)));
 
 		wf.start();
 
@@ -138,11 +131,11 @@ public class ModelicaSimulatorTest {
 
 		Path simPath = (Path) wf.getResults("simres");
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
-		String moName = mo.getSystemModel().getName();
+		String moName = mo.getSystemModel().getId();
 		assertTrue(Files.exists(simPath.resolve(moName + "_res.csv")));
 		assertTrue(Files.exists(simPath.resolve(moName + "_res.mat")));
 	}
-	
+
 	private boolean isOpenModelicaAvailable()
 	{
 		return Boolean.valueOf(System.getProperty("OpenModelicaAvailable"));

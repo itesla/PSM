@@ -35,7 +35,7 @@ public class FakeModelicaEngine implements ModelicaEngine
 	@Override
 	public void simulate(ModelicaDocument mo)
 	{
-		String moFilename = mo.getSystemModel().getName() + ".mo";
+		String moFilename = mo.getSystemModel().getId() + ".mo";
 		Path mof = workingDir.resolve(moFilename);
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(mof.toFile());)

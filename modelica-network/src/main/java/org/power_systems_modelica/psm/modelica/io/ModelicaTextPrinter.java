@@ -37,6 +37,7 @@ public class ModelicaTextPrinter
 		printSystemModelHeader(out);
 		printDeclarations(out);
 		printEquations(out);
+		// System level annotations only if we are including psm annotations
 		if (includePsmAnnotations) printAnnotations(out);
 		printSystemModelEnd(out);
 	}
@@ -81,7 +82,7 @@ public class ModelicaTextPrinter
 
 	private void printSystemModelHeader(PrintWriter out)
 	{
-		out.printf("model %s%n", mo.getSystemModel().getName());
+		out.printf("model %s%n", mo.getSystemModel().getId());
 	}
 
 	private void printDeclarations(PrintWriter out)
@@ -166,7 +167,7 @@ public class ModelicaTextPrinter
 		out.printf("equation%n");
 		for (ModelicaEquation eq : sortedEquations())
 		{
-			// out.printf("  // kind = %s%n", ModelicaTricks.normalizeKind(getKind(eq)));
+			// out.printf(" // kind = %s%n", ModelicaTricks.normalizeKind(getKind(eq)));
 			out.printf("  %s", eq.getText());
 			Annotation a = eq.getAnnotation();
 			if (a != null && !a.isEmpty())
@@ -184,7 +185,7 @@ public class ModelicaTextPrinter
 
 	private void printSystemModelEnd(PrintWriter out)
 	{
-		out.printf("end %s;%n", mo.getSystemModel().getName());
+		out.printf("end %s;%n", mo.getSystemModel().getId());
 	}
 
 	private ModelicaDocument	mo;

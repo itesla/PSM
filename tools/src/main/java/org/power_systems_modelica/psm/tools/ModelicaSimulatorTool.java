@@ -1,31 +1,18 @@
 package org.power_systems_modelica.psm.tools;
 
-import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
-import org.apache.commons.math3.stat.descriptive.SynchronizedDescriptiveStatistics;
 import org.power_systems_modelica.psm.commons.Configuration;
-import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
-import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
-import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineFactory;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
-import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
 import com.google.auto.service.AutoService;
 
 import eu.itesla_project.commons.tools.Command;
 import eu.itesla_project.commons.tools.Tool;
-import eu.itesla_project.iidm.network.Network;
-import eu.itesla_project.iidm.xml.NetworkXml;
 
 @AutoService(Tool.class)
 public class ModelicaSimulatorTool implements Tool

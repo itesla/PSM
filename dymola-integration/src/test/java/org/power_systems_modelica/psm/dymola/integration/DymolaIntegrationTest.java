@@ -43,13 +43,13 @@ public class DymolaIntegrationTest {
 		dymEngine.configure(config);
 		dymEngine.simulate(mo);
 
-		assertEquals("singlegen", mo.getSystemModel().getName());
+		assertEquals("singlegen", mo.getSystemModel().getId());
 		assertEquals(3, mo.getSystemModel().getDeclarations().size());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		assertEquals("gen_pwGeneratorM2S__GEN____1_SM", mo.getSystemModel().getDeclarations().get(1).getId());
 		assertEquals(4, mo.getSystemModel().getEquations().size());
 
-		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation",
+		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation",
 				"path");
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.csv")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.mat")));
@@ -86,10 +86,10 @@ public class DymolaIntegrationTest {
 		dymEngine.configure(config);
 		dymEngine.simulate(mo);
 
-		assertEquals("ieee14", mo.getSystemModel().getName());
+		assertEquals("ieee14", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 
-		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getName(), "simulation", "path");
+		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.csv")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_in.zip")));

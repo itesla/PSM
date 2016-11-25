@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,8 +58,11 @@ public class ModelicaBuilder
 
 	protected void addDynamicModel(ModelicaModel m)
 	{
+		Objects.requireNonNull(m.getId());
+		Objects.requireNonNull(m.getStaticId());
+
 		// Annotation common to all declarations and equations of this dynamic model
-		String refs = Annotation.writeIdStaticId(m.getName(), m.getStaticId());
+		String refs = Annotation.writeIdStaticId(m.getId(), m.getStaticId());
 
 		m.getDeclarations().forEach(d -> {
 			if (d.getAnnotation() == null)

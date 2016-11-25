@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ModelicaModel
 {
-	public ModelicaModel(String name)
+	public ModelicaModel(String id)
 	{
-		this.name = Objects.requireNonNull(name);
+		this.id = Objects.requireNonNull(id);
 	}
 
-	public String getName()
+	public String getId()
 	{
-		return name;
+		return id;
 	}
 
 	public void setStaticId(String staticId)
@@ -53,7 +54,16 @@ public class ModelicaModel
 	public void removeDeclarations(List<ModelicaDeclaration> declarations)
 	{
 		Objects.requireNonNull(declarations);
-		this.declarations.removeAll(declarations);
+		// Received declarations are not the same objects that are put inside the model
+		// Declarations inside the model have been re-created with references resolved
+		// We can not do:
+		// this.declarations.removeAll(declarations);
+		List<String> removeIds = declarations.stream()
+				.map(ModelicaDeclaration::getId)
+				.collect(Collectors.toList());
+		this.declarations = this.declarations.stream()
+				.filter(d -> !removeIds.contains(d.getId()))
+				.collect(Collectors.toList());
 	}
 
 	public void addEquations(List<ModelicaEquation> equations)
@@ -106,7 +116,7 @@ public class ModelicaModel
 
 	public ModelicaModel copy()
 	{
-		ModelicaModel m = new ModelicaModel(getName());
+		ModelicaModel m = new ModelicaModel(getId());
 		copy(this, m);
 		return m;
 	}
@@ -123,7 +133,7 @@ public class ModelicaModel
 		if (s.connectors != null) t.connectors = s.connectors.clone();
 	}
 
-	private final String				name;
+	private final String				id;
 
 	private String						staticId;
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();

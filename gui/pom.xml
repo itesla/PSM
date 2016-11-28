@@ -41,6 +41,11 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache.commonlang.version}</version>
+		</dependency>
+		<dependency>
 			<!-- modules is required for Hades integration (contains contingencies) -->
 			<groupId>eu.itesla_project</groupId>
 			<artifactId>commons</artifactId>

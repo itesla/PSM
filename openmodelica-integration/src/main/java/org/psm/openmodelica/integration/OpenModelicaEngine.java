@@ -99,8 +99,9 @@ public class OpenModelicaEngine implements ModelicaEngine {
 					else throw new RuntimeException("Error checking model " + modelName + ". {" + result.err.replace("\"", "") + "}"); 
 				}
 				
-				// Simulate the model
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance);
+				// Simulate the model 
+				//TODO PENDING logs to see details: LOG_EVENTS, LOG_EVENTS_V
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, "-lv LOG_INIT,LOG_SIMULATION,LOG_STATS");
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
@@ -137,6 +138,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				}
 				
+				//Create a .mat file with filtered variables.
 				result = omc.filterSimulationResults(matResultsFile, matResultsFileFiltered, filterResultVariables, resultSize);
 				
 //				TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
@@ -294,7 +296,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 	
 	private void deleteSimulationFiles() throws IOException {  
-		String[] filter = new String[]{MO_EXTENSION, MAT_EXTENSION, CSV_EXTENSION};
+		String[] filter = new String[]{MO_EXTENSION, MAT_EXTENSION, CSV_EXTENSION, LOG_EXTENSION};
 		List<String> filterList = Arrays.asList(filter);
 		
 		DirectoryStream.Filter<Path> filesFilter =  (entry)-> {
@@ -310,6 +312,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		}
 	}
 	
+
 	private Path			workingDir;
 	private Path			omSimulationDir;
 	private String			method;
@@ -331,6 +334,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private static final String			MO_EXTENSION			= ".mo";
 	private static final String			MAT_EXTENSION 			= ".mat";
 	private static final String			CSV_EXTENSION 			= ".csv";
+	private static final String			LOG_EXTENSION			= ".log";
 	private static final String			COMMA					= ",";
 	private static final Pattern		RESULTS_PATTERN			= Pattern.compile("(\\{[^\\{\\}]+\\})");
 	private static final String			NEW_LINE				= System.getProperty("line.separator").toString();

@@ -144,7 +144,7 @@ public class OpenModelicaWrapper extends SmartProxy {
 	 * @return
 	 * @throws ConnectException
 	 */
-	public Result simulate(String modelName, double tstart, double tstop, int numberOfIntervals, String method, double tolerance) throws ConnectException
+	public Result simulate(String modelName, double tstart, double tstop, int numberOfIntervals, String method, double tolerance, String simFlags) throws ConnectException
 	{		
 		return sendExpression(new StringBuffer().append("simulate(").append(modelName)
 												.append(", startTime=").append(tstart)
@@ -152,6 +152,7 @@ public class OpenModelicaWrapper extends SmartProxy {
 												.append(", numberOfIntervals=").append(numberOfIntervals)
 												.append(", method=").append(method)
 												.append(", tolerance=").append(tolerance)
+												.append(", simflags=\"").append(simFlags).append("\"")
 												.append(")").toString());
 	}
 	
@@ -245,6 +246,14 @@ public class OpenModelicaWrapper extends SmartProxy {
 				.append(", ").append(resultSize)
 				.append(")").toString());
 	}
+	
+	public Result echo(boolean echoEnabled) throws ConnectException {
+		return sendExpression(new StringBuilder().append("echo(")
+														.append(echoEnabled)
+														.append(")")
+														.toString());
+	}
+
 	
 	private boolean	systemLibraryLoaded		= false;
 }

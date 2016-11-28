@@ -290,6 +290,11 @@
                 <version>${commonsmath3.version}</version>
             </dependency>
 			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commonlang.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>net.sf.supercsv</groupId>
 				<artifactId>super-csv</artifactId>
 				<version>${supercsv.version}</version>

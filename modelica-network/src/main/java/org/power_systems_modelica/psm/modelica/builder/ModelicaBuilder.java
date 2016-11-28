@@ -97,7 +97,7 @@ public class ModelicaBuilder
 		mo.getSystemModel().removeEquations(m.getEquations());
 		mo.getSystemModel().removeDeclarations(m.getDeclarations());
 		mo.getSystemModel().removeAnnotations(m.getAnnotations());
-		
+
 		// Also remove system annotations that are related to this dynamic model identifier
 		String mid = m.getId();
 		Set<Annotation> sas = mo.getSystemModel().getAnnotations().stream()
@@ -170,17 +170,22 @@ public class ModelicaBuilder
 			ModelicaModel m,
 			ModelicaDocument mo)
 	{
+		Objects.requireNonNull(target);
 		String atarget[] = target.split(":");
-		String resolver = atarget[0];
-		String item = atarget[1];
-		String pin = atarget.length > 2 ? atarget[2] : "";
-
-		ReferenceResolver r = referenceResolvers.get(resolver);
+		String dataSource = atarget[0];
+		ReferenceResolver r = referenceResolvers.get(dataSource);
 		if (r == null)
 		{
-			LOG.warn("No resolver found for connection target on data source {}", resolver);
+			LOG.warn("No resolver found for connector with data source {}", dataSource);
 			return Optional.empty();
 		}
+		if (atarget.length < 2)
+		{
+			LOG.warn("No item was specified for connector with data source {}", dataSource);
+			return Optional.empty();
+		}
+		String item = atarget[1];
+		String pin = atarget.length > 2 ? atarget[2] : "";
 
 		return r.resolveConnectionTarget(item, pin, m);
 	}
@@ -267,7 +272,7 @@ public class ModelicaBuilder
 	}
 
 	private ModelicaDocument						mo;
-	private Map<String, ModelicaModel>				dynamicModelsByStaticId;
+	protected Map<String, ModelicaModel>			dynamicModelsByStaticId;
 	private final Map<String, ReferenceResolver>	referenceResolvers	= new HashMap<>();
 
 	private static final Logger						LOG					= LoggerFactory

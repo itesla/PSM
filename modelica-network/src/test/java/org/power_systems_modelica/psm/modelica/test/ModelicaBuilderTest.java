@@ -7,16 +7,20 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaBuilder;
@@ -66,7 +70,7 @@ public class ModelicaBuilderTest
 	@Test
 	public void testGroupingModels()
 	{
-		MoBuilder mob = new MoBuilder("simple");
+		MoBuilder mob = new MoBuilder("grouping");
 		ModelicaModel[] models = {
 				simpleModelForStaticId("1"),
 				simpleModelForStaticId("2") };
@@ -83,6 +87,54 @@ public class ModelicaBuilderTest
 			ModelicaModel gm = gmodels.get(m.getStaticId());
 			assertSameDeclarationsAndEquations(m, gm);
 		}
+	}
+
+	@Test
+	public void testConnectors()
+	{
+		MoBuilder mob = new MoBuilder("connectors");
+		String id1 = "1";
+		String id2 = "2";
+		ModelicaModel[] models = {
+				simpleModelForStaticId(id1),
+				simpleModelForStaticId(id2) };
+		for (ModelicaModel m : models)
+			mob.addModel(m);
+		String did1 = models[0].getId();
+		String did2 = models[1].getId();
+
+		models[0].setConnectors(simpleConnector(did1, id2));
+		models[1].setConnectors(simpleConnector(did2, id1));
+		mob.addInterconnections();
+
+		Map<String, ModelicaModel> gmodels = ModelicaUtil.groupByNormalizedStaticId(mob.getDoc());
+		// Number of expected models is the number of models we have added plus one for the interconnections
+		boolean hasInterconnections = true;
+		int expectedNumGroupedModels = models.length + (hasInterconnections ? 1 : 0);
+		assertEquals(expectedNumGroupedModels, gmodels.keySet().size());
+
+		for (ModelicaModel m : models)
+		{
+			ModelicaModel gm = gmodels.get(m.getStaticId());
+			assertSameDeclarationsAndEquations(m, gm);
+		}
+
+		// Check interconnections
+		List<ModelicaEquation> icnx = ModelicaUtil.getInterconnections(gmodels);
+		System.out.println("Interconnections");
+		icnx.forEach(eq -> {
+			ModelicaConnect eqc = (ModelicaConnect) eq;
+			System.out.printf("    %s - %s%n", eqc.getRef1(), eqc.getRef2());
+		});
+		assertEquals(2, icnx.size());
+		String ref1 = ModelicaUtil.idvar2ref(idFor("DM", "1"), "p");
+		String ref2 = ModelicaUtil.idvar2ref(idFor("DM", "2"), "p");
+		ModelicaConnect eq21 = (ModelicaConnect) icnx.get(0);
+		ModelicaConnect eq12 = (ModelicaConnect) icnx.get(1);
+		assertEquals(ref2, eq21.getRef1());
+		assertEquals(ref1, eq21.getRef2());
+		assertEquals(ref1, eq12.getRef1());
+		assertEquals(ref2, eq12.getRef2());
 	}
 
 	private void assertSameDeclarationsAndEquations(ModelicaModel expected, ModelicaModel actual)
@@ -124,7 +176,8 @@ public class ModelicaBuilderTest
 				isparamc1a,
 				annotationc1a));
 		List<ModelicaArgument> paramsc1b = new ArrayList<>();
-		paramsc1b.add(new ModelicaArgumentReference("cb_p0", "REFS", idFor("cb_p0", staticId)));
+		paramsc1b.add(new ModelicaArgumentReference("cb_p0", DATA_SOURCE_PARAMS,
+				idFor("cb_p0", staticId)));
 		boolean isparamc1b = false;
 		Annotation annotationc1b = null;
 		m.addDeclaration(new ModelicaDeclaration(
@@ -140,6 +193,13 @@ public class ModelicaBuilderTest
 		return m;
 	}
 
+	private List<ModelicaConnector> simpleConnector(String sourceId, String targetId)
+	{
+		String target = DATA_SOURCE_ICNXS.concat(":").concat(targetId);
+		ModelicaConnector cnx = new ModelicaConnector(sourceId, "p", target);
+		return Arrays.asList(cnx);
+	}
+
 	private String idFor(String baseId, String staticId)
 	{
 		return baseId.concat("_").concat(staticId);
@@ -150,7 +210,7 @@ public class ModelicaBuilderTest
 		MoBuilder(String name)
 		{
 			createModelicaDocument(name);
-			registerResolver("REFS", new ReferenceResolver()
+			registerResolver(DATA_SOURCE_PARAMS, new ReferenceResolver()
 			{
 				@Override
 				public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
@@ -163,6 +223,34 @@ public class ModelicaBuilderTest
 						return Math.E;
 					}
 					return null;
+				}
+			});
+			registerResolver(DATA_SOURCE_ICNXS, new ReferenceResolver()
+			{
+				@Override
+				public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
+				{
+					throw new RuntimeException("Resolver only for conecctions");
+				}
+
+				@Override
+				public Optional<ModelicaConnector> resolveConnectionTarget(
+						String targetItem,
+						String targetPin,
+						ModelicaModel sourceModel)
+				{
+					ModelicaModel targetModel = dynamicModelsByStaticId.get(targetItem);
+					if (targetModel == null)
+						throw new RuntimeException("Target model not found ".concat(targetItem));
+					ModelicaConnector[] cnxs = targetModel.getConnectors();
+					if (cnxs == null || cnxs.length < 1)
+						throw new RuntimeException("Target model does not have connectors");
+
+					// All resolved connectors receive a proper staticId
+					// FIXME Maybe the connectors should already have its staticId set ???
+					cnxs[0].setStaticId(targetModel.getStaticId());
+
+					return Optional.of(cnxs[0]);
 				}
 			});
 		}
@@ -182,6 +270,11 @@ public class ModelicaBuilderTest
 			removeDynamicModel(m);
 		}
 
+		public void addInterconnections()
+		{
+			super.addInterconnections();
+		}
+
 		public void print(Path path) throws Exception
 		{
 			ModelicaTextPrinter mop = new ModelicaTextPrinter(getDoc());
@@ -193,7 +286,10 @@ public class ModelicaBuilderTest
 		}
 	}
 
-	public static final Path DATA_TMP = Paths
+	private static final String	DATA_SOURCE_PARAMS	= "PARAMS";
+	private static final String	DATA_SOURCE_ICNXS	= "ICNXS";
+
+	public static final Path	DATA_TMP			= Paths
 			.get(System.getenv("PSM_DATA"))
 			.resolve("tmp");
 }

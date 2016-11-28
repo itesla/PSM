@@ -4,12 +4,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +22,7 @@ import org.mockito.Mockito;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -28,9 +34,6 @@ import eu.itesla_project.iidm.network.Identifiable;
 
 public class DynamicDataRepositoryTest
 {
-	private static final Path TEST_SAMPLES = Paths.get(System.getenv("PSM_DATA"))
-			.resolve("test");
-
 	@Before
 	public void setup()
 	{
@@ -76,7 +79,8 @@ public class DynamicDataRepositoryTest
 		// Only check parameters for first declaration
 		List<ModelicaArgument> as = ds.get(0).getArguments();
 		List<String> ans = as.stream().map(a -> a.getName()).collect(Collectors.toList());
-		List<String> avs = as.stream().map(a -> a.getValue().toString()).collect(Collectors.toList());
+		List<String> avs = as.stream().map(a -> a.getValue().toString())
+				.collect(Collectors.toList());
 		List<String> eans = Arrays.asList(
 				"mD0Pu",
 				"rQ1Pu",
@@ -161,4 +165,64 @@ public class DynamicDataRepositoryTest
 		assertEquals("VR_CIVAU7CIVAU1_NGU_SM.QsPU", eq2.getRef1());
 		assertEquals("M1S_CIVAU7CIVAU1_NGU_SM.Qs", eq2.getRef2());
 	}
+
+	@Test
+	public void testIeee14() throws ConnectionException
+	{
+		testIeee("ieee14");
+	}
+
+	@Test
+	public void testIeee30() throws ConnectionException
+	{
+		testIeee("ieee30");
+	}
+
+	@Test
+	public void testIeee57() throws ConnectionException
+	{
+		testIeee("ieee57");
+	}
+
+	@Test
+	public void testIeee118() throws ConnectionException
+	{
+		testIeee("ieee118");
+	}
+
+	private void testIeee(String case_) throws ConnectionException
+	{
+		String location = TEST_SAMPLES.resolve(case_).resolve("ddr").toString();
+		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", location);
+		ddr.connect();
+		Collection<String> events = ddr.getEvents();
+		assertTrue(5 < events.size());
+		assertTrue(events.contains("BusFault"));
+		assertTrue(events.contains("LineFault"));
+		// Check that all parameters that are references to EVENT data source have units
+		events.forEach(
+				e -> ddr.getEventParameters(e)
+						.forEach(p -> {
+							assertTrue(p.getUnit() != null && !p.getUnit().equals(""));
+						}));
+	}
+
+	@Test
+	public void testXmlReadWrite() throws ConnectionException, XMLStreamException, IOException
+	{
+		String location = TEST_SAMPLES.resolve("12n").resolve("BDD").toString();
+		DynamicDataRepository ddr0 = DynamicDataRepositoryMainFactory.create("DYD", location);
+		assertTrue(ddr0 instanceof DynamicDataRepositoryDydFiles);
+		DynamicDataRepositoryDydFiles ddr = (DynamicDataRepositoryDydFiles) ddr0;
+		ddr.connect();
+		ddr.setLocation(DATA_TMP.resolve("dyd-write").toString());
+		ddr.write();
+
+		// XXX PENDING check files have written correctly (read from new location and compare?)
+		
+	}
+
+	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));
+	private static final Path	TEST_SAMPLES	= DATA.resolve("test");
+	private static final Path	DATA_TMP		= DATA.resolve("tmp");
 }

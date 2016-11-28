@@ -60,6 +60,11 @@ public class SystemDefinitions implements DydContent
 		return equations;
 	}
 
+	public boolean isEmpty()
+	{
+		return declarations.isEmpty() && equations.isEmpty();
+	}
+
 	String						name;
 	List<ModelicaDeclaration>	declarations;
 	List<Equation>				equations;

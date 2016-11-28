@@ -312,7 +312,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		{
 			DydContent dyd = DydXml.read(file);
 			if (dyd == null) return;
-			String name = file.getFileName().toString().replace(".dyd", "");
+			Path rfile = location.relativize(file);
+			String name = rfile.toString().replace(".dyd", "");
 			dyd.setName(name);
 
 			if (dyd instanceof ModelContainer)
@@ -385,15 +386,21 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Path f;
 
 		// Write all model containers, all model initialization containers and all parameter set containers
-		f = fileForDydContent(systemDefinitions);
-		DydXml.write(f, systemDefinitions);
+		if (!systemDefinitions.isEmpty())
+		{
+			f = ensureFile(fileForDydContent(systemDefinitions));
+			DydXml.write(f, systemDefinitions);
+		}
 		for (ModelContainer mc : modelContainers.values())
 		{
-			f = fileForDydContent(mc);
+			f = ensureFile(fileForDydContent(mc));
 			DydXml.write(f, mc);
 		}
 		for (ParameterSetContainer pc : parameters.getContainers())
-			ParXml.write(location.resolve(pc.getName()), pc);
+		{
+			f = ensureFile(location.resolve(pc.getName()));
+			ParXml.write(f, pc);
+		}
 	}
 
 	public void addSystemDeclarations(List<ModelicaDeclaration> declarations)
@@ -457,6 +464,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		String name = dyd.getName();
 		Objects.requireNonNull(name);
 		return location.resolve(name + ".dyd");
+	}
+
+	private Path ensureFile(Path f)
+	{
+		f.toFile().getParentFile().mkdirs();
+		return f;
 	}
 
 	private Path						location;

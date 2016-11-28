@@ -477,7 +477,9 @@ public class DydFilesFromModelica
 			p = checkInitializationReference(a);
 			if (p == null) p = checkIidmReference(stype, a);
 			String defaultType = null;
-			if (p == null) p = new ParameterValue(defaultType, a.getName(), a.getValue());
+			String defaultUnit = null;
+			if (p == null)
+				p = new ParameterValue(defaultType, defaultUnit, a.getName(), a.getValue());
 			params.add(p);
 		}
 		return params;
@@ -488,7 +490,8 @@ public class DydFilesFromModelica
 		if (a.getName().startsWith("init_"))
 		{
 			String sname = a.getName().replace("init_", "");
-			return new ParameterReference(a.getName(), "INIT", sname);
+			String defaultUnit = null;
+			return new ParameterReference(a.getName(), defaultUnit, "INIT", sname);
 		}
 		return null;
 	}
@@ -497,7 +500,10 @@ public class DydFilesFromModelica
 	{
 		String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
 		if (iidmAttribute != null)
-			return new ParameterReference(a.getName(), "IIDM", iidmAttribute);
+		{
+			String defaultUnit = null;
+			return new ParameterReference(a.getName(), defaultUnit, "IIDM", iidmAttribute);
+		}
 		return null;
 	}
 

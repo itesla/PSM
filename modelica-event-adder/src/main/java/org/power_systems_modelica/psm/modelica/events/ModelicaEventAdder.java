@@ -49,7 +49,8 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 			LOG.warn("No dynamic model found for event {}", ev.getId());
 			return;
 		}
-		registerResolver("EVENT", new MapReferenceResolver(ev.getParameters()));
+		registerResolver(DynamicDataRepository.EVENT_PARAMS_DATA_SOURCE,
+				new MapReferenceResolver(ev.getParameters()));
 
 		Injection injection = getDdr().getInjectionForEvent(ev.getId());
 		switch (injection)
@@ -66,7 +67,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 			break;
 		}
 
-		removeResolver("EVENT");
+		removeResolver(DynamicDataRepository.EVENT_PARAMS_DATA_SOURCE);
 	}
 
 	private final ModelicaDocument	original;

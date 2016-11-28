@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.ddr.dyd;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +31,11 @@ public class ModelProvider
 	public ModelForEvent getModelForEvent(String e)
 	{
 		return dynamicModelsForEvent.get(e);
+	}
+
+	public Collection<String> getEvents()
+	{
+		return dynamicModelsForEvent.keySet();
 	}
 
 	public Optional<Model> getDynamicModelForId(String id)

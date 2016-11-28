@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.ddr;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -34,7 +35,9 @@ public interface DynamicDataRepository
 
 	Injection getInjectionForEvent(String id);
 
-	List<String> getEvents();
-	
+	Collection<String> getEvents();
+
 	List<EventParameter> getEventParameters(String event);
+
+	public static final String EVENT_PARAMS_DATA_SOURCE = "EVENT";
 }

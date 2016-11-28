@@ -10,12 +10,15 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -142,44 +145,45 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public List<String> getEvents() {
-		
-		List<String> expectedEvents = Arrays.asList(
-				"BusFault",
-				"LineFault",
-				"LineOpenReceiverSide",
-				"LineOpenBothSides",
-				"BankModification",
-				"LoadVariation");
-		
-		return expectedEvents;
+	public Collection<String> getEvents()
+	{
+		// Return a sorted set of events found in the model provider
+		Set<String> events = new TreeSet<>();
+		events.addAll(dynamicModels.getEvents());
+		return events;
 	}
-	
+
 	@Override
-	public List<EventParameter> getEventParameters(String event) {
-		
-		List<EventParameter> expectedParameters = null;
-		
-		if (event.equals("BusFault")){
-			expectedParameters = Arrays.asList(
-				new EventParameter("R","pu"),
-				new EventParameter("X","pu"),
-				new EventParameter("t1","s"),
-				new EventParameter("t2","s"));
+	public List<EventParameter> getEventParameters(String event)
+	{
+		ModelForEvent m = dynamicModels.getModelForEvent(event);
+		if (m == null)
+		{
+			LOG.warn("Event definition not found {}", event);
+			return Collections.emptyList();
 		}
-		else if (event.equals("LineFault")) {
-			expectedParameters = Arrays.asList(
-				new EventParameter("k","pu"),
-				new EventParameter("Rfault","pu"),
-				new EventParameter("Xfault","pu"),
-				new EventParameter("startTime","s"),
-				new EventParameter("endTime","s"));
-		}
-		else {
-			expectedParameters = Arrays.asList();
-		}
-		
-		return expectedParameters;
+
+		// If the model contains more than one component, qualify the names of the parameters
+		boolean qualifyParameterNames = m.getComponents().size() > 1;
+		List<EventParameter> eventParams = new ArrayList<>(m.getComponents().size() * 5);
+		m.getComponents().forEach(c -> {
+			String cn = c.getName();
+			ParameterSet pset = c.getParameterSet();
+			// Lets say that parameters for events should be define in-line, no external references are allowed
+			if (pset == null) return;
+			pset.getParameters().stream()
+					// Consider only the parameters of the model components that are references to EVENT data
+					.filter(p -> p instanceof ParameterReference)
+					.filter(p -> ((ParameterReference) p).getDataSource()
+							.equals(EVENT_PARAMS_DATA_SOURCE))
+					.forEach(p -> {
+						String pn = p.getName();
+						String name = qualifyParameterNames ? cn.concat(pn) : pn;
+						String unit = p.getUnit() != null ? p.getUnit() : "";
+						eventParams.add(new EventParameter(name, unit));
+					});
+		});
+		return eventParams;
 	}
 
 	public void setSystemDefinitionsName(String systemName)
@@ -454,8 +458,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Objects.requireNonNull(name);
 		return location.resolve(name + ".dyd");
 	}
-	
-	
 
 	private Path						location;
 	private Map<String, ModelContainer>	modelContainers;

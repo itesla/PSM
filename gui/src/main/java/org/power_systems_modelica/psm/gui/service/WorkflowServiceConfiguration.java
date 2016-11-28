@@ -31,7 +31,6 @@ import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
 import org.power_systems_modelica.psm.workflow.Workflow;

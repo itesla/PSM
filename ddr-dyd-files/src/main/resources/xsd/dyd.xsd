@@ -193,11 +193,13 @@
 	<xs:complexType name="ParameterValue">
 		<xs:attribute name="type" use="optional" type="dyd:ValueType"
 			default="STRING" />
+		<xs:attribute name="unit" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
 		<xs:attribute name="value" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="ParameterReference">
 		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="unit" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="dataSource" use="required" type="dyd:DataSource" />
 		<xs:attribute name="sourceName" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>

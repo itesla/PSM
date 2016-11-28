@@ -1,29 +1,23 @@
 package org.power_systems_modelica.psm.ddr;
 
-public class EventParameter {
-
-	public EventParameter(String name, String unit) {
-		super();
+public class EventParameter
+{
+	public EventParameter(String name, String unit)
+	{
 		this.name = name;
 		this.unit = unit;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getUnit() {
+	public String getUnit()
+	{
 		return unit;
 	}
 
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-
-	private String name;
-	private String unit;
+	private final String	name;
+	private final String	unit;
 }

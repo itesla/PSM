@@ -15,13 +15,15 @@ public class ParameterReferenceXml
 		String name = r.getAttributeValue(null, "name");
 		String dataSource = r.getAttributeValue(null, "dataSource");
 		String sourceName = r.getAttributeValue(null, "sourceName");
-		return new ParameterReference(name, dataSource, sourceName);
+		String unit = r.getAttributeValue(null, "unit");
+		return new ParameterReference(name, unit, dataSource, sourceName);
 	}
 
 	public static void write(XMLStreamWriter w, ParameterReference p) throws XMLStreamException
 	{
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
 		w.writeAttribute("name", p.getName());
+		if (p.getUnit() != null) w.writeAttribute("unit", p.getUnit());
 		w.writeAttribute("dataSource", p.getDataSource());
 		w.writeAttribute("sourceName", p.getSourceName());
 	}

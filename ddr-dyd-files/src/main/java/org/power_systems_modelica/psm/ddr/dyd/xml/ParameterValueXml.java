@@ -15,13 +15,15 @@ public class ParameterValueXml
 		String type = r.getAttributeValue(null, "type");
 		String name = r.getAttributeValue(null, "name");
 		String value = r.getAttributeValue(null, "value");
-		return new ParameterValue(type, name, value);
+		String unit = r.getAttributeValue(null, "unit");
+		return new ParameterValue(type, unit, name, value);
 	}
 
 	public static void write(XMLStreamWriter w, ParameterValue p) throws XMLStreamException
 	{
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
 		if (p.getType() != null) w.writeAttribute("type", p.getType());
+		if (p.getUnit() != null) w.writeAttribute("unit", p.getUnit());
 		w.writeAttribute("name", p.getName());
 		// FIXME Proper serialization of p.getValue()
 		w.writeAttribute("value", p.getValue().toString());

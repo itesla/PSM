@@ -19,7 +19,7 @@ public class TaskService {
 
 	public static Task createTask(Workflow w, InitCompletionHandler initCompletionHandler) {
 
-		WorkflowTask task = new WorkflowTask(w);
+		WorkflowService task = new WorkflowService(w);
 
 		task.stateProperty().addListener((observableValue, oldState, newState) -> {
 

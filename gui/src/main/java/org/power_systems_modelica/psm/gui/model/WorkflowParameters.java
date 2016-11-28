@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
-import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 
 public class WorkflowParameters implements Serializable {
 	

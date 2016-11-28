@@ -50,26 +50,32 @@ public abstract class WorkflowTask
 	protected void running()
 	{
 		state = RUNNING;
-		workflow.updateState(this.id, state);
+		workflow.updateState(this.id, this.getName(), state);
 	}
 
 	protected void succeded()
 	{
 		state = SUCCESS;
-		workflow.updateState(this.id, state);
+		workflow.updateState(this.id, this.getName(), state);
 	}
 
 	protected void failed()
 	{
 		state = FAILED;
-		workflow.updateState(this.id, state);
+		workflow.updateState(this.id, this.getName(), state);
 	}
 
 	protected void failed(Exception x)
 	{
 		LOG.error("Workflow task {} failed", this.id, x);
 		state = FAILED;
-		workflow.updateState(this.id, state);
+		workflow.updateState(this.id, this.getName(), state);
+	}
+
+	protected void progress(String info)
+	{
+		LOG.debug("Workflow task {} info", this.id, info);
+		workflow.updateProgress(this.id, info);
 	}
 
 	protected void publish(Workflow.ResultsScope scope, String resultsId, Object results)

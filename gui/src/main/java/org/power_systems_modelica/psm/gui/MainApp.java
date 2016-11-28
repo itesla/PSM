@@ -10,9 +10,9 @@ import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
 import org.power_systems_modelica.psm.gui.service.TaskService;
-import org.power_systems_modelica.psm.gui.service.WorkflowService;
-import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
-import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
@@ -27,6 +27,9 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 import eu.itesla_project.iidm.network.Network;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -46,6 +49,7 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Power Systems on Modelica");
 
+		System.out.println(Arrays.toString(javafx.scene.text.Font.getFamilies().toArray()));
 		initRootLayout();
 
 		showMenuLayout();
@@ -318,30 +322,30 @@ public class MainApp extends Application {
 	}
 
 	public ObservableList<EventParamGui> getEventParams(String event) {
-		return WorkflowService.getEventParams(event);
+		return WorkflowServiceConfiguration.getEventParams(event);
 	}
 
 	public Workflow getWorkflow() {
-		return WorkflowService.getWorkflow();
+		return WorkflowServiceConfiguration.getWorkflow();
 	}
 
 	public ObservableList getLoadflowEngines() {
-		return WorkflowService.getLoadflowEngines();
+		return WorkflowServiceConfiguration.getLoadflowEngines();
 	}
 
 	public ObservableList getDsEngines() {
-		return WorkflowService.getDsEngines();
+		return WorkflowServiceConfiguration.getDsEngines();
 	}
 
 	public ObservableList getActionEvents(Ddr ddr) {
-		return WorkflowService.getActionEvents(ddr);
+		return WorkflowServiceConfiguration.getActionEvents(ddr);
 	}
 
 	public void startWorkflow(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
 			ObservableList events, DsEngine dse, String stopTime) {
 
 		try {
-			Workflow w = WorkflowService.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
+			Workflow w = WorkflowServiceConfiguration.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
 			wTask = TaskService.createTask(w, () -> showWorkflowDetailView());
 			showWorkflowStatusView(w, true);
 			TaskService.startTask(wTask);
@@ -352,17 +356,17 @@ public class MainApp extends Application {
 	}
 
 	public WorkflowResult getWorkflowResult(String name) {
-		return WorkflowService.getWorkflowResult(name);
+		return WorkflowServiceConfiguration.getWorkflowResult(name);
 	}
 
 	public Workflow getCompareLoadflows() {
-		return WorkflowService.getCompareLoadflow();
+		return WorkflowServiceConfiguration.getCompareLoadflow();
 	}
 
 	public void startCompareLoadflows(Case cs, boolean generatorsReactiveLimits) {
 
 		try {
-			Workflow w = WorkflowService.createCompareLoadflows(cs, generatorsReactiveLimits);
+			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, generatorsReactiveLimits);
 			clTask = TaskService.createTask(w, () -> showCompareLoadflowsDetailView());
 			showWorkflowStatusView(w, false);
 			TaskService.startTask(clTask);
@@ -373,7 +377,7 @@ public class MainApp extends Application {
 	}
 
 	public WorkflowResult getCompareLoadflowsResult(String name) {
-		return WorkflowService.getCompareLoadflowsResult(name);
+		return WorkflowServiceConfiguration.getCompareLoadflowsResult(name);
 	}
 
 	public static void main(String[] args) {

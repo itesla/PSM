@@ -43,6 +43,11 @@
 	-fx-padding: 5
 }
 
+/* progressLog */
+.treeViewItem {
+	-fx-font-family: 'monospace';
+}
+
 /* tab pane header color */
 .tab-pane  .tab-header-area .tab-header-background {
 	-fx-background-color: white;

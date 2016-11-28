@@ -1,408 +1,159 @@
 package org.power_systems_modelica.psm.gui.service;
 
-import static org.power_systems_modelica.psm.workflow.Workflow.TC;
-import static org.power_systems_modelica.psm.workflow.Workflow.TD;
-import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BinaryOperator;
 
-import org.power_systems_modelica.psm.ddr.ConnectionException;
-import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
-import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
-import org.power_systems_modelica.psm.ddr.EventParameter;
-import org.power_systems_modelica.psm.gui.model.BusData;
-import org.power_systems_modelica.psm.gui.model.Case;
-import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.DsData;
-import org.power_systems_modelica.psm.gui.model.EventParamGui;
-import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.utils.CsvReader;
-import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
-import org.power_systems_modelica.psm.workflow.TaskDefinition;
-import org.power_systems_modelica.psm.workflow.TaskFactory;
+import org.power_systems_modelica.psm.gui.utils.ProgressData;
+import org.power_systems_modelica.psm.workflow.ProcessState;
+import org.power_systems_modelica.psm.workflow.TaskProgress;
+import org.power_systems_modelica.psm.workflow.TaskStatePair;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.WorkflowConfiguration;
-import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
-import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
-import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.power_systems_modelica.psm.workflow.WorkflowListener;
+import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
-import eu.itesla_project.iidm.network.Network;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
-public class WorkflowService
-{
+public class WorkflowService extends Task<Void> {
 
-	public enum LoadflowEngine
-	{
-		HADES2(0), HELMFLOW(1), NONE(2);
+	public WorkflowService(Workflow w) {
+		super();
+		this.w = w;
 
-		private int value;
+		for (WorkflowTask task : w.getWorkflowTasks()) {
 
-		private LoadflowEngine(int value)
-		{
-			this.value = value;
-		}
-
-		public int getValue()
-		{
-			return value;
+			ProgressData data = new ProgressData(task.getId(), task.getName(), task.getState());
+			observableProgress.add(data);
 		}
 	}
 
-	public enum DsEngine
-	{
-		DYMOLA(0), OPENMODELICA(1);
+	public void updateWorkflowStates(List<TaskStatePair> states) {
 
-		private int value;
+		if (Platform.isFxApplicationThread()) {
+			for (TaskStatePair state : states) {
 
-		private DsEngine(int value)
-		{
-			this.value = value;
-		}
-
-		public int getValue()
-		{
-			return value;
-		}
-	}
-
-	public static Workflow getWorkflow()
-	{
-
-		return w;
-	}
-
-	public static Workflow getCompareLoadflow()
-	{
-		return cl;
-	}
-
-	public static ObservableList<LoadflowEngine> getLoadflowEngines()
-	{
-
-		ObservableList<LoadflowEngine> engines = FXCollections.observableArrayList();
-		engines.add(LoadflowEngine.HADES2);
-		engines.add(LoadflowEngine.HELMFLOW);
-		engines.add(LoadflowEngine.NONE);
-
-		return engines;
-	}
-
-	public static ObservableList<DsEngine> getDsEngines()
-	{
-
-		ObservableList<DsEngine> engines = FXCollections.observableArrayList();
-		engines.add(DsEngine.DYMOLA);
-		engines.add(DsEngine.OPENMODELICA);
-
-		return engines;
-	}
-
-	public static ObservableList<String> getActionEvents(Ddr intput)
-	{
-
-		ObservableList<String> actions = FXCollections.observableArrayList();
-		ddr = DynamicDataRepositoryMainFactory.create("DYD", intput.getLocation());
-		try
-		{
-			ddr.connect();
-
-			actions.addAll(ddr.getEvents());
-		}
-		catch (ConnectionException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return actions;
-	}
-
-	public static ObservableList<EventParamGui> getEventParams(String event)
-	{
-
-		ObservableList<EventParamGui> eventParams = FXCollections.observableArrayList();
-		List<EventParameter> parameters = ddr.getEventParameters(event);
-
-		parameters.forEach(p -> {
-			EventParamGui ep = new EventParamGui();
-			ep.setName(p.getName() + " (" + p.getUnit() + ")");
-			ep.setUnit(p.getUnit());
-			ep.setValue("");
-			eventParams.add(ep);
-		});
-
-		return eventParams;
-	}
-
-	public static Workflow createWorkflow(Case cs, Ddr ddr0, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse, String stopTime)
-			throws WorkflowCreationException
-	{
-
-		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
-		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("moBuilder");
-		String outname = PathUtils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
-		String outnameev = PathUtils.DATA_TMP.resolve("eventAdder_events.mo").toString();
-
-		try
-		{
-			if (Files.exists(modelicaEngineWorkingDir, LinkOption.NOFOLLOW_LINKS))
-			{
-				Files.walk(modelicaEngineWorkingDir, FileVisitOption.FOLLOW_LINKS)
-						.sorted(Comparator.reverseOrder())
-						.map(Path::toFile)
-						.peek(System.out::println)
-						.forEach(File::delete);
+				ProgressData taskData = (ProgressData) observableProgress
+						.filtered(d -> ((ProgressData) d).getTaskId().equals(state.taskId)).get(0);
+				int taskIndex = observableProgress.indexOf(taskData);
+				taskData.updateState(state.state);
+				observableProgress.set(taskIndex, taskData);
 			}
-			new File(modelicaEngineWorkingDir.toString()).mkdir();
-			Files.deleteIfExists(Paths.get(outname));
-			Files.deleteIfExists(Paths.get(outnameev));
+		} else {
+			if (statesUpdate.getAndSet(states) == null) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						final List<TaskStatePair> states = statesUpdate.getAndSet(null);
+						for (TaskStatePair state : states) {
 
-			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
-
-			String loadflowId;
-			String loadflowClass;
-			switch (le)
-			{
-			case HADES2:
-				loadflowId = "loadflowHades2";
-				loadflowClass = "com.rte_france.itesla.hades2.Hades2Factory";
-				break;
-			case HELMFLOW:
-				loadflowId = "loadflowHelmflow";
-				loadflowClass = "com.elequant.helmflow.ipst.HelmFlowFactory";
-				break;
-			default:
-				loadflowId = null;
-				loadflowClass = null;
-				break;
+							ProgressData taskData = (ProgressData) WorkflowService.this.observableProgress
+									.filtered(d -> ((ProgressData) d).getTaskId().equals(state.taskId)).get(0);
+							int taskIndex = WorkflowService.this.observableProgress.indexOf(taskData);
+							taskData.updateState(state.state);
+							WorkflowService.this.observableProgress.set(taskIndex, taskData);
+						}
+					}
+				});
 			}
-			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
-			String simulationSource = "mo";
-			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+		}
+	}
 
-			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
+	public void updateWorkflowInfo(TaskProgress info) {
 
-			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
-					TC("source", casePath.toString())));
-			if (loadflowClass != null)
-			{
-				tasks.add(TD(LoadFlowTask.class, loadflowId,
-						TC("loadFlowFactoryClass", loadflowClass)));
+		if (Platform.isFxApplicationThread()) {
+
+			ProgressData taskData = (ProgressData) observableProgress
+					.filtered(d -> ((ProgressData) d).getTaskId().equals(info.taskId)).get(0);
+			int taskIndex = observableProgress.indexOf(taskData);
+
+			ProgressData infoData = new ProgressData(info.info);
+
+			if (!taskData.getChildren().contains(infoData))
+				taskData.getChildren().add(infoData);
+
+			observableProgress.set(taskIndex, taskData);
+		} else {
+			List<TaskProgress> list = new ArrayList();
+			list.add(info);
+			if (infosUpdate.getAndAccumulate(list, (List<TaskProgress> l1, List<TaskProgress> l2) -> {
+				if (l1 == null)
+					return l2;
+				else {
+					l1.addAll(l2);
+					return l1;
+				}
+			}) == null) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						final List<TaskProgress> infos = infosUpdate.getAndSet(null);
+							
+						for (TaskProgress info: infos) {
+							ProgressData taskData = (ProgressData) WorkflowService.this.observableProgress
+									.filtered(d -> ((ProgressData) d).getTaskId().equals(info.taskId)).get(0);
+							int taskIndex = WorkflowService.this.observableProgress.indexOf(taskData);
+	
+							ProgressData infoData = new ProgressData(info.info);
+	
+							if (!taskData.getChildren().contains(infoData))
+								taskData.getChildren().add(infoData);
+	
+							WorkflowService.this.observableProgress.set(taskIndex, taskData);
+						}
+					}
+				});
 			}
-			tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
-					TC("ddrType", "DYD",
-							"ddrLocation", ddr0.getLocation(),
-							"onlyMainConnectedComponent",
-							Boolean.toString(onlyMainConnectedComponent),
-							"modelicaEngine", "Fake",
-							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-							"fakeModelicaEngineResults", fakeInit)));
-			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
-					TC("source", "mo",
-							"target", outname,
-							"includePsmAnnotations", "true")));
-			if (!events.isEmpty())
-			{
-				tasks.add(TD(ModelicaEventAdderTask.class, "eventAdder0",
-						TC("ddrType", "DYD",
-								"ddrLocation", ddr0.getLocation(),
-								"events", (String) events.stream().map(Object::toString)
-										.collect(Collectors.joining("\n")))));
-				tasks.add(TD(ModelicaExporterTask.class, "exporter1",
-						TC("source", "moWithEvents",
-								"target", outnameev,
-								"includePsmAnnotations", "true")));
+		}
+	}
 
-				simulationSource = "moWithEvents";
+	public ObservableList<ProgressData> getWorkflowInfo() {
+		return observableProgress;
+	}
+
+	@Override
+	protected Void call() throws Exception {
+
+		w.addListener(new WorkflowListener() {
+
+			@Override
+			public void onStateChange(List<TaskStatePair> states) {
+				int totalTasks = states.size();
+
+				updateWorkflowStates(states);
+				int i = 0;
+				int currentTask = 0;
+				for (TaskStatePair state : states) {
+
+					if (!state.state.equals(ProcessState.SUCCESS) && !state.state.equals(ProcessState.FAILED)
+							&& currentTask <= 0)
+						currentTask = i;
+
+					i++;
+				}
+				updateMessage(states.get(currentTask).taskId + " is " + states.get(currentTask).state.toString());
+				updateProgress(currentTask + 1, totalTasks);
 			}
 
-			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
-					TC("source", simulationSource,
-							"modelicaEngine", simulationEngine,
-							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-							"stopTime", stopTime, 
-							"libraryDir", PathUtils.LIBRARY.toString(),
-							"resultVariables", resultVariables)));
+			@Override
+			public void onProgress(TaskProgress info) {
 
-			WorkflowConfiguration config = new WorkflowConfiguration();
-			config.setTaskDefinitions(tasks);
-			TaskFactory tf = new TaskFactory();
-			w = Workflow.create(config, tf);
-
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		return w;
-	}
-
-	public static WorkflowResult getWorkflowResult(String id)
-	{
-
-		WorkflowResult results = new WorkflowResult();
-
-		Network n = (Network) w.getResults("network");
-
-		/*
-		 * LUMA: no specific state for loadflow results, use current network state
-		 * 
-		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); 
-		 * // Fin fix temporal
-		 *  
-		 * n.getStateManager().allowStateMultiThreadAccess(false); 
-		 * n.getStateManager().setWorkingState("resultsLoadflow");
-		 */
-		List<BusData> allBusesValues = new ArrayList<>();
-		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[1];
-			float[] As = new float[1];
-			float[] Ps = new float[1];
-			float[] Qs = new float[1];
-
-			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
-			bvalues.put("V", Vs);
-			bvalues.put("A", As);
-			bvalues.put("P", Ps);
-			bvalues.put("Q", Qs);
-			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
-		});
-
-		results.setId(id);
-		results.setAllBusesValues(allBusesValues);
-
-		try
-		{
-			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					w.getResults("simres").toString(), ".csv");
-			results.setDsValues(values);
-		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return results;
-	}
-
-	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits)
-			throws WorkflowCreationException
-	{
-
-		try
-		{
-			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
-
-			cl = WF(TD(StaticNetworkImporterTask.class, "importer0",
-					TC("source", casePath.toString())),
-					TD(LoadFlowTask.class, "loadflowHelmflow",
-							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
-									"targetStateId", "resultsHelmflow")),
-					TD(LoadFlowTask.class, "loadflowHades2",
-							TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
-									"targetStateId", "resultsHades2")));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		return cl;
-	}
-
-	public static WorkflowResult getCompareLoadflowsResult(String id)
-	{
-
-		WorkflowResult results = new WorkflowResult();
-
-		Network n = (Network) cl.getResults("network");
-
-		// Fix temporal
-		n.getStateManager().setWorkingState("resultsHelmflow");
-		// Fin fix temporal
-
-		n.getStateManager().allowStateMultiThreadAccess(false);
-
-		List<BusData> allBusesValues = new ArrayList<>();
-		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
-
-			n.getStateManager().setWorkingState("resultsHelmflow");
-			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
-			n.getStateManager().setWorkingState("resultsHades2");
-			Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[1] = b.getAngle();
-			Ps[1] = b.getP();
-			Qs[1] = b.getQ();
-			bvalues.put("V", Vs);
-			bvalues.put("A", As);
-			bvalues.put("P", Ps);
-			bvalues.put("Q", Qs);
-			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
+				updateWorkflowInfo(info);
+			}
 
 		});
+		w.start();
+		updateProgress(0, w.getTaskStates().size());
+		updateWorkflowStates(w.getTaskStates());
 
-		allBusesValues.forEach(bv -> {
-			float[] values = bv.getData().get("V");
-			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("V", err);
-			values = bv.getData().get("A");
-			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("A", err);
-			values = bv.getData().get("P");
-			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("P", err);
-			values = bv.getData().get("Q");
-			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("Q", err);
-		});
-
-		results.setId(id);
-		results.setAllBusesValues(allBusesValues);
-
-		return results;
+		return null;
 	}
 
-	private static Random					rnd	= new Random();
-	private static Workflow					w	= null;
-	private static Workflow					cl	= null;
-	private static DynamicDataRepository	ddr	= null;
-
-	private static final Logger				LOG	= LoggerFactory.getLogger(WorkflowService.class);
+	private AtomicReference<List<TaskStatePair>> statesUpdate = new AtomicReference<>();
+	private AtomicReference<List<TaskProgress>> infosUpdate = new AtomicReference<>();
+	private ObservableList observableProgress = FXCollections.observableArrayList();
+	private Workflow w = null;
 }

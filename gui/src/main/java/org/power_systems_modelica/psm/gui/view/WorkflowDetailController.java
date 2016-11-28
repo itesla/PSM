@@ -179,7 +179,6 @@ public class WorkflowDetailController {
 				Path sPath = (Path) seriesNode;
 				Paint color = colors.get(series.getName());
 				if (color == null) {
-					System.out.println("serie: " + series.getName() + " color: " + sPath.getStroke().toString());
 					color = sPath.getStroke();
 					colors.put(series.getName(), color);
 				}

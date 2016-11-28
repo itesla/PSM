@@ -3,8 +3,9 @@ package org.power_systems_modelica.psm.gui.view;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.MainApp;
-import org.power_systems_modelica.psm.gui.service.WorkflowTask;
-import org.power_systems_modelica.psm.workflow.ProcessState;
+import org.power_systems_modelica.psm.gui.service.WorkflowService;
+import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
+import org.power_systems_modelica.psm.gui.utils.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
@@ -15,8 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TreeItem;
 
 public class WorkflowStatusController {
 
@@ -41,19 +41,15 @@ public class WorkflowStatusController {
 		}
 		
 		List<TaskDefinition> tasks = w.getConfiguration().getTaskDefinitions();
-		int i = 0;
-		for (TaskDefinition t : tasks) {
-			Label label = new Label(t.getTaskId());
-			gridPane.add(label, 0, i);
-			Label status = new Label();
-			status.textProperty().bind(((WorkflowTask)task).workflowStateProperty(t.getTaskId()));
-			gridPane.add(status, 1, i);
-			RowConstraints constraints = new RowConstraints();
-			constraints.setMinHeight(30);
-			constraints.setPrefHeight(30);
-			gridPane.getRowConstraints().add(constraints);
-			i++;
-		}
+		
+		TreeItem<ProgressData> root = new TreeItem<>();
+		root.setExpanded(true);
+		System.out.println("treeView " + treeView == null);
+		System.out.println("treeView.getStyleClass() " + treeView.getStyleClass() == null);
+		treeView.getStyleClass().add("treeViewItem");
+		treeView.setRoot(root);
+		treeView.setShowRoot(false);
+		treeView.setItems(((WorkflowService)task).getWorkflowInfo());
 	}
 
 	public void setMainApp(MainApp mainApp, Workflow w, boolean isWorkflowDetail) {
@@ -82,7 +78,7 @@ public class WorkflowStatusController {
 	private ProgressBar statusBar;
 	
 	@FXML
-	private GridPane gridPane;
+	private DynamicTreeView<ProgressData> treeView;
 
 	private MainApp mainApp;
 	private boolean isWorkflowDetail;

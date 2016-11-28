@@ -26,7 +26,7 @@ public class Workflow implements Process
 
 	public static TaskStatePair TS(String taskId, ProcessState state)
 	{
-		return new TaskStatePair(taskId, state);
+		return new TaskStatePair(taskId, "", state);
 	}
 
 	public static TaskDefinition TD(Class<? extends WorkflowTask> taskClass, String taskId)
@@ -94,6 +94,11 @@ public class Workflow implements Process
 		sequence(WorkflowTasks);
 	}
 
+	public List<WorkflowTask> getWorkflowTasks()
+	{
+		return WorkflowTasks;
+	}
+
 	public List<TaskStatePair> getTaskStates()
 	{
 		return currentTaskStates;
@@ -121,7 +126,7 @@ public class Workflow implements Process
 		while (k.hasNext())
 		{
 			WorkflowTask t = k.next();
-			updateState(t.getId(), SCHEDULED);
+			updateState(t.getId(), t.getName(), SCHEDULED);
 			t.run();
 			if (t.getState() == FAILED) break;
 		}
@@ -166,18 +171,18 @@ public class Workflow implements Process
 	{
 		currentTaskStates = WorkflowTasks
 				.stream()
-				.map(t -> new TaskStatePair(t.getId(), t.getState()))
+				.map(t -> new TaskStatePair(t.getId(), t.getName(), t.getState()))
 				.collect(Collectors.toList());
 		updateWorkflowState();
 		broadcast();
 	}
 
-	protected void updateState(String taskId, ProcessState state)
+	protected void updateState(String taskId, String name, ProcessState state)
 	{
 		// Only modify the state of the given taskId
 		currentTaskStates = currentTaskStates
 				.stream()
-				.map(ts -> (ts.taskId.equals(taskId) ? new TaskStatePair(taskId, state) : ts))
+				.map(ts -> (ts.taskId.equals(taskId) ? new TaskStatePair(taskId, name, state) : ts))
 				.collect(Collectors.toList());
 		updateWorkflowState();
 		broadcast();
@@ -193,6 +198,13 @@ public class Workflow implements Process
 				.ifPresent(s -> this.state = FAILED);
 		if (currentTaskStates.stream().allMatch(s -> s.state == SUCCESS))
 			this.state = SUCCESS;
+	}
+
+	protected void updateProgress(String taskId, String info)
+	{
+		TaskProgress p = new TaskProgress(taskId, info);
+		for (WorkflowListener l : listeners)
+			l.onProgress(p);
 	}
 
 	private void broadcast()

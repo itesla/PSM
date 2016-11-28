@@ -9,14 +9,15 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.WorkflowService.DsEngine;
-import org.power_systems_modelica.psm.gui.service.WorkflowService.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -36,6 +37,14 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 public class Utils {
+	
+	public static String padString(String message, int length) {
+		int needed = length - message.length();
+		if (needed <= 0)
+			return message;
+		
+		return message + StringUtils.repeat(" ", needed);
+	}
 
 	public static void showWarning(String title, String message) {
 		Alert alert = new Alert(AlertType.WARNING);

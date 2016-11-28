@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +23,28 @@ public class Annotation
 		items.add(new AnnotationItem(a));
 	}
 
+	public static void annotate(Annotable a, String annotationItem)
+	{
+		if (a.getAnnotation() == null)
+			a.setAnnotation(new Annotation(annotationItem));
+		else
+		{
+			// Only one annotation of each type is allowed,
+			// remove any previous annotation of this item type
+			String itemType = getItemType(annotationItem);
+			Set<AnnotationItem> items = a.getAnnotation().getItems().stream()
+					.filter(ai -> getItemType(ai.asText()).equals(itemType))
+					.collect(Collectors.toSet());
+			a.getAnnotation().removeItems(items);
+			a.getAnnotation().addItem(annotationItem);
+		}
+	}
+
+	public static String getItemType(String annotationItem)
+	{
+		return annotationItem.substring(0, annotationItem.indexOf("("));
+	}
+
 	public boolean isEmpty()
 	{
 		return items == null || items.isEmpty();
@@ -30,6 +53,11 @@ public class Annotation
 	public Collection<AnnotationItem> getItems()
 	{
 		return Collections.unmodifiableList(items);
+	}
+
+	public void removeItems(Collection<AnnotationItem> items)
+	{
+		this.items.removeAll(items);
 	}
 
 	public void addItem(String a)
@@ -41,6 +69,11 @@ public class Annotation
 	public String asText()
 	{
 		return items.stream().map(AnnotationItem::asText).collect(Collectors.joining(","));
+	}
+
+	public String getId()
+	{
+		return getAttributeValue(REF_ID);
 	}
 
 	public String getStaticId()

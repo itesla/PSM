@@ -185,7 +185,7 @@ public class ModelicaBuilderTest
 		public void print(Path path) throws Exception
 		{
 			ModelicaTextPrinter mop = new ModelicaTextPrinter(getDoc());
-			mop.setIncludePsmAnnotations(false);
+			mop.setIncludePsmAnnotations(true);
 			try (PrintWriter out = new PrintWriter(path.toFile());)
 			{
 				mop.print(out);

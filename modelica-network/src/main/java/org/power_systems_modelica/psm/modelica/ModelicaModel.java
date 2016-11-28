@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.modelica;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -103,7 +104,7 @@ public class ModelicaModel
 		return annotations;
 	}
 
-	public void removeAnnotations(List<Annotation> annotations)
+	public void removeAnnotations(Collection<Annotation> annotations)
 	{
 		Objects.requireNonNull(annotations);
 		this.annotations.removeAll(annotations);

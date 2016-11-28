@@ -3,7 +3,7 @@ package org.power_systems_modelica.psm.modelica;
 import java.util.Collections;
 import java.util.List;
 
-public class ModelicaDeclaration
+public class ModelicaDeclaration implements Annotable
 {
 	// FIXME Very ugly: the two constructors are too similar: List<ModelicaArgument> is an Object
 
@@ -72,11 +72,13 @@ public class ModelicaDeclaration
 		return null;
 	}
 
+	@Override
 	public Annotation getAnnotation()
 	{
 		return annotation;
 	}
 
+	@Override
 	public void setAnnotation(Annotation annotation)
 	{
 		this.annotation = annotation;

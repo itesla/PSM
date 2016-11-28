@@ -1,6 +1,6 @@
 package org.power_systems_modelica.psm.modelica;
 
-public class ModelicaEquation
+public class ModelicaEquation implements Annotable
 {
 	public ModelicaEquation()
 	{
@@ -25,11 +25,13 @@ public class ModelicaEquation
 		return text;
 	}
 
+	@Override
 	public Annotation getAnnotation()
 	{
 		return annotation;
 	}
 
+	@Override
 	public void setAnnotation(Annotation annotation)
 	{
 		this.annotation = annotation;

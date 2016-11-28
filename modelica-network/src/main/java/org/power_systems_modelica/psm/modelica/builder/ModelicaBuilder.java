@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,16 +65,8 @@ public class ModelicaBuilder
 		// Annotation common to all declarations and equations of this dynamic model
 		String refs = Annotation.writeIdStaticId(m.getId(), m.getStaticId());
 
-		m.getDeclarations().forEach(d -> {
-			if (d.getAnnotation() == null)
-				d.setAnnotation(new Annotation(refs));
-			else d.getAnnotation().addItem(refs);
-		});
-		m.getEquations().forEach(eq -> {
-			if (eq.getAnnotation() == null)
-				eq.setAnnotation(new Annotation(refs));
-			else eq.getAnnotation().addItem(refs);
-		});
+		m.getDeclarations().forEach(d -> Annotation.annotate(d, refs));
+		m.getEquations().forEach(eq -> Annotation.annotate(eq, refs));
 
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
@@ -82,7 +75,7 @@ public class ModelicaBuilder
 		system.addDeclarations(resolveReferences(m.getDeclarations(), m));
 		system.addEquations(m.getEquations());
 
-		// Information about connectors are put as annotations in the output model
+		// Information about connectors are put as annotations in the system model
 		Annotation a = new Annotation(refs);
 		if (m.getConnectors() != null && m.getConnectors().length > 0)
 			a.addItem(Annotation.writeConnectors(Arrays.asList(m.getConnectors())));
@@ -92,7 +85,7 @@ public class ModelicaBuilder
 		// (add fault to a bus increases the dynamic model of the bus, is not a substitution)
 		// problem: the dynamic model of the bus will have two connectors with pin "p" after adding a fault
 		// to solve this, the pin for the bus fault could be declared as "used" (not "reusable")
-		// in general, only pins of buses are "reusables" ???
+		// in general, only pins of buses are "re-usables" ???
 		String id = ModelicaUtil.normalizedIdentifier(m.getStaticId());
 		if (!dynamicModelsByStaticId.containsKey(id))
 			dynamicModelsByStaticId.put(ModelicaUtil.normalizedIdentifier(m.getStaticId()), m);
@@ -104,6 +97,13 @@ public class ModelicaBuilder
 		mo.getSystemModel().removeEquations(m.getEquations());
 		mo.getSystemModel().removeDeclarations(m.getDeclarations());
 		mo.getSystemModel().removeAnnotations(m.getAnnotations());
+		
+		// Also remove system annotations that are related to this dynamic model identifier
+		String mid = m.getId();
+		Set<Annotation> sas = mo.getSystemModel().getAnnotations().stream()
+				.filter(a -> a.getId().equals(mid))
+				.collect(Collectors.toSet());
+		mo.getSystemModel().removeAnnotations(sas);
 
 		// Also identify and remove previous interconnections with the rest of the system
 		String staticId = m.getStaticId();

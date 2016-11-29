@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
@@ -25,7 +26,6 @@ import org.power_systems_modelica.psm.workflow.psm.DydFilesFromModelicaTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
-import org.power_systems_modelica.psm.workflow.test.WorkflowModelicaTestUtil;
 
 import com.google.common.collect.Iterables;
 
@@ -160,7 +160,7 @@ public class Mo2Dyd2MoTest
 		Path expected = folder.resolve(moInput);
 		Path actual = Paths.get(moOutput);
 
-		WorkflowModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
+		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 	}
 
 	private static final boolean EXPLICIT_INIT_FILES = false;

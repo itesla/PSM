@@ -18,12 +18,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
-import org.power_systems_modelica.psm.workflow.test.WorkflowModelicaTestUtil;
 
 import com.google.common.collect.Iterables;
 
@@ -131,6 +131,6 @@ public class ModelicaBuilderTest
 		Path expected = folder.resolve(expectedmoname);
 		Path actual = Paths.get(outname);
 
-		WorkflowModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
+		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 	}
 }

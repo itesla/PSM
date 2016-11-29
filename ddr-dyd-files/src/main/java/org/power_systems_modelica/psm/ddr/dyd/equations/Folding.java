@@ -31,7 +31,8 @@ public class Folding implements Expression
 	{
 		SUM, PRODUCT;
 
-		static final String[] SYMBOLS = { "+", "*" };
+		static final String[]	SYMBOLS		= { "+", "*" };
+		static final String[]	DOC_SYMBOLS	= { "∑", "∏" };
 	}
 
 	public Operation getOperation()
@@ -55,6 +56,12 @@ public class Folding implements Expression
 						.map(e -> e.writeIn(context))
 						.collect(Collectors.joining(joinWith)))
 				.concat(")");
+	}
+
+	@Override
+	public String toString()
+	{
+		return Operation.DOC_SYMBOLS[operation.ordinal()] + " " + factors;
 	}
 
 	private final Operation	operation;

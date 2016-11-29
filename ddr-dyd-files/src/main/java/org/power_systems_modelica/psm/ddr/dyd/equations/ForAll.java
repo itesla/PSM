@@ -40,6 +40,12 @@ public class ForAll implements Factors
 		return template;
 	}
 
+	@Override
+	public String toString()
+	{
+		return selector + " " + template;
+	}
+
 	private final Selector				selector;
 	private final ExpressionTemplate	template;
 }

@@ -55,7 +55,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		// Add connections between models only after all models have been created
 		addInterconnections();
 		// And system equations also after all models have been created
-		sys.addEquations(getDdr().getSystemEquations(sys));
+		sys.addEquations(getDdr().getSystemEquationsInContext(sys));
 
 		return getModelicaDocument();
 	}

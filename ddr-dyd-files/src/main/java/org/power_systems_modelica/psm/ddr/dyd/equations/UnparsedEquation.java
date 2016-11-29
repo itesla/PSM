@@ -18,5 +18,11 @@ public class UnparsedEquation implements Equation
 		return text;
 	}
 
+	@Override
+	public String toString()
+	{
+		return text;
+	}
+
 	private final String text;
 }

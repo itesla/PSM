@@ -13,11 +13,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Test;
+import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
-import org.power_systems_modelica.psm.workflow.test.WorkflowModelicaTestUtil;
 
 public class ModelicaParserTest
 {
@@ -50,6 +50,6 @@ public class ModelicaParserTest
 		Path expected = folder.resolve(moInput);
 		Path actual = Paths.get(moOutput);
 
-		WorkflowModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
+		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 	}
 }

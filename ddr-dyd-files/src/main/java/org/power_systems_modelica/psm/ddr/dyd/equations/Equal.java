@@ -24,6 +24,12 @@ public class Equal implements Equation
 		return left.writeIn(domain) + " = " + right.writeIn(domain);
 	}
 
+	@Override
+	public String toString()
+	{
+		return "( " + left + " = " + right + " )";
+	}
+
 	private final Expression	left;
 	private final Expression	right;
 }

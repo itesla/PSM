@@ -24,7 +24,7 @@ public interface DynamicDataRepository
 
 	List<ModelicaDeclaration> getSystemDeclarations();
 
-	List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m);
+	List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m);
 
 	ModelicaModel getModelicaModelForEvent(String id, Identifiable<?> e);
 

@@ -3,7 +3,6 @@ model ieee57bus
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Interfaces.RealOutput omegaRef;
 
-
 // BUSES
   iPSL.Electrical.Buses.Bus bus__BEAV___6_TN (
 	 V_0 = 0.98,
@@ -1466,7 +1465,7 @@ model ieee57bus
 	 ) annotation (Placement(transformation()));
 
 // REGULATORS
-  pssi3e2b reg_pssi3e2b__BEAV___6_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__BEAV___6_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -1495,7 +1494,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__BEAV___6_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__BEAV___6_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -1513,7 +1512,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__BEAV___6_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__BEAV___6_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -1529,7 +1528,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__CLIN___8_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__CLIN___8_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1558,7 +1557,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__CLIN___8_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__CLIN___8_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1576,7 +1575,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__CLIN___8_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__CLIN___8_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1592,7 +1591,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GLEN__12_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GLEN__12_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1621,7 +1620,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GLEN__12_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GLEN__12_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1639,7 +1638,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GLEN__12_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GLEN__12_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1655,7 +1654,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__KANA___1_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__KANA___1_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1684,7 +1683,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__KANA___1_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__KANA___1_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1702,7 +1701,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__KANA___1_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__KANA___1_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1718,7 +1717,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__LOGA___3_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__LOGA___3_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1747,7 +1746,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__LOGA___3_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__LOGA___3_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1765,7 +1764,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__LOGA___3_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__LOGA___3_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1781,7 +1780,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__SALT___9_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__SALT___9_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1810,7 +1809,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__SALT___9_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__SALT___9_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1828,7 +1827,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__SALT___9_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__SALT___9_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1844,7 +1843,7 @@ model ieee57bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__TURN___2_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__TURN___2_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1873,7 +1872,7 @@ model ieee57bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__TURN___2_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__TURN___2_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1891,7 +1890,7 @@ model ieee57bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__TURN___2_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__TURN___2_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -2204,6 +2203,5 @@ equation
   connect(trafo__TAZE__11_TAZE__43_1_PT.n, bus__TAZE__43_TN.p) annotation (Line());
 
 // Connecting OTHERS
-
 end ieee57bus;
 

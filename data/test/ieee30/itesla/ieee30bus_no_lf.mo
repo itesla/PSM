@@ -875,7 +875,7 @@ model ieee30bus
 	 ) annotation (Placement(transformation()));
 
 // REGULATORS
-  pssi3e2b reg_pssi3e2b__GEN___11_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___11_SM (
 	 SNREF = 100.0,
 	 SN = 49.0,
 	 PN = 39.0,
@@ -904,7 +904,7 @@ model ieee30bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___11_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___11_SM (
 	 SNREF = 100.0,
 	 SN = 49.0,
 	 PN = 39.0,
@@ -922,7 +922,7 @@ model ieee30bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___11_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___11_SM (
 	 SNREF = 100.0,
 	 SN = 49.0,
 	 PN = 39.0,
@@ -938,7 +938,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___13_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___13_SM (
 	 SNREF = 100.0,
 	 SN = 35.0,
 	 PN = 32.0,
@@ -967,7 +967,7 @@ model ieee30bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___13_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___13_SM (
 	 SNREF = 100.0,
 	 SN = 35.0,
 	 PN = 32.0,
@@ -985,7 +985,7 @@ model ieee30bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___13_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___13_SM (
 	 SNREF = 100.0,
 	 SN = 35.0,
 	 PN = 32.0,
@@ -1001,7 +1001,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____1_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____1_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1030,7 +1030,7 @@ model ieee30bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____1_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____1_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1048,7 +1048,7 @@ model ieee30bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN____1_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN____1_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -1064,7 +1064,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____2_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____2_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -1093,7 +1093,7 @@ model ieee30bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____2_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____2_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -1111,7 +1111,7 @@ model ieee30bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN____2_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN____2_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -1127,7 +1127,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____5_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____5_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1156,7 +1156,7 @@ model ieee30bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____5_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____5_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1174,7 +1174,7 @@ model ieee30bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN____5_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN____5_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -1190,7 +1190,7 @@ model ieee30bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____8_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____8_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1219,7 +1219,7 @@ model ieee30bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____8_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____8_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -1237,7 +1237,7 @@ model ieee30bus
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN____8_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN____8_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,

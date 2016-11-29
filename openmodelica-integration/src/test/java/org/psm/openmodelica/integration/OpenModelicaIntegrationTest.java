@@ -51,6 +51,7 @@ public class OpenModelicaIntegrationTest {
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("singlegen_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("singlegen_res.mat")));
+		assertTrue(Files.exists(omSimPath.resolve("singlegen_res_filtered.mat")));
 		assertEquals(4, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	
@@ -83,7 +84,8 @@ public class OpenModelicaIntegrationTest {
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.mat")));
-		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res_filtered.mat")));
+		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	
 	@Test
@@ -115,10 +117,11 @@ public class OpenModelicaIntegrationTest {
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res.mat")));
-		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res_filtered.mat")));
+		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	
-//	@Test 
+	@Test 
 	public void testIEEE57() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
 		
@@ -147,7 +150,8 @@ public class OpenModelicaIntegrationTest {
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res.mat")));
-		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res_filtered.mat")));
+		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	
 //	@Test //TODO PENDING
@@ -179,6 +183,7 @@ public class OpenModelicaIntegrationTest {
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res.mat")));
+		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res_filtered.mat")));
 		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 	

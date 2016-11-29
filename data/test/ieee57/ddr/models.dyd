@@ -49,9 +49,9 @@
     </model>
     <model id="DM{staticId}" association="association0">
         <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S"/>
-        <component name="pssi3e2b" id="reg_pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_reg_pssi3e2b"/>
-        <component name="sexs" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs"/>
-        <component name="gsteam0" id="reg_gsteam0_{staticId}" parFile="params.par" parId="{staticId}_reg_gsteam0"/>
+        <component name="iPSL.Electrical.Controls.Eurostag.pssi3e2b" id="reg_pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_reg_pssi3e2b"/>
+        <component name="iPSL.Electrical.Controls.Eurostag.sexs" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs"/>
+        <component name="iPSL.Electrical.Controls.Eurostag.gsteam0" id="reg_gsteam0_{staticId}" parFile="params.par" parId="{staticId}_reg_gsteam0"/>
         <connector pin="sortie" target="DYNN:bus:p"/>
         <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_ActivePowerSN"/>
@@ -65,9 +65,9 @@
     </model>
     <model isInitialization="true" id="DM{staticId}" association="association0">
         <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_Init"/>
-        <component name="pssi3e2b_Init" id="reg_pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_reg_pssi3e2b_Init"/>
-        <component name="sexs_Init" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs_Init"/>
-        <component name="gsteam0_Init" id="reg_gsteam0_{staticId}" parFile="params.par" parId="{staticId}_reg_gsteam0_Init"/>
+        <component name="iPSL.Electrical.Controls.Eurostag.pssi3e2b_Init" id="reg_pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_reg_pssi3e2b_Init"/>
+        <component name="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs_Init"/>
+        <component name="iPSL.Electrical.Controls.Eurostag.gsteam0_Init" id="reg_gsteam0_{staticId}" parFile="params.par" parId="{staticId}_reg_gsteam0_Init"/>
         <connector pin="sortie" target="DYNN:bus:p"/>
         <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_ActivePowerSN"/>

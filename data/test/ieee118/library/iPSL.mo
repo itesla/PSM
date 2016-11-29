@@ -11305,6 +11305,9 @@ extends Modelica.Icons.Package;
         angle = atan2(p.vi, p.vr)*180/Modelica.Constants.pi;
         p.ir = 0;
         p.ii = 0;
+               // textString="%name",
+               // textString=DynamicSelect("0.0", String(v, significantDigits=3)),
+                //textString=DynamicSelect("0.0", String(anglevdeg, significantDigits=3)),
         annotation (
           Icon(coordinateSystem(
               extent={{-100,-100},{100,100}},
@@ -11318,19 +11321,16 @@ extends Modelica.Icons.Package;
                 origin={0.9738,119.0625},
                 fillPattern=FillPattern.Solid,
                 extent={{-39.0262,-16.7966},{39.0262,16.7966}},
-                textString="%name",
                 fontName="Arial"),Text(
                 origin={0.9738,-114.937},
                 fillPattern=FillPattern.Solid,
                 extent={{-39.0262,-16.7966},{39.0262,16.7966}},
                 fontName="Arial",
-                textString=DynamicSelect("0.0", String(v, significantDigits=3)),
                 lineColor={238,46,47}),Text(
                 origin={0.9738,-140.937},
                 fillPattern=FillPattern.Solid,
                 extent={{-39.0262,-16.7966},{39.0262,16.7966}},
                 fontName="Arial",
-                textString=DynamicSelect("0.0", String(anglevdeg, significantDigits=3)),
                 lineColor={238,46,47})}),
           Diagram(coordinateSystem(
               extent={{-148.5,-105.0},{148.5,105.0}},
@@ -15540,18 +15540,18 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealInput omegaRef;
           Real cm(start = init_cm);
           Real efd(start = init_efd);
-          Real ur(start = ur0, fixed = true);
-          Real ui(start = ui0, fixed = true);
-          Real lambdaf(start = init_lambdaf, fixed = true);
-          Real lambdad(start = init_lambdad);
-          Real lambdaad(start = init_lambdaad);
-          Real lambdaaq(start = init_lambdaaq);
-          Real lambdaq1(start = init_lambdaq1, fixed = true);
-          Real lambdaq2(start = init_lambdaq2, fixed = true);
+          Real ur(start = ur0, fixed = false);
+          Real ui(start = ui0, fixed = false);
+          Real lambdaf(start = init_lambdaf, fixed = false);
+          Real lambdad(start = init_lambdad, fixed =  false);
+          Real lambdaad(start = init_lambdaad, fixed = false);
+          Real lambdaaq(start = init_lambdaaq, fixed = false);
+          Real lambdaq1(start = init_lambdaq1, fixed = false);
+          Real lambdaq2(start = init_lambdaq2, fixed = false);
           Real id(start = init_id);
           Real iq(start = init_iq);
-          Real theta(start = init_theta);
-          Real omega(start = init_omega, fixed = true);
+          Real theta(start = init_theta, fixed = false);
+          Real omega(start = init_omega, fixed = false);
           Real E(start=init_E);
           Real Mds(start = init_Mds);
           Real Mqs(start = init_Mqs);
@@ -15573,14 +15573,6 @@ extends Modelica.Icons.Package;
           parameter Real init_omega = 1;
           parameter Real init_cm = 0;
           parameter Real init_efd = 0;
-          parameter Real init_E = sqrt(init_lambdaad*init_lambdaad + init_lambdaaq*init_lambdaaq);
-          parameter Real init_Mds = if Saturated then Md0/(1 + md/rtfo^snd*init_E^snd) else Md0;
-          parameter Real init_Mqs = if Saturated then  Mq0/(1 + mq/rtfo^snq*init_E^snq) else Mq0;
-          parameter Real init_Mi = init_Mds*init_lambdaad*init_lambdaad/(init_E*init_E) + init_Mqs*init_lambdaaq*init_lambdaaq/(init_E*init_E);
-          parameter Real init_Md = init_Mi + Mdif*init_lambdaaq*init_lambdaaq/(init_E*init_E);
-          parameter Real init_Mq = init_Mi - Mdif*init_lambdaad*init_lambdaad/(init_E*init_E);
-          parameter Real init_LMD = 1.0/(1.0/init_Md + Sdet);
-          parameter Real init_LMQ = 1.0/(1.0/init_Mq + Slq);
           //parameters coming from .lf
           parameter Real ur0 = 1
             "Initial real voltage component p.u. in the SNREF base";
@@ -15740,11 +15732,7 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_Current;
           Modelica.Blocks.Interfaces.RealOutput pin_FRZPU;
           Modelica.Blocks.Interfaces.RealOutput pin_FRZHZ;
-          Modelica.Blocks.Interfaces.RealOutput pin_HIn;
-          Modelica.Blocks.Interfaces.RealOutput pin_SN;
         equation
-          pin_HIn = HIn;
-          pin_SN = SN;
           der(lambdaf) = (-efd * Coef11) - lambdaf * Coef12 + lambdad * Coef13 + lambdaad * Coef14;
           der(lambdad) = lambdaf * Coef21 - lambdad * Coef22 + lambdaad * Coef23;
           der(lambdaq1) = (-lambdaq1 * Coef31) + lambdaaq * Coef32;
@@ -15924,11 +15912,11 @@ extends Modelica.Icons.Package;
           Real ur(start = ur0, fixed = true);
           Real ui(start = ui0, fixed = true);
           Real lambdaf(start = init_lambdaf, fixed = true);
-          Real lambdad(start = init_lambdad);
-          Real lambdaad(start = init_lambdaad);
-          Real lambdaaq(start = init_lambdaaq);
-          Real lambdaq1(start = init_lambdaq1, fixed = true);
-          Real lambdaq2(start = init_lambdaq2, fixed = true);
+          Real lambdad(start = init_lambdad, fixed =  false);
+          Real lambdaad(start = init_lambdaad, fixed = false);
+          Real lambdaaq(start = init_lambdaaq, fixed = false);
+          Real lambdaq1(start = init_lambdaq1, fixed = false);
+          Real lambdaq2(start = init_lambdaq2, fixed = false);
           Real id(start = init_id);
           Real iq(start = init_iq);
           Real theta(start = init_theta, fixed = false);
@@ -16131,11 +16119,7 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_Current;
           Modelica.Blocks.Interfaces.RealOutput pin_FRZPU;
           Modelica.Blocks.Interfaces.RealOutput pin_FRZHZ;
-          Modelica.Blocks.Interfaces.RealOutput pin_HIn;
-          Modelica.Blocks.Interfaces.RealOutput pin_SN;
         equation
-          pin_HIn = HIn;
-          pin_SN = SN;
           der(lambdaf) = (-efd*Coef11) - lambdaf*Coef12 + lambdad*Coef13 + lambdaad*Coef14;
           der(lambdad) = lambdaf*Coef21 - lambdad*Coef22 + lambdaad*Coef23;
           der(lambdaq1) = (-lambdaq1*Coef31) + lambdaaq*Coef32;
@@ -16472,7 +16456,7 @@ extends Modelica.Icons.Package;
 </html>"));
         end PwMachineM10;
 
-        model PwGeneratorM1S_Init "Initialization model for synchronous mahine M1S.
+        model DYNModelM1S_INIT "Initialization model for synchronous mahine M1S.
                   Developed by RTE and adapted by AIA. 2014/03/10"
           Modelica.Blocks.Interfaces.RealOutput pin_CM;
           Modelica.Blocks.Interfaces.RealOutput pin_EFD;
@@ -16546,7 +16530,6 @@ extends Modelica.Icons.Package;
           parameter Real PI=3.14159265;
           parameter Integer IWLMDV=3;
           parameter Boolean Saturated=true;
-          parameter Real HIn;
           // paramètres calcules
           parameter Real yScaleNom=SNREF/SN;
           // YSCALE
@@ -16947,9 +16930,9 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end PwGeneratorM1S_Init;
+        end DYNModelM1S_INIT;
 
-        model PwGeneratorM2S_Init "Initialization model for synchronous mahine M2S.
+        model DYNModelM2S_INIT "Initialization model for synchronous mahine M2S.
                   Developed by RTE and adapted by AIA. 2014/03/10"
           Modelica.Blocks.Interfaces.RealOutput pin_CM;
           Modelica.Blocks.Interfaces.RealOutput pin_EFD;
@@ -17023,7 +17006,6 @@ extends Modelica.Icons.Package;
           parameter Real PI=3.14159265;
           parameter Integer IWLMDV=3;
           parameter Boolean Saturated=true;
-          parameter Real HIn;
           iPSL.Electrical.Machines.Eurostag.PwExtIntParameters extern(
             rStatIn_=rStatIn,
             lStatIn_=lStatIn,
@@ -17462,27 +17444,7 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end PwGeneratorM2S_Init;
-
-        block omegaRef
-            parameter Integer nGenerators = 1;
-            Modelica.Blocks.Interfaces.RealInput pin_HIn[nGenerators];
-            Modelica.Blocks.Interfaces.RealInput pin_SN[nGenerators];
-            Modelica.Blocks.Interfaces.RealInput pin_omega[nGenerators];
-            Modelica.Blocks.Interfaces.RealOutput omegaRef;
-            Modelica.Blocks.Math.Sum omegaRefDen(nin = nGenerators);
-            Modelica.Blocks.Math.Sum omegaRefNum(nin = nGenerators);
-            Real denom[nGenerators];
-            Real num[nGenerators];
-        equation
-          denom = pin_HIn .* pin_SN;
-          num  = denom .* pin_omega;
-          omegaRefNum.u = num;
-          omegaRefDen.u = denom;
-          omegaRef = omegaRefNum.y / omegaRefDen.y;
-          annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-                coordinateSystem(preserveAspectRatio=false)));
-        end omegaRef;
+        end DYNModelM2S_INIT;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -20257,77 +20219,6 @@ extends Modelica.Icons.Package;
 
       package Eurostag
 
-        model AVR3 "Voltage regulator. Developed by AIA. 2013"
-          parameter Real Kgain;
-          parameter Real KE;
-          parameter Real TE;
-          parameter Real init_V1;
-          parameter Real init_V2;
-          Modelica.Blocks.Math.Gain imGain(k=Kgain) annotation (Placement(transformation(extent={{-2,18},{20,40}})));
-          Modelica.Blocks.Interfaces.RealOutput pin_EFD annotation (Placement(transformation(extent={{60,-10},{79,10}}), iconTransformation(extent={{59,-10},{79,10}})));
-          Modelica.Blocks.Interfaces.RealInput pin_TerminalVoltage annotation (Placement(transformation(extent={{-61,-10},{-41,10}}), iconTransformation(extent={{-61,-10},{-41,10}})));
-          Modelica.Blocks.Sources.Constant imSetPoint(k=init_V1) annotation (Placement(transformation(extent={{-90,38},{-68,60}})));
-          iPSL.NonElectrical.Continuous.SimpleLag imSimpleLag(
-            K=KE,
-            T=TE,
-            y_start=init_V2) annotation (Placement(transformation(extent={{34,20},{52,38}})));
-          Modelica.Blocks.Math.Add add1(k2=-1) annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
-        equation
-          connect(imGain.y, imSimpleLag.u) annotation (Line(points={{21.1,29},{26.55,29},{26.55,29},{32.2,29}}, color={0,0,127}));
-          connect(imSimpleLag.y, pin_EFD) annotation (Line(points={{52.9,29},{80,29},{80,0},{69.5,0}}, color={0,0,127}));
-          connect(add1.y, imGain.u) annotation (Line(points={{-19,30},{-4.2,30},{-4.2,29}}, color={0,0,127}));
-          connect(imSetPoint.y, add1.u1) annotation (Line(points={{-66.9,49},{-50,49},{-50,36},{-42,36}}, color={0,0,127}));
-          connect(add1.u2, pin_TerminalVoltage) annotation (Line(points={{-42,24},{-51,24},{-51,0}}, color={0,0,127}));
-          annotation (
-            Icon(graphics={Rectangle(extent={{-40,40},{60,-40}}, lineColor={0,0,255}),Text(
-                  extent={{58,-10},{-40,12}},
-                  lineColor={0,0,255},
-                  textString="AVR3")}),
-            Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"),  Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})));
-        end AVR3;
-
-        class EFD1 "Generate constant signal of type Real.
-                  2014/03/10"
-          parameter Real V;
-          Modelica.Blocks.Interfaces.RealOutput pin_EFD annotation (Placement(transformation(extent={{39,-10},{59,10}}), iconTransformation(extent={{39,-10},{59,10}})));
-        equation
-          pin_EFD = V;
-          annotation (
-            Icon(graphics={Rectangle(extent={{-60,40},{40,-40}}, lineColor={0,0,255}),Text(
-                  extent={{-36,14},{20,-12}},
-                  lineColor={0,0,255},
-                  textStyle={TextStyle.Bold},
-                  textString="EFD1")}),
-            Diagram(graphics),
-            Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end EFD1;
-
         model GOVER1 "Steam turbine governor. Developed by AIA. 2013"
           //update 14/03/2016
           //added initialization k1, k2, k3 of add3
@@ -20461,373 +20352,76 @@ extends Modelica.Icons.Package;
 </html>"));
         end GOVER3;
 
-        model gsteam0
-        //GSTEAM0 GSTEAM0_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_4(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_5(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_6(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_7(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_8(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_9(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_10(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_11(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_12(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_13(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_14(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_15(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_16(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_17(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=.3000000);
-        //GSTEAM0 GSTEAM0_18(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.25);
-        //GSTEAM0 GSTEAM0_19(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_20(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=.2900000);
-        //GSTEAM0 GSTEAM0_21(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=.2700000);
-        //GSTEAM0 GSTEAM0_22(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=.3000000);
-        //GSTEAM0 GSTEAM0_23(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_24(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_25(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_26(DT=.3000000,RR=0.06,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_27(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_28(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_29(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_30(DT=.3000000,RR=0.08,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-          parameter Real init_3=init_REF;
-          parameter Real init_4=init_PMECH;
-          parameter Real init_5=init_PMECH;
-          parameter Real init_8=init_PMECH;
-          parameter Real init_10=init_CM;
-          parameter Real init_11=0;
-          parameter Real DT;
-          parameter Real RR;
-          parameter Real T1;
-          parameter Real T2;
-          parameter Real T3;
-          parameter Real VMAX;
-          parameter Real VMIN;
-          parameter Real SNREF;
-          parameter Real SN;
-          parameter Real PN;
-          parameter Real PNALT;
-          parameter Real init_REF;
-          parameter Real init_PMECH;
-          parameter Real init_CM;
-          Modelica.Blocks.Math.Gain Gain_1( k=1/RR); //Eurostag Block number: 1
-          Modelica.Blocks.Math.MultiSum MultiSum_2( nu= 2, k={1, -1}); //Eurostag Block number: 2
-          iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_3( V=init_3); //Eurostag Block number: 3
-          iPSL.NonElectrical.Continuous.SimpleLagLim SimpleLagLim_4( outMax=VMAX, K=1, T=T1, outMin=VMIN, y_start=init_4); //Eurostag Block number: 4
-          iPSL.NonElectrical.Continuous.LeadLag LeadLag_5( K=1, T1=T2, T2=T3, y_start=init_5); //Eurostag Block number: 5
-          Modelica.Blocks.Math.Gain Gain_6( k=DT); //Eurostag Block number: 6
-          Modelica.Blocks.Math.MultiSum MultiSum_7( nu= 2, k={1, -1}); //Eurostag Block number: 7
-          Modelica.Blocks.Math.MultiSum MultiSum_8( nu= 2, k={+1, -1}, y(start= init_8)); //Eurostag Block number: 8
-          iPSL.NonElectrical.Eurostag.Continuous.ImDiv2 ImDiv2_9( a1=1, a2=1, a0=0, StartValue=false); //Eurostag Block number: 9
-          Modelica.Blocks.Math.MultiSum MultiSum_10( nu= 2, k={1, 1}, y(start= init_10)); //Eurostag Block number: 10
-          iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_11( V=init_11); //Eurostag Block number: 11
-          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
-          Modelica.Blocks.Interfaces.RealOutput pin_PMECH; //PMECH
-          Modelica.Blocks.Interfaces.RealOutput pin_CM; //CM
-          Modelica.Blocks.Interfaces.RealOutput pin_CMREF;//Start = 0
-        equation
-          connect(ImSetPoint_3.y, MultiSum_2.u[1]);
-          connect(MultiSum_2.y, Gain_1.u);
-          connect(Gain_1.y, SimpleLagLim_4.u);
-          connect(SimpleLagLim_4.y, LeadLag_5.u);
-          connect(LeadLag_5.y, MultiSum_8.u[1]);
-          connect(MultiSum_8.y, ImDiv2_9.u1);
-          connect(Gain_6.y, MultiSum_8.u[2]);
-          connect(MultiSum_7.y, Gain_6.u);
-          connect(MultiSum_7.y, MultiSum_2.u[2]);
-          connect(ImDiv2_9.y, MultiSum_10.u[1]);
-          connect(ImSetPoint_11.y, MultiSum_10.u[2]);
-          connect(pin_OMEGA, MultiSum_7.u[1]);
-          connect(pin_OMEGA, ImDiv2_9.u2);
-          connect(pin_PMECH, MultiSum_8.y);
-          connect(pin_CM, MultiSum_10.y);
-          connect(pin_CMREF, ImSetPoint_11.y);
-          MultiSum_7.u[2] =1;
-        end gsteam0;
-
-        model gsteam0_Init
-        //GSTEAM0 GSTEAM0_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_4(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_5(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_6(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_7(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_8(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_9(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_10(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_11(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_12(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_13(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_14(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_15(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_16(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_17(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=.3000000);
-        //GSTEAM0 GSTEAM0_18(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.25);
-        //GSTEAM0 GSTEAM0_19(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_20(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=.2900000);
-        //GSTEAM0 GSTEAM0_21(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=.2700000);
-        //GSTEAM0 GSTEAM0_22(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=.3000000);
-        //GSTEAM0 GSTEAM0_23(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_24(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_25(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_26(DT=.3000000,RR=0.06,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_27(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_28(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_29(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-        //GSTEAM0 GSTEAM0_30(DT=.3000000,RR=0.08,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
-          parameter Real DT;
-          parameter Real RR;
-          parameter Real T1;
-          parameter Real T2;
-          parameter Real T3;
-          parameter Real VMAX;
-          parameter Real VMIN;
-          parameter Real SNREF;
-          parameter Real SN;
-          parameter Real PN;
-          parameter Real PNALT;
-          Modelica.Blocks.Math.Gain Gain_1( k=RR); //Eurostag Block number: 1
-          iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_2( nu= 2, a={1, 1}); //Eurostag Block number: 2
-          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
-          Modelica.Blocks.Interfaces.RealInput pin_CM;
-          Modelica.Blocks.Interfaces.RealOutput pin_REF; //isInitValue
-          Modelica.Blocks.Interfaces.RealOutput pin_PMECH; //isInitValue
-        equation
-          connect(ImMult5_2.y, Gain_1.u);
-          connect(pin_OMEGA, ImMult5_2.u[1]);
-          connect(pin_CM, ImMult5_2.u[2]);
-          connect(pin_REF, Gain_1.y);
-          connect(pin_PMECH, ImMult5_2.y);
-        end gsteam0_Init;
-
-        model pssi3e2b
-        //PSSI3E2B PSSI3E2B_1(KS1=10.,KS2=0.1564,KS3=1.,T1=0.25,T10=0.,T11=0.,T2=0.03,T3=.1500000,T4=0.015,T6=0.,T7=2.,T8=0.,T9=0.,TW1=2.,TW2=2.,TW3=2.,VSI1MAX=999.,VSI1MIN=-999.,VSI2MAX=999.,VSI2MIN=-999.,VSTMAX=0.1,VSTMIN=-0.1);
-          parameter Real init_3=0;
-          parameter Real init_2=0;
-          parameter Real init_15=0;
-          parameter Real init_4=init_APREF;
-          parameter Real init_7=0;
-          parameter Real init_5=0;
-          parameter Real init_8=0;
-          parameter Real init_10=0;
-          parameter Real init_12=0;
-          parameter Real init_13=0;
-          parameter Real init_14=0;
-          parameter Real init_17=0;
-          parameter Real init_18=0;
-          parameter Real init_11=0;
-          parameter Real init_6=0;
-          parameter Real KS1;
-          parameter Real KS2;
-          parameter Real KS3;
-          parameter Real T1;
-          parameter Real T10;
-          parameter Real T11;
-          parameter Real T2;
-          parameter Real T3;
-          parameter Real T4;
-          parameter Real T6;
-          parameter Real T7;
-          parameter Real T8;
-          parameter Real T9;
-          parameter Real TW1;
-          parameter Real TW2;
-          parameter Real TW3;
-          parameter Real VSI1MAX;
-          parameter Real VSI1MIN;
-          parameter Real VSI2MAX;
-          parameter Real VSI2MIN;
-          parameter Real VSTMAX;
-          parameter Real VSTMIN;
-          parameter Real SNREF;
-          parameter Real SN;
-          parameter Real PN;
-          parameter Real PNALT;
-          parameter Real init_APREF;
-          Modelica.Blocks.Continuous.Derivative Derivative_3( k=TW1, T=TW1, y_start=0, x_start=init_3, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 3
-          Modelica.Blocks.Math.MultiSum MultiSum_16( nu= 2, k={1, -1}); //Eurostag Block number: 16
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_2( K=KS2, T=T7, y_start=init_2); //Eurostag Block number: 2
-          Modelica.Blocks.Continuous.Derivative Derivative_15( k=TW2, T=TW2, y_start=0, x_start=init_15, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 15
-          Modelica.Blocks.Math.MultiSum MultiSum_20( nu= 2, k={KS3, 1}); //Eurostag Block number: 20
-          Modelica.Blocks.Math.MultiSum MultiSum_27( nu= 2, k={-1, 1}); //Eurostag Block number: 27
-          Modelica.Blocks.Continuous.Derivative Derivative_4( k=TW3, T=TW3, y_start=0, x_start=init_4, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 4
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_7( K=1, T=T6, y_start=init_7); //Eurostag Block number: 7
-          iPSL.NonElectrical.Continuous.LeadLag LeadLag_5( K=KS1, T1=T1, T2=T2, y_start=init_5); //Eurostag Block number: 5
-          iPSL.NonElectrical.Continuous.LeadLag LeadLag_8( K=1, T1=T3, T2=T4, y_start=init_8); //Eurostag Block number: 8
-          Modelica.Blocks.Nonlinear.Limiter Limiter_10( uMax=VSTMAX, uMin=VSTMIN); //Eurostag Block number: 10
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_12( K=1, T=T9, y_start=init_12); //Eurostag Block number: 12
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_13( K=1, T=T9, y_start=init_13); //Eurostag Block number: 13
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_14( K=1, T=T9, y_start=init_14); //Eurostag Block number: 14
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_17( K=1, T=T9, y_start=init_17); //Eurostag Block number: 17
-          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_18( K=1, T=T9, y_start=init_18); //Eurostag Block number: 18
-          iPSL.NonElectrical.Continuous.LeadLag LeadLag_11( K=1, T1=T8, T2=T9, y_start=init_11); //Eurostag Block number: 11
-          iPSL.NonElectrical.Continuous.LeadLag LeadLag_6( K=1, T1=T10, T2=T11, y_start=init_6); //Eurostag Block number: 6
-          Modelica.Blocks.Nonlinear.Limiter Limiter_9( uMax=VSI2MAX, uMin=VSI2MIN); //Eurostag Block number: 9
-          Modelica.Blocks.Nonlinear.Limiter Limiter_19( uMax=VSI1MAX, uMin=VSI1MIN); //Eurostag Block number: 19
-          Modelica.Blocks.Interfaces.RealInput pin_ActivePowerSN;
-          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
-          Modelica.Blocks.Interfaces.RealOutput pin_At_IN;
-          Modelica.Blocks.Interfaces.RealOutput pin_VS;//Start = 0
-          Modelica.Blocks.Interfaces.RealOutput pin_At_OUT;
-        equation
-          connect(LeadLag_11.y, SimpleLag_12.u);
-          connect(SimpleLag_2.y, MultiSum_20.u[1]);
-          connect(SimpleLag_7.y, MultiSum_20.u[2]);
-          connect(Derivative_3.y, Derivative_15.u);
-          connect(Derivative_15.y, SimpleLag_7.u);
-          connect(pin_ActivePowerSN, Limiter_9.u);
-          connect(Limiter_9.y, Derivative_4.u);
-          connect(MultiSum_16.y, Limiter_19.u);
-          connect(Limiter_19.y, Derivative_3.u);
-          connect(Derivative_4.y, SimpleLag_2.u);
-          connect(MultiSum_27.y, LeadLag_5.u);
-          connect(MultiSum_20.y, LeadLag_11.u);
-          connect(SimpleLag_2.y, MultiSum_27.u[1]);
-          connect(LeadLag_6.y, Limiter_10.u);
-          connect(LeadLag_5.y, LeadLag_8.u);
-          connect(LeadLag_8.y, LeadLag_6.u);
-          connect(SimpleLag_17.y, SimpleLag_18.u);
-          connect(SimpleLag_14.y, SimpleLag_17.u);
-          connect(SimpleLag_13.y, SimpleLag_14.u);
-          connect(SimpleLag_12.y, SimpleLag_13.u);
-          connect(pin_OMEGA, MultiSum_16.u[1]);
-          connect(pin_At_OUT, MultiSum_27.u[2]);
-          connect(pin_At_IN, MultiSum_20.y);
-          connect(pin_VS, Limiter_10.y);
-          connect(pin_At_OUT, SimpleLag_18.y);
-          MultiSum_16.u[2] =1;
-        end pssi3e2b;
-
-        model pssi3e2b_Init
-        //PSSI3E2B PSSI3E2B_1(KS1=10.,KS2=0.1564,KS3=1.,T1=0.25,T10=0.,T11=0.,T2=0.03,T3=.1500000,T4=0.015,T6=0.,T7=2.,T8=0.,T9=0.,TW1=2.,TW2=2.,TW3=2.,VSI1MAX=999.,VSI1MIN=-999.,VSI2MAX=999.,VSI2MIN=-999.,VSTMAX=0.1,VSTMIN=-0.1);
-          parameter Real KS1;
-          parameter Real KS2;
-          parameter Real KS3;
-          parameter Real T1;
-          parameter Real T10;
-          parameter Real T11;
-          parameter Real T2;
-          parameter Real T3;
-          parameter Real T4;
-          parameter Real T6;
-          parameter Real T7;
-          parameter Real T8;
-          parameter Real T9;
-          parameter Real TW1;
-          parameter Real TW2;
-          parameter Real TW3;
-          parameter Real VSI1MAX;
-          parameter Real VSI1MIN;
-          parameter Real VSI2MAX;
-          parameter Real VSI2MIN;
-          parameter Real VSTMAX;
-          parameter Real VSTMIN;
-          parameter Real SNREF;
-          parameter Real SN;
-          parameter Real PN;
-          parameter Real PNALT;
-          Modelica.Blocks.Interfaces.RealInput pin_ActivePowerSN;
-          Modelica.Blocks.Interfaces.RealOutput pin_APREF; //isInitValue
-        equation
-          connect(pin_APREF, pin_ActivePowerSN);
-        end pssi3e2b_Init;
-
-        model sexs
-        //SEXS SEXS_1(EFDMAX=999.,EFDMIN=-999.,EMAX=4.,EMIN=0.,K=200.,KC=1.,TA=3.,TB=10.,TE=0.05);
-        //SEXS SEXS_2(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=400.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-        //SEXS SEXS_3(EFDMAX=5.,EFDMIN=-5.,EMAX=4.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-        //SEXS SEXS_4(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-        //SEXS SEXS_5(EFDMAX=5.,EFDMIN=-5.,EMAX=4.5,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-          parameter Real init_2=init_YLL;
-          parameter Real init_12=init_VREF;
-          parameter Real init_1=init_EFD;
-          parameter Real init_6=0;
-          parameter Real init_4=init_EFD;
-          parameter Real EFDMAX;
-          parameter Real EFDMIN;
-          parameter Real EMAX;
-          parameter Real EMIN;
-          parameter Real K;
-          parameter Real KC;
-          parameter Real TA;
-          parameter Real TB;
+        model AVR3 "Voltage regulator. Developed by AIA. 2013"
+          parameter Real Kgain;
+          parameter Real KE;
           parameter Real TE;
-          parameter Real SNREF;
-          parameter Real SN;
-          parameter Real PN;
-          parameter Real PNALT;
-          parameter Real init_YLL;
-          parameter Real init_VREF;
-          parameter Real init_EFD;
-          iPSL.NonElectrical.Continuous.LeadLag LeadLag_2( K=1., T1=TA, T2=TB, y_start=init_2); //Eurostag Block number: 2
-          iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_12( V=init_12); //Eurostag Block number: 12
-          Modelica.Blocks.Math.MultiSum MultiSum_13( nu= 4, k={-1, 1., 1, 1}); //Eurostag Block number: 13
-          iPSL.NonElectrical.Continuous.SimpleLagLim SimpleLagLim_1( outMax=EMAX, K=K, T=TE, outMin=EMIN, y_start=init_1); //Eurostag Block number: 1
-          iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_6( V=init_6); //Eurostag Block number: 6
-          Modelica.Blocks.Math.Gain Gain_7( k=KC); //Eurostag Block number: 7
-          Modelica.Blocks.Nonlinear.Limiter Limiter_4( uMax=EFDMAX, uMin=EFDMIN); //Eurostag Block number: 4
-          Modelica.Blocks.Interfaces.RealInput pin_VS;
-          Modelica.Blocks.Interfaces.RealInput pin_TerminalVoltage;
-          Modelica.Blocks.Interfaces.RealOutput pin_At_VREF; //At_VREF
-          Modelica.Blocks.Interfaces.RealOutput pin_At_VERR;
-          Modelica.Blocks.Interfaces.RealOutput pin_PSSREF;//Start = 0
-          Modelica.Blocks.Interfaces.RealOutput pin_EFD; //EFD
+          parameter Real init_V1;
+          parameter Real init_V2;
+          Modelica.Blocks.Math.Gain imGain(k=Kgain) annotation (Placement(transformation(extent={{-2,18},{20,40}})));
+          Modelica.Blocks.Interfaces.RealOutput pin_EFD annotation (Placement(transformation(extent={{60,-10},{79,10}}), iconTransformation(extent={{59,-10},{79,10}})));
+          Modelica.Blocks.Interfaces.RealInput pin_TerminalVoltage annotation (Placement(transformation(extent={{-61,-10},{-41,10}}), iconTransformation(extent={{-61,-10},{-41,10}})));
+          Modelica.Blocks.Sources.Constant imSetPoint(k=init_V1) annotation (Placement(transformation(extent={{-90,38},{-68,60}})));
+          iPSL.NonElectrical.Continuous.SimpleLag imSimpleLag(
+            K=KE,
+            T=TE,
+            y_start=init_V2) annotation (Placement(transformation(extent={{34,20},{52,38}})));
+          Modelica.Blocks.Math.Add add1(k2=-1) annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
         equation
-          connect(ImSetPoint_12.y, MultiSum_13.u[2]);
-          connect(MultiSum_13.y, LeadLag_2.u);
-          connect(ImSetPoint_6.y, MultiSum_13.u[3]);
-          connect(LeadLag_2.y, Gain_7.u);
-          connect(Gain_7.y, SimpleLagLim_1.u);
-          connect(SimpleLagLim_1.y, Limiter_4.u);
-          connect(pin_TerminalVoltage, MultiSum_13.u[1]);
-          connect(pin_VS, MultiSum_13.u[4]);
-          connect(pin_At_VREF, ImSetPoint_12.y);
-          connect(pin_At_VERR, MultiSum_13.y);
-          connect(pin_PSSREF, ImSetPoint_6.y);
-          connect(pin_EFD, Limiter_4.y);
-        end sexs;
+          connect(imGain.y, imSimpleLag.u) annotation (Line(points={{21.1,29},{26.55,29},{26.55,29},{32.2,29}}, color={0,0,127}));
+          connect(imSimpleLag.y, pin_EFD) annotation (Line(points={{52.9,29},{80,29},{80,0},{69.5,0}}, color={0,0,127}));
+          connect(add1.y, imGain.u) annotation (Line(points={{-19,30},{-4.2,30},{-4.2,29}}, color={0,0,127}));
+          connect(imSetPoint.y, add1.u1) annotation (Line(points={{-66.9,49},{-50,49},{-50,36},{-42,36}}, color={0,0,127}));
+          connect(add1.u2, pin_TerminalVoltage) annotation (Line(points={{-42,24},{-51,24},{-51,0}}, color={0,0,127}));
+          annotation (
+            Icon(graphics={Rectangle(extent={{-40,40},{60,-40}}, lineColor={0,0,255}),Text(
+                  extent={{58,-10},{-40,12}},
+                  lineColor={0,0,255},
+                  textString="AVR3")}),
+            Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
 
-        model sexs_Init
-        //SEXS SEXS_1(EFDMAX=999.,EFDMIN=-999.,EMAX=4.,EMIN=0.,K=200.,KC=1.,TA=3.,TB=10.,TE=0.05);
-        //SEXS SEXS_2(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=400.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-        //SEXS SEXS_3(EFDMAX=5.,EFDMIN=-5.,EMAX=4.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-        //SEXS SEXS_4(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-        //SEXS SEXS_5(EFDMAX=5.,EFDMIN=-5.,EMAX=4.5,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-          parameter Real EFDMAX;
-          parameter Real EFDMIN;
-          parameter Real EMAX;
-          parameter Real EMIN;
-          parameter Real K;
-          parameter Real KC;
-          parameter Real TA;
-          parameter Real TB;
-          parameter Real TE;
-          parameter Real SNREF;
-          parameter Real SN;
-          parameter Real PN;
-          parameter Real PNALT;
-          Modelica.Blocks.Math.Gain Gain_1( k=1/K); //Eurostag Block number: 1
-          Modelica.Blocks.Math.MultiSum MultiSum_2( nu= 3, k={+1, +1, -1}); //Eurostag Block number: 2
-          Modelica.Blocks.Math.Gain Gain_4( k=1/KC); //Eurostag Block number: 4
-          Modelica.Blocks.Interfaces.RealInput pin_VS;
-          Modelica.Blocks.Interfaces.RealInput pin_TerminalVoltage;
-          Modelica.Blocks.Interfaces.RealInput pin_EFD;
-          Modelica.Blocks.Interfaces.RealOutput pin_YLL; //isInitValue
-          Modelica.Blocks.Interfaces.RealOutput pin_VREF; //isInitValue
-          Modelica.Blocks.Interfaces.RealOutput pin_At_V;
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"),  Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})));
+        end AVR3;
+
+        class EFD1 "Generate constant signal of type Real.
+                  2014/03/10"
+          parameter Real V;
+          Modelica.Blocks.Interfaces.RealOutput pin_EFD annotation (Placement(transformation(extent={{39,-10},{59,10}}), iconTransformation(extent={{39,-10},{59,10}})));
         equation
-          connect(Gain_1.y, MultiSum_2.u[2]);
-          connect(pin_TerminalVoltage, MultiSum_2.u[1]);
-          connect(Gain_4.y, Gain_1.u);
-          connect(pin_VS, MultiSum_2.u[3]);
-          connect(pin_EFD, Gain_4.u);
-          connect(pin_YLL, Gain_1.y);
-          connect(pin_VREF, MultiSum_2.y);
-          connect(pin_At_V, pin_TerminalVoltage);
-        end sexs_Init;
+          pin_EFD = V;
+          annotation (
+            Icon(graphics={Rectangle(extent={{-60,40},{40,-40}}, lineColor={0,0,255}),Text(
+                  extent={{-36,14},{20,-12}},
+                  lineColor={0,0,255},
+                  textStyle={TextStyle.Bold},
+                  textString="EFD1")}),
+            Diagram(graphics),
+            Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end EFD1;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -32773,15 +32367,12 @@ IEE2ST, PSSE Manual
           Real a(start = 1) "auxiliary variable. Voltage division";
           parameter Real alpha = 0;
           parameter Real beta = 0;
-          Real P(start = P_0/S_b);
-          Real Q(start = Q_0/S_b);
         equation
           a = v / vo;
           (P_0/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
           (Q_0/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
           v = sqrt(p.vr ^ 2 + p.vi ^ 2);
-          P = p.vr * p.ir + p.vi * p.ii;
-          Q = (-p.vr * p.ii) + p.vi * p.ir;
+
           annotation (
             Placement(transformation(extent={{-56,-10},{-36,10}}), iconTransformation(extent={{-80,0},{-60,20}})),
             Diagram(graphics),
@@ -32859,7 +32450,7 @@ IEE2ST, PSSE Manual
           Q = (-p.vr * p.ii) + p.vi * p.ir;
           angle = atan2(p.vi, p.vr);
           v = sqrt(p.vr ^ 2 + p.vi ^ 2);
-          annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent=  {{-60, 60}, {40, -40}}, lineColor=  {0, 0, 255}), Rectangle(extent=  {{-40, 40}, {20, -20}}, lineColor=  {0, 0, 255}), Line(points=  {{-40, 40}, {20, -20}}, color=  {0, 0, 255}, smooth=  Smooth.None), Line(points=  {{-40, -20}, {20, 40}}, color=  {0, 0, 255}, smooth=  Smooth.None)}));
+          annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent = {{-60, 60}, {40, -40}}, lineColor = {0, 0, 255}), Rectangle(extent = {{-40, 40}, {20, -20}}, lineColor = {0, 0, 255}), Line(points = {{-40, 40}, {20, -20}}, color = {0, 0, 255}, smooth = Smooth.None), Line(points = {{-40, -20}, {20, 40}}, color = {0, 0, 255}, smooth = Smooth.None)}));
         end PwLoadPQ;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
@@ -45953,12 +45544,12 @@ Gate")}), Documentation(revisions="<html>
 
         parameter Real y_start "Output start value" annotation (Dialog(group="Initialization"));
         parameter Real x_start=0 "Start value of state variable" annotation (Dialog(group="Initialization"));
+       // parameter Real  u_0(fixed = false) = 0;
       protected
         parameter Modelica.SIunits.Time T_dummy=if abs(T) < Modelica.Constants.eps then 1000 else T
           "Lead time constant";
         parameter Modelica.SIunits.Time K_dummy=if abs(K) < Modelica.Constants.eps then 1 else K
           "Lead time constant";
-      public
         Modelica.Blocks.Sources.RealExpression par1(y=T) annotation (Placement(transformation(extent={{-80,54},{-60,74}})));
         Modelica.Blocks.Continuous.TransferFunction TF(
           initType=Modelica.Blocks.Types.Init.InitialState,
@@ -45966,7 +45557,12 @@ Gate")}), Documentation(revisions="<html>
           b={K_dummy,0},
           y_start=y_start,
           a={T_dummy,1}) annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
+         //  Real u1;
+      //initial equation
+       // u_0 = u;
       equation
+        //u1 = u - u_0;
+        //TF.u = u1;
         if (abs(par1.y) < Modelica.Constants.eps) then
           y = u;
         else
@@ -46005,6 +45601,7 @@ Gate")}), Documentation(revisions="<html>
       block SimpleLag "First order lag transfer function block"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
         import Modelica.Blocks.Types.Init;
+        Modelica.Blocks.Sources.RealExpression const(y=T) annotation (Placement(transformation(extent={{-58,32},{-38,52}})));
         Real state(start=y_start);
         parameter Real K "Gain";
         parameter Modelica.SIunits.Time T "Lag time constant";
@@ -46019,13 +45616,12 @@ Gate")}), Documentation(revisions="<html>
           state = y_start;
         end if;
       equation
-
-        if T <= Modelica.Constants.eps then
-          state =  u*K;
+        T_mod*der(state) = K*u - state;
+        if abs(const.y) <= Modelica.Constants.eps then
+          y = u*K;
         else
-          T_mod*der(state) = K*u - state;
+          y = state;
         end if;
-        y = state;
         annotation (
           Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics={Text(
                 extent={{-18,68},{22,8}},
@@ -46077,29 +45673,30 @@ Gate")}), Documentation(revisions="<html>
       block SimpleLagLim
         "First order lag transfer function block with a non windup limiter"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
+        Modelica.Blocks.Sources.RealExpression const(y=T) annotation (Placement(transformation(extent={{-58,32},{-38,52}})));
+        Real state;
         parameter Real K "Gain";
         parameter Modelica.SIunits.Time T "Lag time constant";
         parameter Real y_start "Output start value";
         parameter Real outMax "Maximum output value";
         parameter Real outMin "Minimum output value";
-        Real state;
       protected
         parameter Real T_mod=if (T < Modelica.Constants.eps) then 1000 else T;
       initial equation
         state = y_start;
       equation
+        T_mod*der(state) = K*u - state;
         when (state > outMax) and ((K*u - state) < 0) then
           reinit(state, outMax);
         elsewhen (state < outMin) and ((K*u - state) > 0) then
           reinit(state, outMin);
         end when;
 
-        if T <= Modelica.Constants.eps then
-          state = K*u;
+        if abs(const.y) <= Modelica.Constants.eps then
+          y = max(min(u*K, outMax), outMin);
         else
-         T_mod*der(state) = K*u - state;
+          y = max(min(state, outMax), outMin);
         end if;
-         y = max(min(state, outMax), outMin);
         annotation (Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -47278,16 +46875,16 @@ This Block is equivalent to spesific SET POINT Block from Eurostag.
                     lineColor={0,0,255},
                     fillColor={255,213,170},
                     fillPattern=FillPattern.Solid,
-                    textString=  "X"),
-                    Line(points=  {{-26, 34}, {-26, -28}, {-26, -28}},
-                    color=  {0, 0, 255},
+                    textString = "X"),
+                    Line(points = {{-26, 34}, {-26, -28}, {-26, -28}},
+                    color = {0, 0, 255},
                     thickness=0.5,
-                    smooth=  Smooth.None),
+                    smooth = Smooth.None),
                     Line(
                     points={{32,34},{32,-28},{32,-28}},
-                    color=  {0, 0, 255},
+                    color = {0, 0, 255},
                     thickness=0.5,
-                    smooth=  Smooth.None)}),
+                    smooth = Smooth.None)}),
                     Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -47494,12 +47091,12 @@ This Block is equivalent to spesific ARC-TANGENT Block from Eurostag.
           end if;
           annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                     -100},{100,100}}),
-                          graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{8,
-                      66},{-15,15}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Text(extent={{
-                      11,-21},{-12,-68}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "R"), Line(points={{
-                      -100,0},{100,0}},                                                                                                    color=  {0, 0, 255}, smooth=  Smooth.None), Rectangle(extent={{
-                      92,0},{100,-100}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
-                    fillPattern=                                                                                                    FillPattern.Solid)}), Diagram(
+                          graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{8,
+                      66},{-15,15}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Text(extent={{
+                      11,-21},{-12,-68}},                                                                                                    lineColor = {0, 0, 255}, textString = "R"), Line(points={{
+                      -100,0},{100,0}},                                                                                                    color = {0, 0, 255}, smooth = Smooth.None), Rectangle(extent={{
+                      92,0},{100,-100}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
+                    fillPattern =                                                                                                   FillPattern.Solid)}), Diagram(
                 coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
                     100,100}}), graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),                                Text(extent={{6,
@@ -47562,11 +47159,11 @@ This Block is equivalent to spesific SET RESET Block from Eurostag.
             y1 = 1;
           end if;
           annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-                    -100},{100,100}}),graphics={  Rectangle(extent={{-100,100},{100,-100}}, lineColor=  {0, 0, 255}), Text(extent={{
-                      20,66},{-17,21}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Text(extent={{
-                      17,-21},{-12,-64}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "R"), Line(points=  {{-100, 0}, {100, 0}}, color=  {0, 0, 255}, smooth=  Smooth.None), Rectangle(extent={{
-                      92,100},{100,0}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
-                    fillPattern=                                                                                                    FillPattern.Solid)}), Diagram(
+                    -100},{100,100}}),graphics={  Rectangle(extent={{-100,100},{100,-100}}, lineColor = {0, 0, 255}), Text(extent={{
+                      20,66},{-17,21}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Text(extent={{
+                      17,-21},{-12,-64}},                                                                                                    lineColor = {0, 0, 255}, textString = "R"), Line(points = {{-100, 0}, {100, 0}}, color = {0, 0, 255}, smooth = Smooth.None), Rectangle(extent={{
+                      92,100},{100,0}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
+                    fillPattern =                                                                                                   FillPattern.Solid)}), Diagram(
                 coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
                 graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
@@ -47880,20 +47477,20 @@ This package contains specifics logical blocks from Eurostag
             der(y) = 1 / T * (u3 - y);
           end if;
           //assert(T == 0, "T must be different of 0");
-          annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{
-                      64,82},{28,48}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "K"), Text(extent={{
-                      66,48},{24,16}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Line(points={{
+          annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{
+                      64,82},{28,48}},                                                                                                    lineColor = {0, 0, 255}, textString = "K"), Text(extent={{
+                      66,48},{24,16}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Line(points={{
                       24,48},{52,48},{66,48}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      62,-12},{26,-40}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "1"), Text(extent={{
-                      66,-40},{26,-68}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "1+Ts"), Line(points={{
+                      62,-12},{26,-40}},                                                                                                    lineColor = {0, 0, 255}, textString = "1"), Text(extent={{
+                      66,-40},{26,-68}},                                                                                                    lineColor = {0, 0, 255}, textString = "1+Ts"), Line(points={{
                       26,-40},{60,-40},{66,-40}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      -82,-8},{-44,-36}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "K"), Text(extent={{
-                      -82,-48},{-44,-68}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "T"), Text(extent={{
-                      -86,-76},{-48,-100}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "-/0")}), Diagram(graphics={
+                      -82,-8},{-44,-36}},                                                                                                    lineColor = {0, 0, 255}, textString = "K"), Text(extent={{
+                      -82,-48},{-44,-68}},                                                                                                    lineColor = {0, 0, 255}, textString = "T"), Text(extent={{
+                      -86,-76},{-48,-100}},                                                                                                    lineColor = {0, 0, 255}, textString = "-/0")}), Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{-100,70},{-80,70},{-80,40},{
                       -60,40}}, color={28,108,200}),
@@ -47969,12 +47566,12 @@ This Block is equivalent to spesific INTEGRATOR FOLLOWER Block from Eurostag.
             y = 1000000;
           end if;
           annotation(Icon(graphics={  Rectangle(extent={{-100,
-                      100},{100,-100}},                                          lineColor=  {0, 0, 255}), Line(points={{
-                      -34,0},{32,0}},                                                                                                    color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  1), Ellipse(extent={{
-                      -4,26},{6,14}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
-                    fillPattern=                                                                                                    FillPattern.Solid), Ellipse(extent={{
-                      -4,-18},{6,-28}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
-                    fillPattern=                                                                                                    FillPattern.Solid)}),
+                      100},{100,-100}},                                          lineColor = {0, 0, 255}), Line(points={{
+                      -34,0},{32,0}},                                                                                                    color = {0, 0, 255}, smooth = Smooth.None, thickness = 1), Ellipse(extent={{
+                      -4,26},{6,14}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
+                    fillPattern =                                                                                                   FillPattern.Solid), Ellipse(extent={{
+                      -4,-18},{6,-28}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
+                    fillPattern =                                                                                                   FillPattern.Solid)}),
               Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{-100,48},{-60,48}}, color={0,0,
@@ -48059,9 +47656,9 @@ This package contains specifics continuous blocks from Eurostag
                   {110,0}},                                                      color = {0, 0, 127}, smooth = Smooth.None));
 
           annotation(Icon(graphics={                                                                       Text(extent={{
-                      -46,64},{52,-12}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "Delay_2"), Text(extent={{
-                      -36,-2},{42,-40}},                                                                                                    lineColor=  {0, 0, 255},
-                    horizontalAlignment=                                                                                                    TextAlignment.Left, textString=  "e^(-Ts) ", textStyle=  {TextStyle.Bold})}),
+                      -46,64},{52,-12}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "Delay_2"), Text(extent={{
+                      -36,-2},{42,-40}},                                                                                                    lineColor = {0, 0, 255},
+                    horizontalAlignment =                                                                                                   TextAlignment.Left, textString = "e^(-Ts) ", textStyle = {TextStyle.Bold})}),
                     Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -48096,8 +47693,6 @@ This Block is equivalent to spesific DELAY_2 Block from Eurostag.
           discrete Real tau(start = -Modelica.Constants.inf);
           parameter Real S "Start";
           parameter Real T "Pulse period";
-        initial equation
-         y = 0;
         equation
           when u >= S then
             tau = time;
@@ -48108,7 +47703,7 @@ This Block is equivalent to spesific DELAY_2 Block from Eurostag.
             y = 0;
           end if;
           annotation(Icon(graphics={                                                                       Text(extent={{
-                      -34,6},{26,-16}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T"), Line(points={{
+                      -34,6},{26,-16}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "T"), Line(points={{
                       -62,-18},{-34,-18},{-34,44},{26,44},{26,-18},{50,-18}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5)}),                                                                                                    Diagram(graphics={
@@ -48172,8 +47767,8 @@ This Block is equivalent to spesific PULSE Block from Eurostag.
             y = 0;
           end if;
           annotation(Icon(graphics={                                                                       Text(extent={{
-                      -82,-58},{-50,-86}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T"),                                                                                                    Text(extent={{
-                      -78,-28},{-54,-54}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "S"),
+                      -82,-58},{-50,-86}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "T"),                                                                                                    Text(extent={{
+                      -78,-28},{-54,-54}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "S"),
                                                                                                     Line(points={{
                       -58,-12},{-30,-12},{-30,50},{30,50},
                       {30,-12},{54,-12}},                                                                                                    color={0,0,
@@ -48404,7 +47999,7 @@ This package contains specifics non linear blocks from Eurostag
       equation
         y = findValue(v, u, false);
         annotation(Diagram(graphics), Icon(graphics={                                                                       Text(extent={{
-                    -42,64},{52,-46}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "y = f(x)")}));
+                    -42,64},{52,-46}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "y = f(x)")}));
       end ImFunction;
 
       model ImInverseFunction "Inverse Piecewise function. It takes into account the case 
@@ -48480,7 +48075,7 @@ This package contains specifics non linear blocks from Eurostag
       equation
         y = findValue(v, u, true);
         annotation(Diagram(graphics), Icon(graphics={                                                                       Text(extent={{
-                    -46,66},{50,-52}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "y = f(x)")}));
+                    -46,66},{50,-52}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "y = f(x)")}));
       end ImInverseFunction;
     annotation (Documentation(info="<HTML>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">

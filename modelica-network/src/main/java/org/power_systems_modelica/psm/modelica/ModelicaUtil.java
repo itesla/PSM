@@ -150,7 +150,7 @@ public class ModelicaUtil
 
 	private static String dynamicIdFromStaticId(String staticId)
 	{
-		return "DM".concat(staticId);
+		return "DM_".concat(staticId);
 	}
 
 	private static final String	ID_VAR_SEPARATOR		= ".";

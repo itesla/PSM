@@ -57,8 +57,17 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		associations = new AssociationProvider();
 		dynamicModels = new ModelProvider(associations);
 		initializationModels = new ModelProvider(associations);
-		systemDefinitions = new SystemDefinitions();
+		systemDefinitions = null;
 		parameters = new ParameterSetProvider();
+	}
+
+	public List<Model> getAllModelDefinitions()
+	{
+		List<Model> models = new ArrayList<>();
+		models.addAll(modelContainers.values().stream()
+				.flatMap(mc -> mc.getModels().stream())
+				.collect(Collectors.toList()));
+		return models;
 	}
 
 	@Override
@@ -186,9 +195,10 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return eventParams;
 	}
 
-	public void setSystemDefinitionsName(String systemName)
+	public void createSystemDefinitions(String name)
 	{
-		systemDefinitions.setName(systemName);
+		systemDefinitions = new SystemDefinitions();
+		systemDefinitions.setName(name);
 	}
 
 	public static String dynamicId(String baseId, Identifiable<?> element)
@@ -326,7 +336,14 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			else if (dyd instanceof SystemDefinitions)
 			{
 				SystemDefinitions sd = (SystemDefinitions) dyd;
-				systemDefinitions.add(sd);
+				if (systemDefinitions != null)
+				{
+					LOG.warn(
+							"Existing system definitions read from '{}' will be overwritten with new ones read from '{}'",
+							systemDefinitions.getName(),
+							dyd.getName());
+				}
+				systemDefinitions = sd;
 			}
 		}
 		catch (XMLStreamException | IOException e)
@@ -386,7 +403,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Path f;
 
 		// Write all model containers, all model initialization containers and all parameter set containers
-		if (!systemDefinitions.isEmpty())
+		if (systemDefinitions != null && !systemDefinitions.isEmpty())
 		{
 			f = ensureFile(fileForDydContent(systemDefinitions));
 			DydXml.write(f, systemDefinitions);
@@ -415,7 +432,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	public void addModel(String containerName, Model mdef)
 	{
-		ModelContainer mc = getContainer(containerName);
+		ModelContainer mc = getCreateModelContainer(containerName);
 		mc.add(mdef);
 		if (mdef.isInitialization()) initializationModels.add(mdef);
 		else dynamicModels.add(mdef);
@@ -423,7 +440,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	public void addAssociation(String containerName, Association a)
 	{
-		ModelContainer mc = getContainer(containerName);
+		ModelContainer mc = getCreateModelContainer(containerName);
 		mc.add(a);
 		associations.add(a);
 	}
@@ -438,7 +455,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return dynamicModels.getDynamicModelForStaticType(type).orElse(null);
 	}
 
-	private ModelContainer getContainer(String name)
+	private ModelContainer getCreateModelContainer(String name)
 	{
 		ModelContainer mc = Optional
 				.ofNullable(modelContainers.get(name))

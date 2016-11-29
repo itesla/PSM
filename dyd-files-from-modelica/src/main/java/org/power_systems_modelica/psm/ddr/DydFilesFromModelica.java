@@ -78,7 +78,7 @@ public class DydFilesFromModelica
 		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
 		ddr.setLocation(ddrLocation.toString());
 		ddr.addParameterSetContainer(PARAMS_NAME);
-		ddr.setSystemDefinitionsName(SYSTEM_NAME);
+		ddr.createSystemDefinitions(SYSTEM_NAME);
 
 		boolean inferInitializationModels = (modelicaFileInit == null);
 		boolean isInitializationModel = false;

@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.modelica.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -116,6 +115,10 @@ public class ModelicaBuilderTest
 		for (ModelicaModel m : models)
 		{
 			ModelicaModel gm = gmodels.get(m.getStaticId());
+			// Grouped models should have the same declarations and equations,
+			// Identifiers of dynamic models will change
+			// Connectors are not recovered when grouping by id
+			// We do not check Annotations neither
 			assertSameDeclarationsAndEquations(m, gm);
 		}
 
@@ -139,23 +142,29 @@ public class ModelicaBuilderTest
 
 	private void assertSameDeclarationsAndEquations(ModelicaModel expected, ModelicaModel actual)
 	{
-		// TODO Declarations and equations should have equals implemented
-
+		// When checking declarations we take into account that parameter references may have been resolved
 		assertEquals(expected.getDeclarations().size(), actual.getDeclarations().size());
 		for (int k = 0; k < expected.getDeclarations().size(); k++)
-			assertEquals(expected.getDeclarations().get(k).getId(),
-					actual.getDeclarations().get(k).getId());
-		assertEquals(expected.getEquations().size(), actual.getEquations().size());
-		for (int k = 0; k < expected.getEquations().size(); k++)
 		{
-			// Check only connect equations
-			assertTrue(expected.getEquations().get(k) instanceof ModelicaConnect);
-			assertTrue(actual.getEquations().get(k) instanceof ModelicaConnect);
-			ModelicaConnect eqe = (ModelicaConnect) expected.getEquations().get(k);
-			ModelicaConnect eqa = (ModelicaConnect) actual.getEquations().get(k);
-			assertEquals(eqe.getRef1(), eqa.getRef1());
-			assertEquals(eqe.getRef2(), eqa.getRef2());
+			ModelicaDeclaration de = expected.getDeclarations().get(k);
+			ModelicaDeclaration da = actual.getDeclarations().get(k);
+			assertEquals(de.getType(), da.getType());
+			assertEquals(de.getId(), da.getId());
+			if (de.getAnnotation() != null)
+				assertEquals(de.getAnnotation().asText(), da.getAnnotation().asText());
+			assertEquals(de.getValue(), da.getValue());
+			assertEquals(de.getArguments().size(), da.getArguments().size());
+			for (int j = 0; j < de.getArguments().size(); j++)
+			{
+				ModelicaArgument pe = de.getArguments().get(j);
+				ModelicaArgument pa = da.getArguments().get(j);
+				assertEquals(pe.getName(), pa.getName());
+				if (pe instanceof ModelicaArgumentReference) continue;
+				if (pa instanceof ModelicaArgumentReference) continue;
+				assertEquals(pe.getValue(), pa.getValue());
+			}
 		}
+		assertEquals(expected.getEquations(), actual.getEquations());
 	}
 
 	private ModelicaModel simpleModelForStaticId(String staticId)

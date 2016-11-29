@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -16,13 +17,22 @@ import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.ddr.dyd.Component;
+import org.power_systems_modelica.psm.ddr.dyd.Connection;
+import org.power_systems_modelica.psm.ddr.dyd.Connector;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
+import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForAssociation;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForEvent;
+import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -208,18 +218,151 @@ public class DynamicDataRepositoryTest
 	}
 
 	@Test
-	public void testXmlReadWrite() throws ConnectionException, XMLStreamException, IOException
+	public void testXmlReadWrite12n() throws ConnectionException, XMLStreamException, IOException
 	{
-		String location = TEST_SAMPLES.resolve("12n").resolve("BDD").toString();
-		DynamicDataRepository ddr0 = DynamicDataRepositoryMainFactory.create("DYD", location);
-		assertTrue(ddr0 instanceof DynamicDataRepositoryDydFiles);
-		DynamicDataRepositoryDydFiles ddr = (DynamicDataRepositoryDydFiles) ddr0;
-		ddr.connect();
-		ddr.setLocation(DATA_TMP.resolve("dyd-write").toString());
-		ddr.write();
+		testXmlReadWrite(TEST_SAMPLES.resolve("12n").resolve("BDD").toString());
+	}
 
-		// XXX PENDING check files have written correctly (read from new location and compare?)
+	@Test
+	public void testXmlReadWriteIeee14() throws ConnectionException, XMLStreamException, IOException
+	{
+		testXmlReadWrite(TEST_SAMPLES.resolve("ieee14").resolve("ddr").toString());
+	}
+
+	public void testXmlReadWrite(String location)
+			throws ConnectionException, XMLStreamException, IOException
+	{
+		// We write the given ddr to a new location, read it again and compare the results
+
+		DynamicDataRepository ddre = DynamicDataRepositoryMainFactory.create("DYD", location);
+		ddre.connect();
+
+		Path tmp = DATA_TMP.resolve("dyd-write");
+		if (Files.isDirectory(tmp)) FileUtils.deleteDirectory(tmp.toFile());
+		String location1 = tmp.toString();
+		assertTrue(ddre instanceof DynamicDataRepositoryDydFiles);
+		DynamicDataRepositoryDydFiles dydse = (DynamicDataRepositoryDydFiles) ddre;
+		dydse.setLocation(location1);
+		dydse.write();
+
+		DynamicDataRepository ddra = DynamicDataRepositoryMainFactory.create("DYD", location1);
+		ddra.connect();
+
+		// Compare names of events defined
+		assertEquals(ddre.getEvents(), ddra.getEvents());
+
+		assertTrue(ddra instanceof DynamicDataRepositoryDydFiles);
+		DynamicDataRepositoryDydFiles dydsa = (DynamicDataRepositoryDydFiles) ddra;
+		assertSameModelDefinitions(dydse.getAllModelDefinitions(), dydsa.getAllModelDefinitions());
 		
+		// FIXME Check system definitions are the same 
+		// compare ddre.getSystemDefinitions() with ddra.getSystemDefinitions();
+	}
+
+	private void assertSameModelDefinitions(List<Model> expected, List<Model> actual)
+	{
+		assertEquals(expected.size(), actual.size());
+		for (int k = 0; k < expected.size(); k++)
+		{
+			Model me = expected.get(k);
+			Model ma = actual.get(k);
+			assertEquals(me.getClass(), ma.getClass());
+			assertEquals(me.getId(), ma.getId());
+			assertEquals(me.isInitialization(), ma.isInitialization());
+
+			System.out.println(me.getId());
+
+			if (me instanceof ModelForAssociation)
+			{
+				System.out.println("    " + ((ModelForAssociation) me).getAssociation());
+
+				assertEquals(
+						((ModelForAssociation) me).getAssociation(),
+						((ModelForAssociation) ma).getAssociation());
+			}
+			else if (me instanceof ModelForElement)
+			{
+				System.out.println("    " + ((ModelForElement) me).getStaticId());
+
+				assertEquals(
+						((ModelForElement) me).getStaticId(),
+						((ModelForElement) ma).getStaticId());
+			}
+			else if (me instanceof ModelForType)
+			{
+				System.out.println("    " + ((ModelForType) me).getType());
+
+				assertEquals(
+						((ModelForType) me).getType(),
+						((ModelForType) ma).getType());
+			}
+			else if (me instanceof ModelForEvent)
+			{
+				System.out.println("    " + ((ModelForEvent) me).getEvent() + " "
+						+ ((ModelForEvent) me).getInjection());
+
+				assertEquals(
+						((ModelForEvent) me).getEvent(),
+						((ModelForEvent) ma).getEvent());
+				assertEquals(
+						((ModelForEvent) me).getInjection(),
+						((ModelForEvent) ma).getInjection());
+			}
+
+			System.out.println("    components " + me.getComponents().size());
+
+			assertEquals(me.getComponents().size(), ma.getComponents().size());
+			for (int j = 0; j < me.getComponents().size(); j++)
+			{
+				Component ce = me.getComponents().get(j);
+				Component ca = ma.getComponents().get(j);
+
+				System.out.println("        " + ce.getName() + " : " + ce.getId());
+
+				assertEquals(ce.getName(), ca.getName());
+				assertEquals(ce.getId(), ca.getId());
+			}
+
+			if (me.getConnections().size() > 0)
+			{
+				System.out.println("    connections " + me.getConnections().size());
+
+				assertEquals(me.getConnections().size(), ma.getConnections().size());
+				for (int j = 0; j < me.getConnections().size(); j++)
+				{
+					Connection ce = me.getConnections().get(j);
+					Connection ca = ma.getConnections().get(j);
+
+					System.out.println("        " +
+							ce.getId1() + "." + ce.getVar1() + " - " +
+							ce.getId2() + "." + ce.getVar2());
+
+					assertEquals(ce.getId1(), ca.getId1());
+					assertEquals(ce.getVar1(), ca.getVar1());
+					assertEquals(ce.getId2(), ca.getId2());
+					assertEquals(ce.getVar2(), ca.getVar2());
+				}
+			}
+
+			if (me.getConnectors().size() > 0)
+			{
+				System.out.println("    connectors " + me.getConnectors().size());
+
+				assertEquals(me.getConnectors().size(), ma.getConnectors().size());
+				for (int j = 0; j < me.getConnectors().size(); j++)
+				{
+					Connector ce = me.getConnectors().get(j);
+					Connector ca = ma.getConnectors().get(j);
+
+					System.out.println("        " +
+							ce.getId() + "." + ce.getPin() + " --> " + ce.getTarget());
+
+					assertEquals(ce.getId(), ca.getId());
+					assertEquals(ce.getPin(), ca.getPin());
+					assertEquals(ce.getTarget(), ca.getTarget());
+				}
+			}
+		}
 	}
 
 	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));

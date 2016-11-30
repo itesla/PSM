@@ -57,7 +57,9 @@
         <javacsv.version>2.0</javacsv.version>
         <maven.jacoco.version>0.7.6.201602180812</maven.jacoco.version>
 
-		<ipst.version>0.1-SNAPSHOT</ipst.version>
+		<ipst.platform.version>0.1-SNAPSHOT</ipst.platform.version>
+		<ipst.core.version>0.1-SNAPSHOT</ipst.core.version>
+		
 		<hades2.integration.version>0.1</hades2.integration.version>
 		<helmflow.integration.version>0.1-SNAPSHOT</helmflow.integration.version>
 
@@ -304,63 +306,63 @@
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>cim1-model</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.platform.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>cim1-import</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.platform.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>iidm-network-api</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>iidm-network-impl</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>iidm-converter-api</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>iidm-xml-converter</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>commons</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>loadflow-api</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>modules</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.platform.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>computation</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>computation-local</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<!-- online workflow is only used to export network data to csv files -->
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
 				<artifactId>online-workflow</artifactId>
-				<version>${ipst.version}</version>
+				<version>${ipst.platform.version}</version>
 			</dependency>
 
 			<!-- Hades2 integration -->
@@ -396,12 +398,12 @@
 	        <dependency>
 	            <groupId>eu.itesla_project</groupId>
 	            <artifactId>entsoe-util</artifactId>
-	            <version>${ipst.version}</version>
+	            <version>${ipst.platform.version}</version>
 	        </dependency>
 	        <dependency>
 	            <groupId>eu.itesla_project</groupId>
 	            <artifactId>graph</artifactId>
-	            <version>${ipst.version}</version>
+	            <version>${ipst.core.version}</version>
 	        </dependency>
             <dependency>
                 <groupId>org.apache.servicemix.bundles</groupId>

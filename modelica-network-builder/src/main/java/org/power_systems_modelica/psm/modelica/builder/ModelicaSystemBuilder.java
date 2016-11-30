@@ -80,7 +80,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
-				public void visitEquipment(Connectable<?> e)
+				public <I extends Connectable<I>> void visitEquipment(Connectable<I> e)
 				{
 					ModelicaModel de = getDdr().getModelicaModel(e);
 					if (de == null) return;

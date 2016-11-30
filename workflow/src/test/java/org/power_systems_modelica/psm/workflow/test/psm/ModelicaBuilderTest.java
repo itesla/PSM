@@ -99,8 +99,10 @@ public class ModelicaBuilderTest
 		String cim = folder.resolve(casename).toString();
 		String ddr = TEST_SAMPLES.resolve(ddrname).toString();
 		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();
-		String outname = DATA_TMP.resolve("moBuilder.mo").toString();
-		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder");
+		
+		String name = foldername; 
+		String outname = DATA_TMP.resolve("moBuilder_output_" + name + ".mo").toString();
+		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder_init" + name);
 		Files.createDirectories(modelicaEngineWorkingDir);
 
 		Workflow wf = WF(

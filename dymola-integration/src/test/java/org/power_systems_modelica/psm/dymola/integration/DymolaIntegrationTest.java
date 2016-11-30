@@ -38,6 +38,8 @@ public class DymolaIntegrationTest {
 												"1.0",
 												"0.000001", 
 												"500");
+		
+		config.setParameter("createFilteredMat", "true");
 
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
@@ -49,11 +51,10 @@ public class DymolaIntegrationTest {
 		assertEquals("gen_pwGeneratorM2S__GEN____1_SM", mo.getSystemModel().getDeclarations().get(1).getId());
 		assertEquals(4, mo.getSystemModel().getEquations().size());
 
-		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation",
-				"path");
+		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res_filtered.csv")));
-		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res_filtered.mat")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(dymSimPath.resolve("singlegen_res_filtered.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_in.zip")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_out.zip")));
 		assertEquals(4, Files.walk(dymSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
@@ -82,6 +83,8 @@ public class DymolaIntegrationTest {
 												"0.000001", 
 												"500"
 												);
+		
+		config.setParameter("createFilteredMat", "true");
 
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
@@ -93,7 +96,7 @@ public class DymolaIntegrationTest {
 		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
 		assertTrue(Files.exists(dymSimPath.resolve("ieee14_res.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve("ieee14_res_filtered.csv")));
-		assertTrue(Files.exists(dymSimPath.resolve("ieee14_res_filtered.mat")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(dymSimPath.resolve("ieee14_res_filtered.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve("ieee14_in.zip")));
 		assertTrue(Files.exists(dymSimPath.resolve("ieee14_out.zip")));
 		assertEquals(4, Files.walk(dymSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
@@ -108,7 +111,7 @@ public class DymolaIntegrationTest {
 											String startTime, 
 											String stopTime, 
 											String tolerance, 
-											String numOfIntervals)
+											String numOfIntervalsPerSecond)
 	{
 		Configuration config = new Configuration();
 		config.setParameter("webService", webService);
@@ -121,7 +124,7 @@ public class DymolaIntegrationTest {
 		config.setParameter("stopTime", stopTime);
 		config.setParameter("tolerance", tolerance);
 
-		config.setParameter("numOfIntervals", numOfIntervals);
+		config.setParameter("numOfIntervalsPerSecond", numOfIntervalsPerSecond);
 
 		return config;
 	}

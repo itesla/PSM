@@ -224,7 +224,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		if(createFilteredMat) {
 			String matResultsFileFiltered = modelName + "_res_filtered" + MAT_EXTENSION;
 			Result result = omc.filterSimulationResults(matResultsFile, matResultsFileFiltered, filterResultVariables, resultSize);
-			LOGGER.warn(result.err.replace("\"", ""));
+			if(result.err.startsWith("Error")) LOGGER.error("Error creating filtered .mat file {}. Reason is {}", matResultsFileFiltered, result.err.replace("\"", ""));
+			else LOGGER.warn(result.err.replace("\"", ""));
 		}
 	}
 

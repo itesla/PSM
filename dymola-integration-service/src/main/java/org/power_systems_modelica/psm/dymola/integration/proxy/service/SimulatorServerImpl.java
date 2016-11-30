@@ -34,6 +34,7 @@ import java.util.zip.ZipFile;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.jws.WebService;
+import javax.management.RuntimeErrorException;
 import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.MTOM;
@@ -130,6 +131,7 @@ public class SimulatorServerImpl implements SimulatorServer {
     						double tolerance,  
     						String resultsFileName, 
     						String resultVariables, 
+    						boolean createFilteredMat,
     						@XmlMimeType("application/octet-stream") DataHandler data) {
         Path workingDir = null;
         String outputZipFile = null;
@@ -151,7 +153,7 @@ public class SimulatorServerImpl implements SimulatorServer {
             			workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,resultsFileName,(endms - startms));
             
             startms=System.currentTimeMillis();
-            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables);
+            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables, createFilteredMat);
             endms=System.currentTimeMillis();
             
             long simulationTime=endms - startms;
@@ -193,7 +195,8 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     protected void simulateDymola(String workingDirectory, String inputFileName, String problem, 
     		double startTime, double stopTime, int numberOfIntervals, double outputInterval, 
-    		String method, double tolerance, String resultsFileName, String resultVariables) throws DymolaException {
+    		String method, double tolerance, String resultsFileName, String resultVariables,
+    		boolean createFilteredMat) throws DymolaException {
     	
         try {
         	if(dymola == null) dymola = DymolaWrapper.getInstance(true, port);
@@ -229,7 +232,6 @@ public class SimulatorServerImpl implements SimulatorServer {
             
 			String matResultsFile = resultsFileName + MAT_EXTENSION;
 			String csvResultsFile = resultsFileName + "_filtered" + CSV_EXTENSION;
-			String matResultsFileFiltered = resultsFileName + "_filtered" + MAT_EXTENSION;
             
             int resultSize = dymola.readTrajectorySize(matResultsFile);
             String[] resultNames = dymola.readTrajectoryNames(matResultsFile);
@@ -258,12 +260,13 @@ public class SimulatorServerImpl implements SimulatorServer {
     		}    		
 
             try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + csvResultsFile)))) {
-            	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize);
+            	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat, resultsFileName);
             } catch (IOException e) {
                 LOGGER.error("Error printing errors file. {}", e.getMessage());
             }
             
-            //Create a .mat file with filtered variables. 
+            //Create a .mat file with filtered variables.
+            String matResultsFileFiltered = resultsFileName + "_filtered" + MAT_EXTENSION;
             double[][] trajVarsValues = dymola.readTrajectory(matResultsFile, filterResultVariables, resultSize);
         	dymola.writeTrajectory(matResultsFileFiltered, filterResultVariables, Utils.transpose().apply(trajVarsValues));
             
@@ -287,7 +290,8 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     }
     
-	private void writeResultsCsv(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize) {
+	private void writeResultsCsv(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize,
+			boolean createFitleredMat, String resultsFileName) throws DymolaException {
 		double[][] resultValues = new double[resultSize][filterResultVariables.length];
 		String strLine = Stream.of(filterResultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;
 		
@@ -320,7 +324,15 @@ public class SimulatorServerImpl implements SimulatorServer {
 			strLine = strLine + NEW_LINE;
 		}			
 		printStream.print(strLine);
-	} 
+		
+        //Create a .mat file with filtered variables.
+		if(createFitleredMat) {
+	        String matResultsFileFiltered = resultsFileName + "_filtered" + MAT_EXTENSION;
+	        double[][] trajVarsValues;
+			trajVarsValues = dymola.readTrajectory(matResultsFile, filterResultVariables, resultSize);
+			dymola.writeTrajectory(matResultsFileFiltered, filterResultVariables, Utils.transpose().apply(trajVarsValues));
+		}
+   	} 
 
 	private class TemporaryFileDataSource extends FileDataSource {
 

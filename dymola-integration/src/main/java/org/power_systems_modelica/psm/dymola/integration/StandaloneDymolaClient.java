@@ -41,7 +41,7 @@ public class StandaloneDymolaClient {
         this.resultVariables = resultVariables;
     }
 
-    protected String runDymola(Path workingDir, String inputFileName, String outputFileName, String modelFileName, String modelName, String resultsFileName) throws InterruptedException{
+    protected String runDymola(Path workingDir, String inputFileName, String outputFileName, String modelFileName, String modelName, String resultsFileName, boolean createFilteredMat) throws InterruptedException{
         Path pathIn = workingDir.resolve(inputFileName);
         Path pathOut = workingDir.resolve(outputFileName);
         String retCode="";
@@ -66,6 +66,7 @@ public class StandaloneDymolaClient {
                 									tolerance,
                 									resultsFileName, 
                 									resultVariables,
+                									createFilteredMat,
                 									dhin);
                 
                 StreamingDataHandler sdh = (StreamingDataHandler) dhout;

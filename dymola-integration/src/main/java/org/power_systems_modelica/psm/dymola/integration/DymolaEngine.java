@@ -37,13 +37,15 @@ public class DymolaEngine implements ModelicaEngine {
 		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse(""); 
 				
 		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
-		this.startTime			= Double.valueOf(Optional.ofNullable(config.getParameter("startTime")).orElse("0.0"));
-		this.stopTime			= Double.valueOf(Optional.ofNullable(config.getParameter("stopTime")).orElse("1.0"));
-		this.tolerance			= Double.valueOf(Optional.ofNullable(config.getParameter("tolerance")).orElse("0.0001"));
+		this.startTime			= Optional.ofNullable(config.getDouble("startTime")).orElse(0.0);
+		this.stopTime			= Optional.ofNullable(config.getDouble("stopTime")).orElse(1.0);
+		this.tolerance			= Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
 		
-		this.numOfIntervalsPerSecond	= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervalsPerSecond")).orElse("500"));
+		this.numOfIntervalsPerSecond	= Optional.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(500);
 		this.numOfIntervals				= (int) this.stopTime * this.numOfIntervalsPerSecond;
 		this.intervalSize				= this.stopTime / this.numOfIntervals;
+		
+		this.createFilteredMat			= Optional.ofNullable(config.getBoolean("createFilteredMat")).orElse(false);
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class DymolaEngine implements ModelicaEngine {
 		
 		String simResults = "";
 		try {
-			simResults = dymolaClient.runDymola(this.dymSimulationDir, inputZipFileName, outputZipFileName, moFileName, modelName, outputDymolaFileName);
+			simResults = dymolaClient.runDymola(this.dymSimulationDir, inputZipFileName, outputZipFileName, moFileName, modelName, outputDymolaFileName, createFilteredMat);
 		} catch (InterruptedException e) {
 			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
 		}
@@ -193,6 +195,7 @@ public class DymolaEngine implements ModelicaEngine {
 	private String			outputErrorsFileName;
 	private Path			libraryDir;
 	private String			resultVariables;
+	private boolean			createFilteredMat;
 	
 	private ModelicaSimulationResults	results;
 	

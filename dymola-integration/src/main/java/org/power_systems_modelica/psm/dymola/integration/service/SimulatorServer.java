@@ -66,10 +66,12 @@ public interface SimulatorServer {
         @WebParam(name = "arg7", partName = "arg7")
         double arg7,
         @WebParam(name = "arg8", partName = "arg8")
-        String arg9,
+        String arg8,
         @WebParam(name = "arg9", partName = "arg9")
-        String arg10,
+        String arg9,
         @WebParam(name = "arg10", partName = "arg10")
+        boolean arg10,
+        @WebParam(name = "arg11", partName = "arg11")
         DataHandler arg11)
     	;
 

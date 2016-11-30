@@ -31,5 +31,6 @@ public interface SimulatorServer {
 																	double tolerance,  
 																	String resultsFileName, 
 																	String resultsVars,
+																	boolean createFilteredMat,
 																	@XmlMimeType("application/octet-stream") DataHandler data);
 }

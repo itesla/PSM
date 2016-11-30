@@ -36,19 +36,21 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse("");
 		
 		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
-		this.startTime			= Double.valueOf(Optional.ofNullable(config.getParameter("startTime")).orElse("0.0"));
-		this.stopTime			= Double.valueOf(Optional.ofNullable(config.getParameter("stopTime")).orElse("1.0"));
-		this.tolerance			= Double.valueOf(Optional.ofNullable(config.getParameter("tolerance")).orElse("0.0001"));
+		this.startTime			= Optional.ofNullable(config.getDouble("startTime")).orElse(0.0);
+		this.stopTime			= Optional.ofNullable(config.getDouble("stopTime")).orElse(1.0);
+		this.tolerance			= Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
 		
-		this.numOfIntervalsPerSecond	= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervalsPerSecond")).orElse("500"));
+		this.numOfIntervalsPerSecond	= Optional.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(500);
 		this.numOfIntervals				= (int) this.stopTime * this.numOfIntervalsPerSecond;
 		
+		this.createFilteredMat			= Optional.ofNullable(config.getBoolean("createFilteredMat")).orElse(false);
 		
+		this.simFlags					= Optional.ofNullable(config.getParameter("simFlags")).orElse("");		
 	}
 
 	@Override
 	public void simulate(ModelicaDocument mo) {
-		String modelName = mo.getSystemModel().getId();
+		modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
 		
 		prepareWorkingDirectory(mo);
@@ -101,17 +103,17 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				// Simulate the model 
-				//TODO PENDING logs to see details: LOG_EVENTS, LOG_EVENTS_V
-//				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, "-lv LOG_INIT,LOG_SIMULATION,LOG_STATS");
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance);
+				//Parameter "simFlags" can be a comma separated list of log level: -lv LOG_INIT,LOG_SIMULATION,LOG_STATS,LOG_EVENTS
+				//See https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
+				//IMPORTANT: This can greatly increase the simulation time. 
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, this.simFlags);
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
 				}
 				
 				String matResultsFile = modelName + "_res" + MAT_EXTENSION;
-				String matResultsFileFiltered = modelName + "_res_filtered" + MAT_EXTENSION;
-				String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
+				String csvResultsFile = modelName + "_res_filtered" + CSV_EXTENSION;
 				
 				result = omc.readSimulationResultVars(matResultsFile);
 				if(result.err != null && !result.err.isEmpty()) {
@@ -135,13 +137,10 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
 
 				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
-					  	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize);
+					  	writeResultsToFile(printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat);
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
-				}
-				
-				//Create a .mat file with filtered variables.
-				result = omc.filterSimulationResults(matResultsFile, matResultsFileFiltered, filterResultVariables, resultSize);
+				}				
 				
 //				TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
 				readSimulationResults(modelName);
@@ -180,7 +179,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 	
 	private void printModelicaDocument(ModelicaDocument mo, Path outputPath) {
-		String moFileName = mo.getSystemModel().getId() + MO_EXTENSION;
+		String moFileName = modelName + MO_EXTENSION;
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
 		{
@@ -192,7 +191,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		}
 	}
 	
-	private void writeResultsCsv(PrintStream printStream, String matResultsFile, List<String> filterResultVariables, int resultSize) throws ConnectException {
+	private void writeResultsToFile(PrintStream printStream, String matResultsFile, List<String> filterResultVariables, int resultSize, boolean createFilteredMat) throws ConnectException {
 		String[][] resultValues = new String[resultSize][filterResultVariables.size()];
 		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString() + NEW_LINE;
 		
@@ -221,6 +220,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 			strLine = strLine + NEW_LINE;
 		}			
 		printStream.print(strLine);
+		
+		if(createFilteredMat) {
+			String matResultsFileFiltered = modelName + "_res_filtered" + MAT_EXTENSION;
+			Result result = omc.filterSimulationResults(matResultsFile, matResultsFileFiltered, filterResultVariables, resultSize);
+			LOGGER.warn(result.err.replace("\"", ""));
+		}
 	}
 
 	
@@ -232,7 +237,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 	
 	private void prepareWorkingDirectory(ModelicaDocument mo) {
-		String modelName = mo.getSystemModel().getId();
+		modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
 		Path modelicaPath = Paths.get(modelFileName);
 		
@@ -292,6 +297,9 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private double			tolerance;
 	private Path			libraryDir;
 	private String			resultVariables;
+	private String			simFlags;
+	private boolean			createFilteredMat;
+	private String			modelName;
 	
 	private ModelicaSimulationResults	results;
 	private OpenModelicaWrapper			omc = null;

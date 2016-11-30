@@ -14,6 +14,17 @@ public final class Configuration
 	{
 		return Boolean.valueOf(getParameter(name));
 	}
+	
+	public double getDouble(String name)
+	{
+		return Double.valueOf(getParameter(name));
+	}
+	
+	public Integer getInteger(String name)
+	{
+		return Integer.valueOf(getParameter(name));
+	}
+
 
 	public void setParameter(String name, String value)
 	{

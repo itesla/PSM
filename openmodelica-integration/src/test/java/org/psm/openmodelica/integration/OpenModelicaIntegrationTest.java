@@ -35,8 +35,10 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500"
-												);
+												"500");
+		
+		config.setParameter("simFlags", "-lv LOG_STATS");
+		config.setParameter("createFilteredMat", "false");
 		
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
@@ -49,10 +51,10 @@ public class OpenModelicaIntegrationTest {
 		assertEquals(4, mo.getSystemModel().getEquations().size());
 		
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
-		assertTrue(Files.exists(omSimPath.resolve("singlegen_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("singlegen_res.mat")));
-		assertTrue(Files.exists(omSimPath.resolve("singlegen_res_filtered.mat")));
-		assertEquals(4, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("singlegen_res_filtered.csv")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(omSimPath.resolve("singlegen_res_filtered.mat")));
+		assertEquals(4, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
 	@Test
@@ -71,9 +73,10 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500"
-												);
+												"500");
 	
+		config.setParameter("createFilteredMat", "true");
+		
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
@@ -82,10 +85,10 @@ public class OpenModelicaIntegrationTest {
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
-		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res.mat")));
-		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res_filtered.mat")));
-		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res_filtered.csv")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(omSimPath.resolve("ieee14bus_res_filtered.mat")));
+		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
 	@Test
@@ -104,9 +107,10 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500"
-												);
-									
+												"500");
+		
+		config.setParameter("createFilteredMat", "false");
+		
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
@@ -115,13 +119,13 @@ public class OpenModelicaIntegrationTest {
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
-		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res.mat")));
-		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res_filtered.mat")));
-		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res_filtered.csv")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(omSimPath.resolve("ieee30bus_res_filtered.mat")));
+		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
-	@Test 
+//	@Test 
 	public void testIEEE57() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
 		
@@ -137,8 +141,9 @@ public class OpenModelicaIntegrationTest {
 												"0.0",
 												"1.0",
 												"0.000001",
-												"500"
-												);
+												"500");
+		
+		config.setParameter("createFilteredMat", "false");
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
@@ -148,10 +153,10 @@ public class OpenModelicaIntegrationTest {
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
-		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res.mat")));
-		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res_filtered.mat")));
-		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res_filtered.csv")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(omSimPath.resolve("ieee57bus_res_filtered.mat")));
+		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
 //	@Test //TODO PENDING
@@ -170,8 +175,9 @@ public class OpenModelicaIntegrationTest {
 				"0.0",
 				"1.0",
 				"0.000001",
-				"500"
-				);
+				"500");
+		
+		config.setParameter("createFilteredMat", "false");
 	
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
@@ -181,10 +187,10 @@ public class OpenModelicaIntegrationTest {
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
 		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
-		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res.csv")));
 		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res.mat")));
-		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res_filtered.mat")));
-		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
+		assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res_filtered.csv")));
+		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(omSimPath.resolve("ieee118bus_res_filtered.mat")));
+		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
 	
@@ -207,7 +213,7 @@ public class OpenModelicaIntegrationTest {
 		config.setParameter("stopTime", stopTime);
 		config.setParameter("tolerance", tolerance);
 		
-		config.setParameter("numOfIntervals", numOfIntervalsPerSecond);
+		config.setParameter("numOfIntervalsPerSecond", numOfIntervalsPerSecond);
 	
 		return config;
 	}
@@ -217,6 +223,7 @@ public class OpenModelicaIntegrationTest {
 		return Boolean.valueOf(System.getProperty("OpenModelicaAvailable"));
 	}
 	
-	private static final Path DATA_TEST = Paths.get(System.getenv("PSM_DATA")).resolve("test");
-	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
+	private static final Path	DATA_TEST		= Paths.get(System.getenv("PSM_DATA")).resolve("test");
+	private static final Path	DATA_TMP		= Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
+	private static final String	MO_EXTENSION	= ".mo"; 
 }

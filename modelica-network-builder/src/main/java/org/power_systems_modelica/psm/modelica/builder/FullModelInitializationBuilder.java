@@ -40,7 +40,7 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
-				public void visitEquipment(Connectable<?> e)
+				public <I extends Connectable<I>> void visitEquipment(Connectable<I> e)
 				{
 					if (!visited.contains(e))
 					{

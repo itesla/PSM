@@ -85,11 +85,18 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public List<ModelicaDeclaration> getSystemDeclarations()
 	{
-		return systemDefinitions.getDeclarations();
+		if (systemDefinitions != null) return systemDefinitions.getDeclarations();
+		else return Collections.emptyList();
+	}
+
+	public List<Equation> getSystemEquations()
+	{
+		if (systemDefinitions != null) return systemDefinitions.getEquations();
+		else return Collections.emptyList();
 	}
 
 	@Override
-	public List<ModelicaEquation> getSystemEquations(ModelicaSystemModel m)
+	public List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m)
 	{
 		Context<ModelicaDeclaration> contextModelica = new Context<ModelicaDeclaration>()
 		{

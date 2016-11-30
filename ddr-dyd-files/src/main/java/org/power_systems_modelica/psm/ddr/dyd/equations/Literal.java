@@ -18,5 +18,11 @@ public class Literal implements Expression
 		return literal;
 	}
 
+	@Override
+	public String toString()
+	{
+		return literal;
+	}
+
 	private final String literal;
 }

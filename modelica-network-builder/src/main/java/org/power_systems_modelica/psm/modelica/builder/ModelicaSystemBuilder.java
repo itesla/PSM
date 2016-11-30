@@ -55,7 +55,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		// Add connections between models only after all models have been created
 		addInterconnections();
 		// And system equations also after all models have been created
-		sys.addEquations(getDdr().getSystemEquations(sys));
+		sys.addEquations(getDdr().getSystemEquationsInContext(sys));
 
 		return getModelicaDocument();
 	}
@@ -80,7 +80,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()
 			{
 				@Override
-				public void visitEquipment(Connectable<?> e)
+				public <I extends Connectable<I>> void visitEquipment(Connectable<I> e)
 				{
 					ModelicaModel de = getDdr().getModelicaModel(e);
 					if (de == null) return;

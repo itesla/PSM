@@ -26,6 +26,12 @@ public class Quotient implements Expression
 				.concat(divisor.writeIn(context));
 	}
 
+	@Override
+	public String toString()
+	{
+		return "( " + dividend + " / " + divisor + " )";
+	}
+
 	private final Expression	dividend;
 	private final Expression	divisor;
 }

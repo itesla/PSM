@@ -48,7 +48,7 @@ public class ModelicaBuilderTest
 
 		ModelicaModel m = simpleModelForStaticId("1");
 		mob.addModel(m);
-		assertSameDeclarationsAndEquations(m, mob.getDoc().getSystemModel());
+		ModelicaTestUtil.assertSameDeclarationsAndEquations(m, mob.getDoc().getSystemModel());
 		Path original = DATA_TMP.resolve("modelicaBuilderTest_original");
 		mob.print(original);
 
@@ -57,9 +57,9 @@ public class ModelicaBuilderTest
 		assertEquals(0, mob.getDoc().getSystemModel().getEquations().size());
 
 		ModelicaModel mc = m.copy();
-		assertSameDeclarationsAndEquations(m, mc);
+		ModelicaTestUtil.assertSameDeclarationsAndEquations(m, mc);
 		mob.addModel(mc);
-		assertSameDeclarationsAndEquations(mc, mob.getDoc().getSystemModel());
+		ModelicaTestUtil.assertSameDeclarationsAndEquations(mc, mob.getDoc().getSystemModel());
 		Path copy = DATA_TMP.resolve("modelicaBuilderTest_copy");
 		mob.print(copy);
 
@@ -84,7 +84,7 @@ public class ModelicaBuilderTest
 		for (ModelicaModel m : models)
 		{
 			ModelicaModel gm = gmodels.get(m.getStaticId());
-			assertSameDeclarationsAndEquations(m, gm);
+			ModelicaTestUtil.assertSameDeclarationsAndEquations(m, gm);
 		}
 	}
 
@@ -119,7 +119,7 @@ public class ModelicaBuilderTest
 			// Identifiers of dynamic models will change
 			// Connectors are not recovered when grouping by id
 			// We do not check Annotations neither
-			assertSameDeclarationsAndEquations(m, gm);
+			ModelicaTestUtil.assertSameDeclarationsAndEquations(m, gm);
 		}
 
 		// Check interconnections
@@ -138,33 +138,6 @@ public class ModelicaBuilderTest
 		assertEquals(ref1, eq21.getRef2());
 		assertEquals(ref1, eq12.getRef1());
 		assertEquals(ref2, eq12.getRef2());
-	}
-
-	private void assertSameDeclarationsAndEquations(ModelicaModel expected, ModelicaModel actual)
-	{
-		// When checking declarations we take into account that parameter references may have been resolved
-		assertEquals(expected.getDeclarations().size(), actual.getDeclarations().size());
-		for (int k = 0; k < expected.getDeclarations().size(); k++)
-		{
-			ModelicaDeclaration de = expected.getDeclarations().get(k);
-			ModelicaDeclaration da = actual.getDeclarations().get(k);
-			assertEquals(de.getType(), da.getType());
-			assertEquals(de.getId(), da.getId());
-			if (de.getAnnotation() != null)
-				assertEquals(de.getAnnotation().asText(), da.getAnnotation().asText());
-			assertEquals(de.getValue(), da.getValue());
-			assertEquals(de.getArguments().size(), da.getArguments().size());
-			for (int j = 0; j < de.getArguments().size(); j++)
-			{
-				ModelicaArgument pe = de.getArguments().get(j);
-				ModelicaArgument pa = da.getArguments().get(j);
-				assertEquals(pe.getName(), pa.getName());
-				if (pe instanceof ModelicaArgumentReference) continue;
-				if (pa instanceof ModelicaArgumentReference) continue;
-				assertEquals(pe.getValue(), pa.getValue());
-			}
-		}
-		assertEquals(expected.getEquations(), actual.getEquations());
 	}
 
 	private ModelicaModel simpleModelForStaticId(String staticId)

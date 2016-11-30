@@ -13,5 +13,11 @@ public class PrefixSelector implements Selector
 		return prefix;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "startsWith(" + prefix + ")";
+	}
+
 	private final String prefix;
 }

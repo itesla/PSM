@@ -24,6 +24,12 @@ public class ExpressionTemplate
 		return new Literal(e);
 	}
 
+	@Override
+	public String toString()
+	{
+		return variable + " : " + template;
+	}
+
 	private final String	variable;
 	private final String	template;
 }

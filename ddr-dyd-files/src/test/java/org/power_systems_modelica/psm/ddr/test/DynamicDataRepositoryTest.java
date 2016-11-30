@@ -39,6 +39,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
+import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 
 import eu.itesla_project.iidm.network.Identifiable;
 
@@ -251,118 +252,22 @@ public class DynamicDataRepositoryTest
 		// Compare names of events defined
 		assertEquals(ddre.getEvents(), ddra.getEvents());
 
+		// Compare model definitions are the same
 		assertTrue(ddra instanceof DynamicDataRepositoryDydFiles);
 		DynamicDataRepositoryDydFiles dydsa = (DynamicDataRepositoryDydFiles) ddra;
-		assertSameModelDefinitions(dydse.getAllModelDefinitions(), dydsa.getAllModelDefinitions());
-		
-		// FIXME Check system definitions are the same 
-		// compare ddre.getSystemDefinitions() with ddra.getSystemDefinitions();
-	}
+		DynamicDataRepositoryTestUtil.assertSameModelDefinitions(
+				dydse.getAllModelDefinitions(),
+				dydsa.getAllModelDefinitions());
+		// TODO system equations should die (all equations should be placed in iPSL library)
+		DynamicDataRepositoryTestUtil.assertSameEquationDefinitions(
+				dydse.getSystemEquations(),
+				dydsa.getSystemEquations());
 
-	private void assertSameModelDefinitions(List<Model> expected, List<Model> actual)
-	{
-		assertEquals(expected.size(), actual.size());
-		for (int k = 0; k < expected.size(); k++)
-		{
-			Model me = expected.get(k);
-			Model ma = actual.get(k);
-			assertEquals(me.getClass(), ma.getClass());
-			assertEquals(me.getId(), ma.getId());
-			assertEquals(me.isInitialization(), ma.isInitialization());
+		// Check system definitions are the same
+		ModelicaTestUtil.assertSameDeclarations(
+				ddre.getSystemDeclarations(),
+				ddra.getSystemDeclarations());
 
-			System.out.println(me.getId());
-
-			if (me instanceof ModelForAssociation)
-			{
-				System.out.println("    " + ((ModelForAssociation) me).getAssociation());
-
-				assertEquals(
-						((ModelForAssociation) me).getAssociation(),
-						((ModelForAssociation) ma).getAssociation());
-			}
-			else if (me instanceof ModelForElement)
-			{
-				System.out.println("    " + ((ModelForElement) me).getStaticId());
-
-				assertEquals(
-						((ModelForElement) me).getStaticId(),
-						((ModelForElement) ma).getStaticId());
-			}
-			else if (me instanceof ModelForType)
-			{
-				System.out.println("    " + ((ModelForType) me).getType());
-
-				assertEquals(
-						((ModelForType) me).getType(),
-						((ModelForType) ma).getType());
-			}
-			else if (me instanceof ModelForEvent)
-			{
-				System.out.println("    " + ((ModelForEvent) me).getEvent() + " "
-						+ ((ModelForEvent) me).getInjection());
-
-				assertEquals(
-						((ModelForEvent) me).getEvent(),
-						((ModelForEvent) ma).getEvent());
-				assertEquals(
-						((ModelForEvent) me).getInjection(),
-						((ModelForEvent) ma).getInjection());
-			}
-
-			System.out.println("    components " + me.getComponents().size());
-
-			assertEquals(me.getComponents().size(), ma.getComponents().size());
-			for (int j = 0; j < me.getComponents().size(); j++)
-			{
-				Component ce = me.getComponents().get(j);
-				Component ca = ma.getComponents().get(j);
-
-				System.out.println("        " + ce.getName() + " : " + ce.getId());
-
-				assertEquals(ce.getName(), ca.getName());
-				assertEquals(ce.getId(), ca.getId());
-			}
-
-			if (me.getConnections().size() > 0)
-			{
-				System.out.println("    connections " + me.getConnections().size());
-
-				assertEquals(me.getConnections().size(), ma.getConnections().size());
-				for (int j = 0; j < me.getConnections().size(); j++)
-				{
-					Connection ce = me.getConnections().get(j);
-					Connection ca = ma.getConnections().get(j);
-
-					System.out.println("        " +
-							ce.getId1() + "." + ce.getVar1() + " - " +
-							ce.getId2() + "." + ce.getVar2());
-
-					assertEquals(ce.getId1(), ca.getId1());
-					assertEquals(ce.getVar1(), ca.getVar1());
-					assertEquals(ce.getId2(), ca.getId2());
-					assertEquals(ce.getVar2(), ca.getVar2());
-				}
-			}
-
-			if (me.getConnectors().size() > 0)
-			{
-				System.out.println("    connectors " + me.getConnectors().size());
-
-				assertEquals(me.getConnectors().size(), ma.getConnectors().size());
-				for (int j = 0; j < me.getConnectors().size(); j++)
-				{
-					Connector ce = me.getConnectors().get(j);
-					Connector ca = ma.getConnectors().get(j);
-
-					System.out.println("        " +
-							ce.getId() + "." + ce.getPin() + " --> " + ce.getTarget());
-
-					assertEquals(ce.getId(), ca.getId());
-					assertEquals(ce.getPin(), ca.getPin());
-					assertEquals(ce.getTarget(), ca.getTarget());
-				}
-			}
-		}
 	}
 
 	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));

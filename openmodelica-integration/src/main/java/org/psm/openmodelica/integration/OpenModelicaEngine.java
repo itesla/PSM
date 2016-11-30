@@ -8,6 +8,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +25,6 @@ import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class OpenModelicaEngine implements ModelicaEngine {
 

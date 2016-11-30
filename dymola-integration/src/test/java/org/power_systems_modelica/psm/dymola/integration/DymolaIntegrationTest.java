@@ -51,8 +51,9 @@ public class DymolaIntegrationTest {
 
 		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation",
 				"path");
-		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.csv")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.mat")));
+		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res_filtered.csv")));
+		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res_filtered.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_in.zip")));
 		assertTrue(Files.exists(dymSimPath.resolve("singlegen_out.zip")));
 		assertEquals(4, Files.walk(dymSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
@@ -90,10 +91,11 @@ public class DymolaIntegrationTest {
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 
 		Path dymSimPath = (Path) dymEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
-		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.csv")));
-		assertTrue(Files.exists(dymSimPath.resolve("singlegen_res.mat")));
-		assertTrue(Files.exists(dymSimPath.resolve("singlegen_in.zip")));
-		assertTrue(Files.exists(dymSimPath.resolve("singlegen_out.zip")));
+		assertTrue(Files.exists(dymSimPath.resolve("ieee14_res.mat")));
+		assertTrue(Files.exists(dymSimPath.resolve("ieee14_res_filtered.csv")));
+		assertTrue(Files.exists(dymSimPath.resolve("ieee14_res_filtered.mat")));
+		assertTrue(Files.exists(dymSimPath.resolve("ieee14_in.zip")));
+		assertTrue(Files.exists(dymSimPath.resolve("ieee14_out.zip")));
 		assertEquals(4, Files.walk(dymSimPath).parallel().filter(p -> p.toFile().getName().endsWith(".mo")).count());
 	}
 

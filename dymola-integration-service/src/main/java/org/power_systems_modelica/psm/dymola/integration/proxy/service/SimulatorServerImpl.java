@@ -85,12 +85,20 @@ public class SimulatorServerImpl implements SimulatorServer {
 
         this.serviceWorkDir = serviceWorkDir;
         this.debug = debug;
-    }
-
-
-    //testing only
-    public void setFakeSourceDir(String fakeSourceDir) {
-        this.fakeSourceDir=fakeSourceDir;
+        
+        try {
+            // Instantiate the Dymola interface and start Dymola
+            try {
+                port = portPool.getItem();
+            } catch (InterruptedException e) {
+                LOGGER.error("Error getting port item. Reasoin is {}.", e.getCause());
+                e.printStackTrace();
+            }
+            dymola = DymolaWrapper.getInstance(true, port);
+            LOGGER.debug("   START Dymola - portnumber: {} - ThreadID: {} - @Dymolainst: {} - @SimulatorServerImpl {} ", ((DymolaWrapper) dymola).portnumber, Thread.currentThread().getId(), dymola.hashCode(), this.hashCode());
+        } catch(Exception e) {
+        	LOGGER.error(" Error instantiating Dymola. Reason is {}.", e.getCause());        	
+        }
     }
 
     protected void prepareOutputFile(Path workingDir, Map<String,String> fileNamesMap, Path outFile) throws IOException, URISyntaxException {
@@ -141,14 +149,11 @@ public class SimulatorServerImpl implements SimulatorServer {
             long endms=System.currentTimeMillis();
             LOGGER.info(" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.", 
             			workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,resultsFileName,(endms - startms));
+            
             startms=System.currentTimeMillis();
-            if (fakeSourceDir==null) {
-                simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables);
-            } else {
-                simulateDymolaFake(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables);
-            }
-
+            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables);
             endms=System.currentTimeMillis();
+            
             long simulationTime=endms - startms;
 
             startms=System.currentTimeMillis();
@@ -156,7 +161,9 @@ public class SimulatorServerImpl implements SimulatorServer {
             Map<String,String> fileNamesToInclude= MapUtils.asUnmodifiableMap(entry("log.txt", resultsFileName+"_log.txt"), 
             																	entry("dslog.txt",resultsFileName+"_dslog.txt"), 
             																	entry(resultsFileName + ".mat",resultsFileName + ".mat"),
-            																	entry(resultsFileName + ".csv",resultsFileName + ".csv"));
+            																	entry(resultsFileName + "_filtered.mat",resultsFileName + "_filtered.mat"),
+            																	entry(resultsFileName + "_filtered.csv",resultsFileName + "_filtered.csv")
+            																	);
             prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
             endms=System.currentTimeMillis();
             LOGGER.info(" {} - dymola simulation terminated - simulation time: {} ms., output file zipped in: {} ms.", workingDir, simulationTime, (endms - startms));
@@ -184,70 +191,14 @@ public class SimulatorServerImpl implements SimulatorServer {
         }
     }
 
-    //testing only, get results for a precomputed simulation
-    protected void simulateDymolaFake(String workingDirectory, String inputFileName, String problem, double startTime, double stopTime, 
-    		int numberOfIntervals, double outputInterval, String method, double tolerance, String resultsFileName, String resultVariables) throws DymolaException {
-        DymolaInterface dymola = null;
-        int port = -1;
-        try {
-            boolean result = false;
-            // Instantiate the Dymola interface and start Dymola
-            try {
-                port = portPool.getItem();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            LOGGER.debug("   START {} - portnumber: {} - ThreadID: {} - @Dymolainst: {} - @SimulatorServerImpl {} ", workingDirectory, (dymola!=null)?((DymolaWrapper) dymola).portnumber:"FAKE", Thread.currentThread().getId(), (dymola!=null)?dymola.hashCode():"FAKE", this.hashCode());
-
-            try {
-                Files.copy(Paths.get(fakeSourceDir).resolve("dymolasim_0.mat"),Paths.get(workingDirectory).resolve(resultsFileName+".mat"));
-                Files.copy(Paths.get(fakeSourceDir).resolve("log.txt"),Paths.get(workingDirectory).resolve("log.txt"));
-                Files.copy(Paths.get(fakeSourceDir).resolve("dslog.txt"),Paths.get(workingDirectory).resolve("dslog.txt"));
-                try {
-                    int waiting_time=1000*60*1;
-                    LOGGER.info("simulating a real computation: waiting "+ (waiting_time/60000) + " minutes" );
-                    Thread.sleep(waiting_time);
-                    LOGGER.info("simulating a real computation: ended." );
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(),e);
-            }
-
-            LOGGER.debug("   END {} - portnumber: {} - ThreadID: {} - @Dymolainst: {} - @SimulatorServerImpl {} ", workingDirectory, (dymola!=null)?((DymolaWrapper) dymola).portnumber:"FAKE", Thread.currentThread().getId(), (dymola!=null)? dymola.hashCode():"FAKE", this.hashCode());
-        } finally {
-            // The connection to Dymola is closed and Dymola is terminated
-            if (dymola != null) {
-                dymola.exit();
-            }
-            dymola = null;
-            //release this port number to the pool
-            if (port != -1) {
-                portPool.putItem(port);
-            }
-        }
-
-    }
-
-    
     protected void simulateDymola(String workingDirectory, String inputFileName, String problem, 
     		double startTime, double stopTime, int numberOfIntervals, double outputInterval, 
     		String method, double tolerance, String resultsFileName, String resultVariables) throws DymolaException {
     	
-        DymolaInterface dymola = null;
-        int port = -1;
         try {
+        	if(dymola == null) dymola = DymolaWrapper.getInstance(true, port);
+        	
             boolean result = false;
-            // Instantiate the Dymola interface and start Dymola
-            try {
-                port = portPool.getItem();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            dymola = DymolaWrapper.getInstance(true, port);
-            LOGGER.debug("   START {} - portnumber: {} - ThreadID: {} - @Dymolainst: {} - @SimulatorServerImpl {} ", workingDirectory, ((DymolaWrapper) dymola).portnumber, Thread.currentThread().getId(), dymola.hashCode(), this.hashCode());
-
             result= dymola.clear(false);
             if (!result) {
                 throw new RuntimeException("CLEAR : " + dymola.getLastError());
@@ -276,19 +227,25 @@ public class SimulatorServerImpl implements SimulatorServer {
             	throw new RuntimeException("simulateModel: " + dymola.getLastError());
             }
             
-            int resultSize = dymola.readTrajectorySize(resultsFileName + ".mat");
-            String[] resultNames = dymola.readTrajectoryNames(resultsFileName + ".mat");
+			String matResultsFile = resultsFileName + MAT_EXTENSION;
+			String csvResultsFile = resultsFileName + "_filtered" + CSV_EXTENSION;
+			String matResultsFileFiltered = resultsFileName + "_filtered" + MAT_EXTENSION;
+            
+            int resultSize = dymola.readTrajectorySize(matResultsFile);
+            String[] resultNames = dymola.readTrajectoryNames(matResultsFile);
             
     		Pattern pattern = Pattern.compile(resultVariables);
     		Matcher matcher = pattern.matcher(Arrays.toString(resultNames));
     		int count = 0;
-    		while(matcher.find()) count++;
-    		String[] filterResultVariables = new String[count];
+    		for(int i=0; i< resultNames.length; i++) {
+    			if(pattern.matcher(resultNames[i]).matches()) count++;
+    		}
+    		String[] filterResultVariables = new String[count+1];
     		filterResultVariables[0] = "Time";
     		
     		int j = 1;
     		for(int i=0; i< resultNames.length; i++) {
-    			matcher = pattern.matcher(resultNames[i]);
+				matcher = pattern.matcher(resultNames[i]);
     			if(matcher.matches()) {
     				filterResultVariables[j] = matcher.group();
     				j++;
@@ -299,19 +256,16 @@ public class SimulatorServerImpl implements SimulatorServer {
     		if(filterResultVariables[1] == null) {
     			filterResultVariables = resultNames;
     		}    		
-    		
-    		double[][] trajVarsValues = dymola.readTrajectory(resultsFileName + ".mat", 
-											    				filterResultVariables, 
-											    				resultSize);
-    		
-            if(trajVarsValues != null) {
-	            try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + resultsFileName + ".csv")))) {
-//	            	printResultVariables(printStream, resultVariables.length == 0 ? trajNames : resultVariables, Utils.transpose().apply(trajVarsValues));
-	            	printResultVariables(printStream, filterResultVariables, Utils.transpose().apply(trajVarsValues));
-	            } catch (IOException e) {
-	                LOGGER.error("Error printing errors file. {}", e.getMessage());
-	            }
+
+            try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + csvResultsFile)))) {
+            	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize);
+            } catch (IOException e) {
+                LOGGER.error("Error printing errors file. {}", e.getMessage());
             }
+            
+            //Create a .mat file with filtered variables. 
+            double[][] trajVarsValues = dymola.readTrajectory(matResultsFile, filterResultVariables, resultSize);
+        	dymola.writeTrajectory(matResultsFileFiltered, filterResultVariables, Utils.transpose().apply(trajVarsValues));
             
             result = dymola.savelog(DYMOLA_LOG_FILENAME);
             if (!result) {
@@ -333,50 +287,40 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     }
     
-    private void writeResultsCsv(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize) {
-    	
-    	
-//    	String[][] resultValues = new String[resultSize][filterResultVariables.size()];
-//		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString() + NEW_LINE;
-//		
-//		for(int j=0; j<filterResultVariables.size(); j++) 
-//		{
-//			String resVar = filterResultVariables.get(j);
-//			Result result = omc.readSimulationResult(matResultsFile, resVar);
-//			
-//			if(result.err != null && !result.err.isEmpty()) {
-//				if(result.err.startsWith("Warning")) LOGGER.warn(result.err.replace("\"", ""));
-//				else LOGGER.error("Error getting simulation result variable {} from  {}. {}", resVar, matResultsFile, result.err.replace("\"", ""));
-//				continue;
-//			}
-//			String[] values = result.res.substring(2, result.res.length()-3).split(COMMA);
-//			
-//			for(int i=0; i<resultSize; i++) {
-//				resultValues[i][j] = values[i];
-//			}
-//		}
-//		
-//		for (int i = 0; i < resultValues.length; i++) {
-//			for (int k = 0; k < resultValues[i].length; k++) {
-//				if(k == 0) strLine = strLine + resultValues[i][k];
-//				else strLine = strLine + "," + resultValues[i][k]; 
-//			}
-//			strLine = strLine + NEW_LINE;
-//		}			
-//		printStream.print(strLine);
-    }
-    
-    private void printResultVariables(PrintStream printStream, String[] resultVariables, double[][] trajVarsValues) {
-    	String strLine = Stream.of(resultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;
-		for (int i = 0; i < trajVarsValues.length; i++) {
-			for (int k = 0; k < trajVarsValues[i].length; k++) {
-				if(k == 0) strLine = strLine + trajVarsValues[i][k];
-				else strLine = strLine + "," + trajVarsValues[i][k]; 
+	private void writeResultsCsv(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize) {
+		double[][] resultValues = new double[resultSize][filterResultVariables.length];
+		String strLine = Stream.of(filterResultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;
+		
+		for(int j=0; j<filterResultVariables.length; j++) 
+		{
+			String[] resVar = new String[1];
+			resVar[0] = filterResultVariables[j];
+			double[][] trajVarsValues;
+			try {
+				trajVarsValues = dymola.readTrajectory(matResultsFile, resVar, resultSize);
+				
+				if(trajVarsValues != null) {
+					for(int i=0; i<resultSize; i++) {
+						resultValues[i][j] = trajVarsValues[0][j];
+					}
+				}
+				else {
+					LOGGER.error("Error getting simulation result variable {} from {}.", resVar, matResultsFile);
+				}
+			} catch (DymolaException e) {
+				LOGGER.error("Error getting simulation result variable {} from {}.", resVar, matResultsFile);
+			}
+		}
+		
+		for (int i = 0; i < resultValues.length; i++) {
+			for (int k = 0; k < resultValues[i].length; k++) {
+				if(k == 0) strLine = strLine + resultValues[i][k];
+				else strLine = strLine + "," + resultValues[i][k]; 
 			}
 			strLine = strLine + NEW_LINE;
-		}
+		}			
 		printStream.print(strLine);
-	}
+	} 
 
 	private class TemporaryFileDataSource extends FileDataSource {
 
@@ -409,13 +353,11 @@ public class SimulatorServerImpl implements SimulatorServer {
     
     boolean debug;
 
-    final Pool<Integer> portPool;
-
     final String serviceWorkDir;
+    private DymolaInterface dymola = null;
+    final Pool<Integer> portPool;
+    private int			port = -1;
 
-    //testing only
-    private String fakeSourceDir=null;
-    
     static final String DYMOLASERVICE_TEMP = "/temp/Dymola/server";
     static final String DYMOLASERVICE_INPUTFILENAME = "dyninput.zip";
     static final String DYMSERV_PREFIX = "dymserv_";
@@ -423,7 +365,6 @@ public class SimulatorServerImpl implements SimulatorServer {
     private static final int MSGERRLEN = 400;
     
     private static final String	NEW_LINE = System.getProperty("line.separator").toString();
-	private static final String			MO_EXTENSION		= ".mo";
 	private static final String			MAT_EXTENSION 		= ".mat";
 	private static final String			CSV_EXTENSION 		= ".csv";
 	

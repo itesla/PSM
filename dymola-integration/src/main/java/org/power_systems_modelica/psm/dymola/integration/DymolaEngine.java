@@ -49,7 +49,7 @@ public class DymolaEngine implements ModelicaEngine {
 	@Override
 	public void simulate(ModelicaDocument mo) {
 		String modelName = mo.getSystemModel().getId();
-		String moFileName = modelName + ".mo";
+		String moFileName = modelName + MO_EXTENSION;
 		Path modelDirectory = Paths.get(moFileName);
 		
 		if(Files.notExists(this.workingDir.resolve(modelDirectory))) { 
@@ -97,7 +97,7 @@ public class DymolaEngine implements ModelicaEngine {
 		try (ZipFile zipFile = new ZipFile(Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile())) {
 			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymSimulationDir.toFile());
             
-			String fileName = this.outputDymolaFileName + ".csv";
+			String fileName = this.outputDymolaFileName + "_filtered" +  CSV_EXTENSION;
 			try (BufferedReader in = Files.newBufferedReader(Paths.get(dymSimulationDir + File.separator + fileName));)
 			{
 				in.readLine(); //skip the header
@@ -199,6 +199,7 @@ public class DymolaEngine implements ModelicaEngine {
 	
 	private static final String			DYM_PREFIX			= "dymsimulation_"; 			
 	private static final String			MO_EXTENSION		= ".mo";
+	private static final String			CSV_EXTENSION		= ".csv";
 	private static final String			COMMA				= ",";
 	private static final Logger			LOGGER				= LoggerFactory.getLogger(DymolaEngine.class);
 }

@@ -52,10 +52,6 @@ class ServiceMain {
 
         System.out.println("Instantiating Dymola service proxy");
         SimulatorServerImpl simImpl=new SimulatorServerImpl(serviceWorkDir, dymolaStartPort, dymolaPortsRangeSize, dymolaDebug);
-        if (fakeSourceDir!=null) {
-            simImpl.setFakeSourceDir(fakeSourceDir);
-        }
-
         dymolaService.endpoint = Endpoint.create(simImpl);
         ExecutorService executor = Executors.newFixedThreadPool(wsNthreads);
         dymolaService.endpoint.setExecutor(executor);

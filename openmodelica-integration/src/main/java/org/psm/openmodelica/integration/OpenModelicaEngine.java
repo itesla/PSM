@@ -43,6 +43,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		
 		this.numOfIntervalsPerSecond	= Integer.valueOf(Optional.ofNullable(config.getParameter("numOfIntervalsPerSecond")).orElse("500"));
 		this.numOfIntervals				= (int) this.stopTime * this.numOfIntervalsPerSecond;
+		
+		
 	}
 
 	@Override
@@ -101,7 +103,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				
 				// Simulate the model 
 				//TODO PENDING logs to see details: LOG_EVENTS, LOG_EVENTS_V
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, "-lv LOG_INIT,LOG_SIMULATION,LOG_STATS");
+//				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, "-lv LOG_INIT,LOG_SIMULATION,LOG_STATS");
+				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance);
 				if(result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
@@ -229,39 +232,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		this.results.addResult(modelName, "simulation", "path", this.omSimulationDir);
 	}
 	
-	private void prepareWorkingDirectoryFake(Path modelicaPath, String moFileName, String modelName) {		
-		try {
-			this.omSimulationDir = Files.createTempDirectory(this.workingDir, OM_PREFIX);
-			
-			//Copy the Modelica model to the simulation directory
-			try {
-				FileUtils.copyFileToDirectory(modelicaPath.toFile(), this.omSimulationDir.toFile(), false);
-			} catch (IOException e1) {
-				LOGGER.error("Error copying file from {} to {}, reason is {}", modelicaPath, this.omSimulationDir, e1.getMessage());
-				throw new RuntimeException(e1);
-			}
-
-			//Copy Models models needed to the simulation directory
-			try {
-				Files.list(this.libraryDir).forEach(file -> {
-						try {
-							FileUtils.copyFileToDirectory(file.toFile(), this.omSimulationDir.toFile(), false);
-						}
-						catch(IOException exc) {
-							LOGGER.error("Error copying file from {} to {}, reason is {}", file.toFile(), this.omSimulationDir, exc.getMessage());
-							throw new RuntimeException(exc);
-						}
-				});
-			} catch (Exception e1) {
-				LOGGER.error("Error copying files from {} to {}, reason is {}", this.libraryDir, this.omSimulationDir, e1.getMessage());
-			}
-		} catch (IOException e) {
-			LOGGER.error("Could not create OpenModelica simulation directory in {} with prefix {}, reason is {}",
-						this.workingDir, OM_PREFIX, e.getMessage());
-			throw new RuntimeException(e);
-		}
-	}
-	
 	private void prepareWorkingDirectory(ModelicaDocument mo) {
 		String modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
@@ -326,8 +296,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	
 	private ModelicaSimulationResults	results;
 	private OpenModelicaWrapper			omc = null;
-
-	private boolean						debug = true;
 	
 	private static final String			OMWRAPPER_NAME 			= "OpenModelica";
 	private static final String			OM_PREFIX				= "omsimulation_";
@@ -336,7 +304,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private static final String			CSV_EXTENSION 			= ".csv";
 	private static final String			LOG_EXTENSION			= ".log";
 	private static final String			COMMA					= ",";
-	private static final Pattern		RESULTS_PATTERN			= Pattern.compile("(\\{[^\\{\\}]+\\})");
 	private static final String			NEW_LINE				= System.getProperty("line.separator").toString();
 	
 	private static final Logger			LOGGER					= LoggerFactory.getLogger(OpenModelicaEngine.class);

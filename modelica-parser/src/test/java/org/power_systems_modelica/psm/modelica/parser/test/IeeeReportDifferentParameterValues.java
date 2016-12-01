@@ -116,15 +116,11 @@ public class IeeeReportDifferentParameterValues
 		List<Param> params = new ArrayList<>();
 		try
 		{
-			Path mop = Paths.get(System.getenv("PSM_DATA"))
-					.resolve("tmp")
-					.resolve("moBuilder_output_ieee" + case_ + ".mo");
+			Path mop = getPathModelicaFile(case_);
 			ModelicaDocument mo = ModelicaParser.parse(mop);
 			addParams(params, mo);
 			System.out.println(case_ + " " + mo.getSystemModel().getDeclarations().size());
-			Path initsp = Paths.get(System.getenv("PSM_DATA"))
-					.resolve("tmp")
-					.resolve("mo_raul_init_ieee" + case_);
+			Path initsp = getPathModelicaInitFile(case_);
 			Files.walkFileTree(initsp, new SimpleFileVisitor<Path>()
 			{
 				@Override
@@ -167,6 +163,20 @@ public class IeeeReportDifferentParameterValues
 				.collect(toList()));
 	}
 
+	private Path getPathModelicaFile(String case_)
+	{
+		return Paths.get(System.getenv("PSM_DATA"))
+				.resolve("tmp")
+				.resolve("moBuilder_output_ieee" + case_ + ".mo");
+	}
+
+	private Path getPathModelicaInitFile(String case_)
+	{
+		return Paths.get(System.getenv("PSM_DATA"))
+				.resolve("tmp")
+				.resolve("moBuilder_initieee" + case_);
+	}
+
 	private static final Set<String> IEEE_IGNORE_PARAMS = new HashSet<>(Arrays.asList(
 			"ui0",
 			"ur0",
@@ -175,5 +185,9 @@ public class IeeeReportDifferentParameterValues
 			"V_0",
 			"angle_0",
 			"P_0",
-			"Q_0"));
+			"Q_0",
+			"G",
+			"B",
+			"R",
+			"X"));
 }

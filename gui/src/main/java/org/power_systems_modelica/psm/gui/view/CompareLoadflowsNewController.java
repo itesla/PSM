@@ -1,9 +1,8 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public class CompareLoadflowsNewController {
 
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				caseSource.setItems(mainApp.getCases(newValue.getName()));
+				caseSource.setItems(mainService.getCases(newValue.getName()));
 			}
 
 		});
@@ -43,11 +42,11 @@ public class CompareLoadflowsNewController {
 
 		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
 
-		mainApp.startCompareLoadflows(cs, generatorsReactiveLimits);
+		mainService.startCompareLoadflows(cs, generatorsReactiveLimits);
 	}
 
 	public void setCase(Case c) {
-		ObservableList<Catalog> catalogs = mainApp.getCatalogs("cases");
+		ObservableList<Catalog> catalogs = mainService.getCatalogs("cases");
 		
 		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog> (catalogs, catalog -> c.getLocation().contains(catalog.getLocation())); 
 		
@@ -58,10 +57,10 @@ public class CompareLoadflowsNewController {
 		caseSource.getSelectionModel().select(c);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 
-		catalogSource.setItems(mainApp.getCatalogs("cases"));
+		catalogSource.setItems(mainService.getCatalogs("cases"));
 
 	}
 
@@ -73,7 +72,7 @@ public class CompareLoadflowsNewController {
 	@FXML
 	private CheckBox enforceGeneratorsReactiveLimits;
 
-	private MainApp mainApp;
+	private MainService mainService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CompareLoadflowsNewController.class);
 

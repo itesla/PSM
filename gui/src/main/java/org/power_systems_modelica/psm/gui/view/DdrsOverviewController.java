@@ -2,10 +2,10 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
 
-import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -45,7 +45,7 @@ public class DdrsOverviewController {
 		catalogs.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
 				String catalogName = (String) nameCatalogColumn.getCellObservableValue((int) newSelection).getValue();
-				ddrs.setItems(mainApp.getDdrs(catalogName));
+				ddrs.setItems(mainService.getDdrs(catalogName));
 			}
 		});
 
@@ -145,7 +145,7 @@ public class DdrsOverviewController {
 
 		boolean close = true;
 		try {
-			close = PathUtils.saveAsDdrFile(mainApp.getPrimaryStage(), location, file, ddrContent);
+			close = PathUtils.saveAsDdrFile(mainService.getMainApp().getPrimaryStage(), location, file, ddrContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,10 +180,10 @@ public class DdrsOverviewController {
 		fileContentPane.setVisible(true);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 
-		catalogs.setItems(mainApp.getCatalogs("ddrs"));
+		catalogs.setItems(mainService.getCatalogs("ddrs"));
 		catalogs.getSelectionModel().selectFirst();
 	}
 
@@ -214,5 +214,5 @@ public class DdrsOverviewController {
 	@FXML
 	private TableColumn<Ddr, String> sourceDdrColumn;
 
-	private MainApp mainApp;
+	private MainService mainService;
 }

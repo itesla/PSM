@@ -19,6 +19,6 @@ fi
 mvn ${MAVEN_FLAGS} \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \
-	-Dtest='*,!LoadFlowTest' \
+	-Dtest='*,!LoadFlowTest,!WorkflowNewControllerTest' \
 	-Ditesla.config.dir=${PSM_DATA}/test/cfg \
 	$*

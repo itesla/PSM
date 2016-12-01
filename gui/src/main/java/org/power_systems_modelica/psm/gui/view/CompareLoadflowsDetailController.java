@@ -3,9 +3,9 @@ package org.power_systems_modelica.psm.gui.view;
 import java.util.DoubleSummaryStatistics;
 import java.util.stream.Collectors;
 
-import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -74,7 +74,7 @@ public class CompareLoadflowsDetailController {
 	@FXML
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
-		mainApp.showCompareLoadflowsView(null);
+		mainService.showCompareLoadflowsView(null);
 	}
 
 	private void addSeries(WorkflowResult workflowResult) {
@@ -136,15 +136,15 @@ public class CompareLoadflowsDetailController {
 		reactiveChart.getData().addAll(displayedReactiveSeries);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 
-		Workflow w = mainApp.getCompareLoadflows();
+		Workflow w = mainService.getCompareLoadflows();
 
 		createdLabel.setText("" + w.getId());
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {
-			WorkflowResult wr = mainApp.getCompareLoadflowsResult("" + w.getId());
+			WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
 			
 			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("V"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
@@ -227,7 +227,7 @@ public class CompareLoadflowsDetailController {
 	@FXML
 	private NumberAxis yReactiveAxis;
 
-	private MainApp mainApp;
+	private MainService mainService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CompareLoadflowsDetailController.class);
 }

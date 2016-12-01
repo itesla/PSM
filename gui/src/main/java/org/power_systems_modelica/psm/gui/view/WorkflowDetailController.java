@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -74,7 +74,7 @@ public class WorkflowDetailController {
 	@FXML
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
-		mainApp.showWorkflowNewView(mainApp.getWorkflow());
+		mainService.showWorkflowNewView(mainService.getWorkflow());
 	}
 
 	@FXML
@@ -113,7 +113,7 @@ public class WorkflowDetailController {
 
 		boolean close = true;
 		try {
-			close = PathUtils.saveAsMoFile(mainApp.getPrimaryStage(), location, file, ddrContent);
+			close = PathUtils.saveAsMoFile(mainService.getMainApp().getPrimaryStage(), location, file, ddrContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -255,10 +255,10 @@ public class WorkflowDetailController {
 		highlightSeriesOnHover(displayedDsSeries);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 
-		Workflow w = mainApp.getWorkflow();
+		Workflow w = mainService.getWorkflow();
 
 		createdLabel.setText("" + w.getId());
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
@@ -270,7 +270,7 @@ public class WorkflowDetailController {
 		}
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {
-			addSeries(mainApp.getWorkflowResult("" + w.getId()));
+			addSeries(mainService.getWorkflowResult("" + w.getId()));
 			Utils.addTooltipScatterChart(voltageChart, "pu");
 			Utils.addTooltipScatterChart(phaseChart, "º");
 			Utils.addTooltipScatterChart(activeChart, "MW");
@@ -342,7 +342,7 @@ public class WorkflowDetailController {
 	private NumberAxis yDsAxis;
 
 	private Map<String, Paint> colors = new HashMap<String, Paint>();
-	private MainApp mainApp;
+	private MainService mainService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowDetailController.class);
 }

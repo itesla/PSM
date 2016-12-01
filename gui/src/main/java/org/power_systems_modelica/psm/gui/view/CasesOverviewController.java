@@ -3,9 +3,9 @@ package org.power_systems_modelica.psm.gui.view;
 import java.awt.MouseInfo;
 import java.awt.Point;
 
-import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 
 import com.google.common.collect.Iterables;
@@ -15,7 +15,6 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -23,7 +22,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
@@ -49,7 +47,7 @@ public class CasesOverviewController {
     	catalogs.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
     		if (newSelection != null) {
     			String catalogName = (String) nameCatalogColumn.getCellObservableValue((int) newSelection).getValue();
-    			cases.setItems(mainApp.getCases(catalogName));
+    			cases.setItems(mainService.getCases(catalogName));
     		}
     	});
     	
@@ -64,7 +62,7 @@ public class CasesOverviewController {
                     public void handle(ActionEvent event) {
                     	
                     	Case c = row.getItem();
-                    	Network n = mainApp.getCaseSummary(c);
+                    	Network n = mainService.getCaseSummary(c);
                     	showCaseSummary(MouseInfo.getPointerInfo().getLocation(), c, n);
                     }  
                 });  
@@ -75,7 +73,7 @@ public class CasesOverviewController {
                     public void handle(ActionEvent event) {
                     	
                     	Case c = row.getItem();
-                    	mainApp.showWorkflowWithCase(c);
+                    	mainService.showWorkflowWithCase(c);
                     }  
                 });  
                 contextMenu.getItems().add(workflowMenuItem);  
@@ -85,7 +83,7 @@ public class CasesOverviewController {
                     public void handle(ActionEvent event) {
                     	
                     	Case c = row.getItem();
-                   		mainApp.showCompareLoadflowsWithCase(c);
+                   		mainService.showCompareLoadflowsWithCase(c);
                     }  
                 });  
                 contextMenu.getItems().add(compareMenuItem);  
@@ -189,10 +187,10 @@ public class CasesOverviewController {
 		summaryPane.setVisible(true);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 		
-		catalogs.setItems(mainApp.getCatalogs("cases"));
+		catalogs.setItems(mainService.getCatalogs("cases"));
 		catalogs.getSelectionModel().selectFirst();
 	}
 
@@ -223,5 +221,5 @@ public class CasesOverviewController {
     @FXML
     private TableColumn<Case, Number> sizeCaseColumn;
 
-	private MainApp mainApp;
+	private MainService mainService;
 }

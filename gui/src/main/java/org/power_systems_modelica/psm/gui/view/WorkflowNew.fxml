@@ -115,8 +115,8 @@
 									<children>
 										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="100.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
 										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" text="Added events:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<Button layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="35.0" styleClass="btn-default" text="+" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
-										<Button layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="35.0" styleClass="btn-default" text="-" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
+										<Button fx:id="addEvents" layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="35.0" styleClass="btn-default" text="+" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
+										<Button fx:id="removeEvents" layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="35.0" styleClass="btn-default" text="-" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -157,8 +157,8 @@
                               <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="33.0" onAction="#handleActionSelectedEvent" prefWidth="150.0" AnchorPane.leftAnchor="80.0" />
                               <HBox layoutX="110.0" layoutY="114.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#handleAddEvent" styleClass="btn-default" text="Add" />
-                                    <Button mnemonicParsing="false" onAction="#handleCancelEvent" styleClass="btn-default" text="Cancel" />
+                                    <Button fx:id="add" mnemonicParsing="false" onAction="#handleAddEvent" styleClass="btn-default" text="Add" />
+                                    <Button fx:id="cancel" mnemonicParsing="false" onAction="#handleCancelEvent" styleClass="btn-default" text="Cancel" />
                                  </children>
                               </HBox>
                               <TableView fx:id="parametersView" layoutX="50.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">

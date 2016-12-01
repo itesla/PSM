@@ -1,6 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import org.power_systems_modelica.psm.gui.MainApp;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.fxml.FXML;
@@ -21,7 +21,7 @@ public class MenuLayoutController {
 		workflow.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
-		mainApp.showCasesOverview();
+		mainService.showCasesOverview();
 	}
 	
 	@FXML
@@ -31,7 +31,7 @@ public class MenuLayoutController {
 		workflow.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
-		mainApp.showDdrsOverview();
+		mainService.showDdrsOverview();
 	}
 
 	@FXML
@@ -41,8 +41,8 @@ public class MenuLayoutController {
 		workflow.getStyleClass().add("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
-		Workflow w = mainApp.getWorkflow();
-		mainApp.showWorkflowView(w);
+		Workflow w = mainService.getWorkflow();
+		mainService.showWorkflowView(w);
 	}
 
 	@FXML
@@ -52,8 +52,8 @@ public class MenuLayoutController {
 		workflow.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().add("active");
 		
-		Workflow w = mainApp.getCompareLoadflows();
-		mainApp.showCompareLoadflowsView(w);
+		Workflow w = mainService.getCompareLoadflows();
+		mainService.showCompareLoadflowsView(w);
 	}
 	
 	private void selectOption(Button b) {
@@ -73,8 +73,8 @@ public class MenuLayoutController {
 		selectOption(compareLoadflows);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 	}
 
 	@FXML
@@ -86,7 +86,7 @@ public class MenuLayoutController {
 	@FXML
 	private Button compareLoadflows;
 	
-	private MainApp mainApp;
+	private MainService mainService;
 
 	private static final Boolean DISABLECOMPARELOADFLOWS = new Boolean(false); 
 }

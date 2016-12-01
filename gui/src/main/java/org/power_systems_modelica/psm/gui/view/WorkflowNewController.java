@@ -3,12 +3,12 @@ package org.power_systems_modelica.psm.gui.view;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -53,7 +52,7 @@ public class WorkflowNewController {
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
 				if (newValue != null)
-					caseSource.setItems(mainApp.getCases(newValue.getName()));
+					caseSource.setItems(mainService.getCases(newValue.getName()));
 			}
 
 		});
@@ -72,7 +71,7 @@ public class WorkflowNewController {
 			@Override
 			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
 				if (newValue != null)
-					ddrSource.setItems(mainApp.getDdrs(newValue.getName()));
+					ddrSource.setItems(mainService.getDdrs(newValue.getName()));
 			}
 
 		});
@@ -82,7 +81,7 @@ public class WorkflowNewController {
 			@Override
 			public void changed(ObservableValue<? extends Ddr> observable, Ddr oldValue, Ddr newValue) {
 				if (newValue != null)
-					actionEvent.setItems(mainApp.getActionEvents(newValue));
+					actionEvent.setItems(mainService.getActionEvents(newValue));
 			}
 
 		});
@@ -115,7 +114,7 @@ public class WorkflowNewController {
 
 		String event = actionEvent.getSelectionModel().getSelectedItem();
 		if (event != null)
-			parametersView.setItems(mainApp.getEventParams(event));
+			parametersView.setItems(mainService.getEventParams(event));
 	}
 
 	@FXML
@@ -149,7 +148,7 @@ public class WorkflowNewController {
 
 		handleCleanWorkflow();
 		try {
-			Properties workflowProperties = PathUtils.loadWorkflowFile(mainApp.getPrimaryStage(),
+			Properties workflowProperties = PathUtils.loadWorkflowFile(mainService.getMainApp().getPrimaryStage(),
 					System.getProperty("user.home"));
 			loadWorkflow(workflowProperties);
 		} catch (IOException e) {
@@ -220,7 +219,7 @@ public class WorkflowNewController {
 		try {
 			workflowProperties = Utils.getWorkflowProperties(cs, ddr, le, onlyMainConnectedComponent, events, dse,
 					stopTime);
-			PathUtils.saveWorkflowFile(mainApp.getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
+			PathUtils.saveWorkflowFile(mainService.getMainApp().getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -276,7 +275,7 @@ public class WorkflowNewController {
 
 		ObservableList<Event> events = addedEvents.getItems();
 
-		mainApp.startWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
+		mainService.startWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
 	}
 
 	@FXML
@@ -291,7 +290,7 @@ public class WorkflowNewController {
 	}
 
 	private void setDdr(Case c) {
-		String ddrLocation = mainApp.getDefaultDdrLocation(c);
+		String ddrLocation = mainService.getDefaultDdrLocation(c);
 		if (ddrLocation != null) {
 			Utils.resolveDdrPath(ddrLocation, catalogDdrSource, ddrSource);
 		}
@@ -338,15 +337,18 @@ public class WorkflowNewController {
 		}
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService) {
+		this.mainService = mainService;
 
-		catalogCaseSource.setItems(mainApp.getCatalogs("cases"));
-		catalogDdrSource.setItems(mainApp.getCatalogs("ddrs"));
+		catalogCaseSource.setItems(mainService.getCatalogs("cases"));
+		catalogDdrSource.setItems(mainService.getCatalogs("ddrs"));
 
-		loadflowEngine.setItems(mainApp.getLoadflowEngines());
+		loadflowEngine.setItems(mainService.getLoadflowEngines());
 		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
 
+	}
+
+	public void setDefaultInit() {
 		handleCleanWorkflow();
 		try {
 			Properties workflowProperties = PathUtils.loadDefaultWorkflowFile();
@@ -391,9 +393,8 @@ public class WorkflowNewController {
 	@FXML
 	private TextField stopTimeText;
 
-	private MainApp mainApp;
+	private MainService mainService;
 
 	private static final Boolean MAINCONNECTEDCOMPONENTDEFAULT = new Boolean(true);
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowNewController.class);
-
 }

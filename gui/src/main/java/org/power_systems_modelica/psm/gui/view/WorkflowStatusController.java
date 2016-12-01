@@ -2,7 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.util.List;
 
-import org.power_systems_modelica.psm.gui.MainApp;
+import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
 import org.power_systems_modelica.psm.gui.utils.ProgressData;
@@ -28,9 +28,9 @@ public class WorkflowStatusController {
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
 		if (isWorkflowDetail)
-			mainApp.showWorkflowView(null);
+			mainService.showWorkflowView(null);
 		else
-			mainApp.showCompareLoadflowsView(null);
+			mainService.showCompareLoadflowsView(null);
 	}
 	
 	public void setTask(Workflow w, Task task) {
@@ -52,8 +52,8 @@ public class WorkflowStatusController {
 		treeView.setItems(((WorkflowService)task).getWorkflowInfo());
 	}
 
-	public void setMainApp(MainApp mainApp, Workflow w, boolean isWorkflowDetail) {
-		this.mainApp = mainApp;
+	public void setMainService(MainService mainService, Workflow w, boolean isWorkflowDetail) {
+		this.mainService = mainService;
 
 		this.isWorkflowDetail = isWorkflowDetail;
 		if (isWorkflowDetail) 
@@ -80,7 +80,7 @@ public class WorkflowStatusController {
 	@FXML
 	private DynamicTreeView<ProgressData> treeView;
 
-	private MainApp mainApp;
+	private MainService mainService;
 	private boolean isWorkflowDetail;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowStatusController.class);

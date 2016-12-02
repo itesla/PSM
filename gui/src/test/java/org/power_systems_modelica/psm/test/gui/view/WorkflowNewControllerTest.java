@@ -46,7 +46,7 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 			loader.setLocation(MainApp.class.getResource("view/WorkflowNew.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
-			controller = loader.getController();
+			WorkflowNewController controller = loader.getController();
 			controller.setMainService(mainService);
 			
 			Scene scene = new Scene(workflowsOverview);
@@ -133,7 +133,4 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 		ListView<Event> listView = lookup("#addedEvents").query();
 		assertEquals(event.toString(),listView.getItems().get(0).toString());
 	}
-
-	
-	private WorkflowNewController controller;
 }

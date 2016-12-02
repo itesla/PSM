@@ -349,8 +349,8 @@
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
-				<artifactId>modules</artifactId>
-				<version>${ipst.platform.version}</version>
+				<artifactId>contingency-api</artifactId>
+				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>

@@ -68,9 +68,8 @@
 			<artifactId>computation-local</artifactId>
 		</dependency>
 		<dependency>
-			<!-- modules is required for Hades integration (contains contingencies) -->
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>modules</artifactId>
+			<artifactId>contingency-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

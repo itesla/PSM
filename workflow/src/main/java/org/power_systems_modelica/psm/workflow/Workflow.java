@@ -15,6 +15,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.commons.Configuration;
+import org.power_systems_modelica.psm.commons.Errors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Workflow implements Process
 {
@@ -127,7 +130,16 @@ public class Workflow implements Process
 		{
 			WorkflowTask t = k.next();
 			updateState(t.getId(), SCHEDULED);
-			t.run();
+			try
+			{
+				t.run();
+			}
+			catch (Throwable x)
+			{
+				LOG.error(x.getMessage());
+				LOG.error(Errors.getStackTrace(x));
+				t.failed();
+			}
 			if (t.getState() == FAILED) break;
 		}
 	}
@@ -221,4 +233,6 @@ public class Workflow implements Process
 	private List<TaskStatePair>				currentTaskStates;
 	private Map<String, Object>				results		= new HashMap<>();
 	private final List<WorkflowListener>	listeners	= new ArrayList<>();
+
+	private static final Logger				LOG			= LoggerFactory.getLogger(Workflow.class);
 }

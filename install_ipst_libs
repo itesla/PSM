@@ -17,7 +17,7 @@ install_one_file iidm-network-impl
 install_one_file iidm-converter-api
 install_one_file iidm-xml-converter 
 install_one_file loadflow-api 
-install_one_file modules 
+install_one_file contingency-api 
 install_one_file online-workflow
 install_one_file entsoe-util
 install_one_file graph

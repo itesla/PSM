@@ -19,7 +19,7 @@ public class OpenModelicaIntegrationTest {
 	@Test
 	public void testSinglegen() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
-		
+
 		ModelicaDocument mo = ModelicaParser.parse(DATA_TEST
 													.resolve("singlegen")
 													.resolve("itesla")
@@ -209,7 +209,7 @@ public class OpenModelicaIntegrationTest {
 		config.setParameter("resultVariables", resultVariables);
 		
 		config.setParameter("method", method);
-		config.setParameter("startTime", startTime);
+//		config.setParameter("startTime", startTime);
 		config.setParameter("stopTime", stopTime);
 		config.setParameter("tolerance", tolerance);
 		

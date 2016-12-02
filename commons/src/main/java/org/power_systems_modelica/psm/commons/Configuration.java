@@ -10,19 +10,25 @@ public final class Configuration
 		return parameters.get(name);
 	}
 
-	public boolean getBoolean(String name)
+	public Boolean getBoolean(String name)
 	{
-		return Boolean.valueOf(getParameter(name));
+		String parameter = getParameter(name);
+		if(parameter == null) return null;
+		return Boolean.valueOf(parameter);
 	}
 	
-	public double getDouble(String name)
+	public Double getDouble(String name)
 	{
-		return Double.valueOf(getParameter(name));
+		String parameter = getParameter(name);
+		if(parameter == null) return null;
+		return Double.valueOf(parameter);
 	}
 	
 	public Integer getInteger(String name)
 	{
-		return Integer.valueOf(getParameter(name));
+		String parameter = getParameter(name);
+		if(parameter == null) return null;
+		return Integer.valueOf(parameter);
 	}
 
 

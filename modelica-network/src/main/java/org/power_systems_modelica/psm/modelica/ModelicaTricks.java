@@ -140,22 +140,15 @@ public class ModelicaTricks
 
 	public static String getStaticTypeFromDynamicType(String dtype)
 	{
-		switch (dtype)
+		if (dtype.startsWith("iPSL.Electrical.Buses.")) return "Bus";
+		else if (dtype.startsWith("iPSL.Electrical.Branches"))
 		{
-		case "iPSL.Electrical.Buses.Bus":
-			return "Bus";
-		case "iPSL.Electrical.Branches.PwLine_2":
-			return "Line";
-		case "iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer":
-			return "Transformer";
-		case "iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence":
-			return "Load";
-		case "iPSL.Electrical.Banks.PwCapacitorBank":
-			return "Shunt";
-		case "iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S":
-		case "iPSL.Electrical.Machines.Eurostag.DYNModelM2S_INIT":
-			return "Generator";
+			if (dtype.contains("Line")) return "Line";
+			else if (dtype.contains("Transformer")) return "Transformer";
 		}
+		else if (dtype.startsWith("iPSL.Electrical.Loads.")) return "Load";
+		else if (dtype.startsWith("iPSL.Electrical.Banks.")) return "Shunt";
+		else if (dtype.startsWith("iPSL.Electrical.Machines")) return "Generator";
 		return null;
 	}
 

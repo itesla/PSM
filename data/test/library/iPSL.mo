@@ -20735,6 +20735,133 @@ extends Modelica.Icons.Package;
           connect(pin_APREF, pin_ActivePowerSN);
         end pssi3e2b_Init;
 
+        model pss2ab
+        //PSS2AB PSS2AB_1(KS1=12.,KS2=0.208,KS3=1.,M=2.,N=1.,T1=0.22,T2=0.03,T3=.2600000,T4=0.027,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_2(KS1=10.,KS2=0.1538,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_3(KS1=10.,KS2=0.162,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_4(KS1=10.,KS2=0.1666,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_5(KS1=10.,KS2=0.1587,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_6(KS1=10.,KS2=0.2,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_7(KS1=10.,KS2=.1633000,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_8(KS1=10.,KS2=0.1564,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_9(KS1=10.,KS2=0.149,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_10(KS1=10.,KS2=0.1742,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_11(KS1=10.,KS2=0.1804,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+          parameter Real init_11=0.;
+          parameter Real init_4=init_IN;
+          parameter Real init_5=0;
+          parameter Real init_2=init_AP;
+          parameter Real init_8=0;
+          parameter Real init_19=0;
+          parameter Real init_20=0;
+          parameter Real KS1;
+          parameter Real KS2;
+          parameter Real KS3;
+          parameter Real M;
+          parameter Real N;
+          parameter Real T1;
+          parameter Real T2;
+          parameter Real T3;
+          parameter Real T4;
+          parameter Real T7;
+          parameter Real TW1;
+          parameter Real TW2;
+          parameter Real TW3;
+          parameter Real VSTMAX;
+          parameter Real VSTMIN;
+          parameter Real SNREF;
+          parameter Real SN;
+          parameter Real PN;
+          parameter Real PNALT;
+          parameter Real init_IN;
+          parameter Real init_AP;
+          Modelica.Blocks.Nonlinear.Limiter Limiter_11( uMax=VSTMAX, uMin=VSTMIN); //Eurostag Block number: 11
+          Modelica.Blocks.Continuous.Derivative Derivative_4( k=TW1, T=TW1, y_start=0, x_start=init_4, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 4
+          Modelica.Blocks.Continuous.Derivative Derivative_5( k=TW2, T=TW2, y_start=0, x_start=init_5, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 5
+          Modelica.Blocks.Continuous.Derivative Derivative_2( k=TW3, T=TW3, y_start=0, x_start=init_2, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 2
+          iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_8( K=KS2, T=T7, y_start=init_8, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 8
+          Modelica.Blocks.Math.MultiSum MultiSum_9( nu= 3, k={1, 1, M}); //Eurostag Block number: 9
+          Modelica.Blocks.Math.Gain Gain_10( k=KS3); //Eurostag Block number: 10
+          Modelica.Blocks.Math.MultiSum MultiSum_17( nu= 3, k={1, -1, N}); //Eurostag Block number: 17
+          Modelica.Blocks.Math.Gain Gain_18( k=KS1); //Eurostag Block number: 18
+          iPSL.NonElectrical.Continuous.LeadLag LeadLag_19( K=1, T1=T1, T2=T2, y_start=init_19); //Eurostag Block number: 19
+          iPSL.NonElectrical.Continuous.LeadLag LeadLag_20( K=1, T1=T3, T2=T4, y_start=init_20); //Eurostag Block number: 20
+          Modelica.Blocks.Interfaces.RealInput pin_ActivePowerSN;
+          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
+          Modelica.Blocks.Interfaces.RealOutput pin_VS;
+          Modelica.Blocks.Interfaces.RealOutput pin_At_4; //At_IN
+          Modelica.Blocks.Interfaces.RealOutput pin_At_5;//Start = 0
+          Modelica.Blocks.Interfaces.RealOutput pin_At_2; //At_AP
+          Modelica.Blocks.Interfaces.RealOutput pin_At_8;//Start = 0
+          Modelica.Blocks.Interfaces.RealOutput pin_At_19;//Start = 0
+          Modelica.Blocks.Interfaces.RealOutput pin_At_20;//Start = 0
+        equation
+          connect(MultiSum_9.y, MultiSum_17.u[1]);
+          connect(pin_ActivePowerSN, Derivative_2.u);
+          connect(Derivative_4.y, Derivative_5.u);
+          connect(SimpleLag_8.y, Gain_10.u);
+          connect(Gain_10.y, MultiSum_9.u[2]);
+          connect(SimpleLag_8.y, MultiSum_17.u[2]);
+          connect(MultiSum_17.y, Gain_18.u);
+          connect(Gain_18.y, LeadLag_19.u);
+          connect(LeadLag_19.y, LeadLag_20.u);
+          connect(LeadLag_20.y, Limiter_11.u);
+          connect(Derivative_5.y, MultiSum_9.u[1]);
+          connect(Derivative_2.y, SimpleLag_8.u);
+          connect(pin_OMEGA, Derivative_4.u);
+          connect(pin_VS, Limiter_11.y);
+          connect(pin_At_4, Derivative_4.y);
+          connect(pin_At_5, Derivative_5.y);
+          connect(pin_At_2, Derivative_2.y);
+          connect(pin_At_8, SimpleLag_8.y);
+          connect(pin_At_19, LeadLag_19.y);
+          connect(pin_At_20, LeadLag_20.y);
+          MultiSum_9.u[3] =1;
+          MultiSum_17.u[3] =1;
+        end pss2ab;
+
+        model pss2ab_Init
+        //PSS2AB PSS2AB_1(KS1=12.,KS2=0.208,KS3=1.,M=2.,N=1.,T1=0.22,T2=0.03,T3=.2600000,T4=0.027,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_2(KS1=10.,KS2=0.1538,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_3(KS1=10.,KS2=0.162,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_4(KS1=10.,KS2=0.1666,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_5(KS1=10.,KS2=0.1587,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_6(KS1=10.,KS2=0.2,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_7(KS1=10.,KS2=.1633000,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_8(KS1=10.,KS2=0.1564,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_9(KS1=10.,KS2=0.149,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_10(KS1=10.,KS2=0.1742,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+        //PSS2AB PSS2AB_11(KS1=10.,KS2=0.1804,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
+          parameter Real KS1;
+          parameter Real KS2;
+          parameter Real KS3;
+          parameter Real M;
+          parameter Real N;
+          parameter Real T1;
+          parameter Real T2;
+          parameter Real T3;
+          parameter Real T4;
+          parameter Real T7;
+          parameter Real TW1;
+          parameter Real TW2;
+          parameter Real TW3;
+          parameter Real VSTMAX;
+          parameter Real VSTMIN;
+          parameter Real SNREF;
+          parameter Real SN;
+          parameter Real PN;
+          parameter Real PNALT;
+          Modelica.Blocks.Math.Gain Gain_2( k=1); //Eurostag Block number: 2
+          Modelica.Blocks.Interfaces.RealInput pin_ActivePowerSN;
+          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
+          Modelica.Blocks.Interfaces.RealOutput pin_AP; //isInitValue
+          Modelica.Blocks.Interfaces.RealOutput pin_IN; //isInitValue
+        equation
+          connect(pin_OMEGA, Gain_2.u);
+          connect(pin_AP, pin_ActivePowerSN);
+          connect(pin_IN, Gain_2.y);
+        end pss2ab_Init;
+
         model sexs
         //SEXS SEXS_1(EFDMAX=999.,EFDMIN=-999.,EMAX=4.,EMIN=0.,K=200.,KC=1.,TA=3.,TB=10.,TE=0.05);
         //SEXS SEXS_2(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=400.,KC=1.,TA=1.,TB=10.,TE=0.0001);
@@ -20828,6 +20955,148 @@ extends Modelica.Icons.Package;
           connect(pin_VREF, MultiSum_2.y);
           connect(pin_At_V, pin_TerminalVoltage);
         end sexs_Init;
+
+        model tgov1
+        //TGOV1 TGOV1_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.010000,VMIN=0.);
+        //TGOV1 TGOV1_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_4(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_5(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_6(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_7(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_8(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_9(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_10(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_11(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_12(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_13(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_14(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_15(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_16(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_17(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=.3000000);
+        //TGOV1 TGOV1_18(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.25);
+        //TGOV1 TGOV1_19(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_20(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=.2900000);
+        //TGOV1 TGOV1_21(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=.2700000);
+        //TGOV1 TGOV1_22(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=.3000000);
+        //TGOV1 TGOV1_23(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_24(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_25(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_26(DT=.3000000,RR=0.06,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_27(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_28(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_29(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_30(DT=.3000000,RR=0.08,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+          parameter Real init_3=init_REF;
+          parameter Real init_4=init_PMECH;
+          parameter Real init_5=init_PMECH;
+          parameter Real init_8=init_PMECH;
+          parameter Real init_10=init_CM;
+          parameter Real init_11=0;
+          parameter Real DT;
+          parameter Real RR;
+          parameter Real T1;
+          parameter Real T2;
+          parameter Real T3;
+          parameter Real VMAX;
+          parameter Real VMIN;
+          parameter Real SNREF;
+          parameter Real SN;
+          parameter Real PN;
+          parameter Real PNALT;
+          parameter Real init_REF;
+          parameter Real init_PMECH;
+          parameter Real init_CM;
+          Modelica.Blocks.Math.Gain Gain_1( k=1/RR); //Eurostag Block number: 1
+          Modelica.Blocks.Math.MultiSum MultiSum_2( nu= 2, k={1, -1}); //Eurostag Block number: 2
+          iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_3( V=init_3); //Eurostag Block number: 3
+          iPSL.NonElectrical.Continuous.SimpleLagLim SimpleLagLim_4( outMax=VMAX, K=1, T=T1, outMin=VMIN, y_start=init_4); //Eurostag Block number: 4
+          iPSL.NonElectrical.Continuous.LeadLag LeadLag_5( K=1, T1=T2, T2=T3, y_start=init_5); //Eurostag Block number: 5
+          Modelica.Blocks.Math.Gain Gain_6( k=DT); //Eurostag Block number: 6
+          Modelica.Blocks.Math.MultiSum MultiSum_7( nu= 2, k={1, -1}); //Eurostag Block number: 7
+          Modelica.Blocks.Math.MultiSum MultiSum_8( nu= 2, k={+1, -1}, y(start= init_8)); //Eurostag Block number: 8
+          iPSL.NonElectrical.Eurostag.Continuous.ImDiv2 ImDiv2_9( a1=1, a2=1, a0=0, StartValue=false); //Eurostag Block number: 9
+          Modelica.Blocks.Math.MultiSum MultiSum_10( nu= 2, k={1, 1}, y(start= init_10)); //Eurostag Block number: 10
+          iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_11( V=init_11); //Eurostag Block number: 11
+          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
+          Modelica.Blocks.Interfaces.RealOutput pin_PMECH; //PMECH
+          Modelica.Blocks.Interfaces.RealOutput pin_CM; //CM
+          Modelica.Blocks.Interfaces.RealOutput pin_CMREF;//Start = 0
+        equation
+          connect(ImSetPoint_3.y, MultiSum_2.u[1]);
+          connect(MultiSum_2.y, Gain_1.u);
+          connect(Gain_1.y, SimpleLagLim_4.u);
+          connect(SimpleLagLim_4.y, LeadLag_5.u);
+          connect(LeadLag_5.y, MultiSum_8.u[1]);
+          connect(MultiSum_8.y, ImDiv2_9.u1);
+          connect(Gain_6.y, MultiSum_8.u[2]);
+          connect(MultiSum_7.y, Gain_6.u);
+          connect(MultiSum_7.y, MultiSum_2.u[2]);
+          connect(ImDiv2_9.y, MultiSum_10.u[1]);
+          connect(ImSetPoint_11.y, MultiSum_10.u[2]);
+          connect(pin_OMEGA, MultiSum_7.u[1]);
+          connect(pin_OMEGA, ImDiv2_9.u2);
+          connect(pin_PMECH, MultiSum_8.y);
+          connect(pin_CM, MultiSum_10.y);
+          connect(pin_CMREF, ImSetPoint_11.y);
+          MultiSum_7.u[2] =1;
+        end tgov1;
+
+        model tgov1_Init
+        //TGOV1 TGOV1_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.010000,VMIN=0.);
+        //TGOV1 TGOV1_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_4(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_5(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_6(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_7(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_8(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_9(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_10(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_11(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_12(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_13(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_14(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_15(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_16(DT=0.,RR=0.05,T1=.4000000,T2=2.,T3=6.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_17(DT=0.,RR=0.011,T1=.4900000,T2=2.730000,T3=9.990000,VMAX=1.,VMIN=.3000000);
+        //TGOV1 TGOV1_18(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=0.25);
+        //TGOV1 TGOV1_19(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_20(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.,VMAX=1.,VMIN=.2900000);
+        //TGOV1 TGOV1_21(DT=0.,RR=0.05,T1=.4000000,T2=1.,T3=4.,VMAX=1.,VMIN=.2700000);
+        //TGOV1 TGOV1_22(DT=0.,RR=0.05,T1=.4900000,T2=3.,T3=9.990000,VMAX=1.,VMIN=.3000000);
+        //TGOV1 TGOV1_23(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_24(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_25(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_26(DT=.3000000,RR=0.06,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_27(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_28(DT=.3000000,RR=0.04,T1=.3000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_29(DT=0.,RR=0.05,T1=.4000000,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+        //TGOV1 TGOV1_30(DT=.3000000,RR=0.08,T1=0.05,T2=1.5,T3=5.,VMAX=1.,VMIN=0.);
+          parameter Real DT;
+          parameter Real RR;
+          parameter Real T1;
+          parameter Real T2;
+          parameter Real T3;
+          parameter Real VMAX;
+          parameter Real VMIN;
+          parameter Real SNREF;
+          parameter Real SN;
+          parameter Real PN;
+          parameter Real PNALT;
+          Modelica.Blocks.Math.Gain Gain_1( k=RR); //Eurostag Block number: 1
+          iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_2( nu= 2, a={1, 1}); //Eurostag Block number: 2
+          Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
+          Modelica.Blocks.Interfaces.RealInput pin_CM;
+          Modelica.Blocks.Interfaces.RealOutput pin_REF; //isInitValue
+          Modelica.Blocks.Interfaces.RealOutput pin_PMECH; //isInitValue
+        equation
+          connect(ImMult5_2.y, Gain_1.u);
+          connect(pin_OMEGA, ImMult5_2.u[1]);
+          connect(pin_CM, ImMult5_2.u[2]);
+          connect(pin_REF, Gain_1.y);
+          connect(pin_PMECH, ImMult5_2.y);
+        end tgov1_Init;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>

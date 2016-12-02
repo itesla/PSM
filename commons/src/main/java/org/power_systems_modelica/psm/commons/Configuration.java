@@ -12,9 +12,7 @@ public final class Configuration
 
 	public Boolean getBoolean(String name)
 	{
-		String parameter = getParameter(name);
-		if(parameter == null) return null;
-		return Boolean.valueOf(parameter);
+		return Boolean.valueOf(getParameter(name));
 	}
 	
 	public Double getDouble(String name)

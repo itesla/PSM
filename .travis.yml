@@ -14,3 +14,5 @@ before_install:
   - ./download_and_install_libs
 after_success:
   - ./mvnw jacoco:report coveralls:report
+after_failure:
+  - ./dump_surefire_reports

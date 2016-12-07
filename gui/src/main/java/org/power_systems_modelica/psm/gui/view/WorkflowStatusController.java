@@ -44,8 +44,6 @@ public class WorkflowStatusController {
 		
 		TreeItem<ProgressData> root = new TreeItem<>();
 		root.setExpanded(true);
-		System.out.println("treeView " + treeView == null);
-		System.out.println("treeView.getStyleClass() " + treeView.getStyleClass() == null);
 		treeView.getStyleClass().add("treeViewItem");
 		treeView.setRoot(root);
 		treeView.setShowRoot(false);

@@ -58,10 +58,14 @@ public class WorkflowTest {
 		assertEquals(1, messages.size());
 		assertEquals("fake0               Workflow Task Test                                          SUCCESS", messages.get(0).toString());
 		ObservableList<ProgressData> messageChildrens = messages.get(0).getChildren();
-		assertEquals(3, messageChildrens.size());
+		assertEquals(7, messageChildrens.size());
 		assertEquals("Start test workflow", messageChildrens.get(0).toString());
-		assertEquals("Succeded test workflow", messageChildrens.get(1).toString());
-		assertEquals("End test workflow", messageChildrens.get(2).toString());
+		assertEquals("running1", messageChildrens.get(1).toString());
+		assertEquals("running2", messageChildrens.get(2).toString());
+		assertEquals("running3", messageChildrens.get(3).toString());
+		assertEquals("running4", messageChildrens.get(4).toString());
+		assertEquals("running5", messageChildrens.get(5).toString());
+		assertEquals("End test workflow", messageChildrens.get(6).toString());
 	}
 
 }

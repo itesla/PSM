@@ -207,10 +207,8 @@ public class WorkflowNewController {
 		Case cs = caseSource.getSelectionModel().getSelectedItem();
 		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
 		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
-		System.out.println(le.toString());
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
-		System.out.println(dse.toString());
 		String stopTime = stopTimeText.getText();
 
 		ObservableList<Event> events = addedEvents.getItems();

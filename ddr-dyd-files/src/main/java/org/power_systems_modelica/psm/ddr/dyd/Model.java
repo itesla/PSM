@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import org.power_systems_modelica.psm.ddr.Stage;
+
 public class Model
 {
 	public Model(String id)
@@ -19,14 +21,14 @@ public class Model
 		return id;
 	}
 
-	public void setInitialization(boolean isInitialization)
+	public void setStage(Stage stage)
 	{
-		this.isInitialization = isInitialization;
+		this.stage = stage;
 	}
 
-	public boolean isInitialization()
+	public Stage getStage()
 	{
-		return isInitialization;
+		return stage;
 	}
 
 	public List<Component> getComponents()
@@ -77,8 +79,8 @@ public class Model
 	}
 
 	private final String			id;
-	private boolean					isInitialization	= false;
-	private final List<Component>	components			= new ArrayList<>();
-	private final List<Connection>	connections			= new ArrayList<>();
-	private final List<Connector>	connectors			= new ArrayList<>();
+	private Stage					stage		= Stage.SIMULATION;
+	private final List<Component>	components	= new ArrayList<>();
+	private final List<Connection>	connections	= new ArrayList<>();
+	private final List<Connector>	connectors	= new ArrayList<>();
 }

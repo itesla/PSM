@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -83,7 +84,7 @@ public class ModelicaNetworkBuilderTest
 		dbus.setStaticId("bus1");
 		dbus.addDeclarations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus
-		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
+		Mockito.when(ddr.getModelicaModel(firstBus, Stage.SIMULATION)).thenReturn(dbus);
 
 		// Mocking the Modelica engine
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
@@ -135,7 +136,7 @@ public class ModelicaNetworkBuilderTest
 		dbus.setStaticId(bid);
 		dbus.addDeclarations(Arrays.asList(dbusi));
 		// Mocked ddr will only return dynamic model for the first bus
-		Mockito.when(ddr.getModelicaModel(firstBus)).thenReturn(dbus);
+		Mockito.when(ddr.getModelicaModel(firstBus, Stage.SIMULATION)).thenReturn(dbus);
 
 		// Mocking the Modelica engine
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
@@ -242,6 +243,6 @@ public class ModelicaNetworkBuilderTest
 				.add();
 		return network;
 	}
-	
+
 	private static final String NEW_LINE = System.getProperty("line.separator").toString();
 }

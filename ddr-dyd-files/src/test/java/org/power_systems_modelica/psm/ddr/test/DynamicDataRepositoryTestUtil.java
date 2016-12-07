@@ -35,7 +35,7 @@ public class DynamicDataRepositoryTestUtil
 	{
 		assertEquals(me.getClass(), ma.getClass());
 		assertEquals(me.getId(), ma.getId());
-		assertEquals(me.isInitialization(), ma.isInitialization());
+		assertEquals(me.getStage(), ma.getStage());
 		System.out.println(me.getId());
 		if (me instanceof ModelForAssociation)
 		{

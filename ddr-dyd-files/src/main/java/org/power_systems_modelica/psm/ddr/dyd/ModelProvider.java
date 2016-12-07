@@ -70,9 +70,11 @@ public class ModelProvider
 		if (m instanceof ModelForElement)
 			dynamicModelsForElement.put(((ModelForElement) m).getStaticId(), (ModelForElement) m);
 		else if (m instanceof ModelForAssociation)
+		{
 			dynamicModelsForAssociation.put(
 					((ModelForAssociation) m).getAssociation(),
 					(ModelForAssociation) m);
+		}
 		else if (m instanceof ModelForType)
 			dynamicModelsForType.put(((ModelForType) m).getType(), (ModelForType) m);
 		else if (m instanceof ModelForEvent)

@@ -18,13 +18,11 @@ public interface DynamicDataRepository
 
 	void connect() throws ConnectionException;
 
-	ModelicaModel getModelicaModel(Identifiable<?> e);
+	ModelicaModel getModelicaModel(Identifiable<?> e, Stage stage);
 
-	ModelicaModel getModelicaInitializationModel(Identifiable<?> e);
+	List<ModelicaDeclaration> getSystemDeclarations(Stage stage);
 
-	List<ModelicaDeclaration> getSystemDeclarations();
-
-	List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m);
+	List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m, Stage stage);
 
 	ModelicaModel getModelicaModelForEvent(String id, Identifiable<?> e);
 

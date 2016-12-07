@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
@@ -50,12 +51,12 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 
 		ModelicaSystemModel sys = getModelicaDocument().getSystemModel();
-		sys.addDeclarations(getDdr().getSystemDeclarations());
+		sys.addDeclarations(getDdr().getSystemDeclarations(Stage.SIMULATION));
 		addDynamicModels();
 		// Add connections between models only after all models have been created
 		addInterconnections();
 		// And system equations also after all models have been created
-		sys.addEquations(getDdr().getSystemEquationsInContext(sys));
+		sys.addEquations(getDdr().getSystemEquationsInContext(sys, Stage.SIMULATION));
 
 		return getModelicaDocument();
 	}
@@ -73,7 +74,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		for (Bus b : network.getBusBreakerView().getBuses())
 		{
 			if (isOnlyMainConnectedComponent() && !b.isInMainConnectedComponent()) continue;
-			ModelicaModel db = getDdr().getModelicaModel(b);
+			ModelicaModel db = getDdr().getModelicaModel(b, Stage.SIMULATION);
 			if (db == null) continue;
 
 			addDynamicModel(db);
@@ -82,7 +83,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 				@Override
 				public <I extends Connectable<I>> void visitEquipment(Connectable<I> e)
 				{
-					ModelicaModel de = getDdr().getModelicaModel(e);
+					ModelicaModel de = getDdr().getModelicaModel(e, Stage.SIMULATION);
 					if (de == null) return;
 
 					if (!visited.contains(e))

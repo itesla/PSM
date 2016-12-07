@@ -120,7 +120,7 @@ public class EquationXmlTest
 		System.out.println(fromXml);
 		assertEquals(original, fromXml);
 	}
-	
+
 	private static final Path DATA_TMP = Paths.get(System.getenv("PSM_DATA"))
 			.resolve("tmp");
 }

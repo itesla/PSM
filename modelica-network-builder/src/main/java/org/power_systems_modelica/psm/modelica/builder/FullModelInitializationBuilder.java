@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
@@ -58,7 +59,7 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 	private void addInitialization(Identifiable<?> e, Collection<ModelicaDocument> mos)
 	{
 		ModelicaDocument mo = null;
-		ModelicaModel de = getDdr().getModelicaInitializationModel(e);
+		ModelicaModel de = getDdr().getModelicaModel(e, Stage.INITIALIZATION);
 		if (de != null) mo = buildModelicaInitializationDocument(de);
 		if (mo != null) mos.add(mo);
 	}
@@ -67,9 +68,9 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 	{
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin("");
-		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId()); 
+		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId());
 		mo.setSystemModel(ms);
-		ms.addDeclarations(getDdr().getSystemDeclarations());
+		ms.addDeclarations(getDdr().getSystemDeclarations(Stage.INITIALIZATION));
 
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)

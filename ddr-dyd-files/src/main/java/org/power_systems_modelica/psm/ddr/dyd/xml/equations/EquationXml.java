@@ -4,9 +4,11 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equal;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.UnparsedEquation;
+import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 
 public class EquationXml
@@ -17,6 +19,7 @@ public class EquationXml
 	public static Equation read(XMLStreamReader reader) throws XMLStreamException
 	{
 		final Equation[] eq = new Equation[1];
+		Stage stage = DydXml.readAttributeStage(reader);
 		XmlUtil.readUntilEndElement(
 				EquationXml.ELEMENT_NAME,
 				reader,
@@ -33,6 +36,7 @@ public class EquationXml
 						break;
 					}
 				});
+		eq[0].setStage(stage);
 		return eq[0];
 	}
 
@@ -40,12 +44,13 @@ public class EquationXml
 			throws XMLStreamException
 	{
 		w.writeStartElement(ELEMENT_NAME);
+		DydXml.writeAttributeStage(w, eq.getStage());
 		if (eq instanceof Equal)
 			EqualXml.write((Equal) eq, w);
 		else if (eq instanceof UnparsedEquation)
 		{
 			w.writeStartElement(UNPARSED_EQUATION_ELEMENT_NAME);
-			w.writeCharacters(((UnparsedEquation)eq).getText());
+			w.writeCharacters(((UnparsedEquation) eq).getText());
 			w.writeEndElement();
 		}
 		w.writeEndElement();

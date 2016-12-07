@@ -35,7 +35,7 @@ public class InitializationModelsInference
 			minit = new ModelForAssociation(((ModelForAssociation) m).getAssociation(), m.getId());
 		if (minit == null) return null;
 
-		minit.setInitialization(true);
+		minit.setStage(Stage.INITIALIZATION);
 		minit.addComponents(m.getComponents()
 				.stream()
 				.map(c -> inferInitializationComponent(staticId, c, ddr, paramSetContainerName))

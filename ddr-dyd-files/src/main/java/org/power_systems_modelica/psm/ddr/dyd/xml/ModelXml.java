@@ -1,7 +1,5 @@
 package org.power_systems_modelica.psm.ddr.dyd.xml;
 
-import java.util.Optional;
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -22,9 +20,6 @@ public class ModelXml
 
 	public static Model read(XMLStreamReader r)
 	{
-		boolean isInitialization = Boolean.valueOf(
-				Optional.ofNullable(r.getAttributeValue(null, "isInitialization"))
-						.orElse("false"));
 		String id = r.getAttributeValue(null, "id");
 
 		// The model applies either to a staticId, an association, a type or an event
@@ -39,7 +34,8 @@ public class ModelXml
 		else if (type != null) m = new ModelForType(type, id);
 		else if (association != null) m = new ModelForAssociation(association, id);
 		else m = new ModelForElement(staticId, id);
-		m.setInitialization(isInitialization);
+
+		m.setStage(DydXml.readAttributeStage(r));
 
 		return m;
 	}
@@ -47,9 +43,7 @@ public class ModelXml
 	public static void write(XMLStreamWriter w, Model m) throws XMLStreamException
 	{
 		w.writeStartElement(ROOT_ELEMENT_NAME);
-		// isInitialization == false is default value, do not write it
-		if (m.isInitialization())
-			w.writeAttribute("isInitialization", Boolean.toString(m.isInitialization()));
+		DydXml.writeAttributeStage(w, m.getStage());
 		w.writeAttribute("id", m.getId());
 
 		if (m instanceof ModelForElement)

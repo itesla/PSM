@@ -1,9 +1,10 @@
 package org.power_systems_modelica.psm.ddr.dyd.equations;
 
-public class UnparsedEquation implements Equation
+public class UnparsedEquation extends Equation
 {
 	public UnparsedEquation(String text)
 	{
+		super();
 		this.text = text;
 	}
 

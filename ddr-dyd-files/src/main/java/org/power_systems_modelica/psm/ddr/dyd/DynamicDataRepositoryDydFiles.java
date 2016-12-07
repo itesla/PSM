@@ -28,6 +28,7 @@ import javax.xml.stream.XMLStreamException;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.EventParameter;
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
@@ -55,8 +56,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		modelContainers = new HashMap<>();
 		associations = new AssociationProvider();
-		dynamicModels = new ModelProvider(associations);
-		initializationModels = new ModelProvider(associations);
+		modelsByStage = new HashMap<>();
+		for (Stage stage : Stage.values())
+			modelsByStage.put(stage, new ModelProvider(associations));
 		systemDefinitions = null;
 		parameters = new ParameterSetProvider();
 	}
@@ -83,20 +85,25 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public List<ModelicaDeclaration> getSystemDeclarations()
+	public List<ModelicaDeclaration> getSystemDeclarations(Stage stage)
 	{
-		if (systemDefinitions != null) return systemDefinitions.getDeclarations();
+		if (systemDefinitions != null) return systemDefinitions.getDeclarations().stream()
+				.filter(d -> d.getStage().equals(stage))
+				.map(d -> d.getModelicaDeclaration())
+				.collect(Collectors.toList());
 		else return Collections.emptyList();
 	}
 
-	public List<Equation> getSystemEquations()
+	public List<Equation> getSystemEquations(Stage stage)
 	{
-		if (systemDefinitions != null) return systemDefinitions.getEquations();
+		if (systemDefinitions != null) return systemDefinitions.getEquations().stream()
+				.filter(eq -> eq.getStage().equals(stage))
+				.collect(Collectors.toList());
 		else return Collections.emptyList();
 	}
 
 	@Override
-	public List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m)
+	public List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m, Stage stage)
 	{
 		Context<ModelicaDeclaration> contextModelica = new Context<ModelicaDeclaration>()
 		{
@@ -123,24 +130,15 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			}
 		};
 
-		return systemDefinitions.getEquations()
-				.stream()
+		return getSystemEquations(stage).stream()
 				.map(eq -> new ModelicaEquation(eq.writeIn(contextModelica)))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public ModelicaModel getModelicaModel(Identifiable<?> e)
+	public ModelicaModel getModelicaModel(Identifiable<?> e, Stage stage)
 	{
-		Model mdef = dynamicModels.getModel(e);
-		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
-		return null;
-	}
-
-	@Override
-	public ModelicaModel getModelicaInitializationModel(Identifiable<?> e)
-	{
-		Model mdef = initializationModels.getModel(e);
+		Model mdef = modelsByStage.get(stage).getModel(e);
 		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
 	}
@@ -148,6 +146,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public ModelicaModel getModelicaModelForEvent(String ev, Identifiable<?> e)
 	{
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
 		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
 		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
 		return null;
@@ -156,6 +155,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public Injection getInjectionForEvent(String ev)
 	{
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
 		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
 		return mdef.getInjection();
 	}
@@ -163,6 +163,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public Collection<String> getEvents()
 	{
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
 		// Return a sorted set of events found in the model provider
 		Set<String> events = new TreeSet<>();
 		events.addAll(dynamicModels.getEvents());
@@ -172,6 +173,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	@Override
 	public List<EventParameter> getEventParameters(String event)
 	{
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
 		ModelForEvent m = dynamicModels.getModelForEvent(event);
 		if (m == null)
 		{
@@ -427,22 +429,21 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		}
 	}
 
-	public void addSystemDeclarations(List<ModelicaDeclaration> declarations)
+	public void addSystemDeclarations(List<ModelicaDeclaration> declarations, Stage stage)
 	{
-		systemDefinitions.addDeclarations(declarations);
+		systemDefinitions.addDeclarations(declarations, stage);
 	}
 
-	public void addSystemEquations(List<Equation> equations)
+	public void addSystemEquations(List<ModelicaEquation> equations, Stage stage)
 	{
-		systemDefinitions.addEquations(equations);
+		systemDefinitions.addEquations(equations, stage);
 	}
 
 	public void addModel(String containerName, Model mdef)
 	{
 		ModelContainer mc = getCreateModelContainer(containerName);
 		mc.add(mdef);
-		if (mdef.isInitialization()) initializationModels.add(mdef);
-		else dynamicModels.add(mdef);
+		modelsByStage.get(mdef.getStage()).add(mdef);
 	}
 
 	public void addAssociation(String containerName, Association a)
@@ -452,13 +453,15 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		associations.add(a);
 	}
 
-	public Model getDynamicModelForAssociation(String associationId)
+	public Model getDynamicModelForAssociation(String associationId, Stage stage)
 	{
+		ModelProvider dynamicModels = modelsByStage.get(stage);
 		return dynamicModels.getDynamicModelForAssociation(associationId);
 	}
 
-	public Model getDynamicModelForStaticType(String type)
+	public Model getDynamicModelForStaticType(String type, Stage stage)
 	{
+		ModelProvider dynamicModels = modelsByStage.get(stage);
 		return dynamicModels.getDynamicModelForStaticType(type).orElse(null);
 	}
 
@@ -498,8 +501,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	private Path						location;
 	private Map<String, ModelContainer>	modelContainers;
-	private ModelProvider				dynamicModels;
-	private ModelProvider				initializationModels;
+	private Map<Stage, ModelProvider>	modelsByStage;
 	private SystemDefinitions			systemDefinitions;
 	private ParameterSetProvider		parameters;
 	private AssociationProvider			associations;

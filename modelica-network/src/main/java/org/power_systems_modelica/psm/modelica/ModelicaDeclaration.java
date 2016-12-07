@@ -94,4 +94,5 @@ public class ModelicaDeclaration implements Annotable
 	private Annotation						annotation;
 
 	private static final String				DEFAULT_ANNOTATION	= "Placement(transformation())";
+
 }

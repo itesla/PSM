@@ -29,4 +29,19 @@
 			</right>
 		</equal>
 	</equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GEN____1_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GEN____2_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GEN____3_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GEN____6_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GEN____8_SM.pin_VS = 0</unparsed>
+    </equation>
 </system_definitions>

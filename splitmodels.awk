@@ -8,7 +8,7 @@ BEGIN {
 	{
 		r = close(outputFileName);
 	}
-	outputFilename = $2 ".single_model.mo";
+	outputFilename = $2 ".mo";
 	createFile = 1;
 }
 

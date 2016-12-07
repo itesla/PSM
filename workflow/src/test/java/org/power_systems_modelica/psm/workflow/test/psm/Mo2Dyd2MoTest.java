@@ -45,7 +45,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee14",
 				"itesla/ieee14bus_no_lf.mo",
-				"itesla/ieee14bus_Init.mo",
+				"itesla/init",
 				"ieee14bus_EQ.xml",
 				"ieee14_ddr",
 				14,
@@ -58,7 +58,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee30",
 				"itesla/ieee30bus_no_lf.mo",
-				"itesla/ieee30bus_Init.mo",
+				"itesla/init",
 				"ieee30bus_EQ.xml",
 				"ieee30_ddr",
 				30,
@@ -71,7 +71,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee57",
 				"itesla/ieee57bus_no_lf.mo",
-				"itesla/ieee57bus_Init.mo",
+				"itesla/init",
 				"ieee57bus_EQ.xml",
 				"ieee57_ddr",
 				57,
@@ -84,7 +84,7 @@ public class Mo2Dyd2MoTest
 		testRebuildModelica(
 				"ieee118",
 				"itesla/ieee118bus_no_lf.mo",
-				"itesla/ieee118bus_Init.mo",
+				"itesla/init",
 				"ieee118bus_EQ.xml",
 				"ieee118_ddr",
 				118,
@@ -93,12 +93,12 @@ public class Mo2Dyd2MoTest
 
 	private void testRebuildModelica(
 			String foldername,
-			String moname,
-			String monameinit,
-			String casename,
+			String moName,
+			String moInitPath,
+			String caseName,
 			String ddrLocation,
-			int numOfBuses,
-			int numOfGens)
+			int numBuses,
+			int numGenerators)
 			throws WorkflowCreationException, IOException
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
@@ -106,9 +106,9 @@ public class Mo2Dyd2MoTest
 		// ddr is created in tmp folder
 		ddrLocation = DATA_TMP.resolve(ddrLocation).toAbsolutePath().toString();
 		Files.createDirectories(Paths.get(ddrLocation));
-		String moInput = folder.resolve(moname).toString();
-		String moInputInit = folder.resolve(monameinit).toString();
-		String cim = folder.resolve(casename).toString();
+		String moInput = folder.resolve(moName).toString();
+		String moInputInit = folder.resolve(moInitPath).toString();
+		String cim = folder.resolve(caseName).toString();
 		String fakeInit = folder.resolve(ddrLocation).resolve("fake_init.csv").toString();
 		String moOutput = DATA_TMP.resolve("mo2dyd2mo.mo").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("mo2dyd2mo");
@@ -120,7 +120,7 @@ public class Mo2Dyd2MoTest
 			mo2dyd = TD(DydFilesFromModelicaTask.class, "mo2dyd0",
 					TC("ddrLocation", ddrLocation,
 							"modelicaFile", moInput,
-							"modelicaFileInit", moInputInit));
+							"modelicaInitPath", moInputInit));
 		}
 		else
 		{
@@ -152,8 +152,8 @@ public class Mo2Dyd2MoTest
 
 		Network n = (Network) wf.getResults("network");
 		assertNotNull(n);
-		assertEquals(numOfBuses, Iterables.size(n.getBusView().getBuses()));
-		assertEquals(numOfGens, n.getGeneratorCount());
+		assertEquals(numBuses, Iterables.size(n.getBusView().getBuses()));
+		assertEquals(numGenerators, n.getGeneratorCount());
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
 		assertNotNull(mo);
 
@@ -163,5 +163,5 @@ public class Mo2Dyd2MoTest
 		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 	}
 
-	private static final boolean EXPLICIT_INIT_FILES = false;
+	private static final boolean EXPLICIT_INIT_FILES = true;
 }

@@ -6,6 +6,10 @@
 
 	<!-- Root element may be a set of system definitions, a container of models 
 		or container of parameter sets -->
+	<xs:complexType name="Stageable">
+		<xs:attribute name="stage" use="optional" type="dyd:Stage"
+			default="SIMULATION" />
+	</xs:complexType>
 	<xs:element name="system_definitions">
 		<xs:complexType>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -38,17 +42,25 @@
 
 	<!-- System definitions -->
 	<xs:complexType name="Declaration">
-		<xs:attribute name="type" use="required" type="xs:string" />
-		<xs:attribute name="id" use="required" type="xs:string" />
-		<xs:attribute name="value" use="optional" type="xs:string" />
-		<xs:attribute name="isParameter" use="optional" type="xs:boolean"
-			default="false" />
+		<xs:complexContent>
+			<xs:extension base="dyd:Stageable">
+				<xs:attribute name="type" use="required" type="xs:string" />
+				<xs:attribute name="id" use="required" type="xs:string" />
+				<xs:attribute name="value" use="optional" type="xs:string" />
+				<xs:attribute name="isParameter" use="optional" type="xs:boolean"
+					default="false" />
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="Equation">
-		<xs:choice>
-			<xs:element name="equal" type="dyd:Equal" />
-			<xs:element name="unparsed" /><!-- FIXME allow only text -->
-		</xs:choice>
+		<xs:complexContent>
+			<xs:extension base="dyd:Stageable">
+				<xs:choice>
+					<xs:element name="equal" type="dyd:Equal" />
+					<xs:element name="unparsed" /><!-- FIXME allow only text -->
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="Equal">
 		<xs:sequence>
@@ -120,34 +132,44 @@
 		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="Model">
-		<xs:sequence>
-			<xs:element name="component" type="dyd:Component"
-				minOccurs="1" maxOccurs="unbounded" />
-			<!-- TODO Review -->
-			<!-- Initialization models do not need connectors, thus minOccurs = 0 -->
-			<!-- The upper bound is realistic but somewhat arbitrary, only branches 
-				and generators have two connectors -->
-			<!-- Branches have (p,n), generators (sortie,omegaRef) -->
-			<xs:element name="connector" type="dyd:Connector"
-				minOccurs="0" maxOccurs="2" />
-			<xs:element name="connection" type="dyd:Connection"
-				minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-		<xs:attribute name="isInitialization" use="optional"
-			type="xs:boolean" default="false" />
+		<xs:complexContent>
+			<xs:extension base="dyd:Stageable">
+				<xs:sequence>
+					<xs:element name="component" type="dyd:Component"
+						minOccurs="1" maxOccurs="unbounded" />
+					<!-- TODO Review -->
+					<!-- Initialization models do not need connectors, thus minOccurs = 
+						0 -->
+					<!-- The upper bound is realistic but somewhat arbitrary, only branches 
+						and generators have two connectors -->
+					<!-- Branches have (p,n), generators (sortie,omegaRef) -->
+					<xs:element name="connector" type="dyd:Connector"
+						minOccurs="0" maxOccurs="2" />
+					<xs:element name="connection" type="dyd:Connection"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
 
-		<!-- The model applies either to a staticId, to a type or to an event -->
+				<!-- The model applies either to a staticId, to a type or to an event -->
 
-		<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
 
-		<xs:attribute name="association" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="association" use="optional"
+					type="dyd:nonEmptyString" />
 
-		<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
 
-		<xs:attribute name="event" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
+				<xs:attribute name="event" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Stage">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INITIALIZATION" />
+			<xs:enumeration value="SIMULATION" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Component">
 		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />
 		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />

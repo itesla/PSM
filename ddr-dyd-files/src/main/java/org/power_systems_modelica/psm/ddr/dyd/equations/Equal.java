@@ -1,9 +1,10 @@
 package org.power_systems_modelica.psm.ddr.dyd.equations;
 
-public class Equal implements Equation
+public class Equal extends Equation
 {
 	public Equal(Expression left, Expression right)
 	{
+		super();
 		this.left = left;
 		this.right = right;
 	}

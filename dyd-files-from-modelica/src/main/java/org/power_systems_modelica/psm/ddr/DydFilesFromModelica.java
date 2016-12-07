@@ -2,7 +2,11 @@ package org.power_systems_modelica.psm.ddr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,7 +34,6 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetContainer;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
-import org.power_systems_modelica.psm.ddr.dyd.equations.UnparsedEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
@@ -49,59 +52,59 @@ public class DydFilesFromModelica
 {
 	public void mo2dyd(
 			Path modelicaFile,
-			Path modelicaFileInit,
+			Path modelicaInitPath,
 			Path ddrLocation)
 			throws FileNotFoundException, IOException, XMLStreamException
 	{
 		// We will try to establish,
 		// for every dynamic model declaration and equation seen in the Modelica file,
 		// the corresponding element from the static model.
-
-		// We will discard connection equations that refer to distinct static elements
+		// We will discard connection equations that refer to distinct static elements (interconnections)
 		// because we assume they are built from Network topology and are not required
 		// in the dynamic data repository.
 
-		// Obtain the Modelica objects from the MO file
-		ModelicaDocument mo = ModelicaParser.parse(modelicaFile);
-
-		// Try to group all dynamic model components that refer to the same static element
-		// We remove the equations that are related to interconnections between static elements
-		// (they are not needed in the DDR, they will be built from the given topology of the static network)
-		Collection<ModelicaModel> ms = ModelicaUtil.groupByNormalizedStaticId(mo).values();
-		ms = ms.stream()
-				.filter(m -> !ModelicaUtil.isInterconnection(m))
-				.collect(Collectors.toList());
-
-		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
-		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
-
+		// The DDR we want to build
 		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
 		ddr.setLocation(ddrLocation.toString());
 		ddr.addParameterSetContainer(PARAMS_NAME);
 		ddr.createSystemDefinitions(SYSTEM_NAME);
 
-		boolean inferInitializationModels = (modelicaFileInit == null);
-		boolean isInitializationModel = false;
-		mo2dyd(ms,
+		// Do we have to infer the initialization models or are they provided explicitly
+		boolean inferringInitializationModels = (modelicaInitPath == null);
+
+		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
+		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
+
+		// Process all Modelica files
+		// Keep track of the Model definitions added to the repository so they are not added twice
+		Set<Model> addedModels = new HashSet<>();
+		mo2dyd(modelicaFile,
 				ddr,
+				inferringInitializationModels,
+				Stage.SIMULATION,
 				fakeInitializationResults,
-				inferInitializationModels,
-				isInitializationModel);
-		if (modelicaFileInit != null)
+				addedModels);
+		if (modelicaInitPath != null)
 		{
-			ModelicaDocument moinit = ModelicaParser.parse(modelicaFileInit);
-			Collection<ModelicaModel> msinit = ModelicaUtil
-					.groupByNormalizedStaticId(moinit)
-					.values();
-			msinit = msinit.stream()
-					.filter(m -> !ModelicaUtil.isInterconnection(m))
-					.collect(Collectors.toList());
-			isInitializationModel = true;
-			mo2dyd(msinit,
-					ddr,
-					fakeInitializationResults,
-					inferInitializationModels,
-					isInitializationModel);
+			// Walk all the ".mo" files found in the folder for initialization files
+			Files.walkFileTree(modelicaInitPath, new SimpleFileVisitor<Path>()
+			{
+				@Override
+				public FileVisitResult visitFile(Path modelicaInitFile, BasicFileAttributes attrs)
+						throws FileNotFoundException, IOException
+				{
+					if (modelicaInitFile.toString().endsWith(".mo"))
+					{
+						mo2dyd(modelicaInitFile,
+								ddr,
+								inferringInitializationModels,
+								Stage.INITIALIZATION,
+								fakeInitializationResults,
+								addedModels);
+					}
+					return FileVisitResult.CONTINUE;
+				}
+			});
 		}
 
 		// Save the dynamic repository objects as XML files, provide default names for the DYD containers
@@ -113,34 +116,52 @@ public class DydFilesFromModelica
 	}
 
 	private void mo2dyd(
+			Path modelicaFile,
+			DynamicDataRepositoryDydFiles ddr,
+			boolean inferringInitializationModels,
+			Stage stage,
+			ModelicaSimulationResults fakeInitializationResults,
+			Set<Model> addedModels)
+			throws FileNotFoundException, IOException
+	{
+		ModelicaDocument mo = ModelicaParser.parse(modelicaFile);
+		Collection<ModelicaModel> ms = ModelicaUtil
+				.groupByNormalizedStaticId(mo)
+				.values();
+		ms = ms.stream()
+				.filter(m -> !ModelicaUtil.isInterconnection(m))
+				.collect(Collectors.toList());
+		models2dyd(ms,
+				ddr,
+				inferringInitializationModels,
+				stage,
+				fakeInitializationResults,
+				addedModels);
+	}
+
+	private void models2dyd(
 			Collection<ModelicaModel> ms,
 			DynamicDataRepositoryDydFiles ddr,
+			boolean inferringInitializationModels,
+			Stage stage,
 			ModelicaSimulationResults fakeInitResults,
-			boolean inferInitializationModels,
-			boolean isInitialization)
+			Set<Model> addedModels)
 	{
-		// Keep track of the Model definitions added to the repository so they are not added twice
-		Set<Model> addedModels = new HashSet<>();
 		for (ModelicaModel m : ms)
 		{
 			if (ModelicaUtil.isSystemModel(m))
 			{
-				ddr.addSystemDeclarations(m.getDeclarations());
-				// FIXME System equations are added 'as they appear' in the mo file, which additional considerations about write/read???
-				ddr.addSystemEquations(m.getEquations()
-						.stream()
-						.map(meq -> new UnparsedEquation(meq.getText()))
-						.collect(Collectors.toList()));
+				ddr.addSystemDeclarations(m.getDeclarations(), stage);
+				ddr.addSystemEquations(m.getEquations(), stage);
 				continue;
 			}
 
-			Model mdef = checkModelDefinitionForType(m, ddr);
-			if (mdef == null) mdef = checkModelDefinitionForAssociation(m, ddr, fakeInitResults);
-			if (mdef == null) mdef = buildModelDefinitionForElement(m, ddr, fakeInitResults);
+			Model mdef = checkModel(m, ddr, stage, fakeInitResults);
 			if (mdef == null) continue;
+
 			if (addedModels.contains(mdef))
 			{
-				if (inferInitializationModels)
+				if (inferringInitializationModels)
 					InitializationModelsInference.saveInitializationModelParams(
 							m.getStaticId(),
 							mdef,
@@ -148,11 +169,11 @@ public class DydFilesFromModelica
 							PARAMS_NAME);
 				continue;
 			}
-			mdef.setInitialization(isInitialization);
+
 			ddr.addModel(MODELS_NAME, mdef);
 			addedModels.add(mdef);
 
-			if (inferInitializationModels)
+			if (inferringInitializationModels)
 			{
 				Model mdefi = InitializationModelsInference
 						.inferInitializationModel(
@@ -165,37 +186,52 @@ public class DydFilesFromModelica
 		}
 	}
 
+	private Model checkModel(
+			ModelicaModel m,
+			DynamicDataRepositoryDydFiles ddr,
+			Stage stage,
+			ModelicaSimulationResults fakeInitResults)
+	{
+		Model mdef = checkModelDefinitionForType(m, ddr, stage);
+		if (mdef == null) mdef = checkModelDefinitionForAssociation(m, ddr, stage, fakeInitResults);
+		if (mdef == null) mdef = buildModelDefinitionForElement(m, ddr, stage, fakeInitResults);
+		return mdef;
+	}
+
 	private Model checkModelDefinitionForType(
 			ModelicaModel m,
-			DynamicDataRepositoryDydFiles ddr)
+			DynamicDataRepositoryDydFiles ddr,
+			Stage stage)
 	{
 		String type = whichType(m);
 		if (type == null) return null;
 
-		Model mdef = ddr.getDynamicModelForStaticType(type);
+		Model mdef = ddr.getDynamicModelForStaticType(type, stage);
 		if (mdef != null) return mdef;
 
 		// Do not build generic model definition for generators
 		if (type.equals("Generator")) return null;
 
-		return buildModelDefinitionForType(type, m, ddr);
+		return buildModelDefinitionForType(type, m, stage, ddr);
 	}
 
 	private Model checkModelDefinitionForAssociation(
 			ModelicaModel m,
 			DynamicDataRepositoryDydFiles ddr,
+			Stage stage,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
 		Association a = findAssociation(m);
 		if (a == null) return null;
 
 		// The associations relate a single dynamic model with many static network elements
-		Model mdef = ddr.getDynamicModelForAssociation(a.getId());
+		Model mdef = ddr.getDynamicModelForAssociation(a.getId(), stage);
 		if (mdef != null)
 		{
 			// If a template model definition has already been created
 			// we only have to save specific parameters for this instance
-			saveParametersForModelForAssociation(
+			saveParametersForModel(
+					mdef,
 					m,
 					ddr,
 					fakeInitializationResults);
@@ -205,8 +241,10 @@ public class DydFilesFromModelica
 		mdef = buildModelDefinitionForAssociation(
 				a.getId(),
 				m,
+				stage,
 				ddr,
 				fakeInitializationResults);
+		mdef.setStage(stage);
 
 		saveModelForAssociation(m, a);
 		return mdef;
@@ -248,16 +286,24 @@ public class DydFilesFromModelica
 		ModelicaDeclaration d = mo.getDeclarations().get(0);
 		String dtype = d.getType();
 		String stype = ModelicaTricks.getStaticTypeFromDynamicType(dtype);
+		if (stype == null)
+		{
+			String message = "Can not identify static type from dynamic type '" + dtype + "'";
+			LOG.error(message);
+			throw new RuntimeException(message);
+		}
 		return stype;
 	}
 
 	private static Model buildModelDefinitionForType(
 			String stype,
 			ModelicaModel mo,
+			Stage stage,
 			DynamicDataRepositoryDydFiles ddr)
 	{
 		String baseId = "DM{staticId}";
 		Model mdef = new ModelForType(stype, baseId);
+		mdef.setStage(stage);
 		boolean isGeneric = true;
 		mdef.addConnectors(createConnectors(mo, isGeneric));
 
@@ -279,6 +325,7 @@ public class DydFilesFromModelica
 	private static Model buildModelDefinitionForAssociation(
 			String associationId,
 			ModelicaModel mo,
+			Stage stage,
 			DynamicDataRepositoryDydFiles ddr,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
@@ -290,11 +337,10 @@ public class DydFilesFromModelica
 			LOG.warn("Ignored ModelicaModel {}: {}", mo.getId(), reason);
 			return null;
 		}
-		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
-		String type = whichType(mo);
 
 		String baseId = id.replace(staticId, "{staticId}");
 		ModelForAssociation mdef = new ModelForAssociation(associationId, baseId);
+		mdef.setStage(stage);
 		boolean isGeneric = true;
 		mdef.addConnectors(createConnectors(mo, isGeneric));
 
@@ -308,26 +354,17 @@ public class DydFilesFromModelica
 			{
 				// The id of the parameter set is a composition of the static id and the component id
 				String did0 = d.getId().replace("_".concat(staticId), "");
-				String psetId = staticId.concat("_").concat(did0);
-				String psetIdRef = "{staticId}".concat("_").concat(did0);
-
-				ParameterSet pset = new ParameterSet(psetId);
-				pset.add(buildParameters(type, d.getArguments()));
-				par.add(pset);
+				String psetIdRef = "{staticId}".concat("_").concat(did0).concat("_")
+						.concat(mdef.getStage().name());
 				ParameterSetReference pref = new ParameterSetReference(
-						par.getName(),
+						PARAMS_NAME,
 						psetIdRef);
 				mdefc.setParameterSetReference(pref);
-
-				// Store values of arguments coming from initialization for later use by fake Modelica engine
-				saveInitializationResultsForFakeModelicaEngine(
-						staticId,
-						idc,
-						d.getArguments(),
-						fakeInitializationResults);
 			}
 			mdef.addComponent(mdefc);
 		}
+		saveParametersForModel(mdef, mo, ddr, fakeInitializationResults);
+
 		for (ModelicaEquation eq : mo.getEquations())
 		{
 			if (eq instanceof ModelicaConnect)
@@ -345,7 +382,8 @@ public class DydFilesFromModelica
 		return mdef;
 	}
 
-	private static void saveParametersForModelForAssociation(
+	private static void saveParametersForModel(
+			Model mdef,
 			ModelicaModel mo,
 			DynamicDataRepositoryDydFiles ddr,
 			ModelicaSimulationResults fakeInitializationResults)
@@ -366,7 +404,9 @@ public class DydFilesFromModelica
 			{
 				// The id of the parameter set is a composition of the static id and the component id
 				String did0 = d.getId().replace("_".concat(staticId), "");
-				String psetId = staticId.concat("_").concat(did0);
+				String psetId = staticId.concat("_").concat(did0).concat("_")
+						.concat(mdef.getStage().name());
+				;
 
 				ParameterSet pset = new ParameterSet(psetId);
 				pset.add(buildParameters(type, d.getArguments()));
@@ -385,6 +425,7 @@ public class DydFilesFromModelica
 	private static Model buildModelDefinitionForElement(
 			ModelicaModel mo,
 			DynamicDataRepositoryDydFiles ddr,
+			Stage stage,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
 		String id = mo.getId();
@@ -395,10 +436,9 @@ public class DydFilesFromModelica
 			LOG.warn("Ignored ModelicaModel {}: {}", mo.getId(), reason);
 			return null;
 		}
-		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
-		String type = whichType(mo);
 
 		ModelForElement mdef = new ModelForElement(staticId, id);
+		mdef.setStage(stage);
 		boolean isGeneric = false;
 		mdef.addConnectors(createConnectors(mo, isGeneric));
 
@@ -411,25 +451,16 @@ public class DydFilesFromModelica
 			{
 				// The id of the parameter set is a composition of the static id and the component id
 				String did0 = d.getId().replace("_".concat(staticId), "");
-				String psetId = staticId.concat("_").concat(did0);
-
-				ParameterSet pset = new ParameterSet(psetId);
-				pset.add(buildParameters(type, d.getArguments()));
-				par.add(pset);
-				ParameterSetReference pref = new ParameterSetReference(
-						par.getName(),
-						pset.getId());
+				String psetId = staticId.concat("_").concat(did0).concat("_")
+						.concat(mdef.getStage().name());
+				;
+				ParameterSetReference pref = new ParameterSetReference(PARAMS_NAME, psetId);
 				mdefc.setParameterSetReference(pref);
-
-				// Store values of arguments coming from initialization for later use by fake Modelica engine
-				saveInitializationResultsForFakeModelicaEngine(
-						staticId,
-						d.getId(),
-						d.getArguments(),
-						fakeInitializationResults);
 			}
 			mdef.addComponent(mdefc);
 		}
+		saveParametersForModel(mdef, mo, ddr, fakeInitializationResults);
+
 		for (ModelicaEquation eq : mo.getEquations())
 		{
 			if (eq instanceof ModelicaConnect)

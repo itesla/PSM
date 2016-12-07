@@ -24,7 +24,7 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 	public void configure(Configuration config)
 	{
 		modelicaFile = config.getParameter("modelicaFile");
-		modelicaFileInit = config.getParameter("modelicaFileInit");
+		modelicaInitPath = config.getParameter("modelicaInitPath");
 		ddrLocation = config.getParameter("ddrLocation");
 	}
 
@@ -36,12 +36,12 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 		{
 			// If there is no Modelica file with initialization models
 			// they will be built (inferred) from simulation models
-			Path pmoinit = null;
-			if (modelicaFileInit != null) pmoinit = Paths.get(modelicaFileInit);
+			Path moInitPath = null;
+			if (modelicaInitPath != null) moInitPath = Paths.get(modelicaInitPath);
 
 			new DydFilesFromModelica().mo2dyd(
 					Paths.get(modelicaFile),
-					pmoinit,
+					moInitPath,
 					Paths.get(ddrLocation));
 			succeded();
 		}
@@ -52,6 +52,6 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 	}
 
 	private String	modelicaFile;
-	private String	modelicaFileInit;
+	private String	modelicaInitPath;
 	private String	ddrLocation;
 }

@@ -5,4 +5,25 @@
     <equation>
         <unparsed>omegaRef = (gen_pwGeneratorM2S__BEAV___6_SM.omega*gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.omega*gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.omega*gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.omega*gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.omega*gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.omega*gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.omega*gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn) / (gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn)</unparsed>
     </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__BEAV___6_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__CLIN___8_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GLEN__12_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__KANA___1_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__LOGA___3_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__SALT___9_SM.pin_VS = 0</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__TURN___2_SM.pin_VS = 0</unparsed>
+    </equation>
 </system_definitions>

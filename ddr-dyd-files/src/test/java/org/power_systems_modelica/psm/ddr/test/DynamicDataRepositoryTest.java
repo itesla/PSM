@@ -24,15 +24,8 @@ import org.mockito.Mockito;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
-import org.power_systems_modelica.psm.ddr.dyd.Component;
-import org.power_systems_modelica.psm.ddr.dyd.Connection;
-import org.power_systems_modelica.psm.ddr.dyd.Connector;
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
-import org.power_systems_modelica.psm.ddr.dyd.Model;
-import org.power_systems_modelica.psm.ddr.dyd.ModelForAssociation;
-import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
-import org.power_systems_modelica.psm.ddr.dyd.ModelForEvent;
-import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
@@ -61,7 +54,7 @@ public class DynamicDataRepositoryTest
 		Mockito.when(e.getId()).thenReturn("CIVAU7CIVAU1_NGU_SM");
 
 		// Query the dynamic data repository
-		ModelicaModel m = ddr.getModelicaModel(e);
+		ModelicaModel m = ddr.getModelicaModel(e, Stage.SIMULATION);
 		List<ModelicaDeclaration> ds = m.getDeclarations();
 		List<ModelicaEquation> eqs = m.getEquations();
 
@@ -260,13 +253,13 @@ public class DynamicDataRepositoryTest
 				dydsa.getAllModelDefinitions());
 		// TODO system equations should die (all equations should be placed in iPSL library)
 		DynamicDataRepositoryTestUtil.assertSameEquationDefinitions(
-				dydse.getSystemEquations(),
-				dydsa.getSystemEquations());
+				dydse.getSystemEquations(Stage.SIMULATION),
+				dydsa.getSystemEquations(Stage.SIMULATION));
 
 		// Check system definitions are the same
 		ModelicaTestUtil.assertSameDeclarations(
-				ddre.getSystemDeclarations(),
-				ddra.getSystemDeclarations());
+				ddre.getSystemDeclarations(Stage.SIMULATION),
+				ddra.getSystemDeclarations(Stage.SIMULATION));
 
 	}
 

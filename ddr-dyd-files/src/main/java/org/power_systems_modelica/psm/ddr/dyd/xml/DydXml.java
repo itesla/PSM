@@ -2,12 +2,14 @@ package org.power_systems_modelica.psm.ddr.dyd.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.events.XMLEvent;
 
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.DydContent;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
 import org.power_systems_modelica.psm.ddr.dyd.SystemDefinitions;
@@ -81,6 +83,20 @@ public class DydXml
 
 		w.writeEndDocument();
 		w.flush();
+	}
+
+	public static final Stage DEFAULT_STAGE = Stage.SIMULATION;
+
+	public static void writeAttributeStage(XMLStreamWriter w, Stage stage) throws XMLStreamException
+	{
+		if (!stage.equals(DEFAULT_STAGE)) w.writeAttribute("stage", stage.name());
+	}
+
+	public static Stage readAttributeStage(XMLStreamReader r)
+	{
+		return Stage.valueOf(
+				Optional.ofNullable(r.getAttributeValue(null, "stage"))
+						.orElse(DEFAULT_STAGE.name()));
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(DydXml.class);

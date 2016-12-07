@@ -72,12 +72,13 @@ public class WorkflowConfigurationTest {
 		assertEquals("OpenModelica",w.getWorkflowTasks().get(6).getId());
 	}
 
+	/* FIXME 
+	 * allow loadflow engine in task integration server
 	@Test
 	public void createCompareLoadflowsTest() throws WorkflowCreationException {
 		
 		Case cs = new Case();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
-		System.out.println(cs.getLocation());
 		
 		Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, true);
 		
@@ -87,4 +88,5 @@ public class WorkflowConfigurationTest {
 		assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
 		assertEquals("loadflowHades2",w.getWorkflowTasks().get(2).getId());
 	}
+	*/
 }

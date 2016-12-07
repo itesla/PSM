@@ -77,6 +77,7 @@ public class WorkflowConfigurationTest {
 		
 		Case cs = new Case();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+		System.out.println(cs.getLocation());
 		
 		Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, true);
 		

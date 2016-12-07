@@ -16,7 +16,7 @@ if [ -d "/Users/zamarrenolm/scratch/RTE_Modelica_tool/code/psm" ]; then
 	export MAVEN_FLAGS="--threads 2C"
 fi
 
-mvn ${MAVEN_FLAGS} \
+mvn ${MAVEN_FLAGS} -X -e \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \
 	-Dtest='*,!LoadFlowTest,!WorkflowStatusControllerTest,!WorkflowNewControllerTest,!WorkflowTest' \

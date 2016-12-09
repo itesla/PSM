@@ -10,8 +10,13 @@ public class AssociationProvider
 {
 	public Optional<Association> findAssociation(Identifiable<?> element)
 	{
+		return findAssociation(element.getId());
+	}
+
+	public Optional<Association> findAssociation(String id)
+	{
 		return associations.stream()
-				.filter(a -> belongs(a, element))
+				.filter(a -> belongs(a, id))
 				.findFirst();
 	}
 
@@ -20,9 +25,9 @@ public class AssociationProvider
 		associations.add(a);
 	}
 
-	private static boolean belongs(Association a, Identifiable<?> element)
+	private static boolean belongs(Association a, String id)
 	{
-		return element.getId().matches(a.getPattern());
+		return id.matches(a.getPattern());
 	}
 
 	private final List<Association> associations = new ArrayList<>();

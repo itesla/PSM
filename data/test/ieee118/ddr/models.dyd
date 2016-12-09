@@ -77,7 +77,7 @@
         <connection id1="reg_cmconst_{staticId}" var1="pin_CM" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_CM"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_VS" id2="reg_sexs_{staticId}" var2="pin_VS"/>
     </model>
-    <model stage="INITIALIZATION" id="DM_{staticId}" association="association2">
+    <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
         <component name="iPSL.Electrical.Machines.Eurostag.DYNModelM2S_INIT" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_INITIALIZATION"/>
         <component name="gsteam0_init" id="gsteam0_{staticId}" parFile="params.par" parId="{staticId}_gsteam0_INITIALIZATION"/>
         <component name="sexs_init" id="sexs_{staticId}" parFile="params.par" parId="{staticId}_sexs_INITIALIZATION"/>
@@ -90,7 +90,7 @@
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e2b_{staticId}" var2="pin_ActivePowerSN"/>
     </model>
-    <model stage="INITIALIZATION" id="DM_{staticId}" association="association3">
+    <model stage="INITIALIZATION" id="DM_{staticId}" association="association1">
         <component name="iPSL.Electrical.Machines.Eurostag.DYNModelM2S_INIT" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_INITIALIZATION"/>
         <component name="pssi3e2b_init" id="pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_pssi3e2b_INITIALIZATION"/>
         <component name="sexs_init" id="sexs_{staticId}" parFile="params.par" parId="{staticId}_sexs_INITIALIZATION"/>
@@ -102,6 +102,4 @@
     </model>
     <association id="association0" pattern="_GEN___59_SM|_GEN___36_SM|_GEN____6_SM|_GEN___12_SM|_GEN___61_SM|_GEN___49_SM|_GEN___62_SM|_GEN___10_SM|_GEN___85_SM|_GEN__104_SM|_GEN___74_SM|_GEN___87_SM|_GEN___19_SM|_GEN__105_SM|_GEN___65_SM|_GEN___18_SM|_GEN___31_SM|_GEN___76_SM|_GEN____1_SM|_GEN___54_SM|_GEN___77_SM|_GEN___32_SM|_GEN__103_SM|_GEN___66_SM|_GEN___55_SM|_GEN___89_SM|_GEN___80_SM|_GEN___56_SM|_GEN___15_SM|_GEN___34_SM|_GEN__110_SM|_GEN___26_SM|_GEN___69_SM|_GEN___46_SM|_GEN___92_SM|_GEN___25_SM|_GEN__100_SM|_GEN___70_SM|_GEN__111_SM"/>
     <association id="association1" pattern="_GEN__107_SM|_GEN___24_SM|_GEN____8_SM|_GEN___72_SM|_GEN___73_SM|_GEN__116_SM|_GEN___40_SM|_GEN___42_SM|_GEN__113_SM|_GEN___99_SM|_GEN___90_SM|_GEN___27_SM|_GEN____4_SM|_GEN___91_SM|_GEN__112_SM"/>
-    <association id="association2" pattern="_GEN__100_SM|_GEN__103_SM|_GEN__104_SM|_GEN__105_SM|_GEN__110_SM|_GEN__111_SM|_GEN___10_SM|_GEN___12_SM|_GEN___15_SM|_GEN___18_SM|_GEN___19_SM|_GEN___25_SM|_GEN___26_SM|_GEN___31_SM|_GEN___32_SM|_GEN___34_SM|_GEN___36_SM|_GEN___46_SM|_GEN___49_SM|_GEN___54_SM|_GEN___55_SM|_GEN___56_SM|_GEN___59_SM|_GEN___61_SM|_GEN___62_SM|_GEN___65_SM|_GEN___66_SM|_GEN___69_SM|_GEN___70_SM|_GEN___74_SM|_GEN___76_SM|_GEN___77_SM|_GEN___80_SM|_GEN___85_SM|_GEN___87_SM|_GEN___89_SM|_GEN___92_SM|_GEN____1_SM|_GEN____6_SM"/>
-    <association id="association3" pattern="_GEN__107_SM|_GEN__112_SM|_GEN__113_SM|_GEN__116_SM|_GEN___24_SM|_GEN___27_SM|_GEN___40_SM|_GEN___42_SM|_GEN___72_SM|_GEN___73_SM|_GEN___90_SM|_GEN___91_SM|_GEN___99_SM|_GEN____4_SM|_GEN____8_SM"/>
 </model_container>

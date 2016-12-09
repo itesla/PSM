@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.power_systems_modelica.psm.ddr.DydFilesFromModelica;
 
@@ -26,7 +27,7 @@ public class DydFilesFromModelicaTool implements Tool
 		@Override
 		public String getTheme()
 		{
-			return "Conversions";
+			return "Data conversion";
 		}
 
 		@Override
@@ -39,8 +40,27 @@ public class DydFilesFromModelicaTool implements Tool
 		public Options getOptions()
 		{
 			Options options = new Options();
-			options.addOption("m", "modelicaFile", true, "Modelica file");
-			options.addOption("d", "ddrLocation", true, "Output DDR path");
+			options.addOption(Option.builder()
+					.longOpt("modelica")
+					.desc("Modelica file")
+					.hasArg()
+					.argName("MODELICA_FILE")
+					.required()
+					.build());
+			options.addOption(Option.builder()
+					.longOpt("modelica-init")
+					.desc("Modelica initialization files folder")
+					.hasArg()
+					.argName("MODELICA_INIT_PATH")
+					.required(false)
+					.build());
+			options.addOption(Option.builder()
+					.longOpt("ddr")
+					.desc("Output Dynamic Data Repository path")
+					.hasArg()
+					.argName("DDR_PATH")
+					.required()
+					.build());
 			return options;
 		}
 
@@ -60,7 +80,7 @@ public class DydFilesFromModelicaTool implements Tool
 	@Override
 	public void run(CommandLine cmd) throws Exception
 	{
-		String modelicaFile = cmd.getOptionValue("modelicaFile");
+		String modelicaFile = cmd.getOptionValue("modelica");
 		if (modelicaFile == null)
 		{
 			System.err.println("Missing modelica input file");
@@ -71,10 +91,10 @@ public class DydFilesFromModelicaTool implements Tool
 		// If there is no Modelica file with initialization models
 		// they will be built (inferred) from simulation models
 		Path pmoinit = null;
-		String modelicaFileInit = cmd.getOptionValue("modelicaFileInit");
+		String modelicaFileInit = cmd.getOptionValue("modelica-init");
 		if (modelicaFileInit != null) pmoinit = Paths.get(modelicaFileInit);
 
-		String ddrLocation = cmd.getOptionValue("ddrLocation");
+		String ddrLocation = cmd.getOptionValue("ddr");
 		if (ddrLocation == null)
 		{
 			System.err.println("Missing DDR output directory");

@@ -5,7 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
@@ -35,7 +37,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 		@Override
 		public String getTheme()
 		{
-			return "Conversions";
+			return "Data conversion";
 		}
 
 		@Override
@@ -48,18 +50,47 @@ public class ModelicaNetworkBuilderTool implements Tool
 		public Options getOptions()
 		{
 			Options options = new Options();
-			options.addOption("i", "iidm", true, "Input IIDM XML file");
-			options.addOption("d", "ddr", true, "Input DDR path");
-			options.addOption("m", "modelica", true, "Modelica output file");
-			options.addOption("y", "include-sysmtem-model-annotations", true, "Include additional info using annotations");
-			options.addOption("e", "engine", true, "Modelica engine");
+			options.addOption(Option.builder()
+					.longOpt("iidm")
+					.desc("Input IIDM XML file")
+					.hasArg()
+					.argName("IIDM_FILE")
+					.required()
+					.build());
+			options.addOption(Option.builder()
+					.longOpt("ddr")
+					.desc("Input Dynamic Data Repository path")
+					.hasArg()
+					.argName("DDR_PATH")
+					.required()
+					.build());
+			options.addOption(Option.builder()
+					.longOpt("modelica")
+					.desc("Modelica output file")
+					.hasArg()
+					.argName("MODELICA_FILE")
+					.required()
+					.build());
+			options.addOption(Option.builder()
+					.longOpt("engine")
+					.desc("Modelica dynamic simulation engine")
+					.hasArg()
+					.argName("ENGINE")
+					.required()
+					.build());
+			options.addOption(Option.builder()
+					.longOpt("include-model-annotations")
+					.desc("Include additional info using annotations")
+					.hasArg(false)
+					.required(false)
+					.build());
 			return options;
 		}
 
 		@Override
 		public String getUsageFooter()
 		{
-			return null;
+			return "Where ENGINE is one of " + ModelicaEngineMainFactory.getEngines();
 		}
 	};
 
@@ -90,9 +121,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 			System.err.println("Missing Modelica output file");
 			return;
 		}
-		boolean includePsmAnnotations = false;
-		String sincludePsmAnnotations = cmd.getOptionValue("includePsmAnnotations");
-		if (sincludePsmAnnotations != null) includePsmAnnotations = Boolean.valueOf(sincludePsmAnnotations);
+		boolean includePsmAnnotations = cmd.hasOption("include-model-annotations");
 		String engine = cmd.getOptionValue("engine");
 		if (engine == null)
 		{
@@ -114,6 +143,15 @@ public class ModelicaNetworkBuilderTool implements Tool
 		ddr.connect();
 
 		ModelicaEngine me = ModelicaEngineMainFactory.create(engine);
+		// FIXME Think if Modelica Engine must be configured (it should read its own configuration silently)
+		// Only fake modelica engine needs configuration that depends on each use (fake results for initializations)
+		Configuration config = new Configuration();
+		Path data = Paths.get(System.getenv("PSM_DATA"));
+		config.setParameter("fakeModelicaEngineResults", data.resolve("test/ieee14/ddr/fake_init.csv").toString());
+		config.setParameter("modelicaEngineWorkingDir", data.resolve("tmp").toString());
+		config.setParameter("libraryDir", data.resolve("test/library").toString());
+
+		me.configure(config);
 
 		ModelicaSystemBuilder b = new ModelicaSystemBuilder(ddr, n, me);
 		boolean onlyMainConnectedComponent = false;

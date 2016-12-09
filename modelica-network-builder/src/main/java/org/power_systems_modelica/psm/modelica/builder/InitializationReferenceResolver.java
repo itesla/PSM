@@ -14,10 +14,15 @@ public class InitializationReferenceResolver implements ReferenceResolver
 	public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
 	{
 		Object value = results.get(m.getStaticId(), d.getId(), name);
-		if (value == null) throw new RuntimeException("unresolved INIT reference key = " +
-				m.getStaticId() + "---" +
-				d.getId() + "---" +
-				name);
+		if (value == null)
+		{
+			String msg = String.format(
+					"Unresolved initialization results reference. staticId = %s, id = %s, name = %s",
+					m.getStaticId(),
+					d.getId(),
+					name);
+			throw new RuntimeException(msg);
+		}
 		else return value;
 	}
 

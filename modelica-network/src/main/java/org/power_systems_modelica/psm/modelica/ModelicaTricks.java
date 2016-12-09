@@ -220,6 +220,7 @@ public class ModelicaTricks
 		ALL_EQUATION_KINDS.add("other");
 		ALL_EQUATION_KINDS.add("other-other");
 		ALL_EQUATION_KINDS.add("other-gen");
+		ALL_EQUATION_KINDS.add("gen-other");
 	}
 	private static final Map<String, String> mappingDynamicId2StaticId = new HashMap<>();
 	static

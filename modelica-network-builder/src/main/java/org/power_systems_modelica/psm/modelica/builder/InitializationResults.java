@@ -9,8 +9,17 @@ public class InitializationResults
 		this.results = results;
 	}
 
-	public Object get(String staticId, String id, String name)
+	public Object get(String staticId, String id, String name) 
 	{
+		if (results == null)
+		{
+			String msg = String.format(
+					"Initialization results not available. staticId = %s, id = %s, name = %s",
+					staticId,
+					id,
+					name);
+			throw new RuntimeException(msg);
+		}
 		return results.getValue(staticId, id, name);
 	}
 

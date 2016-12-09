@@ -10,10 +10,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,12 +74,15 @@ public class DydFilesFromModelica
 		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
 
 		// Process all Modelica files
+		// Keep track of the associations created
+		AssociationsDiscoverer associations = new AssociationsDiscoverer(ddr, MODELS_NAME);
 		// Keep track of the Model definitions added to the repository so they are not added twice
 		Set<Model> addedModels = new HashSet<>();
 		mo2dyd(modelicaFile,
 				ddr,
 				inferringInitializationModels,
 				Stage.SIMULATION,
+				associations,
 				fakeInitializationResults,
 				addedModels);
 		if (modelicaInitPath != null)
@@ -99,6 +100,7 @@ public class DydFilesFromModelica
 								ddr,
 								inferringInitializationModels,
 								Stage.INITIALIZATION,
+								associations,
 								fakeInitializationResults,
 								addedModels);
 					}
@@ -120,6 +122,7 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			boolean inferringInitializationModels,
 			Stage stage,
+			AssociationsDiscoverer associations,
 			ModelicaSimulationResults fakeInitializationResults,
 			Set<Model> addedModels)
 			throws FileNotFoundException, IOException
@@ -135,6 +138,7 @@ public class DydFilesFromModelica
 				ddr,
 				inferringInitializationModels,
 				stage,
+				associations,
 				fakeInitializationResults,
 				addedModels);
 	}
@@ -144,6 +148,7 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			boolean inferringInitializationModels,
 			Stage stage,
+			AssociationsDiscoverer associations,
 			ModelicaSimulationResults fakeInitResults,
 			Set<Model> addedModels)
 	{
@@ -156,7 +161,7 @@ public class DydFilesFromModelica
 				continue;
 			}
 
-			Model mdef = checkModel(m, ddr, stage, fakeInitResults);
+			Model mdef = checkModel(m, ddr, stage, associations, fakeInitResults);
 			if (mdef == null) continue;
 
 			if (addedModels.contains(mdef))
@@ -190,10 +195,12 @@ public class DydFilesFromModelica
 			ModelicaModel m,
 			DynamicDataRepositoryDydFiles ddr,
 			Stage stage,
+			AssociationsDiscoverer associations,
 			ModelicaSimulationResults fakeInitResults)
 	{
 		Model mdef = checkModelDefinitionForType(m, ddr, stage);
-		if (mdef == null) mdef = checkModelDefinitionForAssociation(m, ddr, stage, fakeInitResults);
+		if (mdef == null)
+			mdef = checkModelDefinitionForAssociation(m, ddr, stage, associations, fakeInitResults);
 		if (mdef == null) mdef = buildModelDefinitionForElement(m, ddr, stage, fakeInitResults);
 		return mdef;
 	}
@@ -219,9 +226,10 @@ public class DydFilesFromModelica
 			ModelicaModel m,
 			DynamicDataRepositoryDydFiles ddr,
 			Stage stage,
+			AssociationsDiscoverer associations,
 			ModelicaSimulationResults fakeInitializationResults)
 	{
-		Association a = findAssociation(m);
+		Association a = associations.findCreateAssociation(m, stage);
 		if (a == null) return null;
 
 		// The associations relate a single dynamic model with many static network elements
@@ -237,7 +245,6 @@ public class DydFilesFromModelica
 					fakeInitializationResults);
 			return mdef;
 		}
-		ddr.addAssociation(MODELS_NAME, a);
 		mdef = buildModelDefinitionForAssociation(
 				a.getId(),
 				m,
@@ -246,39 +253,7 @@ public class DydFilesFromModelica
 				fakeInitializationResults);
 		mdef.setStage(stage);
 
-		saveModelForAssociation(m, a);
 		return mdef;
-	}
-
-	private int							associationCount				= 0;
-	private Map<String, Association>	associationsByModelSignature	= new HashMap<>();
-
-	private Association findAssociation(ModelicaModel m)
-	{
-		String ms = getModelSignature(m);
-		Association a = associationsByModelSignature.get(ms);
-		if (a == null)
-		{
-			a = new Association("association" + (associationCount++));
-			a.setPattern(m.getStaticId());
-		}
-		else
-		{
-			a.setPattern(a.getPattern().concat("|").concat(m.getStaticId()));
-		}
-		return a;
-	}
-
-	private void saveModelForAssociation(ModelicaModel m, Association a)
-	{
-		String ms = getModelSignature(m);
-		associationsByModelSignature.put(ms, a);
-	}
-
-	private static String getModelSignature(ModelicaModel m)
-	{
-		return m.getDeclarations().stream().map(d -> d.getType()).sorted()
-				.collect(Collectors.joining(","));
 	}
 
 	private static String whichType(ModelicaModel mo)

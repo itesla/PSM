@@ -52,9 +52,9 @@ public class FakeModelicaEngine implements ModelicaEngine
 	@Override
 	public void simulate(Collection<ModelicaDocument> mos)
 	{
-		// Just as an exercise, do it in parallel
-		// Be careful with using parallel (https://dzone.com/articles/think-twice-using-java-8)
-		mos.parallelStream().forEach(mo -> simulate(mo));
+		// TODO Just as an exercise, do it in parallel
+		// But be careful with using parallel (https://dzone.com/articles/think-twice-using-java-8)
+		mos.forEach(mo -> simulate(mo));
 	}
 
 	@Override

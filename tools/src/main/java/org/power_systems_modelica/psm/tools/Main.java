@@ -149,7 +149,8 @@ public class Main
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace(System.err);
 		}
 	}
 }

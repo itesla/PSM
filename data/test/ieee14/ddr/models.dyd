@@ -68,6 +68,9 @@
         <component name="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="sexs_{staticId}" parFile="params.par" parId="{staticId}_sexs_INITIALIZATION"/>
         <component name="iPSL.Electrical.Controls.Eurostag.gsteam0_Init" id="gsteam0_{staticId}" parFile="params.par" parId="{staticId}_gsteam0_INITIALIZATION"/>
         <component name="iPSL.Electrical.Controls.Eurostag.pssi3e2b_Init" id="pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_pssi3e2b_INITIALIZATION"/>
+		<component name="Modelica.Blocks.Sources.Constant" id="zero_{staticId}">
+			<par name="k" value="0.0"/>
+		</component>
         <connector pin="sortie" target="DYNN:bus:p"/>
         <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_TerminalVoltage" id2="sexs_{staticId}" var2="pin_TerminalVoltage"/>
@@ -75,6 +78,7 @@
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_OMEGA" id2="gsteam0_{staticId}" var2="pin_OMEGA"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_CM" id2="gsteam0_{staticId}" var2="pin_CM"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e2b_{staticId}" var2="pin_ActivePowerSN"/>
+		<connection id1="sexs_{staticId}" var1="pin_VS" id2="zero_{staticId}" var2="y" />
     </model>
     <association id="association0" pattern="_GEN____8_SM|_GEN____1_SM|_GEN____2_SM|_GEN____6_SM|_GEN____3_SM"/>
 </model_container>

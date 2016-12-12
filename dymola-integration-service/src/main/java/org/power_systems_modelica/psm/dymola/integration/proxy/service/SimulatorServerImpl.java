@@ -21,6 +21,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -127,7 +129,6 @@ public class SimulatorServerImpl implements SimulatorServer {
     						double stopTime, 
     						int numberOfIntervals, 
     						double outputInterval, 
-    						String method, 
     						double tolerance,  
     						String resultsFileName, 
     						String resultVariables, 
@@ -136,7 +137,7 @@ public class SimulatorServerImpl implements SimulatorServer {
         Path workingDir = null;
         String outputZipFile = null;
         try {
-            long startms=System.currentTimeMillis();
+            Instant startms= Instant.now();
             Path inputZipFile;
             try (StreamingDataHandler inputDh = (StreamingDataHandler) data) {
                 Files.createDirectories(Paths.get(serviceWorkDir));
@@ -148,17 +149,17 @@ public class SimulatorServerImpl implements SimulatorServer {
             try (ZipFile zipFile = new ZipFile(inputZipFile.toFile())) {
                 ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
             }
-            long endms=System.currentTimeMillis();
-            LOGGER.info(" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.", 
-            			workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,resultsFileName,(endms - startms));
+            Instant endms = Instant.now();
+            LOGGER.info(" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.", 
+            			workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,tolerance,resultsFileName,Duration.between(startms, endms).toMillis());
             
-            startms=System.currentTimeMillis();
-            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, resultsFileName, resultVariables, createFilteredMat);
-            endms=System.currentTimeMillis();
+            startms= Instant.now();
+            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, tolerance, resultsFileName, resultVariables, createFilteredMat);
+            endms = Instant.now();
             
-            long simulationTime=endms - startms;
+            long simulationTime = Duration.between(startms, endms).toMillis();
 
-            startms=System.currentTimeMillis();
+            startms= Instant.now();
             outputZipFile = workingDir.getFileName() + ".zip";
             Map<String,String> fileNamesToInclude= MapUtils.asUnmodifiableMap(entry("log.txt", resultsFileName+"_log.txt"), 
             																	entry("dslog.txt",resultsFileName+"_dslog.txt"), 
@@ -167,22 +168,23 @@ public class SimulatorServerImpl implements SimulatorServer {
             																	entry(resultsFileName + "_filtered.csv",resultsFileName + "_filtered.csv")
             																	);
             prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
-            endms=System.currentTimeMillis();
-            LOGGER.info(" {} - dymola simulation terminated - simulation time: {} ms., output file zipped in: {} ms.", workingDir, simulationTime, (endms - startms));
+            endms = Instant.now();
+            LOGGER.info(" {} - dymola simulation terminated - simulation time: {} ms., output file zipped in: {} ms.", workingDir, simulationTime, Duration.between(startms, endms).toMillis());
             
             TemporaryFileDataSource outDataSource = new TemporaryFileDataSource(Paths.get(outputZipFile).toFile());
             //FileDataSource outDataSource = new FileDataSource(Paths.get(outputZipFile).toFile());
             DataHandler outputFileDataHandler = new DataHandler(outDataSource);
             return outputFileDataHandler;
         } catch (Exception e) {
-            LOGGER.error(" {} - dymola simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, method:{}, tolerance:{}, resultsFileName:{}",
-                     workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,method,tolerance,resultsFileName,e);
+            LOGGER.error(" {} - dymola simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}",
+                     workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,tolerance,resultsFileName,e);
 
             String errMessg=e.getMessage();
             errMessg=((errMessg != null) && (errMessg.length() > MSGERRLEN)) ? errMessg.substring(0, MSGERRLEN) +" ..." : errMessg;
             
             throw new WebServiceException("dymola simulation failed - remote working directory " + workingDir +", fileName: "+ inputFileName +", problem:"+ problem +", error message:" + errMessg, e);
         } finally {
+        	//FIXME Pending to get close() from client.
             if (debug == false) {
                 try {
                     Utils.deleteDirectoryRecursively(workingDir);
@@ -195,7 +197,7 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     protected void simulateDymola(String workingDirectory, String inputFileName, String problem, 
     		double startTime, double stopTime, int numberOfIntervals, double outputInterval, 
-    		String method, double tolerance, String resultsFileName, String resultVariables,
+    		double tolerance, String resultsFileName, String resultVariables,
     		boolean createFilteredMat) throws DymolaException {
     	
         try {
@@ -224,7 +226,8 @@ public class SimulatorServerImpl implements SimulatorServer {
             }
             
             // Simulate the model
-            result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, method, tolerance, 0, resultsFileName);
+            //FIXME method is temporarily hard-coded
+            result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, "Dassl", tolerance, 0, resultsFileName);
 
             if (!result) {
             	throw new RuntimeException("simulateModel: " + dymola.getLastError());
@@ -260,7 +263,7 @@ public class SimulatorServerImpl implements SimulatorServer {
     		}    		
 
             try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + csvResultsFile)))) {
-            	writeResultsCsv(printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat, resultsFileName);
+            	writeResults(printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat, resultsFileName);
             } catch (IOException e) {
                 LOGGER.error("Error printing errors file. {}", e.getMessage());
             }
@@ -290,7 +293,7 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     }
     
-	private void writeResultsCsv(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize,
+	private void writeResults(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize,
 			boolean createFitleredMat, String resultsFileName) throws DymolaException {
 		double[][] resultValues = new double[resultSize][filterResultVariables.length];
 		String strLine = Stream.of(filterResultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;

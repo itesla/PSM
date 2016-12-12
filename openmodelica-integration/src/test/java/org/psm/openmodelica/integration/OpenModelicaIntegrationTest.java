@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class OpenModelicaIntegrationTest {
@@ -43,6 +44,9 @@ public class OpenModelicaIntegrationTest {
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
+		
+		ModelicaSimulationResults results = omEngine.getSimulationResults();
+		assertTrue(results.getEntries().size() > 1);
 		
 		assertEquals("singlegen", mo.getSystemModel().getId());
 		assertEquals(3, mo.getSystemModel().getDeclarations().size());
@@ -81,6 +85,8 @@ public class OpenModelicaIntegrationTest {
 		omEngine.configure(config);
 		omEngine.simulate(mo);
 		
+		ModelicaSimulationResults results = omEngine.getSimulationResults();
+		assertTrue(results.getEntries().size() > 1);
 		assertEquals("ieee14bus", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
@@ -115,6 +121,9 @@ public class OpenModelicaIntegrationTest {
 		omEngine.configure(config);
 		omEngine.simulate(mo);
 		
+		ModelicaSimulationResults results = omEngine.getSimulationResults();
+		assertTrue(results.getEntries().size() > 1);
+		
 		assertEquals("ieee30bus", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
@@ -148,6 +157,9 @@ public class OpenModelicaIntegrationTest {
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
+		
+		ModelicaSimulationResults results = omEngine.getSimulationResults();
+		assertTrue(results.getEntries().size() > 1);
 		
 		assertEquals("ieee57bus", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());

@@ -8,6 +8,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
+import org.psm.openmodelica.integration.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +33,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	@Override
 	public void configure(Configuration config) {
-		this.omc				= new OpenModelicaWrapper(OMWRAPPER_NAME);
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));	
 		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse("");
@@ -50,39 +52,39 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	@Override
 	public void simulate(ModelicaDocument mo) {
+		omc	= new OpenModelicaWrapper(OMWRAPPER_NAME);
+		//TODO Pending move OMC up.
 		modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
 		
 		prepareWorkingDirectory(mo);
 
 		try {
-			long startms = System.currentTimeMillis();
-
-			long endms = System.currentTimeMillis();
+			Instant startms, endms;
 			LOGGER.info(" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}.", 
 								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance);
-			startms = System.currentTimeMillis();
-
+			startms = Instant.now();
+			
 			try {
 				Result result;
-
+	
 				result = omc.clear();
 				if (!result.res.contains("true")) {
 					throw new RuntimeException("Clear : " + result.err.replace("\"", ""));
 				}
-
+	
 				result = omc.cd("\"" + this.omSimulationDir.toString().replace("\\", "/") + "\"");
-				 if (result.err != null && !result.err.isEmpty()) {
+				if (result.err != null && !result.err.isEmpty()) {
 					if(result.err.contains("Warning")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error setting the working directory " + omSimulationDir + ". " + result.err.replace("\"", ""));
-				 }
-				
+				}
+	
 				result = omc.loadStandardLibrary();
 				if(result.err != null && !result.err.isEmpty()) {					
 					if(result.err.contains("Warning")) LOGGER.warn(result.err.replace("\"", ""));
 					else throw new RuntimeException("Error loading the standard library. " + result.err.replace("\"", ""));
 				}
-
+				
 				//load to the engine all .mo files
 				try (DirectoryStream<Path> stream = Files.newDirectoryStream(omSimulationDir, "*.mo")) {
 					for(Path p : stream) {
@@ -135,15 +137,15 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				
 				int resultSize = Integer.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
-
+	
 				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
-					  	writeResultsToFile(printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat);
+					writeResults(omc, printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat);
 				} catch (IOException e) {
 				    LOGGER.error("Error printing errors file. {}", e.getMessage());
 				}				
-				
-//				TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
-				readSimulationResults(modelName);
+				endms = Instant.now();
+				long simulationTime = Duration.between(startms, endms).toMillis();
+				LOGGER.info(" {} - openmodelica simulation terminated - simulation time: {} ms.", workingDir, simulationTime);
 			} finally {
 				//Delete all the C files created for the simulation
 				deleteSimulationFiles();
@@ -153,11 +155,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				}
 				omc = null;
 			}
-
-			endms = System.currentTimeMillis();
-			long simulationTime = endms - startms;
-			LOGGER.info(" {} - openmodelica simulation terminated - simulation time: {} ms.", workingDir, simulationTime);
-
 		} catch (Exception e) {
 			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}: {}",
 					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance, e);
@@ -170,7 +167,22 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	public void simulate(Collection<ModelicaDocument> mos) {
 		// FIXME Just as an exercise, do it in parallel
 		// Temporal files are overwritten if run in parallel (equations not written properly)
-		mos.forEach(mo -> simulate(mo));		
+		mos.forEach(mo -> simulate(mo));
+	}
+	
+	@Override
+	public void close() {
+		if(this.omc != null) {
+			//Delete all the C files created for the simulation
+			try {
+				deleteSimulationFiles();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			// The connection to OpenModelica is closed and OpenModelica is terminated
+			omc.stopServer();
+			omc = null;
+		}
 	}
 
 	@Override
@@ -191,10 +203,13 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		}
 	}
 	
-	private void writeResultsToFile(PrintStream printStream, String matResultsFile, List<String> filterResultVariables, int resultSize, boolean createFilteredMat) throws ConnectException {
-		String[][] resultValues = new String[resultSize][filterResultVariables.size()];
-		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString() + NEW_LINE;
+	private void writeResults(OpenModelicaWrapper omc, PrintStream printStream, String matResultsFile, List<String> filterResultVariables, int resultSize, boolean createFilteredMat) throws ConnectException {
+		this.results = new ModelicaSimulationResults();
+		//The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
+		this.results.addResult(modelName, "simulation", "path", this.omSimulationDir);
 		
+		String[][] resultValues = new String[resultSize][filterResultVariables.size()];
+
 		for(int j=0; j<filterResultVariables.size(); j++) 
 		{
 			String resVar = filterResultVariables.get(j);
@@ -205,36 +220,32 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				else LOGGER.error("Error getting simulation result variable {} from  {}. {}", resVar, matResultsFile, result.err.replace("\"", ""));
 				continue;
 			}
-			String[] values = result.res.substring(2, result.res.length()-3).split(COMMA);
 			
+			String[] values = result.res.substring(2, result.res.length()-3).split(COMMA);
 			for(int i=0; i<resultSize; i++) {
-				resultValues[i][j] = values[i];
+				resultValues[i][j] = values[i];			
 			}
+			String component = null, var = null;
+			if(resVar.contains(".")) {
+				component = resVar.substring(0, resVar.indexOf("."));
+				var = resVar.substring(resVar.indexOf(".")+1);
+			}
+			else var = resVar;
+			this.results.addResult(modelName, component, var, values);
 		}
 		
+		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString();
+		printStream.println(strLine);
 		for (int i = 0; i < resultValues.length; i++) {
-			for (int k = 0; k < resultValues[i].length; k++) {
-				if(k == 0) strLine = strLine + resultValues[i][k];
-				else strLine = strLine + "," + resultValues[i][k]; 
-			}
-			strLine = strLine + NEW_LINE;
-		}			
-		printStream.print(strLine);
-		
+			printStream.println(String.join(",", resultValues[i]));
+		}
+				
 		if(createFilteredMat) {
 			String matResultsFileFiltered = modelName + "_res_filtered" + MAT_EXTENSION;
 			Result result = omc.filterSimulationResults(matResultsFile, matResultsFileFiltered, filterResultVariables, resultSize);
 			if(result.err.startsWith("Error")) LOGGER.error("Error creating filtered .mat file {}. Reason is {}", matResultsFileFiltered, result.err.replace("\"", ""));
 			else LOGGER.warn(result.err.replace("\"", ""));
 		}
-	}
-
-	
-	private void readSimulationResults(String modelName) {
-		//TODO Read simulation results from CSV file and save it in ModelicaSimulationResults
-		this.results = new ModelicaSimulationResults();
-		//The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
-		this.results.addResult(modelName, "simulation", "path", this.omSimulationDir);
 	}
 	
 	private void prepareWorkingDirectory(ModelicaDocument mo) {
@@ -302,8 +313,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private boolean			createFilteredMat;
 	private String			modelName;
 	
+	private OpenModelicaWrapper			omc		= null;		
 	private ModelicaSimulationResults	results;
-	private OpenModelicaWrapper			omc = null;
 	
 	private static final String			OMWRAPPER_NAME 			= "OpenModelica";
 	private static final String			OM_PREFIX				= "omsimulation_";

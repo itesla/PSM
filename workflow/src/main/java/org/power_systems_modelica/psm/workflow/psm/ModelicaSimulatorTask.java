@@ -24,6 +24,7 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		return "Modelica Dynamic Simulation";
 	}
 
+	
 	@Override
 	public void configure(Configuration config)
 	{
@@ -32,8 +33,6 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		if (source == null) source = "mo";
 		modelicaEngine = Optional.ofNullable(config.getParameter("modelicaEngine"))
 				.orElse("OpenModelica");
-
-		// TODO get Modelica Simulation engine parameters (method, tolerance, etc...) from task configuration
 	}
 
 	@Override
@@ -56,6 +55,7 @@ public class ModelicaSimulatorTask extends WorkflowTask
 							mo.getSystemModel().getId(),
 							"simulation",
 							"path"));
+//			me.close();
 
 			succeded();
 

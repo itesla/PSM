@@ -33,10 +33,9 @@ public class DymolaEngine implements ModelicaEngine {
 		this.wsdlService		= config.getParameter("webService");
 		this.workingDir			= Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));
-		this.dymSimulationDir	= Optional.ofNullable(Paths.get(this.workingDir.toString() + File.separator + DYM_PREFIX)).orElse(Paths.get("")); //TODO change by default dir
+		this.dymSimulationDir	= Optional.ofNullable(Paths.get(this.workingDir.toString() + File.separator + DYM_PREFIX)).orElse(Paths.get(""));
 		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse(""); 
 				
-		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
 		this.startTime			= Optional.ofNullable(config.getDouble("startTime")).orElse(0.0);
 		this.stopTime			= Optional.ofNullable(config.getDouble("stopTime")).orElse(1.0);
 		this.tolerance			= Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
@@ -60,7 +59,7 @@ public class DymolaEngine implements ModelicaEngine {
 		
 		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 		
-		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(method, numOfIntervals, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
+		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(METHOD_LIST, numOfIntervals, intervalSize, startTime, stopTime, tolerance, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 		
 		String simResults = "";
@@ -178,10 +177,14 @@ public class DymolaEngine implements ModelicaEngine {
 		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.dymSimulationDir, this.dymSimulationDir, filesFilter);
 		zipper.createZip();		
 	}
+	
+	@Override
+	public void close() {
+		// TODO 
+	}
 
 	private Path			workingDir;
 	private Path			dymSimulationDir;
-	private String			method;
 	private int				numOfIntervalsPerSecond;
 	private int				numOfIntervals;
 	private double			intervalSize;
@@ -204,5 +207,6 @@ public class DymolaEngine implements ModelicaEngine {
 	private static final String			MO_EXTENSION		= ".mo";
 	private static final String			CSV_EXTENSION		= ".csv";
 	private static final String			COMMA				= ",";
+	private static final String[]		METHOD_LIST			= new String[] {"Dassl"};
 	private static final Logger			LOGGER				= LoggerFactory.getLogger(DymolaEngine.class);
 }

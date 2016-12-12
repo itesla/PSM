@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class DymolaIntegrationTest {
@@ -33,7 +34,6 @@ public class DymolaIntegrationTest {
 												DATA_TMP.toString(),
 												DATA_TEST.resolve("singlegen").resolve("library").toString(), 
 												varResults, 
-												"Dassl", 
 												"0.0", 
 												"1.0",
 												"0.000001", 
@@ -44,6 +44,9 @@ public class DymolaIntegrationTest {
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
 		dymEngine.simulate(mo);
+		
+		ModelicaSimulationResults results = dymEngine.getSimulationResults();
+		assertTrue(results.getEntries().size() > 1);
 
 		assertEquals("singlegen", mo.getSystemModel().getId());
 		assertEquals(3, mo.getSystemModel().getDeclarations().size());
@@ -77,7 +80,6 @@ public class DymolaIntegrationTest {
 												DATA_TMP.toString(),
 												DATA_TEST.resolve("library").toString(), 
 												varResults, 
-												"Dassl", 
 												"0.0", 
 												"1.0",
 												"0.000001", 
@@ -89,6 +91,9 @@ public class DymolaIntegrationTest {
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
 		dymEngine.simulate(mo);
+		
+		ModelicaSimulationResults results = dymEngine.getSimulationResults();
+		assertTrue(results.getEntries().size() > 1);
 
 		assertEquals("ieee14", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
@@ -107,7 +112,6 @@ public class DymolaIntegrationTest {
 											String modelicaEngineWorkingDir, 
 											String libraryDir, 
 											String resultVariables,
-											String method, 
 											String startTime, 
 											String stopTime, 
 											String tolerance, 
@@ -119,7 +123,6 @@ public class DymolaIntegrationTest {
 		config.setParameter("libraryDir", libraryDir);
 		config.setParameter("resultVariables", resultVariables);
 
-		config.setParameter("method", method);
 		config.setParameter("startTime", startTime);
 		config.setParameter("stopTime", stopTime);
 		config.setParameter("tolerance", tolerance);

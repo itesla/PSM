@@ -30,8 +30,7 @@ import com.sun.xml.internal.ws.developer.StreamingDataHandler;
  */
 public class StandaloneDymolaClient {
 
-    public StandaloneDymolaClient(String method, int numberOfIntervals, double outputInterval, double startTime, double stopTime, double tolerance, String wsdlService, String resultVariables) {
-        this.method = method;
+    public StandaloneDymolaClient(String[] methodList, int numberOfIntervals, double outputInterval, double startTime, double stopTime, double tolerance, String wsdlService, String resultVariables) {
         this.numberOfIntervals = numberOfIntervals;
         this.outputInterval = outputInterval;
         this.startTime = startTime;
@@ -61,8 +60,7 @@ public class StandaloneDymolaClient {
                 									startTime, 
                 									stopTime, 
                 									numberOfIntervals, 
-                									outputInterval, 
-                									method, 
+                									outputInterval,  
                 									tolerance,
                 									resultsFileName, 
                 									resultVariables,
@@ -98,7 +96,6 @@ public class StandaloneDymolaClient {
     @Override
     public String toString() {
         return "dymola client {" +
-                "method='" + method + '\'' +
                 ", wsdlService='" + wsdlService + '\'' +
                 ", startTime=" + startTime +
                 ", stopTime=" + stopTime +
@@ -113,9 +110,9 @@ public class StandaloneDymolaClient {
     private double				stopTime;
     private int					numberOfIntervals;
     private double				outputInterval;
-    private String				method;
     private double				tolerance;
     private String				resultVariables;
+//    private
     
     private static final int	TRIES				= 1; // number of soap remote service attempts, before giving up
     private static final int	CONNECTION_TIMEOUT	= 4 * 60 * 60 * 1000 ;// in milliseconds

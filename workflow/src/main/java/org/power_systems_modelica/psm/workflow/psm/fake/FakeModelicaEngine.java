@@ -62,6 +62,12 @@ public class FakeModelicaEngine implements ModelicaEngine
 	{
 		return results;
 	}
+	
+	@Override
+	public void close() {
+		//
+	}
+	
 
 	ModelicaSimulationResults	results;
 	Path						workingDir;

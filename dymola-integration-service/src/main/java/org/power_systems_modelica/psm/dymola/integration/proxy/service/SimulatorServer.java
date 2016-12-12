@@ -27,7 +27,6 @@ public interface SimulatorServer {
 																	double stopTime, 
 																	int numberOfIntervals, 
 																	double outputInterval, 
-																	String method, 
 																	double tolerance,  
 																	String resultsFileName, 
 																	String resultsVars,

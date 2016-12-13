@@ -37,7 +37,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		this.libraryDir			= Paths.get(config.getParameter("libraryDir"));	
 		this.resultVariables	= Optional.ofNullable(config.getParameter("resultVariables")).orElse("");
 		
-		this.method				= Optional.ofNullable(config.getParameter("method")).orElse("Dassl");
 		this.startTime			= Optional.ofNullable(config.getDouble("startTime")).orElse(0.0);
 		this.stopTime			= Optional.ofNullable(config.getDouble("stopTime")).orElse(1.0);
 		this.tolerance			= Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
@@ -52,7 +51,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	@Override
 	public void simulate(ModelicaDocument mo) {
-		omc	= new OpenModelicaWrapper(OMWRAPPER_NAME);
+		
 		//TODO Pending move OMC up.
 		modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
@@ -61,11 +60,12 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 		try {
 			Instant startms, endms;
-			LOGGER.info(" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}.", 
-								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance);
+			LOGGER.info(" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}.", 
+								omSimulationDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, tolerance);
 			startms = Instant.now();
 			
 			try {
+				omc	= new OpenModelicaWrapper(OMWRAPPER_NAME);
 				Result result;
 	
 				result = omc.clear();
@@ -107,11 +107,17 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				// Simulate the model 
 				//Parameter "simFlags" can be a comma separated list of log level: -lv LOG_INIT,LOG_SIMULATION,LOG_STATS,LOG_EVENTS
 				//See https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
-				//IMPORTANT: This can greatly increase the simulation time. 
-				result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, this.simFlags);
-				if(result.err != null && !result.err.isEmpty()) {
-					if(result.err.contains("Warning:")) LOGGER.warn(result.err.replace("\"", ""));
-					else throw new RuntimeException("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
+				//IMPORTANT: These simFlags can greatly increase the simulation time.
+				for(String method : METHOD_LIST) {
+					result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, this.simFlags);
+					if(result.err != null && !result.err.isEmpty()) {
+						if(result.err.contains("Warning:")) {
+							LOGGER.warn(result.err.replace("\"", ""));
+							break;
+						}
+						else LOGGER.error("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
+					}
+					else break;
 				}
 				
 				String matResultsFile = modelName + "_res" + MAT_EXTENSION;
@@ -156,8 +162,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				omc = null;
 			}
 		} catch (Exception e) {
-			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, method:{}, tolerance:{}: {}",
-					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, method, tolerance, e);
+			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}: {}",
+					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, tolerance, e);
 
 			throw new RuntimeException("openmodelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
 		}
@@ -204,7 +210,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 	
 	private void writeResults(OpenModelicaWrapper omc, PrintStream printStream, String matResultsFile, List<String> filterResultVariables, int resultSize, boolean createFilteredMat) throws ConnectException {
-		this.results = new ModelicaSimulationResults();
 		//The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
 		this.results.addResult(modelName, "simulation", "path", this.omSimulationDir);
 		
@@ -301,7 +306,6 @@ public class OpenModelicaEngine implements ModelicaEngine {
 
 	private Path			workingDir;
 	private Path			omSimulationDir;
-	private String			method;
 	private int				numOfIntervalsPerSecond;
 	private int				numOfIntervals;
 	private double			startTime;
@@ -314,7 +318,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private String			modelName;
 	
 	private OpenModelicaWrapper			omc		= null;		
-	private ModelicaSimulationResults	results;
+	private ModelicaSimulationResults	results = new ModelicaSimulationResults();;
 	
 	private static final String			OMWRAPPER_NAME 			= "OpenModelica";
 	private static final String			OM_PREFIX				= "omsimulation_";
@@ -323,7 +327,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	private static final String			CSV_EXTENSION 			= ".csv";
 	private static final String			LOG_EXTENSION			= ".log";
 	private static final String			COMMA					= ",";
-	private static final String			NEW_LINE				= System.getProperty("line.separator").toString();
+	
+	private static final String[]		METHOD_LIST				= new String[] {"Dassl"}; //For now only Dassl, in the future also DAE-IDA
 	
 	private static final Logger			LOGGER					= LoggerFactory.getLogger(OpenModelicaEngine.class);
 }

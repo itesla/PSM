@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -32,7 +34,6 @@ public class OpenModelicaIntegrationTest {
 												DATA_TMP.toString(),
 												DATA_TEST.resolve("singlegen").resolve("library").toString(),
 												filterResVariables,
-												"dassl",
 												"0.0",
 												"1.0",
 												"0.000001",
@@ -62,6 +63,41 @@ public class OpenModelicaIntegrationTest {
 	}
 	
 	@Test
+	public void testAllIEEE() throws FileNotFoundException, IOException {
+		if(!isOpenModelicaAvailable()) return;
+		
+		List<ModelicaDocument> moDocsList = new ArrayList<ModelicaDocument>();
+		moDocsList.add(ModelicaParser.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo")));
+		moDocsList.add(ModelicaParser.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus.mo")));
+		moDocsList.add(ModelicaParser.parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus.mo")));		
+		
+		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+		
+		Configuration config = setConfiguration(
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("library").toString(),
+												filterResVariables,
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500");
+		
+		config.setParameter("createFilteredMat", "false");
+	
+		OpenModelicaEngine omEngine = new OpenModelicaEngine();
+		omEngine.configure(config);
+		omEngine.simulate(moDocsList);
+		
+		ModelicaSimulationResults results = omEngine.getSimulationResults();
+		assertTrue(results.getValue("ieee14bus", "simulation", "path") != null);
+		System.out.println("IEEE14 simulation directory : " + results.getValue("ieee14bus", "simulation", "path"));
+		assertTrue(results.getValue("ieee30bus", "simulation", "path") != null);
+		System.out.println("IEEE14 simulation directory : " + results.getValue("ieee30bus", "simulation", "path"));
+		assertTrue(results.getValue("ieee57bus", "simulation", "path") != null);
+		System.out.println("IEEE14 simulation directory : " + results.getValue("ieee57bus", "simulation", "path"));
+	}
+	
+//	@Test
 	public void testIEEE14() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
 		
@@ -73,7 +109,6 @@ public class OpenModelicaIntegrationTest {
 												DATA_TMP.toString(),
 												DATA_TEST.resolve("library").toString(),
 												filterResVariables,
-												"dassl",
 												"0.0",
 												"1.0",
 												"0.000001",
@@ -86,7 +121,8 @@ public class OpenModelicaIntegrationTest {
 		omEngine.simulate(mo);
 		
 		ModelicaSimulationResults results = omEngine.getSimulationResults();
-		assertTrue(results.getEntries().size() > 1);
+		assertTrue(results.getEntries().size() == 30);
+		
 		assertEquals("ieee14bus", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
@@ -97,7 +133,7 @@ public class OpenModelicaIntegrationTest {
 		assertEquals(2, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
-	@Test
+//	@Test
 	public void testIEEE30() throws FileNotFoundException, IOException {
 		if(!isOpenModelicaAvailable()) return;
 		
@@ -109,7 +145,6 @@ public class OpenModelicaIntegrationTest {
 												DATA_TMP.toString(),
 												DATA_TEST.resolve("library").toString(),
 												filterResVariables,
-												"dassl",
 												"0.0",
 												"1.0",
 												"0.000001",
@@ -122,7 +157,7 @@ public class OpenModelicaIntegrationTest {
 		omEngine.simulate(mo);
 		
 		ModelicaSimulationResults results = omEngine.getSimulationResults();
-		assertTrue(results.getEntries().size() > 1);
+		assertTrue(results.getEntries().size() == 62);
 		
 		assertEquals("ieee30bus", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
@@ -146,7 +181,6 @@ public class OpenModelicaIntegrationTest {
 												DATA_TMP.toString(),
 												DATA_TEST.resolve("library").toString(),
 												filterResVariables,
-												"dassl",
 												"0.0",
 												"1.0",
 												"0.000001",
@@ -159,7 +193,7 @@ public class OpenModelicaIntegrationTest {
 		omEngine.simulate(mo);
 		
 		ModelicaSimulationResults results = omEngine.getSimulationResults();
-		assertTrue(results.getEntries().size() > 1);
+		assertTrue(results.getEntries().size() == 116);
 		
 		assertEquals("ieee57bus", mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
@@ -180,14 +214,13 @@ public class OpenModelicaIntegrationTest {
 		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(),
-				filterResVariables,
-				"dassl",
-				"0.0",
-				"1.0",
-				"0.000001",
-				"500");
+												DATA_TMP.toString(),
+												DATA_TEST.resolve("library").toString(),
+												filterResVariables,
+												"0.0",
+												"1.0",
+												"0.000001",
+												"500");
 		
 		config.setParameter("createFilteredMat", "false");
 	
@@ -205,11 +238,9 @@ public class OpenModelicaIntegrationTest {
 		assertEquals(9, Files.walk(omSimPath).parallel().filter(p -> p.toFile().getName().endsWith(MO_EXTENSION)).count());
 	}
 	
-	
 	private Configuration setConfiguration(String modelicaEngineWorkingDir,
 											String libraryDir,
 											String resultVariables,
-											String method,
 											String startTime,
 											String stopTime,
 											String tolerance,
@@ -220,8 +251,7 @@ public class OpenModelicaIntegrationTest {
 		config.setParameter("libraryDir", libraryDir);
 		config.setParameter("resultVariables", resultVariables);
 		
-		config.setParameter("method", method);
-//		config.setParameter("startTime", startTime);
+		config.setParameter("startTime", startTime);
 		config.setParameter("stopTime", stopTime);
 		config.setParameter("tolerance", tolerance);
 		

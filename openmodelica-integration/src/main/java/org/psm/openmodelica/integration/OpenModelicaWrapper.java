@@ -157,6 +157,7 @@ public class OpenModelicaWrapper extends SmartProxy {
 												.append(")").toString());
 	}
 	
+
 	/**
 	 * 
 	 * @param modelName

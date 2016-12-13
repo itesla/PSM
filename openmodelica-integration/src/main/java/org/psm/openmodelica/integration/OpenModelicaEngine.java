@@ -25,7 +25,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
-import org.psm.openmodelica.integration.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,16 +107,20 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				//Parameter "simFlags" can be a comma separated list of log level: -lv LOG_INIT,LOG_SIMULATION,LOG_STATS,LOG_EVENTS
 				//See https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
 				//IMPORTANT: These simFlags can greatly increase the simulation time.
-				for(String method : METHOD_LIST) {
-					result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, method, tolerance, this.simFlags);
+				int i = 0;
+				boolean successful = false;
+				while((successful == false) && (i < METHOD_LIST.length)) {
+					System.out.println("--------------------------- SIMULATING ------------------------------");
+					result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, METHOD_LIST[i], tolerance, this.simFlags);
 					if(result.err != null && !result.err.isEmpty()) {
 						if(result.err.contains("Warning:")) {
 							LOGGER.warn(result.err.replace("\"", ""));
-							break;
+							successful = true;
 						}
 						else LOGGER.error("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
 					}
-					else break;
+					else successful = true;
+					i++;
 				}
 				
 				String matResultsFile = modelName + "_res" + MAT_EXTENSION;

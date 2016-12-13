@@ -91,7 +91,6 @@ public class DymolaEngine implements ModelicaEngine {
 	}
 	
 	private void readSimulationResults(String outputZipFileName, String modelName) {
-		this.results = new ModelicaSimulationResults();
 		//The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
 		this.results.addResult(modelName, "simulation", "path", this.dymSimulationDir);
 		
@@ -200,7 +199,7 @@ public class DymolaEngine implements ModelicaEngine {
 	private String			resultVariables;
 	private boolean			createFilteredMat;
 	
-	private ModelicaSimulationResults	results;
+	private ModelicaSimulationResults	results				= new ModelicaSimulationResults();
 	
 	
 	private static final String			DYM_PREFIX			= "dymsimulation_"; 			
@@ -208,5 +207,6 @@ public class DymolaEngine implements ModelicaEngine {
 	private static final String			CSV_EXTENSION		= ".csv";
 	private static final String			COMMA				= ",";
 	private static final String[]		METHOD_LIST			= new String[] {"Dassl"};
+	
 	private static final Logger			LOGGER				= LoggerFactory.getLogger(DymolaEngine.class);
 }

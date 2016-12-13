@@ -129,7 +129,8 @@ public class SimulatorServerImpl implements SimulatorServer {
     						double stopTime, 
     						int numberOfIntervals, 
     						double outputInterval, 
-    						double tolerance,  
+    						double tolerance,
+    						String[] methodList,
     						String resultsFileName, 
     						String resultVariables, 
     						boolean createFilteredMat,
@@ -154,7 +155,7 @@ public class SimulatorServerImpl implements SimulatorServer {
             			workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,outputInterval,tolerance,resultsFileName,Duration.between(startms, endms).toMillis());
             
             startms= Instant.now();
-            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, tolerance, resultsFileName, resultVariables, createFilteredMat);
+            simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime, numberOfIntervals, outputInterval, tolerance, methodList, resultsFileName, resultVariables, createFilteredMat);
             endms = Instant.now();
             
             long simulationTime = Duration.between(startms, endms).toMillis();
@@ -197,7 +198,7 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     protected void simulateDymola(String workingDirectory, String inputFileName, String problem, 
     		double startTime, double stopTime, int numberOfIntervals, double outputInterval, 
-    		double tolerance, String resultsFileName, String resultVariables,
+    		double tolerance, String[] methodList, String resultsFileName, String resultVariables,
     		boolean createFilteredMat) throws DymolaException {
     	
         try {
@@ -226,12 +227,16 @@ public class SimulatorServerImpl implements SimulatorServer {
             }
             
             // Simulate the model
-            //FIXME method is temporarily hard-coded
-            result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, "Dassl", tolerance, 0, resultsFileName);
+            result = false;
+            int i = 0;
+            while((result == false) && (i < methodList.length)) {
+            	result = dymola.simulateModel(problem, startTime, stopTime, numberOfIntervals, outputInterval, methodList[i], tolerance, 0, resultsFileName);
+            	i++;
+            }
 
             if (!result) {
             	throw new RuntimeException("simulateModel: " + dymola.getLastError());
-            }
+            }   
             
 			String matResultsFile = resultsFileName + MAT_EXTENSION;
 			String csvResultsFile = resultsFileName + "_filtered" + CSV_EXTENSION;
@@ -242,14 +247,14 @@ public class SimulatorServerImpl implements SimulatorServer {
     		Pattern pattern = Pattern.compile(resultVariables);
     		Matcher matcher = pattern.matcher(Arrays.toString(resultNames));
     		int count = 0;
-    		for(int i=0; i< resultNames.length; i++) {
+    		for(i=0; i< resultNames.length; i++) {
     			if(pattern.matcher(resultNames[i]).matches()) count++;
     		}
     		String[] filterResultVariables = new String[count+1];
     		filterResultVariables[0] = "Time";
     		
     		int j = 1;
-    		for(int i=0; i< resultNames.length; i++) {
+    		for(i=0; i< resultNames.length; i++) {
 				matcher = pattern.matcher(resultNames[i]);
     			if(matcher.matches()) {
     				filterResultVariables[j] = matcher.group();

@@ -38,6 +38,7 @@ public class StandaloneDymolaClient {
         this.tolerance = tolerance;
         this.wsdlService = wsdlService;
         this.resultVariables = resultVariables;
+        this.methodList = methodList;
     }
 
     protected String runDymola(Path workingDir, String inputFileName, String outputFileName, String modelFileName, String modelName, String resultsFileName, boolean createFilteredMat) throws InterruptedException{
@@ -60,8 +61,9 @@ public class StandaloneDymolaClient {
                 									startTime, 
                 									stopTime, 
                 									numberOfIntervals, 
-                									outputInterval,  
+                									outputInterval,
                 									tolerance,
+                									methodList,
                 									resultsFileName, 
                 									resultVariables,
                 									createFilteredMat,
@@ -112,7 +114,7 @@ public class StandaloneDymolaClient {
     private double				outputInterval;
     private double				tolerance;
     private String				resultVariables;
-//    private
+    private String[]			methodList;
     
     private static final int	TRIES				= 1; // number of soap remote service attempts, before giving up
     private static final int	CONNECTION_TIMEOUT	= 4 * 60 * 60 * 1000 ;// in milliseconds

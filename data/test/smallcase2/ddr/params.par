@@ -1,0 +1,181 @@
+<?xml version="1.0" ?>
+<parameters xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <set id="_GEN______SM_gen_pwGeneratorM2S_INITIALIZATION">
+        <par name="PNALT" value="475.0"/>
+        <par name="p0" value="3.8"/>
+        <par name="omega_0" value="1.0"/>
+        <par name="IENR" value="4"/>
+        <par name="TX" value="0"/>
+        <par name="Saturated" value="false"/>
+        <par name="HIn" value="4.0"/>
+        <par name="TSD0" value="0.042"/>
+        <par name="XPD" value="0.35"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TPD0" value="5.143"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.5"/>
+        <par name="TSQ0" value="0.083"/>
+        <par name="SN" value="500.0"/>
+        <par name="TPQ0" value="2.16"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="nDSat" value="0"/>
+        <par name="q0" value="0.0"/>
+        <par name="mDSatIn" value="0"/>
+        <par name="XSD" value="0.25"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="XD" value="2.0"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="nQSat" value="0"/>
+        <par name="XSQ" value="0.3"/>
+        <par name="mQSatIn" value="0"/>
+        <par name="XQ" value="1.8"/>
+        <par name="PN" value="475.0"/>
+        <par name="IWLMDV" value="1"/>
+        <par name="pPuWLMDV" value="475.0"/>
+    </set>
+    <set id="_GEN______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="1.85"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="475.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="4.0"/>
+        <par name="TSD0" value="0.042"/>
+        <par name="XPD" value="0.35"/>
+        <par name="TPD0" value="5.143"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.5"/>
+        <par name="TSQ0" value="0.083"/>
+        <par name="SN" value="500.0"/>
+        <par name="TPQ0" value="2.16"/>
+        <par name="XSD" value="0.25"/>
+        <par name="XD" value="2.0"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.3"/>
+        <par name="XQ" value="1.8"/>
+        <par name="PN" value="475.0"/>
+        <par name="IWLMDV" value="1"/>
+    </set>
+    <set id="_GEN______SM_pss2ab_INITIALIZATION">
+        <par name="T4" value="0.015"/>
+        <par name="PNALT" value="475.0"/>
+        <par name="VSTMIN" value="-0.1"/>
+        <par name="T7" value="2."/>
+        <par name="KS1" value="10."/>
+        <par name="KS3" value="1."/>
+        <par name="KS2" value="0.1564"/>
+        <par name="M" value="0."/>
+        <par name="N" value="0."/>
+        <par name="TW2" value="2."/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TW1" value="2."/>
+        <par name="TW3" value="2."/>
+        <par name="VSTMAX" value="0.1"/>
+        <par name="SN" value="500.0"/>
+        <par name="T1" value="0.25"/>
+        <par name="T2" value="0.03"/>
+        <par name="PN" value="475.0"/>
+        <par name="T3" value=".1500000"/>
+    </set>
+    <set id="_GEN______SM_reg_pss2ab_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="500.0"/>
+        <par name="PN" value="475.0"/>
+        <par name="PNALT" value="475.0"/>
+        <ref name="init_IN" dataSource="INIT" sourceName="IN"/>
+        <ref name="init_AP" dataSource="INIT" sourceName="AP"/>
+        <par name="T4" value="0.015"/>
+        <par name="VSTMIN" value="-0.1"/>
+        <par name="T7" value="2."/>
+        <par name="KS1" value="10."/>
+        <par name="KS3" value="1."/>
+        <par name="KS2" value="0.1564"/>
+        <par name="M" value="0."/>
+        <par name="N" value="0."/>
+        <par name="TW2" value="2."/>
+        <par name="TW1" value="2."/>
+        <par name="TW3" value="2."/>
+        <par name="VSTMAX" value="0.1"/>
+        <par name="T1" value="0.25"/>
+        <par name="T2" value="0.03"/>
+        <par name="T3" value=".1500000"/>
+    </set>
+    <set id="_GEN______SM_reg_sexs_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="500.0"/>
+        <par name="PN" value="475.0"/>
+        <par name="PNALT" value="475.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_YLL" dataSource="INIT" sourceName="YLL"/>
+        <par name="TE" value="0.05"/>
+        <par name="K" value="200."/>
+        <par name="EMIN" value="0."/>
+        <par name="TA" value="3."/>
+        <par name="TB" value="10."/>
+        <par name="EMAX" value="4."/>
+    </set>
+    <set id="_GEN______SM_reg_tgov1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="500.0"/>
+        <par name="PN" value="475.0"/>
+        <par name="PNALT" value="475.0"/>
+        <ref name="init_REF" dataSource="INIT" sourceName="REF"/>
+        <ref name="init_PMECH" dataSource="INIT" sourceName="PMECH"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <par name="DT" value="0."/>
+        <par name="RR" value="0.05"/>
+        <par name="VMIN" value="0."/>
+        <par name="VMAX" value="1.010000"/>
+        <par name="T1" value="0.5"/>
+        <par name="T2" value="3."/>
+        <par name="T3" value="10."/>
+    </set>
+    <set id="_GEN______SM_sexs_INITIALIZATION">
+        <par name="PNALT" value="475.0"/>
+        <par name="TE" value="0.05"/>
+        <par name="K" value="200."/>
+        <par name="SN" value="500.0"/>
+        <par name="EMIN" value="0."/>
+        <par name="TA" value="3."/>
+        <par name="TB" value="10."/>
+        <par name="SNREF" value="100.0"/>
+        <par name="PN" value="475.0"/>
+        <par name="EMAX" value="4."/>
+    </set>
+    <set id="_GEN______SM_tgov1_INITIALIZATION">
+        <par name="DT" value="0."/>
+        <par name="RR" value="0.05"/>
+        <par name="PNALT" value="475.0"/>
+        <par name="VMIN" value="0."/>
+        <par name="VMAX" value="1.010000"/>
+        <par name="SN" value="500.0"/>
+        <par name="T1" value="0.5"/>
+        <par name="T2" value="3."/>
+        <par name="SNREF" value="100.0"/>
+        <par name="PN" value="475.0"/>
+        <par name="T3" value="10."/>
+    </set>
+</parameters>

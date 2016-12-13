@@ -37,7 +37,7 @@ public class ModelicaBuilderTest
 		XmlUtil.isValidationActive = true;
 	}
 
-	@Test
+//	@Test
 	public void buildIeee14() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -83,6 +83,30 @@ public class ModelicaBuilderTest
 				"itesla/ieee118bus_no_lf.mo",
 				118,
 				54);
+	}
+	
+//	@Test
+	public void buildSmallCase2() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"smallcase2",
+				"case2_EQ.xml",
+				"smallcase2/ddr",
+				"itesla/case2_no_lf.mo",
+				3,
+				1);
+	}
+	
+//	@Test
+	public void buildSmallCase3() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"smallcase3",
+				"case3_EQ.xml",
+				"smallcase3/ddr",
+				"itesla/case3_no_lf.mo",
+				3,
+				1);
 	}
 
 	public void testBuild(

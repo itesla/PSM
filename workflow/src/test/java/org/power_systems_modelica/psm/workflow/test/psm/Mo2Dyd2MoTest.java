@@ -91,6 +91,32 @@ public class Mo2Dyd2MoTest
 				54);
 	}
 
+//	@Test
+	public void rebuildSmallCase2() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"smallcase2",
+				"itesla/case2_no_lf.mo",
+				"itesla/init",
+				"case2_EQ.xml",
+				"smallcase2_ddr",
+				3,
+				1);
+	}
+	
+//	@Test
+	public void rebuildSmallCase3() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"smallcase3",
+				"itesla/case3_no_lf.mo",
+				"itesla/init",
+				"case3_EQ.xml",
+				"smallcase3_ddr",
+				3,
+				1);
+	}
+	
 	private void testRebuildModelica(
 			String foldername,
 			String moName,

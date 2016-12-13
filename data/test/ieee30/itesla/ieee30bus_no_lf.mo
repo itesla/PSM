@@ -1440,5 +1440,7 @@ equation
   connect(trafo__ROAN___6_ROAN___9_1_PT.n, bus__ROAN___9_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee30bus;
 
+// Modelica version required
+  annotation (uses(Modelica(version="3.2.1")));
+end ieee30bus;

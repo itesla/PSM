@@ -76,9 +76,11 @@ public class ModelicaBuilderTest
 		for (ModelicaModel m : models)
 			mob.addModel(m);
 		Map<String, ModelicaModel> gmodels = ModelicaUtil.groupByNormalizedStaticId(mob.getDoc());
-		// Number of expected models is the number of models we have added plus one for the interconnections
+		// Number of expected models is the number of models we have added 
+		// plus one for the interconnections
+		// plus one for the system annotations (Modelica version)
 		boolean hasInterconnections = false;
-		int expectedNumGroupedModels = models.length + (hasInterconnections ? 1 : 0);
+		int expectedNumGroupedModels = models.length + (hasInterconnections ? 1 : 0) + 1;
 		assertEquals(expectedNumGroupedModels, gmodels.keySet().size());
 
 		for (ModelicaModel m : models)
@@ -107,9 +109,11 @@ public class ModelicaBuilderTest
 		mob.addInterconnections();
 
 		Map<String, ModelicaModel> gmodels = ModelicaUtil.groupByNormalizedStaticId(mob.getDoc());
-		// Number of expected models is the number of models we have added plus one for the interconnections
+		// Number of expected models is the number of models we have added 
+		// plus one for the interconnections 
+		// plus one for the system (there is system annotations)
 		boolean hasInterconnections = true;
-		int expectedNumGroupedModels = models.length + (hasInterconnections ? 1 : 0);
+		int expectedNumGroupedModels = models.length + (hasInterconnections ? 1 : 0) + 1;
 		assertEquals(expectedNumGroupedModels, gmodels.keySet().size());
 
 		for (ModelicaModel m : models)

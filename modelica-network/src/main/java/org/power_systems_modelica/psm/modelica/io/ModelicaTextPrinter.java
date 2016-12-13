@@ -38,7 +38,7 @@ public class ModelicaTextPrinter
 		printDeclarations(out);
 		printEquations(out);
 		// System level annotations only if we are including psm annotations
-		if (includePsmAnnotations) printAnnotations(out);
+		printSystemAnnotations(out);
 		printSystemModelEnd(out);
 	}
 
@@ -110,11 +110,23 @@ public class ModelicaTextPrinter
 				}
 				out.printf("%n    )");
 			}
-			Annotation a = d.getAnnotation();
-			if (a != null && !a.isEmpty())
-				out.printf(" annotation (%s)", asText(a));
+			printAnnotation(out, d.getAnnotation(), " ");
 			out.printf(";%n");
 		}
+	}
+
+	private boolean printAnnotation(PrintWriter out, Annotation a, String indent)
+	{
+		if (a != null && !a.isEmpty())
+		{
+			String sa = asText(a);
+			if (!sa.isEmpty())
+			{
+				out.printf("%sannotation (%s)", indent, sa);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private final boolean includeAnnotationItem(AnnotationItem a)
@@ -169,18 +181,18 @@ public class ModelicaTextPrinter
 		{
 			// out.printf(" // kind = %s%n", ModelicaTricks.normalizeKind(getKind(eq)));
 			out.printf("  %s", eq.getText());
-			Annotation a = eq.getAnnotation();
-			if (a != null && !a.isEmpty())
-				out.printf(" annotation (%s)", asText(a));
+			printAnnotation(out, eq.getAnnotation(), " ");
 			out.printf(";%n");
 		}
 	}
 
-	private void printAnnotations(PrintWriter out)
+	private void printSystemAnnotations(PrintWriter out)
 	{
 		for (Annotation a : mo.getSystemModel().getAnnotations())
-			if (!a.isEmpty())
-				out.printf("  annotation (%s);%n", asText(a));
+		{
+			if (printAnnotation(out, a, "  "))
+				out.printf(";%n");
+		}
 	}
 
 	private void printSystemModelEnd(PrintWriter out)

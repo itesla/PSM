@@ -2204,5 +2204,7 @@ equation
   connect(trafo__TAZE__11_TAZE__43_1_PT.n, bus__TAZE__43_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee57bus;
 
+// Modelica version required
+  annotation (uses(Modelica(version="3.2.1")));
+end ieee57bus;

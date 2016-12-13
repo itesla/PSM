@@ -58,6 +58,7 @@ public class ModelicaNetworkBuilderTest
 				"within ;",
 				"model mocked_network",
 				"equation",
+				"  annotation (uses(Modelica(version=\"3.2.1\")));",
 				"end mocked_network;",
 				"");
 		assertEquals(expected, converted);
@@ -108,6 +109,7 @@ public class ModelicaNetworkBuilderTest
 				"    A = 0.0",
 				"    ) annotation (Placement(transformation()));",
 				"equation",
+				"  annotation (uses(Modelica(version=\"3.2.1\")));",
 				"end network1;",
 				"");
 		assertEquals(expected, converted);
@@ -160,6 +162,7 @@ public class ModelicaNetworkBuilderTest
 				"    A = 0.0",
 				"    ) annotation (Placement(transformation()));",
 				"equation",
+				"  annotation (uses(Modelica(version=\"3.2.1\")));",
 				"end network1;",
 				"");
 		assertEquals(expected, converted);

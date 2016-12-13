@@ -46,7 +46,7 @@ public class ModelicaUtil
 		Map<String, List<Annotation>> as = mo.getSystemModel()
 				.getAnnotations()
 				.stream()
-				.collect(Collectors.groupingBy(Annotation::getStaticId));
+				.collect(Collectors.groupingBy(a -> a.getStaticId().orElse(SYSTEM_ID)));
 
 		// These are all the static identifiers that have been found
 		Set<String> sids = new HashSet<>();
@@ -84,7 +84,9 @@ public class ModelicaUtil
 	public static String getNormalizedStaticId(ModelicaDeclaration d)
 	{
 		String id = null;
-		if (d.getAnnotation() != null) id = d.getAnnotation().getStaticId();
+		if (d.getAnnotation() != null)
+			if (d.getAnnotation().getStaticId().isPresent())
+				id = d.getAnnotation().getStaticId().get();
 		if (id == null) id = getStaticIdFromDynamicId(d.getId());
 		if (id == null) id = SYSTEM_ID;
 		return normalizedIdentifier(id);
@@ -114,9 +116,12 @@ public class ModelicaUtil
 		if (eqc.getAnnotation() != null)
 		{
 			// If the equation is an interconnection it will have two different staticIds
-			id = eqc.getAnnotation().getStaticId(side);
+			if (eqc.getAnnotation().getStaticId(side).isPresent())
+				id = eqc.getAnnotation().getStaticId(side).get();
 			// If the equation is a connection inside components of the same dynamic model there is only one staticId
-			if (id == null) id = eqc.getAnnotation().getStaticId();
+			if (id == null)
+				if (eqc.getAnnotation().getStaticId().isPresent())
+					id = eqc.getAnnotation().getStaticId().get();
 		}
 		if (id == null) id = getStaticIdFromDynamicId(dynamicId);
 		if (id == null) id = SYSTEM_ID;

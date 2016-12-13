@@ -980,5 +980,8 @@ equation
   connect(trafo__BUS____5_BUS____6_1_PT.n, bus__BUS____6_TN.p) annotation (Line());
 
 // Connecting OTHERS
+
+// Modelica version required
+  annotation (uses(Modelica(version="3.2.1")));
 end ieee14bus;
 

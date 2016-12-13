@@ -27,13 +27,22 @@ import org.slf4j.LoggerFactory;
 
 public class ModelicaBuilder
 {
-	protected void createModelicaDocument(String name)
+	public static final String DEFAULT_MODELICA_VERSION = "3.2.1";
+
+	protected void createModelicaDocument(String name, String modelicaVersion)
 	{
 		mo = new ModelicaDocument();
 		mo.setWithin("");
 		ModelicaSystemModel sys = new ModelicaSystemModel(name);
 		mo.setSystemModel(sys);
+		String sversion = String.format("uses(Modelica(version=\"%s\"))", modelicaVersion);
+		sys.addAnnotation(new Annotation(sversion));
 		dynamicModelsByStaticId = new HashMap<>();
+	}
+
+	protected void createModelicaDocument(String name)
+	{
+		createModelicaDocument(name, DEFAULT_MODELICA_VERSION);
 	}
 
 	protected ModelicaDocument getModelicaDocument()

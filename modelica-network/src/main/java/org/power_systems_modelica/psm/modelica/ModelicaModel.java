@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class ModelicaModel
@@ -89,7 +91,7 @@ public class ModelicaModel
 		this.equations.removeAll(equations);
 	}
 
-	private void addAnnotations(List<Annotation> annotations)
+	private void addAnnotations(Collection<Annotation> annotations)
 	{
 		if (annotations != null) this.annotations.addAll(annotations);
 	}
@@ -99,7 +101,7 @@ public class ModelicaModel
 		annotations.add(annotation);
 	}
 
-	public List<Annotation> getAnnotations()
+	public Collection<Annotation> getAnnotations()
 	{
 		return annotations;
 	}
@@ -139,6 +141,6 @@ public class ModelicaModel
 	private String						staticId;
 	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
 	private List<ModelicaEquation>		equations		= new ArrayList<>();
-	private List<Annotation>			annotations		= new ArrayList<>();
+	private Set<Annotation>				annotations		= new TreeSet<>();
 	private ModelicaConnector[]			connectors		= new ModelicaConnector[0];
 }

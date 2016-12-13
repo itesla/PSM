@@ -8,19 +8,38 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Annotation
+public class Annotation implements Comparable<Annotation>
 {
 	// TODO Use the list of items instead of building and parsing whole text in first item
 
 	public Annotation(String a)
 	{
-		items = new ArrayList<>();
+		items = new TreeSet<>();
 		items.add(new AnnotationItem(a));
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		return items.equals(o);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return items.hashCode();
+	}
+
+	@Override
+	public int compareTo(Annotation other)
+	{
+		return asText().compareTo(other.asText());
 	}
 
 	public static void annotate(Annotable a, String annotationItem)
@@ -52,7 +71,7 @@ public class Annotation
 
 	public Collection<AnnotationItem> getItems()
 	{
-		return Collections.unmodifiableList(items);
+		return Collections.unmodifiableCollection(items);
 	}
 
 	public void removeItems(Collection<AnnotationItem> items)
@@ -71,17 +90,17 @@ public class Annotation
 		return items.stream().map(AnnotationItem::asText).collect(Collectors.joining(","));
 	}
 
-	public String getId()
+	public Optional<String> getId()
 	{
 		return getAttributeValue(REF_ID);
 	}
 
-	public String getStaticId()
+	public Optional<String> getStaticId()
 	{
 		return getAttributeValue(REF_STATIC_ID);
 	}
 
-	public String getStaticId(int side)
+	public Optional<String> getStaticId(int side)
 	{
 		return getAttributeValue(REF_STATIC_ID + side);
 	}
@@ -116,15 +135,14 @@ public class Annotation
 				.collect(Collectors.joining(","));
 	}
 
-	private String getAttributeValue(String attributeName)
+	private Optional<String> getAttributeValue(String attributeName)
 	{
 		// Expect only one item that is a REF annotation
 		return items.stream()
 				.map(AnnotationItem::asText)
 				.filter(t -> t.startsWith(REF_KEYWORD))
 				.findFirst()
-				.map(t1 -> getAttributeValue(attributeName, t1))
-				.orElse(null);
+				.map(t1 -> getAttributeValue(attributeName, t1));
 	}
 
 	private String getAttributeValue(String attributeName, String text)
@@ -235,7 +253,7 @@ public class Annotation
 		else return new ModelicaConnector(id, pin, target);
 	}
 
-	private final List<AnnotationItem>	items;
+	private final Set<AnnotationItem>	items;
 
 	private static final String			REF_KEYWORD				= "PSMRef";
 	private static final String			REF_ID					= "id";

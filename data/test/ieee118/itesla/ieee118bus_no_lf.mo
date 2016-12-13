@@ -9439,5 +9439,7 @@ equation
   connect(trafo__TIDD__63_TIDD__59_1_PT.n, bus__TIDD__59_TN.p) annotation (Line());
 
 // Connecting OTHERS
-end ieee118bus;
 
+// Modelica version required
+  annotation (uses(Modelica(version="3.2.1")));
+end ieee118bus;

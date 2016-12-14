@@ -21,6 +21,6 @@ public class DdrServiceTest {
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
 		ObservableList<Ddr> list = DdrService.getDdrs(catalog);
 		assertNotNull(list);
-		assertEquals(5, list.size());
+		assertEquals(7, list.size());
 	}
 }

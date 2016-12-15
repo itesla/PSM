@@ -1,0 +1,1739 @@
+<?xml version="1.0" ?>
+<parameters xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <set id="_G10______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="800.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="800.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G10______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="800.0"/>
+        <par name="PN" value="800.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G10______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="800.0"/>
+        <par name="PN" value="800.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G11______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="300.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="300.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G11______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="300.0"/>
+        <par name="PN" value="300.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G11______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="300.0"/>
+        <par name="PN" value="300.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G12______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="350.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="350.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G12______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="350.0"/>
+        <par name="PN" value="350.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G12______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="350.0"/>
+        <par name="PN" value="350.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G13______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="1.4"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="2.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="300.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.55"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="1.0"/>
+        <par name="PN" value="300.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G13______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="300.0"/>
+        <par name="PN" value="300.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="-0.5"/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G13______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="300.0"/>
+        <par name="PN" value="300.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.55"/>
+        <par name="XQ" value="1.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G14______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="700.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G14______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="700.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G14______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="700.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G15______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="1200.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="1200.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G15______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1200.0"/>
+        <par name="PN" value="1200.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G15______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1200.0"/>
+        <par name="PN" value="1200.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G16______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="700.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G16______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="700.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G16______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="700.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G17______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="600.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G17______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="600.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G17______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="600.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G18______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="1600.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="1600.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G18______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1600.0"/>
+        <par name="PN" value="1600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G18______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1600.0"/>
+        <par name="PN" value="1600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G19______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="500.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="500.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G19______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="500.0"/>
+        <par name="PN" value="500.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G19______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="500.0"/>
+        <par name="PN" value="500.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G1_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="800.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="800.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G1_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="800.0"/>
+        <par name="PN" value="800.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G1_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="800.0"/>
+        <par name="PN" value="800.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G20______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="4500.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="4500.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G20______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="4500.0"/>
+        <par name="PN" value="4500.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G20______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="4500.0"/>
+        <par name="PN" value="4500.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G2_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="600.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="600.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G2_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="600.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G2_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="600.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G3_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="700.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="700.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G3_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="700.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G3_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="700.0"/>
+        <par name="PN" value="700.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G4_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="600.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="600.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G4_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="600.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G4_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="600.0"/>
+        <par name="PN" value="600.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G5_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="250.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="250.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G5_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="250.0"/>
+        <par name="PN" value="250.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G5_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="250.0"/>
+        <par name="PN" value="250.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G6_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="400.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="400.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G6_______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="400.0"/>
+        <par name="PN" value="400.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G6_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="400.0"/>
+        <par name="PN" value="400.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G7_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="2.05"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.3"/>
+        <par name="TPD0" value="7.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="XPQ" value="0.4"/>
+        <par name="TSQ0" value="0.05"/>
+        <par name="SN" value="200.0"/>
+        <par name="TPQ0" value="1.5"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="2.2"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="PN" value="200.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G7_______SM_reg_govpsat1_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="200.0"/>
+        <par name="PN" value="200.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="OMREF"/>
+        <par name="T4" value="0.01"/>
+        <par name="PMAX" value=".9500000"/>
+        <par name="T5" value="6."/>
+        <par name="RD" value="0.04"/>
+        <par name="PMIN" value="0."/>
+        <par name="T3" value="5."/>
+        <par name="TC" value="0.2"/>
+        <par name="TS" value="5."/>
+    </set>
+    <set id="_G7_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="200.0"/>
+        <par name="PN" value="200.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="2.2"/>
+        <par name="XQ" value="2.0"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="120."/>
+        <par name="VFMAX" value="5."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="5."/>
+        <par name="T2" value="50."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G8_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="850.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="850.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G8_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="850.0"/>
+        <par name="PN" value="850.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G8_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="850.0"/>
+        <par name="PN" value="850.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+    <set id="_G9_______SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="false"/>
+        <par name="Saturated" value="false"/>
+        <par name="TX" value="0"/>
+        <par name="md" value="0"/>
+        <par name="XPQ" value="0"/>
+        <par name="TPQ0" value="0"/>
+        <par name="mq" value="0"/>
+        <par name="snd" value="0"/>
+        <par name="snq" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="0.0"/>
+        <par name="IENR" value="3"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="3.0"/>
+        <par name="TSD0" value="0.05"/>
+        <par name="XPD" value="0.25"/>
+        <par name="TPD0" value="5.0"/>
+        <par name="rStatIn" value="0.0"/>
+        <par name="TSQ0" value="0.1"/>
+        <par name="SN" value="1000.0"/>
+        <par name="XSD" value="0.2"/>
+        <par name="XD" value="1.1"/>
+        <par name="lStatIn" value="0.15"/>
+        <par name="XSQ" value="0.2"/>
+        <par name="XQ" value="0.7"/>
+        <par name="PN" value="1000.0"/>
+        <par name="IWLMDV" value="2"/>
+    </set>
+    <set id="_G9_______SM_reg_htgpsat3_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1000.0"/>
+        <par name="PN" value="1000.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="T1"/>
+        <par name="A21" value="1.5"/>
+        <par name="A11" value="0.5"/>
+        <par name="A23" value="1."/>
+        <par name="A13" value="1."/>
+        <par name="TW" value="1."/>
+        <par name="DELTA" value=".3000000"/>
+        <par name="PMIN" value="0."/>
+        <par name="UC" value="-0.1"/>
+        <par name="PMAX" value="1."/>
+        <par name="TG" value="0.2"/>
+        <par name="SIGMA" value="0.04"/>
+        <par name="UO" value="0.1"/>
+        <par name="TP" value="0.04"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G9_______SM_reg_oelpsat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1000.0"/>
+        <par name="PN" value="1000.0"/>
+        <par name="PNALT" value="0.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="VV"/>
+        <par name="XD" value="1.1"/>
+        <par name="XQ" value="0.7"/>
+        <par name="TE" value="0.1"/>
+        <par name="VOELMAX" value="1.100000"/>
+        <par name="IFDLIM" value="3."/>
+        <par name="K0" value="50."/>
+        <par name="VFMAX" value="4."/>
+        <par name="V0" value="0."/>
+        <par name="T0" value="10."/>
+        <par name="T1" value="4."/>
+        <par name="T2" value="20."/>
+        <par name="TR" value="0.001"/>
+        <par name="VFMIN" value="0."/>
+    </set>
+</parameters>

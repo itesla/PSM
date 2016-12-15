@@ -1,0 +1,304 @@
+model rqb_alst
+//RQB_ALST RQB_ALST_1(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_2(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9650000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_3(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_4(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_5(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.038000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_6(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.036000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_7(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9500000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_8(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9500000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_9(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9440000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_10(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9440000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_11(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_12(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_13(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_14(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_15(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9500000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_16(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.073000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_17(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=0.995,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_18(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9930000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_19(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9930000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_20(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_21(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_22(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9430000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_23(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9430000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_24(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_25(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_26(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_27(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_28(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_29(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.185,KI0=12.72000,KI1=-16.8100,KI2=3.430000,KI3=-11.4500,KI4=11.86000,KI5=16.17000,KLIR=12.13000,KLUS=50.03000,LSAT=5.730000,LUS=0.12,MESU=0.02,PLINP=1.900000,SIBV=0.006,T4F=0.045,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9900000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_30(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9440000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_31(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9440000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_32(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_33(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_34(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_35(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_36(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_37(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_38(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_39(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=.9450000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_40(DELTAS=87.84000,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=12.10000,KI1=-16.1400,KI2=4.670000,KI3=-18.,KI4=17.,KI5=32.66000,KLIR=12.70000,KLUS=52.40000,LSAT=6.,LUS=0.12,MESU=0.02,PLINP=2.,SIBV=0.006,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=0.995,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_41(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.17,KI0=13.5,KI1=-18.,KI2=5.100000,KI3=-18.7000,KI4=18.70000,KI5=18.,KLIR=13.5,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.02,TE=0.2,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.011000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_42(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.11,KI0=14.5,KI1=-22.,KI2=2.640000,KI3=-8.,KI4=8.,KI5=25.,KLIR=14.5,KLUS=50.,LSAT=4.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.025,TE=.3200000,TOMD=0.02,TOMSL=0.001,TQ=0.02,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.022000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_43(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.11,KI0=14.5,KI1=-22.,KI2=2.640000,KI3=-8.,KI4=8.,KI5=25.,KLIR=14.5,KLUS=50.,LSAT=4.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.025,TE=.3200000,TOMD=0.02,TOMSL=0.001,TQ=0.02,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.019000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_44(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.11,KI0=14.5,KI1=-22.,KI2=2.640000,KI3=-8.,KI4=8.,KI5=25.,KLIR=14.5,KLUS=50.,LSAT=4.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.025,TE=.3200000,TOMD=0.02,TOMSL=0.001,TQ=0.02,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.023,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_45(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=0.11,KI0=14.5,KI1=-22.,KI2=2.640000,KI3=-8.,KI4=8.,KI5=25.,KLIR=14.5,KLUS=50.,LSAT=4.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.019,T4F=0.05,T4M=5.,T4MOM=1.270000,TC=0.025,TE=.3200000,TOMD=0.02,TOMSL=0.001,TQ=0.02,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.030000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_101(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=.1500000,KI0=8.800000,KI1=-12.8000,KI2=3.800000,KI3=-21.,KI4=21.,KI5=18.,KLIR=8.800000,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.094,T4F=0.05,T4M=5.,T4MOM=5.,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.030000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_102(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=.1500000,KI0=8.800000,KI1=-12.8000,KI2=3.800000,KI3=-21.,KI4=21.,KI5=18.,KLIR=8.800000,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.094,T4F=0.05,T4M=5.,T4MOM=5.,TC=0.02,TE=0.22,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.022000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_103(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=.1800000,KI0=13.20000,KI1=-17.2000,KI2=4.200000,KI3=-17.2000,KI4=17.20000,KI5=18.,KLIR=13.20000,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.094,T4F=0.05,T4M=5.,T4MOM=5.,TC=0.04,TE=.4200000,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.050000,VFSA=5.,VFTM=4.,VFTM2=30.);
+//RQB_ALST RQB_ALST_104(DELTAS=90.,DEUXPINU=314.1570,FDV1=0.0125,FDV2=0.0125,KDPM=.1800000,KI0=13.20000,KI1=-17.2000,KI2=4.200000,KI3=-17.2000,KI4=17.20000,KI5=18.,KLIR=13.20000,KLUS=50.,LSAT=5.,LUS=0.12,MESU=0.02,PLINP=1.600000,SIBV=0.094,T4F=0.05,T4M=5.,T4MOM=5.,TC=0.04,TE=.4200000,TOMD=0.02,TOMSL=0.04,TQ=0.04,UCMAX=1.100000,UCMIN=.9000000,VFNP=1.046,VFSA=5.,VFTM=4.,VFTM2=30.);
+  parameter Real init_31=init_IEX;
+  parameter Real init_92=init_VSINIT;
+  parameter Real init_94=0.;
+  parameter Real init_95=init_VSINIT;
+  parameter Real init_99=0.;
+  parameter Real init_100=init_OMEGA;
+  parameter Real init_103=init_PUISS;
+  parameter Real init_104=init_CM;
+  parameter Real init_108=0.;
+  parameter Real init_109=init_VSINIT;
+  parameter Real init_115=init_VSINIT;
+  parameter Real init_123=0;
+  parameter Real init_124=init_DIFSGA;
+  parameter Real init_130=0.;
+  parameter Real init_138=init_EPS;
+  parameter Real init_139=0;
+  parameter Real init_140=init_EPS;
+  parameter Real init_142=0.;
+  parameter Real init_34=3.141593;
+  parameter Real init_36=init_DU;
+  parameter Real init_1=init_IEX;
+  parameter Real DELTAS;
+  parameter Real DEUXPINU;
+  parameter Real FDV1;
+  parameter Real FDV2;
+  parameter Real KDPM;
+  parameter Real KI0;
+  parameter Real KI1;
+  parameter Real KI2;
+  parameter Real KI3;
+  parameter Real KI4;
+  parameter Real KI5;
+  parameter Real KLIR;
+  parameter Real KLUS;
+  parameter Real LSAT;
+  parameter Real LUS;
+  parameter Real MESU;
+  parameter Real PLINP;
+  parameter Real SIBV;
+  parameter Real T4F;
+  parameter Real T4M;
+  parameter Real T4MOM;
+  parameter Real TC;
+  parameter Real TE;
+  parameter Real TOMD;
+  parameter Real TOMSL;
+  parameter Real TQ;
+  parameter Real UCMAX;
+  parameter Real UCMIN;
+  parameter Real VFNP;
+  parameter Real VFSA;
+  parameter Real VFTM;
+  parameter Real VFTM2;
+  parameter Real SNREF;
+  parameter Real SN;
+  parameter Real PN;
+  parameter Real PNALT;
+  parameter Real init_VCONSI;
+  parameter Real init_M;
+  parameter Real init_IEX;
+  parameter Real init_VSINIT;
+  parameter Real init_OMEGA;
+  parameter Real init_PUISS;
+  parameter Real init_CM;
+  parameter Real init_DIFSGA;
+  parameter Real init_EPS;
+  parameter Real init_DU;
+  Modelica.Blocks.Continuous.LimIntegrator LimIntegrator_31 (outMax=LSAT, k=1./T4M, outMin=-LSAT, y_start=init_31); //Eurostag Block number: 31
+  Modelica.Blocks.Nonlinear.Limiter Limiter_91 (uMax=4.0, uMin=-4.0); //Eurostag Block number: 91
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_92 (K=1, T=T4M, y_start=init_92, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 92
+  Modelica.Blocks.Math.MultiSum MultiSum_93 (nu =2, k={1, -1}); //Eurostag Block number: 93
+  iPSL.NonElectrical.Continuous.LeadLag LeadLag_94 (K=1, T1=KDPM+T4F, T2=T4F, y_start=init_94); //Eurostag Block number: 94
+  Modelica.Blocks.Continuous.Derivative Derivative_95 (k=T4M, T=T4M, y_start=0, x_start=init_95, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 95
+  Modelica.Blocks.Math.MultiSum MultiSum_97 (nu =2, k={-KLIR, 1.}); //Eurostag Block number: 97
+  Modelica.Blocks.Nonlinear.DeadZone DeadZone_98 (uMax=SIBV, uMin=-SIBV); //Eurostag Block number: 98
+  Modelica.Blocks.Continuous.Derivative Derivative_99 (k=T4MOM, T=T4MOM, y_start=0, x_start=init_99, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 99
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_100 (K=1, T=TOMSL, y_start=init_100, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 100
+  Modelica.Blocks.Nonlinear.FixedDelay FixedDelay_101 (delayTime=TOMD); //Eurostag Block number: 101
+  Modelica.Blocks.Continuous.Derivative Derivative_103 (k=T4M, T=T4M, y_start=0, x_start=init_103, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 103
+  Modelica.Blocks.Continuous.Derivative Derivative_104 (k=T4M, T=T4M, y_start=0, x_start=init_104, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 104
+  Modelica.Blocks.Math.MultiSum MultiSum_105 (nu =5, k={1, 1, 1, 1, 1}); //Eurostag Block number: 105
+  Modelica.Blocks.Math.MultiSum MultiSum_106 (nu =2, k={-1., 1.+LUS}); //Eurostag Block number: 106
+  Modelica.Blocks.Math.MultiSum MultiSum_107 (nu =2, k={-1., 1.-LUS}); //Eurostag Block number: 107
+  iPSL.NonElectrical.Continuous.LeadLag LeadLag_108 (K=1., T1=TE, T2=TC, y_start=init_108); //Eurostag Block number: 108
+  Modelica.Blocks.Continuous.Derivative Derivative_109 (k=1., T=FDV1, y_start=0, x_start=init_109, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 109
+  Modelica.Blocks.Math.MultiSum MultiSum_110 (nu =2, k={1., 1.}); //Eurostag Block number: 110
+  Modelica.Blocks.Math.Gain Gain_111 (k=KLUS); //Eurostag Block number: 111
+  Modelica.Blocks.Math.Gain Gain_112 (k=KLUS); //Eurostag Block number: 112
+  Modelica.Blocks.Math.MultiSum MultiSum_113 (nu =2, k={1.0, .0174533}); //Eurostag Block number: 113
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_115 (K=1, T=MESU, y_start=init_115, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 115
+  Modelica.Blocks.Math.MultiSum MultiSum_116 (nu =2, k={1., -DELTAS}); //Eurostag Block number: 116
+  Modelica.Blocks.Math.MultiSum MultiSum_117 (nu =2, k={-1., 180}); //Eurostag Block number: 117
+  iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_118 (nu =2, a={1., 1.}); //Eurostag Block number: 118
+  iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_119 (nu =2, a={1., 1.}); //Eurostag Block number: 119
+  iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_120 (nu =2, a={1., 1.}); //Eurostag Block number: 120
+  iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_121 (nu =2, a={1., 1.}); //Eurostag Block number: 121
+  Modelica.Blocks.Math.MultiSum MultiSum_122 (nu =2, k={1., 1.}); //Eurostag Block number: 122
+  iPSL.NonElectrical.Eurostag.Math.ImMult5 ImMult5_123 (nu =2, a={1., 1.}); //Eurostag Block number: 123
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_124 (K=1., T=TQ, y_start=init_124, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 124
+  iPSL.NonElectrical.Eurostag.Logical.ImAnd ImAnd_125 (nu = 2); //Eurostag Block number: 125
+  Modelica.Blocks.Math.Cos Cos_126; //Eurostag Block number: 126
+  Modelica.Blocks.Math.Sin Sin_127; //Eurostag Block number: 127
+  iPSL.NonElectrical.Eurostag.Math.ImArcTangent ImArcTangent_129 (offset=0.); //Eurostag Block number: 129
+  Modelica.Blocks.Continuous.LimIntegrator LimIntegrator_130 (outMax=LSAT, k=1./T4M, outMin=-LSAT, y_start=init_130); //Eurostag Block number: 130
+  iPSL.NonElectrical.Eurostag.Nonlinear.ImPulse ImPulse_131 (S=VFSA, T=VFTM2); //Eurostag Block number: 131
+  Modelica.Blocks.Math.Abs Abs_132; //Eurostag Block number: 132
+  iPSL.NonElectrical.Eurostag.Nonlinear.ImPulse ImPulse_133 (S=0.5, T=VFTM); //Eurostag Block number: 133
+  iPSL.NonElectrical.Logical.Relay Relay_134; //Eurostag Block number: 134
+  Modelica.Blocks.Sources.Constant Constant_135 (k=PLINP); //Eurostag Block number: 135
+  Modelica.Blocks.Sources.Constant Constant_136 (k=VFNP); //Eurostag Block number: 136
+  Modelica.Blocks.Math.MultiSum MultiSum_137 (nu =2, k={1., -1.}); //Eurostag Block number: 137
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_138 (K=1., T=T4M, y_start=init_138, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 138
+  Modelica.Blocks.Math.MultiSum MultiSum_139 (nu =2, k={1., 1.}, y(start =init_139)); //Eurostag Block number: 139
+  Modelica.Blocks.Continuous.LimIntegrator LimIntegrator_140 (outMax=0, k=1./0.005, outMin=-1000, y_start=init_140); //Eurostag Block number: 140
+  Modelica.Blocks.Math.MultiSum MultiSum_141 (nu =2, k={-1., 1.}); //Eurostag Block number: 141
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_142 (K=1., T=FDV2, y_start=init_142, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 142
+  Modelica.Blocks.Nonlinear.VariableLimiter VariableLimiter_143; //Eurostag Block number: 143
+  Modelica.Blocks.Math.MultiSum MultiSum_144 (nu =2, k={-1., 1.}); //Eurostag Block number: 144
+  Modelica.Blocks.Math.MultiSum MultiSum_145 (nu =3, k={1, 1, init_VCONSI}); //Eurostag Block number: 145
+  Modelica.Blocks.Math.Gain Gain_30 (k=KI5); //Eurostag Block number: 30
+  Modelica.Blocks.Math.MultiSum MultiSum_33 (nu =2, k={DEUXPINU, init_M}); //Eurostag Block number: 33
+  iPSL.NonElectrical.Eurostag.Continuous.ImDiv2 ImDiv2_32 (a1=180., a2=1., a0=0., StartValue=false); //Eurostag Block number: 32
+  iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_34 (V=init_34); //Eurostag Block number: 34
+  iPSL.NonElectrical.Eurostag.Math.ImSetPoint ImSetPoint_36 (V=init_36); //Eurostag Block number: 36
+  iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_1 (K=1, T=0.01, y_start=init_1, initType = Modelica.Blocks.Types.Init.SteadyState); //Eurostag Block number: 1
+  Modelica.Blocks.Nonlinear.Limiter Limiter_2 (uMax=UCMAX, uMin=UCMIN); //Eurostag Block number: 2
+  Modelica.Blocks.Math.Gain Gain_3 (k=KI0); //Eurostag Block number: 3
+  Modelica.Blocks.Math.Gain Gain_4 (k=KI1); //Eurostag Block number: 4
+  Modelica.Blocks.Math.Gain Gain_5 (k=KI2); //Eurostag Block number: 5
+  Modelica.Blocks.Math.Gain Gain_6 (k=KI3); //Eurostag Block number: 6
+  Modelica.Blocks.Math.Gain Gain_7 (k=KI4); //Eurostag Block number: 7
+  Modelica.Blocks.Interfaces.RealInput pin_OMEGA;
+  Modelica.Blocks.Interfaces.RealInput pin_ActivePowerPNALT;
+  Modelica.Blocks.Interfaces.RealInput pin_PMTURHP;
+  Modelica.Blocks.Interfaces.RealInput pin_TerminalVoltage;
+  Modelica.Blocks.Interfaces.RealInput pin_UI;
+  Modelica.Blocks.Interfaces.RealInput pin_UR;
+  Modelica.Blocks.Interfaces.RealInput pin_TETA;
+  Modelica.Blocks.Interfaces.RealInput pin_IEX;
+  Modelica.Blocks.Interfaces.RealInput pin_APR;
+  Modelica.Blocks.Interfaces.RealOutput pin_At_UMESURE;
+  Modelica.Blocks.Interfaces.RealOutput pin_LAI;
+  Modelica.Blocks.Interfaces.RealOutput pin_LIR;
+  Modelica.Blocks.Interfaces.RealOutput pin_At_DU;
+  Modelica.Blocks.Interfaces.RealOutput pin_SREGUL; //IEX
+  Modelica.Blocks.Interfaces.RealOutput pin_At_VUC;
+  Modelica.Blocks.Interfaces.RealOutput pin_At_VU;
+  Modelica.Blocks.Interfaces.RealOutput pin_At_VN;
+  Modelica.Blocks.Interfaces.RealOutput pin_At_VPE;
+  Modelica.Blocks.Interfaces.RealOutput pin_At_VPM;
+equation
+  connect(Cos_126.y, ImMult5_121.u[2]);
+  connect(MultiSum_122.y, ImArcTangent_129.u2);
+  connect(MultiSum_110.y, SimpleLag_1.u);
+  connect(SimpleLag_115.y, Derivative_95.u);
+  connect(Gain_3.y, MultiSum_105.u[1]);
+  connect(Gain_112.y, VariableLimiter_143.limit2);
+  connect(Gain_111.y, VariableLimiter_143.limit1);
+  connect(ImPulse_133.y, Relay_134.u1);
+  connect(MultiSum_107.y, Gain_112.u);
+  connect(MultiSum_106.y, Gain_111.u);
+  connect(SimpleLag_92.y, MultiSum_93.u[2]);
+  connect(SimpleLag_115.y, MultiSum_107.u[1]);
+  connect(SimpleLag_115.y, MultiSum_106.u[1]);
+  connect(SimpleLag_115.y, SimpleLag_92.u);
+  connect(pin_TerminalVoltage, SimpleLag_115.u);
+  connect(MultiSum_145.y, Limiter_2.u);
+  connect(Limiter_2.y, MultiSum_93.u[1]);
+  connect(MultiSum_93.y, Gain_3.u);
+  connect(FixedDelay_101.y, SimpleLag_100.u);
+  connect(Derivative_109.y, SimpleLag_142.u);
+  connect(SimpleLag_100.y, MultiSum_33.u[1]);
+  connect(pin_ActivePowerPNALT, Derivative_103.u);
+  connect(Derivative_104.y, LeadLag_94.u);
+  connect(Derivative_99.y, DeadZone_98.u);
+  connect(Abs_132.y, ImPulse_131.u);
+  connect(SimpleLag_142.y, Abs_132.u);
+  connect(MultiSum_33.y, Derivative_99.u);
+  connect(Derivative_95.y, Gain_4.u);
+  connect(Derivative_103.y, Gain_6.u);
+  connect(Cos_126.y, ImMult5_118.u[2]);
+  connect(Sin_127.y, ImMult5_119.u[2]);
+  connect(Sin_127.y, ImMult5_120.u[2]);
+  connect(Constant_135.y, Relay_134.u2);
+  connect(Constant_136.y, Relay_134.u3);
+  connect(ImMult5_120.y, MultiSum_122.u[1]);
+  connect(Relay_134.y, MultiSum_137.u[2]);
+  connect(MultiSum_137.y, SimpleLag_138.u);
+  connect(ImMult5_118.y, MultiSum_144.u[1]);
+  connect(ImMult5_119.y, MultiSum_144.u[2]);
+  connect(MultiSum_144.y, ImArcTangent_129.u1);
+  connect(MultiSum_139.y, LimIntegrator_140.u);
+  connect(LimIntegrator_140.y, MultiSum_141.u[1]);
+  connect(VariableLimiter_143.y, Limiter_91.u);
+  connect(ImAnd_125.y, ImMult5_123.u[1]);
+  connect(MultiSum_116.y, ImMult5_123.u[2]);
+  connect(Gain_4.y, MultiSum_105.u[2]);
+  connect(Gain_7.y, MultiSum_105.u[5]);
+  connect(ImPulse_131.y, ImPulse_133.u);
+  connect(DeadZone_98.y, Gain_5.u);
+  connect(LeadLag_94.y, Gain_7.u);
+  connect(Gain_5.y, MultiSum_105.u[3]);
+  connect(MultiSum_105.y, MultiSum_113.u[1]);
+  connect(MultiSum_113.y, VariableLimiter_143.u);
+  connect(Gain_30.y, MultiSum_113.u[2]);
+  connect(Gain_6.y, MultiSum_105.u[4]);
+  connect(LeadLag_108.y, MultiSum_97.u[2]);
+  connect(Limiter_91.y, LeadLag_108.u);
+  connect(MultiSum_97.y, LimIntegrator_31.u);
+  connect(MultiSum_97.y, MultiSum_110.u[2]);
+  connect(LimIntegrator_31.y, MultiSum_110.u[1]);
+  connect(MultiSum_141.y, MultiSum_139.u[2]);
+  connect(MultiSum_141.y, LimIntegrator_130.u);
+  connect(SimpleLag_138.y, MultiSum_141.u[2]);
+  connect(ImArcTangent_129.y, ImDiv2_32.u1);
+  connect(ImSetPoint_34.y, ImDiv2_32.u2);
+  connect(ImDiv2_32.y, SimpleLag_124.u);
+  connect(LimIntegrator_130.y, MultiSum_139.u[1]);
+  connect(MultiSum_117.y, ImAnd_125.u[1]);
+  connect(MultiSum_116.y, ImAnd_125.u[2]);
+  connect(SimpleLag_124.y, MultiSum_117.u[1]);
+  connect(SimpleLag_124.y, MultiSum_116.u[1]);
+  connect(ImMult5_121.y, MultiSum_122.u[2]);
+  connect(pin_LIR, MultiSum_97.u[1]);
+  connect(pin_OMEGA, FixedDelay_101.u);
+  connect(pin_PMTURHP, Derivative_104.u);
+  connect(pin_At_UMESURE, Derivative_109.u);
+  connect(pin_UI, ImMult5_118.u[1]);
+  connect(pin_UR, ImMult5_119.u[1]);
+  connect(pin_UI, ImMult5_120.u[1]);
+  connect(pin_UR, ImMult5_121.u[1]);
+  connect(pin_TETA, Cos_126.u);
+  connect(pin_TETA, Sin_127.u);
+  connect(pin_IEX, MultiSum_137.u[1]);
+  connect(pin_At_DU, MultiSum_145.u[1]);
+  connect(pin_APR, MultiSum_145.u[2]);
+  connect(pin_LAI, Gain_30.u);
+  connect(pin_At_UMESURE, SimpleLag_115.y);
+  connect(pin_LAI, ImMult5_123.y);
+  connect(pin_LIR, MultiSum_139.y);
+  connect(pin_At_DU, ImSetPoint_36.y);
+  connect(pin_SREGUL, SimpleLag_1.y);
+  connect(pin_At_VUC, Gain_3.y);
+  connect(pin_At_VU, Gain_4.y);
+  connect(pin_At_VN, Gain_5.y);
+  connect(pin_At_VPE, Gain_6.y);
+  connect(pin_At_VPM, Gain_7.y);
+  MultiSum_106.u[2] =1;
+  MultiSum_107.u[2] =1;
+  MultiSum_116.u[2] =1;
+  MultiSum_117.u[2] =1;
+  MultiSum_145.u[3] =1;
+  MultiSum_33.u[2] =1;
+end rqb_alst;

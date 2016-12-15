@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<system_definitions xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <declaration type="Real" id="SNREF" value="100.0" isParameter="true"/>
+    <declaration type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef" isParameter="false"/>
+    <equation>
+        <unparsed>omegaRef = (gen_pwGeneratorM2S__GEN______SM.omega*gen_pwGeneratorM2S__GEN______SM.SN*gen_pwGeneratorM2S__GEN______SM.HIn) / (gen_pwGeneratorM2S__GEN______SM.SN*gen_pwGeneratorM2S__GEN______SM.HIn)</unparsed>
+    </equation>
+    <equation stage="INITIALIZATION">
+        <unparsed>sexs__GEN______SM.pin_VS = 0</unparsed>
+    </equation>
+</system_definitions>

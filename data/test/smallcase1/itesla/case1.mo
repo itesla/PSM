@@ -1,5 +1,5 @@
 within ;
-model case2
+model case1
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Interfaces.RealOutput omegaRef;
 
@@ -18,16 +18,6 @@ model case2
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
 
-// LOADS
-  iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__GEN______EC (
-	 V_0 = 1.0,
-	 P_0 = 380.0,
-	 Q_0 = 0.0,
-	 alpha = 1,
-	 beta = 2,
-	 angle_0 = 0.0
-	 ) annotation (Placement(transformation()));
-
 // FIXED TRANSFORMERS
   iPSL.Electrical.Branches.Eurostag.PwTransformer_2 trafo__GEN______GRID_____1_PT (
 	 R = 3.647389E-4,
@@ -40,12 +30,18 @@ model case2
 // LINES
   iPSL.Electrical.Branches.PwLine_2 line__GRID_____INF______1_AC (
 	 R = 0.0,
-	 X = 0.0,
+	 X = 0.06,
 	 G = 0.0,
 	 B = 0.0
 	 ) annotation (Placement(transformation()));
 
 // FIXED INJECTIONS
+  iPSL.Electrical.Loads.Eurostag.PwLoadPQ load_pwLoadPQ_GEN__INF______SM (
+	 V_0 = 1.0, 
+	 angle_0 = 0.0, 
+	 P = -0.0, 
+	 Q = -0.0
+	 ) annotation (Placement(transformation()));
 
 // GENERATORS
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__GEN______SM (
@@ -59,19 +55,19 @@ model case2
 	 mq = 0, 
 	 snd = 0, 
 	 snq = 0, 
-	 init_theta = 0.9395703332551265, 
+	 init_theta = 0.0, 
 	 init_omega = 1.0, 
-	 init_efd = 1.817237964064126, 
+	 init_efd = 1.0, 
 	 WLMDVPu = 1.85, 
-	 init_lambdaad = -0.6821676773861628, 
-	 init_cm = 0.7999999999999999, 
-	 init_lambdaq1 = 0.7400292291048834, 
-	 init_lambdaq2 = 0.7400292291048834, 
-	 init_iq = 2.242512815469344, 
-	 init_id = 3.067757531562062, 
-	 init_lambdaaq = 0.7400292291048834, 
-	 init_lambdad = -0.6821676773861628, 
-	 init_lambdaf = -0.9152870006680368,
+	 init_lambdaad = -1.0, 
+	 init_cm = 0.0, 
+	 init_lambdaq1 = 0.0, 
+	 init_lambdaq2 = 0.0, 
+	 init_iq = 0.0, 
+	 init_id = 0.0, 
+	 init_lambdaaq = 0.0, 
+	 init_lambdad = -1.0, 
+	 init_lambdaf = -1.128282221641749,
 	 PNALT = 475.0,
 	 IENR = 4,
 	 DIn = 0.0,
@@ -99,9 +95,9 @@ model case2
 	 SN = 500.0,
 	 PN = 475.0,
 	 PNALT = 475.0,
-	 init_EFD = 1.817237964064126,
-	 init_VREF = 1.009086189820321,
-	 init_YLL = 0.009086189820320629,
+	 init_EFD = 1.0,
+	 init_VREF = 1.005,
+	 init_YLL = 0.005,
 	 TE = 0.05,
 	 K = 200.,
 	 EMIN = 0.,
@@ -109,14 +105,14 @@ model case2
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Controls.PSSE.TG.TGOV1 reg_tgov1__GEN______SM (
+  tgov1 reg_tgov1__GEN______SM (
 	 SNREF = 100.0,
 	 SN = 500.0,
 	 PN = 475.0,
 	 PNALT = 475.0,
-	 init_REF = 0.04,
-	 init_PMECH = 0.7999999999999999,
-	 init_CM = 0.7999999999999999,
+	 init_REF = 0.0,
+	 init_PMECH = 0.0,
+	 init_CM = 0.0,
 	 DT = 0.,
 	 RR = 0.05,
 	 VMIN = 0.,
@@ -131,7 +127,7 @@ model case2
 	 PN = 475.0,
 	 PNALT = 475.0,
 	 init_IN = 1.0,
-	 init_AP = 0.76,
+	 init_AP = 0.0,
 	 T4 = 0.015,
 	 VSTMIN = -0.1,
 	 T7 = 2.,
@@ -172,11 +168,11 @@ equation
 
 // COUPLING DEVICES
 
-// Connecting LOADS
-  connect(bus__GEN______TN.p, load__GEN______EC.p) annotation (Line());
-
 // Connecting GENERATORS
   connect(bus__GEN______TN.p, gen_pwGeneratorM2S__GEN______SM.sortie) annotation (Line());
+
+// Connecting GENERATORS AS FIXED INYECTIONS
+  connect(bus__INF______TN.p, load_pwLoadPQ_GEN__INF______SM.p) annotation (Line());
 
 // Connecting FIXED TRANSFORMERS
   connect(bus__GEN______TN.p, trafo__GEN______GRID_____1_PT.p) annotation (Line());
@@ -184,5 +180,5 @@ equation
 
 // Connecting OTHERS
 annotation (uses(Modelica(version="3.2.1")));
-end case2;
+end case1;
 

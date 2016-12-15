@@ -46,7 +46,7 @@ model case3
 	 ) annotation (Placement(transformation()));
 
 // FIXED INJECTIONS
-  iPSL.Electrical.Loads.Eurostag.PwLoadPQ gen_pwLoadPQ_GEN__INF______SM (
+  iPSL.Electrical.Loads.Eurostag.PwLoadPQ fixinj_pwLoadPQ_GEN__INF______SM (
 	 V_0 = 1.05, 
 	 angle_0 = -9.248519, 
 	 P = -0.0, 
@@ -185,12 +185,13 @@ equation
   connect(bus__GEN______TN.p, gen_pwGeneratorM2S__GEN______SM.sortie) annotation (Line());
 
 // Connecting GENERATORS AS FIXED INYECTIONS
-  connect(bus__INF______TN.p, gen_pwLoadPQ_GEN__INF______SM.p) annotation (Line());
+  connect(bus__INF______TN.p, fixinj_pwLoadPQ_GEN__INF______SM.p) annotation (Line());
 
 // Connecting FIXED TRANSFORMERS
   connect(bus__GEN______TN.p, trafo__GEN______GRID_____1_PT.p) annotation (Line());
   connect(trafo__GEN______GRID_____1_PT.n, bus__GRID_____TN.p) annotation (Line());
 
 // Connecting OTHERS
+annotation (uses(Modelica(version="3.2.1")));
 end case3;
 

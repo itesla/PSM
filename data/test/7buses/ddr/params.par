@@ -1,0 +1,972 @@
+<?xml version="1.0" ?>
+<parameters xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <set id="_G0000000_SM_consig_INITIALIZATION">
+        <par name="PNALT" value="970.0"/>
+        <par name="ZERO" value="0."/>
+        <par name="SN" value="1078.0"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="PN" value="1215.0"/>
+    </set>
+    <set id="_G0000000_SM_edftur1c_INITIALIZATION">
+        <par name="PNALT" value="970.0"/>
+        <par name="PR" value="0.05"/>
+        <par name="TVMP" value="0.25"/>
+        <par name="SAS" value="-0.02"/>
+        <par name="PLIM" value="0.025"/>
+        <par name="SACC" value="0.024182"/>
+        <par name="ALPHA" value="0.34"/>
+        <par name="PMAXSPN" value="1.025641"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="FHP" value="0."/>
+        <par name="PLM" value="0.05"/>
+        <par name="VFHP" value="3.600000"/>
+        <par name="RPP" value="1."/>
+        <par name="DELTMP" value="0.02"/>
+        <par name="SCMP" value="2."/>
+        <par name="SRV" value="0.015"/>
+        <par name="CFMP" value="1."/>
+        <par name="LSAT" value="2.600000"/>
+        <par name="RTVP" value="0.08"/>
+        <par name="SN" value="1078.0"/>
+        <par name="REGFP" value="1."/>
+        <par name="THP" value="0.02"/>
+        <par name="T60S" value="60."/>
+        <par name="TOHP" value="0.07"/>
+        <par name="RMA" value="0.1"/>
+        <par name="FMP" value="0."/>
+        <par name="DELTHP" value="0.04"/>
+        <par name="TMA" value="0.5"/>
+        <par name="VOHP" value="4.5"/>
+        <par name="VRHP" value=".6500000"/>
+        <par name="TASP" value="5."/>
+        <par name="TVHP" value=".4000000"/>
+        <par name="TF" value="0.085"/>
+        <par name="VOMP" value="7."/>
+        <par name="JASP" value="0."/>
+        <par name="TMP" value="0.02"/>
+        <par name="SSV" value="0.06"/>
+        <par name="VRMP" value=".8500000"/>
+        <par name="TOMP" value="0.07"/>
+        <par name="TCONS" value="3."/>
+        <par name="VFMP" value="3.5"/>
+        <par name="TR" value="4."/>
+        <par name="PN" value="1215.0"/>
+    </set>
+    <set id="_G0000000_SM_gen_pwGeneratorM2S_INITIALIZATION">
+        <par name="PNALT" value="970.0"/>
+        <par name="p0" value="9.60013"/>
+        <par name="omega_0" value="1.0"/>
+        <par name="IENR" value="4"/>
+        <par name="TX" value="0"/>
+        <par name="Saturated" value="true"/>
+        <par name="HIn" value="6.3"/>
+        <par name="TSD0" value="0.058"/>
+        <par name="XPD" value="0.3925"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TPD0" value="9.627"/>
+        <par name="rStatIn" value="0.00344"/>
+        <par name="uNResTfo" value="415.0"/>
+        <par name="XPQ" value="0.437"/>
+        <par name="TSQ0" value="0.06"/>
+        <par name="SN" value="1078.0"/>
+        <par name="TPQ0" value="1.006"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="nDSat" value="5.57"/>
+        <par name="q0" value="0.0235231"/>
+        <par name="mDSatIn" value="0.084"/>
+        <par name="uNomNw" value="380.0"/>
+        <par name="rTfoIn" value="0.0025"/>
+        <par name="XSD" value="0.289"/>
+        <par name="transformerIncluded" value="true"/>
+        <par name="XD" value="2.47"/>
+        <par name="uBMac" value="24.0"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <par name="lStatIn" value="0.211"/>
+        <par name="nQSat" value="5.57"/>
+        <par name="XSQ" value="0.29"/>
+        <par name="mQSatIn" value="0.084"/>
+        <par name="XQ" value="2.47"/>
+        <par name="sNTfo" value="1080.0"/>
+        <par name="PN" value="1215.0"/>
+        <par name="IWLMDV" value="3"/>
+        <par name="uNMacTfo" value="24.0"/>
+        <par name="pPuWLMDV" value="970.0"/>
+        <par name="xTfoIn" value="0.137"/>
+    </set>
+    <set id="_G0000000_SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="true"/>
+        <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
+        <par name="Saturated" value="true"/>
+        <par name="TX" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.7226456114257552"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="970.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="6.3"/>
+        <par name="TSD0" value="0.058"/>
+        <par name="XPD" value="0.3925"/>
+        <par name="RTfoPu" value="0.0025"/>
+        <par name="TPD0" value="9.627"/>
+        <par name="XTfoPu" value="0.137"/>
+        <par name="rStatIn" value="0.00344"/>
+        <par name="U1N" value="24.0"/>
+        <par name="md" value="0.084"/>
+        <par name="XPQ" value="0.437"/>
+        <par name="TSQ0" value="0.06"/>
+        <par name="SN" value="1078.0"/>
+        <par name="V1" value="24.0"/>
+        <par name="TPQ0" value="1.006"/>
+        <par name="mq" value="0.084"/>
+        <par name="XSD" value="0.289"/>
+        <par name="snd" value="5.57"/>
+        <par name="XD" value="2.47"/>
+        <par name="U2N" value="415.0"/>
+        <par name="SNtfo" value="1080.0"/>
+        <par name="lStatIn" value="0.211"/>
+        <par name="XSQ" value="0.29"/>
+        <par name="snq" value="5.57"/>
+        <par name="XQ" value="2.47"/>
+        <par name="PN" value="1215.0"/>
+        <par name="IWLMDV" value="3"/>
+    </set>
+    <set id="_G0000000_SM_reg_consig_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1078.0"/>
+        <par name="PN" value="1215.0"/>
+        <par name="PNALT" value="970.0"/>
+        <ref name="init_PV" dataSource="INIT" sourceName="PV"/>
+        <par name="ZERO" value="0."/>
+    </set>
+    <set id="_G0000000_SM_reg_edftur1c_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1078.0"/>
+        <par name="PN" value="1215.0"/>
+        <par name="PNALT" value="970.0"/>
+        <ref name="init_DELTAPE" dataSource="INIT" sourceName="DELTAPE"/>
+        <ref name="init_NIVP" dataSource="INIT" sourceName="NIVP"/>
+        <ref name="init_Z" dataSource="INIT" sourceName="Z"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_C" dataSource="INIT" sourceName="C"/>
+        <ref name="init_PVISEE" dataSource="INIT" sourceName="PVISEE"/>
+        <ref name="init_PCONSI" dataSource="INIT" sourceName="PCONSI"/>
+        <ref name="init_OVHP" dataSource="INIT" sourceName="OVHP"/>
+        <ref name="init_B" dataSource="INIT" sourceName="B"/>
+        <par name="PR" value="0.05"/>
+        <par name="TVMP" value="0.25"/>
+        <par name="SAS" value="-0.02"/>
+        <par name="PLIM" value="0.025"/>
+        <par name="SACC" value="0.024182"/>
+        <par name="ALPHA" value="0.34"/>
+        <par name="PMAXSPN" value="1.025641"/>
+        <par name="FHP" value="0."/>
+        <par name="PLM" value="0.05"/>
+        <par name="VFHP" value="3.600000"/>
+        <par name="RPP" value="1."/>
+        <par name="DELTMP" value="0.02"/>
+        <par name="SCMP" value="2."/>
+        <par name="SRV" value="0.015"/>
+        <par name="CFMP" value="1."/>
+        <par name="LSAT" value="2.600000"/>
+        <par name="RTVP" value="0.08"/>
+        <par name="REGFP" value="1."/>
+        <par name="THP" value="0.02"/>
+        <par name="T60S" value="60."/>
+        <par name="TOHP" value="0.07"/>
+        <par name="RMA" value="0.1"/>
+        <par name="FMP" value="0."/>
+        <par name="DELTHP" value="0.04"/>
+        <par name="TMA" value="0.5"/>
+        <par name="VOHP" value="4.5"/>
+        <par name="VRHP" value=".6500000"/>
+        <par name="TASP" value="5."/>
+        <par name="TVHP" value=".4000000"/>
+        <par name="TF" value="0.085"/>
+        <par name="VOMP" value="7."/>
+        <par name="JASP" value="0."/>
+        <par name="TMP" value="0.02"/>
+        <par name="SSV" value="0.06"/>
+        <par name="VRMP" value=".8500000"/>
+        <par name="TOMP" value="0.07"/>
+        <par name="TCONS" value="3."/>
+        <par name="VFMP" value="3.5"/>
+        <par name="TR" value="4."/>
+    </set>
+    <set id="_G0000000_SM_reg_rqb_alst_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1078.0"/>
+        <par name="PN" value="1215.0"/>
+        <par name="PNALT" value="970.0"/>
+        <ref name="init_DU" dataSource="INIT" sourceName="DU"/>
+        <ref name="init_M" dataSource="INIT" sourceName="M"/>
+        <ref name="init_PUISS" dataSource="INIT" sourceName="PUISS"/>
+        <ref name="init_VSINIT" dataSource="INIT" sourceName="VSINIT"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
+        <ref name="init_VCONSI" dataSource="INIT" sourceName="VCONSI"/>
+        <ref name="init_OMEGA" dataSource="INIT" sourceName="OMEGA"/>
+        <ref name="init_EPS" dataSource="INIT" sourceName="EPS"/>
+        <ref name="init_DIFSGA" dataSource="INIT" sourceName="DIFSGA"/>
+        <par name="VFTM" value="4."/>
+        <par name="DELTAS" value="87.84000"/>
+        <par name="DEUXPINU" value="314.1570"/>
+        <par name="PLINP" value="1.900000"/>
+        <par name="SIBV" value="0.006"/>
+        <par name="TOMSL" value="0.04"/>
+        <par name="KI1" value="-16.8100"/>
+        <par name="KI0" value="12.72000"/>
+        <par name="KI3" value="-11.4500"/>
+        <par name="KI2" value="3.430000"/>
+        <par name="KI5" value="16.17000"/>
+        <par name="VFSA" value="5."/>
+        <par name="KI4" value="11.86000"/>
+        <par name="LSAT" value="5.730000"/>
+        <par name="VFNP" value="1.038000"/>
+        <par name="KLUS" value="50.03000"/>
+        <par name="MESU" value="0.02"/>
+        <par name="T4F" value="0.045"/>
+        <par name="KLIR" value="12.13000"/>
+        <par name="UCMIN" value=".9000000"/>
+        <par name="LUS" value="0.12"/>
+        <par name="T4M" value="5."/>
+        <par name="TC" value="0.02"/>
+        <par name="TE" value="0.22"/>
+        <par name="T4MOM" value="1.270000"/>
+        <par name="KDPM" value="0.185"/>
+        <par name="TOMD" value="0.02"/>
+        <par name="VFTM2" value="30."/>
+        <par name="FDV1" value="0.0125"/>
+        <par name="FDV2" value="0.0125"/>
+        <par name="UCMAX" value="1.100000"/>
+        <par name="TQ" value="0.04"/>
+    </set>
+    <set id="_G0000000_SM_reg_tkj_comp_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1078.0"/>
+        <par name="PN" value="1215.0"/>
+        <par name="PNALT" value="970.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_LA" dataSource="INIT" sourceName="LA"/>
+        <ref name="init_KC" dataSource="INIT" sourceName="KC"/>
+        <ref name="init_PHI" dataSource="INIT" sourceName="PHI"/>
+        <par name="RFE" value="100."/>
+        <par name="RC" value="0.13"/>
+        <par name="SEB" value="7.400000"/>
+        <par name="PLEXM" value="-3.46"/>
+        <par name="RIN" value="0.25"/>
+        <par name="KDD" value=".4200000"/>
+        <par name="KE" value=".4900000"/>
+        <par name="PLEXP" value="4."/>
+        <par name="TDOEX" value=".4000000"/>
+        <par name="FIEEE" value="0."/>
+        <par name="SEA" value="1.100000"/>
+    </set>
+    <set id="_G0000000_SM_rqb_alst_INITIALIZATION">
+        <par name="PNALT" value="970.0"/>
+        <par name="VFTM" value="4."/>
+        <par name="DELTAS" value="87.84000"/>
+        <par name="DEUXPINU" value="314.1570"/>
+        <par name="PLINP" value="1.900000"/>
+        <par name="SIBV" value="0.006"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TOMSL" value="0.04"/>
+        <par name="KI1" value="-16.8100"/>
+        <par name="KI0" value="12.72000"/>
+        <par name="KI3" value="-11.4500"/>
+        <par name="KI2" value="3.430000"/>
+        <par name="KI5" value="16.17000"/>
+        <par name="VFSA" value="5."/>
+        <par name="KI4" value="11.86000"/>
+        <par name="LSAT" value="5.730000"/>
+        <par name="VFNP" value="1.038000"/>
+        <par name="SN" value="1078.0"/>
+        <par name="KLUS" value="50.03000"/>
+        <par name="MESU" value="0.02"/>
+        <par name="T4F" value="0.045"/>
+        <par name="KLIR" value="12.13000"/>
+        <par name="UCMIN" value=".9000000"/>
+        <par name="LUS" value="0.12"/>
+        <par name="T4M" value="5."/>
+        <par name="TC" value="0.02"/>
+        <par name="TE" value="0.22"/>
+        <par name="T4MOM" value="1.270000"/>
+        <par name="KDPM" value="0.185"/>
+        <par name="TOMD" value="0.02"/>
+        <par name="VFTM2" value="30."/>
+        <par name="FDV1" value="0.0125"/>
+        <par name="FDV2" value="0.0125"/>
+        <par name="UCMAX" value="1.100000"/>
+        <par name="TQ" value="0.04"/>
+        <par name="PN" value="1215.0"/>
+    </set>
+    <set id="_G0000000_SM_tkj_comp_INITIALIZATION">
+        <par name="PNALT" value="970.0"/>
+        <par name="KDD" value=".4200000"/>
+        <par name="PLEXP" value="4."/>
+        <par name="TDOEX" value=".4000000"/>
+        <par name="SEA" value="1.100000"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="RFE" value="100."/>
+        <par name="RC" value="0.13"/>
+        <par name="SEB" value="7.400000"/>
+        <par name="PLEXM" value="-3.46"/>
+        <par name="RIN" value="0.25"/>
+        <par name="KE" value=".4900000"/>
+        <par name="SN" value="1078.0"/>
+        <par name="FIEEE" value="0."/>
+        <par name="PN" value="1215.0"/>
+    </set>
+    <set id="_G0000001_SM_consig_INITIALIZATION">
+        <par name="PNALT" value="1539.0"/>
+        <par name="ZERO" value="0."/>
+        <par name="SN" value="1710.0"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="PN" value="1539.0"/>
+    </set>
+    <set id="_G0000001_SM_edftur2c_INITIALIZATION">
+        <par name="PNALT" value="1539.0"/>
+        <par name="PR" value="0.05"/>
+        <par name="TVMP" value="0.2"/>
+        <par name="SAS" value="-0.02"/>
+        <par name="PLIM" value="0.025"/>
+        <par name="SACC" value="0.03968"/>
+        <par name="ALPHA" value="0.34"/>
+        <par name="PMAXSPN" value="1.010000"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="FHP" value="0."/>
+        <par name="PLM" value=".3500000"/>
+        <par name="VFHP" value=".3500000"/>
+        <par name="RPP" value=".9000000"/>
+        <par name="DELTMP" value="0.025"/>
+        <par name="SCMP" value="1.140000"/>
+        <par name="SRV" value="0.015"/>
+        <par name="CFMP" value=".6500000"/>
+        <par name="LSAT" value="2.600000"/>
+        <par name="RTVP" value="0.015"/>
+        <par name="SN" value="1710.0"/>
+        <par name="REGFP" value="1."/>
+        <par name="RTVP2" value="0.03"/>
+        <par name="THP" value="0.25"/>
+        <par name="T60S" value="60."/>
+        <par name="TOHP" value="0.17"/>
+        <par name="RMA" value="0.1"/>
+        <par name="FMP" value="0."/>
+        <par name="DELTHP" value="0.04"/>
+        <par name="TMA" value="0.5"/>
+        <par name="VOHP" value="3."/>
+        <par name="TASP" value="10."/>
+        <par name="TVHP" value="0.2"/>
+        <par name="TF" value="0.085"/>
+        <par name="TH" value="0.13"/>
+        <par name="VOMP" value="2."/>
+        <par name="GAINLVA" value="1.100000"/>
+        <par name="JASP" value="0."/>
+        <par name="TMP" value=".3000000"/>
+        <par name="SSV" value="0.06"/>
+        <par name="TOMP" value="1.270000"/>
+        <par name="TCONS" value="3."/>
+        <par name="VFMP" value=".8000000"/>
+        <par name="TR" value="5."/>
+        <par name="PN" value="1539.0"/>
+    </set>
+    <set id="_G0000001_SM_gen_pwGeneratorM2S_INITIALIZATION">
+        <par name="PNALT" value="1539.0"/>
+        <par name="p0" value="4.8000603"/>
+        <par name="omega_0" value="1.0"/>
+        <par name="IENR" value="4"/>
+        <par name="TX" value="0"/>
+        <par name="Saturated" value="true"/>
+        <par name="HIn" value="5.112"/>
+        <par name="TSD0" value="0.065"/>
+        <par name="XPD" value="0.527"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TPD0" value="10.041"/>
+        <par name="rStatIn" value="0.003275"/>
+        <par name="uNResTfo" value="405.0"/>
+        <par name="XPQ" value="0.623"/>
+        <par name="TSQ0" value="0.094"/>
+        <par name="SN" value="1710.0"/>
+        <par name="TPQ0" value="1.22"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="nDSat" value="9.285"/>
+        <par name="q0" value="0.0645498"/>
+        <par name="mDSatIn" value="0.05"/>
+        <par name="uNomNw" value="380.0"/>
+        <par name="rTfoIn" value="0.0029"/>
+        <par name="XSD" value="0.367"/>
+        <par name="transformerIncluded" value="true"/>
+        <par name="XD" value="2.91"/>
+        <par name="uBMac" value="20.0"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <par name="lStatIn" value="0.265"/>
+        <par name="nQSat" value="9.285"/>
+        <par name="XSQ" value="0.391"/>
+        <par name="mQSatIn" value="0.05"/>
+        <par name="XQ" value="2.72"/>
+        <par name="sNTfo" value="1710.0"/>
+        <par name="PN" value="1539.0"/>
+        <par name="IWLMDV" value="3"/>
+        <par name="uNMacTfo" value="20.0"/>
+        <par name="pPuWLMDV" value="1539.0"/>
+        <par name="xTfoIn" value="0.1583"/>
+    </set>
+    <set id="_G0000001_SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="true"/>
+        <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
+        <par name="Saturated" value="true"/>
+        <par name="TX" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.7448638277959367"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="1539.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="5.112"/>
+        <par name="TSD0" value="0.065"/>
+        <par name="XPD" value="0.527"/>
+        <par name="RTfoPu" value="0.0029"/>
+        <par name="TPD0" value="10.041"/>
+        <par name="XTfoPu" value="0.1583"/>
+        <par name="rStatIn" value="0.003275"/>
+        <par name="U1N" value="20.0"/>
+        <par name="md" value="0.05"/>
+        <par name="XPQ" value="0.623"/>
+        <par name="TSQ0" value="0.094"/>
+        <par name="SN" value="1710.0"/>
+        <par name="V1" value="20.0"/>
+        <par name="TPQ0" value="1.22"/>
+        <par name="mq" value="0.05"/>
+        <par name="XSD" value="0.367"/>
+        <par name="snd" value="9.285"/>
+        <par name="XD" value="2.91"/>
+        <par name="U2N" value="405.0"/>
+        <par name="SNtfo" value="1710.0"/>
+        <par name="lStatIn" value="0.265"/>
+        <par name="XSQ" value="0.391"/>
+        <par name="snq" value="9.285"/>
+        <par name="XQ" value="2.72"/>
+        <par name="PN" value="1539.0"/>
+        <par name="IWLMDV" value="3"/>
+    </set>
+    <set id="_G0000001_SM_reg_consig_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1710.0"/>
+        <par name="PN" value="1539.0"/>
+        <par name="PNALT" value="1539.0"/>
+        <ref name="init_PV" dataSource="INIT" sourceName="PV"/>
+        <par name="ZERO" value="0."/>
+    </set>
+    <set id="_G0000001_SM_reg_edftur2c_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1710.0"/>
+        <par name="PN" value="1539.0"/>
+        <par name="PNALT" value="1539.0"/>
+        <ref name="init_DELTAPE" dataSource="INIT" sourceName="DELTAPE"/>
+        <ref name="init_NIVP" dataSource="INIT" sourceName="NIVP"/>
+        <ref name="init_Z" dataSource="INIT" sourceName="Z"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_C" dataSource="INIT" sourceName="C"/>
+        <ref name="init_PVISEE" dataSource="INIT" sourceName="PVISEE"/>
+        <ref name="init_PCONSI" dataSource="INIT" sourceName="PCONSI"/>
+        <ref name="init_OVHP" dataSource="INIT" sourceName="OVHP"/>
+        <ref name="init_B" dataSource="INIT" sourceName="B"/>
+        <par name="PR" value="0.05"/>
+        <par name="TVMP" value="0.2"/>
+        <par name="SAS" value="-0.02"/>
+        <par name="PLIM" value="0.025"/>
+        <par name="SACC" value="0.03968"/>
+        <par name="ALPHA" value="0.34"/>
+        <par name="PMAXSPN" value="1.010000"/>
+        <par name="FHP" value="0."/>
+        <par name="PLM" value=".3500000"/>
+        <par name="VFHP" value=".3500000"/>
+        <par name="RPP" value=".9000000"/>
+        <par name="DELTMP" value="0.025"/>
+        <par name="SCMP" value="1.140000"/>
+        <par name="SRV" value="0.015"/>
+        <par name="CFMP" value=".6500000"/>
+        <par name="LSAT" value="2.600000"/>
+        <par name="RTVP" value="0.015"/>
+        <par name="REGFP" value="1."/>
+        <par name="RTVP2" value="0.03"/>
+        <par name="THP" value="0.25"/>
+        <par name="T60S" value="60."/>
+        <par name="TOHP" value="0.17"/>
+        <par name="RMA" value="0.1"/>
+        <par name="FMP" value="0."/>
+        <par name="DELTHP" value="0.04"/>
+        <par name="TMA" value="0.5"/>
+        <par name="VOHP" value="3."/>
+        <par name="TASP" value="10."/>
+        <par name="TVHP" value="0.2"/>
+        <par name="TF" value="0.085"/>
+        <par name="TH" value="0.13"/>
+        <par name="VOMP" value="2."/>
+        <par name="GAINLVA" value="1.100000"/>
+        <par name="JASP" value="0."/>
+        <par name="TMP" value=".3000000"/>
+        <par name="SSV" value="0.06"/>
+        <par name="TOMP" value="1.270000"/>
+        <par name="TCONS" value="3."/>
+        <par name="VFMP" value=".8000000"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G0000001_SM_reg_rqb_alst_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1710.0"/>
+        <par name="PN" value="1539.0"/>
+        <par name="PNALT" value="1539.0"/>
+        <ref name="init_DU" dataSource="INIT" sourceName="DU"/>
+        <ref name="init_M" dataSource="INIT" sourceName="M"/>
+        <ref name="init_PUISS" dataSource="INIT" sourceName="PUISS"/>
+        <ref name="init_VSINIT" dataSource="INIT" sourceName="VSINIT"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
+        <ref name="init_VCONSI" dataSource="INIT" sourceName="VCONSI"/>
+        <ref name="init_OMEGA" dataSource="INIT" sourceName="OMEGA"/>
+        <ref name="init_EPS" dataSource="INIT" sourceName="EPS"/>
+        <ref name="init_DIFSGA" dataSource="INIT" sourceName="DIFSGA"/>
+        <par name="VFTM" value="4."/>
+        <par name="DELTAS" value="87.84000"/>
+        <par name="DEUXPINU" value="314.1570"/>
+        <par name="PLINP" value="2."/>
+        <par name="SIBV" value="0.006"/>
+        <par name="TOMSL" value="0.04"/>
+        <par name="KI1" value="-16.1400"/>
+        <par name="KI0" value="12.10000"/>
+        <par name="KI3" value="-18."/>
+        <par name="KI2" value="4.670000"/>
+        <par name="KI5" value="32.66000"/>
+        <par name="VFSA" value="5."/>
+        <par name="KI4" value="17."/>
+        <par name="LSAT" value="6."/>
+        <par name="VFNP" value=".9930000"/>
+        <par name="KLUS" value="52.40000"/>
+        <par name="MESU" value="0.02"/>
+        <par name="T4F" value="0.05"/>
+        <par name="KLIR" value="12.70000"/>
+        <par name="UCMIN" value=".9000000"/>
+        <par name="LUS" value="0.12"/>
+        <par name="T4M" value="5."/>
+        <par name="TC" value="0.02"/>
+        <par name="TE" value="0.22"/>
+        <par name="T4MOM" value="1.270000"/>
+        <par name="KDPM" value="0.17"/>
+        <par name="TOMD" value="0.02"/>
+        <par name="VFTM2" value="30."/>
+        <par name="FDV1" value="0.0125"/>
+        <par name="FDV2" value="0.0125"/>
+        <par name="UCMAX" value="1.100000"/>
+        <par name="TQ" value="0.04"/>
+    </set>
+    <set id="_G0000001_SM_reg_tkj_comp_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1710.0"/>
+        <par name="PN" value="1539.0"/>
+        <par name="PNALT" value="1539.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_LA" dataSource="INIT" sourceName="LA"/>
+        <ref name="init_KC" dataSource="INIT" sourceName="KC"/>
+        <ref name="init_PHI" dataSource="INIT" sourceName="PHI"/>
+        <par name="RFE" value="100."/>
+        <par name="RC" value="0.211"/>
+        <par name="SEB" value="5.170000"/>
+        <par name="PLEXM" value="-4."/>
+        <par name="RIN" value="0.25"/>
+        <par name="KDD" value=".4160000"/>
+        <par name="KE" value=".4570000"/>
+        <par name="PLEXP" value="4.600000"/>
+        <par name="TDOEX" value=".4500000"/>
+        <par name="FIEEE" value="0."/>
+        <par name="SEA" value=".6560000"/>
+    </set>
+    <set id="_G0000001_SM_rqb_alst_INITIALIZATION">
+        <par name="PNALT" value="1539.0"/>
+        <par name="VFTM" value="4."/>
+        <par name="DELTAS" value="87.84000"/>
+        <par name="DEUXPINU" value="314.1570"/>
+        <par name="PLINP" value="2."/>
+        <par name="SIBV" value="0.006"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TOMSL" value="0.04"/>
+        <par name="KI1" value="-16.1400"/>
+        <par name="KI0" value="12.10000"/>
+        <par name="KI3" value="-18."/>
+        <par name="KI2" value="4.670000"/>
+        <par name="KI5" value="32.66000"/>
+        <par name="VFSA" value="5."/>
+        <par name="KI4" value="17."/>
+        <par name="LSAT" value="6."/>
+        <par name="VFNP" value=".9930000"/>
+        <par name="SN" value="1710.0"/>
+        <par name="KLUS" value="52.40000"/>
+        <par name="MESU" value="0.02"/>
+        <par name="T4F" value="0.05"/>
+        <par name="KLIR" value="12.70000"/>
+        <par name="UCMIN" value=".9000000"/>
+        <par name="LUS" value="0.12"/>
+        <par name="T4M" value="5."/>
+        <par name="TC" value="0.02"/>
+        <par name="TE" value="0.22"/>
+        <par name="T4MOM" value="1.270000"/>
+        <par name="KDPM" value="0.17"/>
+        <par name="TOMD" value="0.02"/>
+        <par name="VFTM2" value="30."/>
+        <par name="FDV1" value="0.0125"/>
+        <par name="FDV2" value="0.0125"/>
+        <par name="UCMAX" value="1.100000"/>
+        <par name="TQ" value="0.04"/>
+        <par name="PN" value="1539.0"/>
+    </set>
+    <set id="_G0000001_SM_tkj_comp_INITIALIZATION">
+        <par name="PNALT" value="1539.0"/>
+        <par name="KDD" value=".4160000"/>
+        <par name="PLEXP" value="4.600000"/>
+        <par name="TDOEX" value=".4500000"/>
+        <par name="SEA" value=".6560000"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="RFE" value="100."/>
+        <par name="RC" value="0.211"/>
+        <par name="SEB" value="5.170000"/>
+        <par name="PLEXM" value="-4."/>
+        <par name="RIN" value="0.25"/>
+        <par name="KE" value=".4570000"/>
+        <par name="SN" value="1710.0"/>
+        <par name="FIEEE" value="0."/>
+        <par name="PN" value="1539.0"/>
+    </set>
+    <set id="_G0000002_SM_consig_INITIALIZATION">
+        <par name="PNALT" value="1090.0"/>
+        <par name="ZERO" value="0."/>
+        <par name="SN" value="1211.0"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="PN" value="1090.0"/>
+    </set>
+    <set id="_G0000002_SM_edftur2c_INITIALIZATION">
+        <par name="PNALT" value="1090.0"/>
+        <par name="PR" value="0.05"/>
+        <par name="TVMP" value="0.2"/>
+        <par name="SAS" value="-0.02"/>
+        <par name="PLIM" value="0.025"/>
+        <par name="SACC" value="0.039683"/>
+        <par name="ALPHA" value="0.34"/>
+        <par name="PMAXSPN" value="1."/>
+        <par name="SNREF" value="100.0"/>
+        <par name="FHP" value="0."/>
+        <par name="PLM" value=".3500000"/>
+        <par name="VFHP" value=".3500000"/>
+        <par name="RPP" value=".9000000"/>
+        <par name="DELTMP" value="0.025"/>
+        <par name="SCMP" value="1.140000"/>
+        <par name="SRV" value="0.015"/>
+        <par name="CFMP" value=".6500000"/>
+        <par name="LSAT" value="2.600000"/>
+        <par name="RTVP" value="0.015"/>
+        <par name="SN" value="1211.0"/>
+        <par name="REGFP" value="1."/>
+        <par name="RTVP2" value="0.03"/>
+        <par name="THP" value="0.25"/>
+        <par name="T60S" value="60."/>
+        <par name="TOHP" value="0.17"/>
+        <par name="RMA" value="0.1"/>
+        <par name="FMP" value="0."/>
+        <par name="DELTHP" value="0.04"/>
+        <par name="TMA" value="0.5"/>
+        <par name="VOHP" value="3."/>
+        <par name="TASP" value="10."/>
+        <par name="TVHP" value="0.2"/>
+        <par name="TF" value="0.085"/>
+        <par name="TH" value="0.13"/>
+        <par name="VOMP" value="2."/>
+        <par name="GAINLVA" value="1.100000"/>
+        <par name="JASP" value="0."/>
+        <par name="TMP" value=".3000000"/>
+        <par name="SSV" value="0.06"/>
+        <par name="TOMP" value="1.270000"/>
+        <par name="TCONS" value="3."/>
+        <par name="VFMP" value=".8000000"/>
+        <par name="TR" value="5."/>
+        <par name="PN" value="1090.0"/>
+    </set>
+    <set id="_G0000002_SM_ex_stat_INITIALIZATION">
+        <par name="RFE" value="200."/>
+        <par name="PNALT" value="1090.0"/>
+        <par name="TE" value="0.02"/>
+        <par name="PLEXM" value="-1.6"/>
+        <par name="PLEXP" value="3."/>
+        <par name="SN" value="1211.0"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="PN" value="1090.0"/>
+    </set>
+    <set id="_G0000002_SM_gen_pwGeneratorM2S_INITIALIZATION">
+        <par name="PNALT" value="1090.0"/>
+        <par name="p0" value="0.0"/>
+        <par name="omega_0" value="1.0"/>
+        <par name="IENR" value="4"/>
+        <par name="TX" value="0"/>
+        <par name="Saturated" value="true"/>
+        <par name="HIn" value="5.4"/>
+        <par name="TSD0" value="0.08"/>
+        <par name="XPD" value="0.384"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="TPD0" value="8.094"/>
+        <par name="rStatIn" value="0.002796"/>
+        <par name="uNResTfo" value="415.0"/>
+        <par name="XPQ" value="0.393"/>
+        <par name="TSQ0" value="0.084"/>
+        <par name="SN" value="1211.0"/>
+        <par name="TPQ0" value="1.572"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="nDSat" value="6.995"/>
+        <par name="q0" value="0.074815795"/>
+        <par name="mDSatIn" value="0.215"/>
+        <par name="uNomNw" value="380.0"/>
+        <par name="rTfoIn" value="0.0025"/>
+        <par name="XSD" value="0.264"/>
+        <par name="transformerIncluded" value="true"/>
+        <par name="XD" value="2.22"/>
+        <par name="uBMac" value="24.0"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <par name="lStatIn" value="0.202"/>
+        <par name="nQSat" value="6.995"/>
+        <par name="XSQ" value="0.262"/>
+        <par name="mQSatIn" value="0.215"/>
+        <par name="XQ" value="2.22"/>
+        <par name="sNTfo" value="1080.0"/>
+        <par name="PN" value="1090.0"/>
+        <par name="IWLMDV" value="3"/>
+        <par name="uNMacTfo" value="24.0"/>
+        <par name="pPuWLMDV" value="1090.0"/>
+        <par name="xTfoIn" value="0.1362"/>
+    </set>
+    <set id="_G0000002_SM_gen_pwGeneratorM2S_SIMULATION">
+        <par name="SNREF" value="SNREF"/>
+        <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
+        <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
+        <par name="transformerIncluded" value="true"/>
+        <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
+        <par name="Saturated" value="true"/>
+        <par name="TX" value="0"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <par name="WLMDVPu" value="0.6686345878298443"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
+        <ref name="init_id" dataSource="INIT" sourceName="id"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <par name="PNALT" value="1090.0"/>
+        <par name="IENR" value="4"/>
+        <par name="DIn" value="0.0"/>
+        <par name="HIn" value="5.4"/>
+        <par name="TSD0" value="0.08"/>
+        <par name="XPD" value="0.384"/>
+        <par name="RTfoPu" value="0.0025"/>
+        <par name="TPD0" value="8.094"/>
+        <par name="XTfoPu" value="0.1362"/>
+        <par name="rStatIn" value="0.002796"/>
+        <par name="U1N" value="24.0"/>
+        <par name="md" value="0.215"/>
+        <par name="XPQ" value="0.393"/>
+        <par name="TSQ0" value="0.084"/>
+        <par name="SN" value="1211.0"/>
+        <par name="V1" value="24.0"/>
+        <par name="TPQ0" value="1.572"/>
+        <par name="mq" value="0.215"/>
+        <par name="XSD" value="0.264"/>
+        <par name="snd" value="6.995"/>
+        <par name="XD" value="2.22"/>
+        <par name="U2N" value="415.0"/>
+        <par name="SNtfo" value="1080.0"/>
+        <par name="lStatIn" value="0.202"/>
+        <par name="XSQ" value="0.262"/>
+        <par name="snq" value="6.995"/>
+        <par name="XQ" value="2.22"/>
+        <par name="PN" value="1090.0"/>
+        <par name="IWLMDV" value="3"/>
+    </set>
+    <set id="_G0000002_SM_reg_consig_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1211.0"/>
+        <par name="PN" value="1090.0"/>
+        <par name="PNALT" value="1090.0"/>
+        <ref name="init_PV" dataSource="INIT" sourceName="PV"/>
+        <par name="ZERO" value="0."/>
+    </set>
+    <set id="_G0000002_SM_reg_edftur2c_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1211.0"/>
+        <par name="PN" value="1090.0"/>
+        <par name="PNALT" value="1090.0"/>
+        <ref name="init_DELTAPE" dataSource="INIT" sourceName="DELTAPE"/>
+        <ref name="init_NIVP" dataSource="INIT" sourceName="NIVP"/>
+        <ref name="init_Z" dataSource="INIT" sourceName="Z"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
+        <ref name="init_C" dataSource="INIT" sourceName="C"/>
+        <ref name="init_PVISEE" dataSource="INIT" sourceName="PVISEE"/>
+        <ref name="init_PCONSI" dataSource="INIT" sourceName="PCONSI"/>
+        <ref name="init_OVHP" dataSource="INIT" sourceName="OVHP"/>
+        <ref name="init_B" dataSource="INIT" sourceName="B"/>
+        <par name="PR" value="0.05"/>
+        <par name="TVMP" value="0.2"/>
+        <par name="SAS" value="-0.02"/>
+        <par name="PLIM" value="0.025"/>
+        <par name="SACC" value="0.039683"/>
+        <par name="ALPHA" value="0.34"/>
+        <par name="PMAXSPN" value="1."/>
+        <par name="FHP" value="0."/>
+        <par name="PLM" value=".3500000"/>
+        <par name="VFHP" value=".3500000"/>
+        <par name="RPP" value=".9000000"/>
+        <par name="DELTMP" value="0.025"/>
+        <par name="SCMP" value="1.140000"/>
+        <par name="SRV" value="0.015"/>
+        <par name="CFMP" value=".6500000"/>
+        <par name="LSAT" value="2.600000"/>
+        <par name="RTVP" value="0.015"/>
+        <par name="REGFP" value="1."/>
+        <par name="RTVP2" value="0.03"/>
+        <par name="THP" value="0.25"/>
+        <par name="T60S" value="60."/>
+        <par name="TOHP" value="0.17"/>
+        <par name="RMA" value="0.1"/>
+        <par name="FMP" value="0."/>
+        <par name="DELTHP" value="0.04"/>
+        <par name="TMA" value="0.5"/>
+        <par name="VOHP" value="3."/>
+        <par name="TASP" value="10."/>
+        <par name="TVHP" value="0.2"/>
+        <par name="TF" value="0.085"/>
+        <par name="TH" value="0.13"/>
+        <par name="VOMP" value="2."/>
+        <par name="GAINLVA" value="1.100000"/>
+        <par name="JASP" value="0."/>
+        <par name="TMP" value=".3000000"/>
+        <par name="SSV" value="0.06"/>
+        <par name="TOMP" value="1.270000"/>
+        <par name="TCONS" value="3."/>
+        <par name="VFMP" value=".8000000"/>
+        <par name="TR" value="5."/>
+    </set>
+    <set id="_G0000002_SM_reg_ex_stat_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1211.0"/>
+        <par name="PN" value="1090.0"/>
+        <par name="PNALT" value="1090.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
+        <par name="RFE" value="200."/>
+        <par name="TE" value="0.02"/>
+        <par name="PLEXM" value="-1.6"/>
+        <par name="PLEXP" value="3."/>
+    </set>
+    <set id="_G0000002_SM_reg_sep_abb_SIMULATION">
+        <par name="SNREF" value="100.0"/>
+        <par name="SN" value="1211.0"/>
+        <par name="PN" value="1090.0"/>
+        <par name="PNALT" value="1090.0"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
+        <ref name="init_DU" dataSource="INIT" sourceName="DU"/>
+        <ref name="init_PUISS" dataSource="INIT" sourceName="PUISS"/>
+        <ref name="init_VSINIT" dataSource="INIT" sourceName="VSINIT"/>
+        <ref name="init_DIFFI" dataSource="INIT" sourceName="DIFFI"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
+        <ref name="init_VCONSI" dataSource="INIT" sourceName="VCONSI"/>
+        <ref name="init_DIFDELT" dataSource="INIT" sourceName="DIFDELT"/>
+        <ref name="init_DIFSGA" dataSource="INIT" sourceName="DIFSGA"/>
+        <par name="VFTM" value="4."/>
+        <par name="DELTAS" value="88.02000"/>
+        <par name="LIMP" value="0.14"/>
+        <par name="PLINP" value="1.600000"/>
+        <par name="K1" value="8.440000"/>
+        <par name="VFSA" value="5."/>
+        <par name="VFNP" value="1.049000"/>
+        <par name="T1" value="1."/>
+        <par name="MESU" value="0.02"/>
+        <par name="T2" value="2.100000"/>
+        <par name="KJ" value="1.87"/>
+        <par name="T3" value="2."/>
+        <par name="T4" value="4."/>
+        <par name="T5" value="0.066"/>
+        <par name="GI" value="20."/>
+        <par name="T6" value="0.16"/>
+        <par name="KQ" value="0.08"/>
+        <par name="KS" value="3.540000"/>
+        <par name="UCMIN" value="0.94"/>
+        <par name="TMI" value="0.04"/>
+        <par name="TI" value="0.03"/>
+        <par name="VFTM2" value="30."/>
+        <par name="TJ" value="11.40000"/>
+        <par name="FDV1" value="0.0125"/>
+        <par name="FDV2" value="0.0125"/>
+        <par name="UCMAX" value="1.150000"/>
+        <par name="TQ" value="0.04"/>
+        <par name="TS" value="1.5"/>
+    </set>
+    <set id="_G0000002_SM_sep_abb_INITIALIZATION">
+        <par name="PNALT" value="1090.0"/>
+        <par name="VFTM" value="4."/>
+        <par name="DELTAS" value="88.02000"/>
+        <par name="LIMP" value="0.14"/>
+        <par name="PLINP" value="1.600000"/>
+        <par name="K1" value="8.440000"/>
+        <par name="SNREF" value="100.0"/>
+        <par name="VFSA" value="5."/>
+        <par name="VFNP" value="1.049000"/>
+        <par name="SN" value="1211.0"/>
+        <par name="T1" value="1."/>
+        <par name="MESU" value="0.02"/>
+        <par name="T2" value="2.100000"/>
+        <par name="KJ" value="1.87"/>
+        <par name="T3" value="2."/>
+        <par name="T4" value="4."/>
+        <par name="T5" value="0.066"/>
+        <par name="GI" value="20."/>
+        <par name="T6" value="0.16"/>
+        <par name="KQ" value="0.08"/>
+        <par name="KS" value="3.540000"/>
+        <par name="UCMIN" value="0.94"/>
+        <par name="TMI" value="0.04"/>
+        <par name="TI" value="0.03"/>
+        <par name="VFTM2" value="30."/>
+        <par name="TJ" value="11.40000"/>
+        <par name="FDV1" value="0.0125"/>
+        <par name="FDV2" value="0.0125"/>
+        <par name="UCMAX" value="1.150000"/>
+        <par name="TQ" value="0.04"/>
+        <par name="PN" value="1090.0"/>
+        <par name="TS" value="1.5"/>
+    </set>
+</parameters>

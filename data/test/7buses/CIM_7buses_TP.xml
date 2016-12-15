@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"	xmlns:cim="http://iec.ch/TC57/2009/CIM-schema-cim14#">
+<cim:Terminal rdf:about="#_G0000000_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000001_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_G0000001_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000005_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_G0000002_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000006_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_L0000000_EC_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000000_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_L0000001_EC_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000002_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_L0000002_EC_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000003_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_L0000003_EC_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000004_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000000-N0000001-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000001_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000000-N0000001-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000000_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000000-N0000001-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000001_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000000-N0000001-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000000_TN"/>
+</cim:Terminal>
+<cim:TopologicalNode rdf:ID="_N0000000_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000000_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_0"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000000</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:TopologicalNode rdf:ID="_N0000001_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000001_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_1"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000001</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:Terminal rdf:about="#_N0000002-N0000004-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000004_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000002-N0000004-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000002_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000002-N0000004-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000004_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000002-N0000004-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000002_TN"/>
+</cim:Terminal>
+<cim:TopologicalNode rdf:ID="_N0000002_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000002_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_2"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000002</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:Terminal rdf:about="#_N0000003-N0000000-1_TW_EX_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000000_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000003-N0000000-1_TW_OR_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000003_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000003-N0000005-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000005_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000003-N0000005-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000003_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000003-N0000005-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000005_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000003-N0000005-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000003_TN"/>
+</cim:Terminal>
+<cim:TopologicalNode rdf:ID="_N0000003_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000003_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_3"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000003</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:Terminal rdf:about="#_N0000004-N0000001-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000001_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000004-N0000001-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000004_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000004-N0000001-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000001_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000004-N0000001-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000004_TN"/>
+</cim:Terminal>
+<cim:TopologicalNode rdf:ID="_N0000004_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000004_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_4"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000004</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:Terminal rdf:about="#_N0000005-N0000002-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000002_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000005-N0000002-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000005_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000005-N0000002-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000002_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000005-N0000002-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000005_TN"/>
+</cim:Terminal>
+<cim:TopologicalNode rdf:ID="_N0000005_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000005_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_5"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000005</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:Terminal rdf:about="#_N0000006-N0000000-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000000_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000000-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000006_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000000-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000000_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000000-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000006_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000003-1_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000003_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000003-1_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000006_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000003-2_AC_TE_EX">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000003_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_N0000006-N0000003-2_AC_TE_OR">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_N0000006_TN"/>
+</cim:Terminal>
+<cim:TopologicalNode rdf:ID="_N0000006_TN">
+	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_N0000006_VL"/>
+	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
+	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_6"/>
+	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
+	<cim:IdentifiedObject.name>N0000006</cim:IdentifiedObject.name>
+</cim:TopologicalNode>
+<cim:TopologicalIsland rdf:ID="_TI_1">
+	<cim:TopologicalIsland.AngleRef_TopologicalNode rdf:resource="#_N0000001_TN"/>
+</cim:TopologicalIsland>
+</rdf:RDF>

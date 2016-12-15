@@ -183,5 +183,6 @@ equation
   connect(trafo__GEN______GRID_____1_PT.n, bus__GRID_____TN.p) annotation (Line());
 
 // Connecting OTHERS
+annotation (uses(Modelica(version="3.2.1")));
 end case2;
 

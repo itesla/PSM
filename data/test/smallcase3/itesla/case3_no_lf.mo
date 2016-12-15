@@ -115,7 +115,7 @@ model case3
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Controls.PSSE.TG.TGOV1 reg_tgov1__GEN______SM (
+  tgov1 reg_tgov1__GEN______SM (
 	 SNREF = 100.0,
 	 SN = 500.0,
 	 PN = 475.0,

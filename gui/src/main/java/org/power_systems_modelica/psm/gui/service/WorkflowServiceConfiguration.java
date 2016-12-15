@@ -131,8 +131,7 @@ public class WorkflowServiceConfiguration
 		}
 		catch (ConnectionException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 
 		return actions;
@@ -254,7 +253,7 @@ public class WorkflowServiceConfiguration
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 
 		return w;
@@ -306,8 +305,7 @@ public class WorkflowServiceConfiguration
 		}
 		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 
 		return results;
@@ -332,7 +330,7 @@ public class WorkflowServiceConfiguration
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 
 		return cl;

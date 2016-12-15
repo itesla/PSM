@@ -17,10 +17,18 @@ import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.WorkflowNewController;
+import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
+import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.ListViewMatchers;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,27 +43,129 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		
+
 		FXMLLoader loader = null;
 		try {
-			
+
 			MainService mainService = new MainService(null);
-			
+			mainService.setStage(stage);
+
 			// Load cases overview.
 			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/WorkflowNew.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
-			WorkflowNewController controller = loader.getController();
+			controller = loader.getController();
 			controller.setMainService(mainService);
-			
+			controller.setFileChooser(new GuiFileChooserFake("test.properties"));
+
 			Scene scene = new Scene(workflowsOverview);
-	        stage.setScene(scene);
-	        stage.show();
-			
+			stage.setScene(scene);
+			stage.show();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void testSaveLoadDeafultLoadflow() {
+
+		clickOn("#catalogCaseSource").clickOn("Reference cases");
+		clickOn("#caseSource").clickOn("ieee14");
+		clickOn("#loadflowEngine").clickOn("HELMFLOW");
+		clickOn("#addEvents");
+
+		TextField element = lookup("#elementEvent").query();
+		element.setText("_BUS___10_TN");
+		clickOn("#actionEvent").clickOn("BusFault");
+
+		TableView<EventParamGui> tableView = lookup("#parametersView").query();
+		EventParamGui param = tableView.getItems().get(0);
+		param.setValue("0.5");
+		param = tableView.getItems().get(1);
+		param.setValue("0.5");
+		param = tableView.getItems().get(2);
+		param.setValue("0.3");
+		param = tableView.getItems().get(3);
+		param.setValue("0.5");
+		clickOn("#add");
+
+		clickOn("#dsEngine").clickOn("OPENMODELICA");
+
+		interact(new Runnable() {
+
+			@Override
+			public void run() {
+				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
+				ComboBox<Case> caseSource = lookup("#caseSource").query();
+				ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
+				ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+
+				clickOn("#saveButton");
+				clickOn("#cleanButton");
+				clickOn("#loadButton");
+
+				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
+
+				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
+				
+				testDefaultLoadflow();
+			}
+
+		});
+	}
+
+	private void testDefaultLoadflow() {
+
+		ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
+		ComboBox<Case> caseSource = lookup("#caseSource").query();
+		ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
+		ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+
+		interact(new Runnable() {
+
+			@Override
+			public void run() {
+				controller.setDefaultInit();
+				
+				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
+
+				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
+			}
+
+		});
+	}
+
+	@Test
+	public void testSetCase() {
+		
+		Case cs = new Case();
+		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+
+		interact(new Runnable() {
+
+			@Override
+			public void run() {
+				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
+				ComboBox<Case> caseSource = lookup("#caseSource").query();
+				ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
+				ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+
+				controller.setCase(cs);
+				
+				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
+
+				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
+			}
+
+		});
 	}
 	
 	@Test
@@ -70,21 +180,83 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 		assertEquals(catalogs.size(), catalogCaseSource.getItems().size());
 		Catalog catalog = catalogs.stream().filter(c -> c.getName().equals("Reference cases")).findFirst().get();
 		clickOn("#catalogCaseSource").clickOn("Reference cases");
-		//catalogCaseSource.getSelectionModel().select(catalog);
-		assertEquals("Reference cases",catalogCaseSource.getSelectionModel().getSelectedItem().getName());
-		
+		assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+
 		ObservableList<Case> cases = CaseService.getCases(catalog);
 		assertEquals(cases.size(), caseSource.getItems().size());
 		clickOn("#caseSource").clickOn("ieee14");
-		assertEquals("ieee14",caseSource.getSelectionModel().getSelectedItem().getName());
+		assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
+
+		assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
+		assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
+	}
+
+	@Test
+	public void testAddEvent() {
+
+		Event event = new Event();
+		event.setElement("_BUS___10_TN");
+		event.setAction("BusFault");
+		List<EventParamGui> params = new ArrayList();
+		EventParamGui param = new EventParamGui();
+		param.setName("R");
+		param.setUnit("pu");
+		param.setValue("0.5");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("X");
+		param.setUnit("pu");
+		param.setValue("0.5");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("t1");
+		param.setUnit("s");
+		param.setValue("0.3");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("t2");
+		param.setUnit("x");
+		param.setValue("0.5");
+		params.add(param);
+		event.setParams(params);
+
+		clickOn("#catalogCaseSource").clickOn("Reference cases");
+		clickOn("#caseSource").clickOn("ieee14");
+		clickOn("#addEvents");
+
+		TextField element = lookup("#elementEvent").query();
+		element.setText("_BUS___10_TN");
+		clickOn("#actionEvent").clickOn("BusFault");
+
+		TableView<EventParamGui> tableView = lookup("#parametersView").query();
+		param = tableView.getItems().get(0);
+		param.setValue("0.5");
+		param = tableView.getItems().get(1);
+		param.setValue("0.5");
+		param = tableView.getItems().get(2);
+		param.setValue("0.3");
+		param = tableView.getItems().get(3);
+		param.setValue("0.5");
+		clickOn("#add");
+
+		verifyThat("#addedEvents", ListViewMatchers.hasItems(1));
+		ListView<Event> listView = lookup("#addedEvents").query();
+		assertEquals(event.toString(), listView.getItems().get(0).toString());
 		
-		assertEquals("Reference cases",catalogDdrSource.getSelectionModel().getSelectedItem().getName());
-		assertEquals("ieee14_ddr",ddrSource.getSelectionModel().getSelectedItem().getName());
+		clickOn("#addedEvents").clickOn(event.toString());
+		clickOn("#removeEvents");
+		verifyThat("#addedEvents", ListViewMatchers.isEmpty());
 	}
 	
 	@Test
-	public void testAddEvent() {
+	public void testSetWorkflow() throws WorkflowCreationException {
 		
+		Case cs = new Case();
+		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+
+		Ddr ddr = new Ddr();
+		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
+
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
 		event.setAction("BusFault");
@@ -108,29 +280,31 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 		param.setValue("0.5");
 		params.add(param);
 		event.setParams(params);
+		ObservableList<Event> events = FXCollections.observableArrayList();
+		
+		Workflow w = WorkflowServiceConfiguration.createWorkflow(cs, ddr, LoadflowEngine.HELMFLOW, true, events, DsEngine.OPENMODELICA, "5");
 
-		clickOn("#catalogCaseSource").clickOn("Reference cases");
-		clickOn("#caseSource").clickOn("ieee14");
-		clickOn("#addEvents");
-		
-		TextField element = lookup("#elementEvent").query();
-		element.setText("_BUS___10_TN");
-		clickOn("#actionEvent").clickOn("BusFault");
-		
-		
-		TableView<EventParamGui> tableView = lookup("#parametersView").query();
-		param = tableView.getItems().get(0);
-		param.setValue("0.5");
-		param = tableView.getItems().get(1);
-		param.setValue("0.5");
-		param = tableView.getItems().get(2);
-		param.setValue("0.3");
-		param = tableView.getItems().get(3);
-		param.setValue("0.5");
-		clickOn("#add");
-		
-		verifyThat("#addedEvents", ListViewMatchers.hasItems(1));
-		ListView<Event> listView = lookup("#addedEvents").query();
-		assertEquals(event.toString(),listView.getItems().get(0).toString());
+		interact(new Runnable() {
+
+			@Override
+			public void run() {
+				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
+				ComboBox<Case> caseSource = lookup("#caseSource").query();
+				ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
+				ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+				
+				controller.setWorkflow(w);
+
+				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
+
+				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
+				
+				testDefaultLoadflow();
+			}
+		});
 	}
+
+	private WorkflowNewController controller;
 }

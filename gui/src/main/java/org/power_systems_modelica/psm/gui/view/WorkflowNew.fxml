@@ -26,10 +26,10 @@
 					<children>
 						<HBox spacing="10.0" AnchorPane.rightAnchor="0.0">
 							<children>
-								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleLoadWorkflow" styleClass="btn-default" text="Load" />
-								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleSaveWorkflow" styleClass="btn-default" text="Save" />
-								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleCleanWorkflow" styleClass="btn-default" text="Clean" />
-								<Button layoutY="20.0" mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Start" />
+								<Button fx:id="loadButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleLoadWorkflow" styleClass="btn-default" text="Load" />
+								<Button fx:id="saveButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleSaveWorkflow" styleClass="btn-default" text="Save" />
+								<Button fx:id="cleanButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleCleanWorkflow" styleClass="btn-default" text="Clean" />
+								<Button fx:id="startButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Start" />
 							</children>
 							<padding>
 								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />

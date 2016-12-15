@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
@@ -17,7 +18,6 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -111,6 +111,7 @@ public class MainApp extends Application {
 
 			DdrsOverviewController controller = loader.getController();
 			controller.setMainService(mainService);
+			controller.setFileChooser(new GuiFileChooser());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -143,6 +144,7 @@ public class MainApp extends Application {
 
 			WorkflowNewController controller = loader.getController();
 			controller.setMainService(mainService);
+			controller.setFileChooser(new GuiFileChooser());
 			controller.setDefaultInit();
 			if (w != null)
 				controller.setWorkflow(w);
@@ -170,6 +172,8 @@ public class MainApp extends Application {
 
 			WorkflowDetailController controller = loader.getController();
 			controller.setMainService(mainService);
+			controller.setWorkflow(mainService.getWorkflow());
+			controller.setFileChooser(new GuiFileChooser());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -230,6 +234,7 @@ public class MainApp extends Application {
 
 			CompareLoadflowsDetailController controller = loader.getController();
 			controller.setMainService(mainService);
+			controller.setWorkflow(mainService.getCompareLoadflows());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

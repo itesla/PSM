@@ -12,6 +12,7 @@ import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
@@ -113,7 +114,7 @@ public class WorkflowDetailController {
 
 		boolean close = true;
 		try {
-			close = PathUtils.saveAsMoFile(mainService.getMainApp().getPrimaryStage(), location, file, ddrContent);
+			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location, file, ddrContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -202,7 +203,7 @@ public class WorkflowDetailController {
 		}
 	}
 
-	private void addSeries(WorkflowResult results) {
+	public void addSeries(WorkflowResult results) {
 
 		ObservableList<XYChart.Series> displayedVoltageSeries = FXCollections.observableArrayList();
 		ObservableList<XYChart.Series> displayedPhaseSeries = FXCollections.observableArrayList();
@@ -258,8 +259,17 @@ public class WorkflowDetailController {
 	public void setMainService(MainService mainService) {
 		this.mainService = mainService;
 
-		Workflow w = mainService.getWorkflow();
+		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_initial.mo"), LinkOption.NOFOLLOW_LINKS)) {
+			modelicaFileButton.setDisable(false);
+		}
 
+		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_events.mo"), LinkOption.NOFOLLOW_LINKS)) {
+			modelicaEventsFileButton.setDisable(false);
+		}
+	}
+	
+	public void setWorkflow(Workflow w) {
+		
 		createdLabel.setText("" + w.getId());
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 			if (td.getTaskClass().equals(LoadFlowTask.class))
@@ -278,13 +288,10 @@ public class WorkflowDetailController {
 			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 		}
 
-		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_initial.mo"), LinkOption.NOFOLLOW_LINKS)) {
-			modelicaFileButton.setDisable(false);
-		}
+	}
 
-		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_events.mo"), LinkOption.NOFOLLOW_LINKS)) {
-			modelicaEventsFileButton.setDisable(false);
-		}
+	public void setFileChooser(GuiFileChooser fileChooser) {
+		this.fileChooser = fileChooser;
 	}
 
 	@FXML
@@ -342,6 +349,7 @@ public class WorkflowDetailController {
 	private NumberAxis yDsAxis;
 
 	private Map<String, Paint> colors = new HashMap<String, Paint>();
+	private GuiFileChooser fileChooser;
 	private MainService mainService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowDetailController.class);

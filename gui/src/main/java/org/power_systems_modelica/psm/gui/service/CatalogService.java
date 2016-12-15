@@ -28,7 +28,7 @@ public class CatalogService {
                 is.close();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+        	LOG.error(e.getMessage());
         }
 		
         int num = Integer.parseInt(properties.getProperty("catalogs.num"));

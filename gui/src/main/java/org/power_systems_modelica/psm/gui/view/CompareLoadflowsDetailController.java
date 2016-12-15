@@ -77,7 +77,7 @@ public class CompareLoadflowsDetailController {
 		mainService.showCompareLoadflowsView(null);
 	}
 
-	private void addSeries(WorkflowResult workflowResult) {
+	public void addSeries(WorkflowResult workflowResult) {
 
 		ObservableList<XYChart.Series> displayedVoltageSeries = FXCollections.observableArrayList();
 		XYChart.Series<String, Float> voltageSeries = new XYChart.Series<>();
@@ -139,8 +139,10 @@ public class CompareLoadflowsDetailController {
 	public void setMainService(MainService mainService) {
 		this.mainService = mainService;
 
-		Workflow w = mainService.getCompareLoadflows();
-
+	}
+	
+	public void setWorkflow(Workflow w) {
+		
 		createdLabel.setText("" + w.getId());
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {

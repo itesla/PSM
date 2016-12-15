@@ -7,6 +7,7 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 
@@ -145,7 +146,7 @@ public class DdrsOverviewController {
 
 		boolean close = true;
 		try {
-			close = PathUtils.saveAsDdrFile(mainService.getMainApp().getPrimaryStage(), location, file, ddrContent);
+			close = PathUtils.saveAsDdrFile(fileChooser, mainService.getPrimaryStage(), location, file, ddrContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -187,6 +188,10 @@ public class DdrsOverviewController {
 		catalogs.getSelectionModel().selectFirst();
 	}
 
+	public void setFileChooser(GuiFileChooser fileChooser) {
+		this.fileChooser = fileChooser;
+	}
+
 	@FXML
 	private TitledPane fileContentPane;
 	@FXML
@@ -214,5 +219,6 @@ public class DdrsOverviewController {
 	@FXML
 	private TableColumn<Ddr, String> sourceDdrColumn;
 
+	private GuiFileChooser fileChooser;
 	private MainService mainService;
 }

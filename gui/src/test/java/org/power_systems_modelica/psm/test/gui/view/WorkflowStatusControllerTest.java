@@ -19,6 +19,7 @@ import org.power_systems_modelica.psm.test.gui.WorkflowTaskFake;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.testfx.framework.junit.ApplicationTest;
 
+import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

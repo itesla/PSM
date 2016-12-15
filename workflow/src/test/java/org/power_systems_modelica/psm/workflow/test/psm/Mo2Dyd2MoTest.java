@@ -91,7 +91,20 @@ public class Mo2Dyd2MoTest
 				54);
 	}
 
-//	@Test
+//	@Test // FIXME Fixed injections are not exported to the Modelica file.
+	public void rebuildSmallCase1() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"smallcase1",
+				"itesla/case1_no_lf.mo",
+				"itesla/init",
+				"case1_EQ.xml",
+				"smallcase1_ddr",
+				3,
+				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+	}
+	
+	@Test
 	public void rebuildSmallCase2() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -104,7 +117,7 @@ public class Mo2Dyd2MoTest
 				1);
 	}
 	
-//	@Test
+//	@Test // FIXME Fixed injections are not exported to the Modelica file.
 	public void rebuildSmallCase3() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -114,7 +127,33 @@ public class Mo2Dyd2MoTest
 				"case3_EQ.xml",
 				"smallcase3_ddr",
 				3,
-				1);
+				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+	}
+	
+//	@Test //FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
+	public void rebuild7buses() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"7buses",
+				"itesla/CIM_7buses_no_lf.mo",
+				"itesla/init",
+				"CIM_7buses_EQ.xml",
+				"7buses_ddr",
+				7,
+				3);
+	}
+	
+	@Test
+	public void rebuildNordic32() throws WorkflowCreationException, IOException
+	{
+		testRebuildModelica(
+				"Nordic32",
+				"itesla/Nordic32_no_lf.mo",
+				"itesla/init",
+				"Nordic32_EQ.xml",
+				"Nordic32_ddr",
+				52,
+				20);
 	}
 	
 	private void testRebuildModelica(

@@ -25,7 +25,7 @@ public class CaseServiceTest {
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
 		ObservableList<Case> list = CaseService.getCases(catalog);
 		assertNotNull(list);
-		assertEquals(6, list.size());
+		assertEquals(9, list.size());
 	}
 
 	@Test

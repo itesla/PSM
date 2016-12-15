@@ -37,7 +37,7 @@ public class ModelicaBuilderTest
 		XmlUtil.isValidationActive = true;
 	}
 
-//	@Test
+	@Test
 	public void buildIeee14() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -85,7 +85,19 @@ public class ModelicaBuilderTest
 				54);
 	}
 	
-//	@Test
+//	@Test // FIXME Fixed injections are not exported to the Modelica file.
+	public void buildSmallCase1() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"smallcase1",
+				"case1_EQ.xml",
+				"smallcase1/ddr",
+				"itesla/case1_no_lf.mo",
+				3,
+				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+	}
+	
+	@Test
 	public void buildSmallCase2() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -97,7 +109,7 @@ public class ModelicaBuilderTest
 				1);
 	}
 	
-//	@Test
+//	@Test // FIXME Fixed injections are not exported to the Modelica file.
 	public void buildSmallCase3() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -106,9 +118,33 @@ public class ModelicaBuilderTest
 				"smallcase3/ddr",
 				"itesla/case3_no_lf.mo",
 				3,
-				1);
+				2); //There are one generator and one fixed injection but in IIDM both are Generators.
 	}
-
+	
+//	@Test //FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
+	public void build7buses() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"7buses",
+				"CIM_7buses_EQ.xml",
+				"7buses/ddr",
+				"itesla/CIM_7buses_no_lf.mo",
+				7,
+				3);
+	}
+	
+	@Test
+	public void buildNordic32() throws WorkflowCreationException, IOException
+	{
+		testBuild(
+				"Nordic32",
+				"Nordic32_EQ.xml",
+				"Nordic32/ddr",
+				"itesla/Nordic32_no_lf.mo",
+				52,
+				20);
+	}
+	
 	public void testBuild(
 			String foldername,
 			String casename,

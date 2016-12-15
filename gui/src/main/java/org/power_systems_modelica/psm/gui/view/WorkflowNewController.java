@@ -11,6 +11,7 @@ import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -148,7 +149,7 @@ public class WorkflowNewController {
 
 		handleCleanWorkflow();
 		try {
-			Properties workflowProperties = PathUtils.loadWorkflowFile(mainService.getMainApp().getPrimaryStage(),
+			Properties workflowProperties = PathUtils.loadWorkflowFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"));
 			loadWorkflow(workflowProperties);
 		} catch (IOException e) {
@@ -217,7 +218,7 @@ public class WorkflowNewController {
 		try {
 			workflowProperties = Utils.getWorkflowProperties(cs, ddr, le, onlyMainConnectedComponent, events, dse,
 					stopTime);
-			PathUtils.saveWorkflowFile(mainService.getMainApp().getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
+			PathUtils.saveWorkflowFile(fileChooser, mainService.getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -344,6 +345,12 @@ public class WorkflowNewController {
 		loadflowEngine.setItems(mainService.getLoadflowEngines());
 		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
 
+		dsEngine.setItems(mainService.getDsEngines());
+		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+	}
+	
+	public void setFileChooser(GuiFileChooser fileChooser) {
+		this.fileChooser = fileChooser;
 	}
 
 	public void setDefaultInit() {
@@ -391,6 +398,7 @@ public class WorkflowNewController {
 	@FXML
 	private TextField stopTimeText;
 
+	private GuiFileChooser fileChooser;
 	private MainService mainService;
 
 	private static final Boolean MAINCONNECTEDCOMPONENTDEFAULT = new Boolean(true);

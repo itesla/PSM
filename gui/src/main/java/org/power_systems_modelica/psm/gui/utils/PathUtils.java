@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class PathUtils {
@@ -134,16 +133,12 @@ public class PathUtils {
     	return props;
 	}
 	
-	public static Properties loadWorkflowFile(Stage stage, String location) throws IOException{
-		FileChooser fileChooser = new FileChooser();
-		  
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Properties files (*.properties)", "*.properties");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(location));
+	public static Properties loadWorkflowFile(GuiFileChooser fileChooser, Stage stage, String location) throws IOException{
 		
-        //Show save file dialog
-        Properties props = new Properties();
+        //Set extension filter
+		fileChooser.setDetails(location, "Properties files (*.properties)", "*.properties");
+		Properties props = new Properties();
+		
         File selectedFile = fileChooser.showOpenDialog(stage);
         if(selectedFile != null){
         	InputStream is = new FileInputStream(selectedFile);
@@ -154,13 +149,10 @@ public class PathUtils {
         return props;
 	}
 
-	public static void saveWorkflowFile(Stage stage, String location, Properties props) throws IOException{
-		FileChooser fileChooser = new FileChooser();
+	public static void saveWorkflowFile(GuiFileChooser fileChooser, Stage stage, String location, Properties props) throws IOException{
 		  
         //Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Properties files (*.properties)", "*.properties");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(location));
+		fileChooser.setDetails(location, "Properties files (*.properties)", "*.properties");
 		
         //Show save file dialog
         File selectedFile = fileChooser.showSaveDialog(stage);
@@ -179,31 +171,25 @@ public class PathUtils {
         
 	}
 	
-	public static boolean saveAsMoFile(Stage stage, String location, String file, StringBuilder ddrContent) throws IOException{ 
-		FileChooser fileChooser = new FileChooser();
+	public static boolean saveAsMoFile(GuiFileChooser fileChooser, Stage stage, String location, String file, StringBuilder ddrContent) throws IOException{ 
 		  
         //Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Modelica files (*.mo)", "*.mo");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(location));
+		fileChooser.setDetails(location, "Modelica files (*.mo)", "*.mo");
         fileChooser.setInitialFileName(file);
         
         return saveAsFile(fileChooser, stage, ddrContent);
 	}
 
-	public static boolean saveAsDdrFile(Stage stage, String location, String file, StringBuilder ddrContent) throws IOException{ 
-		FileChooser fileChooser = new FileChooser();
+	public static boolean saveAsDdrFile(GuiFileChooser fileChooser, Stage stage, String location, String file, StringBuilder ddrContent) throws IOException{ 
 		  
         //Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DDR files (*.dyd;*.par)", "*.dyd", "*.par");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(location));
+		fileChooser.setDetails(location, "DDR files (*.dyd;*.par)", "*.dyd", "*.par");
         fileChooser.setInitialFileName(file);
         
         return saveAsFile(fileChooser, stage, ddrContent);
 	}
 	
-	private static boolean saveAsFile(FileChooser fileChooser, Stage stage, StringBuilder ddrContent) throws IOException{
+	private static boolean saveAsFile(GuiFileChooser fileChooser, Stage stage, StringBuilder ddrContent) throws IOException{
         
         //Show save file dialog
         File selectedFile = fileChooser.showSaveDialog(stage);
@@ -229,5 +215,4 @@ public class PathUtils {
 			return false;
 		}
 	}
-
 }

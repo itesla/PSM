@@ -150,7 +150,7 @@ public class CaseService {
                 properties.load(is);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOG.error(e.getMessage());
         }
 		return properties;
 	}

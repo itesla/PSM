@@ -22,6 +22,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 
 import eu.itesla_project.iidm.network.Network;
+import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
@@ -32,36 +33,40 @@ import javafx.stage.Stage;
 
 public class MainService {
 
-	public MainService(MainApp mainApp) {
+	public MainService(Application mainApp) {
 		this.mainApp = mainApp;
+	}
+	
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	public void showWorkflowWithCase(Case c) {
-		mainApp.showWorkflowWithCase(this, c);
+		getMainApp().showWorkflowWithCase(this, c);
 	}
 
 	public void showCompareLoadflowsWithCase(Case c) {
-		mainApp.showCompareLoadflowsWithCase(this, c);
+		getMainApp().showCompareLoadflowsWithCase(this, c);
 	}
 
 	public void showCompareLoadflowsView(Workflow w) {
-		mainApp.showCompareLoadflowsView(this, w);
+		getMainApp().showCompareLoadflowsView(this, w);
 	}
 
 	public void showCasesOverview() {
-		mainApp.showCasesOverview(this);
+		getMainApp().showCasesOverview(this);
 	}
 
 	public void showDdrsOverview() {
-		mainApp.showDdrsOverview(this);
+		getMainApp().showDdrsOverview(this);
 	}
 
 	public void showWorkflowView(Workflow w) {
-		mainApp.showWorkflowView(this, w);
+		getMainApp().showWorkflowView(this, w);
 	}
 
 	public void showWorkflowNewView(Workflow w) {
-		mainApp.showWorkflowNewView(this, w);
+		getMainApp().showWorkflowNewView(this, w);
 	}
 
 	public ObservableList getCatalogs(String name) {
@@ -118,8 +123,8 @@ public class MainService {
 
 		try {
 			Workflow w = WorkflowServiceConfiguration.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
-			wTask = TaskService.createTask(w, () -> mainApp.showWorkflowDetailView(this));
-			mainApp.showWorkflowStatusView(this, w, true);
+			wTask = TaskService.createTask(w, () -> getMainApp().showWorkflowDetailView(this));
+			getMainApp().showWorkflowStatusView(this, w, true);
 			TaskService.startTask(wTask);
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
@@ -139,8 +144,8 @@ public class MainService {
 
 		try {
 			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, generatorsReactiveLimits);
-			clTask = TaskService.createTask(w, () -> mainApp.showCompareLoadflowsDetailView(this));
-			mainApp.showWorkflowStatusView(this, w, false);
+			clTask = TaskService.createTask(w, () -> getMainApp().showCompareLoadflowsDetailView(this));
+			getMainApp().showWorkflowStatusView(this, w, false);
 			TaskService.startTask(clTask);
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
@@ -167,14 +172,21 @@ public class MainService {
 	public void resetCompareLoadflowTask() {
 		clTask = null;
 	}
+	
+	public Stage getPrimaryStage() {
+		if (mainApp != null)
+			return getMainApp().getPrimaryStage();
+		
+		return stage;
+	}
 
 	public MainApp getMainApp() {
-		return mainApp;
+		return (MainApp) mainApp;
 	}
 
 	private Task wTask = null;
 	private Task clTask = null;
 	
-	private MainApp mainApp;
-
+	private Application mainApp;
+	private Stage stage;
 }

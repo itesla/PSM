@@ -16,11 +16,9 @@ if [ -d "/Users/zamarrenolm/scratch/RTE_Modelica_tool/code/psm" ]; then
 	export MAVEN_FLAGS="--threads 2C"
 fi
 
-export GUI_TESTS="!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!WorkflowNewControllerTest,!WorkflowDetailControllerTest,!CompareLoadflowNewControllerTest,!CompareLoadflowDetailControllerTest,!WorkflowTest"
-
 mvn ${MAVEN_FLAGS} \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \
-	-Dtest='*,!LoadFlowTest,'${GUI_TESTS} \
+	-Dtest='*,!LoadFlowTest,!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!WorkflowNewControllerTest,!WorkflowDetailControllerTest,!CompareLoadflowNewControllerTest,!CompareLoadflowDetailControllerTest,!WorkflowTest' \
 	-Ditesla.config.dir=${PSM_DATA}/test/cfg \
 	$*

@@ -130,7 +130,7 @@ public class Mo2Dyd2MoTest
 				2); //There are one generator and one fixed injection but in IIDM both are Generators.
 	}
 	
-//	@Test //FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
+	//@Test //FIXME fix differences in ratios of transformers.
 	public void rebuild7buses() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(

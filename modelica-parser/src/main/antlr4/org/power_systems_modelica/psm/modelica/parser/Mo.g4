@@ -129,7 +129,7 @@ argument_name
    ;
 
 argument_value
-   : ( NUMBER | STRING | BOOLEAN | ID )
+   : ( NUMBER | STRING | BOOLEAN | ID | any_array )
    ;
 
 equation_stmt
@@ -191,8 +191,8 @@ annotation_content
    : ( STRING | ID '(' instantiation_argument_list ')' ','? )+
    ;
 
-ALGEBRAIC_SYMBOL:
-   ( '*' | '/' | '+' )
+ALGEBRAIC_SYMBOL
+   : ( '*' | '/' | '+' )
    ;
 
 BOOLEAN
@@ -222,6 +222,16 @@ fragment DOT
  *  ('_'), dots or digits ([0-9]), not beginning with a digit"
  */ ID
    : LETTER ( LETTER | DIGIT | DOT )*
+   ;
+
+any_array : '{' any_array_content '}'
+{
+	System.out.println("LUMA " + $any_array_content.text);
+}
+   ;
+
+any_array_content
+   : ( argument_value ','? )*
    ;
 
 fragment LETTER

@@ -5,16 +5,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class ModelicaSimulationResults
+public class ModelicaSimulationFinalResults
 {
-	public void addResult(String model, String component, String var, Object value)
+	public void addResult(String model, String var, Object value)
 	{
-		results.put(buildKey(model, component, var), value);
+		results.put(buildKey(model, var), value);
 	}
 
-	public Object getValue(String model, String component, String var)
+	public Object getValue(String model, String var)
 	{
-		return results.get(buildKey(model, component, var));
+		return results.get(buildKey(model, var));
 	}
 
 	public Set<Entry<String, Object>> getEntries()
@@ -27,12 +27,10 @@ public class ModelicaSimulationResults
 		results.put(key, value);
 	}
 
-	private static String buildKey(String model, String component, String var)
+	private static String buildKey(String model, String var)
 	{
 		return new StringBuilder()
 				.append(model)
-				.append(KEY_SEPARATOR)
-				.append(component)
 				.append(KEY_SEPARATOR)
 				.append(var)
 				.toString();

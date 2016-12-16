@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.power_systems_modelica.psm.ddr.InitResults2SimInputs.InitResult;
+import org.power_systems_modelica.psm.ddr.InitResults2SimInputs.SimInput;
 import org.power_systems_modelica.psm.ddr.dyd.Association;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
@@ -40,7 +43,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaTricks;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 import org.slf4j.Logger;
@@ -71,7 +74,7 @@ public class DydFilesFromModelica
 		boolean inferringInitializationModels = (modelicaInitPath == null);
 
 		// A way to store some values present in the original Modelica files and use them later as if they were initialization results
-		ModelicaSimulationResults fakeInitializationResults = new ModelicaSimulationResults();
+		ModelicaSimulationFinalResults fakeInitializationResults = new ModelicaSimulationFinalResults();
 
 		// Process all Modelica files
 		// Keep track of the associations created
@@ -123,7 +126,7 @@ public class DydFilesFromModelica
 			boolean inferringInitializationModels,
 			Stage stage,
 			AssociationsDiscoverer associations,
-			ModelicaSimulationResults fakeInitializationResults,
+			ModelicaSimulationFinalResults fakeInitializationResults,
 			Set<Model> addedModels)
 			throws FileNotFoundException, IOException
 	{
@@ -149,7 +152,7 @@ public class DydFilesFromModelica
 			boolean inferringInitializationModels,
 			Stage stage,
 			AssociationsDiscoverer associations,
-			ModelicaSimulationResults fakeInitResults,
+			ModelicaSimulationFinalResults fakeInitResults,
 			Set<Model> addedModels)
 	{
 		for (ModelicaModel m : ms)
@@ -196,7 +199,7 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			Stage stage,
 			AssociationsDiscoverer associations,
-			ModelicaSimulationResults fakeInitResults)
+			ModelicaSimulationFinalResults fakeInitResults)
 	{
 		Model mdef = checkModelDefinitionForType(m, ddr, stage);
 		if (mdef == null)
@@ -227,7 +230,7 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			Stage stage,
 			AssociationsDiscoverer associations,
-			ModelicaSimulationResults fakeInitializationResults)
+			ModelicaSimulationFinalResults fakeInitializationResults)
 	{
 		Association a = associations.findCreateAssociation(m, stage);
 		if (a == null) return null;
@@ -288,7 +291,8 @@ public class DydFilesFromModelica
 		// A new parameter set for this model
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
 		ParameterSet pset = par.newParameterSet();
-		pset.add(buildParameters(stype, d.getArguments()));
+		String staticId = null;
+		pset.add(buildParameters(staticId, stype, d.getId(), d.getArguments()));
 		String componentId = legacyType(stype).concat("_{staticId}");
 		Component mdefc = new Component(componentId, d.getType());
 		mdefc.setParameterSet(pset);
@@ -302,7 +306,7 @@ public class DydFilesFromModelica
 			ModelicaModel mo,
 			Stage stage,
 			DynamicDataRepositoryDydFiles ddr,
-			ModelicaSimulationResults fakeInitializationResults)
+			ModelicaSimulationFinalResults fakeInitializationResults)
 	{
 		String id = mo.getId();
 		String staticId = mo.getStaticId();
@@ -323,8 +327,8 @@ public class DydFilesFromModelica
 		{
 			String idc = d.getId();
 			String idct = idc.replace(staticId, "{staticId}");
-			String name = d.getType();
-			Component mdefc = new Component(idct, name);
+			String type = d.getType();
+			Component mdefc = new Component(idct, type);
 			if (d.getArguments() != null && !d.getArguments().isEmpty())
 			{
 				// The id of the parameter set is a composition of the static id and the component id
@@ -361,7 +365,7 @@ public class DydFilesFromModelica
 			Model mdef,
 			ModelicaModel mo,
 			DynamicDataRepositoryDydFiles ddr,
-			ModelicaSimulationResults fakeInitializationResults)
+			ModelicaSimulationFinalResults fakeInitializationResults)
 	{
 		String staticId = mo.getStaticId();
 		if (staticId == null)
@@ -381,10 +385,9 @@ public class DydFilesFromModelica
 				String did0 = d.getId().replace("_".concat(staticId), "");
 				String psetId = staticId.concat("_").concat(did0).concat("_")
 						.concat(mdef.getStage().name());
-				;
 
 				ParameterSet pset = new ParameterSet(psetId);
-				pset.add(buildParameters(type, d.getArguments()));
+				pset.add(buildParameters(staticId, type, d.getId(), d.getArguments()));
 				par.add(pset);
 
 				// Store values of arguments coming from initialization for later use by fake Modelica engine
@@ -401,7 +404,7 @@ public class DydFilesFromModelica
 			ModelicaModel mo,
 			DynamicDataRepositoryDydFiles ddr,
 			Stage stage,
-			ModelicaSimulationResults fakeInitializationResults)
+			ModelicaSimulationFinalResults fakeInitializationResults)
 	{
 		String id = mo.getId();
 		String staticId = mo.getStaticId();
@@ -420,8 +423,8 @@ public class DydFilesFromModelica
 		for (ModelicaDeclaration d : mo.getDeclarations())
 		{
 			String idc = d.getId();
-			String name = d.getType();
-			Component mdefc = new Component(idc, name);
+			String type = d.getType();
+			Component mdefc = new Component(idc, type);
 			if (d.getArguments() != null && !d.getArguments().isEmpty())
 			{
 				// The id of the parameter set is a composition of the static id and the component id
@@ -457,30 +460,34 @@ public class DydFilesFromModelica
 			String staticId,
 			String componentId,
 			List<ModelicaArgument> arguments,
-			ModelicaSimulationResults fakeInitializationResults)
+			ModelicaSimulationFinalResults fakeInitializationResults)
 	{
 		for (ModelicaArgument a : arguments)
 		{
-			Parameter p = checkInitializationReference(a);
+			Parameter p = checkInitializationReference(staticId, componentId, a);
 			if (p != null)
 			{
+				String var = ((ParameterReference) p).getSourceName();
 				fakeInitializationResults.addResult(
 						staticId,
-						componentId,
-						((ParameterReference) p).getSourceName(),
+						var,
 						a.getValue());
 			}
 		}
 	}
 
-	private static List<Parameter> buildParameters(String stype, List<ModelicaArgument> arguments)
+	private static List<Parameter> buildParameters(
+			String staticId,
+			String stype,
+			String componentId,
+			List<ModelicaArgument> arguments)
 	{
 		List<Parameter> params = new ArrayList<>(arguments.size());
 		for (ModelicaArgument a : arguments)
 		{
 			Parameter p = null;
 
-			p = checkInitializationReference(a);
+			p = checkInitializationReference(staticId, componentId, a);
 			if (p == null) p = checkIidmReference(stype, a);
 			String defaultType = null;
 			String defaultUnit = null;
@@ -491,13 +498,27 @@ public class DydFilesFromModelica
 		return params;
 	}
 
-	private static Parameter checkInitializationReference(ModelicaArgument a)
+	private static Parameter checkInitializationReference(
+			String staticId,
+			String componentId,
+			ModelicaArgument a)
 	{
-		if (a.getName().startsWith("init_"))
+		// Search for a generic mapping that does not contain the "_<staticId>" in the componentId
+		String var = a.getName();
+		String componentId1 = componentId;
+		if (staticId != null) componentId1 = componentId1.replace("_".concat(staticId), "");
+		SimInput simInput = new SimInput(componentId1, var);
+		InitResult initResult = initResults2SimInputs.getInitResultFromSimInput(simInput);
+		if (initResult != null)
 		{
-			String sname = a.getName().replace("init_", "");
+			// Now build a reference to an initialization component that contains the staticId
+			String initResultsReference = String.format("%s_%s.%s",
+					initResult.component,
+					staticId,
+					initResult.var);
+
 			String defaultUnit = null;
-			return new ParameterReference(a.getName(), defaultUnit, "INIT", sname);
+			return new ParameterReference(a.getName(), defaultUnit, "INIT", initResultsReference);
 		}
 		return null;
 	}
@@ -576,11 +597,22 @@ public class DydFilesFromModelica
 		}
 	}
 
-	private static final String	PARAMS_NAME		= "params.par";
-	private static final String	SYSTEM_NAME		= "system";
-	private static final String	MODELS_NAME		= "models";
-	private static final String	FAKE_INIT_NAME	= "fake_init.csv";
+	private static final String					PARAMS_NAME		= "params.par";
+	private static final String					SYSTEM_NAME		= "system";
+	private static final String					MODELS_NAME		= "models";
+	private static final String					FAKE_INIT_NAME	= "fake_init.csv";
 
-	private static final Logger	LOG				= LoggerFactory
+	private static final InitResults2SimInputs	initResults2SimInputs;
+	static
+	{
+		Path refsCsv = Paths.get(System.getenv("PSM_DATA"))
+				.resolve("test")
+				.resolve("dyd_files_from_modelica")
+				.resolve("init_results_to_sim_input")
+				.resolve("refs.csv");
+		initResults2SimInputs = new InitResults2SimInputs(refsCsv);
+	}
+
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DydFilesFromModelica.class);
 }

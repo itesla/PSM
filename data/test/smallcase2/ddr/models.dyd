@@ -1,14 +1,14 @@
 <?xml version="1.0" ?>
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <model id="DM{staticId}" type="Bus">
-        <component name="iPSL.Electrical.Buses.Bus" id="bus_{staticId}">
+        <component type="iPSL.Electrical.Buses.Bus" id="bus_{staticId}">
             <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
             <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
         </component>
         <connector pin="p"/>
     </model>
     <model id="DM{staticId}" type="Line">
-        <component name="iPSL.Electrical.Branches.PwLine_2" id="line_{staticId}">
+        <component type="iPSL.Electrical.Branches.PwLine_2" id="line_{staticId}">
             <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
             <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
             <ref name="G" dataSource="IIDM" sourceName="G1_pu"/>
@@ -18,7 +18,7 @@
         <connector pin="n" target="DYNN:bus2:p"/>
     </model>
     <model id="DM{staticId}" type="Load">
-        <component name="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence" id="load_{staticId}">
+        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence" id="load_{staticId}">
             <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
             <ref name="P_0" dataSource="IIDM" sourceName="P0"/>
             <ref name="Q_0" dataSource="IIDM" sourceName="Q0"/>
@@ -29,7 +29,7 @@
         <connector pin="p" target="DYNN:bus:p"/>
     </model>
     <model id="DM{staticId}" type="Transformer">
-        <component name="iPSL.Electrical.Branches.Eurostag.PwTransformer_2" id="trafo_{staticId}">
+        <component type="iPSL.Electrical.Branches.Eurostag.PwTransformer_2" id="trafo_{staticId}">
             <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
             <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
             <par name="G" value="0.0"/>
@@ -40,10 +40,10 @@
         <connector pin="n" target="DYNN:bus2:p"/>
     </model>
     <model id="DM_{staticId}" association="association0">
-        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_SIMULATION"/>
-        <component name="iPSL.Electrical.Controls.Eurostag.sexs" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs_SIMULATION"/>
-        <component name="tgov1" id="reg_tgov1_{staticId}" parFile="params.par" parId="{staticId}_reg_tgov1_SIMULATION"/>
-        <component name="pss2ab" id="reg_pss2ab_{staticId}" parFile="params.par" parId="{staticId}_reg_pss2ab_SIMULATION"/>
+        <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_SIMULATION"/>
+        <component type="iPSL.Electrical.Controls.Eurostag.sexs" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs_SIMULATION"/>
+        <component type="tgov1" id="reg_tgov1_{staticId}" parFile="params.par" parId="{staticId}_reg_tgov1_SIMULATION"/>
+        <component type="pss2ab" id="reg_pss2ab_{staticId}" parFile="params.par" parId="{staticId}_reg_pss2ab_SIMULATION"/>
         <connector pin="sortie" target="DYNN:bus:p"/>
         <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="reg_sexs_{staticId}" var1="pin_EFD" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_EFD"/>
@@ -56,10 +56,10 @@
         <connection id1="reg_tgov1_{staticId}" var1="pin_OMEGA" id2="reg_pss2ab_{staticId}" var2="pin_OMEGA"/>
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
-        <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_INITIALIZATION"/>
-        <component name="sexs_init" id="sexs_{staticId}" parFile="params.par" parId="{staticId}_sexs_INITIALIZATION"/>
-        <component name="tgov1_init" id="tgov1_{staticId}" parFile="params.par" parId="{staticId}_tgov1_INITIALIZATION"/>
-        <component name="pss2ab_init" id="pss2ab_{staticId}" parFile="params.par" parId="{staticId}_pss2ab_INITIALIZATION"/>
+        <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_INITIALIZATION"/>
+        <component type="sexs_init" id="sexs_{staticId}" parFile="params.par" parId="{staticId}_sexs_INITIALIZATION"/>
+        <component type="tgov1_init" id="tgov1_{staticId}" parFile="params.par" parId="{staticId}_tgov1_INITIALIZATION"/>
+        <component type="pss2ab_init" id="pss2ab_{staticId}" parFile="params.par" parId="{staticId}_pss2ab_INITIALIZATION"/>
         <connector pin="sortie" target="DYNN:bus:p"/>
         <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>

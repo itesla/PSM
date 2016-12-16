@@ -185,7 +185,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		boolean qualifyParameterNames = m.getComponents().size() > 1;
 		List<EventParameter> eventParams = new ArrayList<>(m.getComponents().size() * 5);
 		m.getComponents().forEach(c -> {
-			String cn = c.getName();
+			String ct = c.getType();
 			ParameterSet pset = c.getParameterSet();
 			// Lets say that parameters for events should be define in-line, no external references are allowed
 			if (pset == null) return;
@@ -196,7 +196,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 							.equals(EVENT_PARAMS_DATA_SOURCE))
 					.forEach(p -> {
 						String pn = p.getName();
-						String name = qualifyParameterNames ? cn.concat(pn) : pn;
+						String name = qualifyParameterNames ? ct.concat(pn) : pn;
 						String unit = p.getUnit() != null ? p.getUnit() : "";
 						eventParams.add(new EventParameter(name, unit));
 					});
@@ -228,7 +228,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		List<ModelicaDeclaration> ds = new ArrayList<>();
 		for (Component c : mdef.getComponents())
 		{
-			String type = c.getName();
+			String type = c.getType();
 			String did = dynamicId(c.getId(), element);
 			List<ModelicaArgument> arguments = buildModelicaArguments(c, element);
 			Annotation annotation = null;

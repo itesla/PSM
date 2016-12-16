@@ -15,14 +15,15 @@ public class InitializationReferenceResolver implements ReferenceResolver
 	@Override
 	public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
 	{
-		Object value = results.get(m.getStaticId(), d.getId(), name);
+		// Solve the reference to initialization data "name" in the context of given model and declaration
+		Object value = results.get(m.getStaticId(), name);
 		if (value == null)
 		{
 			String msg = String.format(
-					"Unresolved initialization results reference. staticId = %s, id = %s, name = %s",
+					"Unresolved initialization results reference. staticId = %s, name = %s; inside declaration d = %s",
 					m.getStaticId(),
-					d.getId(),
-					name);
+					name,
+					d.getId());
 			LOG.error(msg);
 			throw new RuntimeException(msg);
 		}

@@ -82,8 +82,8 @@ public class DynamicDataRepositoryTestUtil
 			{
 				Component ce = me.getComponents().get(j);
 				Component ca = ma.getComponents().get(j);
-				System.out.println("        " + ce.getName() + " : " + ce.getId());
-				assertEquals(ce.getName(), ca.getName());
+				System.out.println("        " + ce.getType() + " : " + ce.getId());
+				assertEquals(ce.getType(), ca.getType());
 				assertEquals(ce.getId(), ca.getId());
 			}
 		}

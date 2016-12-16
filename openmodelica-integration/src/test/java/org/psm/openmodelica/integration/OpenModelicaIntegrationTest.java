@@ -14,7 +14,7 @@ import java.util.List;
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class OpenModelicaIntegrationTest {
@@ -114,10 +114,10 @@ public class OpenModelicaIntegrationTest {
 		omEngine.configure(config);
 		omEngine.simulate(moDocsList);
 
-		ModelicaSimulationResults results = omEngine.getSimulationResults();
-		assertTrue(results.getValue("ieee14bus", "simulation", "path") != null);
-		assertTrue(results.getValue("ieee30bus", "simulation", "path") != null);
-		assertTrue(results.getValue("ieee57bus", "simulation", "path") != null);
+		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
+		assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
+		assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
+		assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
 	}
 
 	 @Test
@@ -177,13 +177,13 @@ public class OpenModelicaIntegrationTest {
 		omEngine.configure(config);
 		omEngine.simulate(mo);
 		
-		ModelicaSimulationResults results = omEngine.getSimulationResults();
+		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 		assertTrue(results.getEntries().size() == numOfResults);
 		
 		assertEquals(moName, mo.getSystemModel().getId());
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 		
-		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation", "path");
+		Path omSimPath = (Path) omEngine.getSimulationResults().getValue(mo.getSystemModel().getId(), "simulation_path");
 		assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
 		assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
 		if(config.getBoolean("createFilteredMat")) assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.mat")));

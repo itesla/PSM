@@ -8,12 +8,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map.Entry;
 
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 
 public class ModelicaSimulationResultsCsv
 {
 	// TODO Maybe use a csv library here
-	public static void write(Path f, ModelicaSimulationResults results) throws FileNotFoundException
+	public static void write(Path f, ModelicaSimulationFinalResults results) throws FileNotFoundException
 	{
 		try (PrintWriter out = new PrintWriter(f.toFile());)
 		{
@@ -25,11 +25,11 @@ public class ModelicaSimulationResultsCsv
 		}
 	}
 
-	public static ModelicaSimulationResults read(Path f) throws FileNotFoundException, IOException
+	public static ModelicaSimulationFinalResults read(Path f) throws FileNotFoundException, IOException
 	{
 		try (BufferedReader in = Files.newBufferedReader(f);)
 		{
-			ModelicaSimulationResults results = new ModelicaSimulationResults();
+			ModelicaSimulationFinalResults results = new ModelicaSimulationFinalResults();
 			// Skip the header
 			in.readLine();
 			String line;

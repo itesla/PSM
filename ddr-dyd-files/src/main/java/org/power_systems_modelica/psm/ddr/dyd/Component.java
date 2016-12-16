@@ -2,10 +2,10 @@ package org.power_systems_modelica.psm.ddr.dyd;
 
 public class Component
 {
-	public Component(String id, String name)
+	public Component(String id, String type)
 	{
 		this.id = id;
-		this.name = name;
+		this.type = type;
 	}
 
 	public String getId()
@@ -13,9 +13,9 @@ public class Component
 		return id;
 	}
 
-	public String getName()
+	public String getType()
 	{
-		return name;
+		return type;
 	}
 
 	public void setParameterSet(ParameterSet set)
@@ -41,7 +41,7 @@ public class Component
 	}
 
 	private final String			id;
-	private final String			name;
+	private final String			type;
 	private ParameterSetReference	parameterSetReference;
 	private ParameterSet			parameterSet;
 }

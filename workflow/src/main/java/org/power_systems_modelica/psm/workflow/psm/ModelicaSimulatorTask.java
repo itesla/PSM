@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
 public class ModelicaSimulatorTask extends WorkflowTask
@@ -24,7 +24,6 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		return "Modelica Dynamic Simulation";
 	}
 
-	
 	@Override
 	public void configure(Configuration config)
 	{
@@ -53,9 +52,8 @@ public class ModelicaSimulatorTask extends WorkflowTask
 					"simres",
 					dynSimulationParams.getValue(
 							mo.getSystemModel().getId(),
-							"simulation",
-							"path"));
-//			me.close();
+							"simulation_path"));
+			// me.close();
 
 			succeded();
 
@@ -67,7 +65,7 @@ public class ModelicaSimulatorTask extends WorkflowTask
 	}
 
 	private Configuration				config;
-	private ModelicaSimulationResults	dynSimulationParams;
+	private ModelicaSimulationFinalResults	dynSimulationParams;
 	private String						modelicaEngine;
 	private String						source;
 

@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class FakeModelicaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public ModelicaSimulationResults getSimulationResults()
+	public ModelicaSimulationFinalResults getSimulationResults()
 	{
 		return results;
 	}
@@ -69,7 +69,7 @@ public class FakeModelicaEngine implements ModelicaEngine
 	}
 	
 
-	ModelicaSimulationResults	results;
+	ModelicaSimulationFinalResults	results;
 	Path						workingDir;
 
 	private static final Logger	LOG	= LoggerFactory.getLogger(FakeModelicaEngine.class);

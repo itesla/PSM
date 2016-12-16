@@ -16,8 +16,8 @@ public class ComponentXml
 	public static Component read(XMLStreamReader r)
 	{
 		String id = r.getAttributeValue(null, "id");
-		String name = r.getAttributeValue(null, "name");
-		Component c = new Component(id, name);
+		String type= r.getAttributeValue(null, "type");
+		Component c = new Component(id, type);
 
 		String parFile = r.getAttributeValue(null, "parFile");
 		String parId = r.getAttributeValue(null, "parId");
@@ -37,7 +37,7 @@ public class ComponentXml
 
 		if (isEmptyElement) w.writeEmptyElement(ROOT_ELEMENT_NAME);
 		else w.writeStartElement(ROOT_ELEMENT_NAME);
-		w.writeAttribute("name", c.getName());
+		w.writeAttribute("type", c.getType());
 		if (c.getId() != null) w.writeAttribute("id", c.getId());
 		if (set != null)
 		{

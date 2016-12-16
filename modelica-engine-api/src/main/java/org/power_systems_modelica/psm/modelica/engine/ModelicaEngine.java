@@ -13,7 +13,7 @@ public interface ModelicaEngine
 
 	void simulate(Collection<ModelicaDocument> mos);
 
-	ModelicaSimulationResults getSimulationResults();
+	ModelicaSimulationFinalResults getSimulationResults();
 	
 	void close();
 }

@@ -10,7 +10,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
-import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationResults;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
@@ -39,7 +39,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 				getNetwork());
 		Collection<ModelicaDocument> mos = i.buildModelicaDocuments();
 		modelicaEngine.simulate(mos);
-		ModelicaSimulationResults mor = modelicaEngine.getSimulationResults();
+		ModelicaSimulationFinalResults mor = modelicaEngine.getSimulationResults();
 		InitializationResults results = new InitializationResults(mor);
 		InitializationReferenceResolver ir = new InitializationReferenceResolver(results);
 		registerResolver("INIT", ir);

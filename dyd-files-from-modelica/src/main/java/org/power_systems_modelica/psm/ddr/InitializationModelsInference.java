@@ -53,7 +53,7 @@ public class InitializationModelsInference
 	{
 		ParameterSetContainer par = ddr.getParameterSetContainer(paramSetContainerName);
 
-		Component ci = new Component(c.getId(), c.getName() + "_Init");
+		Component ci = new Component(c.getId(), c.getType() + "_Init");
 		if (c.getParameterSet() != null)
 		{
 			ParameterSet psi = new ParameterSet(c.getParameterSet().getId());

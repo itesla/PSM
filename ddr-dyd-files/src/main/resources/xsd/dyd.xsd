@@ -172,7 +172,7 @@
 	</xs:simpleType>
 	<xs:complexType name="Component">
 		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />
-		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="type" use="required" type="dyd:nonEmptyString" />
 		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
 		<!-- TODO two ways of defining parameters of a component: reference to 
 			parameterSet or explicit list -->

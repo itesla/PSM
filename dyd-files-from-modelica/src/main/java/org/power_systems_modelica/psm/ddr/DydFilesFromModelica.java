@@ -213,7 +213,7 @@ public class DydFilesFromModelica
 			DynamicDataRepositoryDydFiles ddr,
 			Stage stage)
 	{
-		String type = whichType(m);
+		String type = whichStaticType(m);
 		if (type == null) return null;
 
 		Model mdef = ddr.getDynamicModelForStaticType(type, stage);
@@ -259,7 +259,7 @@ public class DydFilesFromModelica
 		return mdef;
 	}
 
-	private static String whichType(ModelicaModel mo)
+	private static String whichStaticType(ModelicaModel mo)
 	{
 		ModelicaDeclaration d = mo.getDeclarations().get(0);
 		String dtype = d.getType();
@@ -270,6 +270,7 @@ public class DydFilesFromModelica
 			LOG.error(message);
 			throw new RuntimeException(message);
 		}
+		stype = ModelicaTricks.checkGeneratorModeledAsFixedInjection(stype, mo);
 		return stype;
 	}
 
@@ -375,7 +376,7 @@ public class DydFilesFromModelica
 			return;
 		}
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
-		String type = whichType(mo);
+		String type = whichStaticType(mo);
 
 		for (ModelicaDeclaration d : mo.getDeclarations())
 		{

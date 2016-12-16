@@ -152,6 +152,16 @@ public class ModelicaTricks
 		return null;
 	}
 
+	public static String checkGeneratorModeledAsFixedInjection(String stype, ModelicaModel mo)
+	{
+		ModelicaDeclaration d = mo.getDeclarations().get(0);
+		if (d.getType().equals("iPSL.Electrical.Loads.Eurostag.PwLoadPQ") &&
+				d.getId().contains("fixinj") &&
+				d.getId().contains("_GEN_"))
+			return "Generator";
+		return stype;
+	}
+
 	public static boolean isSystemConnect(ModelicaConnect eq)
 	{
 		return getKind(eq.getRef1()).equals("system") || getKind(eq.getRef2()).equals("system");
@@ -186,6 +196,7 @@ public class ModelicaTricks
 			"Line",
 			"cap",
 			"Shunt",
+			"fixinj",
 			"gen",
 			"Generator",
 			"reg");
@@ -205,6 +216,8 @@ public class ModelicaTricks
 			"Bus-Shunt",
 			"bus-gen",
 			"Bus-gen",
+			"bus-fixinj",
+			"Bus-fixinj",
 			"bus-trafo",
 			// "trafo-bus" is equivalent to bus-trafo, we have normalized
 			"Bus-Transformer");

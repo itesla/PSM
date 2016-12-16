@@ -91,7 +91,7 @@ public class Mo2Dyd2MoTest
 				54);
 	}
 
-//	@Test // FIXME Fixed injections are not exported to the Modelica file.
+	@Test 
 	public void rebuildSmallCase1() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -117,7 +117,7 @@ public class Mo2Dyd2MoTest
 				1);
 	}
 	
-	@Test // FIXME Fixed injections are not exported to the Modelica file.
+	@Test 
 	public void rebuildSmallCase3() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(

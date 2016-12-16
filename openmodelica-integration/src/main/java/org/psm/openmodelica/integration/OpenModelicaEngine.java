@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.antlr.v4.parse.ANTLRParser.throwsSpec_return;
 import org.apache.commons.io.FileUtils;
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
@@ -110,16 +112,24 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				int i = 0;
 				boolean successful = false;
 				while((successful == false) && (i < METHOD_LIST.length)) {
-					System.out.println("--------------------------- SIMULATING ------------------------------");
+					LOGGER.info("Simulating model {} with integration method {}. Start time = {}s. Stop time = {}s. Number of intervals = {}. Tolerance = {}. Simulation flags = {}.",
+								modelName, METHOD_LIST[i], startTime, stopTime, numOfIntervals, tolerance, simFlags);
+					
 					result = omc.simulate(modelName, startTime, stopTime, numOfIntervals, METHOD_LIST[i], tolerance, this.simFlags);
-					if(result.err != null && !result.err.isEmpty()) {
-						if(result.err.contains("Warning:")) {
-							LOGGER.warn(result.err.replace("\"", ""));
+					if(result != null) {
+						SimulationResult simResult = new SimulationResult(result.res, result.err);
+						if(simResult.getResultFile().isEmpty()) {
+							LOGGER.error("Error simulating model {} with integration method {}. Reason is {}.", modelName, METHOD_LIST[i], simResult.getError());
+							throw new RuntimeException("Error simulating model" + modelName + " with integration method " + METHOD_LIST[i] + ". " + simResult.getError());  
+						} else if(simResult.getError().contains("Warning:")) {
+							LOGGER.warn("Warning simulating model {} with integration method {}: {}.", modelName, METHOD_LIST[i], simResult.getError());
+						} else {
 							successful = true;
 						}
-						else LOGGER.error("Error simulating model " + modelName + ". " + result.err.replace("\"", ""));
+					} else {
+						LOGGER.error("Error simulating model {} with integration method {}.", modelName, METHOD_LIST[i]);
+						throw new RuntimeException("Error simulating model" + modelName + " with integration method " + METHOD_LIST[i] + ".");
 					}
-					else successful = true;
 					i++;
 				}
 				
@@ -150,7 +160,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(omSimulationDir + File.separator + csvResultsFile)))) {
 					writeResults(omc, printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat);
 				} catch (IOException e) {
-				    LOGGER.error("Error printing errors file. {}", e.getMessage());
+				    LOGGER.error("Error printing csv file. {}", e.getMessage());
 				}				
 				endms = Instant.now();
 				long simulationTime = Duration.between(startms, endms).toMillis();
@@ -167,9 +177,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		} catch (Exception e) {
 			LOGGER.error(" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}: {}",
 					workingDir, modelFileName, modelName, startTime, stopTime, numOfIntervalsPerSecond, tolerance, e);
-
 			throw new RuntimeException("openmodelica simulation failed - remote working directory " + workingDir + ", fileName: " + modelFileName + ", problem:" + modelName + ", error message:" + e.getMessage(), e);
-		}
+		} 
 	}
 
 	@Override
@@ -183,11 +192,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	public void close() {
 		if(this.omc != null) {
 			//Delete all the C files created for the simulation
-			try {
-				deleteSimulationFiles();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			deleteSimulationFiles();
 			// The connection to OpenModelica is closed and OpenModelica is terminated
 			omc.stopServer();
 			omc = null;
@@ -289,7 +294,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 		}
 	}
 	
-	private void deleteSimulationFiles() throws IOException {  
+	private void deleteSimulationFiles() {  
 		String[] filter = new String[]{MO_EXTENSION, MAT_EXTENSION, CSV_EXTENSION, LOG_EXTENSION};
 		List<String> filterList = Arrays.asList(filter);
 		
@@ -299,10 +304,14 @@ public class OpenModelicaEngine implements ModelicaEngine {
             return true;
 		};
 		
-		DirectoryStream<Path> dirStream = Files.newDirectoryStream(this.omSimulationDir, filesFilter);
-		for(Path p : dirStream) {
-			boolean deleted = Files.deleteIfExists(p);
-			if(!deleted) LOGGER.error("File {} has not been deleted.", p); 
+		try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(this.omSimulationDir, filesFilter)) {
+			for(Path p : dirStream) {
+				boolean deleted = Files.deleteIfExists(p);
+				if(!deleted) LOGGER.error("File {} has not been deleted.", p); 
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error deleting Modelica simulator engine files.");
+			e.printStackTrace();
 		}
 	}
 	

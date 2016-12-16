@@ -9,8 +9,12 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -75,7 +79,7 @@ public class DymolaEngine implements ModelicaEngine {
             LOGGER.error("Error printing errors file. {}", e.getMessage());
         }
         //TODO pending to read simulation results from csv and put them into ModelicaResults
-        readSimulationResults(outputZipFileName, modelName);
+    	writeResults(outputZipFileName, modelName);
 	}
 	
 	@Override
@@ -90,25 +94,50 @@ public class DymolaEngine implements ModelicaEngine {
 		return results;
 	}
 	
-	private void readSimulationResults(String outputZipFileName, String modelName) {
+	/**
+	 * Read the filtered csv file  written by row and save simulation results in the ModelicaSimulationResults object and in a csv by column.
+	 */
+	private void writeResults(String outputZipFileName, String modelName) {
 		//The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
 		this.results.addResult(modelName, "simulation", "path", this.dymSimulationDir);
 		
 		try (ZipFile zipFile = new ZipFile(Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile())) {
 			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymSimulationDir.toFile());
             
-			String fileName = this.outputDymolaFileName + "_filtered" +  CSV_EXTENSION;
-			try (BufferedReader in = Files.newBufferedReader(Paths.get(dymSimulationDir + File.separator + fileName));)
+			String fileName = this.outputDymolaFileName + "_temp" +  CSV_EXTENSION;
+			try (BufferedReader in = Files.newBufferedReader(Paths.get(dymSimulationDir + File.separator + fileName)))
 			{
-				in.readLine(); //skip the header
 				String line;
+				List<List<String>> data = new ArrayList<List<String>>();
 				while ((line = in.readLine()) != null)
 				{
+					data.add(Arrays.asList(line.split(COMMA)));
+					
 					String device = line.substring(0, line.indexOf(COMMA));
 					String values = line.substring(line.indexOf(COMMA) + 1);
 					double[] variableValues = Stream.of(values.split(COMMA)).mapToDouble(Double::parseDouble).toArray();
-					this.results.addResult(modelName, device.split("\\.")[0], device.split("\\.")[1], variableValues);
+					String component = null, variable = device;
+					if(device.contains(".")) {
+						component = device.split("\\.")[0];
+						variable = device.split("\\.")[1];
+						
+					}
+					LOGGER.info("Adding model = " + modelName + ", component = " + component + ", var = " + variable);
+					this.results.addResult(modelName, component, variable, variableValues);
 				}
+//				String[][] resultData = Arrays.stream(data.toArray()).toArray(String[][]::new);
+				
+//				String[][] resultData = new String[data.size()][];
+//				int i = 0;
+//				for (List<String> l : data) 
+//				  resultData[i++] = l.toArray(new String[l.size()]);
+//				
+//				System.out.println("String[" + resultData.length + "][" + resultData[0].length + "]");
+//				for(int i=0; i<resultData.length;i++) {
+//					for(int j=0; j<resultData[i].length; j++)
+//					System.out.println("Result data : " + resultData[i][j]);
+//				}			
+//				Utils.transpose().apply(trajVarsValues) //TODO
 			}
         } catch (ZipException e) {
 			LOGGER.error("Error unzippping file {}.", outputZipFileName);

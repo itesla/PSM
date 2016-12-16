@@ -166,7 +166,8 @@ public class SimulatorServerImpl implements SimulatorServer {
             																	entry("dslog.txt",resultsFileName+"_dslog.txt"), 
             																	entry(resultsFileName + ".mat",resultsFileName + ".mat"),
             																	entry(resultsFileName + "_filtered.mat",resultsFileName + "_filtered.mat"),
-            																	entry(resultsFileName + "_filtered.csv",resultsFileName + "_filtered.csv")
+            																	entry(resultsFileName + "_filtered.csv",resultsFileName + "_filtered.csv"),
+            																	entry(resultsFileName + "_temp.csv",resultsFileName + "_temp.csv")
             																	);
             prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
             endms = Instant.now();
@@ -240,6 +241,7 @@ public class SimulatorServerImpl implements SimulatorServer {
             
 			String matResultsFile = resultsFileName + MAT_EXTENSION;
 			String csvResultsFile = resultsFileName + "_filtered" + CSV_EXTENSION;
+			String csvResultsTmpFile = resultsFileName + "_temp" + CSV_EXTENSION; //TODO Temporary
             
             int resultSize = dymola.readTrajectorySize(matResultsFile);
             String[] resultNames = dymola.readTrajectoryNames(matResultsFile);
@@ -268,7 +270,9 @@ public class SimulatorServerImpl implements SimulatorServer {
     		}    		
 
             try (PrintStream printStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + csvResultsFile)))) {
-            	writeResults(printStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat, resultsFileName);
+            	try(PrintStream printTempStream = new PrintStream(Files.newOutputStream(Paths.get(workingDirectory + File.separator + csvResultsTmpFile)))) {
+            		writeResults(printStream, printTempStream, matResultsFile, filterResultVariables, resultSize, createFilteredMat, resultsFileName);
+            	}
             } catch (IOException e) {
                 LOGGER.error("Error printing errors file. {}", e.getMessage());
             }
@@ -298,10 +302,40 @@ public class SimulatorServerImpl implements SimulatorServer {
 
     }
     
-	private void writeResults(PrintStream printStream, String matResultsFile, String[] filterResultVariables, int resultSize,
+	private void writeResults(PrintStream printStream, PrintStream printTempStream, String matResultsFile, String[] filterResultVariables, int resultSize,
 			boolean createFitleredMat, String resultsFileName) throws DymolaException {
+		//TODO Pending to write only one CSV by rows and sent it to the client in order
+		//to write results in the ModelicaSimulationResults object and in a CSV by columns.
+		/*		double[][] resultValues = new double[resultSize][filterResultVariables.length];
+				
+		String strLine; // = Stream.of(filterResultVariables).collect(Collectors.joining(",")).toString();
+//		printStream.println(strLine);
+		for(int j=0; j<filterResultVariables.length; j++) 
+		{
+			String[] resVar = new String[1];
+			resVar[0] = filterResultVariables[j];
+			double[][] trajVarsValues;
+			try {
+				strLine = resVar[0];
+				trajVarsValues = dymola.readTrajectory(matResultsFile, resVar, resultSize);
+				
+				if(trajVarsValues != null) {
+					for(int i=0; i<resultSize; i++) {
+						strLine = strLine + "," + trajVarsValues[0][i];
+					}
+					printStream.println(strLine);
+				}
+				else {
+					LOGGER.error("Error getting simulation result variable {} from {}.", resVar, matResultsFile);
+				}
+			} catch (DymolaException e) {
+				LOGGER.error("Error getting simulation result variable {} from {}.", resVar, matResultsFile);
+			}
+		}*/
+				
 		double[][] resultValues = new double[resultSize][filterResultVariables.length];
-		String strLine = Stream.of(filterResultVariables).collect(Collectors.joining(",")).toString() + NEW_LINE;
+		String strLine = Stream.of(filterResultVariables).collect(Collectors.joining(",")).toString();
+		printStream.println(strLine);
 		
 		for(int j=0; j<filterResultVariables.length; j++) 
 		{
@@ -309,12 +343,16 @@ public class SimulatorServerImpl implements SimulatorServer {
 			resVar[0] = filterResultVariables[j];
 			double[][] trajVarsValues;
 			try {
+				strLine = resVar[0];
 				trajVarsValues = dymola.readTrajectory(matResultsFile, resVar, resultSize);
+
 				
 				if(trajVarsValues != null) {
 					for(int i=0; i<resultSize; i++) {
-						resultValues[i][j] = trajVarsValues[0][j];
+						resultValues[i][j] = trajVarsValues[0][i];
+						strLine = strLine + "," + trajVarsValues[0][i];
 					}
+					printTempStream.println(strLine);
 				}
 				else {
 					LOGGER.error("Error getting simulation result variable {} from {}.", resVar, matResultsFile);
@@ -326,12 +364,11 @@ public class SimulatorServerImpl implements SimulatorServer {
 		
 		for (int i = 0; i < resultValues.length; i++) {
 			for (int k = 0; k < resultValues[i].length; k++) {
-				if(k == 0) strLine = strLine + resultValues[i][k];
+				if(k == 0) strLine = String.valueOf(resultValues[i][k]);
 				else strLine = strLine + "," + resultValues[i][k]; 
 			}
-			strLine = strLine + NEW_LINE;
+			printStream.println(strLine);
 		}			
-		printStream.print(strLine);
 		
         //Create a .mat file with filtered variables.
 		if(createFitleredMat) {
@@ -384,7 +421,6 @@ public class SimulatorServerImpl implements SimulatorServer {
     private static final String DYMOLA_LOG_FILENAME = "log.txt";
     private static final int MSGERRLEN = 400;
     
-    private static final String	NEW_LINE = System.getProperty("line.separator").toString();
 	private static final String			MAT_EXTENSION 		= ".mat";
 	private static final String			CSV_EXTENSION 		= ".csv";
 	

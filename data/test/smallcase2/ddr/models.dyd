@@ -42,7 +42,7 @@
     <model id="DM_{staticId}" association="association0">
         <component name="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_SIMULATION"/>
         <component name="iPSL.Electrical.Controls.Eurostag.sexs" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs_SIMULATION"/>
-        <component name="iPSL.Electrical.Controls.PSSE.TG.TGOV1" id="reg_tgov1_{staticId}" parFile="params.par" parId="{staticId}_reg_tgov1_SIMULATION"/>
+        <component name="tgov1" id="reg_tgov1_{staticId}" parFile="params.par" parId="{staticId}_reg_tgov1_SIMULATION"/>
         <component name="pss2ab" id="reg_pss2ab_{staticId}" parFile="params.par" parId="{staticId}_reg_pss2ab_SIMULATION"/>
         <connector pin="sortie" target="DYNN:bus:p"/>
         <connector pin="omegaRef" target="DYNN:system:omegaRef"/>

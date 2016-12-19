@@ -9,7 +9,7 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>openmodelica-integration</artifactId>
-	<name>openmodelica-integration</name>
+	<name>Dynamic simulation using OpenModelica</name>
 
 	<dependencies>
 		<dependency>
@@ -36,7 +36,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- OpenModelica required libraries-->
+		<!-- OpenModelica required libraries -->
 		<dependency>
 			<groupId>org.openmodelica</groupId>
 			<artifactId>modelica_java</artifactId>

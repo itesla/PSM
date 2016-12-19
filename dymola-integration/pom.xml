@@ -9,7 +9,7 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>dymola-integration</artifactId>
-	<name>Dynamic simulation engine implemented using Dymola</name>
+	<name>Dynamic simulation using Dymola</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

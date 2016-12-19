@@ -214,8 +214,8 @@ public class IidmReferenceResolver implements ReferenceResolver
 		{
 			TwoWindingsTransformer tx = (TwoWindingsTransformer) element;
 
-			// FIXME Review code (take into account impedance modification of tap changers) and organize
-			// Compute only data that is needed for answering the value of the queried property
+			// TODO Compute only data that is needed for answering the value of the queried property
+			// TODO These small transformations should be moved to the iPST library
 			float nominalV1 = tx.getTerminal1().getVoltageLevel().getNominalV();
 			float nominalV2 = tx.getTerminal2().getVoltageLevel().getNominalV();
 			if (Float.isNaN(nominalV1)) nominalV1 = 0;
@@ -245,8 +245,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 			if (ptc != null)
 			{
 				PhaseTapChangerStep ptcs = ptc.getCurrentStep();
-				// FIXME Review how Rho for phase tap changer should be used
-				// V1 /= ptcs.getRho();
+				V1 /= ptcs.getRho();
 				dr += ptcs.getR();
 				dx += ptcs.getX();
 				theta = ptcs.getAlpha();

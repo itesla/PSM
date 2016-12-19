@@ -6,11 +6,11 @@ public class SimulationResult
 	{
 		if (simulationResult != null)
 		{
-			String[] linesSimulationResult = simulationResult.split("\n");
+			String[] linesSimulationResult = simulationResult.split(",\n");
 			for (String l : linesSimulationResult)
 			{
 				String l1 = l.trim();
-				if (l1.startsWith("resultFile")) resultFile = getFirstQuotedText(l1);
+				if (l1.startsWith("record")) resultFile = getFirstQuotedText(l1);
 				if (l1.startsWith("simulationOptions")) simulationOptions = getFirstQuotedText(l1);
 				if (l1.startsWith("messages")) messages = getFirstQuotedText(l1);
 			}

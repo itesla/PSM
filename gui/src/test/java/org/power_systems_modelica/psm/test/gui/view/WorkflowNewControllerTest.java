@@ -112,10 +112,10 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
 				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
 				
-				testDefaultLoadflow();
 			}
 
 		});
+		testDefaultLoadflow();
 	}
 
 	private void testDefaultLoadflow() {
@@ -300,8 +300,6 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 
 				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
 				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
-				
-				testDefaultLoadflow();
 			}
 		});
 	}

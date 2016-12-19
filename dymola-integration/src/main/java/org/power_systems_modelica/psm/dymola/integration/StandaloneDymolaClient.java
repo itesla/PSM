@@ -8,8 +8,6 @@ package org.power_systems_modelica.psm.dymola.integration;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Stream;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -46,7 +44,7 @@ public class StandaloneDymolaClient {
         Path pathOut = workingDir.resolve(outputFileName);
         String retCode="";
         RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES,2000);
-        LOG.info(" - invoking remote dymola proxy service");
+        LOGGER.info(" - invoking remote dymola proxy service");
         while (retry.shouldRetry()) {
             try {
                 SimulatorServerImplService service = new SimulatorServerImplService(new URL(wsdlService));
@@ -70,21 +68,21 @@ public class StandaloneDymolaClient {
                 									dhin);
                 
                 StreamingDataHandler sdh = (StreamingDataHandler) dhout;
-                LOG.info(" - remote dymola proxy service ended successfully, retrieving simulation output");
+                LOGGER.info(" - remote dymola proxy service ended successfully, retrieving simulation output");
 
                 sdh.moveTo(pathOut.toFile());
                 sdh.close();
-                LOG.info(" - simulation output retrieved");
+                LOGGER.info(" - simulation output retrieved");
                 break;
             } catch (Exception e) {
                 try {
-                    LOG.warn(" - retry ... ({})", e.getMessage());
+                    LOGGER.warn(" - retry ... ({})", e.getMessage());
                     retry.errorOccured(e);
                 } catch (RuntimeException e1) {
-                    LOG.error(" - remote dymola proxy service ended unsuccessfully", e);
+                    LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
                     retCode = e.toString();
                 } catch (Exception e1) {
-                    LOG.error(" - remote dymola proxy service ended unsuccessfully", e);
+                    LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
 //                    retCode= Throwables.getRootCause(e).toString();
                     retCode = e1.toString();
                 }
@@ -92,6 +90,38 @@ public class StandaloneDymolaClient {
         }
         
         return retCode;
+    }
+
+    
+    protected Boolean closeDymola() {
+    	LOGGER.info("StandAloneClient - we will close the server.");
+    	Boolean serverClosed = false;
+        RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES,2000);
+        LOGGER.info(" - invoking remote dymola proxy service");
+        while (retry.shouldRetry()) {
+            try {
+                SimulatorServerImplService service = new SimulatorServerImplService(new URL(wsdlService));
+                SimulatorServer sport = service.getSimulatorServerImplPort(new MTOMFeature());
+                ((BindingProvider) sport).getRequestContext().put(JAXWSProperties.CONNECT_TIMEOUT, CONNECTION_TIMEOUT);
+                ((BindingProvider) sport).getRequestContext().put("javax.xml.ws.client.connectionTimeout", CONNECTION_TIMEOUT);
+                ((BindingProvider) sport).getRequestContext().put(JAXWSProperties.REQUEST_TIMEOUT, REQUEST_TIMEOUT);
+                ((BindingProvider) sport).getRequestContext().put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
+                serverClosed = sport.close();
+                LOGGER.info(" - server closed.");
+                break;
+            } catch (Exception e) {
+                try {
+                    LOGGER.warn(" - retry ... ({})", e.getMessage());
+                    retry.errorOccured(e);
+                } catch (RuntimeException e1) {
+                    LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
+                } catch (Exception e1) {
+                    LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
+                }
+            }
+        }
+        LOGGER.info("StandAloneClient - has the server been closed? {} ", serverClosed);
+        return serverClosed;
     }
 
 
@@ -119,5 +149,5 @@ public class StandaloneDymolaClient {
     private static final int	TRIES				= 1; // number of soap remote service attempts, before giving up
     private static final int	CONNECTION_TIMEOUT	= 4 * 60 * 60 * 1000 ;// in milliseconds
     private static final int	REQUEST_TIMEOUT		=  4 * 60 * 60 * 1000 ;// in milliseconds
-    private static final Logger LOG					= LoggerFactory.getLogger(StandaloneDymolaClient.class);
+    private static final Logger LOGGER				= LoggerFactory.getLogger(StandaloneDymolaClient.class);
 }

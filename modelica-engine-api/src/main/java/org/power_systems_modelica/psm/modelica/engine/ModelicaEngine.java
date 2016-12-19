@@ -8,12 +8,12 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 public interface ModelicaEngine
 {
 	void configure(Configuration config);
-
+	
 	void simulate(ModelicaDocument mo);
 
 	void simulate(Collection<ModelicaDocument> mos);
 
 	ModelicaSimulationFinalResults getSimulationResults();
 	
-	void close();
+	Boolean close();
 }

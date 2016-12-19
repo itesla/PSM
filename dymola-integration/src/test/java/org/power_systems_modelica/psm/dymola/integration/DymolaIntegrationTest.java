@@ -235,6 +235,7 @@ public class DymolaIntegrationTest
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
 		dymEngine.simulate(mo);
+		Boolean closed = dymEngine.close();
 
 		ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
 		assertTrue(results.getEntries().size() == numOfResults);

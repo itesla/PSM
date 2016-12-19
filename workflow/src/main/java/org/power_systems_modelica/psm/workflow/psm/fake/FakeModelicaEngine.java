@@ -64,8 +64,8 @@ public class FakeModelicaEngine implements ModelicaEngine
 	}
 	
 	@Override
-	public void close() {
-		//
+	public Boolean close() {
+		return true;
 	}
 	
 

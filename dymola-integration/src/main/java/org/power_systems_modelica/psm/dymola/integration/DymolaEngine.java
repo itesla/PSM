@@ -71,7 +71,7 @@ public class DymolaEngine implements ModelicaEngine
 
 		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 
-		StandaloneDymolaClient dymolaClient = new StandaloneDymolaClient(METHOD_LIST,
+		dymolaClient = new StandaloneDymolaClient(METHOD_LIST,
 				numOfIntervals, intervalSize, startTime, stopTime, tolerance, wsdlService,
 				resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
@@ -250,9 +250,11 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public void close()
+	public Boolean close()
 	{
-		// TODO
+		//FIXME Pending to fix a return type error.
+		LOGGER.info("Client - we will close the server.");
+		return dymolaClient.closeDymola();
 	}
 
 	private Path							workingDir;
@@ -273,6 +275,7 @@ public class DymolaEngine implements ModelicaEngine
 	private boolean							createFilteredMat;
 
 	private ModelicaSimulationFinalResults	results			= new ModelicaSimulationFinalResults();
+	private StandaloneDymolaClient			dymolaClient	= null;
 
 	private static final String				DYM_PREFIX		= "dymsimulation_";
 	private static final String				MO_EXTENSION	= ".mo";

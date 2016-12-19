@@ -49,13 +49,7 @@ public class OpenModelicaWrapper extends SmartProxy {
 	 * @throws ConnectException
 	 */
 	public Result loadStandardLibrary() throws ConnectException {
-		Result result = null;
-		if(!systemLibraryLoaded) {
-			result = sendExpression("loadModel(Modelica)");
-			
-			systemLibraryLoaded = true;
-		}
-		return result;
+		return sendExpression("loadModel(Modelica)");
 	}
 
 
@@ -130,7 +124,7 @@ public class OpenModelicaWrapper extends SmartProxy {
 													.append(", tolerance=").append(tolerance)
 													.append(", method=").append(method)
 													.append(", variableFilter=").append(resultVariables.toString())
-													.append(")").toString()); //TODO write resultVariables properly
+													.append(")").toString());
 	}
 	
 	/**
@@ -257,10 +251,10 @@ public class OpenModelicaWrapper extends SmartProxy {
 		String resultVars = null;
 		for(String st : resultVariables) {
 			if(resultVars == null) {
-				resultVars = st; //.substring(1,st.length()-1);
+				resultVars = st;
 			}
 			else {
-				resultVars = resultVars + "," + st; //.substring(1,st.length()-1);
+				resultVars = resultVars + "," + st;
 			}
 		}
 		
@@ -277,7 +271,4 @@ public class OpenModelicaWrapper extends SmartProxy {
 														.append(")")
 														.toString());
 	}
-
-	
-	private boolean	systemLibraryLoaded		= false;
 }

@@ -87,14 +87,6 @@ public class OpenModelicaIntegrationTest {
 		config.setParameter("createFilteredMat", "false");
 		
 		testBuild(config, "Nordic32", "Nordic32.mo", 106);
-		
-		/*OpenModelicaEngine omEngine = new OpenModelicaEngine();
-		omEngine.configure(config);
-		omEngine.simulate(mo);
-		
-		ModelicaSimulationResults results = omEngine.getSimulationResults();
-		System.out.println(results.getEntries().size());
-		as2sertTrue(results.getValue("Nordic32", "simulation", "path") != null);*/
 	}
 
 	@Test
@@ -113,6 +105,7 @@ public class OpenModelicaIntegrationTest {
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(moDocsList);
+		omEngine.close();
 
 		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 		assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
@@ -176,6 +169,7 @@ public class OpenModelicaIntegrationTest {
 		OpenModelicaEngine omEngine = new OpenModelicaEngine();
 		omEngine.configure(config);
 		omEngine.simulate(mo);
+		omEngine.close();
 		
 		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 		assertTrue(results.getEntries().size() == numOfResults);

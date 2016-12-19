@@ -36,7 +36,6 @@ import java.util.zip.ZipFile;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.jws.WebService;
-import javax.management.RuntimeErrorException;
 import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.MTOM;
@@ -104,6 +103,27 @@ public class SimulatorServerImpl implements SimulatorServer {
         }
     }
 
+    public Boolean close() {
+        LOGGER.info("Closing Dymola server.");
+    	try {
+	        // The connection to Dymola is closed and Dymola is terminated
+	        if (dymola != null) {
+	            dymola.exit();
+	        }
+	        dymola = null;
+	        //release this port number to the pool
+	        if (port != -1) {
+	            portPool.putItem(port);
+	        }
+	        LOGGER.info("Dymola server closed.");
+	        return true;
+    	} catch(Exception e) {
+    		LOGGER.error("Dymola server closed unsuccessfuly");
+    		LOGGER.info("Dymola server NOT closed.");
+    		return false;
+    	}
+    }
+    
     protected void prepareOutputFile(Path workingDir, Map<String,String> fileNamesMap, Path outFile) throws IOException, URISyntaxException {
         Map<String, String> zip_properties = new HashMap<>();
         zip_properties.put("create", "true");
@@ -201,9 +221,6 @@ public class SimulatorServerImpl implements SimulatorServer {
     		double startTime, double stopTime, int numberOfIntervals, double outputInterval, 
     		double tolerance, String[] methodList, String resultsFileName, String resultVariables,
     		boolean createFilteredMat) throws DymolaException {
-    	
-        try {
-        	if(dymola == null) dymola = DymolaWrapper.getInstance(true, port);
         	
             boolean result = false;
             result= dymola.clear(false);
@@ -237,8 +254,7 @@ public class SimulatorServerImpl implements SimulatorServer {
 
             if (!result) {
             	throw new RuntimeException("simulateModel: " + dymola.getLastError());
-            }   
-            
+            }
 			String matResultsFile = resultsFileName + MAT_EXTENSION;
 			String csvResultsFile = resultsFileName + "_filtered" + CSV_EXTENSION;
 			String csvResultsTmpFile = resultsFileName + "_temp" + CSV_EXTENSION; //TODO Temporary
@@ -288,18 +304,6 @@ public class SimulatorServerImpl implements SimulatorServer {
             }
 
             LOGGER.error("   END {} - portnumber: {} - ThreadID: {} - @Dymolainst: {} - @SimulatorServerImpl {} ", workingDirectory, ((DymolaWrapper) dymola).portnumber, Thread.currentThread().getId(), dymola.hashCode(), this.hashCode());
-        } finally {
-            // The connection to Dymola is closed and Dymola is terminated
-            if (dymola != null) {
-                dymola.exit();
-            }
-            dymola = null;
-            //release this port number to the pool
-            if (port != -1) {
-                portPool.putItem(port);
-            }
-        }
-
     }
     
 	private void writeResults(PrintStream printStream, PrintStream printTempStream, String matResultsFile, String[] filterResultVariables, int resultSize,

@@ -17,7 +17,8 @@
 	</wsp:Policy>
 	<types>
 		<xsd:complexType name='stringList'>
-			<xsd:element minOccurs='0' maxOccurs='unbounded' name='stringListName' type='xsd:string' />
+			<xsd:element minOccurs='0' maxOccurs='unbounded' name='stringListName'
+				type='xsd:string' />
 		</xsd:complexType>
 	</types>
 	<message name="simulate">
@@ -37,6 +38,11 @@
 	<message name="simulateResponse">
 		<part name="return" type="xsd:base64Binary"></part>
 	</message>
+	<message name="close">
+	</message>
+	<message name="closeResponse">
+		<part name="return" type="xsd:boolean"></part>
+	</message>
 	<portType name="SimulatorServer">
 		<operation name="simulate"
 			parameterOrder="arg0 arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 arg11">
@@ -47,12 +53,31 @@
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateResponse"
 				message="tns:simulateResponse"></output>
 		</operation>
+		<operation name="close" parameterOrder="" >
+			<input
+				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/closeRequest"
+				message="tns:close"></input>
+			<output
+				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/closeResponse"
+				message="tns:closeResponse"></output>
+		</operation>
 	</portType>
 	<binding name="SimulatorServerImplPortBinding" type="tns:SimulatorServer">
 		<wsp:PolicyReference URI="#SimulatorServerImplPortBinding_MTOM_Policy"></wsp:PolicyReference>
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
 			style="rpc"></soap:binding>
 		<operation name="simulate">
+			<soap:operation soapAction=""></soap:operation>
+			<input>
+				<soap:body use="literal"
+					namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
+			</input>
+			<output>
+				<soap:body use="literal"
+					namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
+			</output>
+		</operation>
+		<operation name="close">
 			<soap:operation soapAction=""></soap:operation>
 			<input>
 				<soap:body use="literal"

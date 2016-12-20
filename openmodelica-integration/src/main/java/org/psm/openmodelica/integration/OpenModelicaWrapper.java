@@ -8,9 +8,9 @@ import org.openmodelica.corba.SmartProxy;
 
 public class OpenModelicaWrapper extends SmartProxy {
 	//FIXME increase timeout
-	//Flag --maxMixedDeterminedIndex Sets the maximum mixed-determined index that is handled by the initialization.
+
 	public OpenModelicaWrapper(String corbaSessionName) {
-		super(corbaSessionName, "Modelica --maxMixedDeterminedIndex=1000", true, false);
+		super(corbaSessionName);
 	}
 	
 	/**

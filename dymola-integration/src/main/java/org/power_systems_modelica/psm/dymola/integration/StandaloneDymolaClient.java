@@ -93,11 +93,9 @@ public class StandaloneDymolaClient {
     }
 
     
-    protected Boolean closeDymola() {
-    	LOGGER.info("StandAloneClient - we will close the server.");
-    	Boolean serverClosed = false;
+    protected void closeDymola() {
         RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES,2000);
-        LOGGER.info(" - invoking remote dymola proxy service");
+        LOGGER.info(" - closing remote dymola server");
         while (retry.shouldRetry()) {
             try {
                 SimulatorServerImplService service = new SimulatorServerImplService(new URL(wsdlService));
@@ -106,22 +104,19 @@ public class StandaloneDymolaClient {
                 ((BindingProvider) sport).getRequestContext().put("javax.xml.ws.client.connectionTimeout", CONNECTION_TIMEOUT);
                 ((BindingProvider) sport).getRequestContext().put(JAXWSProperties.REQUEST_TIMEOUT, REQUEST_TIMEOUT);
                 ((BindingProvider) sport).getRequestContext().put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
-                serverClosed = sport.close();
-                LOGGER.info(" - server closed.");
+                sport.close();
                 break;
             } catch (Exception e) {
                 try {
                     LOGGER.warn(" - retry ... ({})", e.getMessage());
                     retry.errorOccured(e);
                 } catch (RuntimeException e1) {
-                    LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
+                    LOGGER.error(" - remote dymola server closed unsuccessfully", e);
                 } catch (Exception e1) {
-                    LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
+                    LOGGER.error(" - remote dymola server closed unsuccessfully", e);
                 }
             }
         }
-        LOGGER.info("StandAloneClient - has the server been closed? {} ", serverClosed);
-        return serverClosed;
     }
 
 

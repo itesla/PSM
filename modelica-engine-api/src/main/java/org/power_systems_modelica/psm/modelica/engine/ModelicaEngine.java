@@ -15,5 +15,5 @@ public interface ModelicaEngine
 
 	ModelicaSimulationFinalResults getSimulationResults();
 	
-	Boolean close();
+	void close();
 }

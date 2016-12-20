@@ -38,11 +38,8 @@
 	<message name="simulateResponse">
 		<part name="return" type="xsd:base64Binary"></part>
 	</message>
-	<message name="close">
-	</message>
-	<message name="closeResponse">
-		<part name="return" type="xsd:boolean"></part>
-	</message>
+	<message name="close" />
+	<message name="closeResponse" />
 	<portType name="SimulatorServer">
 		<operation name="simulate"
 			parameterOrder="arg0 arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 arg11">
@@ -53,7 +50,7 @@
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateResponse"
 				message="tns:simulateResponse"></output>
 		</operation>
-		<operation name="close" parameterOrder="" >
+		<operation name="close">
 			<input
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/closeRequest"
 				message="tns:close"></input>

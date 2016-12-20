@@ -72,9 +72,8 @@ public interface SimulatorServer {
         @WebParam(name = "arg11", partName = "arg11")
         DataHandler arg11)
     	;
-
+    
     @WebMethod
-    @WebResult(partName = "return")
     @Action(input = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/closeRequest", output = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/closeResponse")
-	public Boolean close();
+	public void close();
 }

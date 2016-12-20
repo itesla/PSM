@@ -206,7 +206,7 @@ public class OpenModelicaEngine implements ModelicaEngine {
 	}
 
 	@Override
-	public Boolean close() {
+	public void close() {
 		try {
 			if (this.omc != null) {
 				// The connection to OpenModelica is closed and OpenModelica is
@@ -214,10 +214,8 @@ public class OpenModelicaEngine implements ModelicaEngine {
 				omc.stopServer();
 				omc = null;
 			}
-			return true;
 		} catch(Exception e) {
 			LOGGER.error("OpenModelica server has not been closed successfuly.");
-			return false;
 		}
 	}
 

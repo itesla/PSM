@@ -250,11 +250,10 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public Boolean close()
+	public void close()
 	{
-		//FIXME Pending to fix a return type error.
-		LOGGER.info("Client - we will close the server.");
-		return dymolaClient.closeDymola();
+		LOGGER.info("Closing Dymola server.");
+		dymolaClient.closeDymola();
 	}
 
 	private Path							workingDir;

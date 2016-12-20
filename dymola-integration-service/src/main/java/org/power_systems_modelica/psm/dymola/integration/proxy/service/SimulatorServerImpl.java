@@ -103,7 +103,8 @@ public class SimulatorServerImpl implements SimulatorServer {
         }
     }
 
-    public Boolean close() {
+    public 
+    void close() {
         LOGGER.info("Closing Dymola server.");
     	try {
 	        // The connection to Dymola is closed and Dymola is terminated
@@ -116,11 +117,8 @@ public class SimulatorServerImpl implements SimulatorServer {
 	            portPool.putItem(port);
 	        }
 	        LOGGER.info("Dymola server closed.");
-	        return true;
     	} catch(Exception e) {
     		LOGGER.error("Dymola server closed unsuccessfuly");
-    		LOGGER.info("Dymola server NOT closed.");
-    		return false;
     	}
     }
     

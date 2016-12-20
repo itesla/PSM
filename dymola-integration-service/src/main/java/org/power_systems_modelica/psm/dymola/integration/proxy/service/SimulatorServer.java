@@ -35,5 +35,5 @@ public interface SimulatorServer {
 																	@XmlMimeType("application/octet-stream") DataHandler data);
     
     @WebMethod
-    Boolean close();
+    void close();
 }

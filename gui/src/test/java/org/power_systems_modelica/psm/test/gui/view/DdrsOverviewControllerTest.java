@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.MainApp;
@@ -18,11 +19,16 @@ import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.testfx.framework.junit.ApplicationTest;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class DdrsOverviewControllerTest extends ApplicationTest {
@@ -48,6 +54,20 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 			Scene scene = new Scene(workflowsOverview);
 			stage.setScene(scene);
 			stage.show();
+			latch.countDown();
+
+			CodeEditor codeEditor = lookup("#codeEditor").query();
+			WebView webView = codeEditor.getWebView();
+			webView.getEngine().getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
+
+				@Override
+				public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+					if (newValue == Worker.State.SUCCEEDED) {
+						latch2.countDown();
+					}
+				}
+				
+			});
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,7 +75,9 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testContentDdrs() {
+	public void testContentDdrs() throws InterruptedException {
+
+		latch.await();
 
 		Catalog catalog = new Catalog();
 		catalog.setName("Reference cases");
@@ -71,14 +93,21 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testFileContent() {
+	public void testFileContent() throws InterruptedException {
 
+		latch.await();
+		
 		Catalog catalog = new Catalog();
 		catalog.setName("Reference cases");
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
 
 		clickOn("#catalogs").clickOn("Reference cases");
-		clickOn("#ddrs").clickOn("ieee14_ddr", MouseButton.SECONDARY).clickOn("models.dyd");
+		clickOn("#ddrs").clickOn("ieee14_ddr", MouseButton.SECONDARY);
+		lookup("#codeEditor").query().setVisible(true);
+		lookup("#fileContentPane").query().setVisible(true);
+		clickOn("models.dyd");
+		latch2.await();
+		
 		interact(new Runnable() {
 
 			@Override
@@ -99,30 +128,35 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 
 				ddrContent.setLength(0);
 				ddrContent.append("Added new line to test editor");
+				latch2 = new CountDownLatch(1);
 				codeEditor.setCode(ddrContent);
 				codeEditor.setEditingFile(System.getProperty("user.home"), "models.dyd");
-				clickOn("#saveAsEditor");
-				clickOn("#closeEditor");
-
-				interact(new Runnable() {
-
-					@Override
-					public void run() {
-						StringBuilder ddrContent = null;
-						try {
-							ddrContent = PathUtils.loadFile(System.getProperty("user.home"), "models.dyd");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						assertNotNull(ddrContent);
+			}
+		});
 		
-						assertEquals("Added new line to test editor\n", ddrContent.toString());
-					}
-				});
+		latch2.await();
+		clickOn("#saveAsEditor");
+		//clickOn("#closeEditor");
+		
+		interact(new Runnable() {
+
+			@Override
+			public void run() {
+				StringBuilder ddrContent = null;
+				try {
+					ddrContent = PathUtils.loadFile(System.getProperty("user.home"), "models.dyd");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				assertNotNull(ddrContent);
+
+				assertEquals("Added new line to test editor\n", ddrContent.toString());
 			}
 		});
 	}
 
+	private final CountDownLatch latch = new CountDownLatch(1);
+	private CountDownLatch latch2 = new CountDownLatch(1);
 	private DdrsOverviewController controller;
 }

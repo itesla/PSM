@@ -1,7 +1,5 @@
 package org.power_systems_modelica.psm.gui.utils;
 
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 
@@ -48,7 +46,7 @@ public class CodeEditor extends StackPane {
 		this.editingCode.append((String) webView.getEngine().executeScript("editor.getValue();"));
 		return editingCode;
 	}
-
+	
 	/** revert edits of the code to the last edit snapshot taken. */
 	public void revertEdits() {
 		setCode(editingCode);
@@ -65,6 +63,10 @@ public class CodeEditor extends StackPane {
 
 	public String getEditingFile() {
 		return editingFile;
+	}
+	
+	public WebView getWebView() {
+		return webView;
 	}
 
 	/**

@@ -45764,7 +45764,7 @@ P Control"),        Text(
 
       partial model pfComponent
         "Partial model containing all the Data for entering Power Flow data"
-        outer iPSL.Electrical.SystemBase SysData
+        inner iPSL.Electrical.SystemBase SysData
           "Must add this line in all models";
         parameter Real V_b=400 "Base voltage of the bus (kV)" annotation (Dialog(group="Power flow data"));
         parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
@@ -46274,7 +46274,8 @@ Gate")}), Documentation(revisions="<html>
       block SimpleLag "First order lag transfer function block"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
         import Modelica.Blocks.Types.Init;
-        Real state(start=y_start);
+        //Real state(start=y_start);
+		Real state;
         parameter Real K "Gain";
         parameter Modelica.SIunits.Time T "Lag time constant";
         parameter Real y_start "Output start value";

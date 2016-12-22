@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.power_systems_modelica.psm.modelica.engine.Stage;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
 public class DymolaIntegrationTest
@@ -148,18 +149,18 @@ public class DymolaIntegrationTest
 		omEngine.simulate(moDocsList);
 
 		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
-		assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
+		assertTrue(results.getValue(Stage.SIMULATION, "ieee14bus", "simulation_path") != null);
 		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee14bus", "simulation_path"));
-		assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
+				+ results.getValue(Stage.SIMULATION, "ieee14bus", "simulation_path"));
+		assertTrue(results.getValue(Stage.SIMULATION, "ieee30bus", "simulation_path") != null);
 		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee30bus", "simulation_path"));
-		assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
+				+ results.getValue(Stage.SIMULATION, "ieee30bus", "simulation_path"));
+		assertTrue(results.getValue(Stage.SIMULATION, "ieee57bus", "simulation_path") != null);
 		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee57bus", "simulation_path"));
-		assertTrue(results.getValue("ieee118bus", "simulation_path") != null);
+				+ results.getValue(Stage.SIMULATION, "ieee57bus", "simulation_path"));
+		assertTrue(results.getValue(Stage.SIMULATION, "ieee118bus", "simulation_path") != null);
 		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee118bus", "simulation_path"));
+				+ results.getValue(Stage.SIMULATION, "ieee118bus", "simulation_path"));
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -234,6 +235,7 @@ public class DymolaIntegrationTest
 
 		DymolaEngine dymEngine = new DymolaEngine();
 		dymEngine.configure(config);
+		dymEngine.validate(mo, 2);
 		dymEngine.simulate(mo);
 		dymEngine.close();
 
@@ -244,7 +246,7 @@ public class DymolaIntegrationTest
 		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 
 		Path dymSimPath = (Path) dymEngine.getSimulationResults()
-				.getValue(mo.getSystemModel().getId(), "simulation_path");
+				.getValue(Stage.SIMULATION, mo.getSystemModel().getId(), "simulation_path");
 		assertTrue(Files.exists(dymSimPath.resolve(moName + "_res.mat")));
 		assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.csv")));
 		if (config.getBoolean("createFilteredMat"))

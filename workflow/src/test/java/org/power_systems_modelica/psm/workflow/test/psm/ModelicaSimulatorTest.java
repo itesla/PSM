@@ -105,7 +105,7 @@ public class ModelicaSimulatorTest
 			String libFolderName,
 			String modelicaEngine,
 			String resultVariables,
-			String webService) throws WorkflowCreationException, IOException
+			String webServicem) throws WorkflowCreationException, IOException
 	{
 		Path folder = TEST_SAMPLES.resolve(folderName);
 		Path modelicaEngineWorkingDir = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
@@ -132,7 +132,7 @@ public class ModelicaSimulatorTest
 		Path simPath = (Path) wf.getResults("simres");
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
 		String moName = mo.getSystemModel().getId();
-		assertTrue(Files.exists(simPath.resolve(moName + "_res.csv")));
+		assertTrue(Files.exists(simPath.resolve(moName + "_res_filtered.csv")));
 		assertTrue(Files.exists(simPath.resolve(moName + "_res.mat")));
 	}
 

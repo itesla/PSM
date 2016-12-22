@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.ddr;
 
 import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -470,6 +471,7 @@ public class DydFilesFromModelica
 			{
 				String var = ((ParameterReference) p).getSourceName();
 				fakeInitializationResults.addResult(
+						org.power_systems_modelica.psm.modelica.engine.Stage.SIMULATION,
 						staticId,
 						var,
 						a.getValue());

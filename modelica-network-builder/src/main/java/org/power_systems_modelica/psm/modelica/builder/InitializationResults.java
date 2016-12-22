@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.power_systems_modelica.psm.modelica.engine.Stage;
 
 public class InitializationResults
 {
@@ -19,7 +20,7 @@ public class InitializationResults
 					name);
 			throw new RuntimeException(msg);
 		}
-		return results.getValue(staticId, name);
+		return results.getValue(Stage.SIMULATION, staticId, name);
 	}
 
 	private final ModelicaSimulationFinalResults results;

@@ -19,21 +19,39 @@ import javax.xml.bind.annotation.XmlMimeType;
  */
 @WebService
 @SOAPBinding(style = Style.RPC) // more on this later
-public interface SimulatorServer {
-    @WebMethod
-    @XmlMimeType("application/octet-stream") DataHandler simulate(String inputFileName, 
-																	String problem, 
-																	double startTime, 
-																	double stopTime, 
-																	int numberOfIntervals, 
-																	double outputInterval, 
-																	double tolerance,
-																	String[] methodList,
-																	String resultsFileName, 
-																	String resultsVars,
-																	boolean createFilteredMat,
-																	@XmlMimeType("application/octet-stream") DataHandler data);
-    
-    @WebMethod
-    void close();
+public interface SimulatorServer
+{
+	@WebMethod
+	@XmlMimeType("application/octet-stream")
+	DataHandler validate(
+			 String inputFileName,
+			 String problem,
+			 double startTime,
+			 double stopTime,
+			 int numberOfIntervals,
+			 double outputInterval,
+			 double tolerance,
+			 String[] methodList,
+			 String resultsFileName,
+			 String resultsVars,
+			 int depth,
+			@XmlMimeType("application/octet-stream") DataHandler data);
+
+	@WebMethod
+	@XmlMimeType("application/octet-stream")
+	DataHandler simulate(String inputFileName,
+			String problem,
+			double startTime,
+			double stopTime,
+			int numberOfIntervals,
+			double outputInterval,
+			double tolerance,
+			String[] methodList,
+			String resultsFileName,
+			String resultsVars,
+			boolean createFilteredMat,
+			@XmlMimeType("application/octet-stream") DataHandler data);
+
+	@WebMethod
+	void close();
 }

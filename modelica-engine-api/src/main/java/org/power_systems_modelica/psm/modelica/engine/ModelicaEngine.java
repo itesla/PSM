@@ -9,6 +9,8 @@ public interface ModelicaEngine
 {
 	void configure(Configuration config);
 	
+	boolean validate(ModelicaDocument mo, int depth);
+	
 	void simulate(ModelicaDocument mo);
 
 	void simulate(Collection<ModelicaDocument> mos);

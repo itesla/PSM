@@ -31,6 +31,11 @@ public class FakeModelicaEngine implements ModelicaEngine
 			LOG.warn("Fake Modelica engine configured without fake simulation results");
 		}
 	}
+	
+	@Override
+	public boolean validate(ModelicaDocument mo, int depth) {
+		return true;
+	}
 
 	@Override
 	public void simulate(ModelicaDocument mo)

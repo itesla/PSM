@@ -8,10 +8,12 @@ import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
+import org.power_systems_modelica.psm.gui.view.ConversionDetailController;
+import org.power_systems_modelica.psm.gui.view.ConversionNewController;
 import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
-import org.power_systems_modelica.psm.gui.view.WorkflowDetailController;
-import org.power_systems_modelica.psm.gui.view.WorkflowNewController;
+import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
+import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -27,6 +29,23 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
+	public enum WorkflowType
+	{
+		CONVERSION(0), SIMULATION(1), COMPARELOADFLOW(2);
+
+		private int value;
+
+		private WorkflowType(int value)
+		{
+			this.value = value;
+		}
+
+		public int getValue()
+		{
+			return value;
+		}
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 
@@ -36,7 +55,7 @@ public class MainApp extends Application {
 
 		initRootLayout();
 		showMenuLayout(mainService);
-		showWorkflowView(mainService, null);
+		showConversionView(mainService, null);
 	}
 
 	public void initRootLayout() {
@@ -118,31 +137,31 @@ public class MainApp extends Application {
 		return loader;
 	}
 
-	public FXMLLoader showWorkflowView(MainService mainService, Workflow w) {
+	public FXMLLoader showConversionView(MainService mainService, Workflow w) {
 
 		if (w == null)
-			return showWorkflowNewView(mainService, w);
+			return showConversionNewView(mainService, w);
 		else {
 			if (!w.getState().equals(ProcessState.SUCCESS) && !w.getState().equals(ProcessState.FAILED))
-				return showWorkflowStatusView(mainService, w, true);
+				return showWorkflowStatusView(mainService, w, WorkflowType.CONVERSION);
 			else
-				return showWorkflowDetailView(mainService);
+				return showConversionDetailView(mainService, true);
 		}
 	}
 
-	public FXMLLoader showWorkflowNewView(MainService mainService, Workflow w) {
+	public FXMLLoader showConversionNewView(MainService mainService, Workflow w) {
 
 		FXMLLoader loader = null;
 		try {
 			// Load cases overview.
 			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/WorkflowNew.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/ConversionNew.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			// Set cases overview into the center of the root layout.
 			rootLayout.setCenter(workflowsOverview);
 
-			WorkflowNewController controller = loader.getController();
+			ConversionNewController controller = loader.getController();
 			controller.setMainService(mainService);
 			controller.setFileChooser(new GuiFileChooser());
 			controller.setDefaultInit();
@@ -155,24 +174,86 @@ public class MainApp extends Application {
 		return loader;
 	}
 
-	public FXMLLoader showWorkflowDetailView(MainService mainService) {
+	public FXMLLoader showConversionDetailView(MainService mainService, boolean loadWorkflow) {
 
 		FXMLLoader loader = null;
 		try {
-			if (mainService.getWorkflowTask() != null)
-				mainService.resetWorkflowTask();
+			if (mainService.getConversionTask() != null)
+				mainService.resetConversionTask();
 
 			// Load cases overview.
 			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/WorkflowDetail.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/ConversionDetail.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			// Set cases overview into the center of the root layout.
 			rootLayout.setCenter(workflowsOverview);
 
-			WorkflowDetailController controller = loader.getController();
+			ConversionDetailController controller = loader.getController();
 			controller.setMainService(mainService);
-			controller.setWorkflow(mainService.getWorkflow());
+			if (loadWorkflow)
+				controller.setWorkflow(mainService.getConversion());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return loader;
+	}
+
+	public FXMLLoader showSimulationView(MainService mainService, Workflow w) {
+
+		if (w == null)
+			return showSimulationNewView(mainService, w);
+		else {
+			if (!w.getState().equals(ProcessState.SUCCESS) && !w.getState().equals(ProcessState.FAILED))
+				return showWorkflowStatusView(mainService, w, WorkflowType.SIMULATION);
+			else
+				return showSimulationDetailView(mainService);
+		}
+	}
+
+	public FXMLLoader showSimulationNewView(MainService mainService, Workflow w) {
+
+		FXMLLoader loader = null;
+		try {
+			// Load cases overview.
+			loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/SimulationNew.fxml"));
+			AnchorPane workflowsOverview = (AnchorPane) loader.load();
+
+			// Set cases overview into the center of the root layout.
+			rootLayout.setCenter(workflowsOverview);
+
+			SimulationNewController controller = loader.getController();
+			controller.setMainService(mainService);
+			controller.setFileChooser(new GuiFileChooser());
+			controller.setDefaultInit();
+			if (w != null)
+				controller.setWorkflow(w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return loader;
+	}
+
+	public FXMLLoader showSimulationDetailView(MainService mainService) {
+
+		FXMLLoader loader = null;
+		try {
+			if (mainService.getSimulationTask() != null)
+				mainService.resetSimulationTask();
+
+			// Load cases overview.
+			loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/SimulationDetail.fxml"));
+			AnchorPane workflowsOverview = (AnchorPane) loader.load();
+
+			// Set cases overview into the center of the root layout.
+			rootLayout.setCenter(workflowsOverview);
+
+			SimulationDetailController controller = loader.getController();
+			controller.setMainService(mainService);
+			controller.setWorkflow(mainService.getSimulation());
 			controller.setFileChooser(new GuiFileChooser());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -180,7 +261,7 @@ public class MainApp extends Application {
 		return loader;
 	}
 
-	public FXMLLoader showWorkflowStatusView(MainService mainService, Workflow w, boolean isWorkflowDetail) {
+	public FXMLLoader showWorkflowStatusView(MainService mainService, Workflow w, WorkflowType compareloadflow) {
 
 		FXMLLoader loader = null;
 		try {
@@ -193,10 +274,12 @@ public class MainApp extends Application {
 			rootLayout.setCenter(workflowsOverview);
 
 			WorkflowStatusController controller = loader.getController();
-			controller.setMainService(mainService, w, isWorkflowDetail);
+			controller.setMainService(mainService, w, compareloadflow);
 
-			if (isWorkflowDetail)
-				controller.setTask(w, mainService.getWorkflowTask());
+			if (compareloadflow.equals(WorkflowType.CONVERSION))
+				controller.setTask(w, mainService.getConversionTask());
+			else if (compareloadflow.equals(WorkflowType.SIMULATION))
+				controller.setTask(w, mainService.getSimulationTask());
 			else
 				controller.setTask(w, mainService.getCompareLoadflowTask());
 
@@ -211,7 +294,7 @@ public class MainApp extends Application {
 			return showCompareLoadflowsNewView(mainService);
 		else {
 			if (!w.getState().equals(ProcessState.SUCCESS) && !w.getState().equals(ProcessState.FAILED))
-				return showWorkflowStatusView(mainService, w, false);
+				return showWorkflowStatusView(mainService, w, WorkflowType.COMPARELOADFLOW);
 			else
 				return showCompareLoadflowsDetailView(mainService);
 		}
@@ -261,13 +344,33 @@ public class MainApp extends Application {
 		return loader;
 	}
 
-	public void showWorkflowWithCase(MainService mainService, Case c) {
+	public void showConversionWithCase(MainService mainService, Case c) {
 
 		FXMLLoader menuLoader = showMenuLayout(mainService);
-		((MenuLayoutController) menuLoader.getController()).selectWorkflowOption();
+		((MenuLayoutController) menuLoader.getController()).selectConversionOption();
 
-		FXMLLoader loader = showWorkflowNewView(mainService, null);
-		WorkflowNewController controller = loader.getController();
+		FXMLLoader loader = showConversionNewView(mainService, null);
+		ConversionNewController controller = loader.getController();
+		controller.setCase(c);
+	}
+
+	public void showConversionResult(MainService mainService, Case c) {
+
+		FXMLLoader menuLoader = showMenuLayout(mainService);
+		((MenuLayoutController) menuLoader.getController()).selectConversionOption();
+
+		FXMLLoader loader = showConversionDetailView(mainService, false);
+		ConversionDetailController controller = loader.getController();
+		controller.setConversionResult(c);
+	}
+
+	public void showSimulationWithCase(MainService mainService, Case c) {
+
+		FXMLLoader menuLoader = showMenuLayout(mainService);
+		((MenuLayoutController) menuLoader.getController()).selectSimulationOption();
+
+		FXMLLoader loader = showSimulationNewView(mainService, null);
+		SimulationNewController controller = loader.getController();
 		controller.setCase(c);
 	}
 

@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.util.List;
 
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
@@ -27,8 +28,10 @@ public class WorkflowStatusController {
 	@FXML
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
-		if (isWorkflowDetail)
-			mainService.showWorkflowView(null);
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			mainService.showConversionView(null);
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			mainService.showSimulationView(null);
 		else
 			mainService.showCompareLoadflowsView(null);
 	}
@@ -50,12 +53,14 @@ public class WorkflowStatusController {
 		treeView.setItems(((WorkflowService)task).getWorkflowInfo());
 	}
 
-	public void setMainService(MainService mainService, Workflow w, boolean isWorkflowDetail) {
+	public void setMainService(MainService mainService, Workflow w, WorkflowType isWorkflowDetail) {
 		this.mainService = mainService;
 
 		this.isWorkflowDetail = isWorkflowDetail;
-		if (isWorkflowDetail) 
-			panel.setText("Workflow detail");
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			panel.setText("Conversion detail");
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			panel.setText("Simulation detail");
 		else 
 			panel.setText("Compare loadflows detail");
 
@@ -79,7 +84,7 @@ public class WorkflowStatusController {
 	private DynamicTreeView<ProgressData> treeView;
 
 	private MainService mainService;
-	private boolean isWorkflowDetail;
+	private WorkflowType isWorkflowDetail;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkflowStatusController.class);
 }

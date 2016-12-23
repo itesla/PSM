@@ -39,7 +39,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 
-public class WorkflowDetailController {
+public class SimulationDetailController {
 
 	@FXML
 	private void initialize() {
@@ -75,7 +75,7 @@ public class WorkflowDetailController {
 	@FXML
 	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
-		mainService.showWorkflowNewView(mainService.getWorkflow());
+		mainService.showSimulationNewView(mainService.getSimulation());
 	}
 
 	@FXML
@@ -280,7 +280,7 @@ public class WorkflowDetailController {
 		}
 		statusLabel.setText(w.getState().name());
 		if (w.getState().equals(ProcessState.SUCCESS)) {
-			addSeries(mainService.getWorkflowResult("" + w.getId()));
+			addSeries(mainService.getSimulationResult("" + w.getId()));
 			Utils.addTooltipScatterChart(voltageChart, "pu");
 			Utils.addTooltipScatterChart(phaseChart, "º");
 			Utils.addTooltipScatterChart(activeChart, "MW");
@@ -352,5 +352,5 @@ public class WorkflowDetailController {
 	private GuiFileChooser fileChooser;
 	private MainService mainService;
 
-	private static final Logger LOG = LoggerFactory.getLogger(WorkflowDetailController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SimulationDetailController.class);
 }

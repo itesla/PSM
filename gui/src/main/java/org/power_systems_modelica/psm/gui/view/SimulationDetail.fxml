@@ -17,7 +17,7 @@
 
 <?import org.power_systems_modelica.psm.gui.utils.CodeEditor?>
 
-<AnchorPane prefHeight="1100.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowDetailController">
+<AnchorPane prefHeight="1100.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.SimulationDetailController">
 	<children>
 		<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<content>
@@ -25,7 +25,7 @@
 					<children>
 						<HBox spacing="10.0" AnchorPane.rightAnchor="0.0">
 							<children>
-								<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleNewWorkflow" styleClass="btn-default" text="New conversion and simulation" AnchorPane.rightAnchor="0.0" />
+								<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleNewWorkflow" styleClass="btn-default" text="New Simulation" AnchorPane.rightAnchor="0.0" />
 							</children>
 							<padding>
 								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />

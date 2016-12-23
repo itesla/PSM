@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.MainApp;
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.TaskService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
@@ -47,7 +48,7 @@ public class WorkflowStatusControllerTest extends ApplicationTest {
 					TD(WorkflowTaskFake.class, "fake2"),
 					TD(WorkflowTaskFake.class, "fake3"),
 					TD(WorkflowTaskFake.class, "fake4"));
-			controller.setMainService(mainService, w, true);
+			controller.setMainService(mainService, w, WorkflowType.CONVERSION);
 			
 			task = (WorkflowService) TaskService.createTask(w, () -> {});
 			task.stateProperty().addListener((observableValue, oldState, newState) -> {

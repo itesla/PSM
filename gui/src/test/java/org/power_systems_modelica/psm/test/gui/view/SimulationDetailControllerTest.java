@@ -17,7 +17,7 @@ import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
-import org.power_systems_modelica.psm.gui.view.WorkflowDetailController;
+import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -30,7 +30,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class WorkflowDetailControllerTest extends ApplicationTest {
+public class SimulationDetailControllerTest extends ApplicationTest {
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -43,7 +43,7 @@ public class WorkflowDetailControllerTest extends ApplicationTest {
 
 			// Load cases overview.
 			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/WorkflowDetail.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/SimulationDetail.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			controller = loader.getController();
@@ -138,5 +138,5 @@ public class WorkflowDetailControllerTest extends ApplicationTest {
 
 	}
 	
-	private WorkflowDetailController controller;
+	private SimulationDetailController controller;
 }

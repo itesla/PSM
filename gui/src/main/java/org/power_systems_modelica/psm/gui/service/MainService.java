@@ -3,7 +3,9 @@ package org.power_systems_modelica.psm.gui.service;
 import java.io.IOException;
 
 import org.power_systems_modelica.psm.gui.MainApp;
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
@@ -14,8 +16,8 @@ import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
 import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
-import org.power_systems_modelica.psm.gui.view.WorkflowDetailController;
-import org.power_systems_modelica.psm.gui.view.WorkflowNewController;
+import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
+import org.power_systems_modelica.psm.gui.view.ConversionNewController;
 import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -41,8 +43,16 @@ public class MainService {
 		this.stage = stage;
 	}
 
-	public void showWorkflowWithCase(Case c) {
-		getMainApp().showWorkflowWithCase(this, c);
+	public void showConversionWithCase(Case c) {
+		getMainApp().showConversionWithCase(this, c);
+	}
+
+	public void showConversionResult(Case c) {
+		getMainApp().showConversionResult(this, c);
+	}
+
+	public void showSimulationWithCase(Case c) {
+		getMainApp().showSimulationWithCase(this, c);
 	}
 
 	public void showCompareLoadflowsWithCase(Case c) {
@@ -61,12 +71,20 @@ public class MainService {
 		getMainApp().showDdrsOverview(this);
 	}
 
-	public void showWorkflowView(Workflow w) {
-		getMainApp().showWorkflowView(this, w);
+	public void showConversionView(Workflow w) {
+		getMainApp().showConversionView(this, w);
 	}
 
-	public void showWorkflowNewView(Workflow w) {
-		getMainApp().showWorkflowNewView(this, w);
+	public void showConversionNewView(Workflow w) {
+		getMainApp().showConversionNewView(this, w);
+	}
+
+	public void showSimulationView(Workflow w) {
+		getMainApp().showSimulationView(this, w);
+	}
+
+	public void showSimulationNewView(Workflow w) {
+		getMainApp().showSimulationNewView(this, w);
 	}
 
 	public ObservableList getCatalogs(String name) {
@@ -75,6 +93,10 @@ public class MainService {
 
 	public ObservableList getCases(String catalogName) {
 		return CaseService.getCases(CatalogService.getCatalogByName("cases", catalogName));
+	}
+
+	public ObservableList<ConvertedCase> getConvertedCases(String catalogName) {
+		return CaseService.getConvertedCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
 
 	public Network getCaseSummary(Case input) {
@@ -102,8 +124,12 @@ public class MainService {
 		return WorkflowServiceConfiguration.getEventParams(event);
 	}
 
-	public Workflow getWorkflow() {
-		return WorkflowServiceConfiguration.getWorkflow();
+	public Workflow getConversion() {
+		return WorkflowServiceConfiguration.getConversion();
+	}
+
+	public Workflow getSimulation() {
+		return WorkflowServiceConfiguration.getSimulation();
 	}
 
 	public ObservableList getLoadflowEngines() {
@@ -114,26 +140,39 @@ public class MainService {
 		return WorkflowServiceConfiguration.getDsEngines();
 	}
 
-	public ObservableList getActionEvents(Ddr ddr) {
-		return WorkflowServiceConfiguration.getActionEvents(ddr);
+	public ObservableList getActionEvents(ConvertedCase newValue) {
+		return WorkflowServiceConfiguration.getActionEvents(newValue);
 	}
 
-	public void startWorkflow(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent,
-			ObservableList events, DsEngine dse, String stopTime) {
+	public void startConversion(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent) {
 
 		try {
-			Workflow w = WorkflowServiceConfiguration.createWorkflow(cs, ddr, le, onlyMainConnectedComponent, events, dse, stopTime);
-			wTask = TaskService.createTask(w, () -> getMainApp().showWorkflowDetailView(this));
-			getMainApp().showWorkflowStatusView(this, w, true);
-			TaskService.startTask(wTask);
+			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le, onlyMainConnectedComponent);
+			cTask = TaskService.createTask(w, () -> getMainApp().showConversionDetailView(this, true));
+			getMainApp().showWorkflowStatusView(this, w, WorkflowType.CONVERSION);
+			TaskService.startTask(cTask);
+			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation());
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public WorkflowResult getWorkflowResult(String name) {
-		return WorkflowServiceConfiguration.getWorkflowResult(name);
+	public void startSimulation(ConvertedCase cs, ObservableList events, DsEngine dse, String stopTime) {
+
+		try {
+			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime);
+			sTask = TaskService.createTask(w, () -> getMainApp().showSimulationDetailView(this));
+			getMainApp().showWorkflowStatusView(this, w, WorkflowType.SIMULATION);
+			TaskService.startTask(sTask);
+		} catch (WorkflowCreationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public WorkflowResult getSimulationResult(String name) {
+		return WorkflowServiceConfiguration.getSimulationResult(name);
 	}
 
 	public Workflow getCompareLoadflows() {
@@ -145,7 +184,7 @@ public class MainService {
 		try {
 			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, generatorsReactiveLimits);
 			clTask = TaskService.createTask(w, () -> getMainApp().showCompareLoadflowsDetailView(this));
-			getMainApp().showWorkflowStatusView(this, w, false);
+			getMainApp().showWorkflowStatusView(this, w, WorkflowType.COMPARELOADFLOW);
 			TaskService.startTask(clTask);
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
@@ -157,16 +196,24 @@ public class MainService {
 		return WorkflowServiceConfiguration.getCompareLoadflowsResult(name);
 	}
 
-	public Task getWorkflowTask() {
-		return wTask;
+	public Task getConversionTask() {
+		return cTask;
+	}
+
+	public Task getSimulationTask() {
+		return sTask;
 	}
 
 	public Task getCompareLoadflowTask() {
 		return clTask;
 	}
 
-	public void resetWorkflowTask() {
-		wTask = null;
+	public void resetConversionTask() {
+		cTask = null;
+	}
+
+	public void resetSimulationTask() {
+		sTask = null;
 	}
 
 	public void resetCompareLoadflowTask() {
@@ -184,7 +231,8 @@ public class MainService {
 		return (MainApp) mainApp;
 	}
 
-	private Task wTask = null;
+	private Task cTask = null;
+	private Task sTask = null;
 	private Task clTask = null;
 	
 	private Application mainApp;

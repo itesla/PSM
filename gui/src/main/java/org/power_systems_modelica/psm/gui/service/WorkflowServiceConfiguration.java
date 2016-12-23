@@ -25,6 +25,7 @@ import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
 import org.power_systems_modelica.psm.ddr.EventParameter;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
@@ -40,6 +41,7 @@ import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
@@ -86,10 +88,14 @@ public class WorkflowServiceConfiguration
 		}
 	}
 
-	public static Workflow getWorkflow()
+	public static Workflow getConversion()
 	{
+		return conv;
+	}
 
-		return w;
+	public static Workflow getSimulation() 
+	{
+		return sim;
 	}
 
 	public static Workflow getCompareLoadflow()
@@ -118,11 +124,11 @@ public class WorkflowServiceConfiguration
 		return engines;
 	}
 
-	public static ObservableList<String> getActionEvents(Ddr intput)
+	public static ObservableList<String> getActionEvents(ConvertedCase newValue)
 	{
 
 		ObservableList<String> actions = FXCollections.observableArrayList();
-		ddr = DynamicDataRepositoryMainFactory.create("DYD", intput.getLocation());
+		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
 		try
 		{
 			ddr.connect();
@@ -154,15 +160,78 @@ public class WorkflowServiceConfiguration
 		return eventParams;
 	}
 
-	public static Workflow createWorkflow(Case cs, Ddr ddr0, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, ObservableList events, DsEngine dse, String stopTime)
+	public static Workflow createSimulation(ConvertedCase cs, ObservableList events, DsEngine dse, String stopTime)
+			throws WorkflowCreationException
+	{
+
+		String moInput = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
+		String fakeInit = Paths.get(cs.getDdrLocation()).resolve("fake_init.csv").toString();
+		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("moBuilder");
+		String outname = PathUtils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
+		String outnameev = PathUtils.DATA_TMP.resolve("eventAdder_events.mo").toString();
+
+		try
+		{
+			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
+			String simulationSource = "mo";
+			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+	
+			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
+			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
+			
+			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
+					TC("source", casePath.toString())));
+			tasks.add(TD(ModelicaParserTask.class, "moparser0",
+					TC("source", moInput ))
+					);
+			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
+					TC("source", "mo",
+							"target", outname,
+							"includePsmAnnotations", "true")));
+	
+			if (!events.isEmpty())
+			{
+				tasks.add(TD(ModelicaEventAdderTask.class, "eventAdder0",
+						TC("ddrType", "DYD",
+								"ddrLocation", cs.getDdrLocation(),
+								"events", (String) events.stream().map(Object::toString)
+										.collect(Collectors.joining("\n")))));
+				tasks.add(TD(ModelicaExporterTask.class, "exporter1",
+						TC("source", "moWithEvents",
+								"target", outnameev,
+								"includePsmAnnotations", "true")));
+	
+				simulationSource = "moWithEvents";
+			}
+	
+			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
+					TC("source", simulationSource,
+							"modelicaEngine", simulationEngine,
+							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+							"stopTime", stopTime, 
+							"libraryDir", PathUtils.LIBRARY.toString(),
+							"resultVariables", resultVariables)));
+	
+			WorkflowConfiguration config = new WorkflowConfiguration();
+			config.setTaskDefinitions(tasks);
+			TaskFactory tf = new TaskFactory();
+			sim = Workflow.create(config, tf);
+		}
+		catch (IOException e)
+		{
+			LOG.error(e.getMessage());
+		}
+		return sim;
+	}
+
+	public static Workflow createConversion(Case cs, Ddr ddr0, LoadflowEngine le,
+			boolean onlyMainConnectedComponent)
 			throws WorkflowCreationException
 	{
 
 		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
 		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("moBuilder");
-		String outname = PathUtils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
-		String outnameev = PathUtils.DATA_TMP.resolve("eventAdder_events.mo").toString();
+		String outname = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
 
 		try
 		{
@@ -176,7 +245,6 @@ public class WorkflowServiceConfiguration
 			}
 			new File(modelicaEngineWorkingDir.toString()).mkdir();
 			Files.deleteIfExists(Paths.get(outname));
-			Files.deleteIfExists(Paths.get(outnameev));
 
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
@@ -197,9 +265,6 @@ public class WorkflowServiceConfiguration
 				loadflowClass = null;
 				break;
 			}
-			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
-			String simulationSource = "mo";
-			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 
@@ -222,33 +287,11 @@ public class WorkflowServiceConfiguration
 					TC("source", "mo",
 							"target", outname,
 							"includePsmAnnotations", "true")));
-			if (!events.isEmpty())
-			{
-				tasks.add(TD(ModelicaEventAdderTask.class, "eventAdder0",
-						TC("ddrType", "DYD",
-								"ddrLocation", ddr0.getLocation(),
-								"events", (String) events.stream().map(Object::toString)
-										.collect(Collectors.joining("\n")))));
-				tasks.add(TD(ModelicaExporterTask.class, "exporter1",
-						TC("source", "moWithEvents",
-								"target", outnameev,
-								"includePsmAnnotations", "true")));
-
-				simulationSource = "moWithEvents";
-			}
-
-			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
-					TC("source", simulationSource,
-							"modelicaEngine", simulationEngine,
-							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-							"stopTime", stopTime, 
-							"libraryDir", PathUtils.LIBRARY.toString(),
-							"resultVariables", resultVariables)));
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
 			config.setTaskDefinitions(tasks);
 			TaskFactory tf = new TaskFactory();
-			w = Workflow.create(config, tf);
+			conv = Workflow.create(config, tf);
 
 		}
 		catch (IOException e)
@@ -256,16 +299,16 @@ public class WorkflowServiceConfiguration
 			LOG.error(e.getMessage());
 		}
 
-		return w;
+		return conv;
 	}
-
-	public static WorkflowResult getWorkflowResult(String id)
+	
+	public static WorkflowResult getSimulationResult(String id)
 	{
 
 		WorkflowResult results = new WorkflowResult();
 
-		Network n = (Network) w.getResults("network");
-
+		Network n = (Network) sim.getResults("network");
+	
 		/*
 		 * LUMA: no specific state for loadflow results, use current network state
 		 * 
@@ -300,7 +343,7 @@ public class WorkflowServiceConfiguration
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					w.getResults("simres").toString(), ".csv");
+					sim.getResults("simres").toString(), ".csv");
 			results.setDsValues(values);
 		}
 		catch (Exception e)
@@ -397,9 +440,12 @@ public class WorkflowServiceConfiguration
 	}
 
 	private static Random					rnd	= new Random();
-	private static Workflow					w	= null;
+	private static Workflow					conv= null;
+	private static Workflow					sim	= null;
 	private static Workflow					cl	= null;
 	private static DynamicDataRepository	ddr	= null;
 
 	private static final Logger				LOG	= LoggerFactory.getLogger(WorkflowServiceConfiguration.class);
+
+
 }

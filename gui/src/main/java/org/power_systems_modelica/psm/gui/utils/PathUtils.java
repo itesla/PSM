@@ -85,10 +85,15 @@ public class PathUtils {
 
 	public static StringBuilder loadFile(String location, String file) throws IOException
 	{
+		Path path = Paths.get(location).resolve(file);
+		
+		return loadFile(path);
+	}
 
+	public static StringBuilder loadFile(Path path) throws IOException
+	{
 		StringBuilder stringBuilder = new StringBuilder();
 
-		Path path = Paths.get(location).resolve(file);
 		InputStream inputStream = Files.newInputStream(path);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 		String line;
@@ -114,15 +119,15 @@ public class PathUtils {
 		outputStream.close();
 	}
 	
-	public static Properties loadDefaultWorkflowFile() throws IOException{
-		Path defaultFile = DATA_TEST.resolve("cfg").resolve("workflow.properties");
+	public static Properties loadDefaultConversionFile() throws IOException{
+		Path defaultFile = DATA_TEST.resolve("cfg").resolve("conversion.properties");
 		
 		Properties properties = new Properties();
 		InputStream is = Files.newInputStream(defaultFile);
 		properties.load(is);
 		is.close();
 		
-		String workflowFile = properties.getProperty("workflowPropertiesFile");
+		String workflowFile = properties.getProperty("conversionPropertiesFile");
 		
 		Properties props = new Properties();
 		Path workflowPath = Paths.get(workflowFile);
@@ -133,7 +138,7 @@ public class PathUtils {
     	return props;
 	}
 	
-	public static Properties loadWorkflowFile(GuiFileChooser fileChooser, Stage stage, String location) throws IOException{
+	public static Properties loadConversionFile(GuiFileChooser fileChooser, Stage stage, String location) throws IOException{
 		
         //Set extension filter
 		fileChooser.setDetails(location, "Properties files (*.properties)", "*.properties");
@@ -149,7 +154,7 @@ public class PathUtils {
         return props;
 	}
 
-	public static void saveWorkflowFile(GuiFileChooser fileChooser, Stage stage, String location, Properties props) throws IOException{
+	public static void saveConversionFile(GuiFileChooser fileChooser, Stage stage, String location, Properties props) throws IOException{
 		  
         //Set extension filter
 		fileChooser.setDetails(location, "Properties files (*.properties)", "*.properties");
@@ -158,14 +163,71 @@ public class PathUtils {
         File selectedFile = fileChooser.showSaveDialog(stage);
         if(selectedFile != null){
         	OutputStream out = new FileOutputStream(selectedFile);
-            props.store(out, "Worflow configuration file");
+            props.store(out, "Conversion configuration file");
             out.close();
 
             Properties defaultProperties = new Properties();
-            defaultProperties.setProperty("workflowPropertiesFile", selectedFile.getAbsolutePath());
-            Path defaultFile = DATA_TEST.resolve("cfg").resolve("workflow.properties");
+            defaultProperties.setProperty("conversionPropertiesFile", selectedFile.getAbsolutePath());
+            Path defaultFile = DATA_TEST.resolve("cfg").resolve("conversion.properties");
             out = Files.newOutputStream(defaultFile);
-            defaultProperties.store(out, "Default worflow configuration file");
+            defaultProperties.store(out, "Default conversion configuration file");
+            out.close();
+        }
+        
+	}
+	
+	public static Properties loadDefaultSimulationFile() throws IOException{
+		Path defaultFile = DATA_TEST.resolve("cfg").resolve("simulation.properties");
+		
+		Properties properties = new Properties();
+		InputStream is = Files.newInputStream(defaultFile);
+		properties.load(is);
+		is.close();
+		
+		String workflowFile = properties.getProperty("simulationPropertiesFile");
+		
+		Properties props = new Properties();
+		Path workflowPath = Paths.get(workflowFile);
+    	is = Files.newInputStream(workflowPath);
+    	props.load( is );
+    	is.close();
+    	
+    	return props;
+	}
+	
+	public static Properties loadSimulationFile(GuiFileChooser fileChooser, Stage stage, String location) throws IOException{
+		
+        //Set extension filter
+		fileChooser.setDetails(location, "Properties files (*.properties)", "*.properties");
+		Properties props = new Properties();
+		
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if(selectedFile != null){
+        	InputStream is = new FileInputStream(selectedFile);
+        	props.load( is );
+        	is.close();
+        }
+        
+        return props;
+	}
+
+	public static void saveSimulationFile(GuiFileChooser fileChooser, Stage stage, String location, Properties props) throws IOException{
+		  
+        //Set extension filter
+		fileChooser.setDetails(location, "Properties files (*.properties)", "*.properties");
+		
+        //Show save file dialog
+        File selectedFile = fileChooser.showSaveDialog(stage);
+        if(selectedFile != null){
+        	OutputStream out = new FileOutputStream(selectedFile);
+            props.store(out, "Simulation configuration file");
+            out.close();
+
+            Properties defaultProperties = new Properties();
+            defaultProperties.setProperty("simulationPropertiesFile", selectedFile.getAbsolutePath());
+            Path defaultFile = DATA_TEST.resolve("cfg").resolve("simulation.properties");
+            out = Files.newOutputStream(defaultFile);
+            defaultProperties.store(out, "Default simulation configuration file");
             out.close();
         }
         

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
@@ -103,6 +104,34 @@ public class Utils {
 
 			return false;
 		}).findAny().ifPresent(c -> ddrSource.getSelectionModel().select(c));
+	}
+
+	public static void resolveConvertedCasePath(String uri, ComboBox<Catalog> catalogCaseSource, ComboBox<ConvertedCase> caseSource) {
+
+		Path casePath;
+		if (uri.endsWith(".mo") || uri.endsWith(".xml")) {
+			Path path = Paths.get(uri);
+			casePath = path.getParent();
+		} else
+			casePath = Paths.get(uri);
+		Path catalogPath = casePath.getParent();
+
+		catalogCaseSource.getItems().stream().filter(c -> {
+			try {
+				return Files.isSameFile(Paths.get(c.getLocation()), catalogPath);
+			} catch (IOException e) {
+			}
+
+			return false;
+		}).findAny().ifPresent(c -> catalogCaseSource.getSelectionModel().select(c));
+		caseSource.getItems().stream().filter(c -> {
+			try {
+				return Files.isSameFile(Paths.get(c.getLocation()), casePath);
+			} catch (IOException e) {
+			}
+
+			return false;
+		}).findAny().ifPresent(c -> caseSource.getSelectionModel().select(c));
 	}
 
 	public static LoadflowEngine getLoadflowEngine(String engine) {
@@ -221,8 +250,8 @@ public class Utils {
 
 	}
 
-	public static Properties getWorkflowProperties(Case cs, Ddr ddr, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, ObservableList<Event> events, DsEngine dse, String stopTime)
+	public static Properties getConversionProperties(Case cs, Ddr ddr, LoadflowEngine le,
+			boolean onlyMainConnectedComponent)
 			throws IOException {
 
 		Properties properties = new Properties();
@@ -245,6 +274,16 @@ public class Utils {
 		}
 		properties.setProperty("loadflowEngine", loadflowId);
 		properties.setProperty("onlyMainConnectedComponent", Boolean.toString(onlyMainConnectedComponent));
+
+		return properties;
+	}
+
+	public static Properties getSimulationProperties(ConvertedCase cs, ObservableList<Event> events, DsEngine dse, String stopTime)
+			throws IOException {
+
+		Properties properties = new Properties();
+
+		properties.setProperty("casePath", PathUtils.findCasePath(Paths.get(cs.getLocation())).toString());
 
 		if (!events.isEmpty())
 			properties.setProperty("events",

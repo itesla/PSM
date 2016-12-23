@@ -21,7 +21,8 @@
       <ButtonBar layoutX="-2.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
             <Button fx:id="compareLoadflows" mnemonicParsing="false" onAction="#handleCompareLoadflowsOverview" styleClass="btn-menu" text="Compare Loadflows" />
-            <Button fx:id="workflow" mnemonicParsing="false" onAction="#handleWorkflowOverview" text="Conversion and Simulation">
+            <Button fx:id="simulation" mnemonicParsing="false" onAction="#handleSimulationOverview" styleClass="btn-menu" text="Simulation" />
+            <Button fx:id="conversion" mnemonicParsing="false" onAction="#handleConversionOverview" text="Conversion">
                <styleClass>
                   <String fx:value="btn-menu" />
                   <String fx:value="active" />

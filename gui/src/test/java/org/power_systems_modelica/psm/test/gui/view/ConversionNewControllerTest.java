@@ -21,7 +21,7 @@ import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.view.WorkflowNewController;
+import org.power_systems_modelica.psm.gui.view.ConversionNewController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
@@ -39,7 +39,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class WorkflowNewControllerTest extends ApplicationTest {
+public class ConversionNewControllerTest extends ApplicationTest {
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -52,7 +52,7 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 
 			// Load cases overview.
 			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/WorkflowNew.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/ConversionNew.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			controller = loader.getController();
@@ -257,32 +257,7 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 		Ddr ddr = new Ddr();
 		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
 
-		Event event = new Event();
-		event.setElement("_BUS___10_TN");
-		event.setAction("BusFault");
-		List<EventParamGui> params = new ArrayList();
-		EventParamGui param = new EventParamGui();
-		param.setName("R");
-		param.setUnit("pu");
-		param.setValue("0.5");
-		params.add(param);
-		param = new EventParamGui();
-		param.setName("X");
-		param.setUnit("pu");
-		param.setValue("0.5");
-		params.add(param);param = new EventParamGui();
-		param.setName("t1");
-		param.setUnit("s");
-		param.setValue("0.3");
-		params.add(param);param = new EventParamGui();
-		param.setName("t2");
-		param.setUnit("x");
-		param.setValue("0.5");
-		params.add(param);
-		event.setParams(params);
-		ObservableList<Event> events = FXCollections.observableArrayList();
-		
-		Workflow w = WorkflowServiceConfiguration.createWorkflow(cs, ddr, LoadflowEngine.HELMFLOW, true, events, DsEngine.OPENMODELICA, "5");
+		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true);
 
 		interact(new Runnable() {
 
@@ -304,5 +279,5 @@ public class WorkflowNewControllerTest extends ApplicationTest {
 		});
 	}
 
-	private WorkflowNewController controller;
+	private ConversionNewController controller;
 }

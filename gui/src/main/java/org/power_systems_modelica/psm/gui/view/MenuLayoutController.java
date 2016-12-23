@@ -18,7 +18,8 @@ public class MenuLayoutController {
 	private void handleCasesOverview() {
 		cases.getStyleClass().add("active");
 		ddrs.getStyleClass().remove("active");
-		workflow.getStyleClass().remove("active");
+		conversion.getStyleClass().remove("active");
+		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
 		mainService.showCasesOverview();
@@ -28,28 +29,43 @@ public class MenuLayoutController {
 	private void handleDdrsOverview() {
 		cases.getStyleClass().remove("active");
 		ddrs.getStyleClass().add("active");
-		workflow.getStyleClass().remove("active");
+		conversion.getStyleClass().remove("active");
+		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
 		mainService.showDdrsOverview();
 	}
 
 	@FXML
-	private void handleWorkflowOverview() {
+	private void handleConversionOverview() {
 		cases.getStyleClass().remove("active");
 		ddrs.getStyleClass().remove("active");
-		workflow.getStyleClass().add("active");
+		conversion.getStyleClass().add("active");
+		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
-		Workflow w = mainService.getWorkflow();
-		mainService.showWorkflowView(w);
+		Workflow w = mainService.getConversion();
+		mainService.showConversionView(w);
+	}
+
+	@FXML
+	private void handleSimulationOverview() {
+		cases.getStyleClass().remove("active");
+		ddrs.getStyleClass().remove("active");
+		conversion.getStyleClass().remove("active");
+		simulation.getStyleClass().add("active");
+		compareLoadflows.getStyleClass().remove("active");
+		
+		Workflow w = mainService.getSimulation();
+		mainService.showSimulationView(w);
 	}
 
 	@FXML
 	private void handleCompareLoadflowsOverview() {
 		cases.getStyleClass().remove("active");
 		ddrs.getStyleClass().remove("active");
-		workflow.getStyleClass().remove("active");
+		conversion.getStyleClass().remove("active");
+		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().add("active");
 		
 		Workflow w = mainService.getCompareLoadflows();
@@ -59,14 +75,19 @@ public class MenuLayoutController {
 	private void selectOption(Button b) {
 		cases.getStyleClass().remove("active");
 		ddrs.getStyleClass().remove("active");
-		workflow.getStyleClass().remove("active");
+		conversion.getStyleClass().remove("active");
+		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
 		
 		b.getStyleClass().add("active");
 	}
 	
-	public void selectWorkflowOption() {
-		selectOption(workflow);
+	public void selectConversionOption() {
+		selectOption(conversion);
+	}
+
+	public void selectSimulationOption() {
+		selectOption(simulation);
 	}
 
 	public void selectCompareLoadflowsOption() {
@@ -82,7 +103,9 @@ public class MenuLayoutController {
 	@FXML
 	private Button ddrs;
 	@FXML
-	private Button workflow;
+	private Button conversion;
+	@FXML
+	private Button simulation;
 	@FXML
 	private Button compareLoadflows;
 	

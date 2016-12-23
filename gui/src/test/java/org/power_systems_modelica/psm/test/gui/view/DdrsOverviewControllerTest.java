@@ -102,10 +102,7 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
 
 		clickOn("#catalogs").clickOn("Reference cases");
-		clickOn("#ddrs").clickOn("ieee14_ddr", MouseButton.SECONDARY);
-		lookup("#codeEditor").query().setVisible(true);
-		lookup("#fileContentPane").query().setVisible(true);
-		clickOn("models.dyd");
+		clickOn("#ddrs").clickOn("ieee14_ddr", MouseButton.SECONDARY).clickOn("models.dyd");
 		latch2.await();
 		
 		interact(new Runnable() {
@@ -136,7 +133,6 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 		
 		latch2.await();
 		clickOn("#saveAsEditor");
-		//clickOn("#closeEditor");
 		
 		interact(new Runnable() {
 

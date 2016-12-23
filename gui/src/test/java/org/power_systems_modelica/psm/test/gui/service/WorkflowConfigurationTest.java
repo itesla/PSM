@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
@@ -24,13 +25,29 @@ import javafx.collections.ObservableList;
 public class WorkflowConfigurationTest {
 
 	@Test
-	public void createWorkflowTest() throws WorkflowCreationException {
+	public void createConversionTest() throws WorkflowCreationException {
 		
 		Case cs = new Case();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
 
 		Ddr ddr = new Ddr();
 		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
+
+		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true);
+
+		assertNotNull(w);
+		assertEquals(4,w.getWorkflowTasks().size());
+		assertEquals("importer0",w.getWorkflowTasks().get(0).getId());
+		assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
+		assertEquals("modelica0",w.getWorkflowTasks().get(2).getId());
+		assertEquals("exporter0",w.getWorkflowTasks().get(3).getId());
+	}
+
+	@Test
+	public void createSimulationTest() throws WorkflowCreationException {
+		
+		ConvertedCase cs = new ConvertedCase();
+		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
 
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
@@ -59,19 +76,14 @@ public class WorkflowConfigurationTest {
 		ObservableList<Event> events = FXCollections.observableArrayList();
 		events.add(event);
 
-		Workflow w = WorkflowServiceConfiguration.createWorkflow(cs, ddr, LoadflowEngine.HELMFLOW, true, events, DsEngine.OPENMODELICA, "5");
+		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.OPENMODELICA, "5");
 
 		assertNotNull(w);
-		assertEquals(7,w.getWorkflowTasks().size());
-		assertEquals("importer0",w.getWorkflowTasks().get(0).getId());
-		assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
-		assertEquals("modelica0",w.getWorkflowTasks().get(2).getId());
-		assertEquals("exporter0",w.getWorkflowTasks().get(3).getId());
+		assertEquals(3,w.getWorkflowTasks().size());
 		assertEquals("eventAdder0",w.getWorkflowTasks().get(4).getId());
 		assertEquals("exporter1",w.getWorkflowTasks().get(5).getId());
 		assertEquals("OpenModelica",w.getWorkflowTasks().get(6).getId());
 	}
-
 	/* FIXME 
 	 * allow loadflow engine in task integration server
 	@Test

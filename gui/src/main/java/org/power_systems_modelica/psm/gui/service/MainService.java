@@ -140,8 +140,12 @@ public class MainService {
 		return WorkflowServiceConfiguration.getDsEngines();
 	}
 
-	public ObservableList getActionEvents(ConvertedCase newValue) {
-		return WorkflowServiceConfiguration.getActionEvents(newValue);
+	public ObservableList getNetworkElements(ConvertedCase c, String action) {
+		return WorkflowServiceConfiguration.getNetworkElements(c, action);
+	}
+
+	public ObservableList getActionEvents(ConvertedCase c) {
+		return WorkflowServiceConfiguration.getActionEvents(c);
 	}
 
 	public void startConversion(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent) {

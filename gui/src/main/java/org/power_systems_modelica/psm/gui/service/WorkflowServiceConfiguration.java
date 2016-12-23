@@ -143,6 +143,32 @@ public class WorkflowServiceConfiguration
 		return actions;
 	}
 
+	public static ObservableList getNetworkElements(ConvertedCase c, String action) {
+
+		ObservableList<String> elements = FXCollections.observableArrayList();
+		
+		String[] s = new String[] {
+				"bus__BUS___10_TN",
+				"bus__BUS___11_TN",
+				"bus__BUS___12_TN",
+				"bus__BUS___13_TN",
+				"bus__BUS___14_TN",
+				"bus__BUS____1_TN",
+				"bus__BUS____2_TN",
+				"bus__BUS____3_TN",
+				"bus__BUS____4_TN",
+				"bus__BUS____5_TN",
+				"bus__BUS____6_TN",
+				"bus__BUS____7_TN",
+				"bus__BUS____8_TN",
+				"bus__BUS____9_TN"
+				};
+		for (int j = 0; j < s.length; j++) {
+			elements.add(s[j]);
+		}
+		return elements;
+	}
+
 	public static ObservableList<EventParamGui> getEventParams(String event)
 	{
 
@@ -446,6 +472,5 @@ public class WorkflowServiceConfiguration
 	private static DynamicDataRepository	ddr	= null;
 
 	private static final Logger				LOG	= LoggerFactory.getLogger(WorkflowServiceConfiguration.class);
-
 
 }

@@ -64,3 +64,8 @@
 .default-color1.chart-line-symbol { -fx-background-color: green; }
 .default-color2.chart-line-symbol { -fx-background-color: yellow; }
 .default-color3.chart-line-symbol { -fx-background-color: blue; }
+
+
+.autofill-text {
+	-fx-skin: "org.power_systems_modelica.psm.gui.utils.AutoFillTextBoxSkin";
+}

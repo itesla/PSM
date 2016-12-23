@@ -18,6 +18,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox?>
+
 <AnchorPane prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.SimulationNewController">
 	<children>
 		<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -115,7 +117,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="122.0" layoutY="33.0" prefHeight="30.0" text="Element:" AnchorPane.leftAnchor="260.0" />
-                              <TextField fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="40.0" />
+                              <AutoFillTextBox  fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="40.0" />
                               <Label layoutX="50.0" layoutY="33.0" prefHeight="30.0" text="Type:" AnchorPane.leftAnchor="40.0" />
                               <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="33.0" onAction="#handleActionSelectedEvent" prefWidth="150.0" AnchorPane.leftAnchor="80.0" />
                               <HBox layoutX="110.0" layoutY="114.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">

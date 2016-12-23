@@ -10,6 +10,7 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox;
 import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,6 +45,8 @@ public class SimulationNewController {
 
 		addEventPane.setVisible(false);
 		Utils.setDragablePane(addEventPane);
+		
+		elementEvent.setFilterMode(true);
 
 		catalogCaseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
 
@@ -57,9 +61,20 @@ public class SimulationNewController {
 		caseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ConvertedCase>() {
 
 			@Override
-			public void changed(ObservableValue<? extends ConvertedCase> observable, ConvertedCase oldValue, ConvertedCase newValue) {
-				if (newValue != null)
+			public void changed(ObservableValue<? extends ConvertedCase> observable, ConvertedCase oldValue,
+					ConvertedCase newValue) {
+				if (newValue != null) 
 					actionEvent.setItems(mainService.getActionEvents(newValue));
+			}
+		});
+		
+		actionEvent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue != null) {
+					elementEvent.setData(mainService.getNetworkElements(caseSource.getSelectionModel().getSelectedItem(), newValue));
+				}
 			}
 		});
 
@@ -81,7 +96,7 @@ public class SimulationNewController {
 	private void handleOpenAddEvent() {
 		LOG.debug("handleAddEvent");
 		actionEvent.getSelectionModel().clearSelection();
-		elementEvent.clear();
+		elementEvent.getTextbox().clear();
 		parametersView.setItems(null);
 		addEventPane.setVisible(true);
 	}
@@ -174,7 +189,8 @@ public class SimulationNewController {
 		Properties workflowProperties;
 		try {
 			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime);
-			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
+			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(), System.getProperty("user.home"),
+					workflowProperties);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -265,7 +281,7 @@ public class SimulationNewController {
 		dsEngine.setItems(mainService.getDsEngines());
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
-	
+
 	public void setFileChooser(GuiFileChooser fileChooser) {
 		this.fileChooser = fileChooser;
 	}
@@ -290,7 +306,7 @@ public class SimulationNewController {
 	@FXML
 	private TitledPane addEventPane;
 	@FXML
-	private TextField elementEvent;
+	private AutoFillTextBox elementEvent;
 	@FXML
 	private ComboBox<String> actionEvent;
 	@FXML

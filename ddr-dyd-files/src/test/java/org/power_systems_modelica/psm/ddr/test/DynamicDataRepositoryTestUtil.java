@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
-import org.power_systems_modelica.psm.ddr.dyd.Connector;
+import org.power_systems_modelica.psm.ddr.dyd.Interconnection;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForAssociation;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
@@ -82,7 +82,7 @@ public class DynamicDataRepositoryTestUtil
 			{
 				Component ce = me.getComponents().get(j);
 				Component ca = ma.getComponents().get(j);
-				System.out.println("        " + ce.getType() + " : " + ce.getId());
+				System.out.printf("        %s : %s%n", ce.getType(), ce.getId());
 				assertEquals(ce.getType(), ca.getType());
 				assertEquals(ce.getId(), ca.getId());
 			}
@@ -99,9 +99,9 @@ public class DynamicDataRepositoryTestUtil
 			{
 				Connection ce = me.getConnections().get(j);
 				Connection ca = ma.getConnections().get(j);
-				System.out.println("        " +
-						ce.getId1() + "." + ce.getVar1() + " - " +
-						ce.getId2() + "." + ce.getVar2());
+				System.out.printf("        %s.%s - %s.%s%n",
+						ce.getId1(), ce.getVar1(),
+						ce.getId2(), ce.getVar2());
 				assertEquals(ce.getId1(), ca.getId1());
 				assertEquals(ce.getVar1(), ca.getVar1());
 				assertEquals(ce.getId2(), ca.getId2());
@@ -112,19 +112,25 @@ public class DynamicDataRepositoryTestUtil
 
 	public static void assertSameConnectors(Model me, Model ma)
 	{
-		assertEquals(me.getConnectors().size(), ma.getConnectors().size());
-		if (me.getConnectors().size() > 0)
+		assertEquals(me.getInterconnections().size(), ma.getInterconnections().size());
+		if (me.getInterconnections().size() > 0)
 		{
-			System.out.println("    connectors " + me.getConnectors().size());
-			for (int j = 0; j < me.getConnectors().size(); j++)
+			System.out.println("    connectors " + me.getInterconnections().size());
+			for (int j = 0; j < me.getInterconnections().size(); j++)
 			{
-				Connector ce = me.getConnectors().get(j);
-				Connector ca = ma.getConnectors().get(j);
-				System.out.println("        " +
-						ce.getId() + "." + ce.getPin() + " --> " + ce.getTarget());
-				assertEquals(ce.getId(), ca.getId());
-				assertEquals(ce.getPin(), ca.getPin());
-				assertEquals(ce.getTarget(), ca.getTarget());
+				Interconnection ce = me.getInterconnections().get(j);
+				Interconnection ca = ma.getInterconnections().get(j);
+				System.out.printf("        %s : %s.%s --> %s.%s%n",
+						ce.getName(),
+						ce.getComponentId(),
+						ce.getComponentVar(),
+						ce.getTargetModel(),
+						ce.getTargetName());
+				assertEquals(ce.getName(), ca.getName());
+				assertEquals(ce.getComponentId(), ca.getComponentId());
+				assertEquals(ce.getComponentVar(), ca.getComponentVar());
+				assertEquals(ce.getTargetModel(), ca.getTargetModel());
+				assertEquals(ce.getTargetName(), ca.getTargetName());
 			}
 		}
 	}
@@ -140,7 +146,6 @@ public class DynamicDataRepositoryTestUtil
 			Equation eqe = expected.get(j);
 			Equation eqa = actual.get(j);
 			System.out.println("    " + eqe.toString());
-
 			assertEquals(eqe.toString(), eqa.toString());
 		}
 	}

@@ -15,8 +15,9 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
-import org.power_systems_modelica.psm.modelica.engine.Stage;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
+
+import com.google.inject.Stage;
 
 public class OpenModelicaIntegrationTest
 {
@@ -64,7 +65,7 @@ public class OpenModelicaIntegrationTest
 		testBuild(config, "smallcase2", "case2.mo", 8, true);
 	}
 
-	 @Test //FIXME This system does not simulate
+	@Test // FIXME This system does not simulate
 	public void testSmallTestCase3() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
@@ -78,7 +79,7 @@ public class OpenModelicaIntegrationTest
 		testBuild(config, "smallcase3", "case3.mo", 8, true);
 	}
 
-	 @Test //FIXME This system does not simulate
+	@Test // FIXME This system does not simulate
 	public void test7buses() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
@@ -131,9 +132,9 @@ public class OpenModelicaIntegrationTest
 		omEngine.close();
 
 		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
-		assertTrue(results.getValue(Stage.SIMULATION, "ieee14bus", "simulation_path") != null);
-		assertTrue(results.getValue(Stage.SIMULATION, "ieee30bus", "simulation_path") != null);
-		// assertTrue(results.getValue(Stage.SIMULATION, "ieee57bus", "simulation_path") != null);
+		assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
+		assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
+		// assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
 	}
 
 	@Test
@@ -216,10 +217,10 @@ public class OpenModelicaIntegrationTest
 		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 		if (!failsSimulation)
 		{
-			assertTrue(results.getEntries().size() == 2*numOfResults);
+			assertTrue(results.getEntries().size() == 2 * numOfResults);
 
 			Path omSimPath = (Path) omEngine.getSimulationResults()
-					.getValue(Stage.SIMULATION, mo.getSystemModel().getId(), "simulation_path");
+					.getValue(mo.getSystemModel().getId(), "simulation_path");
 			assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
 			assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
 			if (config.getBoolean("createFilteredMat"))

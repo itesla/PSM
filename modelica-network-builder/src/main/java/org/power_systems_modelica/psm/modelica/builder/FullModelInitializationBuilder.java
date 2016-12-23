@@ -70,8 +70,7 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 		mo.setWithin("");
 		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId());
 		mo.setSystemModel(ms);
-		ms.addDeclarations(getDdr().getSystemDeclarations(Stage.INITIALIZATION));
-
+		
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
 		// We solve these references in the context of the current Network and ModelicaModel

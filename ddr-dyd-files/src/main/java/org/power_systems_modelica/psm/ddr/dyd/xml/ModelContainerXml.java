@@ -11,12 +11,14 @@ import javax.xml.stream.XMLStreamWriter;
 import org.power_systems_modelica.psm.ddr.dyd.Association;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
-import org.power_systems_modelica.psm.ddr.dyd.Connector;
+import org.power_systems_modelica.psm.ddr.dyd.Interconnection;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
+import org.power_systems_modelica.psm.ddr.dyd.xml.equations.EquationXml;
 
 public class ModelContainerXml
 {
@@ -62,13 +64,17 @@ public class ModelContainerXml
 				}
 				set[0].add(ParameterReferenceXml.read(r));
 				break;
-			case ConnectorXml.ROOT_ELEMENT_NAME:
-				Connector connector = ConnectorXml.read(r);
+			case InterconnectionXml.ROOT_ELEMENT_NAME:
+				Interconnection connector = InterconnectionXml.read(r);
 				model[0].addConnector(connector);
 				break;
 			case ConnectionXml.ROOT_ELEMENT_NAME:
 				Connection connection = ConnectionXml.read(r);
 				model[0].addConnection(connection);
+				break;
+			case EquationXml.ELEMENT_NAME:
+				Equation eq = EquationXml.read(r);
+				model[0].addOtherEquation(eq);
 				break;
 			}
 		});

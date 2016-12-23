@@ -101,6 +101,6 @@ public class DydFilesFromModelicaTool implements Tool
 			return;
 		}
 
-		new DydFilesFromModelica().mo2dyd(pmo, pmoinit, Paths.get(ddrLocation));
+		new DydFilesFromModelica(pmo, pmoinit, Paths.get(ddrLocation)).mo2dyd();
 	}
 }

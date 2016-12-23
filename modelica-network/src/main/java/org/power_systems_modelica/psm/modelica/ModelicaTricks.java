@@ -26,6 +26,8 @@ public class ModelicaTricks
 
 	public static String staticIdFromDynamicId(String name)
 	{
+		if (name == null) return null;
+		
 		// We are assuming dynamic component identifiers are built as: <type>_<static_id>
 		// and also that all static identifiers begin with an underscore
 		int p = name.indexOf("__");
@@ -49,9 +51,11 @@ public class ModelicaTricks
 
 			String name1 = namevar1[0];
 			String name2 = namevar2[0];
+			if (name1 == null) name1 = "";
+			if (name2 == null) name2 = "";
 			String id1 = staticIdFromDynamicId(name1);
-			if (id1 == null) id1 = name1;
 			String id2 = staticIdFromDynamicId(name2);
+			if (id1 == null) id1 = name1;
 			if (id2 == null) id2 = name2;
 
 			String key = id1.concat(":").concat(id2);

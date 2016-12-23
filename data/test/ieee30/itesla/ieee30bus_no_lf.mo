@@ -555,11 +555,11 @@ model ieee30bus
 	 ) annotation (Placement(transformation()));
 
 // CAPACITORS
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BANK__10_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BANK__10_SC (
 	 B = 0.19000000443309545,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BANK__24_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BANK__24_SC (
 	 B = 0.04300003628712148,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
@@ -1418,8 +1418,8 @@ equation
   connect(bus__REUS___8_TN.p, load__LOAD___8_EC.p) annotation (Line());
 
 // Connecting Capacitors
-  connect(bus__ROAN__10_TN.p, cap_pwCapacitorBank__BANK__10_SC.p) annotation (Line());
-  connect(bus__BUS___24_TN.p, cap_pwCapacitorBank__BANK__24_SC.p) annotation (Line());
+  connect(bus__ROAN__10_TN.p, cap__BANK__10_SC.p) annotation (Line());
+  connect(bus__BUS___24_TN.p, cap__BANK__24_SC.p) annotation (Line());
 
 // Connecting GENERATORS
   connect(bus__ROAN__11_TN.p, gen_pwGeneratorM2S__GEN___11_SM.sortie) annotation (Line());

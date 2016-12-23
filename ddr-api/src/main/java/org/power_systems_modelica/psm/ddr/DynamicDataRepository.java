@@ -2,8 +2,8 @@ package org.power_systems_modelica.psm.ddr;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
@@ -20,9 +20,11 @@ public interface DynamicDataRepository
 
 	ModelicaModel getModelicaModel(Identifiable<?> e, Stage stage);
 
-	List<ModelicaDeclaration> getSystemDeclarations(Stage stage);
+	Optional<ModelicaModel> getSystemModel(Stage stage);
 
-	List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m, Stage stage);
+	List<ModelicaEquation> getSystemOtherEquationsInContext(
+			ModelicaSystemModel m,
+			Stage stage);
 
 	ModelicaModel getModelicaModelForEvent(String id, Identifiable<?> e);
 

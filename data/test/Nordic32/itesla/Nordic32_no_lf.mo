@@ -905,47 +905,47 @@ model Nordic32
 	 ) annotation (Placement(transformation()));
 
 // CAPACITORS
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N1022____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N1022____SC (
 	 B = 0.500000006519258,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N1041____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N1041____SC (
 	 B = 1.9999967208132148,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N1043____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N1043____SC (
 	 B = 1.500000019557774,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N1044____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N1044____SC (
 	 B = 1.9999967208132148,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N1045____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N1045____SC (
 	 B = 1.9999967208132148,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N4012____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N4012____SC (
 	 B = -0.9999999776482582,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N4041____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N4041____SC (
 	 B = 1.9999999552965164,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N4043____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N4043____SC (
 	 B = 1.9999999552965164,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N4046____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N4046____SC (
 	 B = 0.9999999776482582,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N4051____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N4051____SC (
 	 B = 0.9999999776482582,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N4071____SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N4071____SC (
 	 B = -3.999999910593033,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
@@ -2971,17 +2971,17 @@ equation
   connect(bus__N4072____TN.p, load__N4072____EC.p) annotation (Line());
 
 // Connecting Capacitors
-  connect(bus__N1022____TN.p, cap_pwCapacitorBank__N1022____SC.p) annotation (Line());
-  connect(bus__N1041____TN.p, cap_pwCapacitorBank__N1041____SC.p) annotation (Line());
-  connect(bus__N1043____TN.p, cap_pwCapacitorBank__N1043____SC.p) annotation (Line());
-  connect(bus__N1044____TN.p, cap_pwCapacitorBank__N1044____SC.p) annotation (Line());
-  connect(bus__N1045____TN.p, cap_pwCapacitorBank__N1045____SC.p) annotation (Line());
-  connect(bus__N4012____TN.p, cap_pwCapacitorBank__N4012____SC.p) annotation (Line());
-  connect(bus__N4041____TN.p, cap_pwCapacitorBank__N4041____SC.p) annotation (Line());
-  connect(bus__N4043____TN.p, cap_pwCapacitorBank__N4043____SC.p) annotation (Line());
-  connect(bus__N4046____TN.p, cap_pwCapacitorBank__N4046____SC.p) annotation (Line());
-  connect(bus__N4051____TN.p, cap_pwCapacitorBank__N4051____SC.p) annotation (Line());
-  connect(bus__N4071____TN.p, cap_pwCapacitorBank__N4071____SC.p) annotation (Line());
+  connect(bus__N1022____TN.p, cap__N1022____SC.p) annotation (Line());
+  connect(bus__N1041____TN.p, cap__N1041____SC.p) annotation (Line());
+  connect(bus__N1043____TN.p, cap__N1043____SC.p) annotation (Line());
+  connect(bus__N1044____TN.p, cap__N1044____SC.p) annotation (Line());
+  connect(bus__N1045____TN.p, cap__N1045____SC.p) annotation (Line());
+  connect(bus__N4012____TN.p, cap__N4012____SC.p) annotation (Line());
+  connect(bus__N4041____TN.p, cap__N4041____SC.p) annotation (Line());
+  connect(bus__N4043____TN.p, cap__N4043____SC.p) annotation (Line());
+  connect(bus__N4046____TN.p, cap__N4046____SC.p) annotation (Line());
+  connect(bus__N4051____TN.p, cap__N4051____SC.p) annotation (Line());
+  connect(bus__N4071____TN.p, cap__N4071____SC.p) annotation (Line());
 
 // Connecting GENERATORS
   connect(bus__NG10_____TN.p, gen_pwGeneratorM2S__G10______SM.sortie) annotation (Line());

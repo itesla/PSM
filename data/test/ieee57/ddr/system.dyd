@@ -1,29 +1,34 @@
 <?xml version="1.0" ?>
-<system_definitions xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
-    <declaration type="Real" id="SNREF" value="100.0" isParameter="true"/>
-    <declaration type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef" isParameter="false"/>
-    <equation>
-        <unparsed>omegaRef = (gen_pwGeneratorM2S__BEAV___6_SM.omega*gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.omega*gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.omega*gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.omega*gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.omega*gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.omega*gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.omega*gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn) / (gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn)</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__BEAV___6_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__CLIN___8_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GLEN__12_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__KANA___1_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__LOGA___3_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__SALT___9_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__TURN___2_SM.pin_VS = 0</unparsed>
-    </equation>
-</system_definitions>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <model id="DM__SYSTEM_" staticId="_SYSTEM_">
+        <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
+        <component type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef"/>
+        <interconnection name="omegaRef" componentVar="omegaRef"/>
+        <equation>
+            <unparsed>omegaRef = (gen_pwGeneratorM2S__BEAV___6_SM.omega*gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.omega*gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.omega*gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.omega*gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.omega*gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.omega*gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.omega*gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn) / (gen_pwGeneratorM2S__BEAV___6_SM.SN*gen_pwGeneratorM2S__BEAV___6_SM.HIn + gen_pwGeneratorM2S__CLIN___8_SM.SN*gen_pwGeneratorM2S__CLIN___8_SM.HIn + gen_pwGeneratorM2S__GLEN__12_SM.SN*gen_pwGeneratorM2S__GLEN__12_SM.HIn + gen_pwGeneratorM2S__KANA___1_SM.SN*gen_pwGeneratorM2S__KANA___1_SM.HIn + gen_pwGeneratorM2S__LOGA___3_SM.SN*gen_pwGeneratorM2S__LOGA___3_SM.HIn + gen_pwGeneratorM2S__SALT___9_SM.SN*gen_pwGeneratorM2S__SALT___9_SM.HIn + gen_pwGeneratorM2S__TURN___2_SM.SN*gen_pwGeneratorM2S__TURN___2_SM.HIn)</unparsed>
+        </equation>
+    </model>
+    <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
+        <equation>
+            <unparsed>sexs__BEAV___6_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__CLIN___8_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__GLEN__12_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__KANA___1_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__LOGA___3_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__SALT___9_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__TURN___2_SM.pin_VS = 0</unparsed>
+        </equation>
+    </model>
+</model_container>

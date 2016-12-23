@@ -16,7 +16,12 @@ public class ParameterValueXml
 		String name = r.getAttributeValue(null, "name");
 		String value = r.getAttributeValue(null, "value");
 		String unit = r.getAttributeValue(null, "unit");
-		return new ParameterValue(type, unit, name, value);
+		String sisGeneric = r.getAttributeValue(null, "isGeneric");
+		boolean isGeneric = IS_GENERIC_DEFAULT;
+		if (sisGeneric != null) isGeneric = Boolean.valueOf(sisGeneric);
+		ParameterValue p = new ParameterValue(type, unit, name, value);
+		p.setGeneric(isGeneric);
+		return p;
 	}
 
 	public static void write(XMLStreamWriter w, ParameterValue p) throws XMLStreamException
@@ -25,7 +30,11 @@ public class ParameterValueXml
 		if (p.getType() != null) w.writeAttribute("type", p.getType());
 		if (p.getUnit() != null) w.writeAttribute("unit", p.getUnit());
 		w.writeAttribute("name", p.getName());
-		// FIXME Proper serialization of p.getValue()
+		// TODO Proper serialization of p.getValue()?
 		w.writeAttribute("value", p.getValue().toString());
+		if (p.isGeneric() != IS_GENERIC_DEFAULT)
+			w.writeAttribute("isGeneric", Boolean.toString(p.isGeneric()));
 	}
+
+	private static final boolean IS_GENERIC_DEFAULT = false;
 }

@@ -2,11 +2,14 @@ package org.power_systems_modelica.psm.modelica.builder;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
@@ -51,12 +54,17 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 
 		ModelicaSystemModel sys = getModelicaDocument().getSystemModel();
-		sys.addDeclarations(getDdr().getSystemDeclarations(Stage.SIMULATION));
+
+		Optional<ModelicaModel> ds = getDdr().getSystemModel(Stage.SIMULATION);
+		if (ds.isPresent()) addDynamicModel(ds.get());
 		addDynamicModels();
 		// Add connections between models only after all models have been created
 		addInterconnections();
-		// And system equations also after all models have been created
-		sys.addEquations(getDdr().getSystemEquationsInContext(sys, Stage.SIMULATION));
+
+		// TODO This is temporary while we allow omegaRef equations to be specified directly in DYD files
+		List<ModelicaEquation> otherSystemEquations;
+		otherSystemEquations = getDdr().getSystemOtherEquationsInContext(sys, Stage.SIMULATION);
+		if (otherSystemEquations != null) sys.addEquations(otherSystemEquations);
 
 		return getModelicaDocument();
 	}

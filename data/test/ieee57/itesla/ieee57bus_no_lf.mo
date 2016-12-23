@@ -1091,15 +1091,15 @@ model ieee57bus
 	 ) annotation (Placement(transformation()));
 
 // CAPACITORS
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BUS___25_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BUS___25_SC (
 	 B = 0.0590000274576146,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BUS___53_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BUS___53_SC (
 	 B = 0.06300003052159577,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__SPRI__18_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__SPRI__18_SC (
 	 B = 0.10000004822175698,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
@@ -2154,9 +2154,9 @@ equation
   connect(bus__TURN___2_TN.p, load__TURN___2_EC.p) annotation (Line());
 
 // Connecting Capacitors
-  connect(bus__BUS___25_TN.p, cap_pwCapacitorBank__BUS___25_SC.p) annotation (Line());
-  connect(bus__BUS___53_TN.p, cap_pwCapacitorBank__BUS___53_SC.p) annotation (Line());
-  connect(bus__SPRI__18_TN.p, cap_pwCapacitorBank__SPRI__18_SC.p) annotation (Line());
+  connect(bus__BUS___25_TN.p, cap__BUS___25_SC.p) annotation (Line());
+  connect(bus__BUS___53_TN.p, cap__BUS___53_SC.p) annotation (Line());
+  connect(bus__SPRI__18_TN.p, cap__SPRI__18_SC.p) annotation (Line());
 
 // Connecting GENERATORS
   connect(bus__BEAV___6_TN.p, gen_pwGeneratorM2S__BEAV___6_SM.sortie) annotation (Line());

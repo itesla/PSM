@@ -18,6 +18,26 @@ public class Component
 		return type;
 	}
 
+	public void setValue(Object value)
+	{
+		this.value = value;
+	}
+
+	public Object getValue()
+	{
+		return this.value;
+	}
+
+	public void setParameter(boolean isParameter)
+	{
+		this.isParameter = isParameter;
+	}
+
+	public boolean isParameter()
+	{
+		return this.isParameter;
+	}
+
 	public void setParameterSet(ParameterSet set)
 	{
 		this.parameterSet = set;
@@ -42,6 +62,8 @@ public class Component
 
 	private final String			id;
 	private final String			type;
+	private Object					value;
+	private boolean					isParameter;
 	private ParameterSetReference	parameterSetReference;
 	private ParameterSet			parameterSet;
 }

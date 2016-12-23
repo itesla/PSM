@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+
 public class ModelContainer implements DydContent
 {
 	public ModelContainer()
@@ -49,6 +51,21 @@ public class ModelContainer implements DydContent
 	public List<Association> getAssociations()
 	{
 		return associations;
+	}
+
+	public boolean isForSystemDefinitions()
+	{
+		if (models.size() > 0)
+		{
+			Model m = models.get(0);
+			if (m instanceof ModelForElement)
+			{
+				ModelForElement ms = (ModelForElement) m;
+				if (ModelicaUtil.getSystemStaticId().equals(ms.getStaticId()))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	private String					name;

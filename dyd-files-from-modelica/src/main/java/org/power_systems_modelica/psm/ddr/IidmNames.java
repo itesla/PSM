@@ -52,8 +52,12 @@ public class IidmNames
 			{
 			case "r":
 				return "ratio";
+			case "theta":
+				return "theta";
 			case "G0":
+			case "G":
 				return "G_pu";
+			case "B":
 			case "B0":
 				return "B_pu";
 			case "R":

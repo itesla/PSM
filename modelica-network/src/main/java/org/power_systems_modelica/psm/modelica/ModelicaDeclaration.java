@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ModelicaDeclaration implements Annotable
 {
@@ -31,6 +32,7 @@ public class ModelicaDeclaration implements Annotable
 			boolean isParameter,
 			Annotation annotation)
 	{
+		Objects.requireNonNull(arguments);
 		isAssignment = false;
 		this.type = type;
 		this.id = id;

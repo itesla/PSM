@@ -5,7 +5,7 @@
             <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
             <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
         </component>
-        <connector pin="p"/>
+        <interconnection name="p" componentId="bus_{staticId}" componentVar="p"/>
     </model>
     <model id="DM{staticId}" type="Line">
         <component type="iPSL.Electrical.Branches.PwLine_2" id="line_{staticId}">
@@ -14,8 +14,8 @@
             <ref name="G" dataSource="IIDM" sourceName="G1_pu"/>
             <ref name="B" dataSource="IIDM" sourceName="B1_pu"/>
         </component>
-        <connector pin="p" target="DYNN:bus1:p"/>
-        <connector pin="n" target="DYNN:bus2:p"/>
+        <interconnection componentId="line_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+        <interconnection componentId="line_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Load">
         <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence" id="load_{staticId}">
@@ -26,14 +26,14 @@
             <par name="beta" value="2.5"/>
             <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
         </component>
-        <connector pin="p" target="DYNN:bus:p"/>
+        <interconnection componentId="load_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Shunt">
         <component type="iPSL.Electrical.Banks.PwCapacitorBank" id="cap_{staticId}">
             <ref name="B" dataSource="IIDM" sourceName="B_pu"/>
             <ref name="nsteps" dataSource="IIDM" sourceName="MaximumSectionCount"/>
         </component>
-        <connector pin="p" target="DYNN:bus:p"/>
+        <interconnection componentId="cap_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Transformer">
         <component type="iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer" id="trafo_{staticId}">
@@ -44,16 +44,14 @@
             <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
             <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
         </component>
-        <connector pin="p" target="DYNN:bus1:p"/>
-        <connector pin="n" target="DYNN:bus2:p"/>
+        <interconnection componentId="trafo_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+        <interconnection componentId="trafo_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
     </model>
     <model id="DM_{staticId}" association="association0">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_SIMULATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.pssi3e2b" id="reg_pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_reg_pssi3e2b_SIMULATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.sexs" id="reg_sexs_{staticId}" parFile="params.par" parId="{staticId}_reg_sexs_SIMULATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.gsteam0" id="reg_gsteam0_{staticId}" parFile="params.par" parId="{staticId}_reg_gsteam0_SIMULATION"/>
-        <connector pin="sortie" target="DYNN:bus:p"/>
-        <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_ActivePowerSN" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_ActivePowerSN"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_OMEGA" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_OMEGA"/>
         <connection id1="reg_sexs_{staticId}" var1="pin_EFD" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_EFD"/>
@@ -62,23 +60,19 @@
         <connection id1="reg_gsteam0_{staticId}" var1="pin_OMEGA" id2="gen_pwGeneratorM2S_{staticId}" var2="pin_OMEGA"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_VS" id2="reg_sexs_{staticId}" var2="pin_VS"/>
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_OMEGA" id2="reg_gsteam0_{staticId}" var2="pin_OMEGA"/>
+        <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="sortie" targetModel="{bus}" targetName="p"/>
+        <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="omegaRef" targetModel="{system}" targetName="omegaRef"/>
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="{staticId}_gen_pwGeneratorM2S_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="sexs_{staticId}" parFile="params.par" parId="{staticId}_sexs_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.pssi3e2b_Init" id="pssi3e2b_{staticId}" parFile="params.par" parId="{staticId}_pssi3e2b_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.gsteam0_Init" id="gsteam0_{staticId}" parFile="params.par" parId="{staticId}_gsteam0_INITIALIZATION"/>
-		<component type="Modelica.Blocks.Sources.Constant" id="zero_{staticId}">
-			<par name="k" value="0.0"/>
-		</component>
-        <connector pin="sortie" target="DYNN:bus:p"/>
-        <connector pin="omegaRef" target="DYNN:system:omegaRef"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_TerminalVoltage" id2="sexs_{staticId}" var2="pin_TerminalVoltage"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e2b_{staticId}" var2="pin_ActivePowerSN"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_OMEGA" id2="gsteam0_{staticId}" var2="pin_OMEGA"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_CM" id2="gsteam0_{staticId}" var2="pin_CM"/>
-		<connection id1="sexs_{staticId}" var1="pin_VS" id2="zero_{staticId}" var2="y" />
     </model>
     <association id="association0" pattern="_GEN___13_SM|_GEN____1_SM|_GEN____8_SM|_GEN____5_SM|_GEN___11_SM|_GEN____2_SM"/>
 </model_container>

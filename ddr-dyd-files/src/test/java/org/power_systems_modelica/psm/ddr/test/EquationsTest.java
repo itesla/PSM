@@ -82,7 +82,7 @@ public class EquationsTest
 	private static final Expression weightedAverageOfGeneratorOmegas()
 	{
 		Selector selector1 = new PrefixSelector("gen_");
-		Selector selector2 = new PrefixSelector("xxx_");
+		Selector selector2 = new PrefixSelector("kkk_");
 		Selector or = new LogicalSelector.Or(Arrays.asList(selector1, selector2));
 		Selector selector = or;
 

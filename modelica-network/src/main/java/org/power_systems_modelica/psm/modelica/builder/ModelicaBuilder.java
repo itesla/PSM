@@ -1,7 +1,10 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +18,10 @@ import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
-import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
+import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -66,6 +69,11 @@ public class ModelicaBuilder
 		return dynamicModelsByStaticId.get(ModelicaUtil.normalizedIdentifier(staticId));
 	}
 
+	protected ModelicaModel getSystemModel()
+	{
+		return dynamicModelsByStaticId.get(ModelicaUtil.getSystemStaticId());
+	}
+
 	protected void addDynamicModel(ModelicaModel m)
 	{
 		Objects.requireNonNull(m.getId());
@@ -86,8 +94,8 @@ public class ModelicaBuilder
 
 		// Information about connectors are put as annotations in the system model
 		Annotation a = new Annotation(refs);
-		if (m.getConnectors() != null && m.getConnectors().length > 0)
-			a.addItem(Annotation.writeConnectors(Arrays.asList(m.getConnectors())));
+		if (m.getInterconnections() != null && m.getInterconnections().length > 0)
+			a.addItem(Annotation.writeConnectors(Arrays.asList(m.getInterconnections())));
 		system.addAnnotation(a);
 
 		// FIXME When adding we should be merging declarations and equations
@@ -132,7 +140,14 @@ public class ModelicaBuilder
 
 	protected void addInterconnections()
 	{
-		getModels().stream().forEach(m -> addInterconnections(m));
+		// We process all models sorted by id to ensure we assign items in arrays of connections
+		// in the same order we have seen in original Modelica files (omegaRef)
+		// Instead of:
+		// getModels().stream().forEach(m -> addInterconnections(m));
+		// We do:
+		List<ModelicaModel> models = new ArrayList<>(getModels());
+		Collections.sort(models, Comparator.comparing(ModelicaModel::getId));
+		models.stream().forEach(m -> addInterconnections(m));
 	}
 
 	protected void addInterconnections(ModelicaModel m)
@@ -142,61 +157,63 @@ public class ModelicaBuilder
 
 	protected List<ModelicaEquation> buildInterconnections(ModelicaModel m)
 	{
-		boolean isFault = m.getDeclarations().get(0).getType().contains("Fault");
+		Stream<ModelicaInterconnection> from = Stream.of(m.getInterconnections());
 
-		Stream<ModelicaConnector> sourceConnectors = Stream.of(m.getConnectors());
-		List<ModelicaEquation> targetConnectors = sourceConnectors
-				.map(sc -> sc.getTarget()
-						.flatMap(t -> {
-							if (isFault)
-								LOG.debug("Fault connector, source = {}, target = {} ",
-										sc.getRef(),
-										t);
-							return resolveTarget(t, m, mo);
-						})
+		List<ModelicaEquation> connections = from
+				.filter(fc -> fc.getTargetName() != null)
+				.map(fc -> resolveTarget(fc, m, mo)
 						.map(tc -> {
-							ModelicaConnect eqc = new ModelicaConnect(tc.getRef(), sc.getRef());
-							String id2 = m.getStaticId();
-							// For resolved targets we have stored the proper static identifier
-							String id1 = tc.getStaticId();
-							if (id1 != null && id2 != null)
-							{
-								String ids = Annotation.writeStaticId12(id1, id2);
-								if (eqc.getAnnotation() == null)
-									eqc.setAnnotation(new Annotation(ids));
-								else eqc.getAnnotation().addItem(ids);
-							}
+							ModelicaConnect eqc = buildConnection(tc, fc);
+							// For resolved targets we have stored the proper static identifier in target connector
+							annotateStaticIdsInConnection(eqc, tc.getStaticId(), m.getStaticId());
 							return eqc;
 						}))
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.collect(Collectors.toList());
-		return targetConnectors;
+		return connections;
 	}
 
-	protected Optional<ModelicaConnector> resolveTarget(
-			String target,
+	private static ModelicaConnect buildConnection(
+			ModelicaInterconnection c1,
+			ModelicaInterconnection c2)
+	{
+		String ref1 = ModelicaUtil.idvar2ref(c1.getComponentId(), c1.getComponentVar());
+		String ref2 = ModelicaUtil.idvar2ref(c2.getComponentId(), c2.getComponentVar());
+		return new ModelicaConnect(ref1, ref2);
+	}
+
+	private static void annotateStaticIdsInConnection(ModelicaConnect eqc, String id1, String id2)
+	{
+		if (id1 == null || id2 == null) return;
+		String ids = Annotation.writeStaticId12(id1, id2);
+		if (eqc.getAnnotation() == null)
+			eqc.setAnnotation(new Annotation(ids));
+		else eqc.getAnnotation().addItem(ids);
+	}
+
+	protected Optional<ModelicaInterconnection> resolveTarget(
+			ModelicaInterconnection ic,
 			ModelicaModel m,
 			ModelicaDocument mo)
 	{
-		Objects.requireNonNull(target);
-		String atarget[] = target.split(":");
-		String dataSource = atarget[0];
+		// The resolver for target of interconnections is the dynamic network
+		String dataSource = "DYNN";
 		ReferenceResolver r = referenceResolvers.get(dataSource);
 		if (r == null)
 		{
 			LOG.warn("No resolver found for connector with data source {}", dataSource);
 			return Optional.empty();
 		}
-		if (atarget.length < 2)
+		String model = ic.getTargetModel();
+		if (model == null)
 		{
-			LOG.warn("No item was specified for connector with data source {}", dataSource);
+			LOG.warn("No model was specified for interconnection with data source {}", model);
 			return Optional.empty();
 		}
-		String item = atarget[1];
-		String pin = atarget.length > 2 ? atarget[2] : "";
+		String name = ic.getTargetName();
 
-		return r.resolveConnectionTarget(item, pin, m);
+		return r.resolveConnectionTarget(model, name, m);
 	}
 
 	protected void registerResolver(String dataSource, ReferenceResolver resolver)

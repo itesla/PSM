@@ -10,14 +10,6 @@
 		<xs:attribute name="stage" use="optional" type="dyd:Stage"
 			default="SIMULATION" />
 	</xs:complexType>
-	<xs:element name="system_definitions">
-		<xs:complexType>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="declaration" type="dyd:Declaration" />
-				<xs:element name="equation" type="dyd:Equation" />
-			</xs:choice>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="model_container">
 		<xs:complexType>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -40,18 +32,139 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<!-- System definitions -->
-	<xs:complexType name="Declaration">
+	<!-- Dynamic models -->
+	<xs:complexType name="Association">
+		<xs:attribute name="pattern" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:complexType name="Model">
 		<xs:complexContent>
 			<xs:extension base="dyd:Stageable">
-				<xs:attribute name="type" use="required" type="xs:string" />
-				<xs:attribute name="id" use="required" type="xs:string" />
-				<xs:attribute name="value" use="optional" type="xs:string" />
-				<xs:attribute name="isParameter" use="optional" type="xs:boolean"
-					default="false" />
+				<xs:sequence>
+					<!-- TODO Review -->
+					<!-- system definitions for initialization stage do not need components, 
+						so minOccurs = 0 -->
+					<xs:element name="component" type="dyd:Component"
+						minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="connection" type="dyd:Connection"
+						minOccurs="0" maxOccurs="unbounded" />
+
+					<!-- XXX omegaRef define only connector for bus (connector remains, 
+						but is only for specifying points of arrival) -->
+					<!-- Then specify interconnections (in addition to regular "connections") 
+						with attributes id1, var1, dataSource2="IIDM", ref2="", var2="" -->
+					<!-- Initialization models do not need connectors, thus we have to set 
+						minOccurs = 0 -->
+					<!-- The upper bound is realistic but somewhat arbitrary, only branches 
+						and generators have two connectors -->
+					<!-- Branches have (p,n), generators (sortie,omegaRef) -->
+					<xs:element name="interconnection" type="dyd:Interconnection"
+						minOccurs="0" maxOccurs="unbounded" />
+
+					<xs:element name="equation" type="dyd:Equation"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+
+				<!-- The model applies either to a staticId, to a type or to an event -->
+
+				<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+
+				<xs:attribute name="association" use="optional"
+					type="dyd:nonEmptyString" />
+
+				<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
+
+				<xs:attribute name="event" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Stage">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INITIALIZATION" />
+			<xs:enumeration value="SIMULATION" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Component">
+		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />
+		<xs:attribute name="type" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
+		<!-- There are two ways of defining parameters of a component: reference 
+			to parameterSet or explicit list -->
+		<xs:attribute name="parFile" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="parId" use="optional" type="dyd:nonEmptyString" />
+		<!-- A component may not have instantiation parameters but a direct assignment 
+			of a value -->
+		<xs:attribute name="value" use="optional" type="xs:string" />
+		<xs:attribute name="isParameter" use="optional" type="xs:boolean"
+			default="false" />
+	</xs:complexType>
+	<xs:complexType name="Interconnection">
+		<xs:attribute name="name" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="componentId" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="componentVar" use="required"
+			type="dyd:nonEmptyString" />
+		<xs:attribute name="targetModel" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="targetName" use="optional" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:complexType name="Connection">
+		<xs:attribute name="id1" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="var1" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="id2" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="var2" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+
+	<!-- Parameters -->
+	<xs:complexType name="ParameterSet">
+		<xs:group ref="dyd:parameterItem" minOccurs="1" maxOccurs="unbounded" />
+		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:group name="parameterItem">
+		<xs:choice>
+			<xs:element name="par" type="dyd:ParameterValue" />
+			<xs:element name="ref" type="dyd:ParameterReference" />
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="ParameterValue">
+		<xs:attribute name="type" use="optional" type="dyd:ValueType"
+			default="STRING" />
+		<xs:attribute name="unit" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="value" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="isGeneric" use="optional" type="xs:boolean"
+			default="false" />
+	</xs:complexType>
+	<xs:complexType name="ParameterReference">
+		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
+		<xs:attribute name="unit" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="dataSource" use="required" type="dyd:DataSource" />
+		<xs:attribute name="sourceName" use="required" type="dyd:nonEmptyString" />
+	</xs:complexType>
+	<xs:simpleType name="ValueType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="STRING" />
+			<xs:enumeration value="DOUBLE" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DataSource">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IIDM" />
+			<xs:enumeration value="INIT" />
+			<xs:enumeration value="EVENT" />
+			<xs:enumeration value="DYNN" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EventInjection">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADD" />
+			<xs:enumeration value="REPLACE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<!-- TODO Equations will eventually disappear, when we support omegaRef 
+		as a block -->
 	<xs:complexType name="Equation">
 		<xs:complexContent>
 			<xs:extension base="dyd:Stageable">
@@ -125,123 +238,4 @@
 	<xs:complexType name="TemplateExpression" mixed="true">
 		<xs:attribute name="variable" />
 	</xs:complexType>
-
-	<!-- Dynamic models -->
-	<xs:complexType name="Association">
-		<xs:attribute name="pattern" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
-	</xs:complexType>
-	<xs:complexType name="Model">
-		<xs:complexContent>
-			<xs:extension base="dyd:Stageable">
-				<xs:sequence>
-					<xs:element name="component" type="dyd:Component"
-						minOccurs="1" maxOccurs="unbounded" />
-					<!-- TODO Review -->
-					<!-- Initialization models do not need connectors, thus minOccurs = 
-						0 -->
-					<!-- The upper bound is realistic but somewhat arbitrary, only branches 
-						and generators have two connectors -->
-					<!-- Branches have (p,n), generators (sortie,omegaRef) -->
-					<xs:element name="connector" type="dyd:Connector"
-						minOccurs="0" maxOccurs="2" />
-					<xs:element name="connection" type="dyd:Connection"
-						minOccurs="0" maxOccurs="unbounded" />
-				</xs:sequence>
-
-				<!-- The model applies either to a staticId, to a type or to an event -->
-
-				<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
-				<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-
-				<xs:attribute name="association" use="optional"
-					type="dyd:nonEmptyString" />
-
-				<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
-
-				<xs:attribute name="event" use="optional" type="dyd:nonEmptyString" />
-				<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:simpleType name="Stage">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="INITIALIZATION" />
-			<xs:enumeration value="SIMULATION" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="Component">
-		<xs:group ref="dyd:parameterItem" minOccurs="0" maxOccurs="unbounded" />
-		<xs:attribute name="type" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<!-- TODO two ways of defining parameters of a component: reference to 
-			parameterSet or explicit list -->
-		<xs:attribute name="parFile" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="parId" use="optional" type="dyd:nonEmptyString" />
-	</xs:complexType>
-	<xs:complexType name="Connector">
-		<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="pin" use="required" type="dyd:Pin" />
-		<xs:attribute name="target" use="optional" type="dyd:nonEmptyString" />
-	</xs:complexType>
-	<xs:simpleType name="Pin">
-		<xs:restriction base="xs:string">
-			<!-- TODO Review -->
-			<!-- Do we need to restrict the number of possible values for pin id? -->
-			<xs:enumeration value="p" />
-			<xs:enumeration value="n" />
-			<xs:enumeration value="sortie" />
-			<xs:enumeration value="omegaRef" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="Connection">
-		<xs:attribute name="id1" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="var1" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="id2" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="var2" use="required" type="dyd:nonEmptyString" />
-	</xs:complexType>
-
-	<!-- Parameters -->
-	<xs:complexType name="ParameterSet">
-		<xs:group ref="dyd:parameterItem" minOccurs="1" maxOccurs="unbounded" />
-		<xs:attribute name="id" use="required" type="dyd:nonEmptyString" />
-	</xs:complexType>
-	<xs:group name="parameterItem">
-		<xs:choice>
-			<xs:element name="par" type="dyd:ParameterValue" />
-			<xs:element name="ref" type="dyd:ParameterReference" />
-		</xs:choice>
-	</xs:group>
-	<xs:complexType name="ParameterValue">
-		<xs:attribute name="type" use="optional" type="dyd:ValueType"
-			default="STRING" />
-		<xs:attribute name="unit" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="value" use="required" type="dyd:nonEmptyString" />
-	</xs:complexType>
-	<xs:complexType name="ParameterReference">
-		<xs:attribute name="name" use="required" type="dyd:nonEmptyString" />
-		<xs:attribute name="unit" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="dataSource" use="required" type="dyd:DataSource" />
-		<xs:attribute name="sourceName" use="required" type="dyd:nonEmptyString" />
-	</xs:complexType>
-	<xs:simpleType name="ValueType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="STRING" />
-			<xs:enumeration value="DOUBLE" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="DataSource">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="IIDM" />
-			<xs:enumeration value="INIT" />
-			<xs:enumeration value="EVENT" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="EventInjection">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="ADD" />
-			<xs:enumeration value="REPLACE" />
-		</xs:restriction>
-	</xs:simpleType>
 </xs:schema>

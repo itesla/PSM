@@ -39,10 +39,10 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 			Path moInitPath = null;
 			if (modelicaInitPath != null) moInitPath = Paths.get(modelicaInitPath);
 
-			new DydFilesFromModelica().mo2dyd(
+			new DydFilesFromModelica(
 					Paths.get(modelicaFile),
 					moInitPath,
-					Paths.get(ddrLocation));
+					Paths.get(ddrLocation)).mo2dyd();
 			succeded();
 		}
 		catch (Exception x)

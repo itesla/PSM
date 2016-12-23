@@ -16,7 +16,7 @@ public class ComponentXml
 	public static Component read(XMLStreamReader r)
 	{
 		String id = r.getAttributeValue(null, "id");
-		String type= r.getAttributeValue(null, "type");
+		String type = r.getAttributeValue(null, "type");
 		Component c = new Component(id, type);
 
 		String parFile = r.getAttributeValue(null, "parFile");
@@ -24,6 +24,13 @@ public class ComponentXml
 		ParameterSetReference pref = null;
 		if (parFile != null && parId != null) pref = new ParameterSetReference(parFile, parId);
 		if (pref != null) c.setParameterSetReference(pref);
+
+		String svalue = r.getAttributeValue(null, "value");
+		if (svalue != null) c.setValue(svalue);
+		boolean isParameter = IS_PARAMETER_DEFAULT;
+		String sIsParameter = r.getAttributeValue(null, "isParameter");
+		if (sIsParameter != null) isParameter = Boolean.valueOf(sIsParameter);
+		c.setParameter(isParameter);
 
 		return c;
 	}
@@ -52,8 +59,15 @@ public class ComponentXml
 				w.writeAttribute("parFile", pref.getContainer());
 				w.writeAttribute("parId", pref.getSet());
 			}
+
+			Object value = c.getValue();
+			if (value != null) w.writeAttribute("value", value.toString());
+			if (c.isParameter() != IS_PARAMETER_DEFAULT)
+				w.writeAttribute("isParameter", Boolean.toString(c.isParameter()));
 		}
 
 		if (!isEmptyElement) w.writeEndElement();
 	}
+
+	private static final boolean IS_PARAMETER_DEFAULT = false;
 }

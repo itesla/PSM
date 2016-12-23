@@ -1,10 +1,11 @@
 package org.power_systems_modelica.psm.modelica;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -115,23 +116,23 @@ public class Annotation implements Comparable<Annotation>
 		return writeRefs(REF_STATIC_ID + "1", id1, REF_STATIC_ID + "2", id2);
 	}
 
-	public static List<ModelicaConnector> readConnectors(List<Annotation> annotations)
+	public static List<ModelicaInterconnection> readConnectors(List<Annotation> annotations)
 	{
 		return annotations.stream()
 				.filter(a -> !a.isEmpty())
 				.map(a -> a.asText())
 				.filter(Objects::nonNull)
-				.map(t -> readConnectors(t))
+				.map(t -> readInterconnections(t))
 				.filter(Objects::nonNull)
 				.flatMap(List::stream)
 				.collect(Collectors.toList());
 	}
 
-	public static String writeConnectors(List<ModelicaConnector> connectors)
+	public static String writeConnectors(List<ModelicaInterconnection> connectors)
 	{
 		if (connectors == null || connectors.isEmpty()) return "";
 		return connectors.stream()
-				.map(c -> writeConnector(c))
+				.map(c -> writeInterconnection(c))
 				.collect(Collectors.joining(","));
 	}
 
@@ -183,22 +184,29 @@ public class Annotation implements Comparable<Annotation>
 		return srefs.toString();
 	}
 
-	private static String writeConnector(ModelicaConnector c)
+	private static String writeInterconnection(ModelicaInterconnection c)
 	{
-		Optional<String> sid, spin, starget;
-
-		sid = c.getId().map(id -> writeAttributeValue(CONNECTOR_ATTR_ID, id));
-		spin = Optional.of(writeAttributeValue(CONNECTOR_ATTR_PIN, c.getPin()));
-		starget = c.getTarget().map(t -> writeAttributeValue(CONNECTOR_ATTR_TARGET, t));
-
-		String attrs = Arrays.asList(sid, spin, starget).stream()
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.collect(Collectors.joining(","));
-
-		return CONNECTOR_KEYWORD
+		// TODO Code for writing and reading interconnections should be symmetric 
+		String[] attrNames = {
+				"name",
+				"componentId",
+				"componentVar",
+				"targetModel",
+				"targetName" };
+		String[] attrValues = {
+				c.getName(),
+				c.getComponentId(),
+				c.getComponentVar(),
+				c.getTargetModel(),
+				c.getTargetName()
+		};
+		List<String> as = new ArrayList<>();
+		for (int k = 0; k < attrNames.length; k++)
+			if (attrValues[k] != null)
+				as.add(writeAttributeValue(attrNames[k], attrValues[k]));
+		return INTERCONNECTION_KEYWORD
 				.concat("(")
-				.concat(attrs)
+				.concat(String.join(",", as))
 				.concat(")");
 	}
 
@@ -207,28 +215,22 @@ public class Annotation implements Comparable<Annotation>
 		return attribute.concat("=\"").concat(value).concat("\"");
 	}
 
-	private static List<ModelicaConnector> readConnectors(String text)
+	private static List<ModelicaInterconnection> readInterconnections(String text)
 	{
-		List<ModelicaConnector> connectors = new ArrayList<>();
-		Matcher m = CONNECTOR_ANNOTATION.matcher(text);
+		List<ModelicaInterconnection> connectors = new ArrayList<>();
+		Matcher m = INTERCONNECTION_ANNOTATION.matcher(text);
 		while (m.find())
 		{
 			MatchResult r = m.toMatchResult();
 			String sc = r.group(1);
-			connectors.add(readConnector(sc));
+			connectors.add(readInterconnection(sc));
 		}
 		return connectors;
 	}
 
-	private static ModelicaConnector readConnector(String text)
+	private static ModelicaInterconnection readInterconnection(String text)
 	{
-		// Format expected is: id=<identifier>,pin=<pin name>,target=<dataSource>:<item>:<pin>
-		// Values may be quoted
-		// Target is not parsed
-		// Attributes may be given in any order
-		// id and target are optional
-
-		String id = null, pin = null, target = null;
+		Map<String, String> attrs = new HashMap<>();
 		String[] attributes = text.split(",");
 		for (String a : attributes)
 		{
@@ -236,35 +238,25 @@ public class Annotation implements Comparable<Annotation>
 			if (keyvalue.length < 2) continue;
 			String key = keyvalue[0];
 			String value = keyvalue[1].replace("\"", "");
-			switch (key)
-			{
-			case CONNECTOR_ATTR_ID:
-				id = value;
-				break;
-			case CONNECTOR_ATTR_PIN:
-				pin = value;
-				break;
-			case CONNECTOR_ATTR_TARGET:
-				target = value;
-				break;
-			}
+			attrs.put(key, value);
 		}
-		if (id == null && target == null) return new ModelicaConnector(pin);
-		else return new ModelicaConnector(id, pin, target);
+		return ModelicaInterconnection.create(
+				attrs.get("name"),
+				attrs.get("componentId"),
+				attrs.get("componentVar"),
+				attrs.get("targetModel"),
+				attrs.get("targetName"));
 	}
 
 	private final Set<AnnotationItem>	items;
 
-	private static final String			REF_KEYWORD				= "PSMRef";
-	private static final String			REF_ID					= "id";
-	private static final String			REF_STATIC_ID			= "staticId";
-	private static final Pattern		REF_ANNOTATION			= Pattern
+	private static final String			REF_KEYWORD					= "PSMRef";
+	private static final String			REF_ID						= "id";
+	private static final String			REF_STATIC_ID				= "staticId";
+	private static final Pattern		REF_ANNOTATION				= Pattern
 			.compile(REF_KEYWORD + "\\(([^\\)]*)\\)");
 
-	private static final String			CONNECTOR_KEYWORD		= "PSMConnector";
-	private static final String			CONNECTOR_ATTR_ID		= "id";
-	private static final String			CONNECTOR_ATTR_PIN		= "pin";
-	private static final String			CONNECTOR_ATTR_TARGET	= "target";
-	private static final Pattern		CONNECTOR_ANNOTATION	= Pattern
-			.compile(CONNECTOR_KEYWORD + "\\(([^\\)]*)\\)");
+	private static final String			INTERCONNECTION_KEYWORD		= "PSMInterCnx";
+	private static final Pattern		INTERCONNECTION_ANNOTATION	= Pattern
+			.compile(INTERCONNECTION_KEYWORD + "\\(([^\\)]*)\\)");
 }

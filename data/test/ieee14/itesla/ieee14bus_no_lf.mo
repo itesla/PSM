@@ -1,8 +1,9 @@
 within ;
 model ieee14bus
   parameter Real SNREF = 100.0;
-  Modelica.Blocks.Interfaces.RealOutput omegaRef;
-
+  iPSL.Electrical.Machines.Eurostag.omegaRef omegaRef ( 
+  nGenerators = 5 
+  ) annotation (Placement(transformation()));
 
 // BUSES
   iPSL.Electrical.Buses.Bus bus__BUS___10_TN (
@@ -283,7 +284,7 @@ model ieee14bus
 	 ) annotation (Placement(transformation()));
 
 // CAPACITORS
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BANK___9_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BANK___9_SC (
 	 B = 0.19000009587800412,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
@@ -858,13 +859,29 @@ model ieee14bus
 	 ) annotation (Placement(transformation()));
 
 equation
-  omegaRef = (gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.omega*gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.omega*gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn);
+  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__GEN____1_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__GEN____2_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__GEN____3_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__GEN____8_SM.pin_HIn) annotation (Line());
 
-  connect(gen_pwGeneratorM2S__GEN____1_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____2_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____3_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____6_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____8_SM.omegaRef, omegaRef);
+  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__GEN____1_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__GEN____2_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__GEN____3_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[4], gen_pwGeneratorM2S__GEN____6_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[5], gen_pwGeneratorM2S__GEN____8_SM.pin_SN) annotation (Line());
+
+  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__GEN____2_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__GEN____3_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[4], gen_pwGeneratorM2S__GEN____6_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[5], gen_pwGeneratorM2S__GEN____8_SM.pin_OMEGA) annotation (Line());
+
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____1_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____2_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____3_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____6_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____8_SM.omegaRef) annotation (Line());
 
 // Connecting REGULATORS and MACHINES
   connect(reg_pssi3e2b__GEN____1_SM.pin_ActivePowerSN, gen_pwGeneratorM2S__GEN____1_SM.pin_ActivePowerSN) annotation (Line());
@@ -962,7 +979,7 @@ equation
   connect(bus__BUS____9_TN.p, load__LOAD___9_EC.p) annotation (Line());
 
 // Connecting Capacitors
-  connect(bus__BUS____9_TN.p, cap_pwCapacitorBank__BANK___9_SC.p) annotation (Line());
+  connect(bus__BUS____9_TN.p, cap__BANK___9_SC.p) annotation (Line());
 
 // Connecting GENERATORS
   connect(bus__BUS____1_TN.p, gen_pwGeneratorM2S__GEN____1_SM.sortie) annotation (Line());

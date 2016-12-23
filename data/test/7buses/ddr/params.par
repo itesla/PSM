@@ -17,7 +17,7 @@
         <par name="ALPHA" value="0.34"/>
         <par name="PMAXSPN" value="1.025641"/>
         <par name="SNREF" value="100.0"/>
-        <par name="FHP" value="0."/>
+        <par name="FHP" value="{0.,0.,0.5,.9000000,1.,1.050000}"/>
         <par name="PLM" value="0.05"/>
         <par name="VFHP" value="3.600000"/>
         <par name="RPP" value="1."/>
@@ -33,7 +33,7 @@
         <par name="T60S" value="60."/>
         <par name="TOHP" value="0.07"/>
         <par name="RMA" value="0.1"/>
-        <par name="FMP" value="0."/>
+        <par name="FMP" value="{0.,0.,0.5,.8500000,1.,1.}"/>
         <par name="DELTHP" value="0.04"/>
         <par name="TMA" value="0.5"/>
         <par name="VOHP" value="4.5"/>
@@ -101,19 +101,19 @@
         <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
         <par name="Saturated" value="true"/>
         <par name="TX" value="0"/>
-        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
-        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
-        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.teta0"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.omega_0"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.efd0"/>
         <par name="WLMDVPu" value="0.7226456114257552"/>
-        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
-        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
-        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
-        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
-        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
-        <ref name="init_id" dataSource="INIT" sourceName="id"/>
-        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
-        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
-        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.lambdaAD0"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.cm0"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.lambdaQ10"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.lambdaQ20"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.iQ0"/>
+        <ref name="init_id" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.iD0"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.lambdaAQ0"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.lambdaD0"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000000_SM.lambdaF0"/>
         <par name="PNALT" value="970.0"/>
         <par name="IENR" value="4"/>
         <par name="DIn" value="0.0"/>
@@ -149,7 +149,7 @@
         <par name="SN" value="1078.0"/>
         <par name="PN" value="1215.0"/>
         <par name="PNALT" value="970.0"/>
-        <ref name="init_PV" dataSource="INIT" sourceName="PV"/>
+        <ref name="init_PV" dataSource="INIT" sourceName="reg_consig__G0000000_SM.PV"/>
         <par name="ZERO" value="0."/>
     </set>
     <set id="_G0000000_SM_reg_edftur1c_SIMULATION">
@@ -157,15 +157,15 @@
         <par name="SN" value="1078.0"/>
         <par name="PN" value="1215.0"/>
         <par name="PNALT" value="970.0"/>
-        <ref name="init_DELTAPE" dataSource="INIT" sourceName="DELTAPE"/>
-        <ref name="init_NIVP" dataSource="INIT" sourceName="NIVP"/>
-        <ref name="init_Z" dataSource="INIT" sourceName="Z"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
-        <ref name="init_C" dataSource="INIT" sourceName="C"/>
-        <ref name="init_PVISEE" dataSource="INIT" sourceName="PVISEE"/>
-        <ref name="init_PCONSI" dataSource="INIT" sourceName="PCONSI"/>
-        <ref name="init_OVHP" dataSource="INIT" sourceName="OVHP"/>
-        <ref name="init_B" dataSource="INIT" sourceName="B"/>
+        <ref name="init_DELTAPE" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.DELTAPE"/>
+        <ref name="init_NIVP" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.NIVP"/>
+        <ref name="init_Z" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.Z"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.CM"/>
+        <ref name="init_C" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.C"/>
+        <ref name="init_PVISEE" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.PVISEE"/>
+        <ref name="init_PCONSI" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.PCONSI"/>
+        <ref name="init_OVHP" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.OVHP"/>
+        <ref name="init_B" dataSource="INIT" sourceName="reg_edftur1c__G0000000_SM.B"/>
         <par name="PR" value="0.05"/>
         <par name="TVMP" value="0.25"/>
         <par name="SAS" value="-0.02"/>
@@ -173,7 +173,7 @@
         <par name="SACC" value="0.024182"/>
         <par name="ALPHA" value="0.34"/>
         <par name="PMAXSPN" value="1.025641"/>
-        <par name="FHP" value="0."/>
+        <par name="FHP" value="{0.,0.,0.5,.9000000,1.,1.050000}"/>
         <par name="PLM" value="0.05"/>
         <par name="VFHP" value="3.600000"/>
         <par name="RPP" value="1."/>
@@ -188,7 +188,7 @@
         <par name="T60S" value="60."/>
         <par name="TOHP" value="0.07"/>
         <par name="RMA" value="0.1"/>
-        <par name="FMP" value="0."/>
+        <par name="FMP" value="{0.,0.,0.5,.8500000,1.,1.}"/>
         <par name="DELTHP" value="0.04"/>
         <par name="TMA" value="0.5"/>
         <par name="VOHP" value="4.5"/>
@@ -211,16 +211,16 @@
         <par name="SN" value="1078.0"/>
         <par name="PN" value="1215.0"/>
         <par name="PNALT" value="970.0"/>
-        <ref name="init_DU" dataSource="INIT" sourceName="DU"/>
-        <ref name="init_M" dataSource="INIT" sourceName="M"/>
-        <ref name="init_PUISS" dataSource="INIT" sourceName="PUISS"/>
-        <ref name="init_VSINIT" dataSource="INIT" sourceName="VSINIT"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
-        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
-        <ref name="init_VCONSI" dataSource="INIT" sourceName="VCONSI"/>
-        <ref name="init_OMEGA" dataSource="INIT" sourceName="OMEGA"/>
-        <ref name="init_EPS" dataSource="INIT" sourceName="EPS"/>
-        <ref name="init_DIFSGA" dataSource="INIT" sourceName="DIFSGA"/>
+        <ref name="init_DU" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.DU"/>
+        <ref name="init_M" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.M"/>
+        <ref name="init_PUISS" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.PUISS"/>
+        <ref name="init_VSINIT" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.VSINIT"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.CM"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.IEX"/>
+        <ref name="init_VCONSI" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.VCONSI"/>
+        <ref name="init_OMEGA" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.OMEGA"/>
+        <ref name="init_EPS" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.EPS"/>
+        <ref name="init_DIFSGA" dataSource="INIT" sourceName="reg_rqb_alst__G0000000_SM.DIFSGA"/>
         <par name="VFTM" value="4."/>
         <par name="DELTAS" value="87.84000"/>
         <par name="DEUXPINU" value="314.1570"/>
@@ -259,10 +259,10 @@
         <par name="SN" value="1078.0"/>
         <par name="PN" value="1215.0"/>
         <par name="PNALT" value="970.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
-        <ref name="init_LA" dataSource="INIT" sourceName="LA"/>
-        <ref name="init_KC" dataSource="INIT" sourceName="KC"/>
-        <ref name="init_PHI" dataSource="INIT" sourceName="PHI"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="reg_tkj_comp__G0000000_SM.EFD"/>
+        <ref name="init_LA" dataSource="INIT" sourceName="reg_tkj_comp__G0000000_SM.LA"/>
+        <ref name="init_KC" dataSource="INIT" sourceName="reg_tkj_comp__G0000000_SM.KC"/>
+        <ref name="init_PHI" dataSource="INIT" sourceName="reg_tkj_comp__G0000000_SM.PHI"/>
         <par name="RFE" value="100."/>
         <par name="RC" value="0.13"/>
         <par name="SEB" value="7.400000"/>
@@ -272,7 +272,7 @@
         <par name="KE" value=".4900000"/>
         <par name="PLEXP" value="4."/>
         <par name="TDOEX" value=".4000000"/>
-        <par name="FIEEE" value="0."/>
+        <par name="FIEEE" value="{0.,1.,0.433,0.7489,0.5,.7071000,.5500000,.6690000,.6000000,.6245000,.6500000,.5723000,.7000000,.5099000,0.75,0.433,1.,0.}"/>
         <par name="SEA" value="1.100000"/>
     </set>
     <set id="_G0000000_SM_rqb_alst_INITIALIZATION">
@@ -327,7 +327,7 @@
         <par name="RIN" value="0.25"/>
         <par name="KE" value=".4900000"/>
         <par name="SN" value="1078.0"/>
-        <par name="FIEEE" value="0."/>
+        <par name="FIEEE" value="{0.,1.,0.433,0.7489,0.5,.7071000,.5500000,.6690000,.6000000,.6245000,.6500000,.5723000,.7000000,.5099000,0.75,0.433,1.,0.}"/>
         <par name="PN" value="1215.0"/>
     </set>
     <set id="_G0000001_SM_consig_INITIALIZATION">
@@ -347,7 +347,7 @@
         <par name="ALPHA" value="0.34"/>
         <par name="PMAXSPN" value="1.010000"/>
         <par name="SNREF" value="100.0"/>
-        <par name="FHP" value="0."/>
+        <par name="FHP" value="{0.,0.,.6000000,1.,1.,1.050000}"/>
         <par name="PLM" value=".3500000"/>
         <par name="VFHP" value=".3500000"/>
         <par name="RPP" value=".9000000"/>
@@ -364,7 +364,7 @@
         <par name="T60S" value="60."/>
         <par name="TOHP" value="0.17"/>
         <par name="RMA" value="0.1"/>
-        <par name="FMP" value="0."/>
+        <par name="FMP" value="{0.,0.,0.5,.8500000,1.,1.}"/>
         <par name="DELTHP" value="0.04"/>
         <par name="TMA" value="0.5"/>
         <par name="VOHP" value="3."/>
@@ -432,19 +432,19 @@
         <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
         <par name="Saturated" value="true"/>
         <par name="TX" value="0"/>
-        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
-        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
-        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.teta0"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.omega_0"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.efd0"/>
         <par name="WLMDVPu" value="0.7448638277959367"/>
-        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
-        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
-        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
-        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
-        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
-        <ref name="init_id" dataSource="INIT" sourceName="id"/>
-        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
-        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
-        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.lambdaAD0"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.cm0"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.lambdaQ10"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.lambdaQ20"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.iQ0"/>
+        <ref name="init_id" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.iD0"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.lambdaAQ0"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.lambdaD0"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000001_SM.lambdaF0"/>
         <par name="PNALT" value="1539.0"/>
         <par name="IENR" value="4"/>
         <par name="DIn" value="0.0"/>
@@ -480,7 +480,7 @@
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="PNALT" value="1539.0"/>
-        <ref name="init_PV" dataSource="INIT" sourceName="PV"/>
+        <ref name="init_PV" dataSource="INIT" sourceName="reg_consig__G0000001_SM.PV"/>
         <par name="ZERO" value="0."/>
     </set>
     <set id="_G0000001_SM_reg_edftur2c_SIMULATION">
@@ -488,15 +488,15 @@
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="PNALT" value="1539.0"/>
-        <ref name="init_DELTAPE" dataSource="INIT" sourceName="DELTAPE"/>
-        <ref name="init_NIVP" dataSource="INIT" sourceName="NIVP"/>
-        <ref name="init_Z" dataSource="INIT" sourceName="Z"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
-        <ref name="init_C" dataSource="INIT" sourceName="C"/>
-        <ref name="init_PVISEE" dataSource="INIT" sourceName="PVISEE"/>
-        <ref name="init_PCONSI" dataSource="INIT" sourceName="PCONSI"/>
-        <ref name="init_OVHP" dataSource="INIT" sourceName="OVHP"/>
-        <ref name="init_B" dataSource="INIT" sourceName="B"/>
+        <ref name="init_DELTAPE" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.DELTAPE"/>
+        <ref name="init_NIVP" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.NIVP"/>
+        <ref name="init_Z" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.Z"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.CM"/>
+        <ref name="init_C" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.C"/>
+        <ref name="init_PVISEE" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.PVISEE"/>
+        <ref name="init_PCONSI" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.PCONSI"/>
+        <ref name="init_OVHP" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.OVHP"/>
+        <ref name="init_B" dataSource="INIT" sourceName="reg_edftur2c__G0000001_SM.B"/>
         <par name="PR" value="0.05"/>
         <par name="TVMP" value="0.2"/>
         <par name="SAS" value="-0.02"/>
@@ -504,7 +504,7 @@
         <par name="SACC" value="0.03968"/>
         <par name="ALPHA" value="0.34"/>
         <par name="PMAXSPN" value="1.010000"/>
-        <par name="FHP" value="0."/>
+        <par name="FHP" value="{0.,0.,.6000000,1.,1.,1.050000}"/>
         <par name="PLM" value=".3500000"/>
         <par name="VFHP" value=".3500000"/>
         <par name="RPP" value=".9000000"/>
@@ -520,7 +520,7 @@
         <par name="T60S" value="60."/>
         <par name="TOHP" value="0.17"/>
         <par name="RMA" value="0.1"/>
-        <par name="FMP" value="0."/>
+        <par name="FMP" value="{0.,0.,0.5,.8500000,1.,1.}"/>
         <par name="DELTHP" value="0.04"/>
         <par name="TMA" value="0.5"/>
         <par name="VOHP" value="3."/>
@@ -543,16 +543,16 @@
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="PNALT" value="1539.0"/>
-        <ref name="init_DU" dataSource="INIT" sourceName="DU"/>
-        <ref name="init_M" dataSource="INIT" sourceName="M"/>
-        <ref name="init_PUISS" dataSource="INIT" sourceName="PUISS"/>
-        <ref name="init_VSINIT" dataSource="INIT" sourceName="VSINIT"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
-        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
-        <ref name="init_VCONSI" dataSource="INIT" sourceName="VCONSI"/>
-        <ref name="init_OMEGA" dataSource="INIT" sourceName="OMEGA"/>
-        <ref name="init_EPS" dataSource="INIT" sourceName="EPS"/>
-        <ref name="init_DIFSGA" dataSource="INIT" sourceName="DIFSGA"/>
+        <ref name="init_DU" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.DU"/>
+        <ref name="init_M" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.M"/>
+        <ref name="init_PUISS" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.PUISS"/>
+        <ref name="init_VSINIT" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.VSINIT"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.CM"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.IEX"/>
+        <ref name="init_VCONSI" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.VCONSI"/>
+        <ref name="init_OMEGA" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.OMEGA"/>
+        <ref name="init_EPS" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.EPS"/>
+        <ref name="init_DIFSGA" dataSource="INIT" sourceName="reg_rqb_alst__G0000001_SM.DIFSGA"/>
         <par name="VFTM" value="4."/>
         <par name="DELTAS" value="87.84000"/>
         <par name="DEUXPINU" value="314.1570"/>
@@ -591,10 +591,10 @@
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="PNALT" value="1539.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
-        <ref name="init_LA" dataSource="INIT" sourceName="LA"/>
-        <ref name="init_KC" dataSource="INIT" sourceName="KC"/>
-        <ref name="init_PHI" dataSource="INIT" sourceName="PHI"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="reg_tkj_comp__G0000001_SM.EFD"/>
+        <ref name="init_LA" dataSource="INIT" sourceName="reg_tkj_comp__G0000001_SM.LA"/>
+        <ref name="init_KC" dataSource="INIT" sourceName="reg_tkj_comp__G0000001_SM.KC"/>
+        <ref name="init_PHI" dataSource="INIT" sourceName="reg_tkj_comp__G0000001_SM.PHI"/>
         <par name="RFE" value="100."/>
         <par name="RC" value="0.211"/>
         <par name="SEB" value="5.170000"/>
@@ -604,7 +604,7 @@
         <par name="KE" value=".4570000"/>
         <par name="PLEXP" value="4.600000"/>
         <par name="TDOEX" value=".4500000"/>
-        <par name="FIEEE" value="0."/>
+        <par name="FIEEE" value="{0.,1.,0.433,0.7489,0.5,.7071000,.5500000,.6690000,.6000000,.6245000,.6500000,.5723000,.7000000,.5099000,0.75,0.433,1.,0.}"/>
         <par name="SEA" value=".6560000"/>
     </set>
     <set id="_G0000001_SM_rqb_alst_INITIALIZATION">
@@ -659,7 +659,7 @@
         <par name="RIN" value="0.25"/>
         <par name="KE" value=".4570000"/>
         <par name="SN" value="1710.0"/>
-        <par name="FIEEE" value="0."/>
+        <par name="FIEEE" value="{0.,1.,0.433,0.7489,0.5,.7071000,.5500000,.6690000,.6000000,.6245000,.6500000,.5723000,.7000000,.5099000,0.75,0.433,1.,0.}"/>
         <par name="PN" value="1539.0"/>
     </set>
     <set id="_G0000002_SM_consig_INITIALIZATION">
@@ -679,7 +679,7 @@
         <par name="ALPHA" value="0.34"/>
         <par name="PMAXSPN" value="1."/>
         <par name="SNREF" value="100.0"/>
-        <par name="FHP" value="0."/>
+        <par name="FHP" value="{0.,0.,.6000000,1.,1.,1.050000}"/>
         <par name="PLM" value=".3500000"/>
         <par name="VFHP" value=".3500000"/>
         <par name="RPP" value=".9000000"/>
@@ -696,7 +696,7 @@
         <par name="T60S" value="60."/>
         <par name="TOHP" value="0.17"/>
         <par name="RMA" value="0.1"/>
-        <par name="FMP" value="0."/>
+        <par name="FMP" value="{0.,0.,0.5,.8500000,1.,1.}"/>
         <par name="DELTHP" value="0.04"/>
         <par name="TMA" value="0.5"/>
         <par name="VOHP" value="3."/>
@@ -774,19 +774,19 @@
         <ref name="V2" dataSource="IIDM" sourceName="Vnom"/>
         <par name="Saturated" value="true"/>
         <par name="TX" value="0"/>
-        <ref name="init_theta" dataSource="INIT" sourceName="theta"/>
-        <ref name="init_omega" dataSource="INIT" sourceName="omega"/>
-        <ref name="init_efd" dataSource="INIT" sourceName="efd"/>
+        <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.teta0"/>
+        <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.omega_0"/>
+        <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.efd0"/>
         <par name="WLMDVPu" value="0.6686345878298443"/>
-        <ref name="init_lambdaad" dataSource="INIT" sourceName="lambdaad"/>
-        <ref name="init_cm" dataSource="INIT" sourceName="cm"/>
-        <ref name="init_lambdaq1" dataSource="INIT" sourceName="lambdaq1"/>
-        <ref name="init_lambdaq2" dataSource="INIT" sourceName="lambdaq2"/>
-        <ref name="init_iq" dataSource="INIT" sourceName="iq"/>
-        <ref name="init_id" dataSource="INIT" sourceName="id"/>
-        <ref name="init_lambdaaq" dataSource="INIT" sourceName="lambdaaq"/>
-        <ref name="init_lambdad" dataSource="INIT" sourceName="lambdad"/>
-        <ref name="init_lambdaf" dataSource="INIT" sourceName="lambdaf"/>
+        <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.lambdaAD0"/>
+        <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.cm0"/>
+        <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.lambdaQ10"/>
+        <ref name="init_lambdaq2" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.lambdaQ20"/>
+        <ref name="init_iq" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.iQ0"/>
+        <ref name="init_id" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.iD0"/>
+        <ref name="init_lambdaaq" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.lambdaAQ0"/>
+        <ref name="init_lambdad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.lambdaD0"/>
+        <ref name="init_lambdaf" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G0000002_SM.lambdaF0"/>
         <par name="PNALT" value="1090.0"/>
         <par name="IENR" value="4"/>
         <par name="DIn" value="0.0"/>
@@ -822,7 +822,7 @@
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="PNALT" value="1090.0"/>
-        <ref name="init_PV" dataSource="INIT" sourceName="PV"/>
+        <ref name="init_PV" dataSource="INIT" sourceName="reg_consig__G0000002_SM.PV"/>
         <par name="ZERO" value="0."/>
     </set>
     <set id="_G0000002_SM_reg_edftur2c_SIMULATION">
@@ -830,15 +830,15 @@
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="PNALT" value="1090.0"/>
-        <ref name="init_DELTAPE" dataSource="INIT" sourceName="DELTAPE"/>
-        <ref name="init_NIVP" dataSource="INIT" sourceName="NIVP"/>
-        <ref name="init_Z" dataSource="INIT" sourceName="Z"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="CM"/>
-        <ref name="init_C" dataSource="INIT" sourceName="C"/>
-        <ref name="init_PVISEE" dataSource="INIT" sourceName="PVISEE"/>
-        <ref name="init_PCONSI" dataSource="INIT" sourceName="PCONSI"/>
-        <ref name="init_OVHP" dataSource="INIT" sourceName="OVHP"/>
-        <ref name="init_B" dataSource="INIT" sourceName="B"/>
+        <ref name="init_DELTAPE" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.DELTAPE"/>
+        <ref name="init_NIVP" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.NIVP"/>
+        <ref name="init_Z" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.Z"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.CM"/>
+        <ref name="init_C" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.C"/>
+        <ref name="init_PVISEE" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.PVISEE"/>
+        <ref name="init_PCONSI" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.PCONSI"/>
+        <ref name="init_OVHP" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.OVHP"/>
+        <ref name="init_B" dataSource="INIT" sourceName="reg_edftur2c__G0000002_SM.B"/>
         <par name="PR" value="0.05"/>
         <par name="TVMP" value="0.2"/>
         <par name="SAS" value="-0.02"/>
@@ -846,7 +846,7 @@
         <par name="SACC" value="0.039683"/>
         <par name="ALPHA" value="0.34"/>
         <par name="PMAXSPN" value="1."/>
-        <par name="FHP" value="0."/>
+        <par name="FHP" value="{0.,0.,.6000000,1.,1.,1.050000}"/>
         <par name="PLM" value=".3500000"/>
         <par name="VFHP" value=".3500000"/>
         <par name="RPP" value=".9000000"/>
@@ -862,7 +862,7 @@
         <par name="T60S" value="60."/>
         <par name="TOHP" value="0.17"/>
         <par name="RMA" value="0.1"/>
-        <par name="FMP" value="0."/>
+        <par name="FMP" value="{0.,0.,0.5,.8500000,1.,1.}"/>
         <par name="DELTHP" value="0.04"/>
         <par name="TMA" value="0.5"/>
         <par name="VOHP" value="3."/>
@@ -885,8 +885,8 @@
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="PNALT" value="1090.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
-        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="reg_ex_stat__G0000002_SM.EFD"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="reg_ex_stat__G0000002_SM.IEX"/>
         <par name="RFE" value="200."/>
         <par name="TE" value="0.02"/>
         <par name="PLEXM" value="-1.6"/>
@@ -897,15 +897,15 @@
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="PNALT" value="1090.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="EFD"/>
-        <ref name="init_DU" dataSource="INIT" sourceName="DU"/>
-        <ref name="init_PUISS" dataSource="INIT" sourceName="PUISS"/>
-        <ref name="init_VSINIT" dataSource="INIT" sourceName="VSINIT"/>
-        <ref name="init_DIFFI" dataSource="INIT" sourceName="DIFFI"/>
-        <ref name="init_IEX" dataSource="INIT" sourceName="IEX"/>
-        <ref name="init_VCONSI" dataSource="INIT" sourceName="VCONSI"/>
-        <ref name="init_DIFDELT" dataSource="INIT" sourceName="DIFDELT"/>
-        <ref name="init_DIFSGA" dataSource="INIT" sourceName="DIFSGA"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.EFD"/>
+        <ref name="init_DU" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.DU"/>
+        <ref name="init_PUISS" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.PUISS"/>
+        <ref name="init_VSINIT" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.VSINIT"/>
+        <ref name="init_DIFFI" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.DIFFI"/>
+        <ref name="init_IEX" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.IEX"/>
+        <ref name="init_VCONSI" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.VCONSI"/>
+        <ref name="init_DIFDELT" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.DIFDELT"/>
+        <ref name="init_DIFSGA" dataSource="INIT" sourceName="reg_sep_abb__G0000002_SM.DIFSGA"/>
         <par name="VFTM" value="4."/>
         <par name="DELTAS" value="88.02000"/>
         <par name="LIMP" value="0.14"/>

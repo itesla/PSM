@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -42,6 +43,7 @@ public class ModelicaNetworkBuilderTest
 		Mockito.when(n.getName()).thenReturn("mocked_network");
 
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
+		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
 		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
@@ -73,6 +75,7 @@ public class ModelicaNetworkBuilderTest
 
 		// Mocking the Dynamic Data Repository
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
+		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
 		ModelicaArgument V = new ModelicaArgument("V", "1.0");
 		ModelicaArgument A = new ModelicaArgument("A", "0.0");
 		ModelicaDeclaration dbusi = new ModelicaDeclaration(
@@ -125,6 +128,7 @@ public class ModelicaNetworkBuilderTest
 
 		// Mocking the Dynamic Data Repository
 		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
+		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
 		ModelicaArgument V = new ModelicaArgumentReference("V0", "IIDM", "V");
 		ModelicaArgument A = new ModelicaArgument("A", "0.0");
 		ModelicaDeclaration dbusi = new ModelicaDeclaration(

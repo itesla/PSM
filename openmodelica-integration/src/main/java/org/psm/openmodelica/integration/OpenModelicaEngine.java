@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -22,10 +25,11 @@ import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
-import org.power_systems_modelica.psm.modelica.engine.Stage;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Stage;
 
 public class OpenModelicaEngine implements ModelicaEngine
 {
@@ -114,7 +118,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 				}
 				boolean simulated = simulateModel(modelName, startTime, 0.01 * stopTime,
 						numOfIntervals, tolerance,
-						simFlags, Stage.VALIDATION);
+						simFlags);
 				if (!simulated) validated = false;
 				break;
 			}
@@ -187,8 +191,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 			// https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
 			// IMPORTANT: These simFlags can greatly increase the simulation
 			// time.
-			simulateModel(modelName, startTime, stopTime, numOfIntervals, tolerance, simFlags,
-					Stage.SIMULATION);
+			simulateModel(modelName, startTime, stopTime, numOfIntervals, tolerance, simFlags);
 
 			// String matResultsFile = modelName + "_res" + MAT_EXTENSION;
 			// String csvResultsFile = modelName + "_res_filtered" + CSV_EXTENSION;
@@ -279,12 +282,12 @@ public class OpenModelicaEngine implements ModelicaEngine
 	}
 
 	private void writeResults(PrintStream printStream, String matResultsFile,
-			List<String> filterResultVariables, int resultSize, Stage stage)
+			List<String> filterResultVariables, int resultSize)
 			throws ConnectException
 	{
 		// The first "result" in ModelicaSimulationResults is the simulation
 		// directory "simulation_path"
-		this.results.addResult(stage, modelName, "simulation_path", this.omSimulationDir);
+		this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
 
 		String[][] resultValues = new String[resultSize][filterResultVariables.size()];
 
@@ -313,7 +316,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 			// LUMA resVar was quoted, remove quotes before storing in
 			// simulation results
 			// LUMA In SimulationResults put only the last observed value
-			this.results.addResult(stage, modelName, resVar.replaceAll("\"", ""),
+			this.results.addResult(modelName, resVar.replaceAll("\"", ""),
 					values[values.length - 1]);
 		}
 
@@ -464,7 +467,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 	}
 
 	private boolean simulateModel(String modelName, double startTime, double stopTime,
-			int numOfIntervals, double tolerance, String simFlags, Stage stage)
+			int numOfIntervals, double tolerance, String simFlags)
 			throws ConnectException
 	{
 		Instant startms, endms;
@@ -494,7 +497,8 @@ public class OpenModelicaEngine implements ModelicaEngine
 				}
 				else if (simResult.getError().contains("Warning:"))
 				{
-					LOGGER.warn("Warning simulating model {} with integration method {}. \n Reason : \n {}.",
+					LOGGER.warn(
+							"Warning simulating model {} with integration method {}. \n Reason : \n {}.",
 							modelName,
 							METHOD_LIST[i], simResult.getMessages());
 					successful = true;
@@ -556,7 +560,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 				Files.newOutputStream(
 						Paths.get(omSimulationDir + File.separator + csvResultsFile))))
 		{
-			writeResults(printStream, matResultsFile, filterResultVariables, resultSize, stage);
+			writeResults(printStream, matResultsFile, filterResultVariables, resultSize);
 		}
 		catch (IOException e)
 		{

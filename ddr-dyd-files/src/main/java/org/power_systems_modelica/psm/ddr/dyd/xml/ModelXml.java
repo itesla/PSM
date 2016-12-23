@@ -7,12 +7,14 @@ import javax.xml.stream.XMLStreamWriter;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository.Injection;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
-import org.power_systems_modelica.psm.ddr.dyd.Connector;
+import org.power_systems_modelica.psm.ddr.dyd.Interconnection;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForAssociation;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForElement;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForEvent;
 import org.power_systems_modelica.psm.ddr.dyd.ModelForType;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
+import org.power_systems_modelica.psm.ddr.dyd.xml.equations.EquationXml;
 
 public class ModelXml
 {
@@ -66,10 +68,12 @@ public class ModelXml
 
 		for (Component mc : m.getComponents())
 			ComponentXml.write(w, mc);
-		for (Connector mcr : m.getConnectors())
-			ConnectorXml.write(w, mcr);
 		for (Connection mcn : m.getConnections())
 			ConnectionXml.write(w, mcn);
+		for (Interconnection mcr : m.getInterconnections())
+			InterconnectionXml.write(w, mcr);
+		for (Equation meq : m.getOtherEquations())
+			EquationXml.write(w, meq);
 
 		w.writeEndElement();
 	}

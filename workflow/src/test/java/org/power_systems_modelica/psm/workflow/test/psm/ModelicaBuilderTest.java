@@ -85,7 +85,7 @@ public class ModelicaBuilderTest
 				54);
 	}
 	
-//	@Test // FIXME Fixed injections are not exported to the Modelica file.
+	@Test // FIXME Fixed injections are not exported to the Modelica file.
 	public void buildSmallCase1() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -121,7 +121,7 @@ public class ModelicaBuilderTest
 				2); //There are one generator and one fixed injection but in IIDM both are Generators.
 	}
 	
-//	@Test //FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
+	@Test //FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
 	public void build7buses() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -154,7 +154,7 @@ public class ModelicaBuilderTest
 			int expectedNumGenerators)
 			throws WorkflowCreationException, IOException
 	{
-		// TODO Use ShrinkWrap filesystem for temporal files used in tests
+		// TODO Use ShrinkWrap file system for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		String cim = folder.resolve(casename).toString();
 		String ddr = TEST_SAMPLES.resolve(ddrname).toString();

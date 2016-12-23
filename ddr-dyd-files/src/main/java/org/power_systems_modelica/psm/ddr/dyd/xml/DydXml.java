@@ -12,7 +12,6 @@ import javax.xml.stream.events.XMLEvent;
 import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.DydContent;
 import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
-import org.power_systems_modelica.psm.ddr.dyd.SystemDefinitions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,8 +47,6 @@ public class DydXml
 				{
 				case ModelContainerXml.MODEL_CONTAINER_ELEMENT_NAME:
 					return ModelContainerXml.read(r);
-				case SystemDefinitionsXml.SYSTEM_DEFINITIONS_ELEMENT_NAME:
-					return SystemDefinitionsXml.read(r);
 				}
 			}
 		}
@@ -78,8 +75,6 @@ public class DydXml
 
 		if (dyd instanceof ModelContainer)
 			ModelContainerXml.write(w, (ModelContainer) dyd);
-		else if (dyd instanceof SystemDefinitions)
-			SystemDefinitionsXml.write(w, (SystemDefinitions) dyd);
 
 		w.writeEndDocument();
 		w.flush();

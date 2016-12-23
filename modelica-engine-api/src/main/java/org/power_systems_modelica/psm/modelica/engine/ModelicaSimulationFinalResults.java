@@ -7,14 +7,14 @@ import java.util.Set;
 
 public class ModelicaSimulationFinalResults
 {
-	public void addResult(Stage stage, String model, String var, Object value)
+	public void addResult(String model, String var, Object value)
 	{
-		results.put(buildKey(stage, model, var), value);
+		results.put(buildKey(model, var), value);
 	}
 
-	public Object getValue(Stage stage, String model, String var)
+	public Object getValue(String model, String var)
 	{
-		return results.get(buildKey(stage, model, var));
+		return results.get(buildKey(model, var));
 	}
 
 	public Set<Entry<String, Object>> getEntries()
@@ -27,11 +27,9 @@ public class ModelicaSimulationFinalResults
 		results.put(key, value);
 	}
 
-	private static String buildKey(Stage stage, String model, String var)
+	private static String buildKey(String model, String var)
 	{
 		return new StringBuilder()
-				.append(stage)
-				.append(KEY_SEPARATOR)
 				.append(model)
 				.append(KEY_SEPARATOR)
 				.append(var)

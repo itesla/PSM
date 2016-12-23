@@ -57,10 +57,10 @@ public class AssociationsDiscoverer
 		if (modelSignature.equals(associationSignature))
 		{
 			String msg = String.format("Bad association classification\n" +
-					"    staticId       = %s\n" +
-					"    modelSignature = %s\n",
-					"    assocSignature = %s\n",
-					"    stage          = %s\n",
+					"    staticId       = %s%n" +
+					"    modelSignature = %s%n" +
+					"    assocSignature = %s%n" +
+					"    stage          = %s%n",
 					staticId,
 					modelSignature,
 					associationSignature,

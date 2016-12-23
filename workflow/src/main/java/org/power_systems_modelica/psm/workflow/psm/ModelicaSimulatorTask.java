@@ -9,7 +9,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
-import org.power_systems_modelica.psm.modelica.engine.Stage;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
 public class ModelicaSimulatorTask extends WorkflowTask
@@ -47,15 +46,13 @@ public class ModelicaSimulatorTask extends WorkflowTask
 			ModelicaEngine me = ModelicaEngineMainFactory.create(modelicaEngine);
 			me.configure(config);
 			boolean validated = me.validate(mo, 2);
-			if(validated) me.simulate(mo);
+			if (validated) me.simulate(mo);
 			me.close();
 			dynSimulationParams = me.getSimulationResults();
 
 			publish(SCOPE_GLOBAL,
 					"simres",
-					dynSimulationParams.getValue(Stage.SIMULATION,
-							mo.getSystemModel().getId(),
-							"simulation_path"));
+					dynSimulationParams.getValue(mo.getSystemModel().getId(), "simulation_path"));
 
 			succeded();
 
@@ -66,9 +63,9 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		}
 	}
 
-	private Configuration				config;
+	private Configuration					config;
 	private ModelicaSimulationFinalResults	dynSimulationParams;
-	private String						modelicaEngine;
-	private String						source;
+	private String							modelicaEngine;
+	private String							source;
 
 }

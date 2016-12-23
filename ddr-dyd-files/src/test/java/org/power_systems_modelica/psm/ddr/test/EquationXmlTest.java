@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.ddr.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,8 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
-import org.power_systems_modelica.psm.ddr.dyd.SystemDefinitions;
+import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.ddr.dyd.ModelContainer;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equal;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.ExpressionList;
@@ -29,9 +31,10 @@ public class EquationXmlTest
 		Equation eq = EquationsTest.buildTestEquation();
 		final Path file = DATA_TMP.resolve("eq.xml");
 
-		SystemDefinitions sd = new SystemDefinitions();
-		sd.add(eq);
-		DydXml.write(file, sd);
+		ModelContainer mc = new ModelContainer();
+		Model m = new Model("DMSystem");
+		m.addOtherEquation(eq);
+		DydXml.write(file, mc);
 
 		List<String> lines = Files.readAllLines(file);
 		int count = 0;
@@ -55,7 +58,8 @@ public class EquationXmlTest
 		{
 
 			p.println("<?xml version=\"1.0\"?>");
-			p.println("<system_definitions xmlns=\"" + XmlUtil.NAMESPACE + "\">");
+			p.println("<model_container xmlns=\"" + XmlUtil.NAMESPACE + "\">");
+			p.println("<model>");
 			p.println("<equation>");
 			p.println(" <equal>");
 			p.println("  <left>");
@@ -66,7 +70,7 @@ public class EquationXmlTest
 			p.println("    <forAll>");
 			p.println("     <or>");
 			p.println("      <startsWith prefix=\"gen_\"/>");
-			p.println("      <startsWith prefix=\"xxx_\"/>");
+			p.println("      <startsWith prefix=\"kkk_\"/>");
 			p.println("     </or>");
 			// Second selector not allowed here, the forAll element must accept only one selector
 			p.println("     <startsWith prefix=\"gen_\"/>");
@@ -76,7 +80,8 @@ public class EquationXmlTest
 			p.println("  </right>");
 			p.println(" </equal>");
 			p.println("</equation>");
-			p.println("</system_definitions>");
+			p.println("</model>");
+			p.println("</model_container>");
 		}
 
 		// Should be invalid
@@ -86,10 +91,11 @@ public class EquationXmlTest
 		}
 		catch (Exception x)
 		{
-			String expected = "cvc-complex-type.2.4.a";
+			String expectedReason = "cvc-complex-type.2.4.a";
 			String msg = x.getCause().getMessage();
-			String actual = msg.substring(0, msg.indexOf(':'));
-			assertEquals(expected, actual);
+			String actualReason = msg.substring(0, msg.indexOf(':'));
+			assertEquals(expectedReason, actualReason);
+			assertTrue(msg.contains("'startsWith'"));
 		}
 	}
 
@@ -107,11 +113,14 @@ public class EquationXmlTest
 	private void testRoundTrip(Equation eq) throws XMLStreamException, IOException
 	{
 		final Path file = DATA_TMP.resolve("eq.xml");
-		SystemDefinitions sd = new SystemDefinitions();
-		sd.add(eq);
-		DydXml.write(file, sd);
-		SystemDefinitions sd2 = (SystemDefinitions) DydXml.read(file);
-		Equation eq2 = sd2.getEquations().get(0);
+
+		ModelContainer mc = new ModelContainer();
+		Model m = new Model("DMSystem");
+		m.addOtherEquation(eq);
+		mc.add(m);
+		DydXml.write(file, mc);
+		ModelContainer mc2 = (ModelContainer) DydXml.read(file);
+		Equation eq2 = mc2.getModels().get(0).getOtherEquations().get(0);
 
 		String original = eq.writeIn(EquationsTest.contextStrings());
 		String fromXml = eq2.writeIn(EquationsTest.contextStrings());

@@ -1,3 +1,4 @@
+within ;
 model _G8_______SM_Initialization
     iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init gen_pwGeneratorM2S__G8_______SM
    (

@@ -2347,59 +2347,59 @@ model ieee118bus
 	 ) annotation (Placement(transformation()));
 
 // CAPACITORS
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BELL__74_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BELL__74_SC (
 	 B = 0.12000005091307685,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__CAPI__79_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__CAPI__79_SC (
 	 B = 0.20000008116010576,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__EAST__37_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__EAST__37_SC (
 	 B = -0.25000011807773265,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__FIEL_110_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__FIEL_110_SC (
 	 B = 0.060000025456538424,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__LOGA__82_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__LOGA__82_SC (
 	 B = 0.20000008116010576,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__N_NE__45_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__N_NE__45_SC (
 	 B = 0.10000004058005288,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__OLIV___5_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__OLIV___5_SC (
 	 B = -0.4000001623202115,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__REUS_107_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__REUS_107_SC (
 	 B = 0.060000025456538424,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__ROAN_105_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__ROAN_105_SC (
 	 B = 0.20000008116010576,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__ROCK__34_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__ROCK__34_SC (
 	 B = 0.14000006124610082,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__SPRI__83_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__SPRI__83_SC (
 	 B = 0.10000004058005288,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__W_LA__46_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__W_LA__46_SC (
 	 B = 0.10000004058005288,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__WMVE__44_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__WMVE__44_SC (
 	 B = 0.10000004058005288,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__ZANE__48_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__ZANE__48_SC (
 	 B = 0.1500000664126128,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
@@ -9347,20 +9347,20 @@ equation
   connect(bus__ZANE__48_TN.p, load__ZANE__48_EC.p) annotation (Line());
 
 // Connecting Capacitors
-  connect(bus__BELL__74_TN.p, cap_pwCapacitorBank__BELL__74_SC.p) annotation (Line());
-  connect(bus__CAPI__79_TN.p, cap_pwCapacitorBank__CAPI__79_SC.p) annotation (Line());
-  connect(bus__EAST__37_TN.p, cap_pwCapacitorBank__EAST__37_SC.p) annotation (Line());
-  connect(bus__FIEL_110_TN.p, cap_pwCapacitorBank__FIEL_110_SC.p) annotation (Line());
-  connect(bus__LOGA__82_TN.p, cap_pwCapacitorBank__LOGA__82_SC.p) annotation (Line());
-  connect(bus__N_NE__45_TN.p, cap_pwCapacitorBank__N_NE__45_SC.p) annotation (Line());
-  connect(bus__OLIV___5_TN.p, cap_pwCapacitorBank__OLIV___5_SC.p) annotation (Line());
-  connect(bus__REUS_107_TN.p, cap_pwCapacitorBank__REUS_107_SC.p) annotation (Line());
-  connect(bus__ROAN_105_TN.p, cap_pwCapacitorBank__ROAN_105_SC.p) annotation (Line());
-  connect(bus__ROCK__34_TN.p, cap_pwCapacitorBank__ROCK__34_SC.p) annotation (Line());
-  connect(bus__SPRI__83_TN.p, cap_pwCapacitorBank__SPRI__83_SC.p) annotation (Line());
-  connect(bus__W_LA__46_TN.p, cap_pwCapacitorBank__W_LA__46_SC.p) annotation (Line());
-  connect(bus__WMVE__44_TN.p, cap_pwCapacitorBank__WMVE__44_SC.p) annotation (Line());
-  connect(bus__ZANE__48_TN.p, cap_pwCapacitorBank__ZANE__48_SC.p) annotation (Line());
+  connect(bus__BELL__74_TN.p, cap__BELL__74_SC.p) annotation (Line());
+  connect(bus__CAPI__79_TN.p, cap__CAPI__79_SC.p) annotation (Line());
+  connect(bus__EAST__37_TN.p, cap__EAST__37_SC.p) annotation (Line());
+  connect(bus__FIEL_110_TN.p, cap__FIEL_110_SC.p) annotation (Line());
+  connect(bus__LOGA__82_TN.p, cap__LOGA__82_SC.p) annotation (Line());
+  connect(bus__N_NE__45_TN.p, cap__N_NE__45_SC.p) annotation (Line());
+  connect(bus__OLIV___5_TN.p, cap__OLIV___5_SC.p) annotation (Line());
+  connect(bus__REUS_107_TN.p, cap__REUS_107_SC.p) annotation (Line());
+  connect(bus__ROAN_105_TN.p, cap__ROAN_105_SC.p) annotation (Line());
+  connect(bus__ROCK__34_TN.p, cap__ROCK__34_SC.p) annotation (Line());
+  connect(bus__SPRI__83_TN.p, cap__SPRI__83_SC.p) annotation (Line());
+  connect(bus__W_LA__46_TN.p, cap__W_LA__46_SC.p) annotation (Line());
+  connect(bus__WMVE__44_TN.p, cap__WMVE__44_SC.p) annotation (Line());
+  connect(bus__ZANE__48_TN.p, cap__ZANE__48_SC.p) annotation (Line());
 
 // Connecting GENERATORS
   connect(bus__GLEN_100_TN.p, gen_pwGeneratorM2S__GEN__100_SM.sortie) annotation (Line());

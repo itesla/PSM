@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.power_systems_modelica.psm.ddr.Stage;
+import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 
 public class Model
 {
@@ -42,10 +43,10 @@ public class Model
 		return Collections.unmodifiableList(connections);
 	}
 
-	// External connectors offered by the model
-	public List<Connector> getConnectors()
+	// External points of interconnection
+	public List<Interconnection> getInterconnections()
 	{
-		return Collections.unmodifiableList(connectors);
+		return Collections.unmodifiableList(interconnections);
 	}
 
 	public void addComponents(Collection<Component> components)
@@ -68,19 +69,32 @@ public class Model
 		connections.add(c);
 	}
 
-	public void addConnector(Connector c)
+	public void addConnector(Interconnection c)
 	{
-		connectors.add(c);
+		interconnections.add(c);
 	}
 
-	public void addConnectors(List<Connector> c)
+	public void addInterconnections(List<Interconnection> c)
 	{
-		connectors.addAll(c);
+		interconnections.addAll(c);
 	}
 
-	private final String			id;
-	private Stage					stage		= Stage.SIMULATION;
-	private final List<Component>	components	= new ArrayList<>();
-	private final List<Connection>	connections	= new ArrayList<>();
-	private final List<Connector>	connectors	= new ArrayList<>();
+	// Equations that are not connects
+	
+	public List<Equation> getOtherEquations()
+	{
+		return otherEquations;
+	}
+
+	public void addOtherEquation(Equation eq)
+	{
+		otherEquations.add(eq);
+	}
+
+	private final String				id;
+	private Stage						stage				= Stage.SIMULATION;
+	private final List<Component>		components			= new ArrayList<>();
+	private final List<Connection>		connections			= new ArrayList<>();
+	private final List<Interconnection>	interconnections	= new ArrayList<>();
+	private final List<Equation>		otherEquations		= new ArrayList<>();
 }

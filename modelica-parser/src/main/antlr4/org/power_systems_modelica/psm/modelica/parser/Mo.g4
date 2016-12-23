@@ -220,8 +220,10 @@ fragment DOT
 
 /** "Any string of alphabetic ([a-zA-Z\200-\377]) characters, underscores
  *  ('_'), dots or digits ([0-9]), not beginning with a digit"
- */ ID
-   : LETTER ( LETTER | DIGIT | DOT )*
+ */
+ // Consider array accessors part of the identifier (arrays of connections in omegaRef)
+ ID
+   : LETTER ( LETTER | DIGIT | DOT | '[' | ']')*
    ;
 
 any_array : '{' any_array_content '}'

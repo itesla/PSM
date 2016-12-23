@@ -16,7 +16,7 @@ import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
-import org.power_systems_modelica.psm.modelica.ModelicaConnector;
+import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
@@ -76,7 +76,7 @@ public class ModelicaBuilderTest
 		for (ModelicaModel m : models)
 			mob.addModel(m);
 		Map<String, ModelicaModel> gmodels = ModelicaUtil.groupByNormalizedStaticId(mob.getDoc());
-		// Number of expected models is the number of models we have added 
+		// Number of expected models is the number of models we have added
 		// plus one for the interconnections
 		// plus one for the system annotations (Modelica version)
 		boolean hasInterconnections = false;
@@ -91,9 +91,9 @@ public class ModelicaBuilderTest
 	}
 
 	@Test
-	public void testConnectors()
+	public void testInterconnections()
 	{
-		MoBuilder mob = new MoBuilder("connectors");
+		MoBuilder mob = new MoBuilder("interconnections");
 		String id1 = "1";
 		String id2 = "2";
 		ModelicaModel[] models = {
@@ -104,13 +104,17 @@ public class ModelicaBuilderTest
 		String did1 = models[0].getId();
 		String did2 = models[1].getId();
 
-		models[0].setConnectors(simpleConnector(did1, id2));
-		models[1].setConnectors(simpleConnector(did2, id1));
+		models[0].setInterconnections(Arrays.asList(
+				icnxReceiver("public_name1", did1, "var1r"),
+				icnxSender(did1, "var1s", id2, "public_name2")));
+		models[1].setInterconnections(Arrays.asList(
+				icnxReceiver("public_name2", did2, "var2r"),
+				icnxSender(did2, "var2s", id1, "public_name1")));
 		mob.addInterconnections();
 
 		Map<String, ModelicaModel> gmodels = ModelicaUtil.groupByNormalizedStaticId(mob.getDoc());
-		// Number of expected models is the number of models we have added 
-		// plus one for the interconnections 
+		// Number of expected models is the number of models we have added
+		// plus one for the interconnections
 		// plus one for the system (there is system annotations)
 		boolean hasInterconnections = true;
 		int expectedNumGroupedModels = models.length + (hasInterconnections ? 1 : 0) + 1;
@@ -134,14 +138,16 @@ public class ModelicaBuilderTest
 			System.out.printf("    %s - %s%n", eqc.getRef1(), eqc.getRef2());
 		});
 		assertEquals(2, icnx.size());
-		String ref1 = ModelicaUtil.idvar2ref(idFor("DM", "1"), "p");
-		String ref2 = ModelicaUtil.idvar2ref(idFor("DM", "2"), "p");
+		String ref1r = ModelicaUtil.idvar2ref(idFor("DM", "1"), "var1r");
+		String ref2r = ModelicaUtil.idvar2ref(idFor("DM", "2"), "var2r");
+		String ref1s = ModelicaUtil.idvar2ref(idFor("DM", "1"), "var1s");
+		String ref2s = ModelicaUtil.idvar2ref(idFor("DM", "2"), "var2s");
 		ModelicaConnect eq21 = (ModelicaConnect) icnx.get(0);
 		ModelicaConnect eq12 = (ModelicaConnect) icnx.get(1);
-		assertEquals(ref2, eq21.getRef1());
-		assertEquals(ref1, eq21.getRef2());
-		assertEquals(ref1, eq12.getRef1());
-		assertEquals(ref2, eq12.getRef2());
+		assertEquals(ref2r, eq21.getRef1());
+		assertEquals(ref1s, eq21.getRef2());
+		assertEquals(ref1r, eq12.getRef1());
+		assertEquals(ref2s, eq12.getRef2());
 	}
 
 	private ModelicaModel simpleModelForStaticId(String staticId)
@@ -179,11 +185,24 @@ public class ModelicaBuilderTest
 		return m;
 	}
 
-	private List<ModelicaConnector> simpleConnector(String sourceId, String targetId)
+	private ModelicaInterconnection icnxReceiver(
+			String name,
+			String componentId, String componentVar)
 	{
-		String target = DATA_SOURCE_ICNXS.concat(":").concat(targetId);
-		ModelicaConnector cnx = new ModelicaConnector(sourceId, "p", target);
-		return Arrays.asList(cnx);
+		ModelicaInterconnection cnx = new ModelicaInterconnection(
+				name,
+				componentId, componentVar);
+		return cnx;
+	}
+
+	private ModelicaInterconnection icnxSender(
+			String componentId, String componentVar,
+			String model, String name)
+	{
+		ModelicaInterconnection cnx = new ModelicaInterconnection(
+				componentId, componentVar,
+				model, name);
+		return cnx;
 	}
 
 	private String idFor(String baseId, String staticId)
@@ -211,7 +230,7 @@ public class ModelicaBuilderTest
 					return null;
 				}
 			});
-			registerResolver(DATA_SOURCE_ICNXS, new ReferenceResolver()
+			registerResolver("DYNN", new ReferenceResolver()
 			{
 				@Override
 				public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
@@ -220,7 +239,7 @@ public class ModelicaBuilderTest
 				}
 
 				@Override
-				public Optional<ModelicaConnector> resolveConnectionTarget(
+				public Optional<ModelicaInterconnection> resolveConnectionTarget(
 						String targetItem,
 						String targetPin,
 						ModelicaModel sourceModel)
@@ -228,7 +247,7 @@ public class ModelicaBuilderTest
 					ModelicaModel targetModel = dynamicModelsByStaticId.get(targetItem);
 					if (targetModel == null)
 						throw new RuntimeException("Target model not found ".concat(targetItem));
-					ModelicaConnector[] cnxs = targetModel.getConnectors();
+					ModelicaInterconnection[] cnxs = targetModel.getInterconnections();
 					if (cnxs == null || cnxs.length < 1)
 						throw new RuntimeException("Target model does not have connectors");
 
@@ -273,7 +292,6 @@ public class ModelicaBuilderTest
 	}
 
 	private static final String	DATA_SOURCE_PARAMS	= "PARAMS";
-	private static final String	DATA_SOURCE_ICNXS	= "ICNXS";
 
 	public static final Path	DATA_TMP			= Paths
 			.get(System.getenv("PSM_DATA"))

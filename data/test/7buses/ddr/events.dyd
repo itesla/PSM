@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
 	<model event="BusFault" injection="ADD" id="EVT{staticId}">
-		<component name="iPSL.Electrical.Events.PwFault" id="pwFault_{staticId}">
+		<component type="iPSL.Electrical.Events.PwFault" id="pwFault_{staticId}">
 			<ref name="R" unit="pu" dataSource="EVENT" sourceName="R"/>
 			<ref name="X" unit="pu" dataSource="EVENT" sourceName="X"/>
 			<ref name="t1" unit="s" dataSource="EVENT" sourceName="t1"/>
 			<ref name="t2" unit="s" dataSource="EVENT" sourceName="t2"/>
 		</component>
-		<connector pin="p" target="DYNN:bus:p"/>
+		<interconnection componentId="pwFault_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
 	</model>
 	<model event="LineFault" injection="REPLACE" id="EVT{staticId}">
-		<component name="iPSL.Electrical.Events.PwLineFault" id="pwLineFault_{staticId}">
+		<component type="iPSL.Electrical.Events.PwLineFault" id="pwLineFault_{staticId}">
 			<ref name="R1" dataSource="IIDM" sourceName="R_pu"/>
 			<ref name="X1" dataSource="IIDM" sourceName="X_pu"/>
 			<ref name="G1" dataSource="IIDM" sourceName="G1_pu"/>
@@ -25,36 +25,23 @@
 			<ref name="V2_0" dataSource="IIDM" sourceName="V2_pu"/>
 			<ref name="angle2_0" dataSource="IIDM" sourceName="A2"/>
 		</component>
-		<connector pin="p" target="DYNN:bus1:p"/>
-		<connector pin="n" target="DYNN:bus2:p"/>
+		<interconnection componentId="pwLineFault_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+		<interconnection componentId="pwLineFault_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
 	</model>
 	<model event="LineOpenReceiverSide" injection="REPLACE" id="EVT{staticId}">
-		<component name="iPSL.Electrical.Branches.PwLinewithOpeningReceiving" id="pwLineOpeningReceiving_{staticId}">
+		<component type="iPSL.Electrical.Branches.PwLinewithOpeningReceiving" id="pwLineOpeningReceiving_{staticId}">
 		</component>
-		<connector pin="p"/>
 	</model>
 	<model event="LineOpenBothSides" injection="REPLACE" id="EVT{staticId}">
-		<component name="iPSL.Electrical.Branches.PwLine2Openings" id="pwLine2Openings_{staticId}">
+		<component type="iPSL.Electrical.Branches.PwLine2Openings" id="pwLine2Openings_{staticId}">
 		</component>
-		<connector pin="p"/>
 	</model>
 	<model event="BankModification" injection="REPLACE" id="EVT{staticId}">
-		<component name="iPSL.Electrical.Banks.PwCapacitorBankWithModification" id="pwCapacitorBankWithModification_{staticId}">
+		<component type="iPSL.Electrical.Banks.PwCapacitorBankWithModification" id="pwCapacitorBankWithModification_{staticId}">
 		</component>
-		<connector pin="p"/>
 	</model>
 	<model event="LoadVariation" injection="REPLACE" id="EVT{staticId}">
-		<component name="iPSL.Electrical.Loads.PwLoadwithVariation" id="pwLoadWithVariation_{staticId}">
+		<component type="iPSL.Electrical.Loads.PwLoadwithVariation" id="pwLoadWithVariation_{staticId}">
 		</component>
-		<connector pin="p"/>
 	</model>
-	<!--
-	Should we preserve this kind of event ?
-	<model event="Breaker" injection="INTERPOSE">
-		<component name="iPSL.Electrical.Events.Breaker">
-		</component>
-		<connector pin="p"/>
-		<connector pin="n"/>
-	</model>
-	-->
 </model_container>

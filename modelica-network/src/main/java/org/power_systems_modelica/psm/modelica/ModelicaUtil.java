@@ -12,14 +12,25 @@ public class ModelicaUtil
 {
 	public static String idvar2ref(String id, String var)
 	{
+		if (id == null) return var;
 		String s = String.join(ID_VAR_SEPARATOR, id, var);
 		return s;
 	}
 
 	public static String[] ref2idvar(String ref)
 	{
-		String[] parts = ref.split(QUOTED_ID_VAR_SEPARATOR);
-		return parts;
+		if (ref.contains(ID_VAR_SEPARATOR))
+		{
+			String[] parts = ref.split(QUOTED_ID_VAR_SEPARATOR);
+			return parts;
+		}
+		else
+		{
+			String id = null;
+			String var = ref;
+			String[] parts = { id, var };
+			return parts;
+		}
 	}
 
 	public static String normalizedIdentifier(String id)
@@ -63,6 +74,11 @@ public class ModelicaUtil
 		return models;
 	}
 
+	public static String getSystemStaticId()
+	{
+		return SYSTEM_ID;
+	}
+
 	public static boolean isInterconnection(ModelicaModel m)
 	{
 		return m.getStaticId().equals(INTERCONNECTIONS_ID);
@@ -72,7 +88,7 @@ public class ModelicaUtil
 			Map<String, ModelicaModel> dynamicModelsByStaticId)
 	{
 		if (!dynamicModelsByStaticId.containsKey(INTERCONNECTIONS_ID))
-			return Collections.<ModelicaEquation> emptyList();
+			return Collections.emptyList();
 		return dynamicModelsByStaticId.get(INTERCONNECTIONS_ID).getEquations();
 	}
 
@@ -147,8 +163,8 @@ public class ModelicaUtil
 		if (equations != null) m.addEquations(equations);
 		if (annotations != null)
 		{
-			List<ModelicaConnector> connectors = Annotation.readConnectors(annotations);
-			m.setConnectors(connectors);
+			List<ModelicaInterconnection> connectors = Annotation.readConnectors(annotations);
+			m.setInterconnections(connectors);
 		}
 		return m;
 	}

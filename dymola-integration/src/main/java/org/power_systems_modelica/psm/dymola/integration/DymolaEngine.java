@@ -25,7 +25,6 @@ import org.power_systems_modelica.psm.dymola.integration.utils.ZipWriter;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
-import org.power_systems_modelica.psm.modelica.engine.Stage;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,9 +84,9 @@ public class DymolaEngine implements ModelicaEngine
 					Files.newOutputStream(workingDir.resolve(outputErrorsFileName))))
 			{
 				printStream.print(simResults);
-				writeResults(outputZipFileName, modelName, Stage.SIMULATION);
+				writeResults(outputZipFileName, modelName);
 				return true;
-				
+
 			}
 			catch (IOException e)
 			{
@@ -99,7 +98,7 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
 			return false;
-		}	
+		}
 	}
 
 	@Override
@@ -124,7 +123,8 @@ public class DymolaEngine implements ModelicaEngine
 		String simResults = "";
 		try
 		{
-			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime, numOfIntervals,
+			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
+					numOfIntervals,
 					intervalSize, tolerance);
 		}
 		catch (InterruptedException e)
@@ -141,7 +141,7 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			LOGGER.error("Error printing errors file. {}", e.getMessage());
 		}
-		writeResults(outputZipFileName, modelName, Stage.SIMULATION);
+		writeResults(outputZipFileName, modelName);
 	}
 
 	@Override
@@ -161,10 +161,10 @@ public class DymolaEngine implements ModelicaEngine
 	/**
 	 * Read the filtered csv file written by row and save simulation results in the ModelicaSimulationResults object and in a csv by column.
 	 */
-	private void writeResults(String outputZipFileName, String modelName, Stage stage)
+	private void writeResults(String outputZipFileName, String modelName)
 	{
 		// The first "result" in ModelicaSimulationResults is the simulation directory with component="simulation" and var="path"
-		this.results.addResult(stage, modelName, "simulation_path", this.dymSimulationDir);
+		this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
 
 		try (ZipFile zipFile = new ZipFile(
 				Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile()))
@@ -185,7 +185,7 @@ public class DymolaEngine implements ModelicaEngine
 					String values = line.substring(line.indexOf(COMMA) + 1);
 					double[] variableValues = Stream.of(values.split(COMMA))
 							.mapToDouble(Double::parseDouble).toArray();
-					this.results.addResult(stage, modelName, device, variableValues);
+					this.results.addResult(modelName, device, variableValues);
 				}
 				// String[][] resultData = Arrays.stream(data.toArray()).toArray(String[][]::new);
 

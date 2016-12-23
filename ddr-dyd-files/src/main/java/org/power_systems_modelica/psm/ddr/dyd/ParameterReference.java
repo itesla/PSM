@@ -19,6 +19,12 @@ public class ParameterReference extends Parameter
 		return sourceName;
 	}
 
+	@Override
+	public boolean isGeneric()
+	{
+		return true;
+	}
+	
 	private final String	dataSource;
 	private final String	sourceName;
 }

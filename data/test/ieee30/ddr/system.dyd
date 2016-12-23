@@ -1,26 +1,31 @@
 <?xml version="1.0" ?>
-<system_definitions xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
-    <declaration type="Real" id="SNREF" value="100.0" isParameter="true"/>
-    <declaration type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef" isParameter="false"/>
-    <equation>
-        <unparsed>omegaRef = (gen_pwGeneratorM2S__GEN___11_SM.omega*gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.omega*gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.omega*gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn)</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GEN___11_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GEN___13_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GEN____1_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GEN____2_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GEN____5_SM.pin_VS = 0</unparsed>
-    </equation>
-    <equation stage="INITIALIZATION">
-        <unparsed>sexs__GEN____8_SM.pin_VS = 0</unparsed>
-    </equation>
-</system_definitions>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <model id="DM__SYSTEM_" staticId="_SYSTEM_">
+        <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
+        <component type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef"/>
+        <interconnection name="omegaRef" componentVar="omegaRef"/>
+        <equation>
+            <unparsed>omegaRef = (gen_pwGeneratorM2S__GEN___11_SM.omega*gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.omega*gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.omega*gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN___11_SM.SN*gen_pwGeneratorM2S__GEN___11_SM.HIn + gen_pwGeneratorM2S__GEN___13_SM.SN*gen_pwGeneratorM2S__GEN___13_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____5_SM.SN*gen_pwGeneratorM2S__GEN____5_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn)</unparsed>
+        </equation>
+    </model>
+    <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
+        <equation>
+            <unparsed>sexs__GEN___11_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__GEN___13_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__GEN____1_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__GEN____2_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__GEN____5_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__GEN____8_SM.pin_VS = 0</unparsed>
+        </equation>
+    </model>
+</model_container>

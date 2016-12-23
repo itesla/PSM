@@ -4,11 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import eu.itesla_project.iidm.network.Identifiable;
 
 public class ParameterSetProvider
 {
@@ -33,7 +30,7 @@ public class ParameterSetProvider
 		return parameterSetContainers.get(name);
 	}
 
-	public ParameterSet get(ParameterSetReference ref, Identifiable<?> element)
+	public ParameterSet get(ParameterSetReference ref, String staticId)
 	{
 		String container = ref.getContainer();
 		ParameterSetContainer c = parameterSetContainers.get(container);
@@ -45,7 +42,7 @@ public class ParameterSetProvider
 
 		// The set identifier of the parameter set reference may contain a variable that must be expanded
 		// parId = "{staticId}_params_for_component_a"
-		String setId = DynamicDataRepositoryDydFiles.dynamicId(ref.getSet(), element);
+		String setId = DynamicDataRepositoryDydFiles.dynamicId(ref.getSet(), staticId);
 		ParameterSet set = c.get(setId);
 		if (set == null)
 		{

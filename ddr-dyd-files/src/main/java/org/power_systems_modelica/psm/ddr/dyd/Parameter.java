@@ -24,6 +24,11 @@ public abstract class Parameter
 		return unit;
 	}
 
+	// Can the parameter be included in a template?
+	// That is, the parameter contains enough information so it can be included in a template
+	// Either because it is a reference to an external data source, a constant value for all instances, ...
+	public abstract boolean isGeneric();
+
 	private final String	name;
 	private final String	unit;
 }

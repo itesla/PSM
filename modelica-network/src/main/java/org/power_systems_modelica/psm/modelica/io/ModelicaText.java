@@ -19,8 +19,7 @@ public class ModelicaText
 		String mo4 = replace(EMPTY_LINE, mo3, "\n");
 		String mo5 = roundNumbers(mo4);
 		String mo7 = sortedConnectEquations(mo5);
-		String mo8 = mo7.replace(CAP_PWCAP_, CAP_);
-		String moo = mo8;
+		String moo = mo7;
 
 		return moo;
 	}
@@ -95,8 +94,6 @@ public class ModelicaText
 	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern.compile(
 			"(?<number>[\\+\\-]?([0-9]*[.])?[0-9]+([eE][\\+\\-]?[0-9]+)?)");
 	private static final float		FLOATING_POINT_ROUNDING	= 1e6f;
-	private static final String		CAP_PWCAP_				= "cap_pwCapacitorBank_";
-	private static final String		CAP_					= "cap_";
 
 	private static final String		LINE_SEPARATOR			= System.getProperty("line.separator");
 }

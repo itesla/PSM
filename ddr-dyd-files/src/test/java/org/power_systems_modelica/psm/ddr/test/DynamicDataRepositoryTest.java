@@ -32,7 +32,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 
 import eu.itesla_project.iidm.network.Identifiable;
 
@@ -251,16 +250,6 @@ public class DynamicDataRepositoryTest
 		DynamicDataRepositoryTestUtil.assertSameModelDefinitions(
 				dydse.getAllModelDefinitions(),
 				dydsa.getAllModelDefinitions());
-		// TODO system equations should die (all equations should be placed in iPSL library)
-		DynamicDataRepositoryTestUtil.assertSameEquationDefinitions(
-				dydse.getSystemEquations(Stage.SIMULATION),
-				dydsa.getSystemEquations(Stage.SIMULATION));
-
-		// Check system definitions are the same
-		ModelicaTestUtil.assertSameDeclarations(
-				ddre.getSystemDeclarations(Stage.SIMULATION),
-				ddra.getSystemDeclarations(Stage.SIMULATION));
-
 	}
 
 	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));

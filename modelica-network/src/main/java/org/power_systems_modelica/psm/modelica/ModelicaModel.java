@@ -31,10 +31,10 @@ public class ModelicaModel
 		return this.staticId;
 	}
 
-	public void setConnectors(List<ModelicaConnector> connectors)
+	public void setInterconnections(List<ModelicaInterconnection> is)
 	{
-		this.connectors = new ModelicaConnector[connectors.size()];
-		this.connectors = connectors.toArray(this.connectors);
+		this.interconnections = new ModelicaInterconnection[is.size()];
+		this.interconnections = is.toArray(this.interconnections);
 	}
 
 	public void addDeclarations(List<ModelicaDeclaration> declarations)
@@ -112,9 +112,9 @@ public class ModelicaModel
 		this.annotations.removeAll(annotations);
 	}
 
-	public ModelicaConnector[] getConnectors()
+	public ModelicaInterconnection[] getInterconnections()
 	{
-		return connectors;
+		return interconnections;
 	}
 
 	public ModelicaModel copy()
@@ -128,19 +128,19 @@ public class ModelicaModel
 	{
 		t.setStaticId(s.getStaticId());
 
-		// Connectors, Declarations and Equations are immutable objects
+		// Interconnections, Declarations and Equations are immutable objects
 		// There is no need to make deep copies of them
 		t.addDeclarations(s.getDeclarations());
 		t.addEquations(s.getEquations());
 		t.addAnnotations(s.getAnnotations());
-		if (s.connectors != null) t.connectors = s.connectors.clone();
+		if (s.interconnections != null) t.interconnections = s.interconnections.clone();
 	}
 
 	private final String				id;
 
 	private String						staticId;
-	private List<ModelicaDeclaration>	declarations	= new ArrayList<>();
-	private List<ModelicaEquation>		equations		= new ArrayList<>();
-	private Set<Annotation>				annotations		= new TreeSet<>();
-	private ModelicaConnector[]			connectors		= new ModelicaConnector[0];
+	private List<ModelicaDeclaration>	declarations		= new ArrayList<>();
+	private List<ModelicaEquation>		equations			= new ArrayList<>();
+	private Set<Annotation>				annotations			= new TreeSet<>();
+	private ModelicaInterconnection[]	interconnections	= new ModelicaInterconnection[0];
 }

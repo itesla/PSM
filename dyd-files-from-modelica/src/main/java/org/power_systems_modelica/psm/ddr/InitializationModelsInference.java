@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class InitializationModelsInference
 {
-	public static Model inferInitializationModel(
+	public static Model inferModel(
 			String staticId,
 			Model m,
 			DynamicDataRepositoryDydFiles ddr,
@@ -41,7 +41,7 @@ public class InitializationModelsInference
 				.map(c -> inferInitializationComponent(staticId, c, ddr, paramSetContainerName))
 				.collect(Collectors.toList()));
 		minit.addConnections(m.getConnections());
-		minit.addConnectors(m.getConnectors());
+		minit.addInterconnections(m.getInterconnections());
 		return minit;
 	}
 
@@ -81,7 +81,7 @@ public class InitializationModelsInference
 		return ci;
 	}
 
-	public static void saveInitializationModelParams(
+	public static void saveInitModelParams(
 			String staticId,
 			Model m,
 			DynamicDataRepositoryDydFiles ddr,

@@ -30,7 +30,6 @@ import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.EventParameter;
 import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
-import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
@@ -39,9 +38,9 @@ import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
-import org.power_systems_modelica.psm.modelica.ModelicaConnector;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
+import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -85,26 +84,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public List<ModelicaDeclaration> getSystemDeclarations(Stage stage)
+	public List<ModelicaEquation> getSystemOtherEquationsInContext(
+			ModelicaSystemModel moSystem,
+			Stage stage)
 	{
-		if (systemDefinitions != null) return systemDefinitions.getDeclarations().stream()
-				.filter(d -> d.getStage().equals(stage))
-				.map(d -> d.getModelicaDeclaration())
-				.collect(Collectors.toList());
-		else return Collections.emptyList();
-	}
+		if (systemDefinitions == null) return null;
 
-	public List<Equation> getSystemEquations(Stage stage)
-	{
-		if (systemDefinitions != null) return systemDefinitions.getEquations().stream()
-				.filter(eq -> eq.getStage().equals(stage))
-				.collect(Collectors.toList());
-		else return Collections.emptyList();
-	}
-
-	@Override
-	public List<ModelicaEquation> getSystemEquationsInContext(ModelicaSystemModel m, Stage stage)
-	{
 		Context<ModelicaDeclaration> contextModelica = new Context<ModelicaDeclaration>()
 		{
 			@Override
@@ -116,7 +101,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			@Override
 			public Stream<ModelicaDeclaration> getDomainStream()
 			{
-				return m.getDeclarations().stream();
+				return moSystem.getDeclarations().stream();
 			}
 
 			@Override
@@ -130,16 +115,39 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			}
 		};
 
-		return getSystemEquations(stage).stream()
+		List<Model> mdefs = systemDefinitions.getModels().stream().collect(Collectors.toList());
+		List<Model> mdefsstage = mdefs.stream()
+				.filter(m -> m.getStage().equals(stage))
+				.collect(Collectors.toList());
+		List<ModelicaEquation> specialEquations = mdefsstage.stream()
+				.map(mdef -> mdef.getOtherEquations())
+				.flatMap(List::stream)
 				.map(eq -> new ModelicaEquation(eq.writeIn(contextModelica)))
 				.collect(Collectors.toList());
+		return specialEquations;
+	}
+
+	@Override
+	public Optional<ModelicaModel> getSystemModel(Stage stage)
+	{
+		if (systemDefinitions == null) return Optional.empty();
+		String systemId = ModelicaUtil.getSystemStaticId();
+		Optional<ModelicaModel> mo = systemDefinitions.getModels().stream()
+				.filter(m -> m.getStage().equals(stage))
+				.findFirst()
+				.map(mdef -> buildModelicaModelFromDynamicModelDefinition(mdef, systemId))
+				.map(mo0 -> {
+					mo0.setStaticId(systemId);
+					return mo0;
+				});
+		return mo;
 	}
 
 	@Override
 	public ModelicaModel getModelicaModel(Identifiable<?> e, Stage stage)
 	{
 		Model mdef = modelsByStage.get(stage).getModel(e);
-		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
+		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e.getId());
 		return null;
 	}
 
@@ -148,7 +156,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
 		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
-		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e);
+		if (mdef != null) return buildModelicaModelFromDynamicModelDefinition(mdef, e.getId());
 		return null;
 	}
 
@@ -206,58 +214,55 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 	public void createSystemDefinitions(String name)
 	{
-		systemDefinitions = new SystemDefinitions();
+		systemDefinitions = new ModelContainer();
 		systemDefinitions.setName(name);
 	}
 
-	public static String dynamicId(String baseId, Identifiable<?> element)
+	public static String dynamicId(String baseId, String staticId)
 	{
-		String staticId = element.getId();
-		String dynamicId = baseId.replace("{staticId}",
-				ModelicaUtil.normalizedIdentifier(staticId));
+		if (baseId == null) return null;
+		String nstaticId = ModelicaUtil.normalizedIdentifier(staticId);
+		String dynamicId = baseId.replace("{staticId}", nstaticId);
 		return dynamicId;
 	}
 
 	private ModelicaModel buildModelicaModelFromDynamicModelDefinition(
 			Model mdef,
-			Identifiable<?> element)
+			String staticId)
 	{
-		ModelicaModel m = new ModelicaModel(dynamicId(mdef.getId(), element));
-		m.setStaticId(element.getId());
+		ModelicaModel m = new ModelicaModel(dynamicId(mdef.getId(), staticId));
+		m.setStaticId(staticId);
 
 		List<ModelicaDeclaration> ds = new ArrayList<>();
 		for (Component c : mdef.getComponents())
 		{
 			String type = c.getType();
-			String did = dynamicId(c.getId(), element);
-			List<ModelicaArgument> arguments = buildModelicaArguments(c, element);
+			String did = dynamicId(c.getId(), staticId);
+			List<ModelicaArgument> arguments = buildModelicaArguments(c, staticId);
 			Annotation annotation = null;
 
-			// TODO Every Modelica declaration built from a model component definition is a variable, not a parameter
-			boolean isParameter = false;
-			ds.add(new ModelicaDeclaration(type, did, arguments, isParameter, annotation));
+			boolean isParameter = c.isParameter();
+			if (arguments != null)
+				ds.add(new ModelicaDeclaration(type, did, arguments, isParameter, annotation));
+			else
+				ds.add(new ModelicaDeclaration(type, did, c.getValue(), isParameter, annotation));
 		}
 		m.addDeclarations(ds);
 
-		m.setConnectors(mdef.getConnectors()
-				.stream()
-				.map(c -> new ModelicaConnector(
-						// FIXME If the connector identifier is empty, assign it the id of the first declaration
-						// This is right because we only have generic connectors on models with only one component
-						// The general solution should be: the connector has a relative id to the components
-						// And the exact id can be resolved after all components have been instantiated
-						c.getId() == null || c.getId().isEmpty()
-								? ds.get(0).getId()
-								: dynamicId(c.getId(), element),
-						c.getPin(),
-						c.getTarget()))
+		m.setInterconnections(mdef.getInterconnections().stream()
+				.map(ic -> ModelicaInterconnection.create(
+						ic.getName(),
+						dynamicId(ic.getComponentId(), staticId),
+						ic.getComponentVar(),
+						ic.getTargetModel(),
+						ic.getTargetName()))
 				.collect(Collectors.toList()));
 
 		List<ModelicaEquation> meqs = new ArrayList<>(mdef.getConnections().size());
 		for (Connection c : mdef.getConnections())
 		{
-			String ref1 = ModelicaUtil.idvar2ref(dynamicId(c.getId1(), element), c.getVar1());
-			String ref2 = ModelicaUtil.idvar2ref(dynamicId(c.getId2(), element), c.getVar2());
+			String ref1 = ModelicaUtil.idvar2ref(dynamicId(c.getId1(), staticId), c.getVar1());
+			String ref2 = ModelicaUtil.idvar2ref(dynamicId(c.getId2(), staticId), c.getVar2());
 			meqs.add(new ModelicaConnect(ref1, ref2));
 		}
 		m.addEquations(meqs);
@@ -265,9 +270,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return m;
 	}
 
-	private List<ModelicaArgument> buildModelicaArguments(Component c, Identifiable<?> element)
+	private List<ModelicaArgument> buildModelicaArguments(Component c, String staticId)
 	{
-		ParameterSet set = getParameterSet(c, element);
+		ParameterSet set = getParameterSet(c, staticId);
 		if (set == null) return null;
 
 		List<ModelicaArgument> arguments = new ArrayList<>(set.getParameters().size());
@@ -286,13 +291,13 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return arguments;
 	}
 
-	private ParameterSet getParameterSet(Component c, Identifiable<?> element)
+	private ParameterSet getParameterSet(Component c, String staticId)
 	{
 		ParameterSet set = c.getParameterSet();
 		if (set == null)
 		{
-			ParameterSetReference pref = c.getParameterSetReference();
-			if (pref != null) set = parameters.get(pref, element);
+			ParameterSetReference psetRef = c.getParameterSetReference();
+			if (psetRef != null) set = parameters.get(psetRef, staticId);
 		}
 		return set;
 	}
@@ -338,21 +343,23 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			if (dyd instanceof ModelContainer)
 			{
 				ModelContainer mc = (ModelContainer) dyd;
-				mc.getAssociations().forEach(a -> addAssociation(name, a));
-				mc.getModels().forEach(m -> addModel(name, m));
-				resolveParameters(mc);
-			}
-			else if (dyd instanceof SystemDefinitions)
-			{
-				SystemDefinitions sd = (SystemDefinitions) dyd;
-				if (systemDefinitions != null)
+				if (mc.isForSystemDefinitions())
 				{
-					LOG.warn(
-							"Existing system definitions read from '{}' will be overwritten with new ones read from '{}'",
-							systemDefinitions.getName(),
-							dyd.getName());
+					if (systemDefinitions != null)
+					{
+						LOG.warn(
+								"Existing system definitions read from '{}' will be overwritten with new ones read from '{}'",
+								systemDefinitions.getName(),
+								dyd.getName());
+					}
+					systemDefinitions = (ModelContainer) dyd;
 				}
-				systemDefinitions = sd;
+				else
+				{
+					mc.getAssociations().forEach(a -> addAssociation(name, a));
+					mc.getModels().forEach(m -> addModel(name, m));
+					resolveParameters(mc);
+				}
 			}
 		}
 		catch (XMLStreamException | IOException e)
@@ -412,7 +419,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Path f;
 
 		// Write all model containers, all model initialization containers and all parameter set containers
-		if (systemDefinitions != null && !systemDefinitions.isEmpty())
+		if (systemDefinitions != null)
 		{
 			f = ensureFile(fileForDydContent(systemDefinitions));
 			DydXml.write(f, systemDefinitions);
@@ -429,14 +436,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		}
 	}
 
-	public void addSystemDeclarations(List<ModelicaDeclaration> declarations, Stage stage)
+	public void addSystemModel(Model m)
 	{
-		systemDefinitions.addDeclarations(declarations, stage);
-	}
-
-	public void addSystemEquations(List<ModelicaEquation> equations, Stage stage)
-	{
-		systemDefinitions.addEquations(equations, stage);
+		systemDefinitions.add(m);
 	}
 
 	public void addModel(String containerName, Model mdef)
@@ -463,6 +465,15 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		ModelProvider dynamicModels = modelsByStage.get(stage);
 		return dynamicModels.getDynamicModelForStaticType(type).orElse(null);
+	}
+
+	public Model getDynamicModelForSystem(Stage stage)
+	{
+		Optional<Model> ms = systemDefinitions.getModels().stream()
+				.filter(m -> m.getStage().equals(stage))
+				.findFirst();
+		if (ms.isPresent()) return ms.get();
+		return null;
 	}
 
 	private ModelContainer getCreateModelContainer(String name)
@@ -502,7 +513,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	private Path						location;
 	private Map<String, ModelContainer>	modelContainers;
 	private Map<Stage, ModelProvider>	modelsByStage;
-	private SystemDefinitions			systemDefinitions;
+	private ModelContainer				systemDefinitions;
 	private ParameterSetProvider		parameters;
 	private AssociationProvider			associations;
 

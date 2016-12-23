@@ -211,6 +211,9 @@
         <par name="PN" value="1090.0"/>
         <par name="EMAX" value="4."/>
     </set>
+    <set id="_GEN____1_SM_zero_INITIALIZATION">
+        <par name="k" value="0"/>
+    </set>
     <set id="_GEN____2_SM_gen_pwGeneratorM2S_INITIALIZATION">
         <par name="PNALT" value="1008.0"/>
         <par name="p0" value="0.4"/>
@@ -421,6 +424,9 @@
         <par name="SN" value="1120.0"/>
         <par name="PN" value="1008.0"/>
         <par name="EMAX" value="4."/>
+    </set>
+    <set id="_GEN____2_SM_zero_INITIALIZATION">
+        <par name="k" value="0"/>
     </set>
     <set id="_GEN____3_SM_gen_pwGeneratorM2S_INITIALIZATION">
         <par name="PNALT" value="1485.0"/>
@@ -633,6 +639,9 @@
         <par name="PN" value="1485.0"/>
         <par name="EMAX" value="4."/>
     </set>
+    <set id="_GEN____3_SM_zero_INITIALIZATION">
+        <par name="k" value="0"/>
+    </set>
     <set id="_GEN____6_SM_gen_pwGeneratorM2S_INITIALIZATION">
         <par name="PNALT" value="74.4"/>
         <par name="p0" value="0.0"/>
@@ -829,6 +838,9 @@
         <par name="SN" value="80.0"/>
         <par name="PN" value="71.8"/>
         <par name="EMAX" value="4."/>
+    </set>
+    <set id="_GEN____6_SM_zero_INITIALIZATION">
+        <par name="k" value="0"/>
     </set>
     <set id="_GEN____8_SM_gen_pwGeneratorM2S_INITIALIZATION">
         <par name="PNALT" value="228.0"/>
@@ -1040,5 +1052,11 @@
         <par name="SN" value="250.0"/>
         <par name="PN" value="242.0"/>
         <par name="EMAX" value="4."/>
+    </set>
+    <set id="_GEN____8_SM_zero_INITIALIZATION">
+        <par name="k" value="0"/>
+    </set>
+    <set id="_SYSTEM__omegaRef_SIMULATION">
+        <ref name="nGenerators" dataSource="DYNN" sourceName="numGeneratorsOmegaRef"/>
     </set>
 </parameters>

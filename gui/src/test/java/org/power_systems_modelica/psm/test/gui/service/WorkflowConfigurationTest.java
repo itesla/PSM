@@ -22,32 +22,37 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class WorkflowConfigurationTest {
+public class WorkflowConfigurationTest
+{
 
 	@Test
-	public void createConversionTest() throws WorkflowCreationException {
-		
+	public void createConversionTest() throws WorkflowCreationException
+	{
+
 		Case cs = new Case();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
 
 		Ddr ddr = new Ddr();
 		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
 
-		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true);
+		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW,
+				true);
 
 		assertNotNull(w);
-		assertEquals(4,w.getWorkflowTasks().size());
-		assertEquals("importer0",w.getWorkflowTasks().get(0).getId());
-		assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
-		assertEquals("modelica0",w.getWorkflowTasks().get(2).getId());
-		assertEquals("exporter0",w.getWorkflowTasks().get(3).getId());
+		assertEquals(4, w.getWorkflowTasks().size());
+		assertEquals("importer0", w.getWorkflowTasks().get(0).getId());
+		assertEquals("loadflowHelmflow", w.getWorkflowTasks().get(1).getId());
+		assertEquals("modelica0", w.getWorkflowTasks().get(2).getId());
+		assertEquals("exporter0", w.getWorkflowTasks().get(3).getId());
 	}
 
 	@Test
-	public void createSimulationTest() throws WorkflowCreationException {
-		
+	public void createSimulationTest() throws WorkflowCreationException
+	{
+
 		ConvertedCase cs = new ConvertedCase();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+		cs.setDdrLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
 
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
@@ -62,43 +67,49 @@ public class WorkflowConfigurationTest {
 		param.setName("X");
 		param.setUnit("pu");
 		param.setValue("0.5");
-		params.add(param);param = new EventParamGui();
+		params.add(param);
+		param = new EventParamGui();
 		param.setName("t1");
 		param.setUnit("s");
 		param.setValue("0.3");
-		params.add(param);param = new EventParamGui();
+		params.add(param);
+		param = new EventParamGui();
 		param.setName("t2");
 		param.setUnit("x");
 		param.setValue("0.5");
 		params.add(param);
 		event.setParams(params);
-		
+
 		ObservableList<Event> events = FXCollections.observableArrayList();
 		events.add(event);
 
-		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.OPENMODELICA, "5");
+		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events,
+				DsEngine.OPENMODELICA, "5");
 
 		assertNotNull(w);
-		assertEquals(3,w.getWorkflowTasks().size());
-		assertEquals("eventAdder0",w.getWorkflowTasks().get(4).getId());
-		assertEquals("exporter1",w.getWorkflowTasks().get(5).getId());
-		assertEquals("OpenModelica",w.getWorkflowTasks().get(6).getId());
+		assertEquals(6, w.getWorkflowTasks().size());
+		assertEquals("importer0", w.getWorkflowTasks().get(0).getId());
+		assertEquals("moparser0", w.getWorkflowTasks().get(1).getId());
+		assertEquals("exporter0", w.getWorkflowTasks().get(2).getId());
+		assertEquals("eventAdder0", w.getWorkflowTasks().get(3).getId());
+		assertEquals("exporter1", w.getWorkflowTasks().get(4).getId());
+		assertEquals("OpenModelica", w.getWorkflowTasks().get(5).getId());
 	}
-	/* FIXME 
-	 * allow loadflow engine in task integration server
-	@Test
-	public void createCompareLoadflowsTest() throws WorkflowCreationException {
-		
-		Case cs = new Case();
-		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
-		
-		Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, true);
-		
-		assertNotNull(w);
-		assertEquals(3,w.getWorkflowTasks().size());
-		assertEquals("importer0",w.getWorkflowTasks().get(0).getId());
-		assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
-		assertEquals("loadflowHades2",w.getWorkflowTasks().get(2).getId());
-	}
-	*/
+
+	// FIXME Allow loadflow engine in task integration server
+	// @Test
+	// public void createCompareLoadflowsTest() throws WorkflowCreationException {
+	//
+	// Case cs = new Case();
+	// cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+	//
+	// Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, true);
+	//
+	// assertNotNull(w);
+	// assertEquals(3,w.getWorkflowTasks().size());
+	// assertEquals("importer0",w.getWorkflowTasks().get(0).getId());
+	// assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
+	// assertEquals("loadflowHades2",w.getWorkflowTasks().get(2).getId());
+	//
+	// }
 }

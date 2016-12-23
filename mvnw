@@ -16,7 +16,7 @@ if [ -d "/Users/zamarrenolm/scratch/RTE_Modelica_tool/code/psm" ]; then
 	export MAVEN_FLAGS="--threads 2C"
 fi
 
-export GUI_TESTS=!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!WorkflowNewControllerTest,!WorkflowDetailControllerTest,!CompareLoadflowsNewControllerTest,!CompareLoadflowsDetailControllerTest,!WorkflowTest
+export GUI_TESTS=!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!ConversionNewControllerTest,!SimulationDetailControllerTest,!CompareLoadflowsNewControllerTest,!CompareLoadflowsDetailControllerTest,!WorkflowTest
 
 mkdir -p $PSM_DATA/tmp
 

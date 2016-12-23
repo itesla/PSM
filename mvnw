@@ -18,6 +18,8 @@ fi
 
 export GUI_TESTS=!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!WorkflowNewControllerTest,!WorkflowDetailControllerTest,!CompareLoadflowsNewControllerTest,!CompareLoadflowsDetailControllerTest,!WorkflowTest
 
+mkdir -p $PSM_DATA/tmp
+
 mvn ${MAVEN_FLAGS} \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \

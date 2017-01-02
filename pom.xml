@@ -61,6 +61,7 @@
         <jgrapht.version>0.9.1</jgrapht.version>
         <trove4j.version>3.0.3</trove4j.version>
         <javacsv.version>2.0</javacsv.version>
+        <truevfs.version>0.11.1</truevfs.version>
 
 		<ipst.platform.version>0.1-SNAPSHOT</ipst.platform.version>
 		<ipst.core.version>0.1-SNAPSHOT</ipst.core.version>
@@ -434,6 +435,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
                 <version>${commonscompress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.truevfs</groupId>
+                <artifactId>truevfs-driver-zip</artifactId>
+                <version>${truevfs.version}</version>
             </dependency>
 		</dependencies>
 	</dependencyManagement>

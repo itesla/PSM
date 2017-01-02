@@ -102,6 +102,14 @@
             <groupId>net.sf.trove4j</groupId>
             <artifactId>trove4j</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.java.truevfs</groupId>
+            <artifactId>truevfs-driver-zip</artifactId>
+        </dependency>
 	</dependencies>
 </project>
 

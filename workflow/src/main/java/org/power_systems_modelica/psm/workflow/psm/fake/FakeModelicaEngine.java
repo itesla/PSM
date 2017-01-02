@@ -31,9 +31,10 @@ public class FakeModelicaEngine implements ModelicaEngine
 			LOG.warn("Fake Modelica engine configured without fake simulation results");
 		}
 	}
-	
+
 	@Override
-	public boolean validate(ModelicaDocument mo, int depth) {
+	public boolean validate(ModelicaDocument mo, int depth)
+	{
 		return true;
 	}
 
@@ -67,14 +68,14 @@ public class FakeModelicaEngine implements ModelicaEngine
 	{
 		return results;
 	}
-	
+
 	@Override
-	public void close() {
+	public void close() throws Exception
+	{
 	}
-	
 
 	ModelicaSimulationFinalResults	results;
-	Path						workingDir;
+	Path							workingDir;
 
-	private static final Logger	LOG	= LoggerFactory.getLogger(FakeModelicaEngine.class);
+	private static final Logger		LOG	= LoggerFactory.getLogger(FakeModelicaEngine.class);
 }

@@ -47,7 +47,6 @@ public class ModelicaSimulatorTask extends WorkflowTask
 			me.configure(config);
 			boolean validated = me.validate(mo, 2);
 			if (validated) me.simulate(mo);
-			me.close();
 			dynSimulationParams = me.getSimulationResults();
 
 			publish(SCOPE_GLOBAL,

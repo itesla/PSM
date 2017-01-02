@@ -17,8 +17,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
-import com.google.inject.Stage;
-
 public class OpenModelicaIntegrationTest
 {
 
@@ -126,15 +124,19 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		OpenModelicaEngine omEngine = new OpenModelicaEngine();
-		omEngine.configure(config);
-		omEngine.simulate(moDocsList);
-		omEngine.close();
+		try(OpenModelicaEngine omEngine = new OpenModelicaEngine()) {
+			omEngine.configure(config);
+			omEngine.simulate(moDocsList);
 
-		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
-		assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
-		assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
-		// assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
+			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
+			assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
+			assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
+			// assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
+		}
+		
 	}
 
 	@Test
@@ -205,30 +207,35 @@ public class OpenModelicaIntegrationTest
 		ModelicaDocument mo = ModelicaParser
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
 
-		OpenModelicaEngine omEngine = new OpenModelicaEngine();
-		omEngine.configure(config);
-		boolean validated = omEngine.validate(mo, 2);
-		if (validated) omEngine.simulate(mo);
-		omEngine.close();
-
-		assertEquals(moName, mo.getSystemModel().getId());
-		assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
-
-		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
-		if (!failsSimulation)
+		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
-			assertTrue(results.getEntries().size() == 2 * numOfResults);
+			omEngine.configure(config);
+			boolean validated = omEngine.validate(mo, 2);
+			if (validated) omEngine.simulate(mo);
 
-			Path omSimPath = (Path) omEngine.getSimulationResults()
-					.getValue(mo.getSystemModel().getId(), "simulation_path");
-			assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-			assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
-			if (config.getBoolean("createFilteredMat"))
-				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.mat")));
+			assertEquals(moName, mo.getSystemModel().getId());
+			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+
+			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
+			if (!failsSimulation)
+			{
+				assertTrue(results.getEntries().size() == numOfResults);
+
+				Path omSimPath = (Path) omEngine.getSimulationResults()
+						.getValue(mo.getSystemModel().getId(), "simulation_path");
+				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
+				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
+				if (config.getBoolean("createFilteredMat"))
+					assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.mat")));
+			}
+			else
+			{
+				assertTrue(results.getEntries().isEmpty());
+			}
 		}
-		else
+		catch (Exception exc)
 		{
-			assertTrue(results.getEntries().isEmpty());
+			exc.printStackTrace();
 		}
 	}
 

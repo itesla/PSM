@@ -5,8 +5,10 @@ import java.util.Collection;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 
-public interface ModelicaEngine
+public interface ModelicaEngine extends AutoCloseable
 {
+
+
 	void configure(Configuration config);
 	
 	boolean validate(ModelicaDocument mo, int depth);
@@ -16,6 +18,4 @@ public interface ModelicaEngine
 	void simulate(Collection<ModelicaDocument> mos);
 
 	ModelicaSimulationFinalResults getSimulationResults();
-	
-	void close();
 }

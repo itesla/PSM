@@ -293,9 +293,9 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public void close()
+	public void close() throws Exception
 	{
-		LOGGER.info("Closing Dymola server.");
+		LOGGER.info("Closing Dymola service.");
 		dymolaClient.close();
 	}
 

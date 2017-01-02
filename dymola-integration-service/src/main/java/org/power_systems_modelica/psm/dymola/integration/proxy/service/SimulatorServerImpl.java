@@ -175,6 +175,7 @@ public class SimulatorServerImpl implements SimulatorServer
 					entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
 					entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
 					entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
+			
 			prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
 			endms = Instant.now();
 			LOGGER.info(
@@ -202,127 +203,7 @@ public class SimulatorServerImpl implements SimulatorServer
 					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
 					+ ", error message:" + errMessg, e);
 		}
-		finally
-		{
-			// FIXME Pending to get close() from client.
-			if (debug == false)
-			{
-				try
-				{
-					Utils.deleteDirectoryRecursively(workingDir);
-				}
-				catch (IOException e)
-				{
-					LOGGER.error("Error deleting directory {}, reason {}", workingDir,
-							e.getMessage());
-				}
-			}
-		}
 	}
-
-//	public @XmlMimeType("application/octet-stream") DataHandler validate(
-//			String inputFileName,
-//			String problem,
-//			double startTime,
-//			double stopTime,
-//			int numberOfIntervals,
-//			double outputInterval,
-//			double tolerance,
-//			String[] methodList,
-//			String resultsFileName,
-//			String resultVariables,
-//			int depth,
-//			@XmlMimeType("application/octet-stream") DataHandler data)
-//	{
-//		System.out.println("Validating models.");
-//		LOGGER.info("Validating models.");
-//		Path workingDir = null;
-//		String outputZipFile = null;
-//		METHOD_LIST = methodList;
-//		try
-//		{
-//			Instant startms = Instant.now();
-//			Path inputZipFile;
-//			try (StreamingDataHandler inputDh = (StreamingDataHandler) data)
-//			{
-//				Files.createDirectories(Paths.get(serviceWorkDir));
-//				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir), DYMSERV_PREFIX);
-//				Files.createDirectories(workingDir);
-//				inputZipFile = workingDir.resolve(DYMOLASERVICE_INPUTFILENAME);
-//				inputDh.moveTo(inputZipFile.toFile());
-//			}
-//			try (ZipFile zipFile = new ZipFile(inputZipFile.toFile()))
-//			{
-//				ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
-//			}
-//			Instant endms = Instant.now();
-//			LOGGER.info(
-//					" {} - dymola validation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.",
-//					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
-//					outputInterval, tolerance, resultsFileName,
-//					Duration.between(startms, endms).toMillis());
-//
-//			startms = Instant.now();
-//			validateDymola(workingDir.toString(), inputFileName, problem, startTime,
-//					stopTime, numberOfIntervals, outputInterval, tolerance, 
-//					methodList, resultsFileName, resultVariables, depth);
-//			endms = Instant.now();
-//
-//			long simulationTime = Duration.between(startms, endms).toMillis();
-//
-//			startms = Instant.now();
-//			outputZipFile = workingDir.getFileName() + ".zip";
-//			Map<String, String> fileNamesToInclude = MapUtils.asUnmodifiableMap(
-//					entry("log.txt", resultsFileName + "_log.txt"),
-//					entry("dslog.txt", resultsFileName + "_dslog.txt"),
-//					entry(resultsFileName + ".mat", resultsFileName + ".mat"),
-//					entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
-//					entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
-//					entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
-//			prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
-//			endms = Instant.now();
-//			LOGGER.info(
-//					" {} - dymola validation terminated - simulation time: {} ms., output file zipped in: {} ms.",
-//					workingDir, simulationTime, Duration.between(startms, endms).toMillis());
-//
-//			TemporaryFileDataSource outDataSource = new TemporaryFileDataSource(
-//					Paths.get(outputZipFile).toFile());
-//			// FileDataSource outDataSource = new FileDataSource(Paths.get(outputZipFile).toFile());
-//			DataHandler outputFileDataHandler = new DataHandler(outDataSource);
-//			return outputFileDataHandler;
-//		}
-//		catch (Exception e)
-//		{
-//			LOGGER.error(
-//					" {} - dymola validation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}",
-//					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
-//					outputInterval, tolerance, resultsFileName, e);
-//
-//			String errMessg = e.getMessage();
-//			errMessg = ((errMessg != null) && (errMessg.length() > MSGERRLEN))
-//					? errMessg.substring(0, MSGERRLEN) + " ..." : errMessg;
-//
-//			throw new WebServiceException("dymola simulation failed - remote working directory "
-//					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
-//					+ ", error message:" + errMessg, e);
-//		}
-//		finally
-//		{
-//			// FIXME Pending to get close() from client.
-//			if (debug == false)
-//			{
-//				try
-//				{
-//					Utils.deleteDirectoryRecursively(workingDir);
-//				}
-//				catch (IOException e)
-//				{
-//					LOGGER.error("Error deleting directory {}, reason {}", workingDir,
-//							e.getMessage());
-//				}
-//			}
-//		}
-//	}
 
 	public @XmlMimeType("application/octet-stream") DataHandler simulate(String inputFileName,
 			String problem,
@@ -380,6 +261,7 @@ public class SimulatorServerImpl implements SimulatorServer
 					entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
 					entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
 					entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
+			
 			prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
 			endms = Instant.now();
 			LOGGER.info(
@@ -407,29 +289,12 @@ public class SimulatorServerImpl implements SimulatorServer
 					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
 					+ ", error message:" + errMessg, e);
 		}
-		finally
-		{
-			// FIXME Pending to get close() from client.
-			if (debug == false)
-			{
-				try
-				{
-					Utils.deleteDirectoryRecursively(workingDir);
-				}
-				catch (IOException e)
-				{
-					LOGGER.error("Error deleting directory {}, reason {}", workingDir,
-							e.getMessage());
-				}
-			}
-		}
 	}
 	
 	protected void validateDymola(String workingDirectory, String inputFileName, String problem,
 			double startTime, double stopTime, int numberOfIntervals, double outputInterval,
 			double tolerance, String[] methodList, String resultsFileName, String resultVariables,
 			int depth) {
-		boolean validated = true;
 		// Depth = 1 : only load and check model.
 		// Depth = 2 : load, check and small simulation of the model.
 
@@ -467,9 +332,10 @@ public class SimulatorServerImpl implements SimulatorServer
 				result = dymola.checkModel(problem);
 				if(!result) {
 					LOGGER.error("Error checking model {}. Reason is ,{}", problem, dymola.getLastError());
-					validated = false;
 				}
-				simulateModel(problem, startTime, 0.1*stopTime, numberOfIntervals, tolerance, outputInterval, resultsFileName);
+//				simulateModel(problem, startTime, 0.1*stopTime, numberOfIntervals, tolerance, outputInterval, resultsFileName);
+				simulateDymola(workingDirectory, inputFileName, problem, startTime, 0.1*stopTime, numberOfIntervals, outputInterval, tolerance, resultsFileName,
+						resultVariables, false);
 				break;
 			}
 		}
@@ -609,8 +475,10 @@ public class SimulatorServerImpl implements SimulatorServer
 	public void close()
 	{
 		LOGGER.info("Closing Dymola server.");
+		System.out.println("(Auto) Closing Dymola server.");
 		try
 		{
+//			Utils.deleteDirectoryRecursively(workingDir); //TODO TMP
 			// The connection to Dymola is closed and Dymola is terminated
 			if (dymola != null)
 			{
@@ -768,6 +636,7 @@ public class SimulatorServerImpl implements SimulatorServer
 
 	boolean							debug;
 
+//	private Path					workingDir					= null;
 	final String					serviceWorkDir;
 	private DymolaInterface			dymola						= null;
 	final Pool<Integer>				portPool;

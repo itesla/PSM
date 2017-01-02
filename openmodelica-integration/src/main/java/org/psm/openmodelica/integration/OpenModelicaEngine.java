@@ -29,8 +29,6 @@ import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Stage;
-
 public class OpenModelicaEngine implements ModelicaEngine
 {
 
@@ -240,11 +238,11 @@ public class OpenModelicaEngine implements ModelicaEngine
 		// written properly)
 		mos.forEach(mo -> simulate(mo));
 	}
-
+	
 	@Override
-	public void close()
+	public void close() throws Exception
 	{
-		LOGGER.info("Closing OpenModelica server.");
+		LOGGER.info("Closing OpenModelica service.");
 		try
 		{
 			if (this.omc != null)

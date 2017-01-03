@@ -143,23 +143,27 @@ public class DymolaIntegrationTest
 
 		config.setParameter("createFilteredMat", "false");
 
-		DymolaEngine omEngine = new DymolaEngine();
-		omEngine.configure(config);
-		omEngine.simulate(moDocsList);
-
-		ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
-		assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
-		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee14bus", "simulation_path"));
-		assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
-		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee30bus", "simulation_path"));
-		assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
-		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee57bus", "simulation_path"));
-		assertTrue(results.getValue("ieee118bus", "simulation_path") != null);
-		System.out.println("IEEE14 simulation directory : "
-				+ results.getValue("ieee118bus", "simulation_path"));
+		try(DymolaEngine omEngine = new DymolaEngine()) {
+			omEngine.configure(config);
+			omEngine.simulate(moDocsList);
+	
+			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
+			assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
+			System.out.println("IEEE14 simulation directory : "
+					+ results.getValue("ieee14bus", "simulation_path"));
+			assertTrue(results.getValue("ieee30bus", "simulation_path") != null);
+			System.out.println("IEEE14 simulation directory : "
+					+ results.getValue("ieee30bus", "simulation_path"));
+			assertTrue(results.getValue("ieee57bus", "simulation_path") != null);
+			System.out.println("IEEE14 simulation directory : "
+					+ results.getValue("ieee57bus", "simulation_path"));
+			assertTrue(results.getValue("ieee118bus", "simulation_path") != null);
+			System.out.println("IEEE14 simulation directory : "
+					+ results.getValue("ieee118bus", "simulation_path"));
+		}
+		catch(Exception exc) {
+			exc.printStackTrace();
+		}
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version

@@ -8,12 +8,15 @@ public class IidmNames
 		switch (stype)
 		{
 		case "Bus":
+		case "InfiniteBus":
 			switch (mname)
 			{
 			case "V_0":
 				return "V_pu";
 			case "angle_0":
 				return "A";
+			default:
+				return null;
 			}
 		case "Line":
 			switch (mname)
@@ -26,6 +29,8 @@ public class IidmNames
 				return "G1_pu";
 			case "B":
 				return "B1_pu";
+			default:
+				return null;
 			}
 		case "Load":
 			switch (mname)
@@ -38,6 +43,8 @@ public class IidmNames
 				return "Q0";
 			case "angle_0":
 				return "A";
+			default:
+				return null;
 			}
 		case "Shunt":
 			switch (mname)
@@ -46,6 +53,8 @@ public class IidmNames
 				return "B_pu";
 			case "nsteps":
 				return "MaximumSectionCount";
+			default:
+				return null;
 			}
 		case "Transformer":
 			switch (mname)
@@ -64,9 +73,11 @@ public class IidmNames
 				return "R_pu";
 			case "X":
 				return "X_pu";
+			default:
+				return null;
 			}
 		case "Generator":
-			switch(mname)
+			switch (mname)
 			{
 			case "ur0":
 				return "u0_re";
@@ -74,6 +85,8 @@ public class IidmNames
 				return "u0_im";
 			case "V2":
 				return "Vnom";
+			default:
+				return null;
 			}
 		}
 		return null;

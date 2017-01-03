@@ -148,6 +148,8 @@ public class DydFilesFromModelica
 							.map(d0 -> {
 								if (d0.getType().endsWith(".RealOutput"))
 									return OmegaRefModel.REAL_OUTPUT;
+								else if (d0.getType().endsWith(".Constant"))
+									return OmegaRefModel.CONSTANT_VALUE;
 								else if (d0.getType().endsWith(".omegaRef"))
 									return OmegaRefModel.COMPONENT;
 								else
@@ -233,6 +235,9 @@ public class DydFilesFromModelica
 	{
 		String staticType = whichStaticType(m);
 		if (staticType == null) return null;
+		// Infinite buses will not receive a model based on their type,
+		// A model definition will be created for every infinite bus identifier
+		if (ModelicaTricks.isInfiniteBus(staticType)) return null;
 
 		Model mdef = ddr.getDynamicModelForStaticType(staticType, stage);
 		if (mdef != null)
@@ -251,6 +256,11 @@ public class DydFilesFromModelica
 
 	private Model findOrBuildModelDefinitionForAssociation(ModelicaModel m, Stage stage)
 	{
+		// Infinite buses will not build an association,
+		// A model definition will be created for every infinite bus identifier
+		String staticType = whichStaticType(m);
+		if (staticType != null && ModelicaTricks.isInfiniteBus(staticType)) return null;
+
 		Association a = associations.findCreateAssociation(m, stage);
 		if (a == null) return null;
 
@@ -284,6 +294,7 @@ public class DydFilesFromModelica
 			throw new RuntimeException(message);
 		}
 		stype = ModelicaTricks.checkGeneratorModeledAsFixedInjection(stype, mo);
+		stype = ModelicaTricks.checkInfiniteBus(stype, mo);
 		return stype;
 	}
 
@@ -675,6 +686,8 @@ public class DydFilesFromModelica
 						new Interconnection("omegaRef_omega[]", "omegaRef", "pin_omega[]"));
 			case REAL_OUTPUT:
 				return Arrays.asList(new Interconnection("omegaRef", null, "omegaRef"));
+			case CONSTANT_VALUE:
+				return Arrays.asList(new Interconnection("omegaRef", "omegaRef", "y"));
 			default:
 				return Collections.emptyList();
 			}
@@ -696,6 +709,10 @@ public class DydFilesFromModelica
 						new Interconnection(componentId, "pin_OMEGA", "{system}",
 								"omegaRef_omega[?]"));
 			case REAL_OUTPUT:
+				return Arrays.asList(
+						new Interconnection(componentId, "sortie", "{bus}", "p"),
+						new Interconnection(componentId, "omegaRef", "{system}", "omegaRef"));
+			case CONSTANT_VALUE:
 				return Arrays.asList(
 						new Interconnection(componentId, "sortie", "{bus}", "p"),
 						new Interconnection(componentId, "omegaRef", "{system}", "omegaRef"));
@@ -740,7 +757,7 @@ public class DydFilesFromModelica
 
 	private static enum OmegaRefModel
 	{
-		COMPONENT, REAL_OUTPUT, UNKNOWN, NO_MODEL
+		COMPONENT, REAL_OUTPUT, CONSTANT_VALUE, UNKNOWN, NO_MODEL
 	};
 
 	private final Path								modelicaFile;

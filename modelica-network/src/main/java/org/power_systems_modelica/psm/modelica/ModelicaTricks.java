@@ -27,7 +27,7 @@ public class ModelicaTricks
 	public static String staticIdFromDynamicId(String name)
 	{
 		if (name == null) return null;
-		
+
 		// We are assuming dynamic component identifiers are built as: <type>_<static_id>
 		// and also that all static identifiers begin with an underscore
 		int p = name.indexOf("__");
@@ -166,6 +166,22 @@ public class ModelicaTricks
 		return stype;
 	}
 
+	public static String checkInfiniteBus(String stype, ModelicaModel mo)
+	{
+		if (stype.equals("Bus"))
+		{
+			boolean isInfiniteBus = mo.getDeclarations().stream()
+					.anyMatch(d -> d.getType().contains("InfiniteBus"));
+			if (isInfiniteBus) return "InfiniteBus";
+		}
+		return stype;
+	}
+
+	public static boolean isInfiniteBus(String staticType)
+	{
+		return staticType.equals("InfiniteBus");
+	}
+
 	public static boolean isSystemConnect(ModelicaConnect eq)
 	{
 		return getKind(eq.getRef1()).equals("system") || getKind(eq.getRef2()).equals("system");
@@ -191,6 +207,7 @@ public class ModelicaTricks
 	private static final List<String>	KINDS				= Arrays.asList(
 			"system",
 			"bus",
+			"busInf",
 			"Bus",
 			"load",
 			"Load",
@@ -210,6 +227,7 @@ public class ModelicaTricks
 			"reg-gen",
 			"reg-reg",
 			// bus-other may correspond to a bus-fault for example
+			"bus-busInf",
 			"bus-other",
 			"bus-line",
 			"Bus-Line",

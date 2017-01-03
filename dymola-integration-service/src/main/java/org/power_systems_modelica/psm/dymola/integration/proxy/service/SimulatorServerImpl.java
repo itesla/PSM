@@ -130,8 +130,6 @@ public class SimulatorServerImpl implements SimulatorServer
 			int depth,
 			@XmlMimeType("application/octet-stream") DataHandler data)
 	{
-		System.out.println("Validating models.");
-		LOGGER.info("Validating models.");
 		Path workingDir = null;
 		String outputZipFile = null;
 		METHOD_LIST = methodList;
@@ -159,7 +157,7 @@ public class SimulatorServerImpl implements SimulatorServer
 					Duration.between(startms, endms).toMillis());
 
 			startms = Instant.now();
-			validateDymola(workingDir.toString(), inputFileName, problem, startTime,
+			validateDymola(workingDir, inputFileName, problem, startTime,
 					stopTime, numberOfIntervals, outputInterval, tolerance, 
 					methodList, resultsFileName, resultVariables, depth);
 			endms = Instant.now();
@@ -203,6 +201,16 @@ public class SimulatorServerImpl implements SimulatorServer
 					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
 					+ ", error message:" + errMessg, e);
 		}
+		finally {
+			try
+			{
+				Utils.deleteDirectoryRecursively(workingDir);
+			}
+			catch (IOException e)
+			{
+				LOGGER.error("Error deleting simulation files from {}", workingDir);
+			}
+		}
 	}
 
 	public @XmlMimeType("application/octet-stream") DataHandler simulate(String inputFileName,
@@ -245,7 +253,7 @@ public class SimulatorServerImpl implements SimulatorServer
 					Duration.between(startms, endms).toMillis());
 
 			startms = Instant.now();
-			simulateDymola(workingDir.toString(), inputFileName, problem, startTime, stopTime,
+			simulateDymola(workingDir, inputFileName, problem, startTime, stopTime,
 					numberOfIntervals, outputInterval, tolerance, resultsFileName,
 					resultVariables, createFilteredMat);
 			endms = Instant.now();
@@ -257,7 +265,6 @@ public class SimulatorServerImpl implements SimulatorServer
 			Map<String, String> fileNamesToInclude = MapUtils.asUnmodifiableMap(
 					entry("log.txt", resultsFileName + "_log.txt"),
 					entry("dslog.txt", resultsFileName + "_dslog.txt"),
-					entry(resultsFileName + ".mat", resultsFileName + ".mat"),
 					entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
 					entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
 					entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
@@ -270,7 +277,6 @@ public class SimulatorServerImpl implements SimulatorServer
 
 			TemporaryFileDataSource outDataSource = new TemporaryFileDataSource(
 					Paths.get(outputZipFile).toFile());
-			// FileDataSource outDataSource = new FileDataSource(Paths.get(outputZipFile).toFile());
 			DataHandler outputFileDataHandler = new DataHandler(outDataSource);
 			return outputFileDataHandler;
 		}
@@ -289,9 +295,19 @@ public class SimulatorServerImpl implements SimulatorServer
 					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
 					+ ", error message:" + errMessg, e);
 		}
+		finally {
+			try
+			{
+				Utils.deleteDirectoryRecursively(workingDir);
+			}
+			catch (IOException e)
+			{
+				LOGGER.error("Error deleting simulation files from {}", workingDir);
+			}
+		}
 	}
 	
-	protected void validateDymola(String workingDirectory, String inputFileName, String problem,
+	protected void validateDymola(Path workingDirectory, String inputFileName, String problem,
 			double startTime, double stopTime, int numberOfIntervals, double outputInterval,
 			double tolerance, String[] methodList, String resultsFileName, String resultVariables,
 			int depth) {
@@ -306,7 +322,7 @@ public class SimulatorServerImpl implements SimulatorServer
 				LOGGER.error("Error clearing workspace: {}.", dymola.getLastError());
 			}
 			
-			result = dymola.cd(workingDirectory);
+			result = dymola.cd(workingDirectory.toAbsolutePath().toString());
 			if (!result)
 			{
 				LOGGER.error("Error setting the working directory {}. Reason is {}.",
@@ -333,9 +349,7 @@ public class SimulatorServerImpl implements SimulatorServer
 				if(!result) {
 					LOGGER.error("Error checking model {}. Reason is ,{}", problem, dymola.getLastError());
 				}
-//				simulateModel(problem, startTime, 0.1*stopTime, numberOfIntervals, tolerance, outputInterval, resultsFileName);
-				simulateDymola(workingDirectory, inputFileName, problem, startTime, 0.1*stopTime, numberOfIntervals, outputInterval, tolerance, resultsFileName,
-						resultVariables, false);
+				simulateModel(problem, startTime, 0.1*stopTime, numberOfIntervals, tolerance, outputInterval, resultsFileName);
 				break;
 			}
 		}
@@ -347,7 +361,7 @@ public class SimulatorServerImpl implements SimulatorServer
 		}
 	}
 
-	protected void simulateDymola(String workingDirectory, String inputFileName, String problem,
+	protected void simulateDymola(Path workingDirectory, String inputFileName, String problem,
 			double startTime, double stopTime, int numberOfIntervals, double outputInterval,
 			double tolerance, String resultsFileName, String resultVariables,
 			boolean createFilteredMat) throws DymolaException
@@ -360,12 +374,12 @@ public class SimulatorServerImpl implements SimulatorServer
 			throw new RuntimeException("Error clearing workspace : " + dymola.getLastError());
 		}
 
-		//FIXME cd() RETURNS FALSE!!
-		result = dymola.cd(workingDirectory);
-//		if (!result)
-//		{
-//			throw new RuntimeException("CD : " + dymola.getLastError());
-//		}
+		result = dymola.cd(workingDirectory.toAbsolutePath().toString());
+		if (!result)
+		{
+			LOGGER.error("Error setting the working directory {}. Reason is {}.",
+					workingDirectory, dymola.getLastError());
+		}
 
 		result = dymola.openModel(workingDirectory + File.separator + inputFileName);
 		if (!result)

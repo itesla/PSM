@@ -233,8 +233,7 @@ public class DymolaIntegrationTest
 
 		try(DymolaEngine dymEngine = new DymolaEngine()) {
 			dymEngine.configure(config);
-			//FIXME Validation + Simulation
-//			dymEngine.validate(mo, 2);
+			dymEngine.validate(mo, 2);
 			dymEngine.simulate(mo);
 	
 			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
@@ -245,8 +244,6 @@ public class DymolaIntegrationTest
 	
 			Path dymSimPath = (Path) dymEngine.getSimulationResults()
 					.getValue(mo.getSystemModel().getId(), "simulation_path");
-			System.out.println("Dymola simulation engine path : " +dymSimPath.toString());
-			assertTrue(Files.exists(dymSimPath.resolve(moName + "_res.mat")));
 			assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.csv")));
 			if (config.getBoolean("createFilteredMat"))
 				assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.mat")));

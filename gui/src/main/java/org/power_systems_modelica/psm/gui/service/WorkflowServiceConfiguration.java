@@ -148,20 +148,20 @@ public class WorkflowServiceConfiguration
 		ObservableList<String> elements = FXCollections.observableArrayList();
 		
 		String[] s = new String[] {
-				"bus__BUS___10_TN",
-				"bus__BUS___11_TN",
-				"bus__BUS___12_TN",
-				"bus__BUS___13_TN",
-				"bus__BUS___14_TN",
-				"bus__BUS____1_TN",
-				"bus__BUS____2_TN",
-				"bus__BUS____3_TN",
-				"bus__BUS____4_TN",
-				"bus__BUS____5_TN",
-				"bus__BUS____6_TN",
-				"bus__BUS____7_TN",
-				"bus__BUS____8_TN",
-				"bus__BUS____9_TN"
+				"_BUS___10_TN",
+				"_BUS___11_TN",
+				"_BUS___12_TN",
+				"_BUS___13_TN",
+				"_BUS___14_TN",
+				"_BUS____1_TN",
+				"_BUS____2_TN",
+				"_BUS____3_TN",
+				"_BUS____4_TN",
+				"_BUS____5_TN",
+				"_BUS____6_TN",
+				"_BUS____7_TN",
+				"_BUS____8_TN",
+				"_BUS____9_TN"
 				};
 		for (int j = 0; j < s.length; j++) {
 			elements.add(s[j]);

@@ -17,7 +17,10 @@ import java.util.stream.Collectors;
 
 public class Annotation implements Comparable<Annotation>
 {
-	// TODO Use the list of items instead of building and parsing whole text in first item
+	public Annotation()
+	{
+		items = new TreeSet<>();
+	}
 
 	public Annotation(String a)
 	{
@@ -75,6 +78,11 @@ public class Annotation implements Comparable<Annotation>
 		return Collections.unmodifiableCollection(items);
 	}
 
+	public void addItems(Collection<AnnotationItem> items)
+	{
+		this.items.addAll(items);
+	}
+
 	public void removeItems(Collection<AnnotationItem> items)
 	{
 		this.items.removeAll(items);
@@ -85,7 +93,7 @@ public class Annotation implements Comparable<Annotation>
 		Objects.requireNonNull(a);
 		items.add(new AnnotationItem(a));
 	}
-
+	
 	public String asText()
 	{
 		return items.stream().map(AnnotationItem::asText).collect(Collectors.joining(","));

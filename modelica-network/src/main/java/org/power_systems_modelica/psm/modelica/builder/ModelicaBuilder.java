@@ -66,7 +66,9 @@ public class ModelicaBuilder
 
 	protected ModelicaModel getDynamicModelFor(String staticId)
 	{
-		return dynamicModelsByStaticId.get(ModelicaUtil.normalizedIdentifier(staticId));
+		String nid = ModelicaUtil.normalizedIdentifier(staticId);
+		ModelicaModel m = dynamicModelsByStaticId.get(nid);
+		return m;
 	}
 
 	protected ModelicaModel getSystemModel()

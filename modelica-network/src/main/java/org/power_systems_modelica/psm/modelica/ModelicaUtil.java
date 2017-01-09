@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -101,8 +102,14 @@ public class ModelicaUtil
 	{
 		String id = null;
 		if (d.getAnnotation() != null)
-			if (d.getAnnotation().getStaticId().isPresent())
-				id = d.getAnnotation().getStaticId().get();
+		{
+			Optional<String> oid = d.getAnnotation().getStaticId();
+			if (oid.isPresent()) 
+			{
+				id = oid.get();
+				System.err.println("LUMA staticId " + id + " from annotation " + d.getAnnotation().asText());
+			}
+		}
 		if (id == null) id = getStaticIdFromDynamicId(d.getId());
 		if (id == null) id = SYSTEM_ID;
 		return normalizedIdentifier(id);

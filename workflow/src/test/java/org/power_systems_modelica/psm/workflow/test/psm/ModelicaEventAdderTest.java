@@ -25,6 +25,7 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
 import com.google.common.collect.Iterables;
@@ -143,8 +144,13 @@ public class ModelicaEventAdderTest
 						TC("source", "mo",
 								"target", outname,
 								"includePsmAnnotations", "true")),
+				TD(ModelicaParserTask.class, "importerMo0",
+						TC("source", outname,
+								"modelicaDocument", "mo_re-read")),
 				TD(ModelicaEventAdderTask.class, "eventAdder0",
-						TC("ddrType", "DYD",
+						TC("network", "network",
+								"modelicaDocument", "mo_re-read",
+								"ddrType", "DYD",
 								"ddrLocation", ddr,
 								"events", events)),
 				TD(ModelicaExporterTask.class, "exporter1",

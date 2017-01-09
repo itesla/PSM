@@ -38,7 +38,7 @@ equation_stmt_list
    : ( equation_stmt ';'
    | annotation
 {
-	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.content));
+	if ($annotation.ctx != null && !$annotation.a.isEmpty()) modelicaDocument.getSystemModel().addAnnotation($annotation.a);
 }
    ';' )*
    ;
@@ -47,7 +47,7 @@ declaration_stmt_list
    : ( declaration_stmt ';'
    | annotation
 {
-	modelicaDocument.getSystemModel().addAnnotation(new Annotation($annotation.content));
+	if ($annotation.ctx != null && !$annotation.a.isEmpty()) modelicaDocument.getSystemModel().addAnnotation($annotation.a);
 }
    ';' )*
    ;
@@ -63,8 +63,7 @@ declaration_stmt locals [boolean isParameter = false]
 	String type = $type_name.text;
 	String id = $instantiation.id;
 	Annotation annotation = null;
-	if ($annotation.ctx != null && $annotation.content != null)
-		annotation = new Annotation($annotation.content);
+	if ($annotation.ctx != null && !$annotation.a.isEmpty()) annotation = $annotation.a;
 	ModelicaDeclaration declaration;
 	if ($instantiation.arguments != null)
 		declaration = new ModelicaDeclaration(type, id, $instantiation.arguments, $isParameter, annotation);
@@ -180,15 +179,24 @@ algebraic_expression:
    ( NUMBER | ID | ALGEBRAIC_SYMBOL | '(' | ')' )*
    ;
 
-annotation returns [ String content = null ]
-	: 'annotation' '(' annotation_content ')'
+annotation returns [ Annotation a = new Annotation() ]
+	: 'annotation' '(' annotation_items ')'
 {
-	$content = $annotation_content.text;
+	$a.addItems($annotation_items.items);
 }
    ;
 
-annotation_content
-   : ( STRING | ID '(' instantiation_argument_list ')' ','? )+
+annotation_items returns [ List<AnnotationItem> items = new ArrayList<>() ]
+   : ( annotation_name '(' instantiation_argument_list ')'
+{
+	String itemText = String.format("%s(%s)", $annotation_name.text, $instantiation_argument_list.text);
+	$items.add(new AnnotationItem(itemText));
+}
+   ','? )+
+   ;
+
+annotation_name
+   : (STRING | ID)
    ;
 
 ALGEBRAIC_SYMBOL

@@ -208,7 +208,7 @@ public class WorkflowServiceConfiguration
 			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
 					TC("source", casePath.toString())));
 			tasks.add(TD(ModelicaParserTask.class, "moparser0",
-					TC("source", moInput ))
+					TC("source", moInput, "modelicaDocument", "mo" ))
 					);
 			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 					TC("source", "mo",
@@ -218,7 +218,9 @@ public class WorkflowServiceConfiguration
 			if (!events.isEmpty())
 			{
 				tasks.add(TD(ModelicaEventAdderTask.class, "eventAdder0",
-						TC("ddrType", "DYD",
+						TC("network", "network",
+								"modelicaDocument", "mo",
+								"ddrType", "DYD",
 								"ddrLocation", cs.getDdrLocation(),
 								"events", (String) events.stream().map(Object::toString)
 										.collect(Collectors.joining("\n")))));

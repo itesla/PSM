@@ -115,7 +115,7 @@ public class ModelicaSimulatorTest
 
 		Workflow wf = WF(
 				TD(ModelicaParserTask.class, "moparser0",
-						TC("source", moInput)),
+						TC("source", moInput, "modelicaDocument", "mo")),
 				TD(ModelicaSimulatorTask.class, "dynamicsim0",
 						TC("source", "mo",
 								"modelicaEngine", modelicaEngine,

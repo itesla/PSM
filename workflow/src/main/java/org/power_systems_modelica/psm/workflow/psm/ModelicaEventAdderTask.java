@@ -38,6 +38,8 @@ public class ModelicaEventAdderTask extends WorkflowTask
 	@Override
 	public void configure(Configuration config)
 	{
+		network = config.getParameter("network");
+		modelicaDocument = config.getParameter("modelicaDocument");
 		ddrType = config.getParameter("ddrType");
 		ddrLocation = config.getParameter("ddrLocation");
 		eventData = config.getParameter("events");
@@ -49,8 +51,8 @@ public class ModelicaEventAdderTask extends WorkflowTask
 		running();
 		try
 		{
-			Network n = (Network) workflow.getResults("network");
-			ModelicaDocument mo = (ModelicaDocument) workflow.getResults("mo");
+			Network n = (Network) workflow.getResults(network);
+			ModelicaDocument mo = (ModelicaDocument) workflow.getResults(modelicaDocument);
 
 			DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create(
 					ddrType,
@@ -98,6 +100,8 @@ public class ModelicaEventAdderTask extends WorkflowTask
 	private String				ddrType;
 	private String				ddrLocation;
 	private String				eventData;
+	private String				network;
+	private String				modelicaDocument;
 
 	private static final Logger	LOG	= LoggerFactory.getLogger(ModelicaEventAdder.class);
 }

@@ -38,7 +38,7 @@ public class ModelicaParserTest
 
 		Workflow wf = WF(
 				TD(ModelicaParserTask.class, "moparser0",
-						TC("source", moInput)),
+						TC("source", moInput, "modelicaDocument", "mo")),
 				TD(ModelicaExporterTask.class, "exporter0",
 						TC("target", moOutput)));
 		wf.start();

@@ -27,6 +27,7 @@ public class ModelicaParserTask extends WorkflowTask
 	public void configure(Configuration config)
 	{
 		source = config.getParameter("source");
+		modelicaDocument = config.getParameter("modelicaDocument");
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class ModelicaParserTask extends WorkflowTask
 		{
 			Path modelicaFile = Paths.get(source);
 			ModelicaDocument mo = ModelicaParser.parse(modelicaFile);
-			publish(SCOPE_GLOBAL, "mo", mo);
+			publish(SCOPE_GLOBAL, modelicaDocument, mo);
 			succeded();
 		}
 		catch (Exception x)
@@ -48,4 +49,5 @@ public class ModelicaParserTask extends WorkflowTask
 	}
 
 	private String	source;
+	private String	modelicaDocument;
 }

@@ -43,18 +43,23 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		{
 			ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
 
-			ModelicaEngine me = ModelicaEngineMainFactory.create(modelicaEngine);
-			me.configure(config);
-			boolean validated = me.validate(mo, 2);
-			if (validated) me.simulate(mo);
-			dynSimulationParams = me.getSimulationResults();
-
-			publish(SCOPE_GLOBAL,
-					"simres",
-					dynSimulationParams.getValue(mo.getSystemModel().getId(), "simulation_path"));
-
-			succeded();
-
+			try(ModelicaEngine me = ModelicaEngineMainFactory.create(modelicaEngine))
+			{
+				me.configure(config);
+				boolean validated = me.validate(mo, 2);
+				if (validated) me.simulate(mo);
+				dynSimulationParams = me.getSimulationResults();
+	
+				publish(SCOPE_GLOBAL,
+						"simres",
+						dynSimulationParams.getValue(mo.getSystemModel().getId(), "simulation_path"));
+	
+				succeded();
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
 		}
 		catch (Exception x)
 		{

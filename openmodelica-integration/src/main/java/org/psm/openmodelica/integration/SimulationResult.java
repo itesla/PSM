@@ -17,7 +17,7 @@ public class SimulationResult
 		}
 
 		error = simError;
-		error = getFirstQuotedText(simError);
+		if(!error.isEmpty()) getFirstQuotedText(simError);
 	}
 
 	public String getResultFile()

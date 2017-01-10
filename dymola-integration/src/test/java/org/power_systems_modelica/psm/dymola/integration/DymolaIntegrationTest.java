@@ -143,11 +143,11 @@ public class DymolaIntegrationTest
 
 		config.setParameter("createFilteredMat", "false");
 
-		try(DymolaEngine omEngine = new DymolaEngine()) {
-			omEngine.configure(config);
-			omEngine.simulate(moDocsList);
+		try(DymolaEngine dymEngine = new DymolaEngine()) {
+			dymEngine.configure(config);
+			dymEngine.simulate(moDocsList);
 	
-			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
+			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
 			assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
 			System.out.println("IEEE14 simulation directory : "
 					+ results.getValue("ieee14bus", "simulation_path"));
@@ -237,11 +237,12 @@ public class DymolaIntegrationTest
 
 		try(DymolaEngine dymEngine = new DymolaEngine()) {
 			dymEngine.configure(config);
-			dymEngine.validate(mo, 2);
-			dymEngine.simulate(mo);
+			boolean validated = dymEngine.validate(mo, 2);
+			if(validated) dymEngine.simulate(mo);
 	
 			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
-			assertTrue(results.getEntries().size() == numOfResults);
+			//If a validation is performed before the dynamic simulation the "dymvalidation_" directory is saved in the results (numOfResults+1).
+			if(results.getEntries().size() > 1) assertTrue(results.getEntries().size() == numOfResults+1);
 	
 			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());

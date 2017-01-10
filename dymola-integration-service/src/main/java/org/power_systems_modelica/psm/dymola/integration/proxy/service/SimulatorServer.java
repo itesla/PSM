@@ -51,7 +51,4 @@ public interface SimulatorServer
 			String resultsVars,
 			boolean createFilteredMat,
 			@XmlMimeType("application/octet-stream") DataHandler data);
-
-	@WebMethod
-	void close();
 }

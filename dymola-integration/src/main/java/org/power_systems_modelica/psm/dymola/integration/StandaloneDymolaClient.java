@@ -28,11 +28,6 @@ import com.sun.xml.internal.ws.developer.StreamingDataHandler;
  */
 public class StandaloneDymolaClient
 {
-
-	
-//	public StandaloneDymolaClient(Path workingDir, String inputFileName, String outputFileName,
-//			String modelFileName, String outputDymolaFileName, boolean createFilteredMat,
-//			String[] methodList, String wsdlService, String resultVariables)
 	public StandaloneDymolaClient(Path workingDir, String inputFileName, String outputFileName,
 			String outputDymolaFileName, boolean createFilteredMat,
 			String[] methodList, String wsdlService, String resultVariables)
@@ -40,7 +35,6 @@ public class StandaloneDymolaClient
 		this.workingDirectory = workingDir;
 		this.inputFileName = inputFileName;
 		this.outputFileName = outputFileName;
-//		this.modelFileName = modelFileName;
 		this.outputDymolaFileName = outputDymolaFileName;
 		this.createFilteredMat = createFilteredMat;
 		this.wsdlService = wsdlService;
@@ -186,47 +180,6 @@ public class StandaloneDymolaClient
 		}
 
 		return retCode;
-	}
-
-	protected void close()
-	{
-		RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES, 2000);
-		LOGGER.info(" - closing remote dymola server");
-		while (retry.shouldRetry())
-		{
-			try
-			{
-				SimulatorServerImplService service = new SimulatorServerImplService(
-						new URL(wsdlService));
-				SimulatorServer sport = service.getSimulatorServerImplPort(new MTOMFeature());
-				((BindingProvider) sport).getRequestContext().put(JAXWSProperties.CONNECT_TIMEOUT,
-						CONNECTION_TIMEOUT);
-				((BindingProvider) sport).getRequestContext()
-						.put("javax.xml.ws.client.connectionTimeout", CONNECTION_TIMEOUT);
-				((BindingProvider) sport).getRequestContext().put(JAXWSProperties.REQUEST_TIMEOUT,
-						REQUEST_TIMEOUT);
-				((BindingProvider) sport).getRequestContext()
-						.put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
-				sport.close();
-				break;
-			}
-			catch (Exception e)
-			{
-				try
-				{
-					LOGGER.warn(" - retry ... ({})", e.getMessage());
-					retry.errorOccured(e);
-				}
-				catch (RuntimeException e1)
-				{
-					LOGGER.error(" - remote dymola server closed unsuccessfully", e);
-				}
-				catch (Exception e1)
-				{
-					LOGGER.error(" - remote dymola server closed unsuccessfully", e);
-				}
-			}
-		}
 	}
 
 	@Override

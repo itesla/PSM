@@ -1,6 +1,7 @@
 package org.psm.openmodelica.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
@@ -30,6 +31,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("singlegen").resolve("library").toString(), filterResVariables,
 				"0.0", "1.0", "0.000001", "500");
 		config.setParameter("simFlags", "-lv LOG_STATS");
+		
 		config.setParameter("createFilteredMat", "false");
 
 		testBuild(config, "singlegen", "singlegen.mo", 6, false);
@@ -60,7 +62,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "smallcase2", "case2.mo", 8, true);
+		testBuild(config, "smallcase2", "case2.mo", 8, false);
 	}
 
 	@Test // FIXME This system does not simulate
@@ -143,7 +145,9 @@ public class OpenModelicaIntegrationTest
 	public void testIEEE14() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
-
+		
+		//Regular expression for the software-to-software validation
+//		String filterResVariables = "[a-zA-Z0-9_]*((TN.(V|angle))|(EC.(P|Q))|(SM.(efd|cm|lambdad|lambdaf|lambdaq1|lambdaq2)))";
 		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
@@ -217,12 +221,12 @@ public class OpenModelicaIntegrationTest
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 
 			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
+			Path omSimPath = (Path) omEngine.getSimulationResults()
+					.getValue(mo.getSystemModel().getId(), "simulation_path");
 			if (!failsSimulation)
 			{
-				assertTrue(results.getEntries().size() == numOfResults);
-
-				Path omSimPath = (Path) omEngine.getSimulationResults()
-						.getValue(mo.getSystemModel().getId(), "simulation_path");
+				//If a validation is performed before the dynamic simulation the "omvalidation_" directory is saved in the results (numOfResults+1).
+				assertTrue(results.getEntries().size() == numOfResults+1);
 				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
 				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
 				if (config.getBoolean("createFilteredMat"))
@@ -230,7 +234,7 @@ public class OpenModelicaIntegrationTest
 			}
 			else
 			{
-				assertTrue(results.getEntries().isEmpty());
+				assertNull(omSimPath);
 			}
 		}
 		catch (Exception exc)

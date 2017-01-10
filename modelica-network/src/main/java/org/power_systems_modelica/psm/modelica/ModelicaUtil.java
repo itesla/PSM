@@ -104,11 +104,7 @@ public class ModelicaUtil
 		if (d.getAnnotation() != null)
 		{
 			Optional<String> oid = d.getAnnotation().getStaticId();
-			if (oid.isPresent()) 
-			{
-				id = oid.get();
-				System.err.println("LUMA staticId " + id + " from annotation " + d.getAnnotation().asText());
-			}
+			if (oid.isPresent()) id = oid.get();
 		}
 		if (id == null) id = getStaticIdFromDynamicId(d.getId());
 		if (id == null) id = SYSTEM_ID;

@@ -2,24 +2,19 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
-import org.junit.Test;
-import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.ModelicaModel;
-import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+import org.power_systems_modelica.psm.modelica.events.test.ModelicaEventAdderTest;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -32,86 +27,9 @@ import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
 
-public class ModelicaEventAdderTest
+public class ModelicaEventAdderAsWorkflowTest extends ModelicaEventAdderTest
 {
-	@Test
-	public void addEventsIeee14BusFault() throws WorkflowCreationException, IOException
-	{
-		String events = new StringBuilder(100)
-				.append("BusFault")
-				.append(",")
-				.append("_BUS___10_TN")
-				.append(",")
-				.append("R=0.5")
-				.append(",")
-				.append("X=0.5")
-				.append(",")
-				.append("t1=20.0")
-				.append(",")
-				.append("t2=20.2")
-				.append("\n")
-				.toString();
-		ModelicaDocument mo = addEvents(
-				"ieee14",
-				"ieee14bus_EQ.xml",
-				"ddr",
-				events,
-				1,
-				1);
-		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
-		ModelicaModel mb = models.get("_BUS___10_TN");
-		String busId = "bus__BUS___10_TN";
-		String faultId = "pwFault__BUS___10_TN";
-		assertTrue(mb.getDeclarations().stream()
-				.filter(d -> d.getType().endsWith("PwFault"))
-				.findFirst()
-				.isPresent());
-		assertTrue(mb.getEquations().stream()
-				.filter(eq -> eq instanceof ModelicaConnect)
-				.filter(eq -> {
-					ModelicaConnect eqc = ((ModelicaConnect) eq);
-					String id1 = ModelicaUtil.ref2idvar(eqc.getRef1())[0];
-					String id2 = ModelicaUtil.ref2idvar(eqc.getRef2())[0];
-					return id1.equals(busId) && id2.equals(faultId) ||
-							id1.equals(faultId) && id1.equals(busId);
-				})
-				.findFirst()
-				.isPresent());
-	}
-
-	@Test
-	public void addEventsIeee14LineFault() throws WorkflowCreationException, IOException
-	{
-		String events = new StringBuilder(100)
-				.append("LineFault")
-				.append(",")
-				.append("_BUS___10-BUS___11-1_AC")
-				.append(",")
-				.append("k=0.7")
-				.append(",")
-				.append("Rfault=0.01")
-				.append(",")
-				.append("Xfault=0.001")
-				.append(",")
-				.append("startTime=200")
-				.append(",")
-				.append("endTime=400")
-				.append("\n")
-				.toString();
-		ModelicaDocument mo = addEvents(
-				"ieee14",
-				"ieee14bus_EQ.xml",
-				"ddr",
-				events,
-				0,
-				0);
-		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
-		assertTrue(models.get("_BUS___10_BUS___11_1_AC").getDeclarations()
-				.get(0)
-				.getType()
-				.endsWith("LineFault"));
-	}
-
+	@Override
 	public ModelicaDocument addEvents(
 			String foldername,
 			String casename,

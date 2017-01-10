@@ -236,7 +236,7 @@ fragment DOT
 
 any_array : '{' any_array_content '}'
 {
-	System.out.println("LUMA " + $any_array_content.text);
+	//System.out.println("LUMA " + $any_array_content.text);
 }
    ;
 

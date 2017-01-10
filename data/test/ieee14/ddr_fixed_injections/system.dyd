@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <model id="DM__SYSTEM_" staticId="_SYSTEM_">
+        <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
+    </model>
+</model_container>

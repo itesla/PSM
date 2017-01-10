@@ -18,28 +18,12 @@ public class DdrService {
 
 	public static ObservableList<Ddr> getDdrs(Catalog catalog) {
 		ObservableList<Ddr> ddrs = FXCollections.observableArrayList();
-		if (catalog.getName().equals("Reference cases")) {
-			Path catalogPath = Paths.get(catalog.getLocation());
-			try {
-				listFiles(ddrs, catalogPath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-
-			Ddr ddr = new Ddr();
-			ddr.setName("RTE22");
-			ddrs.add(ddr);
-
-			ddr = new Ddr();
-			ddr.setName("Nordic32");
-			ddrs.add(ddr);
-
-			ddr = new Ddr();
-			ddr.setName("Nordic44");
-			ddrs.add(ddr);
+		Path catalogPath = Paths.get(catalog.getLocation());
+		try {
+			listFiles(ddrs, catalogPath);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
 		return ddrs;
 	}
 

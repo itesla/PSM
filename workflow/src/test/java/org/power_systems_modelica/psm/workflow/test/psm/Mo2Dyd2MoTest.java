@@ -6,8 +6,8 @@ import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -91,7 +91,7 @@ public class Mo2Dyd2MoTest
 				54);
 	}
 
-	@Test 
+	@Test
 	public void rebuildSmallCase1() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -101,9 +101,9 @@ public class Mo2Dyd2MoTest
 				"case1_EQ.xml",
 				"smallcase1_ddr",
 				3,
-				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+				2); // There are one generator and one fixed injection but in IIDM both are Generators.
 	}
-	
+
 	@Test
 	public void rebuildSmallCase2() throws WorkflowCreationException, IOException
 	{
@@ -116,8 +116,8 @@ public class Mo2Dyd2MoTest
 				3,
 				1);
 	}
-	
-	@Test 
+
+	@Test
 	public void rebuildSmallCase3() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -127,10 +127,10 @@ public class Mo2Dyd2MoTest
 				"case3_EQ.xml",
 				"smallcase3_ddr",
 				3,
-				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+				2); // There are one generator and one fixed injection but in IIDM both are Generators.
 	}
-	
-	@Test 
+
+	@Test
 	public void rebuild7buses() throws WorkflowCreationException, IOException
 	{
 		testRebuildModelica(
@@ -142,7 +142,7 @@ public class Mo2Dyd2MoTest
 				7,
 				3);
 	}
-	
+
 	@Test
 	public void rebuildNordic32() throws WorkflowCreationException, IOException
 	{
@@ -155,7 +155,7 @@ public class Mo2Dyd2MoTest
 				52,
 				20);
 	}
-	
+
 	private void testRebuildModelica(
 			String foldername,
 			String moName,

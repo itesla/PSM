@@ -7,12 +7,10 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 
 public interface ModelicaEngine extends AutoCloseable
 {
-
-
 	void configure(Configuration config);
-	
+
 	boolean validate(ModelicaDocument mo, int depth);
-	
+
 	void simulate(ModelicaDocument mo);
 
 	void simulate(Collection<ModelicaDocument> mos);

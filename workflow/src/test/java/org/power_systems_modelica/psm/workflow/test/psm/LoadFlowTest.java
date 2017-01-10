@@ -7,8 +7,8 @@ import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -110,7 +110,7 @@ public class LoadFlowTest
 		// Compare HELM Flow results with inputs but do not assert
 		Map<String, Map<String, float[]>> allBusesValuesHF0 = gatherBusesValues(
 				n,
-				"resultsHelmflow",       
+				"resultsHelmflow",
 				StateManager.INITIAL_STATE_ID);
 		checkResults(case_, "HF  0", allBusesValuesHF0, "V", 0.01f, 0.1f, false);
 		checkResults(case_, "HF  0", allBusesValuesHF0, "A", 0.01f, 0.1f, false);

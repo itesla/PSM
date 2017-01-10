@@ -14,6 +14,8 @@ import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
@@ -92,7 +94,11 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 				public <I extends Connectable<I>> void visitEquipment(Connectable<I> e)
 				{
 					ModelicaModel de = getDdr().getModelicaModel(e, Stage.SIMULATION);
-					if (de == null) return;
+					if (de == null)
+					{
+						LOG.warn("No Modelica Model found for element " + e);
+						return;
+					}
 
 					if (!visited.contains(e))
 					{
@@ -106,5 +112,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		}
 	}
 
-	private final ModelicaEngine modelicaEngine;
+	private final ModelicaEngine	modelicaEngine;
+
+	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
 }

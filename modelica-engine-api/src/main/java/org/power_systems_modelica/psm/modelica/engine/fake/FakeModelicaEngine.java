@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.workflow.psm.fake;
+package org.power_systems_modelica.psm.modelica.engine.fake;
 
 import java.io.IOException;
 import java.io.PrintWriter;

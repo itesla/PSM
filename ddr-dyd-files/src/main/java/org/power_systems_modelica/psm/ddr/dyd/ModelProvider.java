@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Generator;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Line;
 import eu.itesla_project.iidm.network.Load;
@@ -88,6 +89,7 @@ public class ModelProvider
 		else if (e instanceof TwoWindingsTransformer) return "Transformer";
 		else if (e instanceof Load) return "Load";
 		else if (e instanceof ShuntCompensator) return "Shunt";
+		else if (e instanceof Generator) return "Generator";
 		return null;
 	}
 

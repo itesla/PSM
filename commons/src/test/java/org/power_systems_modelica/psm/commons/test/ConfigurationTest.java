@@ -1,10 +1,11 @@
-package org.power_systems_modelica.psm.commons;
+package org.power_systems_modelica.psm.commons.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.power_systems_modelica.psm.commons.Configuration;
 
 public final class ConfigurationTest
 {

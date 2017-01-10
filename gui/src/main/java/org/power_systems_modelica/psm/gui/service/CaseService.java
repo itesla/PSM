@@ -51,35 +51,11 @@ public class CaseService {
 		LOG.debug("getCases " + catalog.getName());
 		ObservableList<Case> cases = FXCollections.observableArrayList();
 
-		if (catalog.getName().equals("Reference cases")) {
-			Path catalogPath = Paths.get(catalog.getLocation());
-			try {
-				searchCatalogCases(cases, catalogPath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			Case c = new Case();
-			c.setName("RTE22");
-			c.setDescription("RTE 22 bus internal test case");
-			c.setLocation("/data/psm/private_samples/rte22");
-			c.setSize(22);
-			cases.add(c);
-
-			c = new Case();
-			c.setName("Nordic32");
-			c.setDescription("Nordic 32 bus internal test case");
-			c.setLocation("/data/psm/private_samples/nordic32");
-			c.setSize(32);
-			cases.add(c);
-
-			c = new Case();
-			c.setName("Nordic44");
-			c.setDescription("Nordic 44 bus internal test case");
-			c.setLocation("/data/psm/private_samples/nordic44");
-			c.setSize(44);
-			cases.add(c);
+		Path catalogPath = Paths.get(catalog.getLocation());
+		try {
+			searchCatalogCases(cases, catalogPath);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return cases;

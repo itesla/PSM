@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <model id="DM{staticId}" type="Bus">
+        <component type="iPSL.Electrical.Buses.Bus" id="bus_{staticId}">
+            <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
+            <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
+        </component>
+        <interconnection name="p" componentId="bus_{staticId}" componentVar="p"/>
+    </model>
+    <model id="DM{staticId}" type="Line">
+        <component type="iPSL.Electrical.Branches.PwLine_2" id="line_{staticId}">
+            <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
+            <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
+            <ref name="G" dataSource="IIDM" sourceName="G1_pu"/>
+            <ref name="B" dataSource="IIDM" sourceName="B1_pu"/>
+        </component>
+        <interconnection componentId="line_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+        <interconnection componentId="line_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
+    </model>
+    <model id="DM{staticId}" type="Load">
+        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence" id="load_{staticId}">
+            <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
+            <ref name="P_0" dataSource="IIDM" sourceName="P0"/>
+            <ref name="Q_0" dataSource="IIDM" sourceName="Q0"/>
+            <par name="alpha" value="1.5"/>
+            <par name="beta" value="2.5"/>
+            <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
+        </component>
+        <interconnection componentId="load_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
+    </model>
+    <model id="DM{staticId}" type="Shunt">
+        <component type="iPSL.Electrical.Banks.PwCapacitorBank" id="cap_{staticId}">
+            <ref name="B" dataSource="IIDM" sourceName="B_pu"/>
+            <ref name="nsteps" dataSource="IIDM" sourceName="MaximumSectionCount"/>
+        </component>
+        <interconnection componentId="cap_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
+    </model>
+    <model id="DM{staticId}" type="Transformer">
+        <component type="iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer" id="trafo_{staticId}">
+            <ref name="r" dataSource="IIDM" sourceName="ratio"/>
+            <ref name="B0" dataSource="IIDM" sourceName="B_pu"/>
+            <ref name="G0" dataSource="IIDM" sourceName="G_pu"/>
+            <par name="theta" value="0.0"/>
+            <ref name="R" dataSource="IIDM" sourceName="R_pu"/>
+            <ref name="X" dataSource="IIDM" sourceName="X_pu"/>
+        </component>
+        <interconnection componentId="trafo_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+        <interconnection componentId="trafo_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
+    </model>
+    <model id="DM_{staticId}" type="Generator">
+        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadPQ" id="fixinj_pwLoadPQ_GEN_{staticId}">
+	        <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
+	        <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
+	        <ref name="P" dataSource="IIDM" sourceName="P"/>
+	        <ref name="Q" dataSource="IIDM" sourceName="Q"/>
+		</component>
+        <interconnection componentId="fixinj_pwLoadPQ_GEN_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
+    </model>
+</model_container>

@@ -2,12 +2,12 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.workflow.test.WorkflowTestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -84,7 +84,7 @@ public class ModelicaBuilderTest
 				118,
 				54);
 	}
-	
+
 	@Test // FIXME Fixed injections are not exported to the Modelica file.
 	public void buildSmallCase1() throws WorkflowCreationException, IOException
 	{
@@ -94,9 +94,9 @@ public class ModelicaBuilderTest
 				"smallcase1/ddr",
 				"itesla/case1_no_lf.mo",
 				3,
-				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+				2); // There are one generator and one fixed injection but in IIDM both are Generators.
 	}
-	
+
 	@Test
 	public void buildSmallCase2() throws WorkflowCreationException, IOException
 	{
@@ -108,8 +108,8 @@ public class ModelicaBuilderTest
 				3,
 				1);
 	}
-	
-//	@Test // FIXME Fixed injections are not exported to the Modelica file.
+
+	@Test 
 	public void buildSmallCase3() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -118,10 +118,10 @@ public class ModelicaBuilderTest
 				"smallcase3/ddr",
 				"itesla/case3_no_lf.mo",
 				3,
-				2); //There are one generator and one fixed injection but in IIDM both are Generators.
+				2); // There are one generator and one fixed injection but in IIDM both are Generators.
 	}
-	
-	@Test //FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
+
+	@Test // FIXME Extend grammar to accept array parameters and fix differences in ratios of transformers.
 	public void build7buses() throws WorkflowCreationException, IOException
 	{
 		testBuild(
@@ -132,7 +132,7 @@ public class ModelicaBuilderTest
 				7,
 				3);
 	}
-	
+
 	@Test
 	public void buildNordic32() throws WorkflowCreationException, IOException
 	{
@@ -144,7 +144,7 @@ public class ModelicaBuilderTest
 				52,
 				20);
 	}
-	
+
 	public void testBuild(
 			String foldername,
 			String casename,
@@ -159,8 +159,8 @@ public class ModelicaBuilderTest
 		String cim = folder.resolve(casename).toString();
 		String ddr = TEST_SAMPLES.resolve(ddrname).toString();
 		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();
-		
-		String name = foldername; 
+
+		String name = foldername;
 		String outname = DATA_TMP.resolve("moBuilder_output_" + name + ".mo").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("moBuilder_init" + name);
 		Files.createDirectories(modelicaEngineWorkingDir);

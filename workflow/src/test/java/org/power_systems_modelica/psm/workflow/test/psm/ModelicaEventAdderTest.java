@@ -126,9 +126,9 @@ public class ModelicaEventAdderTest
 		String cim = folder.resolve(casename).toString();
 		String ddr = folder.resolve(ddrname).toString();
 		String fakeInit = folder.resolve(ddrname).resolve("fake_init.csv").toString();
-		String outname = DATA_TMP.resolve("eventAdder_initial.mo").toString();
-		String outnameev = DATA_TMP.resolve("eventAdder_events.mo").toString();
-		Path modelicaEngineWorkingDir = DATA_TMP.resolve("eventAdder");
+		String outname = DATA_TMP.resolve("event_adder_initial.mo").toString();
+		String outnameev = DATA_TMP.resolve("event_adder_events.mo").toString();
+		Path modelicaEngineWorkingDir = DATA_TMP.resolve("event_adder");
 		Files.createDirectories(modelicaEngineWorkingDir);
 
 		Workflow wf = WF(

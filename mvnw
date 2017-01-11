@@ -15,14 +15,23 @@ if [ -d "/Users/zamarrenolm/scratch/RTE_Modelica_tool/code/psm" ]; then
 	# Use two threads per core
 	export MAVEN_FLAGS="--threads 2C"
 fi
+if [ "$PSM_DATA" = "" ];
+then
+	echo ""
+	echo "missing PSM_DATA variable"
+	echo "will assume current data folder"
+	export PSM_DATA=data
+fi
 
-export GUI_TESTS=!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!ConversionNewControllerTest,!SimulationDetailControllerTest,!CompareLoadflowsNewControllerTest,!CompareLoadflowsDetailControllerTest,!WorkflowTest
+#export LF_TESTS=
+export LF_TESTS=,!LoadflowTest
+export GUI_TESTS=,!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!ConversionNewControllerTest,!SimulationDetailControllerTest,!CompareLoadflowsNewControllerTest,!CompareLoadflowsDetailControllerTest,!WorkflowTest
 
 mkdir -p $PSM_DATA/tmp
 
 mvn ${MAVEN_FLAGS} \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \
-	-Dtest='*,!LoadFlowTest,'${GUI_TESTS} \
+	-Dtest='*'${LF_TESTS}${GUI_TESTS} \
 	-Ditesla.config.dir=${PSM_DATA}/test/cfg \
 	$*

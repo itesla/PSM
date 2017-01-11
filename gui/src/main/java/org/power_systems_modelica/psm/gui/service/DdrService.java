@@ -16,6 +16,18 @@ import javafx.collections.ObservableList;
 
 public class DdrService {
 
+	public static Ddr getDdr(Catalog catalog, Path path) throws IOException {
+
+		ObservableList<Ddr> ddrs = getDdrs(catalog);
+		
+		for (Ddr ddr: ddrs) {
+			if (Files.isSameFile(Paths.get(ddr.getLocation()), path))
+				return ddr;
+		}
+
+		return null;
+	}
+	
 	public static ObservableList<Ddr> getDdrs(Catalog catalog) {
 		ObservableList<Ddr> ddrs = FXCollections.observableArrayList();
 		Path catalogPath = Paths.get(catalog.getLocation());

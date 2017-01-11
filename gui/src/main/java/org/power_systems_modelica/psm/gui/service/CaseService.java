@@ -47,6 +47,18 @@ public class CaseService {
 		return n;
 	}
 
+	public static Case getCase(Catalog catalog, Path path) throws IOException {
+
+		ObservableList<Case> cases = getCases(catalog);
+		
+		for (Case c: cases) {
+			if (Files.isSameFile(Paths.get(c.getLocation()), path))
+				return c;
+		}
+
+		return null;
+	}
+
 	public static ObservableList<Case> getCases(Catalog catalog) {
 		LOG.debug("getCases " + catalog.getName());
 		ObservableList<Case> cases = FXCollections.observableArrayList();
@@ -61,34 +73,29 @@ public class CaseService {
 		return cases;
 	}
 
+	public static ConvertedCase getConvertedCase(Catalog catalog, Path path) throws IOException {
+
+		ObservableList<ConvertedCase> cases = getConvertedCases(catalog);
+		
+		for (ConvertedCase c: cases) {
+			if (Files.isSameFile(Paths.get(c.getLocation()), path))
+				return c;
+		}
+
+		return null;
+	}
+	
 	public static ObservableList<ConvertedCase> getConvertedCases(Catalog catalog) {
 
 		ObservableList<ConvertedCase> cases = FXCollections.observableArrayList();
 
-		if (catalog.getName().equals("Reference cases")) {
-			Path catalogPath = Paths.get(catalog.getLocation());
-			try {
-				searchCatalogConvertedCases(cases, catalogPath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			ConvertedCase c = new ConvertedCase();
-			c.setName("RTE22");
-			c.setLocation("/data/psm/private_samples/rte22");
-			cases.add(c);
-
-			c = new ConvertedCase();
-			c.setName("Nordic32");
-			c.setLocation("/data/psm/private_samples/nordic32");
-			cases.add(c);
-
-			c = new ConvertedCase();
-			c.setName("Nordic44");
-			c.setLocation("/data/psm/private_samples/nordic44");
-			cases.add(c);
+		Path catalogPath = Paths.get(catalog.getLocation());
+		try {
+			searchCatalogConvertedCases(cases, catalogPath);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
 
 		return cases;
 	}
@@ -230,5 +237,4 @@ public class CaseService {
 	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(CaseService.class);
-
 }

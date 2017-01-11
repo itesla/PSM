@@ -1,10 +1,12 @@
 package org.power_systems_modelica.psm.gui.service;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
@@ -91,12 +93,24 @@ public class MainService {
 		return CatalogService.getCatalogs(name);
 	}
 
+	public Catalog getCatalog(String name, Path path) throws IOException {
+		return CatalogService.getCatalog(name, path);
+	}
+
 	public ObservableList getCases(String catalogName) {
 		return CaseService.getCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
 
+	public Case getCase(String catalogName, Path casePath) throws IOException {
+		return CaseService.getCase(CatalogService.getCatalogByName("cases", catalogName), casePath);
+	}
+
 	public ObservableList<ConvertedCase> getConvertedCases(String catalogName) {
 		return CaseService.getConvertedCases(CatalogService.getCatalogByName("cases", catalogName));
+	}
+
+	public ConvertedCase getConvertedCase(String catalogName, Path path) throws IOException {
+		return CaseService.getConvertedCase(CatalogService.getCatalogByName("cases", catalogName), path);
 	}
 
 	public Network getCaseSummary(Case input) {
@@ -118,6 +132,10 @@ public class MainService {
 
 	public ObservableList getDdrs(String catalogName) {
 		return DdrService.getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
+	}
+
+	public Ddr getDdr(String catalogName, Path path) throws IOException {
+		return DdrService.getDdr(CatalogService.getCatalogByName("ddrs", catalogName), path);
 	}
 
 	public ObservableList<EventParamGui> getEventParams(String event) {

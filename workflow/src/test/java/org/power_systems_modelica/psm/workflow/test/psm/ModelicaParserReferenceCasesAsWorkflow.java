@@ -1,36 +1,26 @@
 package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
+import org.power_systems_modelica.psm.modelica.parser.test.ModelicaParserReferenceCases;
 import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 
-public class ModelicaParserTest
+public class ModelicaParserReferenceCasesAsWorkflow extends ModelicaParserReferenceCases
 {
-	@Test
-	public void parseIeee14() throws WorkflowCreationException, IOException
-	{
-		testParseModelica("ieee14/itesla", "ieee14bus.mo");
-	}
-
-	private void testParseModelica(
-			String foldername,
-			String moname)
-			throws WorkflowCreationException, IOException
+	@Override
+	protected void parse(String foldername, String moname) throws Exception
 	{
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		String moInput = folder.resolve(moname).toString();

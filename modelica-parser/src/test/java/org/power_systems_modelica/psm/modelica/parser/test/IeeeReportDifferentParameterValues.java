@@ -2,13 +2,13 @@ package org.power_systems_modelica.psm.modelica.parser.test;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -164,16 +164,12 @@ public class IeeeReportDifferentParameterValues
 
 	private Path getPathModelicaFile(String case_)
 	{
-		return Paths.get(System.getenv("PSM_DATA"))
-				.resolve("tmp")
-				.resolve("moBuilder_output_ieee" + case_ + ".mo");
+		return DATA_TMP.resolve("check_params_output_ieee" + case_ + ".mo");
 	}
 
 	private Path getPathModelicaInitFile(String case_)
 	{
-		return Paths.get(System.getenv("PSM_DATA"))
-				.resolve("tmp")
-				.resolve("moBuilder_initieee" + case_);
+		return DATA_TMP.resolve("check_params_init_ieee" + case_);
 	}
 
 	private static final Set<String> IEEE_IGNORE_PARAMS = new HashSet<>(Arrays.asList(

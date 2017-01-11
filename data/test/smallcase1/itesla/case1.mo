@@ -18,6 +18,14 @@ model case1
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
 
+// FIXED INJECTIONS
+  iPSL.Electrical.Loads.Eurostag.PwLoadPQ load_pwLoadPQ_GEN__INF______SM (
+	 V_0 = 1.0, 
+	 angle_0 = 0.0, 
+	 P = -0.0, 
+	 Q = -0.0
+	 ) annotation (Placement(transformation()));
+
 // FIXED TRANSFORMERS
   iPSL.Electrical.Branches.Eurostag.PwTransformer_2 trafo__GEN______GRID_____1_PT (
 	 R = 3.647389E-4,
@@ -33,14 +41,6 @@ model case1
 	 X = 0.06,
 	 G = 0.0,
 	 B = 0.0
-	 ) annotation (Placement(transformation()));
-
-// FIXED INJECTIONS
-  iPSL.Electrical.Loads.Eurostag.PwLoadPQ load_pwLoadPQ_GEN__INF______SM (
-	 V_0 = 1.0, 
-	 angle_0 = 0.0, 
-	 P = -0.0, 
-	 Q = -0.0
 	 ) annotation (Placement(transformation()));
 
 // GENERATORS

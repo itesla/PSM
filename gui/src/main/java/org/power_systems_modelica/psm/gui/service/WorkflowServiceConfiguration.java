@@ -192,12 +192,15 @@ public class WorkflowServiceConfiguration
 
 		String moInput = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
 		String fakeInit = Paths.get(cs.getDdrLocation()).resolve("fake_init.csv").toString();
-		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("moBuilder");
-		String outname = PathUtils.DATA_TMP.resolve("eventAdder_initial.mo").toString();
-		String outnameev = PathUtils.DATA_TMP.resolve("eventAdder_events.mo").toString();
+		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("gui_worfklow");
+		Path output = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_initial.mo");
+		Path outputev = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_events.mo");
 
 		try
 		{
+			Files.deleteIfExists(output);
+			Files.deleteIfExists(outputev);
+			
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
 			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
@@ -212,7 +215,7 @@ public class WorkflowServiceConfiguration
 					);
 			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 					TC("source", "mo",
-							"target", outname,
+							"target", output.toString(),
 							"includePsmAnnotations", "true")));
 	
 			if (!events.isEmpty())
@@ -226,7 +229,7 @@ public class WorkflowServiceConfiguration
 										.collect(Collectors.joining("\n")))));
 				tasks.add(TD(ModelicaExporterTask.class, "exporter1",
 						TC("source", "moWithEvents",
-								"target", outnameev,
+								"target", outputev.toString(),
 								"includePsmAnnotations", "true")));
 	
 				simulationSource = "moWithEvents";

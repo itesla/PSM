@@ -9,7 +9,7 @@ The software enables users to transform power system networks from CIM format to
 
 Modules from the iTesla platform [iPST core](https://github.com/itesla/ipst-core) and [iPST](https://github.com/itesla/ipst) are used in the project.
  
-## Setup
+## Project setup
 
 Clone the iTesla platform repositories and build them:
 
@@ -54,11 +54,20 @@ Hades2 integration libraries are expected in repository:
 
 If not available, it can installed in the local maven repository from given jars (see script ```install_hades_integration_libs````)
 
+Once libraries are installed, configuration to access proper binaries is read from ```hades2.properties```. Sample content of this file:
+
+	homeDir=/home/rte/psm/hades2LF
+	debug=true
+
+Linux binaries for Hades Load-Flow can be downloaded from: http://www.rte.itesla-pst.org/
+
 ### HELM Flow integration
 
 HELM Flow integration libraries should be installed in the local maven repository from given jars.
 
-See script ```install_helmflow_integration_libs```
+See script ```install_helmflow_integration_libs```.
+
+```helmflow``` binary must be in the current ```PATH```.
 
 ### Dymola integration
 
@@ -85,6 +94,10 @@ See script ```install_openmodelica_libs```
 Open Modelica installation folder should be defined in the corresponding environment variable for the user:
 
 	export OPENMODELICAHOME=<Open Modelica installation>/bin
+
+#### OpenModelica installation
+
+Follow instructions from https://openmodelica.org/download/download-linux (Choose "release" version)
 
 ### Eclipse
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -16,6 +17,18 @@ import javafx.collections.ObservableList;
 
 public class CatalogService {
 	
+	public static Catalog getCatalog(String name, Path path) throws IOException {
+	
+		ObservableList<Catalog> catalogs = getCatalogs(name);
+		
+		for (Catalog catalog: catalogs) {
+			if (Files.isSameFile(Paths.get(catalog.getLocation()), path))
+				return catalog;
+		}
+		
+		return null;
+	}
+
 	public static ObservableList<Catalog> getCatalogs(String name) {
 		
 		LOG.debug("getCatalogs");

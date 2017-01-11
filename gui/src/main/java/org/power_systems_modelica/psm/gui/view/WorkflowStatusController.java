@@ -1,14 +1,26 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
+import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
 import org.power_systems_modelica.psm.gui.utils.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
+import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,22 +69,94 @@ public class WorkflowStatusController {
 		this.mainService = mainService;
 
 		this.isWorkflowDetail = isWorkflowDetail;
-		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION)) {
 			panel.setText("Conversion detail");
-		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			firstLabelTitle.setText("Case:");
+			secondLabelTitle.setText("Ddr:");
+		}
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION)) {
 			panel.setText("Simulation detail");
-		else 
+			firstLabelTitle.setText("Case:");
+			secondLabelTitle.setText("Created:");
+		}
+		else { 
 			panel.setText("Compare loadflows detail");
-
-		createdLabel.setText("" + w.getId());
+			firstLabelTitle.setText("Case:");
+			secondLabelTitle.setText("");
+			secondLabelValue.setText("");
+		}
 		
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
+
+			if (td.getTaskClass().equals(ModelicaParserTask.class)) {
+				String moInput = td.getTaskConfiguration().getParameter("source");
+				
+				try {
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
+					DateTime date = new DateTime(attr.creationTime().toMillis());
+					
+					secondLabelValue.setText(date.toString("yyyy/MM/dd HH:mm:ss"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+				
+				String uri = td.getTaskConfiguration().getParameter("source");
+				
+				Path casePath;
+				if (uri.endsWith(".xml")) {
+					Path path = Paths.get(uri);
+					casePath = path.getParent();
+				} else
+					casePath = Paths.get(uri);
+				
+				Path catalogPath = casePath.getParent();
+
+				try {
+					Catalog catalog = mainService.getCatalog("cases", catalogPath);
+					Case c = mainService.getCase(catalog.getName(), casePath);
+					firstLabelValue.setText(catalog.getName() + "\t" + c.getName());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class)) {
+				
+				String uri = td.getTaskConfiguration().getParameter("ddrLocation");
+				Path ddrPath = Paths.get(uri).normalize();
+				Path catalogPath = ddrPath.getParent().getParent();
+				
+				try {
+					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
+					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
+					secondLabelValue.setText(catalog.getName() + "\t" + ddr.getName());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@FXML
 	private TitledPane panel;
 
 	@FXML
-	private Label createdLabel;
+	private Label firstLabelTitle;
+
+	@FXML
+	private Label firstLabelValue;
+
+	@FXML
+	private Label secondLabelTitle;
+
+	@FXML
+	private Label secondLabelValue;
 
 	@FXML
 	private Label statusLabel;

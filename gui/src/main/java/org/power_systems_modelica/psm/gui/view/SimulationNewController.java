@@ -32,11 +32,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class SimulationNewController {
 
@@ -83,13 +86,58 @@ public class SimulationNewController {
 		valueParamColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
 		valueParamColumn.setCellValueFactory(new PropertyValueFactory<EventParamGui, String>("value"));
 		valueParamColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+				
 		valueParamColumn.setOnEditCommit(new EventHandler<CellEditEvent<EventParamGui, String>>() {
 			@Override
 			public void handle(CellEditEvent<EventParamGui, String> t) {
-				((EventParamGui) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-						.setValue(t.getNewValue());
+				
+				// update value
+				((EventParamGui) t.getTableView().getItems().get(t.getTablePosition().getRow())).setValue(t.getNewValue());
+
+                // move focus & selection
+                // we need to clear the current selection first or else the selection would be added to the current selection since we are in multi selection mode 
+                TablePosition pos = parametersView.getFocusModel().getFocusedCell();
+
+                if (pos.getRow() == -1) {
+                	parametersView.getSelectionModel().select(0);
+                } 
+                else if (pos.getRow() == parametersView.getItems().size() -1) {
+                	return;
+                } // select next row, but same column as the current selection
+                else if (pos.getRow() < parametersView.getItems().size() -1) {
+                	parametersView.getSelectionModel().clearAndSelect( pos.getRow() + 1, valueParamColumn);
+                }
+                parametersView.requestFocus();
 			}
 		});
+		
+		
+        // switch to edit mode on keypress
+        // this must be KeyEvent.KEY_PRESSED so that the key gets forwarded to the editing cell; it wouldn't be forwarded on KEY_RELEASED
+		parametersView.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+
+            	if( event.getCode() == KeyCode.ENTER) {
+                    return;
+                }
+            	
+            	// switch to edit mode on keypress, but only if we aren't already in edit mode
+                if( parametersView.getEditingCell() == null) {
+                    if( event.getCode().isLetterKey() || event.getCode().isDigitKey()) {  
+
+                        TablePosition focusedCellPosition = parametersView.getFocusModel().getFocusedCell();
+                        parametersView.edit(focusedCellPosition.getRow(), valueParamColumn);
+
+                    }
+                }
+
+            }
+        });
+		
+		// single cell selection mode
+		//parametersView.getSelectionModel().setCellSelectionEnabled(true);
+
 	}
 
 	@FXML

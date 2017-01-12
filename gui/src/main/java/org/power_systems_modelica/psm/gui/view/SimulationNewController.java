@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,107 +40,126 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class SimulationNewController {
-
+public class SimulationNewController
+{
 	@FXML
-	private void initialize() {
-
+	private void initialize()
+	{
 		addEventPane.setVisible(false);
 		Utils.setDragablePane(addEventPane);
-		
+
 		elementEvent.setFilterMode(true);
 
-		catalogCaseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
+		catalogCaseSource.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Catalog>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends Catalog> observable,
+							Catalog oldValue, Catalog newValue)
+					{
+						if (newValue != null)
+							caseSource.setItems(mainService.getConvertedCases(newValue.getName()));
+					}
 
+				});
+		caseSource.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<ConvertedCase>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends ConvertedCase> observable,
+							ConvertedCase oldValue,
+							ConvertedCase newValue)
+					{
+						if (newValue != null)
+							actionEvent.setItems(mainService.getActionEvents(newValue));
+					}
+				});
+		actionEvent.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<String>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends String> observable,
+							String oldValue, String newValue)
+					{
+						if (newValue != null)
+						{
+							elementEvent.setData(mainService.getNetworkElements(
+									caseSource.getSelectionModel().getSelectedItem(), newValue));
+						}
+					}
+				});
+		parametersView.setEditable(true);
+		nameParamColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		valueParamColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
+		valueParamColumn
+				.setCellValueFactory(new PropertyValueFactory<EventParamGui, String>("value"));
+		valueParamColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		valueParamColumn.setOnEditCommit(new EventHandler<CellEditEvent<EventParamGui, String>>()
+		{
 			@Override
-			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				if (newValue != null)
-					caseSource.setItems(mainService.getConvertedCases(newValue.getName()));
-			}
+			public void handle(CellEditEvent<EventParamGui, String> t)
+			{
+				// update value
+				((EventParamGui) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setValue(t.getNewValue());
 
+				// move focus & selection
+				// we need to clear the current selection first or else the selection would be added to the current selection since we are in multi selection mode
+				@SuppressWarnings("unchecked")
+				TablePosition<EventParamGui, String> pos = parametersView.getFocusModel()
+						.getFocusedCell();
+				if (pos.getRow() == -1)
+				{
+					parametersView.getSelectionModel().select(0);
+				}
+				else if (pos.getRow() == parametersView.getItems().size() - 1)
+				{
+					return;
+				} // select next row, but same column as the current selection
+				else if (pos.getRow() < parametersView.getItems().size() - 1)
+				{
+					parametersView.getSelectionModel().clearAndSelect(pos.getRow() + 1,
+							valueParamColumn);
+				}
+				parametersView.requestFocus();
+			}
 		});
 
-		caseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ConvertedCase>() {
-
+		// switch to edit mode on keypress
+		// this must be KeyEvent.KEY_PRESSED so that the key gets forwarded to the editing cell; it wouldn't be forwarded on KEY_RELEASED
+		parametersView.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>()
+		{
 			@Override
-			public void changed(ObservableValue<? extends ConvertedCase> observable, ConvertedCase oldValue,
-					ConvertedCase newValue) {
-				if (newValue != null) 
-					actionEvent.setItems(mainService.getActionEvents(newValue));
-			}
-		});
-		
-		actionEvent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			public void handle(KeyEvent event)
+			{
 
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue != null) {
-					elementEvent.setData(mainService.getNetworkElements(caseSource.getSelectionModel().getSelectedItem(), newValue));
+				if (event.getCode() == KeyCode.ENTER)
+				{
+					return;
+				}
+
+				// switch to edit mode on keypress, but only if we aren't already in edit mode
+				if (parametersView.getEditingCell() == null)
+				{
+					if (event.getCode().isLetterKey() || event.getCode().isDigitKey())
+					{
+						@SuppressWarnings("unchecked")
+						TablePosition<EventParamGui, String> focusedCellPosition = parametersView
+								.getFocusModel()
+								.getFocusedCell();
+						parametersView.edit(focusedCellPosition.getRow(), valueParamColumn);
+					}
 				}
 			}
 		});
 
-		parametersView.setEditable(true);
-		nameParamColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		valueParamColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
-		valueParamColumn.setCellValueFactory(new PropertyValueFactory<EventParamGui, String>("value"));
-		valueParamColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-				
-		valueParamColumn.setOnEditCommit(new EventHandler<CellEditEvent<EventParamGui, String>>() {
-			@Override
-			public void handle(CellEditEvent<EventParamGui, String> t) {
-				
-				// update value
-				((EventParamGui) t.getTableView().getItems().get(t.getTablePosition().getRow())).setValue(t.getNewValue());
-
-                // move focus & selection
-                // we need to clear the current selection first or else the selection would be added to the current selection since we are in multi selection mode 
-                TablePosition pos = parametersView.getFocusModel().getFocusedCell();
-
-                if (pos.getRow() == -1) {
-                	parametersView.getSelectionModel().select(0);
-                } 
-                else if (pos.getRow() == parametersView.getItems().size() -1) {
-                	return;
-                } // select next row, but same column as the current selection
-                else if (pos.getRow() < parametersView.getItems().size() -1) {
-                	parametersView.getSelectionModel().clearAndSelect( pos.getRow() + 1, valueParamColumn);
-                }
-                parametersView.requestFocus();
-			}
-		});
-		
-		
-        // switch to edit mode on keypress
-        // this must be KeyEvent.KEY_PRESSED so that the key gets forwarded to the editing cell; it wouldn't be forwarded on KEY_RELEASED
-		parametersView.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-
-            	if( event.getCode() == KeyCode.ENTER) {
-                    return;
-                }
-            	
-            	// switch to edit mode on keypress, but only if we aren't already in edit mode
-                if( parametersView.getEditingCell() == null) {
-                    if( event.getCode().isLetterKey() || event.getCode().isDigitKey()) {  
-
-                        TablePosition focusedCellPosition = parametersView.getFocusModel().getFocusedCell();
-                        parametersView.edit(focusedCellPosition.getRow(), valueParamColumn);
-
-                    }
-                }
-
-            }
-        });
-		
 		// single cell selection mode
-		//parametersView.getSelectionModel().setCellSelectionEnabled(true);
-
+		// parametersView.getSelectionModel().setCellSelectionEnabled(true);
 	}
 
 	@FXML
-	private void handleOpenAddEvent() {
+	private void handleOpenAddEvent()
+	{
 		LOG.debug("handleAddEvent");
 		actionEvent.getSelectionModel().clearSelection();
 		elementEvent.getTextbox().clear();
@@ -150,15 +168,16 @@ public class SimulationNewController {
 	}
 
 	@FXML
-	private void handleActionSelectedEvent() {
-
+	private void handleActionSelectedEvent()
+	{
 		String event = actionEvent.getSelectionModel().getSelectedItem();
 		if (event != null)
 			parametersView.setItems(mainService.getEventParams(event));
 	}
 
 	@FXML
-	private void handleAddEvent() {
+	private void handleAddEvent()
+	{
 		LOG.debug("handleAddEvent");
 
 		Event e = new Event();
@@ -171,52 +190,63 @@ public class SimulationNewController {
 	}
 
 	@FXML
-	private void handleCancelEvent() {
+	private void handleCancelEvent()
+	{
 		LOG.debug("handleAddEvent");
 		addEventPane.setVisible(false);
 	}
 
 	@FXML
-	private void handleRemoveEvent() {
+	private void handleRemoveEvent()
+	{
 		LOG.debug("handleRemoveEvent");
 		ObservableList<Event> list = addedEvents.getSelectionModel().getSelectedItems();
 		addedEvents.getItems().removeAll(list);
 	}
 
 	@FXML
-	private void handleLoadWorkflow() {
-
+	private void handleLoadWorkflow()
+	{
 		handleCleanWorkflow();
-		try {
-			Properties workflowProperties = PathUtils.loadSimulationFile(fileChooser, mainService.getPrimaryStage(),
+		try
+		{
+			Properties workflowProperties = PathUtils.loadSimulationFile(fileChooser,
+					mainService.getPrimaryStage(),
 					System.getProperty("user.home"));
 			loadWorkflow(workflowProperties);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void loadWorkflow(Properties workflowProperties) {
-
-		if (workflowProperties.containsKey("casePath")) {
+	private void loadWorkflow(Properties workflowProperties)
+	{
+		if (workflowProperties.containsKey("casePath"))
+		{
 			String casePath = workflowProperties.getProperty("casePath");
 			Utils.resolveConvertedCasePath(casePath, catalogCaseSource, caseSource);
 		}
 
-		if (workflowProperties.containsKey("dsEngine")) {
+		if (workflowProperties.containsKey("dsEngine"))
+		{
 			String dse = workflowProperties.getProperty("dsEngine");
 			dsEngine.getSelectionModel().select(Utils.getDsEngine(dse));
 		}
 
-		if (workflowProperties.containsKey("dsStopTime")) {
+		if (workflowProperties.containsKey("dsStopTime"))
+		{
 			String stopTime = workflowProperties.getProperty("dsStopTime");
 			stopTimeText.setText(stopTime);
 		}
 
-		if (workflowProperties.containsKey("events")) {
+		if (workflowProperties.containsKey("events"))
+		{
 			String[] events = workflowProperties.getProperty("events").split("\n");
-			for (String event : events) {
+			for (String event : events)
+			{
 
 				Event e = new Event();
 				e.fromString(event);
@@ -226,8 +256,8 @@ public class SimulationNewController {
 	}
 
 	@FXML
-	private void handleSaveWorkflow() {
-
+	private void handleSaveWorkflow()
+	{
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
 		String stopTime = stopTimeText.getText();
@@ -235,18 +265,23 @@ public class SimulationNewController {
 		ObservableList<Event> events = addedEvents.getItems();
 
 		Properties workflowProperties;
-		try {
+		try
+		{
 			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime);
-			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(), System.getProperty("user.home"),
+			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(),
+					System.getProperty("user.home"),
 					workflowProperties);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@FXML
-	private void handleCleanWorkflow() {
+	private void handleCleanWorkflow()
+	{
 		caseSource.getSelectionModel().clearSelection();
 		catalogCaseSource.getSelectionModel().clearSelection();
 
@@ -254,84 +289,88 @@ public class SimulationNewController {
 		addedEvents.getItems().clear();
 
 		stopTimeText.setText("1");
-
 	}
 
 	@FXML
-	private void handleCheckWorkflow() {
+	private void handleCheckWorkflow()
+	{
 		LOG.debug("handleCheckWorkflow");
-	
+
 		startWorkflow(true, false);
 	}
-	
+
 	@FXML
-	private void handleVerifyWorkflow() {
+	private void handleVerifyWorkflow()
+	{
 		LOG.debug("handleCheckWorkflow");
-	
+
 		startWorkflow(false, true);
 	}
 
 	@FXML
-	private void handleStartWorkflow() {
+	private void handleStartWorkflow()
+	{
 		LOG.debug("handleStartWorkflow");
-		
+
 		startWorkflow(false, false);
 	}
 
-	private void startWorkflow(boolean onlyCheck, boolean onlyVerify) {
-
+	private void startWorkflow(boolean onlyCheck, boolean onlyVerify)
+	{
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
-		if (cs == null) {
+		if (cs == null)
+		{
 			Utils.showWarning("Warning", "Select a case");
 			return;
 		}
 
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
-		if (dse == null) {
+		if (dse == null)
+		{
 			Utils.showWarning("Warning", "Select a Dynamic simulation engine");
 			return;
 		}
-
 		String stopTime = stopTimeText.getText();
-
 		ObservableList<Event> events = addedEvents.getItems();
-
 		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify);
 	}
 
 	@FXML
-	private void handleEditCommitEvent() {
-
+	private void handleEditCommitEvent()
+	{
 	}
 
-	public void setCase(Case c) {
-
+	public void setCase(Case c)
+	{
 		Utils.resolveConvertedCasePath(c.getLocation(), catalogCaseSource, caseSource);
 	}
 
-	public void setWorkflow(Workflow w) {
-
+	public void setWorkflow(Workflow w)
+	{
 		handleCleanWorkflow();
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
 
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
-
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
 				String casePath = td.getTaskConfiguration().getParameter("source");
 				System.out.println("Simulation new" + casePath);
 				Utils.resolveConvertedCasePath(casePath, catalogCaseSource, caseSource);
 			}
 
-			if (td.getTaskClass().equals(ModelicaEventAdderTask.class)) {
+			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
+			{
 				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
-				for (String event : events) {
+				for (String event : events)
+				{
 
 					Event e = new Event();
 					e.fromString(event);
 					addedEvents.getItems().add(e);
 				}
 			}
-
-			if (td.getTaskClass().equals(ModelicaSimulatorTask.class)) {
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+			{
 				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
 				stopTimeText.setText(stopTime);
 
@@ -340,7 +379,8 @@ public class SimulationNewController {
 		}
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 		catalogCaseSource.setItems(mainService.getCatalogs("cases"));
@@ -349,48 +389,53 @@ public class SimulationNewController {
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
 
-	public void setFileChooser(GuiFileChooser fileChooser) {
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
 		this.fileChooser = fileChooser;
 	}
 
-	public void setDefaultInit() {
+	public void setDefaultInit()
+	{
 		handleCleanWorkflow();
-		try {
+		try
+		{
 			Properties workflowProperties = PathUtils.loadDefaultSimulationFile();
 			loadWorkflow(workflowProperties);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 		}
 	}
 
 	@FXML
-	private ComboBox<Catalog> catalogCaseSource;
+	private ComboBox<Catalog>					catalogCaseSource;
 	@FXML
-	private ComboBox<ConvertedCase> caseSource;
+	private ComboBox<ConvertedCase>				caseSource;
 
 	@FXML
-	private ListView<Event> addedEvents;
+	private ListView<Event>						addedEvents;
 
 	@FXML
-	private TitledPane addEventPane;
+	private TitledPane							addEventPane;
 	@FXML
-	private AutoFillTextBox elementEvent;
+	private AutoFillTextBox<String>				elementEvent;
 	@FXML
-	private ComboBox<String> actionEvent;
+	private ComboBox<String>					actionEvent;
 	@FXML
-	private TableView<EventParamGui> parametersView;
+	private TableView<EventParamGui>			parametersView;
 	@FXML
-	private TableColumn<EventParamGui, String> nameParamColumn;
+	private TableColumn<EventParamGui, String>	nameParamColumn;
 	@FXML
-	private TableColumn<EventParamGui, String> valueParamColumn;
+	private TableColumn<EventParamGui, String>	valueParamColumn;
 
 	@FXML
-	private ComboBox<DsEngine> dsEngine;
+	private ComboBox<DsEngine>					dsEngine;
 	@FXML
-	private TextField stopTimeText;
+	private TextField							stopTimeText;
 
-	private GuiFileChooser fileChooser;
-	private MainService mainService;
+	private GuiFileChooser						fileChooser;
+	private MainService							mainService;
 
-	private static final Boolean MAINCONNECTEDCOMPONENTDEFAULT = new Boolean(true);
-	private static final Logger LOG = LoggerFactory.getLogger(SimulationNewController.class);
+	private static final Logger					LOG	= LoggerFactory
+			.getLogger(SimulationNewController.class);
 }

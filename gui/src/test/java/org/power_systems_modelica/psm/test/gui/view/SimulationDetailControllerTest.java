@@ -26,18 +26,17 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SimulationDetailControllerTest extends ApplicationTest {
-
+public class SimulationDetailControllerTest extends ApplicationTest
+{
 	@Override
-	public void start(Stage stage) throws Exception {
-
+	public void start(Stage stage) throws Exception
+	{
 		FXMLLoader loader = null;
-		try {
-
+		try
+		{
 			MainService mainService = new MainService(null);
 			mainService.setStage(stage);
 
@@ -53,19 +52,20 @@ public class SimulationDetailControllerTest extends ApplicationTest {
 			Scene scene = new Scene(workflowsOverview);
 			stage.setScene(scene);
 			stage.show();
-
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void testAddSeries() {
-
+	public void testAddSeries()
+	{
 		WorkflowResult results = new WorkflowResult();
-
 		List<BusData> allBusesValues = new ArrayList<>();
-		for (int i = 1; i <= 14; i++) {
+		for (int i = 1; i <= 14; i++)
+		{
 			Map<String, float[]> bvalues = new HashMap<>();
 			float[] Vs = new float[1];
 			float[] As = new float[1];
@@ -98,45 +98,44 @@ public class SimulationDetailControllerTest extends ApplicationTest {
 			e.printStackTrace();
 		}
 
-		interact(new Runnable() {
-
+		interact(new Runnable()
+		{
 			@Override
-			public void run() {
-				
-				ScatterChart voltageChart = lookup("#voltageChart").query();
-				ScatterChart phaseChart = lookup("#phaseChart").query();
-				ScatterChart activeChart = lookup("#activeChart").query();
-				ScatterChart reactiveChart = lookup("#reactiveChart").query();
-				
-				LineChart dsChart = lookup("#dsChart").query();
-				
+			public void run()
+			{
+				ScatterChart<String, Number> voltageChart = lookup("#voltageChart").query();
+				ScatterChart<String, Number> phaseChart = lookup("#phaseChart").query();
+				ScatterChart<String, Number> activeChart = lookup("#activeChart").query();
+				ScatterChart<String, Number> reactiveChart = lookup("#reactiveChart").query();
+
+				LineChart<Number, Number> dsChart = lookup("#dsChart").query();
+
 				controller.addSeries(results);
-	            Utils.addTooltipScatterChart(voltageChart, "pu");
-	            Utils.addTooltipScatterChart(phaseChart, "º");
-	            Utils.addTooltipScatterChart(activeChart, "MW");
-	            Utils.addTooltipScatterChart(reactiveChart, "MVar");
-	            Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
-				
+				Utils.addTooltipScatterChart(voltageChart, "pu");
+				Utils.addTooltipScatterChart(phaseChart, "º");
+				Utils.addTooltipScatterChart(activeChart, "MW");
+				Utils.addTooltipScatterChart(reactiveChart, "MVar");
+				Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
+
 				assertEquals(1, voltageChart.getData().size());
-				XYChart.Series<String, Float> valuesV = (Series<String, Float>) voltageChart.getData().get(0);
+				XYChart.Series<String, Number> valuesV = voltageChart.getData().get(0);
 				assertEquals(14, valuesV.getData().size());
 				assertEquals(1, phaseChart.getData().size());
-				XYChart.Series<String, Float> valuesA = (Series<String, Float>) phaseChart.getData().get(0);
+				XYChart.Series<String, Number> valuesA = phaseChart.getData().get(0);
 				assertEquals(14, valuesA.getData().size());
 				assertEquals(1, activeChart.getData().size());
-				XYChart.Series<String, Float> valuesP = (Series<String, Float>) activeChart.getData().get(0);
+				XYChart.Series<String, Number> valuesP = activeChart.getData().get(0);
 				assertEquals(14, valuesP.getData().size());
 				assertEquals(1, reactiveChart.getData().size());
-				XYChart.Series<String, Float> valuesQ = (Series<String, Float>) reactiveChart.getData().get(0);
+				XYChart.Series<String, Number> valuesQ = reactiveChart.getData().get(0);
 				assertEquals(14, valuesQ.getData().size());
-				
+
 				assertEquals(14, dsChart.getData().size());
-				XYChart.Series<Double, Double> valuesDS = (Series<Double, Double>) dsChart.getData().get(0);
+				XYChart.Series<Number, Number> valuesDS = dsChart.getData().get(0);
 				assertEquals(512, valuesDS.getData().size());
 			}
 		});
-
 	}
-	
+
 	private SimulationDetailController controller;
 }

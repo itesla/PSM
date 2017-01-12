@@ -198,7 +198,7 @@ public class DdrsOverviewController {
 	private CodeEditor codeEditor;
 
 	@FXML
-	private TableView catalogs;
+	private TableView<Catalog> catalogs;
 	@FXML
 	private TableColumn<Catalog, String> nameCatalogColumn;
 	@FXML

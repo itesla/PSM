@@ -9,19 +9,11 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
-import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
-import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
-import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
-import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
-import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
-import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
-import org.power_systems_modelica.psm.gui.view.ConversionNewController;
-import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
-import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 
@@ -29,10 +21,6 @@ import eu.itesla_project.iidm.network.Network;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MainService {
@@ -89,7 +77,7 @@ public class MainService {
 		getMainApp().showSimulationNewView(this, w);
 	}
 
-	public ObservableList getCatalogs(String name) {
+	public ObservableList<Catalog> getCatalogs(String name) {
 		return CatalogService.getCatalogs(name);
 	}
 
@@ -97,7 +85,7 @@ public class MainService {
 		return CatalogService.getCatalog(name, path);
 	}
 
-	public ObservableList getCases(String catalogName) {
+	public ObservableList<Case> getCases(String catalogName) {
 		return CaseService.getCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
 
@@ -130,7 +118,7 @@ public class MainService {
 		return CaseService.getDefaultDdrLocation(c);
 	}
 
-	public ObservableList getDdrs(String catalogName) {
+	public ObservableList<Ddr> getDdrs(String catalogName) {
 		return DdrService.getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
 	}
 
@@ -150,19 +138,19 @@ public class MainService {
 		return WorkflowServiceConfiguration.getSimulation();
 	}
 
-	public ObservableList getLoadflowEngines() {
+	public ObservableList<LoadflowEngine> getLoadflowEngines() {
 		return WorkflowServiceConfiguration.getLoadflowEngines();
 	}
 
-	public ObservableList getDsEngines() {
+	public ObservableList<DsEngine> getDsEngines() {
 		return WorkflowServiceConfiguration.getDsEngines();
 	}
 
-	public ObservableList getNetworkElements(ConvertedCase c, String action) {
+	public ObservableList<String> getNetworkElements(ConvertedCase c, String action) {
 		return WorkflowServiceConfiguration.getNetworkElements(c, action);
 	}
 
-	public ObservableList getActionEvents(ConvertedCase c) {
+	public ObservableList<String> getActionEvents(ConvertedCase c) {
 		return WorkflowServiceConfiguration.getActionEvents(c);
 	}
 
@@ -180,7 +168,7 @@ public class MainService {
 		}
 	}
 
-	public void startSimulation(ConvertedCase cs, ObservableList events, DsEngine dse, String stopTime, boolean onlyCheck, boolean onlyVerify) {
+	public void startSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse, String stopTime, boolean onlyCheck, boolean onlyVerify) {
 
 		try {
 			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify);
@@ -218,15 +206,15 @@ public class MainService {
 		return WorkflowServiceConfiguration.getCompareLoadflowsResult(name);
 	}
 
-	public Task getConversionTask() {
+	public Task<?> getConversionTask() {
 		return cTask;
 	}
 
-	public Task getSimulationTask() {
+	public Task<?> getSimulationTask() {
 		return sTask;
 	}
 
-	public Task getCompareLoadflowTask() {
+	public Task<?> getCompareLoadflowTask() {
 		return clTask;
 	}
 
@@ -253,9 +241,9 @@ public class MainService {
 		return (MainApp) mainApp;
 	}
 
-	private Task cTask = null;
-	private Task sTask = null;
-	private Task clTask = null;
+	private Task<?> cTask = null;
+	private Task<?> sTask = null;
+	private Task<?> clTask = null;
 	
 	private Application mainApp;
 	private Stage stage;

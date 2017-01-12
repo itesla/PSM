@@ -7,98 +7,118 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Ddr implements Serializable {
-	
-	public enum DdrType {
+public class Ddr implements Serializable
+{
+
+	public enum DdrType
+	{
 		TYPE_DYD(0), TYPE_DDB(1);
-		
+
 		private int value;
-		
-		private DdrType(int value) {
+
+		private DdrType(int value)
+		{
 			this.value = value;
 		}
-		
-		public int getValue() {
+
+		public int getValue()
+		{
 			return value;
 		}
 	}
 
-	public Ddr() {
+	public Ddr()
+	{
 		this.name = new SimpleStringProperty();
 		this.description = new SimpleStringProperty();
 		this.location = new SimpleStringProperty();
 		this.source = new SimpleStringProperty();
-		this.type = new SimpleObjectProperty(DdrType.TYPE_DYD);
+		this.type = new SimpleObjectProperty<DdrType>(DdrType.TYPE_DYD);
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name.get();
 	}
 
-	public StringProperty nameProperty() {
+	public StringProperty nameProperty()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name.set(name);
 	}
 
-	
-	public String getLocation() {
+	public String getLocation()
+	{
 		return location.get();
 	}
 
-	public StringProperty locationProperty() {
+	public StringProperty locationProperty()
+	{
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(String location)
+	{
 		this.location.set(location);
 	}
 
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description.get();
 	}
 
-	public StringProperty descriptionProperty() {
+	public StringProperty descriptionProperty()
+	{
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description.set(description);
 	}
 
-	public DdrType getType() {
+	public DdrType getType()
+	{
 		return (DdrType) type.get();
 	}
 
-	public ObjectProperty typeProperty() {
+	public ObjectProperty<DdrType> typeProperty()
+	{
 		return type;
 	}
 
-	public void setType(DdrType type) {
+	public void setType(DdrType type)
+	{
 		this.type.set(type);
 	}
 
-	public String getSource() {
+	public String getSource()
+	{
 		return source.get();
 	}
 
-	public StringProperty sourceProperty() {
+	public StringProperty sourceProperty()
+	{
 		return source;
 	}
 
-	public void setSource(String source) {
+	public void setSource(String source)
+	{
 		this.source.set(source);
 	}
-	
-	public String toString() {
+
+	public String toString()
+	{
 		return name.get();
 	}
 
-	private StringProperty name;
-	private StringProperty description;
-	private StringProperty location;
-	private ObjectProperty type;
-	private StringProperty source;
+	private StringProperty			name;
+	private StringProperty			description;
+	private StringProperty			location;
+	private ObjectProperty<DdrType>	type;
+	private StringProperty			source;
 }

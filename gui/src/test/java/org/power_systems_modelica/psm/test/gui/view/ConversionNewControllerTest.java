@@ -67,7 +67,7 @@ public class ConversionNewControllerTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testSaveLoadDeafultLoadflow() {
+	public void testSaveLoadDefaultLoadflow() {
 
 		clickOn("#catalogCaseSource").clickOn("Reference cases");
 		clickOn("#caseSource").clickOn("ieee14");

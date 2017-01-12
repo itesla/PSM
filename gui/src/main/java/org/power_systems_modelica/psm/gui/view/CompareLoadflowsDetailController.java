@@ -21,114 +21,125 @@ import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 
-public class CompareLoadflowsDetailController {
+public class CompareLoadflowsDetailController
+{
 
 	@FXML
-	private void initialize() {
-		
+	private void initialize()
+	{
+
 		voltageChart.setLegendVisible(false);
 
 		yVoltageAxis.setLowerBound(0);
 		yVoltageAxis.setUpperBound(2.25);
 		yVoltageAxis.setTickUnit(0.25);
-		yVoltageAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
-			@Override public String toString(Number object) { 
-				return String.format("%,.4f%%", object.floatValue()*100); 
-			} 
-		});
+		yVoltageAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
 
 		phaseChart.setLegendVisible(false);
 
 		yPhaseAxis.setLowerBound(0);
 		yPhaseAxis.setUpperBound(2.25);
 		yPhaseAxis.setTickUnit(0.25);
-		yPhaseAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
-			@Override public String toString(Number object) { 
-				return String.format("%,.4f%%", object.floatValue()*100); 
-			} 
-		});
+		yPhaseAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
 
 		activeChart.setLegendVisible(false);
 
 		yActiveAxis.setLowerBound(0);
 		yActiveAxis.setUpperBound(2.25);
 		yActiveAxis.setTickUnit(0.25);
-		yActiveAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
-			@Override public String toString(Number object) { 
-				return String.format("%,.4f%%", object.floatValue()*100); 
-			} 
-		});
+		yActiveAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
 
 		reactiveChart.setLegendVisible(false);
 
 		yReactiveAxis.setLowerBound(0);
 		yReactiveAxis.setUpperBound(2.25);
 		yReactiveAxis.setTickUnit(0.25);
-		yReactiveAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25)) { 
-			@Override public String toString(Number object) { 
-				return String.format("%,.4f%%", object.floatValue()*100); 
-			} 
-		});
+		yReactiveAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
 	}
 
 	@FXML
-	private void handleNewWorkflow() {
+	private void handleNewWorkflow()
+	{
 		LOG.debug("handleNewWorkflow");
 		mainService.showCompareLoadflowsView(null);
 	}
 
-	public void addSeries(WorkflowResult workflowResult) {
+	public void addSeries(WorkflowResult workflowResult)
+	{
+		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections
+				.observableArrayList();
+		XYChart.Series<String, Number> voltageSeries = new XYChart.Series<>();
 
-		ObservableList<XYChart.Series> displayedVoltageSeries = FXCollections.observableArrayList();
-		XYChart.Series<String, Float> voltageSeries = new XYChart.Series<>();
-
-		int i = 1;
-		for (BusData bus : workflowResult.getAllBusesValues()) {
+		for (BusData bus : workflowResult.getAllBusesValues())
 			voltageSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getError("V")));
-			i++;
-		}
 
 		voltageSeries.setName(workflowResult.getId());
 		displayedVoltageSeries.add(voltageSeries);
 
 		voltageChart.getData().addAll(displayedVoltageSeries);
 
-		ObservableList<XYChart.Series> displayedPhaseSeries = FXCollections.observableArrayList();
-		XYChart.Series<String, Float> phaseSeries = new XYChart.Series<>();
+		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections
+				.observableArrayList();
+		XYChart.Series<String, Number> phaseSeries = new XYChart.Series<>();
 
-		i = 1;
-		for (BusData bus : workflowResult.getAllBusesValues()) {
+		for (BusData bus : workflowResult.getAllBusesValues())
 			phaseSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getError("A")));
-			i++;
-		}
 
 		phaseSeries.setName(workflowResult.getId());
 		displayedPhaseSeries.add(phaseSeries);
 
 		phaseChart.getData().addAll(displayedPhaseSeries);
 
-		ObservableList<XYChart.Series> displayedActiveSeries = FXCollections.observableArrayList();
-		XYChart.Series<String, Float> activeSeries = new XYChart.Series<>();
+		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections
+				.observableArrayList();
+		XYChart.Series<String, Number> activeSeries = new XYChart.Series<>();
 
-		i = 1;
-		for (BusData bus : workflowResult.getAllBusesValues()) {
+		for (BusData bus : workflowResult.getAllBusesValues())
 			activeSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getError("P")));
-			i++;
-		}
 
 		activeSeries.setName(workflowResult.getId());
 		displayedActiveSeries.add(activeSeries);
 
 		activeChart.getData().addAll(displayedActiveSeries);
 
-		ObservableList<XYChart.Series> displayedReactiveSeries = FXCollections.observableArrayList();
-		XYChart.Series<String, Float> reactiveSeries = new XYChart.Series<>();
+		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections
+				.observableArrayList();
+		XYChart.Series<String, Number> reactiveSeries = new XYChart.Series<>();
 
-		i = 1;
-		for (BusData bus : workflowResult.getAllBusesValues()) {
+		for (BusData bus : workflowResult.getAllBusesValues())
 			reactiveSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getError("Q")));
-			i++;
-		}
 
 		reactiveSeries.setName(workflowResult.getId());
 		displayedReactiveSeries.add(reactiveSeries);
@@ -136,41 +147,49 @@ public class CompareLoadflowsDetailController {
 		reactiveChart.getData().addAll(displayedReactiveSeries);
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 	}
-	
-	public void setWorkflow(Workflow w) {
-		
+
+	public void setWorkflow(Workflow w)
+	{
+
 		createdLabel.setText("" + w.getId());
 		statusLabel.setText(w.getState().name());
-		if (w.getState().equals(ProcessState.SUCCESS)) {
+		if (w.getState().equals(ProcessState.SUCCESS))
+		{
 			WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
-			
-			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("V"))
-					.collect(Collectors.summarizingDouble(Float::doubleValue));
-			
-		    avgVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getAverage()*100));	
-			maxVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getMax()*100));	
 
-			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("A"))
+			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("V"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
-			
-		    avgPhaseErrorLabel.setText(String.format("%,.4f%%", phaseStats.getAverage()*100));	
-			maxPhaseErrorLabel.setText(String.format("%,.4f%%", phaseStats.getMax()*100));	
 
-			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("P"))
-					.collect(Collectors.summarizingDouble(Float::doubleValue));
-			
-		    avgActiveErrorLabel.setText(String.format("%,.4f%%", activeStats.getAverage()*100));	
-			maxActiveErrorLabel.setText(String.format("%,.4f%%", activeStats.getMax()*100));	
+			avgVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getAverage() * 100));
+			maxVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));
 
-			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("Q"))
+			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("A"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
-			
-		    avgReactiveErrorLabel.setText(String.format("%,.4f%%", reactiveStats.getAverage()*100));	
-			maxReactiveErrorLabel.setText(String.format("%,.4f%%", reactiveStats.getMax()*100));	
+
+			avgPhaseErrorLabel.setText(String.format("%,.4f%%", phaseStats.getAverage() * 100));
+			maxPhaseErrorLabel.setText(String.format("%,.4f%%", phaseStats.getMax() * 100));
+
+			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("P"))
+					.collect(Collectors.summarizingDouble(Float::doubleValue));
+
+			avgActiveErrorLabel.setText(String.format("%,.4f%%", activeStats.getAverage() * 100));
+			maxActiveErrorLabel.setText(String.format("%,.4f%%", activeStats.getMax() * 100));
+
+			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("Q"))
+					.collect(Collectors.summarizingDouble(Float::doubleValue));
+
+			avgReactiveErrorLabel
+					.setText(String.format("%,.4f%%", reactiveStats.getAverage() * 100));
+			maxReactiveErrorLabel.setText(String.format("%,.4f%%", reactiveStats.getMax() * 100));
 
 			addSeries(wr);
 			Utils.addTooltipComparisonChart(voltageChart, wr, "V", "pu");
@@ -181,55 +200,56 @@ public class CompareLoadflowsDetailController {
 	}
 
 	@FXML
-	private Label createdLabel;
+	private Label							createdLabel;
 	@FXML
-	private Label statusLabel;
+	private Label							statusLabel;
 
 	@FXML
-	private Label avgVoltageErrorLabel;
+	private Label							avgVoltageErrorLabel;
 	@FXML
-	private Label maxVoltageErrorLabel;
+	private Label							maxVoltageErrorLabel;
 	@FXML
-	private ScatterChart voltageChart;
+	private ScatterChart<String, Number>	voltageChart;
 	@FXML
-	private CategoryAxis xVoltageAxis;
+	private CategoryAxis					xVoltageAxis;
 	@FXML
-	private NumberAxis yVoltageAxis;
+	private NumberAxis						yVoltageAxis;
 
 	@FXML
-	private Label avgPhaseErrorLabel;
+	private Label							avgPhaseErrorLabel;
 	@FXML
-	private Label maxPhaseErrorLabel;
+	private Label							maxPhaseErrorLabel;
 	@FXML
-	private ScatterChart phaseChart;
+	private ScatterChart<String, Number>	phaseChart;
 	@FXML
-	private CategoryAxis xPhaseAxis;
+	private CategoryAxis					xPhaseAxis;
 	@FXML
-	private NumberAxis yPhaseAxis;
+	private NumberAxis						yPhaseAxis;
 
 	@FXML
-	private Label avgActiveErrorLabel;
+	private Label							avgActiveErrorLabel;
 	@FXML
-	private Label maxActiveErrorLabel;
+	private Label							maxActiveErrorLabel;
 	@FXML
-	private ScatterChart activeChart;
+	private ScatterChart<String, Number>	activeChart;
 	@FXML
-	private CategoryAxis xActiveAxis;
+	private CategoryAxis					xActiveAxis;
 	@FXML
-	private NumberAxis yActiveAxis;
+	private NumberAxis						yActiveAxis;
 
 	@FXML
-	private Label avgReactiveErrorLabel;
+	private Label							avgReactiveErrorLabel;
 	@FXML
-	private Label maxReactiveErrorLabel;
+	private Label							maxReactiveErrorLabel;
 	@FXML
-	private ScatterChart reactiveChart;
+	private ScatterChart<String, Number>	reactiveChart;
 	@FXML
-	private CategoryAxis xReactiveAxis;
+	private CategoryAxis					xReactiveAxis;
 	@FXML
-	private NumberAxis yReactiveAxis;
+	private NumberAxis						yReactiveAxis;
 
-	private MainService mainService;
+	private MainService						mainService;
 
-	private static final Logger LOG = LoggerFactory.getLogger(CompareLoadflowsDetailController.class);
+	private static final Logger				LOG	= LoggerFactory
+			.getLogger(CompareLoadflowsDetailController.class);
 }

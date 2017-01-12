@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.utils;
 
 import org.power_systems_modelica.psm.workflow.ProcessState;
-import org.power_systems_modelica.psm.workflow.TaskStatePair;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

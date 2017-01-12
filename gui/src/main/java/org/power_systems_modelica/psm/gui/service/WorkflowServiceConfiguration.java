@@ -12,11 +12,11 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
@@ -28,10 +28,12 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.DsData;
+import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -47,6 +49,10 @@ import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Connectable;
+import eu.itesla_project.iidm.network.ConnectableType;
+import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -126,7 +132,6 @@ public class WorkflowServiceConfiguration
 
 	public static ObservableList<String> getActionEvents(ConvertedCase newValue)
 	{
-
 		ObservableList<String> actions = FXCollections.observableArrayList();
 		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
 		try
@@ -143,31 +148,108 @@ public class WorkflowServiceConfiguration
 		return actions;
 	}
 
-	public static ObservableList getNetworkElements(ConvertedCase c, String action)
+	// XXX LUMA This configuration should be read from events.dyd
+	// Each event should name the type of static network elements it applies to
+	private static final Map<String, ConnectableType> XXX_EVENT_APPLIES_TO = new HashMap<>();
+	static
 	{
+		XXX_EVENT_APPLIES_TO.put("BusFault", ConnectableType.BUSBAR_SECTION);
+		XXX_EVENT_APPLIES_TO.put("LineFault", ConnectableType.LINE);
+		XXX_EVENT_APPLIES_TO.put("LineOpenReceiverSide", ConnectableType.LINE);
+		XXX_EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
+		XXX_EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
+		XXX_EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
+		XXX_EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
+	}
 
+	public static ConnectableType connectableType(Identifiable<?> e)
+	{
+		return ((Connectable<?>) e).getType();
+	}
+
+	public static ObservableList<String> getNetworkElements(ConvertedCase case_, String eventType)
+	{
 		ObservableList<String> elements = FXCollections.observableArrayList();
 
-		String[] s = new String[] {
-				"_BUS___10_TN",
-				"_BUS___11_TN",
-				"_BUS___12_TN",
-				"_BUS___13_TN",
-				"_BUS___14_TN",
-				"_BUS____1_TN",
-				"_BUS____2_TN",
-				"_BUS____3_TN",
-				"_BUS____4_TN",
-				"_BUS____5_TN",
-				"_BUS____6_TN",
-				"_BUS____7_TN",
-				"_BUS____8_TN",
-				"_BUS____9_TN"
-		};
-		for (int j = 0; j < s.length; j++)
+		Map<String, Collection<String>> elementsByEvent = case_.getElementIdentifiersByEventType();
+		if (elementsByEvent == null)
 		{
-			elements.add(s[j]);
+			Map<String, Collection<String>> elementsByEvent0 = new HashMap<>();
+
+			// Import case, build map ...
+			LOGLUMA.warn("LUMA try to load network from converted case, case location = "
+					+ case_.getLocation());
+			Path caseSource;
+			try
+			{
+				caseSource = PathUtils.findCasePath(Paths.get(case_.getLocation()));
+			}
+			catch (IOException e1)
+			{
+				LOGLUMA.warn("LUMA case not found at location " + case_.getLocation());
+				return elements;
+			}
+			Network n = StaticNetworkImporter.import_(caseSource);
+			LOGLUMA.warn(
+					"LUMA network loaded, Identifiables.size = " + n.getIdentifiables().size());
+			Map<ConnectableType, List<String>> elemsByType = n.getIdentifiables().stream()
+					.filter(e -> e instanceof Connectable)
+					.collect(Collectors.groupingBy(WorkflowServiceConfiguration::connectableType,
+							Collectors.mapping(Identifiable::getId, Collectors.toList())));
+			LOGLUMA.warn("LUMA network elements by connectable type");
+			elemsByType.entrySet().stream()
+					.forEach(te -> LOGLUMA
+							.warn("LUMA     " + te.getKey() + " : " + te.getValue().size()));
+			List<String> busIds = elemsByType.get(ConnectableType.BUSBAR_SECTION);
+			if (busIds == null)
+			{
+				busIds = new ArrayList<>();
+				elemsByType.put(ConnectableType.BUSBAR_SECTION, busIds);
+			}
+			for (Bus b : n.getBusBreakerView().getBuses())
+				busIds.add(b.getId());
+
+			XXX_EVENT_APPLIES_TO.entrySet().stream()
+					.forEach(e -> elementsByEvent0.put(e.getKey(), elemsByType.get(e.getValue())));
+
+			LOGLUMA.warn("LUMA network elements by event type");
+			elementsByEvent0.entrySet().stream()
+					.forEach(te -> LOGLUMA.warn("LUMA     " + te.getKey() + " : "
+							+ (te.getValue() != null ? te.getValue().size() : "0")));
+			case_.setElementIdentifiersByEventType(elementsByEvent0);
+			elementsByEvent = elementsByEvent0;
 		}
+		Collection<String> ids = elementsByEvent.get(eventType);
+		if (ids != null)
+		{
+			LOGLUMA.warn("LUMA elements to populate gui list " + ids.size());
+			elements.addAll(ids);
+		}
+		else
+		{
+			LOGLUMA.warn("LUMA NO elements to populate gui list");
+		}
+
+		// String[] s = new String[] {
+		// "_BUS___10_TN",
+		// "_BUS___11_TN",
+		// "_BUS___12_TN",
+		// "_BUS___13_TN",
+		// "_BUS___14_TN",
+		// "_BUS____1_TN",
+		// "_BUS____2_TN",
+		// "_BUS____3_TN",
+		// "_BUS____4_TN",
+		// "_BUS____5_TN",
+		// "_BUS____6_TN",
+		// "_BUS____7_TN",
+		// "_BUS____8_TN",
+		// "_BUS____9_TN"
+		// };
+		// for (int j = 0; j < s.length; j++)
+		// {
+		// elements.add(s[j]);
+		// }
 		return elements;
 	}
 
@@ -188,13 +270,11 @@ public class WorkflowServiceConfiguration
 		return eventParams;
 	}
 
-	public static Workflow createSimulation(ConvertedCase cs, ObservableList events, DsEngine dse,
+	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse,
 			String stopTime, boolean onlyCheck, boolean onlyVerify)
 			throws WorkflowCreationException
 	{
-
 		String moInput = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
-		String fakeInit = Paths.get(cs.getDdrLocation()).resolve("fake_init.csv").toString();
 		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("gui_workflow_moengine_working");
 		Path output = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_initial.mo");
 		Path outputev = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_events.mo");
@@ -486,7 +566,6 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
-	private static Random					rnd		= new Random();
 	private static Workflow					conv	= null;
 	private static Workflow					sim		= null;
 	private static Workflow					cl		= null;
@@ -495,4 +574,5 @@ public class WorkflowServiceConfiguration
 	private static final Logger				LOG		= LoggerFactory
 			.getLogger(WorkflowServiceConfiguration.class);
 
+	private static final Logger				LOGLUMA	= LoggerFactory.getLogger("");
 }

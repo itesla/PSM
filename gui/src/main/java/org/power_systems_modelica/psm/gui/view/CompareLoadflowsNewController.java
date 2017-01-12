@@ -15,65 +15,65 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
-public class CompareLoadflowsNewController {
-
+public class CompareLoadflowsNewController
+{
 	@FXML
-	private void initialize() {
-
-		catalogSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				caseSource.setItems(mainService.getCases(newValue.getName()));
-			}
-
-		});
+	private void initialize()
+	{
+		catalogSource.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Catalog>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends Catalog> observable,
+							Catalog oldValue, Catalog newValue)
+					{
+						caseSource.setItems(mainService.getCases(newValue.getName()));
+					}
+				});
 	}
 
 	@FXML
-	private void handleStartWorkflow() {
+	private void handleStartWorkflow()
+	{
 		LOG.debug("handleStartWorkflow");
-
 		Case cs = (Case) caseSource.getSelectionModel().getSelectedItem();
-		if (cs == null) {
+		if (cs == null)
+		{
 			Utils.showWarning("Warning", "Select a case");
 			return;
 		}
-
 		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
-
 		mainService.startCompareLoadflows(cs, generatorsReactiveLimits);
 	}
 
-	public void setCase(Case c) {
+	public void setCase(Case c)
+	{
 		ObservableList<Catalog> catalogs = mainService.getCatalogs("cases");
-		
-		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog> (catalogs, catalog -> c.getLocation().contains(catalog.getLocation())); 
-		
+
+		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog>(catalogs,
+				catalog -> c.getLocation().contains(catalog.getLocation()));
+
 		filteredCatalogs.forEach(catalog -> {
 			catalogSource.getSelectionModel().select(catalog);
 		});
-		
+
 		caseSource.getSelectionModel().select(c);
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 		catalogSource.setItems(mainService.getCatalogs("cases"));
-
 	}
 
 	@FXML
-	private ComboBox catalogSource;
+	private ComboBox<Catalog>	catalogSource;
 	@FXML
-	private ComboBox caseSource;
-
+	private ComboBox<Case>		caseSource;
 	@FXML
-	private CheckBox enforceGeneratorsReactiveLimits;
+	private CheckBox			enforceGeneratorsReactiveLimits;
+	private MainService			mainService;
 
-	private MainService mainService;
-
-	private static final Logger LOG = LoggerFactory.getLogger(CompareLoadflowsNewController.class);
-
+	private static final Logger	LOG	= LoggerFactory.getLogger(CompareLoadflowsNewController.class);
 }

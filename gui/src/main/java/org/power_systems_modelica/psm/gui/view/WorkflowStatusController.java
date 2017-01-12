@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.List;
 
 import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
@@ -31,14 +30,16 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 
-public class WorkflowStatusController {
-
+public class WorkflowStatusController
+{
 	@FXML
-	private void initialize() {
+	private void initialize()
+	{
 	}
 
 	@FXML
-	private void handleNewWorkflow() {
+	private void handleNewWorkflow()
+	{
 		LOG.debug("handleNewWorkflow");
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
 			mainService.showConversionView(null);
@@ -47,95 +48,104 @@ public class WorkflowStatusController {
 		else
 			mainService.showCompareLoadflowsView(null);
 	}
-	
-	public void setTask(Workflow w, Task task) {
-		
-		if (task != null) {
+
+	public void setTask(Workflow w, Task<?> task)
+	{
+		if (task != null)
+		{
 			statusLabel.textProperty().bind(task.messageProperty());
 			statusBar.progressProperty().bind(task.progressProperty());
 		}
-		
-		List<TaskDefinition> tasks = w.getConfiguration().getTaskDefinitions();
-		
+
 		TreeItem<ProgressData> root = new TreeItem<>();
 		root.setExpanded(true);
 		treeView.getStyleClass().add("treeViewItem");
 		treeView.setRoot(root);
 		treeView.setShowRoot(false);
-		treeView.setItems(((WorkflowService)task).getWorkflowInfo());
+		treeView.setItems(((WorkflowService) task).getWorkflowInfo());
 	}
 
-	public void setMainService(MainService mainService, Workflow w, WorkflowType isWorkflowDetail) {
+	public void setMainService(MainService mainService, Workflow w, WorkflowType isWorkflowDetail)
+	{
 		this.mainService = mainService;
 
 		this.isWorkflowDetail = isWorkflowDetail;
-		if (isWorkflowDetail.equals(WorkflowType.CONVERSION)) {
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+		{
 			panel.setText("Conversion detail");
 			firstLabelTitle.setText("Case:");
 			secondLabelTitle.setText("Ddr:");
 		}
-		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION)) {
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+		{
 			panel.setText("Simulation detail");
 			firstLabelTitle.setText("Case:");
 			secondLabelTitle.setText("Created:");
 		}
-		else { 
+		else
+		{
 			panel.setText("Compare loadflows detail");
 			firstLabelTitle.setText("Case:");
 			secondLabelTitle.setText("");
 			secondLabelValue.setText("");
 		}
-		
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 
-			if (td.getTaskClass().equals(ModelicaParserTask.class)) {
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+			if (td.getTaskClass().equals(ModelicaParserTask.class))
+			{
 				String moInput = td.getTaskConfiguration().getParameter("source");
-				
-				try {
-					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
+				try
+				{
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
+							BasicFileAttributes.class);
 					DateTime date = new DateTime(attr.creationTime().toMillis());
-					
 					secondLabelValue.setText(date.toString("yyyy/MM/dd HH:mm:ss"));
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
-				
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
 				String uri = td.getTaskConfiguration().getParameter("source");
-				
 				Path casePath;
-				if (uri.endsWith(".xml")) {
+				if (uri.endsWith(".xml"))
+				{
 					Path path = Paths.get(uri);
 					casePath = path.getParent();
-				} else
+				}
+				else
 					casePath = Paths.get(uri);
-				
 				Path catalogPath = casePath.getParent();
-
-				try {
+				try
+				{
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
 					Case c = mainService.getCase(catalog.getName(), casePath);
 					firstLabelValue.setText(catalog.getName() + "\t" + c.getName());
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 
-			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class)) {
-				
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+			{
 				String uri = td.getTaskConfiguration().getParameter("ddrLocation");
 				Path ddrPath = Paths.get(uri).normalize();
 				Path catalogPath = ddrPath.getParent().getParent();
-				
-				try {
+				try
+				{
 					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
 					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
 					secondLabelValue.setText(catalog.getName() + "\t" + ddr.getName());
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -144,31 +154,24 @@ public class WorkflowStatusController {
 	}
 
 	@FXML
-	private TitledPane panel;
-
+	private TitledPane						panel;
 	@FXML
-	private Label firstLabelTitle;
-
+	private Label							firstLabelTitle;
 	@FXML
-	private Label firstLabelValue;
-
+	private Label							firstLabelValue;
 	@FXML
-	private Label secondLabelTitle;
-
+	private Label							secondLabelTitle;
 	@FXML
-	private Label secondLabelValue;
-
+	private Label							secondLabelValue;
 	@FXML
-	private Label statusLabel;
-	
+	private Label							statusLabel;
 	@FXML
-	private ProgressBar statusBar;
-	
+	private ProgressBar						statusBar;
 	@FXML
-	private DynamicTreeView<ProgressData> treeView;
+	private DynamicTreeView<ProgressData>	treeView;
+	private MainService						mainService;
+	private WorkflowType					isWorkflowDetail;
 
-	private MainService mainService;
-	private WorkflowType isWorkflowDetail;
-
-	private static final Logger LOG = LoggerFactory.getLogger(WorkflowStatusController.class);
+	private static final Logger				LOG	= LoggerFactory
+			.getLogger(WorkflowStatusController.class);
 }

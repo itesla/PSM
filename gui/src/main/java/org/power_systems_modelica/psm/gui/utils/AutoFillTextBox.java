@@ -18,8 +18,6 @@ public class AutoFillTextBox<T> extends Control {
 
     private boolean filterMode;
 
-    private int limit;
-
     public AutoFillTextBox(ObservableList<T> data) {
         //this();
         init();
@@ -33,7 +31,7 @@ public class AutoFillTextBox<T> extends Control {
     private void init() {
     	getStyleClass().setAll("autofill-text");
         textbox = new TextField();
-        listview = new ListView();
+        listview = new ListView<>();
         filterMode = false;
 
         listen();

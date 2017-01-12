@@ -20,26 +20,26 @@ import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
-import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.testfx.framework.junit.ApplicationTest;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class CompareLoadflowsDetailControllerTest extends ApplicationTest {
+public class CompareLoadflowsDetailControllerTest extends ApplicationTest
+{
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws Exception
+	{
 
 		FXMLLoader loader = null;
-		try {
+		try
+		{
 
 			MainService mainService = new MainService(null);
 			mainService.setStage(stage);
@@ -56,18 +56,22 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest {
 			stage.setScene(scene);
 			stage.show();
 
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void testAddSeries() {
+	public void testAddSeries()
+	{
 
 		WorkflowResult results = new WorkflowResult();
 
 		List<BusData> allBusesValues = new ArrayList<>();
-		for (int i = 1; i <= 14; i++) {
+		for (int i = 1; i <= 14; i++)
+		{
 			Map<String, float[]> bvalues = new HashMap<>();
 			float[] Vs = new float[2];
 			float[] As = new float[2];
@@ -119,59 +123,50 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest {
 			e.printStackTrace();
 		}
 
-		interact(new Runnable() {
+		interact(new Runnable()
+		{
 
 			@Override
-			public void run() {
-				
+			public void run()
+			{
+
 				Label avgVoltageErrorLabel = lookup("#avgVoltageErrorLabel").query();
 				Label maxVoltageErrorLabel = lookup("#maxVoltageErrorLabel").query();
-				
-				ScatterChart voltageChart = lookup("#voltageChart").query();
-				ScatterChart phaseChart = lookup("#phaseChart").query();
-				ScatterChart activeChart = lookup("#activeChart").query();
-				ScatterChart reactiveChart = lookup("#reactiveChart").query();
-				
-				DoubleSummaryStatistics voltageStats = results.getAllBusesValues().stream().map(bus -> bus.getAbsError("V"))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
-				
-			    avgVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getAverage()*100));	
-				maxVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getMax()*100));	
 
-				DoubleSummaryStatistics phaseStats = results.getAllBusesValues().stream().map(bus -> bus.getAbsError("A"))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
-				
+				ScatterChart<String, Number> voltageChart = lookup("#voltageChart").query();
+				ScatterChart<String, Number> phaseChart = lookup("#phaseChart").query();
+				ScatterChart<String, Number> activeChart = lookup("#activeChart").query();
+				ScatterChart<String, Number> reactiveChart = lookup("#reactiveChart").query();
 
-				DoubleSummaryStatistics activeStats = results.getAllBusesValues().stream().map(bus -> bus.getAbsError("P"))
+				DoubleSummaryStatistics voltageStats = results.getAllBusesValues().stream()
+						.map(bus -> bus.getAbsError("V"))
 						.collect(Collectors.summarizingDouble(Float::doubleValue));
-				
-
-				DoubleSummaryStatistics reactiveStats = results.getAllBusesValues().stream().map(bus -> bus.getAbsError("Q"))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
-				
+				avgVoltageErrorLabel
+						.setText(String.format("%,.4f%%", voltageStats.getAverage() * 100));
+				maxVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));
 
 				controller.addSeries(results);
 				Utils.addTooltipComparisonChart(voltageChart, results, "V", "pu");
 				Utils.addTooltipComparisonChart(phaseChart, results, "A", "º");
 				Utils.addTooltipComparisonChart(activeChart, results, "P", "MW");
 				Utils.addTooltipComparisonChart(reactiveChart, results, "Q", "MVar");
-				
+
 				assertEquals(1, voltageChart.getData().size());
-				XYChart.Series<String, Float> valuesV = (Series<String, Float>) voltageChart.getData().get(0);
+				XYChart.Series<String, Number> valuesV = voltageChart.getData().get(0);
 				assertEquals(14, valuesV.getData().size());
 				assertEquals(1, phaseChart.getData().size());
-				XYChart.Series<String, Float> valuesA = (Series<String, Float>) phaseChart.getData().get(0);
+				XYChart.Series<String, Number> valuesA = phaseChart.getData().get(0);
 				assertEquals(14, valuesA.getData().size());
 				assertEquals(1, activeChart.getData().size());
-				XYChart.Series<String, Float> valuesP = (Series<String, Float>) activeChart.getData().get(0);
+				XYChart.Series<String, Number> valuesP = activeChart.getData().get(0);
 				assertEquals(14, valuesP.getData().size());
 				assertEquals(1, reactiveChart.getData().size());
-				XYChart.Series<String, Float> valuesQ = (Series<String, Float>) reactiveChart.getData().get(0);
+				XYChart.Series<String, Number> valuesQ = reactiveChart.getData().get(0);
 				assertEquals(14, valuesQ.getData().size());
 			}
 		});
 
 	}
-	
+
 	private CompareLoadflowsDetailController controller;
 }

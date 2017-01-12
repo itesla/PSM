@@ -148,6 +148,8 @@ public class WorkflowServiceConfiguration
 		return actions;
 	}
 
+	// XXX LUMA { elements of current case that can be used with current event
+
 	// XXX LUMA This configuration should be read from events.dyd
 	// Each event should name the type of static network elements it applies to
 	private static final Map<String, ConnectableType> XXX_EVENT_APPLIES_TO = new HashMap<>();
@@ -162,96 +164,74 @@ public class WorkflowServiceConfiguration
 		XXX_EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
 	}
 
-	public static ConnectableType connectableType(Identifiable<?> e)
+	private static ConnectableType connectableType(Identifiable<?> e)
 	{
 		return ((Connectable<?>) e).getType();
+	}
+
+	private static Map<String, Collection<String>> groupElementsByEventType(ConvertedCase case_)
+	{
+		// Import case
+		Path caseSource;
+		try
+		{
+			caseSource = PathUtils.findCasePath(Paths.get(case_.getLocation()));
+		}
+		catch (IOException e1)
+		{
+			return null;
+		}
+		Network n = StaticNetworkImporter.import_(caseSource);
+		if (n == null) return null;
+
+		// Group elements by ConnectableType
+		Map<ConnectableType, List<String>> elementsByConnectableType = n.getIdentifiables().stream()
+				.filter(e -> e instanceof Connectable)
+				.collect(Collectors.groupingBy(WorkflowServiceConfiguration::connectableType,
+						Collectors.mapping(Identifiable::getId, Collectors.toList())));
+		// Expand the elements located under "Bus bar section" with buses resulting from bus breaker view
+		List<String> busIds = elementsByConnectableType.get(ConnectableType.BUSBAR_SECTION);
+		if (busIds == null)
+		{
+			busIds = new ArrayList<>();
+			elementsByConnectableType.put(ConnectableType.BUSBAR_SECTION, busIds);
+		}
+		for (Bus b : n.getBusBreakerView().getBuses())
+			busIds.add(b.getId());
+
+		// Now for each event type, set the list of applicable elements based on the connectable type defined for the event
+		Map<String, Collection<String>> elementsByEventType = new HashMap<>();
+		XXX_EVENT_APPLIES_TO.entrySet().stream()
+				.forEach(e -> elementsByEventType.put(
+						e.getKey(),
+						elementsByConnectableType.get(e.getValue())));
+		return elementsByEventType;
 	}
 
 	public static ObservableList<String> getNetworkElements(ConvertedCase case_, String eventType)
 	{
 		ObservableList<String> elements = FXCollections.observableArrayList();
 
-		Map<String, Collection<String>> elementsByEvent = case_.getElementIdentifiersByEventType();
-		if (elementsByEvent == null)
+		// Cached list of element identifiers by event type is stored in ConvertedCase
+		Map<String, Collection<String>> elementsByEventType = case_.getElementIdsByEventType();
+		if (elementsByEventType == null)
 		{
-			Map<String, Collection<String>> elementsByEvent0 = new HashMap<>();
-
-			// Import case, build map ...
-			LOGLUMA.warn("LUMA try to load network from converted case, case location = "
-					+ case_.getLocation());
-			Path caseSource;
-			try
-			{
-				caseSource = PathUtils.findCasePath(Paths.get(case_.getLocation()));
-			}
-			catch (IOException e1)
-			{
-				LOGLUMA.warn("LUMA case not found at location " + case_.getLocation());
-				return elements;
-			}
-			Network n = StaticNetworkImporter.import_(caseSource);
-			LOGLUMA.warn(
-					"LUMA network loaded, Identifiables.size = " + n.getIdentifiables().size());
-			Map<ConnectableType, List<String>> elemsByType = n.getIdentifiables().stream()
-					.filter(e -> e instanceof Connectable)
-					.collect(Collectors.groupingBy(WorkflowServiceConfiguration::connectableType,
-							Collectors.mapping(Identifiable::getId, Collectors.toList())));
-			LOGLUMA.warn("LUMA network elements by connectable type");
-			elemsByType.entrySet().stream()
-					.forEach(te -> LOGLUMA
-							.warn("LUMA     " + te.getKey() + " : " + te.getValue().size()));
-			List<String> busIds = elemsByType.get(ConnectableType.BUSBAR_SECTION);
-			if (busIds == null)
-			{
-				busIds = new ArrayList<>();
-				elemsByType.put(ConnectableType.BUSBAR_SECTION, busIds);
-			}
-			for (Bus b : n.getBusBreakerView().getBuses())
-				busIds.add(b.getId());
-
-			XXX_EVENT_APPLIES_TO.entrySet().stream()
-					.forEach(e -> elementsByEvent0.put(e.getKey(), elemsByType.get(e.getValue())));
-
-			LOGLUMA.warn("LUMA network elements by event type");
-			elementsByEvent0.entrySet().stream()
-					.forEach(te -> LOGLUMA.warn("LUMA     " + te.getKey() + " : "
-							+ (te.getValue() != null ? te.getValue().size() : "0")));
-			case_.setElementIdentifiersByEventType(elementsByEvent0);
-			elementsByEvent = elementsByEvent0;
+			case_.setElementIdentifiersByEventType(groupElementsByEventType(case_));
+			elementsByEventType = case_.getElementIdsByEventType();
 		}
-		Collection<String> ids = elementsByEvent.get(eventType);
+		Collection<String> ids = elementsByEventType.get(eventType);
 		if (ids != null)
 		{
-			LOGLUMA.warn("LUMA elements to populate gui list " + ids.size());
 			elements.addAll(ids);
 		}
 		else
 		{
-			LOGLUMA.warn("LUMA NO elements to populate gui list");
+			LOG.warn("The event type " + eventType + " does not have elements to be applied to in current case");
 		}
-
-		// String[] s = new String[] {
-		// "_BUS___10_TN",
-		// "_BUS___11_TN",
-		// "_BUS___12_TN",
-		// "_BUS___13_TN",
-		// "_BUS___14_TN",
-		// "_BUS____1_TN",
-		// "_BUS____2_TN",
-		// "_BUS____3_TN",
-		// "_BUS____4_TN",
-		// "_BUS____5_TN",
-		// "_BUS____6_TN",
-		// "_BUS____7_TN",
-		// "_BUS____8_TN",
-		// "_BUS____9_TN"
-		// };
-		// for (int j = 0; j < s.length; j++)
-		// {
-		// elements.add(s[j]);
-		// }
 		return elements;
 	}
+	
+	// XXX LUMA } elements of current case that can be used with current event
 
 	public static ObservableList<EventParamGui> getEventParams(String event)
 	{
@@ -270,7 +250,8 @@ public class WorkflowServiceConfiguration
 		return eventParams;
 	}
 
-	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse,
+	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events,
+			DsEngine dse,
 			String stopTime, boolean onlyCheck, boolean onlyVerify)
 			throws WorkflowCreationException
 	{
@@ -317,8 +298,7 @@ public class WorkflowServiceConfiguration
 
 				simulationSource = "moWithEvents";
 			}
-			
-			
+
 			String depth;
 			if (onlyCheck)
 				depth = "1";
@@ -573,6 +553,4 @@ public class WorkflowServiceConfiguration
 
 	private static final Logger				LOG		= LoggerFactory
 			.getLogger(WorkflowServiceConfiguration.class);
-
-	private static final Logger				LOGLUMA	= LoggerFactory.getLogger("");
 }

@@ -89,7 +89,7 @@ public class ConvertedCase implements Serializable
 		this.elementIdentifiersByEventType = elems;
 	}
 
-	public Map<String, Collection<String>> getElementIdentifiersByEventType()
+	public Map<String, Collection<String>> getElementIdsByEventType()
 	{
 		return this.elementIdentifiersByEventType;
 	}

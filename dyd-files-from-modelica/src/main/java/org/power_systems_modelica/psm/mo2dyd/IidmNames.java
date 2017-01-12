@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.ddr;
+package org.power_systems_modelica.psm.mo2dyd;
 
 public class IidmNames
 {

@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.commons.Configuration;
-import org.power_systems_modelica.psm.ddr.DydFilesFromModelica;
+import org.power_systems_modelica.psm.mo2dyd.DydFilesFromModelica;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
 public class DydFilesFromModelicaTask extends WorkflowTask

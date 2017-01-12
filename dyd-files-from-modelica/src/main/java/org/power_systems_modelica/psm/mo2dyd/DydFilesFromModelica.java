@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.ddr;
+package org.power_systems_modelica.psm.mo2dyd;
 
 import java.io.FileNotFoundException;
 
@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.power_systems_modelica.psm.ddr.InitResults2SimInputs.InitResult;
-import org.power_systems_modelica.psm.ddr.InitResults2SimInputs.SimInput;
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.ddr.dyd.Association;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
@@ -41,6 +40,8 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Equation;
 import org.power_systems_modelica.psm.ddr.dyd.equations.UnparsedEquation;
+import org.power_systems_modelica.psm.mo2dyd.InitResults2SimInputs.InitResult;
+import org.power_systems_modelica.psm.mo2dyd.InitResults2SimInputs.SimInput;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;

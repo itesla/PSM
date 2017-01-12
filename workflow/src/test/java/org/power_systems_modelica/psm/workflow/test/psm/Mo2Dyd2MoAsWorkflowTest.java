@@ -2,26 +2,24 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
+import org.power_systems_modelica.psm.mo2dyd.test.Mo2Dyd2MoTest;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.DydFilesFromModelicaTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
@@ -31,7 +29,7 @@ import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
 
-public class Mo2Dyd2MoTest
+public class Mo2Dyd2MoAsWorkflowTest extends Mo2Dyd2MoTest
 {
 	@Before
 	public void setup()
@@ -39,142 +37,26 @@ public class Mo2Dyd2MoTest
 		XmlUtil.isValidationActive = true;
 	}
 
-	@Test
-	public void rebuildIeee14() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"ieee14",
-				"itesla/ieee14bus_no_lf.mo",
-				"itesla/init",
-				"ieee14bus_EQ.xml",
-				"ieee14_ddr",
-				14,
-				5);
-	}
-
-	@Test
-	public void rebuildIeee30() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"ieee30",
-				"itesla/ieee30bus_no_lf.mo",
-				"itesla/init",
-				"ieee30bus_EQ.xml",
-				"ieee30_ddr",
-				30,
-				6);
-	}
-
-	@Test
-	public void rebuildIeee57() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"ieee57",
-				"itesla/ieee57bus_no_lf.mo",
-				"itesla/init",
-				"ieee57bus_EQ.xml",
-				"ieee57_ddr",
-				57,
-				7);
-	}
-
-	@Test
-	public void rebuildIeee118() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"ieee118",
-				"itesla/ieee118bus_no_lf.mo",
-				"itesla/init",
-				"ieee118bus_EQ.xml",
-				"ieee118_ddr",
-				118,
-				54);
-	}
-
-	@Test
-	public void rebuildSmallCase1() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"smallcase1",
-				"itesla/case1_no_lf.mo",
-				"itesla/init",
-				"case1_EQ.xml",
-				"smallcase1_ddr",
-				3,
-				2); // There are one generator and one fixed injection but in IIDM both are Generators.
-	}
-
-	@Test
-	public void rebuildSmallCase2() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"smallcase2",
-				"itesla/case2_no_lf.mo",
-				"itesla/init",
-				"case2_EQ.xml",
-				"smallcase2_ddr",
-				3,
-				1);
-	}
-
-	@Test
-	public void rebuildSmallCase3() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"smallcase3",
-				"itesla/case3_no_lf.mo",
-				"itesla/init",
-				"case3_EQ.xml",
-				"smallcase3_ddr",
-				3,
-				2); // There are one generator and one fixed injection but in IIDM both are Generators.
-	}
-
-	@Test
-	public void rebuild7buses() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"7buses",
-				"itesla/CIM_7buses_no_lf.mo",
-				"itesla/init",
-				"CIM_7buses_EQ.xml",
-				"7buses_ddr",
-				7,
-				3);
-	}
-
-	@Test
-	public void rebuildNordic32() throws WorkflowCreationException, IOException
-	{
-		testRebuildModelica(
-				"Nordic32",
-				"itesla/Nordic32_no_lf.mo",
-				"itesla/init",
-				"Nordic32_EQ.xml",
-				"Nordic32_ddr",
-				52,
-				20);
-	}
-
-	private void testRebuildModelica(
+	@Override
+	protected void rebuild(
 			String foldername,
 			String moName,
 			String moInitPath,
 			String caseName,
-			String ddrLocation,
+			String ddrName,
 			int numBuses,
 			int numGenerators)
-			throws WorkflowCreationException, IOException
+			throws Exception
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		// ddr is created in tmp folder
-		ddrLocation = DATA_TMP.resolve(ddrLocation).toAbsolutePath().toString();
-		Files.createDirectories(Paths.get(ddrLocation));
+		Path ddrLocation = DATA_TMP.resolve(ddrName);
+		Files.createDirectories(ddrLocation);
 		String moInput = folder.resolve(moName).toString();
 		String moInputInit = folder.resolve(moInitPath).toString();
 		String cim = folder.resolve(caseName).toString();
-		String fakeInit = folder.resolve(ddrLocation).resolve("fake_init.csv").toString();
+		String fakeInit = ddrLocation.resolve("fake_init.csv").toString();
 		String moOutput = DATA_TMP.resolve("mo2dyd2mo.mo").toString();
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("mo2dyd2mo");
 		Files.createDirectories(modelicaEngineWorkingDir);
@@ -183,14 +65,14 @@ public class Mo2Dyd2MoTest
 		if (EXPLICIT_INIT_FILES)
 		{
 			mo2dyd = TD(DydFilesFromModelicaTask.class, "mo2dyd0",
-					TC("ddrLocation", ddrLocation,
+					TC("ddrLocation", ddrLocation.toAbsolutePath().toString(),
 							"modelicaFile", moInput,
 							"modelicaInitPath", moInputInit));
 		}
 		else
 		{
 			mo2dyd = TD(DydFilesFromModelicaTask.class, "mo2dyd0",
-					TC("ddrLocation", ddrLocation,
+					TC("ddrLocation", ddrLocation.toAbsolutePath().toString(),
 							"modelicaFile", moInput));
 		}
 
@@ -200,7 +82,7 @@ public class Mo2Dyd2MoTest
 						TC("source", cim)),
 				TD(ModelicaNetworkBuilderTask.class, "modelica0",
 						TC("ddrType", "DYD",
-								"ddrLocation", ddrLocation,
+								"ddrLocation", ddrLocation.toAbsolutePath().toString(),
 								"modelicaEngine", "Fake",
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"fakeModelicaEngineResults", fakeInit)),
@@ -227,6 +109,4 @@ public class Mo2Dyd2MoTest
 
 		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 	}
-
-	private static final boolean EXPLICIT_INIT_FILES = true;
 }

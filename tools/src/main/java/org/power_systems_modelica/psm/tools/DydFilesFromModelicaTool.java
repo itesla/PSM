@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.power_systems_modelica.psm.ddr.DydFilesFromModelica;
+import org.power_systems_modelica.psm.mo2dyd.DydFilesFromModelica;
 
 import com.google.auto.service.AutoService;
 

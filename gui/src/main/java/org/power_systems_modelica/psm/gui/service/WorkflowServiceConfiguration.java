@@ -93,7 +93,7 @@ public class WorkflowServiceConfiguration
 		return conv;
 	}
 
-	public static Workflow getSimulation() 
+	public static Workflow getSimulation()
 	{
 		return sim;
 	}
@@ -143,10 +143,11 @@ public class WorkflowServiceConfiguration
 		return actions;
 	}
 
-	public static ObservableList getNetworkElements(ConvertedCase c, String action) {
+	public static ObservableList getNetworkElements(ConvertedCase c, String action)
+	{
 
 		ObservableList<String> elements = FXCollections.observableArrayList();
-		
+
 		String[] s = new String[] {
 				"_BUS___10_TN",
 				"_BUS___11_TN",
@@ -162,8 +163,9 @@ public class WorkflowServiceConfiguration
 				"_BUS____7_TN",
 				"_BUS____8_TN",
 				"_BUS____9_TN"
-				};
-		for (int j = 0; j < s.length; j++) {
+		};
+		for (int j = 0; j < s.length; j++)
+		{
 			elements.add(s[j]);
 		}
 		return elements;
@@ -186,13 +188,14 @@ public class WorkflowServiceConfiguration
 		return eventParams;
 	}
 
-	public static Workflow createSimulation(ConvertedCase cs, ObservableList events, DsEngine dse, String stopTime)
+	public static Workflow createSimulation(ConvertedCase cs, ObservableList events, DsEngine dse,
+			String stopTime)
 			throws WorkflowCreationException
 	{
 
 		String moInput = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
 		String fakeInit = Paths.get(cs.getDdrLocation()).resolve("fake_init.csv").toString();
-		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("gui_worfklow");
+		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("gui_workflow_moengine_working");
 		Path output = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_initial.mo");
 		Path outputev = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_events.mo");
 
@@ -200,24 +203,24 @@ public class WorkflowServiceConfiguration
 		{
 			Files.deleteIfExists(output);
 			Files.deleteIfExists(outputev);
-			
+			cleanupWorkingDir(modelicaEngineWorkingDir);
+
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
 			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-	
+
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
-			
+
 			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
 					TC("source", casePath.toString())));
 			tasks.add(TD(ModelicaParserTask.class, "moparser0",
-					TC("source", moInput, "modelicaDocument", "mo" ))
-					);
+					TC("source", moInput, "modelicaDocument", "mo")));
 			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 					TC("source", "mo",
 							"target", output.toString(),
 							"includePsmAnnotations", "true")));
-	
+
 			if (!events.isEmpty())
 			{
 				tasks.add(TD(ModelicaEventAdderTask.class, "eventAdder0",
@@ -231,18 +234,18 @@ public class WorkflowServiceConfiguration
 						TC("source", "moWithEvents",
 								"target", outputev.toString(),
 								"includePsmAnnotations", "true")));
-	
+
 				simulationSource = "moWithEvents";
 			}
-	
+
 			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
 					TC("source", simulationSource,
 							"modelicaEngine", simulationEngine,
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-							"stopTime", stopTime, 
+							"stopTime", stopTime,
 							"libraryDir", PathUtils.LIBRARY.toString(),
 							"resultVariables", resultVariables)));
-	
+
 			WorkflowConfiguration config = new WorkflowConfiguration();
 			config.setTaskDefinitions(tasks);
 			TaskFactory tf = new TaskFactory();
@@ -255,26 +258,31 @@ public class WorkflowServiceConfiguration
 		return sim;
 	}
 
+	private static void cleanupWorkingDir(Path workingDir) throws IOException
+	{
+		if (Files.exists(workingDir, LinkOption.NOFOLLOW_LINKS))
+		{
+			Files.walk(workingDir, FileVisitOption.FOLLOW_LINKS)
+					.sorted(Comparator.reverseOrder())
+					.map(Path::toFile)
+					.peek(System.out::println)
+					.forEach(File::delete);
+		}
+		Files.createDirectories(workingDir);
+	}
+
 	public static Workflow createConversion(Case cs, Ddr ddr0, LoadflowEngine le,
 			boolean onlyMainConnectedComponent)
 			throws WorkflowCreationException
 	{
 
 		String fakeInit = Paths.get(ddr0.getLocation()).resolve("fake_init.csv").toString();
-		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("moBuilder");
+		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("gui_workflow_moengine_working");
 		String outname = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
 
 		try
 		{
-			if (Files.exists(modelicaEngineWorkingDir, LinkOption.NOFOLLOW_LINKS))
-			{
-				Files.walk(modelicaEngineWorkingDir, FileVisitOption.FOLLOW_LINKS)
-						.sorted(Comparator.reverseOrder())
-						.map(Path::toFile)
-						.peek(System.out::println)
-						.forEach(File::delete);
-			}
-			new File(modelicaEngineWorkingDir.toString()).mkdir();
+			cleanupWorkingDir(modelicaEngineWorkingDir);
 			Files.deleteIfExists(Paths.get(outname));
 
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
@@ -332,22 +340,20 @@ public class WorkflowServiceConfiguration
 
 		return conv;
 	}
-	
+
 	public static WorkflowResult getSimulationResult(String id)
 	{
 
 		WorkflowResult results = new WorkflowResult();
 
 		Network n = (Network) sim.getResults("network");
-	
+
 		/*
 		 * LUMA: no specific state for loadflow results, use current network state
 		 * 
-		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); 
-		 * // Fin fix temporal
-		 *  
-		 * n.getStateManager().allowStateMultiThreadAccess(false); 
-		 * n.getStateManager().setWorkingState("resultsLoadflow");
+		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); // Fin fix temporal
+		 * 
+		 * n.getStateManager().allowStateMultiThreadAccess(false); n.getStateManager().setWorkingState("resultsLoadflow");
 		 */
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
@@ -470,12 +476,13 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
-	private static Random					rnd	= new Random();
-	private static Workflow					conv= null;
-	private static Workflow					sim	= null;
-	private static Workflow					cl	= null;
-	private static DynamicDataRepository	ddr	= null;
+	private static Random					rnd		= new Random();
+	private static Workflow					conv	= null;
+	private static Workflow					sim		= null;
+	private static Workflow					cl		= null;
+	private static DynamicDataRepository	ddr		= null;
 
-	private static final Logger				LOG	= LoggerFactory.getLogger(WorkflowServiceConfiguration.class);
+	private static final Logger				LOG		= LoggerFactory
+			.getLogger(WorkflowServiceConfiguration.class);
 
 }

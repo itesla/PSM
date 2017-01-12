@@ -2,7 +2,6 @@ package org.power_systems_modelica.psm.gui.model;
 
 import java.io.Serializable;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

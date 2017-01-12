@@ -8,22 +8,17 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
-import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.testfx.framework.junit.ApplicationTest;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 

@@ -5,7 +5,6 @@ import java.awt.Point;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -143,8 +142,6 @@ public class CasesOverviewController {
 	}
 
 	public void showCaseSummary(Point point, Case c, Network n) {
-		int i = 0;
-
 		gridPane.getChildren().removeAll(gridPane.getChildren());
 
 		// Name

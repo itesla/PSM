@@ -57,7 +57,7 @@ public class WorkflowConfigurationTest
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
 		event.setAction("BusFault");
-		List<EventParamGui> params = new ArrayList();
+		List<EventParamGui> params = new ArrayList<>();
 		EventParamGui param = new EventParamGui();
 		param.setName("R");
 		param.setUnit("pu");

@@ -2,16 +2,10 @@ package org.power_systems_modelica.psm.test.gui.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
-import org.power_systems_modelica.psm.gui.utils.PathUtils;
 
 import javafx.collections.ObservableList;
 

@@ -18,7 +18,6 @@ import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
-import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.ConversionNewController;
@@ -28,7 +27,6 @@ import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.ListViewMatchers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -197,7 +195,7 @@ public class ConversionNewControllerTest extends ApplicationTest {
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
 		event.setAction("BusFault");
-		List<EventParamGui> params = new ArrayList();
+		List<EventParamGui> params = new ArrayList<>();
 		EventParamGui param = new EventParamGui();
 		param.setName("R");
 		param.setUnit("pu");

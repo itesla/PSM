@@ -177,4 +177,14 @@
             <artifactId>javacsv</artifactId>
         </dependency>
 	</dependencies>
+	<build>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<directory>${project.basedir}/../data/test/cfg</directory>
+			</testResource>
+		</testResources>
+	</build>
 </project>

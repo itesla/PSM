@@ -32,7 +32,7 @@
 			<artifactId>modelica-network</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>commons</artifactId>
@@ -81,5 +81,13 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<directory>${project.basedir}/../data/test/cfg</directory>
+			</testResource>
+		</testResources>
 	</build>
 </project>

@@ -258,8 +258,27 @@ public class SimulationNewController {
 	}
 
 	@FXML
+	private void handleCheckWorkflow() {
+		LOG.debug("handleCheckWorkflow");
+	
+		startWorkflow(true, false);
+	}
+	
+	@FXML
+	private void handleVerifyWorkflow() {
+		LOG.debug("handleCheckWorkflow");
+	
+		startWorkflow(false, true);
+	}
+
+	@FXML
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
+		
+		startWorkflow(false, false);
+	}
+
+	private void startWorkflow(boolean onlyCheck, boolean onlyVerify) {
 
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
 		if (cs == null) {
@@ -277,7 +296,7 @@ public class SimulationNewController {
 
 		ObservableList<Event> events = addedEvents.getItems();
 
-		mainService.startSimulation(cs, events, dse, stopTime);
+		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify);
 	}
 
 	@FXML

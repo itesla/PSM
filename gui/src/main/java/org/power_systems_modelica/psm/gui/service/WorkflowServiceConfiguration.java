@@ -189,7 +189,7 @@ public class WorkflowServiceConfiguration
 	}
 
 	public static Workflow createSimulation(ConvertedCase cs, ObservableList events, DsEngine dse,
-			String stopTime)
+			String stopTime, boolean onlyCheck, boolean onlyVerify)
 			throws WorkflowCreationException
 	{
 
@@ -237,6 +237,15 @@ public class WorkflowServiceConfiguration
 
 				simulationSource = "moWithEvents";
 			}
+			
+			
+			String depth;
+			if (onlyCheck)
+				depth = "1";
+			else if (onlyVerify)
+				depth = "2";
+			else
+				depth = "0";
 
 			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
 					TC("source", simulationSource,
@@ -244,7 +253,8 @@ public class WorkflowServiceConfiguration
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 							"stopTime", stopTime,
 							"libraryDir", PathUtils.LIBRARY.toString(),
-							"resultVariables", resultVariables)));
+							"resultVariables", resultVariables,
+							"depth", depth)));
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
 			config.setTaskDefinitions(tasks);

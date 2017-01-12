@@ -84,7 +84,7 @@ public class WorkflowConfigurationTest
 		events.add(event);
 
 		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events,
-				DsEngine.OPENMODELICA, "5");
+				DsEngine.OPENMODELICA, "5", false, false);
 
 		assertNotNull(w);
 		assertEquals(6, w.getWorkflowTasks().size());

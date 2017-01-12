@@ -180,11 +180,11 @@ public class MainService {
 		}
 	}
 
-	public void startSimulation(ConvertedCase cs, ObservableList events, DsEngine dse, String stopTime) {
+	public void startSimulation(ConvertedCase cs, ObservableList events, DsEngine dse, String stopTime, boolean onlyCheck, boolean onlyVerify) {
 
 		try {
-			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime);
-			sTask = TaskService.createTask(w, () -> getMainApp().showSimulationDetailView(this));
+			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify);
+			sTask = TaskService.createTask(w, () -> getMainApp().showSimulationDetailView(this, onlyCheck, onlyVerify));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.SIMULATION);
 			TaskService.startTask(sTask);
 		} catch (WorkflowCreationException e) {

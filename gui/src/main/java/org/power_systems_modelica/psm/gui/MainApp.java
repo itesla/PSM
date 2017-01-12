@@ -12,6 +12,7 @@ import org.power_systems_modelica.psm.gui.view.ConversionDetailController;
 import org.power_systems_modelica.psm.gui.view.ConversionNewController;
 import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
+import org.power_systems_modelica.psm.gui.view.SimulationCheckVerifyDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
@@ -233,6 +234,37 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 
+		return loader;
+	}
+
+	public FXMLLoader showSimulationDetailView(MainService mainService, boolean onlyCheck, boolean onlyVerify) {
+
+		if (onlyCheck || onlyVerify)
+			return showSimulationCheckDetailView(mainService, onlyCheck);
+
+		return showSimulationDetailView(mainService);
+	}
+	
+	public FXMLLoader showSimulationCheckDetailView(MainService mainService, boolean isCheckDetail) {
+
+		FXMLLoader loader = null;
+		try {
+			if (mainService.getSimulationTask() != null)
+				mainService.resetSimulationTask();
+
+			// Load cases overview.
+			loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/SimulationCheckVerifyDetail.fxml"));
+			AnchorPane workflowsOverview = (AnchorPane) loader.load();
+
+			// Set cases overview into the center of the root layout.
+			rootLayout.setCenter(workflowsOverview);
+
+			SimulationCheckVerifyDetailController controller = loader.getController();
+			controller.setMainService(mainService, mainService.getSimulation(), isCheckDetail);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return loader;
 	}
 

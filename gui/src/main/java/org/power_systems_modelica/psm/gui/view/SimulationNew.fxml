@@ -31,7 +31,9 @@
 								<Button fx:id="loadButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleLoadWorkflow" styleClass="btn-default" text="Load" />
 								<Button fx:id="saveButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleSaveWorkflow" styleClass="btn-default" text="Save" />
 								<Button fx:id="cleanButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleCleanWorkflow" styleClass="btn-default" text="Clean" />
-								<Button fx:id="startButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Start" />
+								<Button fx:id="checkButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleCheckWorkflow" styleClass="btn-default" text="Check" />
+								<Button fx:id="verifyButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleVerifyWorkflow" styleClass="btn-default" text="Verify" />
+								<Button fx:id="startButton" layoutY="20.0" mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Simulate" />
 							</children>
 							<padding>
 								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -106,7 +108,9 @@
 						</TitledPane>
 						<HBox layoutY="460.0" spacing="10.0" AnchorPane.rightAnchor="0.0">
 							<children>
-								<Button mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Start" />
+								<Button mnemonicParsing="false" onAction="#handleCheckWorkflow" styleClass="btn-default" text="Check" />
+								<Button mnemonicParsing="false" onAction="#handleVerifyWorkflow" styleClass="btn-default" text="Verify" />
+								<Button mnemonicParsing="false" onAction="#handleStartWorkflow" styleClass="btn-default" text="Simulate" />
 							</children>
 							<padding>
 								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />

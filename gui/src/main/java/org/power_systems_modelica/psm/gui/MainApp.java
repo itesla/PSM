@@ -17,7 +17,9 @@ import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
+import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,8 +209,24 @@ public class MainApp extends Application {
 		else {
 			if (!w.getState().equals(ProcessState.SUCCESS) && !w.getState().equals(ProcessState.FAILED))
 				return showWorkflowStatusView(mainService, w, WorkflowType.SIMULATION);
-			else
-				return showSimulationDetailView(mainService);
+			else {
+				
+				boolean onlyCheck = false, onlyVerify = false;
+				for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
+					
+					if (td.getTaskClass().equals(ModelicaSimulatorTask.class)) {
+						int depth = Integer.parseInt(td.getTaskConfiguration().getParameter("depth"));
+						
+						if (depth == 1)
+							onlyCheck = true;
+						else if (depth == 2)
+							onlyVerify = true;
+					}
+					
+				}
+				
+				return showSimulationDetailView(mainService, onlyCheck, onlyVerify);
+			}
 		}
 	}
 

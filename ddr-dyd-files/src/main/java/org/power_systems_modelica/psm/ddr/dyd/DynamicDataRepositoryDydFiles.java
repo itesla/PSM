@@ -203,7 +203,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					.filter(p -> ((ParameterReference) p).getDataSource()
 							.equals(EVENT_PARAMS_DATA_SOURCE))
 					.forEach(p -> {
-						String pn = p.getName();
+						String pn = ((ParameterReference) p).getSourceName();
 						String name = qualifyParameterNames ? ct.concat(pn) : pn;
 						String unit = p.getUnit() != null ? p.getUnit() : "";
 						eventParams.add(new EventParameter(name, unit));

@@ -10,25 +10,25 @@
     </model>
     <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
         <equation>
-            <unparsed>sexs__BEAV___6_SM.pin_VS = 0</unparsed>
-        </equation>
-        <equation>
-            <unparsed>sexs__CLIN___8_SM.pin_VS = 0</unparsed>
-        </equation>
-        <equation>
-            <unparsed>sexs__GLEN__12_SM.pin_VS = 0</unparsed>
+            <unparsed>sexs__LOGA___3_SM.pin_VS = 0</unparsed>
         </equation>
         <equation>
             <unparsed>sexs__KANA___1_SM.pin_VS = 0</unparsed>
         </equation>
         <equation>
-            <unparsed>sexs__LOGA___3_SM.pin_VS = 0</unparsed>
+            <unparsed>sexs__GLEN__12_SM.pin_VS = 0</unparsed>
         </equation>
         <equation>
             <unparsed>sexs__SALT___9_SM.pin_VS = 0</unparsed>
         </equation>
         <equation>
+            <unparsed>sexs__CLIN___8_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
             <unparsed>sexs__TURN___2_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__BEAV___6_SM.pin_VS = 0</unparsed>
         </equation>
     </model>
 </model_container>

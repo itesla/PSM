@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"	xmlns:cim="http://iec.ch/TC57/2009/CIM-schema-cim14#">
 <cim:SvTapStep rdf:ID="_BUS___10-BUS___51-1_SVTS_OR">
-	<cim:SvTapStep.continuousPosition>3</cim:SvTapStep.continuousPosition>
+	<cim:SvTapStep.continuousPosition>4</cim:SvTapStep.continuousPosition>
 	<cim:SvTapStep.TapChanger rdf:resource="#_BUS___10-BUS___51-1_RTC_OR"/>
 </cim:SvTapStep>
 <cim:SvTapStep rdf:ID="_BUS___13-BUS___49-1_SVTS_OR">
-	<cim:SvTapStep.continuousPosition>3</cim:SvTapStep.continuousPosition>
+	<cim:SvTapStep.continuousPosition>5</cim:SvTapStep.continuousPosition>
 	<cim:SvTapStep.TapChanger rdf:resource="#_BUS___13-BUS___49-1_RTC_OR"/>
 </cim:SvTapStep>
 <cim:SvTapStep rdf:ID="_BUS___14-BUS___46-1_SVTS_OR">
@@ -65,22 +65,22 @@
 	<cim:SvShuntCompensatorSections.continuousSections>1</cim:SvShuntCompensatorSections.continuousSections>
 </cim:SvShuntCompensatorSections>
 <cim:SvTapStep rdf:ID="_SPRI___4-SPRI__18-1_SVTS_OR">
-	<cim:SvTapStep.continuousPosition>5</cim:SvTapStep.continuousPosition>
+	<cim:SvTapStep.continuousPosition>3</cim:SvTapStep.continuousPosition>
 	<cim:SvTapStep.TapChanger rdf:resource="#_SPRI___4-SPRI__18-1_RTC_OR"/>
 </cim:SvTapStep>
 <cim:SvTapStep rdf:ID="_SPRI___4-SPRI__18-2_SVTS_OR">
-	<cim:SvTapStep.continuousPosition>5</cim:SvTapStep.continuousPosition>
+	<cim:SvTapStep.continuousPosition>4</cim:SvTapStep.continuousPosition>
 	<cim:SvTapStep.TapChanger rdf:resource="#_SPRI___4-SPRI__18-2_RTC_OR"/>
 </cim:SvTapStep>
 <cim:SvPowerFlow rdf:ID="_SVPF_0">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_BEAV___6_SM_TE"/>
-	<cim:SvPowerFlow.p>-0</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>-0.8</cim:SvPowerFlow.q>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN____1_SM_TE"/>
+	<cim:SvPowerFlow.p>-477.864</cim:SvPowerFlow.p>
+	<cim:SvPowerFlow.q>-129.656</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_1">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_CLIN___8_SM_TE"/>
-	<cim:SvPowerFlow.p>-450</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>-62.1</cim:SvPowerFlow.q>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN____2_SM_TE"/>
+	<cim:SvPowerFlow.p>-0</cim:SvPowerFlow.p>
+	<cim:SvPowerFlow.q>0.8</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_10">
 	<cim:SvPowerFlow.Terminal rdf:resource="#_BUS___13_EC_TE"/>
@@ -133,9 +133,9 @@
 	<cim:SvPowerFlow.q>0.5</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_2">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_GLEN__12_SM_TE"/>
-	<cim:SvPowerFlow.p>-310</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>-128.5</cim:SvPowerFlow.q>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN____3_SM_TE"/>
+	<cim:SvPowerFlow.p>-40</cim:SvPowerFlow.p>
+	<cim:SvPowerFlow.q>1</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_20">
 	<cim:SvPowerFlow.Terminal rdf:resource="#_BUS___28_EC_TE"/>
@@ -188,9 +188,9 @@
 	<cim:SvPowerFlow.q>1.8</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_3">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_KANA___1_SM_TE"/>
-	<cim:SvPowerFlow.p>-477.864</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>-129.656</cim:SvPowerFlow.q>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN____6_SM_TE"/>
+	<cim:SvPowerFlow.p>-0</cim:SvPowerFlow.p>
+	<cim:SvPowerFlow.q>-0.8</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_30">
 	<cim:SvPowerFlow.Terminal rdf:resource="#_BUS___47_EC_TE"/>
@@ -243,9 +243,9 @@
 	<cim:SvPowerFlow.q>22</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_4">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_LOGA___3_SM_TE"/>
-	<cim:SvPowerFlow.p>-40</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>1</cim:SvPowerFlow.q>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN____8_SM_TE"/>
+	<cim:SvPowerFlow.p>-450</cim:SvPowerFlow.p>
+	<cim:SvPowerFlow.q>-62.1</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_40">
 	<cim:SvPowerFlow.Terminal rdf:resource="#_GLEN__12_EC_TE"/>
@@ -293,14 +293,14 @@
 	<cim:SvPowerFlow.q>88</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_5">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_SALT___9_SM_TE"/>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN____9_SM_TE"/>
 	<cim:SvPowerFlow.p>-0</cim:SvPowerFlow.p>
 	<cim:SvPowerFlow.q>-2.2</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_6">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_TURN___2_SM_TE"/>
-	<cim:SvPowerFlow.p>-0</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>0.8</cim:SvPowerFlow.q>
+	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN___12_SM_TE"/>
+	<cim:SvPowerFlow.p>-310</cim:SvPowerFlow.p>
+	<cim:SvPowerFlow.q>-128.5</cim:SvPowerFlow.q>
 </cim:SvPowerFlow>
 <cim:SvPowerFlow rdf:ID="_SVPF_7">
 	<cim:SvPowerFlow.Terminal rdf:resource="#_BEAV___6_EC_TE"/>

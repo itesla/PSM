@@ -32,8 +32,7 @@ public class CodeEditor extends StackPane {
 	 * the code which can be reverted to.
 	 */
 	public void setCode(StringBuilder newCode) {
-		this.editingCode.setLength(0);
-		this.editingCode.append(newCode.toString());
+		this.editingCode = newCode;
 		webView.getEngine().loadContent(applyEditingTemplate());
 	}
 

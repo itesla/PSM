@@ -179,7 +179,8 @@ extends Modelica.Icons.Package;
 
       package PSAT
 
-        model Order2test2
+        model Order2tesendTime
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -196,11 +197,11 @@ extends Modelica.Icons.Package;
                 origin={-70.0,-10.0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=10,
             X=1,
-            t1=25,
-            t2=25.01) annotation (Placement(visible=true, transformation(
+            startTime=25,
+            endTime=25.01) annotation (Placement(visible=true, transformation(
                 origin={20.0,-57.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -224,8 +225,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=21,
-            t2=21.02) annotation (Placement(visible=true, transformation(
+            startTime=21,
+            endTime=21.02) annotation (Placement(visible=true, transformation(
                 origin={-25.0,-0.0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -263,48 +264,52 @@ extends Modelica.Icons.Package;
                 rotation=0)));
           inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
         equation
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={-7.25,-43.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={-1.5,-29.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={-42.75,-20.0},
-              points={{-20.25,10.0},{4.75,10.0},{4.75,-10.0},{10.75,-10.0}}));
+              points={{-15.5833,10},{4.75,10},{4.75,-10},{6.08333,-10}}));
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={-2.7875,13.0},
-              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={-18.0,7.5},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={-32.0,7.5},
-              points={{0.0,7.5},{0.0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={-42.75,12.5},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={-63.0,0.0},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={-77.0,0.0},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           connect(order21.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={-98.2365,9.9248},
-              points={{-7.7093,0.12484},{-6.7635,0.12484},{-6.7635,0.0752},{21.2365,0.0752}}));
-          connect(order21.vf, order21.vf0) annotation (Line(points={{-126.946,15},{-130,15},{-130,25},{-124.946,25},{-124.946,21}}, color={0,0,127}));
-          connect(order21.pm, order21.pm0) annotation (Line(points={{-126.946,5},{-130,5},{-130,-5},{-124.946,-5},{-124.946,-1}}, color={0,0,127}));
+              points={{-7.7093,0.12484},{-6.7635,0.12484},{-6.7635,0.0752},{16.5698,
+                0.0752}}));
+          connect(order21.vf, order21.vf0) annotation (Line(points={{-126.946,15},{
+                -130,15},{-130,25},{-124.946,25},{-124.946,21}},                                                                    color={0,0,127}));
+          connect(order21.pm, order21.pm0) annotation (Line(points={{-126.946,5},{
+                -130,5},{-130,-5},{-124.946,-5},{-124.946,-1}},                                                                   color={0,0,127}));
           annotation (Diagram(coordinateSystem(
                 extent={{-148.5,-105},{148.5,105}},
                 preserveAspectRatio=false,
@@ -329,9 +334,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order2test2;
+        end Order2tesendTime;
 
-        model Order2test2_perturbation
+        model Order2tesendTime_perturbation
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -348,11 +354,11 @@ extends Modelica.Icons.Package;
                 origin={37.7833,-31.5778},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=10,
-            t2=10.1) annotation (Placement(visible=true, transformation(
+            startTime=10,
+            endTime=10.1) annotation (Placement(visible=true, transformation(
                 origin={127.7833,-70.0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -361,8 +367,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=14,
-            t2=14.1) annotation (Placement(visible=true, transformation(
+            startTime=14,
+            endTime=14.1) annotation (Placement(visible=true, transformation(
                 origin={82.7833,-21.5778},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -553,47 +559,47 @@ extends Modelica.Icons.Package;
               origin={-79.5045,17.9725},
               points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
               color={0,0,127}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={100.5333,-55.85},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={106.2833,-42.2},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={104.9958,-8.5778},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={89.7833,-14.0778},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={75.7833,-14.0778},
-              points={{-0.0,7.5},{-0.0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{-0,0},{-0,-7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={65.0333,-9.0778},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={44.7833,-21.5778},
-              points={{0,-10},{0,10}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={30.7833,-21.5778},
-              points={{-0.00000000000000355271,10},{-0.00000000000000355271,5},{-0.00000000000000710542,5},{-0.00000000000000710542,0.00000000000000355271},{-0.00000000000000355271,0.00000000000000355271},{-0.00000000000000355271,
-                  -10}}));
+              points={{-4.66667,10},{-4.66667,5},{-7.10542e-015,5},{-7.10542e-015,
+                3.55271e-015},{-4.66667,3.55271e-015},{-4.66667,-10}}));
           connect(order2_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={21.0333,-15.1977},
-              points={{-17.25,-3.42006},{3.75,-3.42006},{3.75,3.6199},{9.75,3.6199}}));
+              points={{-17.25,-3.42006},{3.75,-3.42006},{3.75,3.6199},{5.08333,3.6199}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={65.0333,-37.1389},
-              points={{-20.25,5.5611},{4.75,5.5611},{4.75,-5.5611},{10.75,-5.5611}}));
+              points={{-15.5833,5.5611},{4.75,5.5611},{4.75,-5.5611},{6.08333,-5.5611}}));
           connect(order2_Inputs_Outputs1.pm0, add32.u3)
             annotation (Line(
               visible=true,
@@ -609,7 +615,8 @@ extends Modelica.Icons.Package;
             annotation (Line(
               visible=true,
               origin={-34.8167,-1.2348},
-              points={{-16.4,18.8677},{-7.4,18.8677},{-7.4,-12.6515},{17.6,-12.6515},{17.6,-12.4326}},
+              points={{-16.4,18.8677},{-7.4,18.8677},{-7.4,-12.6515},{17.6,-12.6515},
+                {17.6,-12.4326}},
               color={0,0,127}));
           connect(add32.y, order2_Inputs_Outputs1.pm) annotation (Line(
               visible=true,
@@ -634,9 +641,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order2test2_perturbation;
+        end Order2tesendTime_perturbation;
 
-        model Order3test2
+        model Order3tesendTime
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -653,11 +661,11 @@ extends Modelica.Icons.Package;
                 origin={-70.0,-10.0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=3,
-            t2=3.1) annotation (Placement(visible=true, transformation(
+            startTime=3,
+            endTime=3.1) annotation (Placement(visible=true, transformation(
                 origin={20.0,-57.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -666,8 +674,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={-25.0,-0.0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -726,44 +734,46 @@ extends Modelica.Icons.Package;
           connect(order31.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={-85.5,9.9248},
-              points={{-13.5,0.12484},{2.5,0.12484},{2.5,0.0752},{8.5,0.0752}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-13.5,0.12484},{2.5,0.12484},{2.5,0.0752},{3.83333,0.0752}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={-7.25,-43.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={-1.5,-29.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={-42.75,-20.0},
-              points={{-20.25,10.0},{4.75,10.0},{4.75,-10.0},{10.75,-10.0}}));
+              points={{-15.5833,10},{4.75,10},{4.75,-10},{6.08333,-10}}));
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={-2.7875,13.0},
-              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={-18.0,7.5},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={-32.0,7.5},
-              points={{0.0,7.5},{0.0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={-42.75,12.5},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={-63.0,0.0},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={-77.0,0.0},
-              points={{0.0,10.0},{0.0,-10.0}}));
-          connect(order31.vf, order31.vf0) annotation (Line(points={{-120,15},{-125,15},{-125,25},{-118,25},{-118,21}}, color={0,0,127}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
+          connect(order31.vf, order31.vf0) annotation (Line(points={{-120,15},{-125,
+                15},{-125,25},{-118,25},{-118,21}},                                                                     color={0,0,127}));
           connect(order31.pm, order31.pm0) annotation (Line(points={{-120,5},{-125,5},{-125,-5},{-118,-5},{-118,-1}}, color={0,0,127}));
           annotation (Diagram(coordinateSystem(
                 extent={{-148.5,-105},{148.5,105}},
@@ -783,9 +793,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order3test2;
+        end Order3tesendTime;
 
-        model Order3test2_perturbation
+        model Order3tesendTime_perturbation
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -802,11 +813,11 @@ extends Modelica.Icons.Package;
                 origin={39.8634,-35.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=10,
-            t2=10.1) annotation (Placement(visible=true, transformation(
+            startTime=10,
+            endTime=10.1) annotation (Placement(visible=true, transformation(
                 origin={132.5,-77.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -815,8 +826,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=14,
-            t2=14.1) annotation (Placement(visible=true, transformation(
+            startTime=14,
+            endTime=14.1) annotation (Placement(visible=true, transformation(
                 origin={84.8634,-25.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -955,7 +966,8 @@ extends Modelica.Icons.Package;
           connect(add31.y, order3_Inputs_Outputs1.vf) annotation (Line(
               visible=true,
               origin={-28.1135,-5.371},
-              points={{-5.8865,19.3539},{-2.8865,19.3539},{-2.8865,-9.629},{-3.8826,-9.629},{-3.8826,-10.3803},{21.4248,-10.3803}},
+              points={{-5.8865,19.3539},{-2.8865,19.3539},{-2.8865,-9.629},{-3.8826,
+                -9.629},{-3.8826,-10.3803},{21.4248,-10.3803}},
               color={0,0,127}));
           connect(add32.y, order3_Inputs_Outputs1.pm) annotation (Line(
               visible=true,
@@ -1033,43 +1045,46 @@ extends Modelica.Icons.Package;
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={69.0909,-42.8357},
-              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
+                -7.1643}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={111.0,-49.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
+                2.6151}}));
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={107.0759,-12.6714},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={91.8634,-18.1714},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={77.8634,-18.1714},
-              points={{0.0,7.5},{0.0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.1134,-13.1714},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{-0.0,-10.0},{-0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           annotation (Diagram(coordinateSystem(
                 extent={{-148.5,-105.0},{148.5,105.0}},
                 preserveAspectRatio=true,
@@ -1088,9 +1103,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order3test2_perturbation;
+        end Order3tesendTime_perturbation;
 
-        model Order3test2_TG
+        model Order3tesendTime_TG
+
           iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
             V_b=400,
             V_0=1,
@@ -1125,11 +1141,11 @@ extends Modelica.Icons.Package;
                 origin={39.8634,-35.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=3,
-            t2=3.1) annotation (Placement(visible=true, transformation(
+            startTime=3,
+            endTime=3.1) annotation (Placement(visible=true, transformation(
                 origin={132.5,-77.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1138,8 +1154,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={84.8634,-25.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1184,7 +1200,8 @@ extends Modelica.Icons.Package;
           connect(order3_Inputs_Outputs1.vf0, order3_Inputs_Outputs1.vf) annotation (Line(
               visible=true,
               origin={3.3742,-9.512},
-              points={{-8.0629,-0.2393},{13.9371,-0.2393},{13.9371,7.8232},{-13.3742,7.8232},{-13.3742,-6.2393},{-10.0629,-6.2393}},
+              points={{-8.0629,-0.2393},{13.9371,-0.2393},{13.9371,7.8232},{-13.3742,
+                7.8232},{-13.3742,-6.2393},{-10.0629,-6.2393}},
               color={0,0,127}));
           connect(order3_Inputs_Outputs1.pm, TGtypeII1.pm)
             annotation (Line(
@@ -1205,43 +1222,46 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={107.0759,-12.6714},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={77.8634,-18.1714},
-              points={{0.0,7.5},{0.0,-7.5}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={111.0,-49.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={91.8634,-18.1714},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.1134,-13.1714},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={69.0909,-42.8357},
-              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
+                -7.1643}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
+                2.6151}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           annotation (Diagram(coordinateSystem(
                 extent={{-148.5,-105.0},{148.5,105.0}},
                 preserveAspectRatio=true,
@@ -1260,9 +1280,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order3test2_TG;
+        end Order3tesendTime_TG;
 
-        model Order3test2_AVR
+        model Order3tesendTime_AVR
+
           iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
             V_b=400,
             V_0=1,
@@ -1297,11 +1318,11 @@ extends Modelica.Icons.Package;
                 origin={39.8634,-35.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=3,
-            t2=3.1) annotation (Placement(visible=true, transformation(
+            startTime=3,
+            endTime=3.1) annotation (Placement(visible=true, transformation(
                 origin={132.5,-77.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1310,8 +1331,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={84.8634,-25.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1364,7 +1385,8 @@ extends Modelica.Icons.Package;
             annotation (Line(
               visible=true,
               origin={-33.6722,-11.3844},
-              points={{26.9835,-4.3669},{-7.3278,-4.3669},{-7.3278,3.9761},{-6.982,3.9761}},
+              points={{26.9835,-4.3669},{-7.3278,-4.3669},{-7.3278,3.9761},{-6.982,
+                3.9761}},
               color={0,0,127}));
           connect(order3_Inputs_Outputs1.pm0, order3_Inputs_Outputs1.pm) annotation (Line(
               visible=true,
@@ -1374,43 +1396,46 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={107.0759,-12.6714},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={77.8634,-18.1714},
-              points={{0.0,7.5},{0.0,-7.5}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={111.0,-49.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={91.8634,-18.1714},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.1134,-13.1714},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={69.0909,-42.8357},
-              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
+                -7.1643}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
+                2.6151}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           connect(order3_Inputs_Outputs1.vf0, AVRtypeIII1.vs) annotation (Line(points={{-4.6887,-9.7513},{-4.6887,45},{-63.6542,45},{-63.6542,-11.4083}}, color={0,0,127}));
           annotation (Diagram(coordinateSystem(
                 extent={{-148.5,-105},{148.5,105}},
@@ -1430,9 +1455,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order3test2_AVR;
+        end Order3tesendTime_AVR;
 
-        model Order4test2
+        model Order4tesendTime
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
             P_0=0.08,
             Q_0=0.06,
@@ -1446,8 +1472,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={-45,55},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1493,8 +1519,8 @@ extends Modelica.Icons.Package;
                 rotation=0)));
           iPSL.Electrical.Events.PwFault pwFault(
             X=0.001,
-            t1=3,
-            t2=3.1,
+            startTime=3,
+            endTime=3.1,
             R=10) annotation (Placement(transformation(extent={{-25,-15},{0,10}})));
           iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 Generator(
             Sn=100,
@@ -1513,44 +1539,46 @@ extends Modelica.Icons.Package;
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={-38,62.5},
-              points={{0,-7.5},{0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={-52,62.5},
-              points={{0,7.5},{0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
-              points={{-63,45},{-63,60}},
+              points={{-58.3333,45},{-58.3333,50},{-60,50},{-53.6666,50},{-58.3333,50},
+                {-58.3333,60}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-63,60},{-60,60},{-60,70},{-52,70}},
+              points={{-58.3333,60},{-60,60},{-60,70},{-56.6667,70}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-63,45},{-60,45},{-60,35},{-52,35}},
+              points={{-58.3333,45},{-60,45},{-60,35},{-56.6667,35}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(Generator.p, pwLine2.p) annotation (Line(
-              points={{-88.5,55.0745},{-80,55.0745},{-80,60},{-77,60}},
+              points={{-88.5,55.0745},{-80,55.0745},{-80,60},{-81.6667,60}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(Generator.p, pwLine1.p) annotation (Line(
-              points={{-88.5,55.0745},{-80,55.0745},{-80,45},{-77,45}},
+              points={{-88.5,55.0745},{-80,55.0745},{-80,45},{-81.6667,45}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
-              points={{-38,35},{-22.5,35},{-22.5,56.25}},
+              points={{-33.3333,35},{-22.5,35},{-22.5,56.25}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
-              points={{-38,70},{-32.125,70},{-32.125,81.25},{-22.5,81.25}},
+              points={{-33.3333,70},{-32.125,70},{-32.125,81.25},{-22.5,81.25}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine3.n, pwFault.p) annotation (Line(
-              points={{-38,35},{-35,35},{-35,-2.5},{-27.0833,-2.5}},
+              points={{-33.3333,35},{-35,35},{-35,-2.5},{-27.0833,-2.5}},
               color={0,0,255},
               smooth=Smooth.None));
-          connect(Generator.vf0, Generator.vf) annotation (Line(points={{-117,71.5},{-117,75},{-130,75},{-130,62.5},{-120,62.5}}, color={0,0,127}));
+          connect(Generator.vf0, Generator.vf) annotation (Line(points={{-117,71.5},{
+                -117,75},{-130,75},{-130,62.5},{-120,62.5}},                                                                      color={0,0,127}));
           connect(Generator.pm, Generator.pm0) annotation (Line(points={{-120,47.5},{-125,47.5},{-125,50},{-125,38.5},{-117,38.5}}, color={0,0,127}));
           annotation (
             Diagram(coordinateSystem(
@@ -1577,9 +1605,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order4test2;
+        end Order4tesendTime;
 
-        model Order4test2_perturbation
+        model Order4tesendTime_perturbation
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -1596,11 +1625,11 @@ extends Modelica.Icons.Package;
                 origin={39.8634,-35.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=10,
-            t2=10.1) annotation (Placement(visible=true, transformation(
+            startTime=10,
+            endTime=10.1) annotation (Placement(visible=true, transformation(
                 origin={132.5,-77.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1609,8 +1638,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=14,
-            t2=14.1) annotation (Placement(visible=true, transformation(
+            startTime=14,
+            endTime=14.1) annotation (Placement(visible=true, transformation(
                 origin={84.8634,-25.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1801,41 +1830,43 @@ extends Modelica.Icons.Package;
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={69.0909,-42.8357},
-              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
+                -7.1643}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={111.0,-49.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={107.0759,-12.6714},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={91.8634,-18.1714},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={77.8634,-18.1714},
-              points={{0.0,7.5},{0.0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.1134,-13.1714},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{-0.0,-10.0},{-0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           connect(order4_Inputs_Outputs.p, pwLine2.p) annotation (Line(
-              points={{6,-14.9504},{20.5,-14.9504},{20.5,-15.6714},{32.8634,-15.6714}},
+              points={{6,-14.9504},{20.5,-14.9504},{20.5,-15.6714},{28.1967,-15.6714}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(order4_Inputs_Outputs.vf0, add31.u3) annotation (Line(
@@ -1872,9 +1903,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order4test2_perturbation;
+        end Order4tesendTime_perturbation;
 
-        model Order4test2_TG
+        model Order4tesendTime_TG
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -1891,11 +1923,11 @@ extends Modelica.Icons.Package;
                 origin={39.8634,-35.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=3,
-            t2=3.1) annotation (Placement(visible=true, transformation(
+            startTime=3,
+            endTime=3.1) annotation (Placement(visible=true, transformation(
                 origin={132.5,-77.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1904,8 +1936,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={84.8634,-25.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -1962,39 +1994,41 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={107.0759,-12.6714},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={77.8634,-18.1714},
-              points={{0.0,7.5},{0.0,-7.5}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={111.0,-49.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={91.8634,-18.1714},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.1134,-13.1714},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={69.0909,-42.8357},
-              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
+                -7.1643}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           connect(Generator.vf0, Generator.vf) annotation (Line(
               points={{-52,61.5},{-15,61.5},{-15,70},{-60,70},{-60,52.5},{-55,52.5}},
               color={0,0,127},
@@ -2012,7 +2046,7 @@ extends Modelica.Icons.Package;
               color={0,0,127},
               smooth=Smooth.None));
           connect(Generator.p, pwLine2.p) annotation (Line(
-              points={{-23.5,45.0745},{10,45.0745},{10,-15.6714},{32.8634,-15.6714}},
+              points={{-23.5,45.0745},{10,45.0745},{10,-15.6714},{28.1967,-15.6714}},
               color={0,0,255},
               smooth=Smooth.None));
           annotation (Diagram(coordinateSystem(
@@ -2033,9 +2067,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order4test2_TG;
+        end Order4tesendTime_TG;
 
-        model Order4test2_AVR
+        model Order4tesendTime_AVR
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
             P_0=0.08,
             Q_0=0.06,
@@ -2052,11 +2087,11 @@ extends Modelica.Icons.Package;
                 origin={39.8634,-35.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault1(
+          iPSL.Electrical.Events.PwFault pwFaulstartTime(
             R=20,
             X=1,
-            t1=3,
-            t2=3.1) annotation (Placement(visible=true, transformation(
+            startTime=3,
+            endTime=3.1) annotation (Placement(visible=true, transformation(
                 origin={132.5,-77.3},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -2065,8 +2100,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={84.8634,-25.6714},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -2124,39 +2159,41 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={107.0759,-12.6714},
-              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={77.8634,-18.1714},
-              points={{0.0,7.5},{0.0,-7.5}}));
-          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
+          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
               visible=true,
               origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
           connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={111.0,-49.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={91.8634,-18.1714},
-              points={{0.0,-7.5},{0.0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.1134,-13.1714},
-              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={69.0909,-42.8357},
-              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
+                -7.1643}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                -10}}));
           connect(AVRtypeIII1.vf, order4_Inputs_Outputs.vf) annotation (Line(
               points={{-45.6542,-7.4083},{-40,-7.4083},{-40,10},{-10,10}},
               color={0,0,127},
@@ -2174,7 +2211,7 @@ extends Modelica.Icons.Package;
               color={0,0,127},
               smooth=Smooth.None));
           connect(order4_Inputs_Outputs.p, pwLine2.p) annotation (Line(
-              points={{11,5.04964},{20,5.04964},{20,-15.6714},{32.8634,-15.6714}},
+              points={{11,5.04964},{20,5.04964},{20,-15.6714},{28.1967,-15.6714}},
               color={0,0,255},
               smooth=Smooth.None));
           annotation (Diagram(coordinateSystem(
@@ -2195,9 +2232,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order4test2_AVR;
+        end Order4tesendTime_AVR;
 
-        model Order5_1test2
+        model Order5_1tesendTime
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
             P_0=0.08,
             Q_0=0.06,
@@ -2211,8 +2249,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={15,10},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -2258,8 +2296,8 @@ extends Modelica.Icons.Package;
                 rotation=0)));
           iPSL.Electrical.Events.PwFault pwFault(
             X=0.001,
-            t1=3,
-            t2=3.1,
+            startTime=3,
+            endTime=3.1,
             R=10) annotation (Placement(transformation(extent={{40,-55},{60,-35}})));
           inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
           iPSL.Electrical.Machines.PSAT.FifthOrder.Order5_Type1 order5Type1_Inputs_Outputs(
@@ -2273,41 +2311,45 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={37.2125,23},
-              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={22,17.5},
-              points={{0,-7.5},{0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={8,17.5},
-              points={{0,7.5},{0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={43.5,-24.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine1.p, pwLine2.p) annotation (Line(
-              points={{-27,5},{-27,20}},
+              points={{-31.6667,5},{-31.6667,10},{-30,10},{-36.3334,10},{-31.6667,10},
+                {-31.6667,20}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
-              points={{-13,5},{-13,20}},
+              points={{-8.33333,5},{-8.33333,10},{-10,10},{-3.66666,10},{-8.33333,10},
+                {-8.33333,20}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-13,20},{0,20},{0,25},{8,25}},
+              points={{-8.33333,20},{0,20},{0,25},{3.33333,25}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-13,5},{0,5},{0,-25},{13,-25}},
+              points={{-8.33333,5},{0,5},{0,-25},{8.33333,-25}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwFault.p, pwLine3.n) annotation (Line(
-              points={{38.3333,-45},{38.3333,-34.5},{27,-34.5},{27,-25}},
+              points={{38.3333,-45},{38.3333,-34.5},{31.6667,-34.5},{31.6667,-25}},
               color={0,0,255},
               smooth=Smooth.None));
-          connect(order5Type1_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-79,10.0496},{-40,10.0496},{-40,20},{-27,20}}, color={0,0,255}));
-          connect(order5Type1_Inputs_Outputs.vf, order5Type1_Inputs_Outputs.vf0) annotation (Line(points={{-100,15},{-105,15},{-105,25},{-98,25},{-98,21}}, color={0,0,127}));
+          connect(order5Type1_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-79,
+                10.0496},{-40,10.0496},{-40,20},{-31.6667,20}},                                                                     color={0,0,255}));
+          connect(order5Type1_Inputs_Outputs.vf, order5Type1_Inputs_Outputs.vf0) annotation (Line(points={{-100,15},
+                {-105,15},{-105,25},{-98,25},{-98,21}},                                                                                                    color={0,0,127}));
           connect(order5Type1_Inputs_Outputs.pm, order5Type1_Inputs_Outputs.pm0) annotation (Line(points={{-100,5},{-105,5},{-105,-5},{-98,-5},{-98,-1}}, color={0,0,127}));
           annotation (
             Diagram(coordinateSystem(
@@ -2337,9 +2379,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order5_1test2;
+        end Order5_1tesendTime;
 
-        model Order5_2test2
+        model Order5_2tesendTime
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
             P_0=0.08,
             Q_0=0.06,
@@ -2353,8 +2396,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=8,
-            t2=8.1) annotation (Placement(visible=true, transformation(
+            startTime=8,
+            endTime=8.1) annotation (Placement(visible=true, transformation(
                 origin={-25,0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -2400,8 +2443,8 @@ extends Modelica.Icons.Package;
                 rotation=0)));
           iPSL.Electrical.Events.PwFault pwFault(
             X=0.001,
-            t1=3,
-            t2=3.1,
+            startTime=3,
+            endTime=3.1,
             R=10) annotation (Placement(transformation(extent={{0,-65},{20,-45}})));
           inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{0,80},{25,100}})));
           iPSL.Electrical.Machines.PSAT.FifthOrder.Order5_Type2 order5Type2_Inputs_Outputs(
@@ -2418,42 +2461,46 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={-2.7875,13},
-              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={-18,7.5},
-              points={{0,-7.5},{0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={-32,7.5},
-              points={{0,7.5},{0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={3.5,-34.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine1.p, pwLine2.p) annotation (Line(
-              points={{-67,-5},{-67,10}},
+              points={{-71.6667,-5},{-71.6667,0},{-70,0},{-76.3334,0},{-71.6667,0},{
+                -71.6667,10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
-              points={{-53,-5},{-53,10}},
+              points={{-48.3333,-5},{-48.3333,0},{-50,0},{-43.6666,0},{-48.3333,0},{
+                -48.3333,10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-53,10},{-40,10},{-40,15},{-32,15}},
+              points={{-48.3333,10},{-40,10},{-40,15},{-36.6667,15}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-53,-5},{-40,-5},{-40,-35},{-27,-35}},
+              points={{-48.3333,-5},{-40,-5},{-40,-35},{-31.6667,-35}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwFault.p, pwLine3.n) annotation (Line(
-              points={{-1.66667,-55},{-1.66667,-44.5},{-13,-44.5},{-13,-35}},
+              points={{-1.66667,-55},{-1.66667,-44.5},{-8.33333,-44.5},{-8.33333,-35}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(order5Type2_Inputs_Outputs.pm, order5Type2_Inputs_Outputs.pm0) annotation (Line(points={{-115,0},{-120,0},{-120,-10},{-113,-10},{-113,-6}}, color={0,0,127}));
-          connect(order5Type2_Inputs_Outputs.vf, order5Type2_Inputs_Outputs.vf0) annotation (Line(points={{-115,10},{-120,10},{-120,20},{-113,20},{-113,16}}, color={0,0,127}));
-          connect(order5Type2_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-94,5.04964},{-80,5.04964},{-80,10},{-67,10}}, color={0,0,255}));
+          connect(order5Type2_Inputs_Outputs.vf, order5Type2_Inputs_Outputs.vf0) annotation (Line(points={{-115,10},
+                {-120,10},{-120,20},{-113,20},{-113,16}},                                                                                                    color={0,0,127}));
+          connect(order5Type2_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-94,
+                5.04964},{-80,5.04964},{-80,10},{-71.6667,10}},                                                                     color={0,0,255}));
           annotation (
             Diagram(coordinateSystem(
                 extent={{-148.5,-105},{148.5,105}},
@@ -2482,9 +2529,10 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order5_2test2;
+        end Order5_2tesendTime;
 
-        model Order6test2
+        model Order6tesendTime
+
           iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
             P_0=0.08,
             Q_0=0.06,
@@ -2498,8 +2546,8 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=12,
-            t2=12.1) annotation (Placement(visible=true, transformation(
+            startTime=12,
+            endTime=12.1) annotation (Placement(visible=true, transformation(
                 origin={-25,0},
                 extent={{-10.0,-10.0},{10.0,10.0}},
                 rotation=0)));
@@ -2545,8 +2593,8 @@ extends Modelica.Icons.Package;
                 rotation=0)));
           iPSL.Electrical.Events.PwFault pwFault(
             X=0.001,
-            t1=3,
-            t2=3.1,
+            startTime=3,
+            endTime=3.1,
             R=10) annotation (Placement(transformation(extent={{25,-70},{45,-50}})));
           iPSL.Electrical.Machines.PSAT.SixthOrder.Order6 order6Type2_1(
             Sn=100,
@@ -2565,44 +2613,45 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
               visible=true,
               origin={-2.7875,13},
-              points={{-15.2125,2},{3.0708,2},{3.0708,8},{21.0709,8}}));
+              points={{-10.5458,2},{3.0708,2},{3.0708,8},{21.0709,8}}));
           connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
               visible=true,
               origin={-18,7.5},
-              points={{0,-7.5},{0,7.5}}));
+              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
           connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
               visible=true,
               origin={-32,7.5},
-              points={{0,7.5},{0,-7.5}}));
+              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
           connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
               visible=true,
               origin={3.5,-34.5},
-              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-53,10},{-40,10},{-40,15},{-32,15}},
+              points={{-48.3333,10},{-40,10},{-40,15},{-36.6667,15}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-53,-20},{-40,-20},{-40,-35},{-27,-35}},
+              points={{-48.3333,-20},{-40,-20},{-40,-35},{-31.6667,-35}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwFault.p, pwLine3.n) annotation (Line(
-              points={{23.3333,-60},{23.3333,-44.5},{-13,-44.5},{-13,-35}},
+              points={{23.3333,-60},{23.3333,-44.5},{-8.33333,-44.5},{-8.33333,-35}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(order6Type2_1.p, pwLine2.p) annotation (Line(
-              points={{-98,10.0993},{-94.5,10.0993},{-94.5,10},{-67,10}},
+              points={{-98,10.0993},{-94.5,10.0993},{-94.5,10},{-71.6667,10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
-              points={{-67,10},{-67,10},{-67,-20}},
+              points={{-71.6667,10},{-71.6667,-20},{-71.6667,-20}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.n, pwLine1.n) annotation (Line(
-              points={{-53,10},{-53,10},{-53,-20}},
+              points={{-48.3333,10},{-48.3333,-20},{-48.3333,-20}},
               color={0,0,255},
               smooth=Smooth.None));
-          connect(order6Type2_1.vf0, order6Type2_1.vf) annotation (Line(points={{-136,32},{-136,35},{-150,35},{-150,20},{-140,20}}, color={0,0,127}));
+          connect(order6Type2_1.vf0, order6Type2_1.vf) annotation (Line(points={{-136,32},
+                {-136,35},{-150,35},{-150,20},{-140,20}},                                                                           color={0,0,127}));
           connect(order6Type2_1.pm, order6Type2_1.pm0) annotation (Line(points={{-140,0},{-150,0},{-150,-15},{-136,-15},{-136,-12}}, color={0,0,127}));
           annotation (
             Diagram(coordinateSystem(
@@ -2632,10 +2681,11 @@ extends Modelica.Icons.Package;
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-        end Order6test2;
+        end Order6tesendTime;
 
         model InductiveMotorI_SIMBOpenline_Test
           "Order 1 inductive machine from PSAT, line opened at 2 s for 1 s"
+
           iPSL.Electrical.Machines.PSAT.InductionMachine.MotorTypeI motorTypeI(
             Sup=0,
             V_0=1.0336,
@@ -2658,23 +2708,23 @@ extends Modelica.Icons.Package;
             B=0,
             R=0.01,
             X=0.1,
-            t1=2,
-            t2=3) annotation (Placement(transformation(
+            startTime=2,
+            endTime=3) annotation (Placement(transformation(
                 extent={{-25,-16},{25,16}},
                 rotation=180,
                 origin={-9,4})));
-          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V=1.05, angle=0) annotation (Placement(transformation(
+          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V_0=1.05, angle_0=0) annotation (Placement(transformation(
                 extent={{-16.5,-13.5},{16.5,13.5}},
                 rotation=0,
                 origin={-86.5,-15.5})));
           inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{40,60},{64,80}})));
         equation
           connect(infiniteBus.p, pwLine2.n) annotation (Line(
-              points={{-68.35,-15.5},{-48.175,-15.5},{-48.175,4},{-26.5,4}},
+              points={{-104.65,-15.5},{-48.175,-15.5},{-48.175,4},{-26.5,4}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, infiniteBus.p) annotation (Line(
-              points={{-26.5,-38},{-48,-38},{-48,-15.5},{-68.35,-15.5}},
+              points={{-38.1667,-38},{-48,-38},{-48,-15.5},{-104.65,-15.5}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.p, motorTypeI.p) annotation (Line(
@@ -2682,7 +2732,7 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.p, motorTypeI.p) annotation (Line(
-              points={{8.5,-38},{26,-38},{26,-16},{42.32,-16}},
+              points={{20.1667,-38},{26,-38},{26,-16},{42.32,-16}},
               color={0,0,255},
               smooth=Smooth.None));
           annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics), Documentation(revisions="<html>
@@ -2702,6 +2752,7 @@ extends Modelica.Icons.Package;
         end InductiveMotorI_SIMBOpenline_Test;
 
         model InductiveMotorIII_SIMBOpenline_Test
+
           iPSL.Electrical.Machines.PSAT.InductionMachine.MotorTypeIII motorTypeI(
             Sup=0,
             V_0=1.0336,
@@ -2723,24 +2774,24 @@ extends Modelica.Icons.Package;
             G=0,
             R=0.01,
             X=0.1,
-            t1=2,
-            t2=3,
+            startTime=2,
+            endTime=3,
             B=1e-3) annotation (Placement(transformation(
                 extent={{-25,-16},{25,16}},
                 rotation=180,
                 origin={-9,4})));
-          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V=1.05, angle=0) annotation (Placement(transformation(
+          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V_0=1.05, angle_0=0) annotation (Placement(transformation(
                 extent={{-16.5,-13.5},{16.5,13.5}},
                 rotation=0,
                 origin={-86.5,-15.5})));
           inner iPSL.Electrical.SystemBase SysData(fn=60) annotation (Placement(transformation(extent={{40,60},{64,80}})));
         equation
           connect(infiniteBus.p, pwLine2.n) annotation (Line(
-              points={{-68.35,-15.5},{-48.175,-15.5},{-48.175,4},{-26.5,4}},
+              points={{-104.65,-15.5},{-48.175,-15.5},{-48.175,4},{-26.5,4}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, infiniteBus.p) annotation (Line(
-              points={{-26.5,-38},{-48,-38},{-48,-15.5},{-68.35,-15.5}},
+              points={{-38.1667,-38},{-48,-38},{-48,-15.5},{-104.65,-15.5}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.p, motorTypeI.p) annotation (Line(
@@ -2748,7 +2799,7 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.p, motorTypeI.p) annotation (Line(
-              points={{8.5,-38},{30,-38},{30,-16},{42.32,-16}},
+              points={{20.1667,-38},{30,-38},{30,-16},{42.32,-16}},
               color={0,0,255},
               smooth=Smooth.None));
           annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics), Documentation(revisions="<html>
@@ -2768,6 +2819,7 @@ extends Modelica.Icons.Package;
         end InductiveMotorIII_SIMBOpenline_Test;
 
         model InductiveMotorV_SIMBOpenline_Test
+
           iPSL.Electrical.Machines.PSAT.InductionMachine.MotorTypeV motorTypeI(
             Sup=0,
             V_0=1.0336,
@@ -2790,23 +2842,23 @@ extends Modelica.Icons.Package;
             B=0,
             R=0.01,
             X=0.1,
-            t1=2,
-            t2=3) annotation (Placement(transformation(
+            startTime=2,
+            endTime=3) annotation (Placement(transformation(
                 extent={{-25,-16},{25,16}},
                 rotation=180,
                 origin={-9,4})));
-          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V=1.05, angle=0) annotation (Placement(transformation(
+          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V_0=1.05, angle_0=0) annotation (Placement(transformation(
                 extent={{-16.5,-13.5},{16.5,13.5}},
                 rotation=0,
                 origin={-86.5,-15.5})));
           inner iPSL.Electrical.SystemBase SysData(fn=60) annotation (Placement(transformation(extent={{40,60},{64,80}})));
         equation
           connect(infiniteBus.p, pwLine2.n) annotation (Line(
-              points={{-68.35,-15.5},{-48.175,-15.5},{-48.175,4},{-26.5,4}},
+              points={{-104.65,-15.5},{-48.175,-15.5},{-48.175,4},{-26.5,4}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.n, infiniteBus.p) annotation (Line(
-              points={{-26.5,-38},{-48,-38},{-48,-15.5},{-68.35,-15.5}},
+              points={{-38.1667,-38},{-48,-38},{-48,-15.5},{-104.65,-15.5}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.p, motorTypeI.p) annotation (Line(
@@ -2814,7 +2866,7 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine1.p, motorTypeI.p) annotation (Line(
-              points={{8.5,-38},{26,-38},{26,-16},{42.32,-16}},
+              points={{20.1667,-38},{26,-38},{26,-16},{42.32,-16}},
               color={0,0,255},
               smooth=Smooth.None));
           annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics), Documentation(revisions="<html>
@@ -6604,23 +6656,26 @@ extends Modelica.Icons.Package;
           connect(pwLine4.n, LOADPQ1.p) annotation (Line(
               visible=true,
               origin={101.5768,-15.0},
-              points={{-9.5768,0},{20.5768,0},{20.5768,11}}));
+              points={{-4.91013,0},{20.5768,0},{20.5768,11}}));
           connect(pwLine4.n, pwLine3.n) annotation (Line(
               visible=true,
               origin={92.0,-25.0},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{4.66667,10},{4.66667,5},{5,5},{5,0},{4.66667,0},{4.66667,-10}}));
           connect(pwLine3.p, pwLine4.p) annotation (Line(
               visible=true,
               origin={78.0,-25.0},
-              points={{0.0,-10.0},{0.0,10.0}}));
+              points={{-4.66667,-10},{-4.66667,-5},{-5,-5},{-5,0},{-4.66667,0},{
+                  -4.66667,10}}));
           connect(pwLine1.n, pwLine3.p) annotation (Line(
               visible=true,
               origin={67.2159,-35.3357},
-              points={{-20.3525,-0.3357},{4.7841,-0.3357},{4.7841,0.3357},{10.7841,0.3357}}));
+              points={{-15.6858,-0.3357},{4.7841,-0.3357},{4.7841,0.3357},{6.11743,
+                  0.3357}}));
           connect(pwLine2.n, pwLine4.p) annotation (Line(
               visible=true,
               origin={67.2159,-15.3357},
-              points={{-20.3525,-0.3357},{4.7841,-0.3357},{4.7841,0.3357},{10.7841,0.3357}}));
+              points={{-15.6858,-0.3357},{4.7841,-0.3357},{4.7841,0.3357},{6.11743,
+                  0.3357}}));
           connect(order3_Inputs_Outputs1.pm0, add32.u3) annotation (Line(
               visible=true,
               origin={-19.0108,-51.4898},
@@ -6634,7 +6689,8 @@ extends Modelica.Icons.Package;
           connect(add31.y, order3_Inputs_Outputs1.vf) annotation (Line(
               visible=true,
               origin={-28.1135,-5.371},
-              points={{-5.8865,19.3539},{-2.8865,19.3539},{-2.8865,-9.629},{-3.8826,-9.629},{-3.8826,-10.3803},{21.4248,-10.3803}},
+              points={{-5.8865,19.3539},{-2.8865,19.3539},{-2.8865,-9.629},{-3.8826,
+                  -9.629},{-3.8826,-10.3803},{21.4248,-10.3803}},
               color={0,0,127}));
           connect(add32.y, order3_Inputs_Outputs1.pm) annotation (Line(
               visible=true,
@@ -6712,15 +6768,17 @@ extends Modelica.Icons.Package;
           connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
               visible=true,
               origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
+                  2.6151}}));
           connect(pwLine1.n, pwLine2.n) annotation (Line(
               visible=true,
               origin={46.8634,-25.6714},
-              points={{-0.0,-10.0},{-0.0,10.0}}));
+              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
           connect(pwLine2.p, pwLine1.p) annotation (Line(
               visible=true,
               origin={32.8634,-25.6714},
-              points={{0.0,10.0},{0.0,-10.0}}));
+              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
+                  -10}}));
           annotation (Diagram(coordinateSystem(
                 extent={{-148.5,-105.0},{148.5,105.0}},
                 preserveAspectRatio=true,
@@ -9899,6 +9957,7 @@ extends Modelica.Icons.Package;
       package PSAT
 
         model TWTPST_smib_test
+
           iPSL.Electrical.Machines.PSAT.SecondOrder.Order2 order2_1(
             Sn=100,
             D=5,
@@ -9918,7 +9977,7 @@ extends Modelica.Icons.Package;
             r=0.01,
             V_b=13800,
             kT=13.8/20) annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V=1, angle=0) annotation (Placement(transformation(extent={{-124,-44},{-104,-24}})));
+          iPSL.Electrical.Buses.InfiniteBus infiniteBus(V_0=1, angle_0=0) annotation (Placement(transformation(extent={{-124,-44},{-104,-24}})));
           iPSL.Electrical.Branches.PwLine pwLine(
             R=0.01,
             X=0.1,
@@ -9938,14 +9997,14 @@ extends Modelica.Icons.Package;
           iPSL.Electrical.Loads.PSAT.LOADPQ_variation lOADPQ1(
             P_0=0.02,
             Q_0=0.01,
-            Q2=0,
-            Q3=0,
-            t1=0,
-            t2=0,
-            t3=0,
-            t4=0,
-            P2=0,
-            P3=0) annotation (Placement(transformation(extent={{116,-10},{136,10}})));
+            dQ1=0,
+            dQ2=0,
+            startTime_1=0,
+            endTime_1=0,
+            startTime_2=0,
+            endTime_2=0,
+            dP1=0,
+            dP2=0) annotation (Placement(transformation(extent={{116,-10},{136,10}})));
           iPSL.Electrical.Buses.Bus bus1 annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
           iPSL.Electrical.Buses.Bus bus2 annotation (Placement(transformation(extent={{-56,-10},{-36,10}})));
           iPSL.Electrical.Buses.Bus bus3 annotation (Placement(transformation(extent={{16,-10},{36,10}})));
@@ -9953,23 +10012,25 @@ extends Modelica.Icons.Package;
           inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{-40,60},{2,80}})));
         equation
           connect(pwLine.n, pwLine1.n) annotation (Line(
-              points={{-5,6},{10,6},{10,-12},{-5,-12}},
+              points={{-0.333333,6},{10,6},{10,-12},{-0.333333,-12}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine.p, pwLine1.p) annotation (Line(
-              points={{-19,6},{-32,6},{-32,-12},{-19,-12}},
+              points={{-23.6667,6},{-32,6},{-32,-12},{-23.6667,-12}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(lOADPQ2.p, pwLine1.n) annotation (Line(
-              points={{44,-23},{26,-23},{26,-36},{14,-36},{14,-4},{10,-4},{10,-12},{-5,-12}},
+              points={{44,-23},{26,-23},{26,-36},{14,-36},{14,-4},{10,-4},{10,-12},{
+                  -0.333333,-12}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(infiniteBus.p, order2_1.p) annotation (Line(
-              points={{-103,-34},{-98,-34},{-98,0.04964},{-101,0.04964}},
+              points={{-125,-34},{-98,-34},{-98,0.04964},{-101,0.04964}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pSTransformer.n, pwLine2.n) annotation (Line(
-              points={{75,-12},{82,-12},{82,-14},{94,-14},{94,-4},{92,-4},{92,10},{69,10}},
+              points={{75,-12},{82,-12},{82,-14},{94,-14},{94,-4},{92,-4},{92,10},{
+                  73.6667,10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(bus4.p, lOADPQ1.p) annotation (Line(
@@ -9977,11 +10038,11 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(bus4.p, pwLine2.n) annotation (Line(
-              points={{104,0},{92,0},{92,10},{69,10}},
+              points={{104,0},{92,0},{92,10},{73.6667,10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.p, bus3.p) annotation (Line(
-              points={{55,10},{40,10},{40,0},{26,0}},
+              points={{50.3333,10},{40,10},{40,0},{26,0}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pSTransformer.p, bus3.p) annotation (Line(
@@ -9989,7 +10050,7 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(bus3.p, pwLine1.n) annotation (Line(
-              points={{26,0},{10,0},{10,-12},{-5,-12}},
+              points={{26,0},{10,0},{10,-12},{-0.333333,-12}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(twoWindingTransformer.n, bus2.p) annotation (Line(
@@ -10005,14 +10066,15 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(bus2.p, pwLine1.p) annotation (Line(
-              points={{-46,0},{-32,0},{-32,-12},{-19,-12}},
+              points={{-46,0},{-32,0},{-32,-12},{-23.6667,-12}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pSTransformer.pk, pSTransformer.u) annotation (Line(
               points={{75,-16},{80,-16},{80,0},{46,0},{46,-6.4},{51.6,-6.4}},
               color={0,0,127},
               smooth=Smooth.None));
-          connect(order2_1.vf0, order2_1.vf) annotation (Line(points={{-120,11},{-120,14},{-130,14},{-130,5},{-122,5}}, color={0,0,127}));
+          connect(order2_1.vf0, order2_1.vf) annotation (Line(points={{-120,11},{-120,
+                  14},{-130,14},{-130,5},{-122,5}},                                                                     color={0,0,127}));
           connect(order2_1.pm, order2_1.pm0) annotation (Line(points={{-122,-5},{-130,-5},{-130,-16},{-120,-16},{-120,-11}}, color={0,0,127}));
           annotation (
             Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,100}})),
@@ -10033,6 +10095,7 @@ extends Modelica.Icons.Package;
         end TWTPST_smib_test;
 
         model PhaseShiftingTransformer_Test
+
           iPSL.Electrical.Loads.PSAT.LOADPQ lOADPQ2(Q_0=0.001, P_0=0.03) annotation (Placement(transformation(extent={{34,-44},{54,-24}})));
           iPSL.Electrical.Branches.PwLine pwLine(
             R=0.01,
@@ -10053,14 +10116,14 @@ extends Modelica.Icons.Package;
           iPSL.Electrical.Loads.PSAT.LOADPQ_variation lOADPQ1(
             P_0=0.02,
             Q_0=0.01,
-            t1=5,
-            t2=7.99,
-            t3=8,
-            t4=12,
-            Q2=0.01,
-            Q3=-0.01,
-            P2=0.02,
-            P3=-0.02) annotation (Placement(transformation(extent={{110,-10},{130,10}})));
+            startTime_1=5,
+            endTime_1=7.99,
+            startTime_2=8,
+            endTime_2=12,
+            dQ1=0.01,
+            dQ2=-0.01,
+            dP1=0.02,
+            dP2=-0.02) annotation (Placement(transformation(extent={{110,-10},{130,10}})));
           Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
             annotation (Placement(visible=true, transformation(
                 origin={-135.783,37.4652},
@@ -10103,11 +10166,11 @@ extends Modelica.Icons.Package;
           inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{-40,60},{2,80}})));
         equation
           connect(pwLine.n, pwLine1.n) annotation (Line(
-              points={{-7,10},{10,10},{10,-10},{-5,-10}},
+              points={{-2.33333,10},{10,10},{10,-10},{-0.333333,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine.p, pwLine1.p) annotation (Line(
-              points={{-21,10},{-26,10},{-26,-10},{-19,-10}},
+              points={{-25.6667,10},{-26,10},{-26,-10},{-23.6667,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pSTransformer.pk, pSTransformer.u) annotation (Line(
@@ -10115,15 +10178,17 @@ extends Modelica.Icons.Package;
               color={0,0,127},
               smooth=Smooth.None));
           connect(pSTransformer.n, pwLine2.n) annotation (Line(
-              points={{75,-12},{92,-12},{92,10},{69,10}},
+              points={{75,-12},{92,-12},{92,10},{73.6667,10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(sine1.y, add2.u1) annotation (Line(
-              points={{-130.855,37.4652},{-127.427,37.4652},{-127.427,34.4558},{-120.693,34.4558}},
+              points={{-130.855,37.4652},{-127.427,37.4652},{-127.427,34.4558},{
+                  -120.693,34.4558}},
               color={0,0,127},
               smooth=Smooth.None));
           connect(sine2.y, add2.u2) annotation (Line(
-              points={{-130.454,20.4802},{-127.227,20.4802},{-127.227,26.8684},{-120.693,26.8684}},
+              points={{-130.454,20.4802},{-127.227,20.4802},{-127.227,26.8684},{
+                  -120.693,26.8684}},
               color={0,0,127},
               smooth=Smooth.None));
           connect(add2.y, add.u1) annotation (Line(
@@ -10155,11 +10220,11 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(B2.p, pwLine1.p) annotation (Line(
-              points={{-32,0},{-26,0},{-26,-10},{-19,-10}},
+              points={{-32,0},{-26,0},{-26,-10},{-23.6667,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(B3.p, pwLine1.n) annotation (Line(
-              points={{24,0},{10,0},{10,-10},{-5,-10}},
+              points={{24,0},{10,0},{10,-10},{-0.333333,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(B3.p, lOADPQ2.p) annotation (Line(
@@ -10167,7 +10232,7 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine2.p, lOADPQ2.p) annotation (Line(
-              points={{55,10},{40,10},{40,0},{44,0},{44,-23}},
+              points={{50.3333,10},{40,10},{40,0},{44,0},{44,-23}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pSTransformer.p, lOADPQ2.p) annotation (Line(
@@ -10179,7 +10244,7 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(B4.p, pwLine2.n) annotation (Line(
-              points={{98,0},{92,0},{92,10},{69,10}},
+              points={{98,0},{92,0},{92,10},{73.6667,10}},
               color={0,0,255},
               smooth=Smooth.None));
           annotation (
@@ -10220,6 +10285,7 @@ extends Modelica.Icons.Package;
         end PhaseShiftingTransformer_Test;
 
         model ThreeWindingTransformer_Test
+
           iPSL.Electrical.Branches.PwLine pwLine3(
             B=0.001/2,
             G=0,
@@ -10266,27 +10332,27 @@ extends Modelica.Icons.Package;
             M=10) annotation (Placement(transformation(extent={{-20,0},{0,20}})));
           Modelica.Blocks.Math.Add add annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
           iPSL.Electrical.Loads.PSAT.LOADPQ_variation lOADPQ(
-            t1=5,
-            t2=8,
-            t3=8,
-            t4=12,
-            P2=0,
-            P3=0,
+            startTime_1=5,
+            endTime_1=8,
+            startTime_2=8,
+            endTime_2=12,
+            dP1=0,
+            dP2=0,
             P_0=0.04,
             Q_0=0.02,
-            Q2=0.01,
-            Q3=-0.01) annotation (Placement(transformation(extent={{115,15},{135,35}})));
+            dQ1=0.01,
+            dQ2=-0.01) annotation (Placement(transformation(extent={{115,15},{135,35}})));
           iPSL.Electrical.Loads.PSAT.LOADPQ_variation lOADPQ1(
             P_0=0.04,
             Q_0=0.04,
-            t1=0,
-            t2=0,
-            t3=0,
-            t4=0,
-            P2=0,
-            Q2=0,
-            P3=0,
-            Q3=0) annotation (Placement(transformation(extent={{115,-20},{135,0}})));
+            startTime_1=0,
+            endTime_1=0,
+            startTime_2=0,
+            endTime_2=0,
+            dP1=0,
+            dQ1=0,
+            dP2=0,
+            dQ2=0) annotation (Placement(transformation(extent={{115,-20},{135,0}})));
           iPSL.Electrical.Branches.PSAT.ThreeWindingTransformer.ThreeWindingTransformer
                                                                                         threeWindingTransformer annotation (Placement(transformation(extent={{70,0},{90,20}})));
           iPSL.Electrical.Buses.Bus Bus1 annotation (Placement(transformation(extent={{10,0},{30,20}})));
@@ -10324,11 +10390,11 @@ extends Modelica.Icons.Package;
               color={0,0,127},
               smooth=Smooth.None));
           connect(pwLine4.n, pwLine3.n) annotation (Line(
-              points={{47,20},{55,20},{55,0},{47,0}},
+              points={{51.6667,20},{55,20},{55,0},{51.6667,0}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(pwLine4.p, pwLine3.p) annotation (Line(
-              points={{33,20},{25,20},{25,0},{33,0}},
+              points={{28.3333,20},{25,20},{25,0},{28.3333,0}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(Gen1.p, Bus1.p) annotation (Line(
@@ -10336,11 +10402,11 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(Bus1.p, pwLine3.p) annotation (Line(
-              points={{20,10},{25,10},{25,0},{33,0}},
+              points={{20,10},{25,10},{25,0},{28.3333,0}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(Bus2.p, pwLine3.n) annotation (Line(
-              points={{60,10},{55,10},{55,0},{47,0}},
+              points={{60,10},{55,10},{55,0},{51.6667,0}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(Bus2.p, threeWindingTransformer.b1) annotation (Line(
@@ -10402,6 +10468,7 @@ extends Modelica.Icons.Package;
         end ThreeWindingTransformer_Test;
 
         model ULTC_Test
+
           iPSL.Electrical.Branches.PwLine pwLine3(
             B=0.001/2,
             G=0,
@@ -10450,14 +10517,14 @@ extends Modelica.Icons.Package;
           iPSL.Electrical.Loads.PSAT.LOADPQ_variation lOADPQ(
             P_0=0.08,
             Q_0=0.06,
-            t1=5,
-            t2=8,
-            t3=8,
-            t4=12,
-            P2=0,
-            P3=0,
-            Q3=-0.05,
-            Q2=0.05) annotation (Placement(transformation(extent={{115,-10},{135,10}})));
+            startTime_1=5,
+            endTime_1=8,
+            startTime_2=8,
+            endTime_2=12,
+            dP1=0,
+            dP2=0,
+            dQ1=-0.05,
+            dQ2=0.05) annotation (Placement(transformation(extent={{115,-10},{135,10}})));
           iPSL.Electrical.Branches.PSAT.ULTC_VoltageControl uLTC_VoltageControl annotation (Placement(transformation(extent={{70,-10},{90,10}})));
           iPSL.Electrical.Buses.Bus B1 annotation (Placement(transformation(extent={{-5,-10},{15,10}})));
           iPSL.Electrical.Buses.Bus B2 annotation (Placement(transformation(extent={{45,-10},{65,10}})));
@@ -10473,7 +10540,7 @@ extends Modelica.Icons.Package;
               color={0,0,127},
               smooth=Smooth.None));
           connect(pwLine4.n, pwLine3.n) annotation (Line(
-              points={{37,10},{45,10},{45,-10},{37,-10}},
+              points={{41.6667,10},{45,10},{45,-10},{41.6667,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(sine1.y, add2.u1) annotation (Line(
@@ -10485,7 +10552,7 @@ extends Modelica.Icons.Package;
               color={0,0,127},
               smooth=Smooth.None));
           connect(pwLine4.p, pwLine3.p) annotation (Line(
-              points={{23,10},{15,10},{15,-10},{23,-10}},
+              points={{18.3333,10},{15,10},{15,-10},{18.3333,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(order2_Inputs_Outputs.vf0, add.u2) annotation (Line(
@@ -10497,11 +10564,11 @@ extends Modelica.Icons.Package;
               color={0,0,255},
               smooth=Smooth.None));
           connect(B1.p, pwLine3.p) annotation (Line(
-              points={{5,0},{15,0},{15,-10},{23,-10}},
+              points={{5,0},{15,0},{15,-10},{18.3333,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(B2.p, pwLine3.n) annotation (Line(
-              points={{55,0},{45,0},{45,-10},{37,-10}},
+              points={{55,0},{45,0},{45,-10},{41.6667,-10}},
               color={0,0,255},
               smooth=Smooth.None));
           connect(uLTC_VoltageControl.n, B3.p) annotation (Line(
@@ -11201,8 +11268,8 @@ extends Modelica.Icons.Package;
         P_0=50,
         Q_0=10) annotation (Placement(transformation(extent={{-4,-52},{8,-40}})));
       iPSL.Electrical.Events.PwFault pwFault(
-        t1=2,
-        t2=2.15,
+        startTime=2,
+        endTime=2.15,
         R=0,
         X=0) annotation (Placement(transformation(
             extent={{-6,-6},{6,6}},
@@ -11511,6 +11578,96 @@ extends Modelica.Icons.Package;
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
       end InfiniteBus2;
+
+      model InfiniteBusEuro "Bus model
+              2014/03/10"
+
+        iPSL.Connectors.PwPin p(vr(start=V_0*cos(angle_0*Modelica.Constants.pi/180)), vi(start=V_0*sin(angle_0*Modelica.Constants.pi/180)));
+        parameter Real R;
+        parameter Real X;
+        parameter Real Y1 = R/(R*R + X*X);
+        parameter Real Y2 = X/(R*R + X*X);
+        parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
+        parameter Real angle_0=0 "Voltage angle (deg)" annotation (Dialog(group="Power flow data"));
+        parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
+          "Initial voltage at node in p.u. (Real part)";
+        parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
+          "Initial voltage at node in p.u. (Imaginary part)";
+        parameter Real Irn =  Y1*Vo_real + Y2*Vo_img;
+        parameter Real Iin = Y1*Vo_img - Y2*Vo_real;
+        Real V(start=V_0) "Bus voltage magnitude (pu)";
+        parameter Real angle =  atan2(R, X) "Bus voltage angle (deg)";
+
+      equation
+           V = sqrt(p.vr^2 + p.vi^2);
+           p.ii + Iin= (R*p.vi - X*p.vr)/(X*X + R*R);
+           p.ir + Irn =(R*p.vr + X*p.vi)/(R*R + X*X);
+        annotation (
+          Icon(coordinateSystem(
+              extent={{-100,-100},{100,100}},
+              preserveAspectRatio=true,
+              initialScale=0.1,
+              grid={2,2}), graphics={Rectangle(
+                visible=true,
+                fillPattern=FillPattern.Solid,
+                extent={{-10.0,-100.0},{10.0,100.0}}),Text(
+                visible=true,
+                origin={0.9738,119.0625},
+                fillPattern=FillPattern.Solid,
+                extent={{-39.0262,-16.7966},{39.0262,16.7966}},
+                textString="%name",
+                fontName="Arial"),Text(
+                origin={0.9738,-114.937},
+                fillPattern=FillPattern.Solid,
+                extent={{-39.0262,-16.7966},{39.0262,16.7966}},
+                fontName="Arial",
+                textString=DynamicSelect("0.0", String(v, significantDigits=3)),
+                lineColor={238,46,47}),Text(
+                origin={0.9738,-140.937},
+                fillPattern=FillPattern.Solid,
+                extent={{-39.0262,-16.7966},{39.0262,16.7966}},
+                fontName="Arial",
+                textString=DynamicSelect("0.0", String(anglevdeg, significantDigits=3)),
+                lineColor={238,46,47})}),
+          Diagram(coordinateSystem(
+              extent={{-148.5,-105.0},{148.5,105.0}},
+              preserveAspectRatio=true,
+              initialScale=0.1,
+              grid={5,5})),
+          uses(Modelica(version="3.2.1")),
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td><p>Reference</p></td>
+<td><p>None</p></td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td><p>2015-12-14</p></td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>SmarTS Lab, KTH Royal Institute of Technology</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
+</tr>
+</table>
+</html>",       revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+      end InfiniteBusEuro;
 
       model InternalBus "Bus for change base"
         outer iPSL.Electrical.SystemBase SysData;
@@ -11998,21 +12155,22 @@ extends Modelica.Icons.Package;
       model PwLinewithOpeningReceiving "Transmission Line based on the pi-equivalent circuit
               with an opening event on the receiving node. Developed by AIA.
               2014/03/10"
+
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-80,-10},{-60,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
         iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{60,-10},{80,10}}), iconTransformation(extent={{60,-10},{80,10}})));
         parameter Real R "Resistance p.u.";
         parameter Real X "Reactance p.u.";
         parameter Real G "Shunt half conductance p.u.";
         parameter Real B "Shunt half susceptance p.u.";
-        parameter Real t1 "Start time of the opening";
-        parameter Real t2 "End time of the opening";
+        parameter Real startTime "Start time of the opening";
+        parameter Real endTime "End time of the opening";
         Real Zr;
         Real Zi;
       equation
         Zr = R*G + X*B;
         Zi = R*B + X*G;
-        if time > t1 then
-          if time < t2 then
+        if time > startTime then
+          if time < endTime then
             p.vr*(2.0*G + G*Zr - B*Zi) - p.vi*(2.0*B + Zr*B + Zi*G) = p.ir*(1.0 + Zr) - p.ii*Zi;
             p.vr*(2.0*B + Zr*B + Zi*G) + p.vi*(2.0*G + G*Zr - B*Zi) = p.ir*Zi + p.ii*(1.0 + Zr);
             n.ii = 0.0;
@@ -12061,21 +12219,22 @@ extends Modelica.Icons.Package;
       model PwLinewithOpeningSending "Transmission Line based on the pi-equivalent circuit
               with an opening event on the sending node.
               2014/03/10"
+
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-80,-10},{-60,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
         iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{60,-10},{80,10}}), iconTransformation(extent={{60,-10},{80,10}})));
         parameter Real R "Resistance p.u.";
         parameter Real X "Reactance p.u.";
         parameter Real G "Shunt half conductance p.u.";
         parameter Real B "Shunt half susceptance p.u.";
-        parameter Real t1 "Start time of the opening";
-        parameter Real t2 "End time of the opening";
+        parameter Real startTime "Start time of the opening";
+        parameter Real endTime "End time of the opening";
         Real Zr;
         Real Zi;
       equation
         Zr = R*G + X*B;
         Zi = R*B + X*G;
-        if time > t1 then
-          if time < t2 then
+        if time > startTime then
+          if time < endTime then
             n.vr*(2.0*G + G*Zr - B*Zi) - n.vi*(2.0*B + Zr*B + Zi*G) = n.ir*(1.0 + Zr) - n.ii*Zi;
             n.vr*(2.0*B + Zr*B + Zi*G) + n.vi*(2.0*G + G*Zr - B*Zi) = n.ir*Zi + n.ii*(1.0 + Zr);
             p.ii = 0.0;
@@ -12123,14 +12282,15 @@ extends Modelica.Icons.Package;
 
       model PwLine2Openings
         "Transmission Line based on the pi-equivalent circuit with an opening event on both sending and receiving end nodes"
+
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-76,-10},{-56,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
         iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{56,-10},{76,10}}), iconTransformation(extent={{60,-10},{80,10}})));
         parameter Real R "Resistance";
         parameter Real X "Reactance";
         parameter Real G "Shunt half conductance";
         parameter Real B "Shunt half susceptance";
-        parameter Real t1 "Start time of the opening";
-        parameter Real t2 "End time of the opening";
+        parameter Real startTime "Start time of the opening";
+        parameter Real endTime "End time of the opening";
         parameter Real S_b=100 "System base power (MVA)";
         Real Zr;
         Real Zi;
@@ -12145,8 +12305,8 @@ extends Modelica.Icons.Package;
         Q21 = -(n.vr*n.ii - n.vi*n.ir)*S_b;
         Zr = R*G + X*B;
         Zi = R*B + X*G;
-        if time >= t1 then
-          if time < t2 then
+        if time >= startTime then
+          if time < endTime then
             p.ir = 0;
             p.ii = 0;
             n.ii = 0.0;
@@ -15924,7 +16084,7 @@ extends Modelica.Icons.Package;
           Real ur(start = ur0, fixed = true);
           Real ui(start = ui0, fixed = true);
           Real lambdaf(start = init_lambdaf, fixed = true);
-          Real lambdad(start = init_lambdad);
+          Real lambdad(start = init_lambdad, fixed = false);
           Real lambdaad(start = init_lambdaad);
           Real lambdaaq(start = init_lambdaaq);
           Real lambdaq1(start = init_lambdaq1, fixed = true);
@@ -20527,8 +20687,11 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_PMECH; //PMECH
           Modelica.Blocks.Interfaces.RealOutput pin_CM; //CM
           Modelica.Blocks.Interfaces.RealOutput pin_CMREF;//Start = 0
+          iPSL.Interfaces.AddedConnector setPointModification_3;
+          iPSL.Interfaces.AddedConnector setPointModification_11;
         equation
           connect(ImSetPoint_3.y, MultiSum_2.u[1]);
+          connect(ImSetPoint_3.setPointModification, setPointModification_3);
           connect(MultiSum_2.y, Gain_1.u);
           connect(Gain_1.y, SimpleLagLim_4.u);
           connect(SimpleLagLim_4.y, LeadLag_5.u);
@@ -20539,6 +20702,7 @@ extends Modelica.Icons.Package;
           connect(MultiSum_7.y, MultiSum_2.u[2]);
           connect(ImDiv2_9.y, MultiSum_10.u[1]);
           connect(ImSetPoint_11.y, MultiSum_10.u[2]);
+          connect(ImSetPoint_11.setPointModification, setPointModification_11);
           connect(pin_OMEGA, MultiSum_7.u[1]);
           connect(pin_OMEGA, ImDiv2_9.u2);
           connect(pin_PMECH, MultiSum_8.y);
@@ -20651,7 +20815,7 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Math.MultiSum MultiSum_16( nu= 2, k={1, -1}); //Eurostag Block number: 16
           iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_2( K=KS2, T=T7, y_start=init_2); //Eurostag Block number: 2
           Modelica.Blocks.Continuous.Derivative Derivative_15( k=TW2, T=TW2, y_start=0, x_start=init_15, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 15
-          Modelica.Blocks.Math.MultiSum MultiSum_20( nu= 2, k={KS3, 1}); //Eurostag Block number: 20
+          Modelica.Blocks.Math.MultiSum MultiSum_20(nu= 2, k={KS3, 1}); //Eurostag Block number: 20
           Modelica.Blocks.Math.MultiSum MultiSum_27( nu= 2, k={-1, 1}); //Eurostag Block number: 27
           Modelica.Blocks.Continuous.Derivative Derivative_4( k=TW3, T=TW3, y_start=0, x_start=init_4, initType = Modelica.Blocks.Types.Init.InitialOutput); //Eurostag Block number: 4
           iPSL.NonElectrical.Continuous.SimpleLag SimpleLag_7( K=1, T=T6, y_start=init_7); //Eurostag Block number: 7
@@ -20873,12 +21037,12 @@ extends Modelica.Icons.Package;
           parameter Real init_1=init_EFD;
           parameter Real init_6=0;
           parameter Real init_4=init_EFD;
-          parameter Real EFDMAX;
-          parameter Real EFDMIN;
+          parameter Real EFDMAX = 999;
+          parameter Real EFDMIN = -999;
           parameter Real EMAX;
           parameter Real EMIN;
-          parameter Real K;
-          parameter Real KC;
+          parameter Real K = 1;
+          parameter Real KC = 1;
           parameter Real TA;
           parameter Real TB;
           parameter Real TE;
@@ -20902,10 +21066,15 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_At_VERR;
           Modelica.Blocks.Interfaces.RealOutput pin_PSSREF;//Start = 0
           Modelica.Blocks.Interfaces.RealOutput pin_EFD; //EFD
+          iPSL.Interfaces.AddedConnector setPointModification_6;
+          iPSL.Interfaces.AddedConnector setPointModification_12;
+
         equation
           connect(ImSetPoint_12.y, MultiSum_13.u[2]);
+          connect(ImSetPoint_12.setPointModification, setPointModification_12);
           connect(MultiSum_13.y, LeadLag_2.u);
           connect(ImSetPoint_6.y, MultiSum_13.u[3]);
+           connect(ImSetPoint_6.setPointModification, setPointModification_6);
           connect(LeadLag_2.y, Gain_7.u);
           connect(Gain_7.y, SimpleLagLim_1.u);
           connect(SimpleLagLim_1.y, Limiter_4.u);
@@ -21022,8 +21191,11 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_PMECH; //PMECH
           Modelica.Blocks.Interfaces.RealOutput pin_CM; //CM
           Modelica.Blocks.Interfaces.RealOutput pin_CMREF;//Start = 0
+          iPSL.Interfaces.AddedConnector setPointModification_3;
+          iPSL.Interfaces.AddedConnector setPointModification_11;
         equation
           connect(ImSetPoint_3.y, MultiSum_2.u[1]);
+          connect(ImSetPoint_3.setPointModification, setPointModification_3);
           connect(MultiSum_2.y, Gain_1.u);
           connect(Gain_1.y, SimpleLagLim_4.u);
           connect(SimpleLagLim_4.y, LeadLag_5.u);
@@ -21034,6 +21206,7 @@ extends Modelica.Icons.Package;
           connect(MultiSum_7.y, MultiSum_2.u[2]);
           connect(ImDiv2_9.y, MultiSum_10.u[1]);
           connect(ImSetPoint_11.y, MultiSum_10.u[2]);
+          connect(ImSetPoint_11.setPointModification, setPointModification_11);
           connect(pin_OMEGA, MultiSum_7.u[1]);
           connect(pin_OMEGA, ImDiv2_9.u2);
           connect(pin_PMECH, MultiSum_8.y);
@@ -32599,19 +32772,19 @@ IEE2ST, PSSE Manual
         model LOADPQ_variation
           "Equations come from the mathematical separation in between reals and imaginary of S=P+jQ=UI*"
           extends BaseClasses.baseLoad;
-          parameter Real t_start_1 "Start time of first load variation (s)" annotation (Dialog(group="Variation 1"));
-          parameter Real t_end_1 "End time of first load variation (s)" annotation (Dialog(group="Variation 1"));
+          parameter Real startTime_1 "Start time of first load variation (s)" annotation (Dialog(group="Variation 1"));
+          parameter Real endTime_1 "End time of first load variation (s)" annotation (Dialog(group="Variation 1"));
           parameter Real dP1 "First active load variation  (pu)" annotation (Dialog(group="Variation 1"));
           parameter Real dQ1 "First reactive load variation (p)" annotation (Dialog(group="Variation 1"));
-          parameter Real t_start_2 "Start time of second Load variation (s)" annotation (Dialog(group="Variation 2"));
-          parameter Real t_end_2 "End time of second load variation (s)" annotation (Dialog(group="Variation 2"));
+          parameter Real startTime_2 "Start time of second Load variation (s)" annotation (Dialog(group="Variation 2"));
+          parameter Real endTime_2 "End time of second load variation (s)" annotation (Dialog(group="Variation 2"));
           parameter Real dP2 "Second active load variation  (pu)" annotation (Dialog(group="Variation 2"));
           parameter Real dQ2 "Second reactive load variation (pu)" annotation (Dialog(group="Variation 2"));
         equation
-          if time >= t_start_1 and time <= t_end_1 then
+          if time >= startTime_1 and time <= endTime_1 then
             P = (P_0 + dP1)/S_b;
             Q = (Q_0 + dQ1)/S_b;
-          elseif time >= t_start_2 and time <= t_end_2 then
+          elseif time >= startTime_2 and time <= endTime_2 then
             P = (P_0 + dP2)/S_b;
             Q = (Q_0 + dQ2)/S_b;
           else
@@ -33044,10 +33217,11 @@ IEE2ST, PSSE Manual
           parameter Real beta = 0;
           Real P(start = P_0/S_b);
           Real Q(start = Q_0/S_b);
+
         equation
           a = v / vo;
-          (P_0/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
-          (Q_0/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
+          (P_0/S_b) * (a ^ alpha) = p.vr * p.ir + p.vi * p.ii;
+          (Q_0/S_b)* (a ^ beta)  = (-p.vr * p.ii) + p.vi * p.ir;
           v = sqrt(p.vr ^ 2 + p.vi ^ 2);
           P = p.vr * p.ir + p.vi * p.ii;
           Q = (-p.vr * p.ii) + p.vi * p.ir;
@@ -33077,13 +33251,80 @@ IEE2ST, PSSE Manual
 </html>"));
         end PwLoadVoltageDependence;
 
+        model PwLoadVDepwithVariation
+          "Load with voltage dependence.Developed by AIA. 2014/03/10"
+         extends iPSL.Electrical.Essentials.pfComponent;
+          iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img),  ir(start=1), ii(start=0)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
+          parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
+            "Initial voltage at node in p.u. (Real part)";
+          parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
+            "Initial voltage at node in p.u. (Imaginary part)";
+          parameter Real startTime= Modelica.Constants.inf
+            "Time of Load variation";
+          parameter Real P_1 = 0 "New Active reference power";
+          parameter Real Q_1 = 0 "New Reactive reference power";
+          parameter Real vo = sqrt(Vo_real ^ 2 + Vo_img ^ 2);
+          Real v(start = vo);
+          Real a(start = 1) "auxiliary variable. Voltage division";
+          parameter Real alpha = 0;
+          parameter Real beta = 0;
+          Real P(start = P_0/S_b);
+          Real Q(start = Q_0/S_b);
+        equation
+          a = v / vo;
+          if time > startTime then
+          (P_1/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
+          (Q_1/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
+          else
+          (P_0/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
+          (Q_0/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
+          end if;
+          v = sqrt(p.vr ^ 2 + p.vi ^ 2);
+          P = p.vr * p.ir + p.vi * p.ii;
+          Q = (-p.vr * p.ii) + p.vi * p.ir;
+          annotation (
+            Placement(transformation(extent={{-56,-10},{-36,10}}), iconTransformation(extent={{-80,0},{-60,20}})),
+            Diagram(graphics),
+            Icon(graphics={Rectangle(extent={{-60,60},{40,-40}}, lineColor={0,0,255}),Rectangle(extent={{-40,40},{20,-20}}, lineColor={0,0,255}),Line(
+                  points={{-40,40},{20,-20}},
+                  color={0,0,255},
+                  smooth=Smooth.None),Line(
+                  points={{-40,-20},{20,40}},
+                  color={0,0,255},
+                  smooth=Smooth.None)}),
+            Documentation( Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+<p>
+This model is a load voltage dependence in witch it allow a variation of the Load P,Q.
+</p>
+
+</HTML>")));
+        end PwLoadVDepwithVariation;
+
         model PwLoadwithVariation "Load with a power variation event.
               2014/03/10"
          extends iPSL.Electrical.Essentials.pfComponent;
           iPSL.Connectors.PwPin p annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
           parameter Real Po = P_0/S_b "Initial Active Power in p.u.";
           parameter Real Qo = Q_0/S_b "Initial Reactive Power in p.u.";
-          parameter Real t1 "Time of Load variation";
+          parameter Real startTime "Time of Load variation";
           parameter Real P2 "Active load variation in p.u.";
           parameter Real Q2 "Reactive load variation in p.u";
           Real Vo;
@@ -33094,7 +33335,7 @@ IEE2ST, PSSE Manual
           Real a;
         equation
           Vo = V_0;
-          if time > t1 then
+          if time > startTime then
             P = Po + P2;
             Q = Qo + Q2;
           else
@@ -45429,19 +45670,19 @@ P Control"),        Text(
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-80,-10},{-60,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
         parameter Real R "Resistance (pu)";
         parameter Real X "Conductance (pu)";
-        parameter Real t1 "Start time of the fault (s)";
-        parameter Real t2 "End time of the fault (s)";
+        parameter Real startTime "Start time of the fault (s)";
+        parameter Real endTime "End time of the fault (s)";
       protected
         parameter Real ground=if R == 0 and X == 0 then 0 else 1;
       equation
-        if time < t1 then
+        if time < startTime then
           p.ii = 0;
           p.ir = 0;
-        elseif time < t2 and ground == 0 then
+        elseif time < endTime and ground == 0 then
           p.vr = 1E-10;
           // This is to avoid numerical problems
           p.vi = 0;
-        elseif time < t2 then
+        elseif time < endTime then
           p.ii = (R*p.vi - X*p.vr)/(X*X + R*R);
           p.ir = (R*p.vr + X*p.vi)/(R*R + X*X);
         else
@@ -45504,16 +45745,17 @@ P Control"),        Text(
       end PwFault;
 
       model PwFaultPQ
+
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-40,-10},{-20,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
         parameter Real R "Resistance (pu)";
         parameter Real X "Reactance (pu)";
-        parameter Real t1 "Start time of the fault (s)";
-        parameter Real t2 "End time of the fault (s)";
+        parameter Real startTime "Start time of the fault (s)";
+        parameter Real endTime "End time of the fault (s)";
         Real P "Active power supplied to the fault (pu)";
         Real Q "Reactive power supplied to the fault (pu)";
       equation
-        p.ir = if time < t1 then 0 else if time < t2 then 1/X*(p.vi - R*p.ii) else 0;
-        p.ii = if time < t1 then 0 else if time < t2 then (R*p.vi - X*p.vr)/(X*X + R*R) else 0;
+        p.ir = if time < startTime then 0 else if time < endTime then 1/X*(p.vi - R*p.ii) else 0;
+        p.ii = if time < startTime then 0 else if time < endTime then (R*p.vi - X*p.vr)/(X*X + R*R) else 0;
         P = p.vr*p.ir + p.vi*p.ii;
         Q = (-p.vr*p.ii) + p.vi*p.ir;
         annotation (
@@ -45574,6 +45816,7 @@ P Control"),        Text(
       model PwLineFault "Transitory short-circuit on a line at the point of location from the sending node
    given by parameter k. A fictitious node is created with where a shunt impedance is connected only
    during a specified interval of time. Developed by AIA. 2015/03/20."
+
         iPSL.Connectors.PwPin p annotation (Placement(transformation));
         iPSL.Connectors.PwPin n annotation (Placement(transformation));
         parameter Real R1 "Resistance";
@@ -45584,8 +45827,8 @@ P Control"),        Text(
           "Point of the line where the short circuit occurs (between 0.1 and 0.99)";
         parameter Real Rfault "Fault resistance";
         parameter Real Xfault "Fault reactance";
-        parameter Real time_1 "Start time of the fault";
-        parameter Real time_2 "End time of the fault";
+        parameter Real startTime "Start time of the fault";
+        parameter Real endTime "End time of the fault";
         parameter Real V1_0 "Initial voltage magnitude at Sending node";
         parameter Real angle1_0 "Initial  voltage angle Sending node";
         parameter Real V2_0 "Initial voltage magnitude Receiving node";
@@ -45614,8 +45857,8 @@ P Control"),        Text(
         iPSL.Electrical.Events.PwFault Fault(
           R=Rfault,
           X=Xfault,
-          t1=time_1,
-          t2=time_2) annotation (Placement(transformation));
+          startTime=startTime,
+          endTime=endTime) annotation (Placement(transformation));
       equation
         connect(p, Line_1.p) annotation (Line);
         connect(Line_1.n, FICT.p) annotation (Line);
@@ -45675,9 +45918,9 @@ P Control"),        Text(
       end PwLineFault;
 
       model Breaker
-        parameter Real t_o=Modelica.Constants.inf "Opening time (s)";
+        parameter Real startTime=Modelica.Constants.inf "Opening time (s)";
         parameter Boolean rc_enabled=false "Enable reclosure";
-        parameter Real t_rc=Modelica.Constants.inf "Reclosing time (s)";
+        parameter Real endTime=Modelica.Constants.inf "Reclosing time (s)";
 
         Connectors.PwPin s annotation (Placement(transformation(extent={{-60,-10},{-40,10}}), iconTransformation(extent={{-60,-10},{-40,10}})));
         Connectors.PwPin r annotation (Placement(transformation(extent={{40,-10},{60,10}}), iconTransformation(extent={{40,-10},{60,10}})));
@@ -45687,10 +45930,10 @@ P Control"),        Text(
         Complex ir(re=r.ir, im=r.ii);
 
       equation
-        if time < t_o then
+        if time < startTime then
           vs = vr;
           is = -ir;
-        elseif (time > t_o + t_rc) and rc_enabled then
+        elseif (time > startTime + endTime) and rc_enabled then
           vs = vr;
           is = -ir;
         else
@@ -45744,6 +45987,55 @@ P Control"),        Text(
 </table>
 </html>"));
       end Breaker;
+
+      model SetPointModification
+       iPSL.Interfaces.AddedConnector setPointModification;
+       parameter Real startTime = Modelica.Constants.inf;
+       parameter Real v2 = 0;
+      equation
+          if time < startTime then
+            setPointModification.deltaV = 0;
+          else
+            setPointModification.deltaV = (-v2 + setPointModification.V1);
+          end if;
+
+        annotation (
+          Icon(coordinateSystem(preserveAspectRatio=false, extent={{-40,-40},{40,40}}), graphics={Rectangle(
+                extent={{-40,40},{40,-40}},
+                lineThickness=0.5,
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid,
+                pattern=LinePattern.None),Ellipse(
+                extent={{-40,40},{40,-42}},
+                lineColor={28,108,200},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid)}),
+          Diagram(coordinateSystem(extent={{-40,-40},{40,40}})),
+          Documentation(Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td></td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+<p>
+This model allow change the voltage set point in a iPSL.NonElectrical.Eurostag.Math.ImSetPoint block Within a regulator; 
+</p>
+
+</HTML>")));
+      end SetPointModification;
     annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -45764,7 +46056,7 @@ P Control"),        Text(
 
       partial model pfComponent
         "Partial model containing all the Data for entering Power Flow data"
-        inner iPSL.Electrical.SystemBase SysData
+        outer iPSL.Electrical.SystemBase SysData
           "Must add this line in all models";
         parameter Real V_b=400 "Base voltage of the bus (kV)" annotation (Dialog(group="Power flow data"));
         parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
@@ -46274,8 +46566,7 @@ Gate")}), Documentation(revisions="<html>
       block SimpleLag "First order lag transfer function block"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
         import Modelica.Blocks.Types.Init;
-        //Real state(start=y_start);
-		Real state;
+        Real state(start=y_start);
         parameter Real K "Gain";
         parameter Modelica.SIunits.Time T "Lag time constant";
         parameter Real y_start "Output start value";
@@ -46714,7 +47005,8 @@ Gate")}), Documentation(revisions="<html>
           a={T2_dummy,1},
           y_start=y_start,
           initType= Modelica.Blocks.Types.Init.SteadyState,
-          x_start={x_start}) annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
+          x_start={x_start})
+           annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
       equation
         if (abs(par1.y - par2.y) < Modelica.Constants.eps) then
           y = K*u;
@@ -47385,9 +47677,7 @@ All of the transfer functions found in this package are also available in the Mo
 
     package Eurostag
 
-
       package Math "Mathematical blocks"
-
 
         block ImMult5 "Product. 2016/04/56"
           extends Modelica.Blocks.Interfaces.PartialRealMISO;
@@ -47465,24 +47755,15 @@ This Block is equivalent to spesific MULTIPLIER Block from Eurostag.
                     textString="x")}));
         end ImMult5;
 
-        block ImSetPoint "Set Point. 2014/03/10"
+        model ImSetPoint "Set Point. 2014/03/10"
           parameter Real V "Voltage Set Point";
-          parameter Boolean setPointWithModification = false;
-          parameter Real t1 = 0 "Time of change Voltage Set Point";
-          parameter Real V_t1 = 0 "Voltage Set Point at Timi t1";
+          iPSL.Interfaces.AddedConnector setPointModification;
           Modelica.Blocks.Interfaces.RealOutput y "Output signal connector"
             annotation (Placement(transformation(extent={{100,-10},{120,10}},
               rotation=0)));
         equation
-          if setPointWithModification then
-            if time < t1 then
-              y = V;
-            else
-              y = V_t1;
-            end if;
-          else
-            y = V;
-          end if;
+            y = V + setPointModification.deltaV;
+            setPointModification.V1 = V;
           annotation (Icon(coordinateSystem(
                   preserveAspectRatio=false,
                   extent={{-100,-100},{100,100}},
@@ -47492,9 +47773,9 @@ This Block is equivalent to spesific MULTIPLIER Block from Eurostag.
                   extent={{-60,42},{52,-70}},
                   lineColor={0,0,255},
                   textString="Set
-          "),     Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255})}),
+          "),    Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255})}),
                  Diagram(coordinateSystem(
-                preserveAspectRatio=false,
+                   preserveAspectRatio=false,
                 extent={{-100,-100},{100,100}}), graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{60,0},{100,0}}, color={0,0,255}),
@@ -48984,6 +49265,40 @@ Connector of type V, I.
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
     end OutPutPort;
+
+    connector AddedConnector
+      flow Real deltaV;
+      Real V1;
+      annotation (
+        Icon(graphics={Rectangle(extent={{-20,20},{40,-20}}, lineColor={0,0,255}),Text(
+              extent={{-8,10},{26,-8}},
+              lineColor={0,0,255},
+              textString="AddedConnector")}),
+        Diagram(graphics={Rectangle(extent={{-30,20},{30,-20}}, lineColor={0,0,255}),Text(
+              extent={{-18,10},{16,-8}},
+              lineColor={0,0,255},
+              textString="AddedConnector")}),
+        Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td></td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+</html>"));
+    end AddedConnector;
   annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>

@@ -20,10 +20,6 @@
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_BEAV___6_TN"/>
 </cim:Terminal>
-<cim:Terminal rdf:about="#_BEAV___6_SM_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_BEAV___6_TN"/>
-</cim:Terminal>
 <cim:TopologicalNode rdf:ID="_BEAV___6_TN">
 	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_BEAV___6_VL"/>
 	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
@@ -899,10 +895,6 @@
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_CLIN___8_TN"/>
 </cim:Terminal>
-<cim:Terminal rdf:about="#_CLIN___8_SM_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_CLIN___8_TN"/>
-</cim:Terminal>
 <cim:TopologicalNode rdf:ID="_CLIN___8_TN">
 	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_CLIN___8_VL"/>
 	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
@@ -910,6 +902,34 @@
 	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
 	<cim:IdentifiedObject.name>CLIN   8</cim:IdentifiedObject.name>
 </cim:TopologicalNode>
+<cim:Terminal rdf:about="#_GEN___12_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_GLEN__12_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_GEN____1_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_KANA___1_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_GEN____2_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_TURN___2_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_GEN____3_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_LOGA___3_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_GEN____6_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_BEAV___6_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_GEN____8_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_CLIN___8_TN"/>
+</cim:Terminal>
+<cim:Terminal rdf:about="#_GEN____9_SM_TE">
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:Terminal.TopologicalNode rdf:resource="#_SALT___9_TN"/>
+</cim:Terminal>
 <cim:Terminal rdf:about="#_GLEN__12-BUS___13-1_AC_TE_EX">
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_BUS___13_TN"/>
@@ -935,10 +955,6 @@
 	<cim:Terminal.TopologicalNode rdf:resource="#_GLEN__12_TN"/>
 </cim:Terminal>
 <cim:Terminal rdf:about="#_GLEN__12_EC_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_GLEN__12_TN"/>
-</cim:Terminal>
-<cim:Terminal rdf:about="#_GLEN__12_SM_TE">
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_GLEN__12_TN"/>
 </cim:Terminal>
@@ -985,10 +1001,6 @@
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_KANA___1_TN"/>
 </cim:Terminal>
-<cim:Terminal rdf:about="#_KANA___1_SM_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_KANA___1_TN"/>
-</cim:Terminal>
 <cim:TopologicalNode rdf:ID="_KANA___1_TN">
 	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_KANA___1_VL"/>
 	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
@@ -1013,10 +1025,6 @@
 	<cim:Terminal.TopologicalNode rdf:resource="#_LOGA___3_TN"/>
 </cim:Terminal>
 <cim:Terminal rdf:about="#_LOGA___3_EC_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_LOGA___3_TN"/>
-</cim:Terminal>
-<cim:Terminal rdf:about="#_LOGA___3_SM_TE">
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_LOGA___3_TN"/>
 </cim:Terminal>
@@ -1079,10 +1087,6 @@
 	<cim:Terminal.TopologicalNode rdf:resource="#_SALT___9_TN"/>
 </cim:Terminal>
 <cim:Terminal rdf:about="#_SALT___9_EC_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_SALT___9_TN"/>
-</cim:Terminal>
-<cim:Terminal rdf:about="#_SALT___9_SM_TE">
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_SALT___9_TN"/>
 </cim:Terminal>
@@ -1236,10 +1240,6 @@
 	<cim:Terminal.TopologicalNode rdf:resource="#_TURN___2_TN"/>
 </cim:Terminal>
 <cim:Terminal rdf:about="#_TURN___2_EC_TE">
-	<cim:Terminal.connected>true</cim:Terminal.connected>
-	<cim:Terminal.TopologicalNode rdf:resource="#_TURN___2_TN"/>
-</cim:Terminal>
-<cim:Terminal rdf:about="#_TURN___2_SM_TE">
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:Terminal.TopologicalNode rdf:resource="#_TURN___2_TN"/>
 </cim:Terminal>

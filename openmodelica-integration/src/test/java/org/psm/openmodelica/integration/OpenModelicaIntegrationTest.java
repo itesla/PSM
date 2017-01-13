@@ -215,7 +215,8 @@ public class OpenModelicaIntegrationTest
 
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
-			omEngine.configure(config); 
+			config.setParameter("depth", "0");
+			omEngine.configure(config);
 			omEngine.simulate(mo);
 
 			assertEquals(moName, mo.getSystemModel().getId());
@@ -224,19 +225,6 @@ public class OpenModelicaIntegrationTest
 			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 			Path omSimPath = (Path) omEngine.getSimulationResults()
 					.getValue(mo.getSystemModel().getId(), "simulation_path");
-			if (!failsSimulation)
-			{
-				//If a validation is performed before the dynamic simulation the "omvalidation_" directory is saved in the results (numOfResults+1).
-				assertTrue(results.getEntries().size() == numOfResults);
-				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
-				if (config.getBoolean("createFilteredMat"))
-					assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.mat")));
-			}
-			else
-			{
-				assertFalse(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
-			}
 		}
 		catch (Exception exc)
 		{

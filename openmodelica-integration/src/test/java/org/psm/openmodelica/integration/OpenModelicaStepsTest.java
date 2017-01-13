@@ -18,15 +18,14 @@ import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 public class OpenModelicaStepsTest
 {
 
-	private String			folderName			= "singlegen";
-	private String			moFileName			= "singlegen.mo";
-	private int				numOfResults;
-
-	private String			filterResVariables	= "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
+	private String			folderName			= "ieee14";
+	private String			moFileName			= "ieee14bus.mo";
+	private int				numOfResults; 
+	private String			filterResVariables	= "bus[a-zA-Z0-9_]*.(V|angle)";
 	private Configuration	config				= setConfiguration(DATA_TMP.toString(),
-			DATA_TEST.resolve("singlegen").resolve("library").toString(), filterResVariables,
+			DATA_TEST.resolve("library").toString(), filterResVariables,
 			"0.0", "1.0", "0.000001", "500");
-
+	
 	@Test
 	public void testCheck() throws FileNotFoundException, IOException
 	{
@@ -87,7 +86,7 @@ public class OpenModelicaStepsTest
 	public void testSimulation() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
-		numOfResults = 6;
+		numOfResults = 30;
 
 		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser

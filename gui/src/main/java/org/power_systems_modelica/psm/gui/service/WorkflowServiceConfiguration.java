@@ -226,11 +226,12 @@ public class WorkflowServiceConfiguration
 		}
 		else
 		{
-			LOG.warn("The event type " + eventType + " does not have elements to be applied to in current case");
+			LOG.warn("The event type " + eventType
+					+ " does not have elements to be applied to in current case");
 		}
 		return elements;
 	}
-	
+
 	// XXX LUMA } elements of current case that can be used with current event
 
 	public static ObservableList<EventParamGui> getEventParams(String event)
@@ -264,7 +265,7 @@ public class WorkflowServiceConfiguration
 		{
 			Files.deleteIfExists(output);
 			Files.deleteIfExists(outputev);
-			cleanupWorkingDir(modelicaEngineWorkingDir);
+			Files.createDirectories(modelicaEngineWorkingDir);
 
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
@@ -328,19 +329,6 @@ public class WorkflowServiceConfiguration
 		return sim;
 	}
 
-	private static void cleanupWorkingDir(Path workingDir) throws IOException
-	{
-		if (Files.exists(workingDir, LinkOption.NOFOLLOW_LINKS))
-		{
-			Files.walk(workingDir, FileVisitOption.FOLLOW_LINKS)
-					.sorted(Comparator.reverseOrder())
-					.map(Path::toFile)
-					.peek(System.out::println)
-					.forEach(File::delete);
-		}
-		Files.createDirectories(workingDir);
-	}
-
 	public static Workflow createConversion(Case cs, Ddr ddr0, LoadflowEngine le,
 			boolean onlyMainConnectedComponent)
 			throws WorkflowCreationException
@@ -352,7 +340,15 @@ public class WorkflowServiceConfiguration
 
 		try
 		{
-			cleanupWorkingDir(modelicaEngineWorkingDir);
+			if (Files.exists(modelicaEngineWorkingDir, LinkOption.NOFOLLOW_LINKS))
+			{
+				Files.walk(modelicaEngineWorkingDir, FileVisitOption.FOLLOW_LINKS)
+						.sorted(Comparator.reverseOrder())
+						.map(Path::toFile)
+						.peek(System.out::println)
+						.forEach(File::delete);
+			}
+			Files.createDirectories(modelicaEngineWorkingDir);
 			Files.deleteIfExists(Paths.get(outname));
 
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));

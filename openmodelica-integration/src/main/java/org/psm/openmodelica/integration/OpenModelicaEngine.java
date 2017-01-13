@@ -108,17 +108,14 @@ public class OpenModelicaEngine implements ModelicaEngine
 			// directory "simulation_path"
 			this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
 						
-			double midTime;
 			boolean simulated = false, validated = false;
 			
 			validated = validateModel(modelName);
 			if(!validated || depth == 1) return;
-			
-			midTime = 0.0001 * stopTime;
+		
 			//TODO Maybe add more logs only for this small simulation
-			simulated = simulateModel(modelName, startTime, midTime, numOfIntervals, tolerance, simFlags);
+			simulated = simulateModel(modelName, startTime, 0.0001 * stopTime, numOfIntervals, tolerance, simFlags);
 			if (!simulated || depth == 2) return;
-			else startTime = midTime;
 			
 			// Simulate the model
 			// Parameter "simFlags" can be a comma separated list of log level:
@@ -403,13 +400,12 @@ public class OpenModelicaEngine implements ModelicaEngine
 		try
 		{
 			this.omSimulationDir = Files.createTempDirectory(this.workingDir, OM_SIM_PREFIX);
-
 			if (Files.notExists(this.omSimulationDir.resolve(modelicaPath)))
 			{
 				printModelicaDocument(mo, this.omSimulationDir);
 			}
 
-			// Copy Models models needed to the simulation directory
+			// Copy Modelica models needed to the simulation directory
 			try
 			{
 				Files.list(this.libraryDir).forEach(file -> {

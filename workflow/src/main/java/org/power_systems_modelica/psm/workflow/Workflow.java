@@ -71,12 +71,12 @@ public class Workflow implements Process
 		this.config = config;
 
 		state = IDLE;
-		WorkflowTasks = new ArrayList<WorkflowTask>();
+		workflowTasks = new ArrayList<WorkflowTask>();
 		for (TaskDefinition td : config.getTaskDefinitions())
 		{
 			WorkflowTask t = TaskFactory.create(td);
 			t.setWorkflow(this);
-			WorkflowTasks.add(t);
+			workflowTasks.add(t);
 		}
 	}
 
@@ -94,12 +94,12 @@ public class Workflow implements Process
 	public void start()
 	{
 		// Assume all WorkflowTasks must be run sequentially
-		sequence(WorkflowTasks);
+		sequence(workflowTasks);
 	}
 
 	public List<WorkflowTask> getWorkflowTasks()
 	{
-		return WorkflowTasks;
+		return workflowTasks;
 	}
 
 	public List<TaskStatePair> getTaskStates()
@@ -181,7 +181,7 @@ public class Workflow implements Process
 
 	private void updateState()
 	{
-		currentTaskStates = WorkflowTasks
+		currentTaskStates = workflowTasks
 				.stream()
 				.map(t -> new TaskStatePair(t.getId(), t.getState()))
 				.collect(Collectors.toList());
@@ -229,7 +229,7 @@ public class Workflow implements Process
 	private final int						id;
 	private final WorkflowConfiguration		config;
 	private ProcessState					state;
-	private List<WorkflowTask>				WorkflowTasks;
+	private List<WorkflowTask>				workflowTasks;
 	private List<TaskStatePair>				currentTaskStates;
 	private Map<String, Object>				results		= new HashMap<>();
 	private final List<WorkflowListener>	listeners	= new ArrayList<>();

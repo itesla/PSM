@@ -236,13 +236,12 @@ public class DymolaIntegrationTest
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
 
 		try(DymolaEngine dymEngine = new DymolaEngine()) {
+			config.setParameter("depth", "0");
 			dymEngine.configure(config);
-			boolean validated = dymEngine.validate(mo, 2);
-			if(validated) dymEngine.simulate(mo);
+			dymEngine.simulate(mo);
 	
 			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
-			//If a validation is performed before the dynamic simulation the "dymvalidation_" directory is saved in the results (numOfResults+1).
-			if(results.getEntries().size() > 1) assertTrue(results.getEntries().size() == numOfResults+1);
+			if(results.getEntries().size() > 1) assertTrue(results.getEntries().size() == numOfResults);
 	
 			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());

@@ -26,23 +26,22 @@ import javax.xml.ws.Action;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface SimulatorServer {
 
-
-    /**
-     * 
-     * @param arg3
-     * @param arg2
-     * @param arg5
-     * @param arg4
-     * @param arg1
-     * @param arg0
-     * @param arg10
-     * @param arg7
-     * @param arg6
-     * @param arg9
-     * @param arg8
-     * @return
-     *     returns DataHandler
-     */
+	/**
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 * @param arg2
+	 * @param arg3
+	 * @param arg4
+	 * @param arg5
+	 * @param arg6
+	 * @param arg7
+	 * @param arg8
+	 * @param arg9
+	 * @param arg10
+	 * @param arg11
+	 * @return
+	 */
     @WebMethod
     @WebResult(partName = "return")
     @Action(input = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateRequest", output = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateResponse")
@@ -75,31 +74,15 @@ public interface SimulatorServer {
 
     @WebMethod
     @WebResult(partName = "return")
-    @Action(input = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/validateRequest", output = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/validateResponse")
-    public DataHandler validate(
+    @Action(input = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/checkRequest", output = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/checkResponse")
+    public DataHandler check(
           @WebParam(name = "arg0", partName = "arg0")
           String arg0,
           @WebParam(name = "arg1", partName = "arg1")
           String arg1,
           @WebParam(name = "arg2", partName = "arg2")
-          double arg2,
+          String arg2,
           @WebParam(name = "arg3", partName = "arg3")
-          double arg3,
-          @WebParam(name = "arg4", partName = "arg4")
-          int arg4,
-          @WebParam(name = "arg5", partName = "arg5")
-          double arg5,
-          @WebParam(name = "arg6", partName = "arg6")
-          double arg6,
-          @WebParam(name = "arg7", partName = "arg7")
-          String[] arg7,
-          @WebParam(name = "arg8", partName = "arg8")
-          String arg8,
-          @WebParam(name = "arg9", partName = "arg9")
-          String arg9,
-          @WebParam(name = "arg10", partName = "arg10")
-          int arg10,
-          @WebParam(name = "arg11", partName = "arg11")
-          DataHandler arg11)
+          DataHandler arg3)
     	;
 }

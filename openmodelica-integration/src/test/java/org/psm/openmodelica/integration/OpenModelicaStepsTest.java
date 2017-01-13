@@ -15,7 +15,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 
-public class OpenModelicaValidationTest
+public class OpenModelicaStepsTest
 {
 
 	private String			folderName			= "singlegen";
@@ -28,7 +28,7 @@ public class OpenModelicaValidationTest
 			"0.0", "1.0", "0.000001", "500");
 
 	@Test
-	public void testOnlyValidationDepth1() throws FileNotFoundException, IOException
+	public void testCheck() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
 
@@ -38,47 +38,13 @@ public class OpenModelicaValidationTest
 
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
+			config.setParameter("depth", "1");
 			omEngine.configure(config);
-			boolean validated = omEngine.validate(mo, 1);
+			omEngine.simulate(mo);
 
 			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
-
-			assertTrue(validated);
-			assertTrue(omEngine.getSimulationResults().getEntries().isEmpty());
-			// TODO assert if exists
-			// assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-			// assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
-		}
-		catch (Exception exc)
-		{
-			exc.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testOnlyValidatioDepth2() throws FileNotFoundException, IOException
-	{
-		if (!isOpenModelicaAvailable()) return;
-
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
-		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
-
-		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
-		{
-			omEngine.configure(config);
-			boolean validated = omEngine.validate(mo, 2);
-
-			assertEquals(moName, mo.getSystemModel().getId());
-			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
-
-			assertTrue(validated);
 			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
-			// TODO assert if exists
-			// assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-			// assertTrue(Files.exists(omSimPath.resolve(moName + ".log")));
-			// assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
 		}
 		catch (Exception exc)
 		{
@@ -87,7 +53,38 @@ public class OpenModelicaValidationTest
 	}
 
 	@Test
-	public void testOnlySimulation() throws FileNotFoundException, IOException
+	public void testVerify() throws FileNotFoundException, IOException
+	{
+		if (!isOpenModelicaAvailable()) return;
+
+		String moName = moFileName.substring(0, moFileName.indexOf("."));
+		ModelicaDocument mo = ModelicaParser
+				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+
+		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
+		{
+			config.setParameter("depth", "2");
+			omEngine.configure(config);
+			omEngine.simulate(mo);
+
+			Path omSimPath = (Path) omEngine.getSimulationResults()
+					.getValue(mo.getSystemModel().getId(), "simulation_path");
+
+			assertEquals(moName, mo.getSystemModel().getId());
+			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
+			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
+			assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
+			assertTrue(Files.exists(omSimPath.resolve(moName + ".log")));
+			assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testSimulation() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
 		numOfResults = 6;
@@ -98,6 +95,7 @@ public class OpenModelicaValidationTest
 
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
+			config.setParameter("depth", "0");
 			omEngine.configure(config);
 			omEngine.simulate(mo);
 
@@ -106,78 +104,6 @@ public class OpenModelicaValidationTest
 
 			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
-			assertTrue(results.getEntries().size() == numOfResults);
-
-			Path omSimPath = (Path) omEngine.getSimulationResults()
-					.getValue(mo.getSystemModel().getId(), "simulation_path");
-			assertTrue(Files.exists(omSimPath.resolve(moName + ".log")));
-			assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-			assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
-		}
-		catch (Exception exc)
-		{
-			exc.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testValidationDepth1AndSimulation() throws FileNotFoundException, IOException
-	{
-		if (!isOpenModelicaAvailable()) return;
-		numOfResults = 6;
-
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
-		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
-
-		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
-		{
-			omEngine.configure(config);
-			boolean validated = omEngine.validate(mo, 1);
-			if (validated) omEngine.simulate(mo);
-
-			assertEquals(moName, mo.getSystemModel().getId());
-			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
-			assertTrue(validated);
-			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
-
-			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
-			assertTrue(results.getEntries().size() == numOfResults);
-
-			Path omSimPath = (Path) omEngine.getSimulationResults()
-					.getValue(mo.getSystemModel().getId(), "simulation_path");
-			assertTrue(Files.exists(omSimPath.resolve(moName + ".log")));
-			assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-			assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
-		}
-		catch (Exception exc)
-		{
-			exc.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testValidationDepth2AndSimulation() throws FileNotFoundException, IOException
-	{
-		if (!isOpenModelicaAvailable()) return;
-		numOfResults = 6;
-
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
-		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
-
-		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
-		{
-			omEngine.configure(config);
-			boolean validated = omEngine.validate(mo, 1);
-			if (validated) omEngine.simulate(mo);
-
-			assertEquals(moName, mo.getSystemModel().getId());
-			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
-			assertTrue(validated);
-			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
-
-			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 			assertTrue(results.getEntries().size() == numOfResults);
 
 			Path omSimPath = (Path) omEngine.getSimulationResults()

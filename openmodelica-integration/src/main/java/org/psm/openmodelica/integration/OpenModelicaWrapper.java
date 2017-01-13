@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.openmodelica.corba.SmartProxy;
+import org.stringtemplate.v4.compiler.STParser.memberExpr_return;
 
 public class OpenModelicaWrapper extends SmartProxy
 {
@@ -188,20 +189,29 @@ public class OpenModelicaWrapper extends SmartProxy
 				.append(")").toString());
 	}
 
-	/**
-	 * Logs the reply received from OMC if the tracing flag (traceOMCCalls) is set
-	 *
-	 * @param reply
-	 *            the reply recieved from the OMC
-	 */
 	@Override
 	public void logOMCReply(String reply)
 	{
-		StringTokenizer tokenizer = new StringTokenizer(reply, "\n");
+		//TODO Temp
+//		StringTokenizer tokenizer = new StringTokenizer(reply, "\n");
+//
+//		while (tokenizer.hasMoreTokens())
+//		{
+//			System.out.println("<<<< " + tokenizer.nextToken());
+//		}
+	}
 
-		while (tokenizer.hasMoreTokens())
-		{
-			System.out.println("<<<< " + tokenizer.nextToken());
-		}
+	@Override
+	public void logOMCCall(String expression)
+	{
+		//TODO Temp
+//		System.out.println(">>>> " + expression);
+	}
+
+	@Override
+	public void logOMCStatus(String message)
+	{
+		//TODO Temp
+//		System.out.println(">>>><<<< " + message);
 	}
 }

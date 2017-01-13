@@ -21,7 +21,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,23 +115,14 @@ public class SimulatorServerImpl implements SimulatorServer
 		}
 	}
 
-	public @XmlMimeType("application/octet-stream") DataHandler validate(
+	public @XmlMimeType("application/octet-stream") DataHandler check(
 			String inputFileName,
 			String problem,
-			double startTime,
-			double stopTime,
-			int numberOfIntervals,
-			double outputInterval,
-			double tolerance,
-			String[] methodList,
 			String resultsFileName,
-			String resultVariables,
-			int depth,
 			@XmlMimeType("application/octet-stream") DataHandler data)
 	{
 		Path workingDir = null;
 		String outputZipFile = null;
-		METHOD_LIST = methodList;
 		try
 		{
 			Instant startms = Instant.now();
@@ -140,7 +130,8 @@ public class SimulatorServerImpl implements SimulatorServer
 			try (StreamingDataHandler inputDh = (StreamingDataHandler) data)
 			{
 				Files.createDirectories(Paths.get(serviceWorkDir));
-				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir), DYMSERV_VAL_PREFIX);
+				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir),
+						DYMSERV_VAL_PREFIX);
 				Files.createDirectories(workingDir);
 				inputZipFile = workingDir.resolve(DYMOLASERVICE_INPUTFILENAME);
 				inputDh.moveTo(inputZipFile.toFile());
@@ -149,46 +140,26 @@ public class SimulatorServerImpl implements SimulatorServer
 			{
 				ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
 			}
-			Instant endms = Instant.now();
 			LOGGER.info(
-					" {} - dymola validation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.",
-					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
-					outputInterval, tolerance, resultsFileName,
-					Duration.between(startms, endms).toMillis());
+					" {} - dymola checking started - inputFileName:{}, problem:{}, resultsFileName:{}.",
+					workingDir, inputFileName, problem, resultsFileName);
+			
+			//Move to working directory, load all needed Modelica files.
+			prepareDymola(workingDir, inputFileName);
+			
+			checkDymola(workingDir, inputFileName, problem, resultsFileName);
+			
+			boolean result = dymola.savelog(DYMOLA_LOG_FILENAME);
 
-			startms = Instant.now();
-			validateDymola(workingDir, inputFileName, problem, startTime,
-					stopTime, numberOfIntervals, outputInterval, tolerance,
-					methodList, resultsFileName, resultVariables, depth);
-			endms = Instant.now();
-
-			long simulationTime = Duration.between(startms, endms).toMillis();
-
-			startms = Instant.now();
-			outputZipFile = workingDir.getFileName() + ".zip";
-			Map<String, String> fileNamesToInclude = MapUtils.asUnmodifiableMap(
-					entry("log.txt", resultsFileName + "_log.txt"),
-					entry("dslog.txt", resultsFileName + "_dslog.txt"),
-					entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
-					entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"));
-
-			prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
-			endms = Instant.now();
-			LOGGER.info(
-					" {} - dymola validation terminated - simulation time: {} ms., output file zipped in: {} ms.",
-					workingDir, simulationTime, Duration.between(startms, endms).toMillis());
-
-			TemporaryFileDataSource outDataSource = new TemporaryFileDataSource(
-					Paths.get(outputZipFile).toFile());
-			DataHandler outputFileDataHandler = new DataHandler(outDataSource);
+			DataHandler outputFileDataHandler = prepareOutputData(workingDir, resultsFileName);
+			
 			return outputFileDataHandler;
 		}
 		catch (Exception e)
 		{
 			LOGGER.error(
-					" {} - dymola validation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}",
-					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
-					outputInterval, tolerance, resultsFileName, e);
+					" {} - dymola checking failed - inputFileName:{}, problem:{}, resultsFileName:{}",
+					workingDir, inputFileName, problem, resultsFileName, e);
 
 			String errMessg = e.getMessage();
 			errMessg = ((errMessg != null) && (errMessg.length() > MSGERRLEN))
@@ -225,7 +196,6 @@ public class SimulatorServerImpl implements SimulatorServer
 			@XmlMimeType("application/octet-stream") DataHandler data)
 	{
 		Path workingDir = null;
-		String outputZipFile = null;
 		METHOD_LIST = methodList;
 		try
 		{
@@ -234,7 +204,8 @@ public class SimulatorServerImpl implements SimulatorServer
 			try (StreamingDataHandler inputDh = (StreamingDataHandler) data)
 			{
 				Files.createDirectories(Paths.get(serviceWorkDir));
-				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir), DYMSERV_SIM_PREFIX);
+				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir),
+						DYMSERV_SIM_PREFIX);
 				Files.createDirectories(workingDir);
 				inputZipFile = workingDir.resolve(DYMOLASERVICE_INPUTFILENAME);
 				inputDh.moveTo(inputZipFile.toFile());
@@ -243,39 +214,23 @@ public class SimulatorServerImpl implements SimulatorServer
 			{
 				ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
 			}
-			Instant endms = Instant.now();
 			LOGGER.info(
-					" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}, input data unzipped in: {} ms.",
+					" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}.",
 					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
-					outputInterval, tolerance, resultsFileName,
-					Duration.between(startms, endms).toMillis());
+					outputInterval, tolerance, resultsFileName);
+	
+			prepareDymola(workingDir, inputFileName);
+			
+			checkDymola(workingDir, inputFileName, problem, resultsFileName);
 
-			startms = Instant.now();
 			simulateDymola(workingDir, inputFileName, problem, startTime, stopTime,
 					numberOfIntervals, outputInterval, tolerance, resultsFileName,
 					resultVariables, createFilteredMat);
-			endms = Instant.now();
 
-			long simulationTime = Duration.between(startms, endms).toMillis();
+			boolean result = dymola.savelog(DYMOLA_LOG_FILENAME);
 
-			startms = Instant.now();
-			outputZipFile = workingDir.getFileName() + ".zip";
-			Map<String, String> fileNamesToInclude = MapUtils.asUnmodifiableMap(
-					entry("log.txt", resultsFileName + "_log.txt"),
-					entry("dslog.txt", resultsFileName + "_dslog.txt"),
-					entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
-					entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
-					entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
+			DataHandler outputFileDataHandler = prepareOutputData(workingDir, resultsFileName);
 
-			prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
-			endms = Instant.now();
-			LOGGER.info(
-					" {} - dymola simulation terminated - simulation time: {} ms., output file zipped in: {} ms.",
-					workingDir, simulationTime, Duration.between(startms, endms).toMillis());
-
-			TemporaryFileDataSource outDataSource = new TemporaryFileDataSource(
-					Paths.get(outputZipFile).toFile());
-			DataHandler outputFileDataHandler = new DataHandler(outDataSource);
 			return outputFileDataHandler;
 		}
 		catch (Exception e)
@@ -305,66 +260,82 @@ public class SimulatorServerImpl implements SimulatorServer
 			}
 		}
 	}
+	
+	private void prepareDymola(Path workingDir, String inputFileName) throws DymolaException {
+		boolean result = dymola.clear();
+		 if (!result)
+		 {
+		 LOGGER.error("Error clearing workspace: {}.", dymola.getLastError());
+		 }
+		//TODO
 
-	protected void validateDymola(Path workingDirectory, String inputFileName, String problem,
-			double startTime, double stopTime, int numberOfIntervals, double outputInterval,
-			double tolerance, String[] methodList, String resultsFileName, String resultVariables,
-			int depth)
+		result = dymola.cd(workingDir.toAbsolutePath().toString());
+		if (!result)
+		{
+			LOGGER.error("Error setting the working directory {}. Reason is {}.",
+					workingDir, dymola.getLastError());
+		}
+
+		result = dymola.openModel(workingDir + File.separator + inputFileName);
+		if (!result)
+		{
+			LOGGER.error("Error opening model {}.", dymola.getLastError());
+		}
+	}
+
+	private DataHandler prepareOutputData(Path workingDir, String resultsFileName)
+			throws IOException, URISyntaxException
 	{
-		// Depth = 1 : only load and check model.
-		// Depth = 2 : load, check and small simulation of the model.
+		String outputZipFile = workingDir.getFileName() + ".zip";
+		Map<String, String> fileNamesToInclude = MapUtils.asUnmodifiableMap(
+				entry("log.txt", resultsFileName + "_log.txt"),
+				entry("dslog.txt", resultsFileName + "_dslog.txt"),
+				entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
+				entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
+				entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
 
+		prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
+
+		TemporaryFileDataSource outDataSource = new TemporaryFileDataSource(
+				Paths.get(outputZipFile).toFile());
+		DataHandler outputFileDataHandler = new DataHandler(outDataSource);
+
+		LOGGER.info(
+				" {} - dymola simulation terminated.",
+				workingDir);
+
+		return outputFileDataHandler;
+	}
+
+	protected void checkDymola(Path workingDirectory, String inputFileName, String problem, String resultsFileName)
+	{
 		try
 		{
-			boolean result = dymola.clear();
-//			if (!result)
-//			{
-//				LOGGER.error("Error clearing workspace: {}.", dymola.getLastError());
-//			}
-
-			result = dymola.cd(workingDirectory.toAbsolutePath().toString());
+			boolean result = dymola.checkModel(problem);
 			if (!result)
 			{
-				LOGGER.error("Error setting the working directory {}. Reason is {}.",
-						workingDirectory, dymola.getLastError());
+				LOGGER.error("Error checking model {}. Reason is {}.", problem,
+						dymola.getLastError());
 			}
-			
-			result = dymola.openModel(workingDirectory + File.separator + inputFileName);
-			if (!result)
-			{
-				LOGGER.error("Error opening model {}.", dymola.getLastError());
-			}
+			// break;
+			// case 2:
+			// result = dymola.checkModel(problem);
+			// if (!result)
+			// {
+			// LOGGER.error("Error checking model {}. Reason is ,{}", problem,
+			// dymola.getLastError());
+			// }
+			// simulateModel(problem, startTime, 0.0001 * stopTime, numberOfIntervals, tolerance,
+			// outputInterval, resultsFileName);
+			// break;
+			// }
 
-			switch (depth)
-			{
-			case 1:
-				result = dymola.checkModel(problem);
-				if (!result)
-				{
-					LOGGER.error("Error checking model {}. Reason is {}.", problem,
-							dymola.getLastError());
-				}
-				break;
-			case 2:
-				result = dymola.checkModel(problem);
-				if (!result)
-				{
-					LOGGER.error("Error checking model {}. Reason is ,{}", problem,
-							dymola.getLastError());
-				}
-				simulateModel(problem, startTime, 0.0001 * stopTime, numberOfIntervals, tolerance,
-						outputInterval, resultsFileName);
-				break;
-			}
-			
-			result = dymola.savelog(DYMOLA_LOG_FILENAME);
 		}
 		catch (Exception e)
 		{
 			LOGGER.error(
-					" {} - openmodelica validation failed - problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}: {}",
-					workingDirectory, problem, startTime, stopTime, numberOfIntervals, tolerance,
-					e);
+					" {} - openmodelica validation failed - problem:{} : {}",
+					workingDirectory, problem, e);
 		}
 	}
 
@@ -376,10 +347,10 @@ public class SimulatorServerImpl implements SimulatorServer
 
 		boolean result = false;
 		result = dymola.clear();
-//		if (!result)
-//		{
-//			throw new RuntimeException("Error clearing workspace : " + dymola.getLastError());
-//		}
+		 if (!result)
+		 {
+		 throw new RuntimeException("Error clearing workspace : " + dymola.getLastError());
+		 }
 
 		result = dymola.cd(workingDirectory.toAbsolutePath().toString());
 		if (!result)
@@ -623,8 +594,8 @@ public class SimulatorServerImpl implements SimulatorServer
 
 	static final String			DYMOLASERVICE_TEMP			= "/temp/Dymola/server";
 	static final String			DYMOLASERVICE_INPUTFILENAME	= "dyninput.zip";
-	static final String			DYMSERV_SIM_PREFIX				= "dymserv_sim_";
-	static final String			DYMSERV_VAL_PREFIX				= "dymserv_val_";
+	static final String			DYMSERV_SIM_PREFIX			= "dymserv_sim_";
+	static final String			DYMSERV_VAL_PREFIX			= "dymserv_val_";
 	private static final String	DYMOLA_LOG_FILENAME			= "log.txt";
 	private static final int	MSGERRLEN					= 400;
 

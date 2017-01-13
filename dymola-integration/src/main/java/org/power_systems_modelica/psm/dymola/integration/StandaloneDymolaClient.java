@@ -42,8 +42,7 @@ public class StandaloneDymolaClient
 		this.methodList = methodList;
 	}
 
-	protected String validate(String modelName, String modelFileName, double startTime, double stopTime,
-			int numberOfIntervals, double intervalSize, double tolerance, int depth)
+	protected String check(String modelName, String modelFileName)
 			throws InterruptedException
 	{
 		Path pathIn = workingDirectory.resolve(this.inputFileName);
@@ -67,19 +66,11 @@ public class StandaloneDymolaClient
 				((BindingProvider) sport).getRequestContext()
 						.put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
 				DataHandler dhin = new DataHandler(new FileDataSource(pathIn.toFile()));
-				DataHandler dhout = sport.validate(
-												modelFileName,
-												modelName,
-												startTime,
-												stopTime,
-												numberOfIntervals,
-												intervalSize,
-												tolerance,
-												methodList,
-												outputDymolaFileName,
-												resultVariables,
-												depth,
-												dhin);
+				DataHandler dhout = sport.check(
+						modelFileName,
+						modelName,
+						outputDymolaFileName,
+						dhin);
 				StreamingDataHandler sdh = (StreamingDataHandler) dhout;
 				LOGGER.info(
 						" - remote dymola proxy service ended successfully, retrieving validation output");
@@ -112,8 +103,16 @@ public class StandaloneDymolaClient
 		return retCode;
 	}
 
-	protected String simulate(String modelName, String modelFileName, double startTime, double stopTime,
+	protected String verify(String modelName, String modelFileName, double startTime, double stopTime,
 			int numOfIntervals, double intervalSize, double tolerance) throws InterruptedException
+	{
+		String retCode = simulate(modelName, modelFileName, startTime, stopTime, numOfIntervals, intervalSize, tolerance);
+
+		return retCode;
+	}
+
+	protected String simulate(String modelName, String modelFileName, double startTime,
+			double stopTime, int numOfIntervals, double intervalSize, double tolerance) throws InterruptedException
 	{
 		Path pathIn = workingDirectory.resolve(inputFileName);
 		Path pathOut = workingDirectory.resolve(outputFileName);
@@ -148,7 +147,6 @@ public class StandaloneDymolaClient
 						resultVariables,
 						createFilteredMat,
 						dhin);
-
 				StreamingDataHandler sdh = (StreamingDataHandler) dhout;
 				LOGGER.info(
 						" - remote dymola proxy service ended successfully, retrieving simulation output");
@@ -187,12 +185,12 @@ public class StandaloneDymolaClient
 	{
 		return "dymola client {" +
 				", wsdlService='" + wsdlService + '\'' +
-				 ", workingDirectory=" + workingDirectory +
-				 ", inputFileName=" + inputFileName +
-				 ", outputDymolaFileName=" + outputDymolaFileName +
-				 ", resultVariables=" + resultVariables +
-				 ", methodList=" + methodList +
-				 ", createFilteredMat=" + createFilteredMat +
+				", workingDirectory=" + workingDirectory +
+				", inputFileName=" + inputFileName +
+				", outputDymolaFileName=" + outputDymolaFileName +
+				", resultVariables=" + resultVariables +
+				", methodList=" + methodList +
+				", createFilteredMat=" + createFilteredMat +
 				'}';
 	}
 
@@ -200,7 +198,6 @@ public class StandaloneDymolaClient
 	private Path				workingDirectory;
 	private String				inputFileName;
 	private String				outputFileName;
-//	private String				modelFileName;
 	private String				outputDymolaFileName;
 	private String				resultVariables;
 	private String[]			methodList;

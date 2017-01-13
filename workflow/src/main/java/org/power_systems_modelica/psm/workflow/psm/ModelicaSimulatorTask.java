@@ -2,6 +2,10 @@ package org.power_systems_modelica.psm.workflow.psm;
 
 import static org.power_systems_modelica.psm.workflow.Workflow.ResultsScope.SCOPE_GLOBAL;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -11,7 +15,7 @@ import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
-public class ModelicaSimulatorTask extends WorkflowTask
+public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 {
 	public ModelicaSimulatorTask(String id)
 	{
@@ -42,23 +46,50 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		try
 		{
 			ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
-
-			try(ModelicaEngine me = ModelicaEngineMainFactory.create(modelicaEngine))
+			try
 			{
+				me = ModelicaEngineMainFactory.create(modelicaEngine);
+				me.getModelicaEngineProgress().addObserver(this);
 				me.configure(config);
-				boolean validated = me.validate(mo, 2);
-				if (validated) me.simulate(mo);
-				dynSimulationParams = me.getSimulationResults();
-	
+				String modelName = mo.getSystemModel().getId();
+
+				me.simulate(mo);
+
+				dinSimulationParams = me.getSimulationResults();
+				Path dinSimPath = (Path) dinSimulationParams.getValue(modelName, "simulation_path");
+				boolean hasResults = Files.list(dinSimPath)
+						.anyMatch(f -> f.toString().endsWith(".mat"));
+
+				if (hasResults) {
+					progress(String.format("Model %s has been simulated.", modelName));
+				}
+				else { 
+					progress(String.format("Model %s has not been simulated.", modelName));
+				}
+
 				publish(SCOPE_GLOBAL,
 						"simres",
-						dynSimulationParams.getValue(mo.getSystemModel().getId(), "simulation_path"));
-	
+						dinSimulationParams.getValue(modelName, "simulation_path"));
+
 				succeded();
 			}
 			catch (Exception exc)
 			{
 				exc.printStackTrace();
+			}
+			finally
+			{
+				if (me != null)
+				{
+					try
+					{
+						me.close();
+					}
+					catch (Exception ex)
+					{
+						ex.printStackTrace();
+					}
+				}
 			}
 		}
 		catch (Exception x)
@@ -67,9 +98,15 @@ public class ModelicaSimulatorTask extends WorkflowTask
 		}
 	}
 
-	private Configuration					config;
-	private ModelicaSimulationFinalResults	dynSimulationParams;
+	@Override
+	public void update(Observable arg0, Object arg1)
+	{
+		progress(arg1.toString());
+	}
+	
+	protected ModelicaEngine				me	= null;
 	private String							modelicaEngine;
+	private Configuration					config;
+	private ModelicaSimulationFinalResults	dinSimulationParams;
 	private String							source;
-
 }

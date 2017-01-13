@@ -9,11 +9,13 @@ public interface ModelicaEngine extends AutoCloseable
 {
 	void configure(Configuration config);
 
-	boolean validate(ModelicaDocument mo, int depth);
-
 	void simulate(ModelicaDocument mo);
 
 	void simulate(Collection<ModelicaDocument> mos);
 
 	ModelicaSimulationFinalResults getSimulationResults();
+	
+	ModelicaEngineProgress getModelicaEngineProgress();
+	
+	void progress(String message);
 }

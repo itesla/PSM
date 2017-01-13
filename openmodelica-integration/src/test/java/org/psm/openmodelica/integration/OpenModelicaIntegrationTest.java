@@ -3,6 +3,7 @@ package org.psm.openmodelica.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -214,9 +215,8 @@ public class OpenModelicaIntegrationTest
 
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
-			omEngine.configure(config);
-			boolean validated = omEngine.validate(mo, 2);
-			if (validated) omEngine.simulate(mo);
+			omEngine.configure(config); 
+			omEngine.simulate(mo);
 
 			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
@@ -227,7 +227,7 @@ public class OpenModelicaIntegrationTest
 			if (!failsSimulation)
 			{
 				//If a validation is performed before the dynamic simulation the "omvalidation_" directory is saved in the results (numOfResults+1).
-				assertTrue(results.getEntries().size() == numOfResults+1);
+				assertTrue(results.getEntries().size() == numOfResults);
 				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
 				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
 				if (config.getBoolean("createFilteredMat"))
@@ -235,7 +235,7 @@ public class OpenModelicaIntegrationTest
 			}
 			else
 			{
-				assertNull(omSimPath);
+				assertFalse(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
 			}
 		}
 		catch (Exception exc)

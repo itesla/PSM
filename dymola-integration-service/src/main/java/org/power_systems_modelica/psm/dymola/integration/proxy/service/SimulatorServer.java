@@ -23,18 +23,10 @@ public interface SimulatorServer
 {
 	@WebMethod
 	@XmlMimeType("application/octet-stream")
-	DataHandler validate(
+	DataHandler check(
 			 String inputFileName,
 			 String problem,
-			 double startTime,
-			 double stopTime,
-			 int numberOfIntervals,
-			 double outputInterval,
-			 double tolerance,
-			 String[] methodList,
 			 String resultsFileName,
-			 String resultsVars,
-			 int depth,
 			@XmlMimeType("application/octet-stream") DataHandler data);
 
 	@WebMethod

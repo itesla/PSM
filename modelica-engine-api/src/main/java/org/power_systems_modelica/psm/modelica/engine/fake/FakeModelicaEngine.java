@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
@@ -30,12 +31,6 @@ public class FakeModelicaEngine implements ModelicaEngine
 		{
 			LOG.warn("Fake Modelica engine configured without fake simulation results");
 		}
-	}
-
-	@Override
-	public boolean validate(ModelicaDocument mo, int depth)
-	{
-		return true;
 	}
 
 	@Override
@@ -74,6 +69,18 @@ public class FakeModelicaEngine implements ModelicaEngine
 	{
 	}
 
+	@Override
+	public void progress(String message)
+	{
+	}
+
+	@Override
+	public ModelicaEngineProgress getModelicaEngineProgress()
+	{
+		return engineProgress;
+	}
+
+	private ModelicaEngineProgress	engineProgress;
 	ModelicaSimulationFinalResults	results;
 	Path							workingDir;
 

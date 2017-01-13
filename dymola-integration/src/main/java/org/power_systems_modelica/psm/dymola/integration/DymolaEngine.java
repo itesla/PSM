@@ -23,6 +23,7 @@ import org.power_systems_modelica.psm.dymola.integration.utils.ZipFileUtil;
 import org.power_systems_modelica.psm.dymola.integration.utils.ZipWriter;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
+import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
@@ -48,72 +49,29 @@ public class DymolaEngine implements ModelicaEngine
 		this.tolerance = Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
 
 		this.numOfIntervalsPerSecond = Optional
-				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(500);
+				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(100);
 		this.numOfIntervals = (int) this.stopTime * this.numOfIntervalsPerSecond;
 		this.intervalSize = this.stopTime / this.numOfIntervals;
 
 		this.createFilteredMat = Optional.ofNullable(config.getBoolean("createFilteredMat"))
 				.orElse(false);
-	}
-
-	@Override
-	public boolean validate(ModelicaDocument mo, int depth)
-	{
-		String task = "VALIDATION";
-		String modelName = mo.getSystemModel().getId();
-		String moFileName = modelName + MO_EXTENSION;
-		Path modelDirectory = Paths.get(moFileName);
-
-		if (Files.notExists(this.workingDir.resolve(modelDirectory)))
-		{
-			printModelicaDocument(mo, this.workingDir);
-		}
-
-		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName, DYM_VAL_PREFIX);
-		// The first "result" in ModelicaSimulationResults is the simulation directory with var="validation_path"
-		this.results.addResult(modelName, "validation_path", this.dymSimulationDir);
-		
-		dymolaClient = new StandaloneDymolaClient(dymSimulationDir, inputZipFileName,
-				outputZipFileName, outputDymolaFileName,
-				createFilteredMat, METHOD_LIST, wsdlService, resultVariables);
-		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
-
-		try
-		{
-			String simResults = dymolaClient.validate(modelName, moFileName, startTime, stopTime,
-					numOfIntervals, intervalSize, tolerance, depth);
-
-			PrintStream printStream = new PrintStream(
-					Files.newOutputStream(workingDir.resolve(outputErrorsFileName)));
-			printStream.print(simResults);
-			return true;
-		}
-		catch (IOException e)
-		{
-			LOGGER.error("Error printing errors file. {}", e.getMessage());
-			return false;
-		}
-		catch (InterruptedException e)
-		{
-			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
-			return false;
-		}
+		this.depth = Optional.ofNullable(config.getInteger("depth")).orElse(0);
 	}
 
 	@Override
 	public void simulate(ModelicaDocument mo)
 	{
-		String task = "SIMULATION";
 		String modelName = mo.getSystemModel().getId();
 		String moFileName = modelName + MO_EXTENSION;
 		Path modelDirectory = Paths.get(moFileName);
+		String simResults = "";
 
 		if (Files.notExists(this.workingDir.resolve(modelDirectory)))
 		{
 			printModelicaDocument(mo, this.workingDir);
 		}
 
-		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName, DYM_SIM_PREFIX);
+		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 		// The first "result" in ModelicaSimulationResults is the simulation directory with var="simulation_path"
 		this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
 
@@ -122,15 +80,37 @@ public class DymolaEngine implements ModelicaEngine
 				createFilteredMat, METHOD_LIST, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 
-		String simResults = "";
-		try
-		{
+		try {
+			simResults = dymolaClient.check(modelName, moFileName);
+		}
+		catch(InterruptedException exc) {
+			LOGGER.error("Dymola execution interrupted unexpectedly. Error checking model {}.", exc.getMessage());
+			return;
+		}
+		
+		if(depth == 1) return;		
+
+		try {
+			simResults = dymolaClient.verify(modelName, moFileName, startTime, 0.0001 * stopTime,
+					numOfIntervals, intervalSize, tolerance);
+			writeResults(outputZipFileName, modelName);
+		}
+		catch(InterruptedException exc) {
+			LOGGER.error("Dymola execution interrupted unexpectedly. Error verifying model {}.", exc.getMessage());
+			return;
+		}
+		
+		if(depth == 2) return;
+
+		try {
 			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
 					numOfIntervals, intervalSize, tolerance);
+			writeResults(outputZipFileName, modelName);
 		}
-		catch (InterruptedException e)
+		catch(InterruptedException exc)
 		{
-			LOGGER.error("Dymola execution interrupted unexpectedly: {}", e.getMessage());
+			LOGGER.error("Dymola execution interrupted unexpectedly. Error simulating model {}.", exc.getMessage());
+			return;
 		}
 
 		try (PrintStream printStream = new PrintStream(
@@ -142,7 +122,6 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			LOGGER.error("Error printing errors file. {}", e.getMessage());
 		}
-		writeResults(outputZipFileName, modelName);
 	}
 
 	@Override
@@ -164,8 +143,8 @@ public class DymolaEngine implements ModelicaEngine
 	 */
 	private void writeResults(String outputZipFileName, String modelName)
 	{
-//		// The first "result" in ModelicaSimulationResults is the simulation directory with var="simulation_path"
-//		this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
+		// // The first "result" in ModelicaSimulationResults is the simulation directory with var="simulation_path"
+		// this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
 
 		try (ZipFile zipFile = new ZipFile(
 				Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile()))
@@ -220,7 +199,7 @@ public class DymolaEngine implements ModelicaEngine
 		}
 	}
 
-	private void prepareWorkingDirectory(Path modelicaPath, String moFileName, String modelName, String dirPrefix)
+	private void prepareWorkingDirectory(Path modelicaPath, String moFileName, String modelName)
 	{
 		this.inputZipFileName = modelName + "_in.zip";
 		this.outputZipFileName = modelName + "_out.zip";
@@ -229,7 +208,7 @@ public class DymolaEngine implements ModelicaEngine
 
 		try
 		{
-			this.dymSimulationDir = Files.createTempDirectory(this.workingDir, dirPrefix);
+			this.dymSimulationDir = Files.createTempDirectory(this.workingDir, DYM_SIM_PREFIX);
 
 			// Copy the Modelica model to the simulation directory
 			try
@@ -287,11 +266,24 @@ public class DymolaEngine implements ModelicaEngine
 	@Override
 	public void close() throws Exception
 	{
-		//The Dymola service is independent of the Dymola Engine.
+		// The Dymola service is independent of the Dymola Engine.
 		LOGGER.info("(Fake) Closing Dymola service.");
 	}
-	
 
+	@Override
+	public void progress(String message)
+	{
+		LOGGER.info(message);
+		engineProgress.updateProgress(message);
+	}
+
+	@Override
+	public ModelicaEngineProgress getModelicaEngineProgress()
+	{
+		return engineProgress;
+	}
+
+	private ModelicaEngineProgress			engineProgress;
 	private Path							workingDir;
 	private Path							dymSimulationDir;
 	private int								numOfIntervalsPerSecond;
@@ -308,12 +300,12 @@ public class DymolaEngine implements ModelicaEngine
 	private Path							libraryDir;
 	private String							resultVariables;
 	private boolean							createFilteredMat;
+	private int								depth;
 
 	private ModelicaSimulationFinalResults	results			= new ModelicaSimulationFinalResults();
 	private StandaloneDymolaClient			dymolaClient	= null;
 
-	private static final String				DYM_SIM_PREFIX		= "dymsimulation_";
-	private static final String				DYM_VAL_PREFIX	= "dymvalidation_";
+	private static final String				DYM_SIM_PREFIX	= "dymsimulation_";
 	private static final String				MO_EXTENSION	= ".mo";
 	private static final String				CSV_EXTENSION	= ".csv";
 	private static final String				COMMA			= ",";

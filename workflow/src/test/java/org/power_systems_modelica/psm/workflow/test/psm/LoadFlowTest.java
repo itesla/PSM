@@ -62,31 +62,61 @@ public class LoadFlowTest
 	@Test
 	public void compareHelmflowHades2Ieee14() throws WorkflowCreationException
 	{
-		compareHelmflowHades2("ieee14");
+		compareHelmflowHades2("ieee14", "ieee14bus_EQ.xml");
 	}
 
 	@Test
 	public void compareHelmflowHades2Ieee30() throws WorkflowCreationException
 	{
-		compareHelmflowHades2("ieee30");
+		compareHelmflowHades2("ieee30", "ieee14bus_EQ.xml");
 	}
 
 	@Test
 	public void compareHelmflowHades2Ieee57() throws WorkflowCreationException
 	{
-		compareHelmflowHades2("ieee57");
+		compareHelmflowHades2("ieee57", "ieee57bus_EQ.xml");
 	}
 
 	@Test
 	public void compareHelmflowHades2Ieee118() throws WorkflowCreationException
 	{
-		compareHelmflowHades2("ieee118");
+		compareHelmflowHades2("ieee118", "ieee118bus_EQ.xml");
 	}
 
-	void compareHelmflowHades2(String case_) throws WorkflowCreationException
+	@Test
+	public void compareHelmflowHades27Buses() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("7buses", "CIM_7buses_EQ.xml");
+	}
+
+	@Test
+	public void compareHelmflowHades2Nordic32() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("Nordic32", "Nordic32_EQ.xml");
+	}
+
+	@Test
+	public void compareHelmflowHades2smallcase1() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("smallcase1", "case1_EQ.xml");
+	}
+
+	@Test
+	public void compareHelmflowHades2smallcase2() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("smallcase2", "case2_EQ.xml");
+	}
+
+	@Test
+	public void compareHelmflowHades2smallcase3() throws WorkflowCreationException
+	{
+		compareHelmflowHades2("smallcase3", "case3_EQ.xml");
+	}
+
+	void compareHelmflowHades2(String caseFolder, String caseName) throws WorkflowCreationException
 	{
 		if (!isHades2Available()) return;
-		String caseFilename = TEST_SAMPLES.resolve(case_).resolve(case_ + "bus_EQ.xml").toString();
+		String caseFilename = TEST_SAMPLES.resolve(caseFolder).resolve(caseName).toString();
 
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",
@@ -112,30 +142,35 @@ public class LoadFlowTest
 				n,
 				"resultsHelmflow",
 				StateManager.INITIAL_STATE_ID);
-		checkResults(case_, "HF  0", allBusesValuesHF0, "V", 0.01f, 0.1f, false);
-		checkResults(case_, "HF  0", allBusesValuesHF0, "A", 0.01f, 0.1f, false);
-		checkResults(case_, "HF  0", allBusesValuesHF0, "P", 0.01f, 0.1f, false);
-		checkResults(case_, "HF  0", allBusesValuesHF0, "Q", 0.01f, 0.1f, false);
+		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "P");
+		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "Q");
+		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "A");
+		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "V");
 
 		// Compare Hades2 results with inputs but do not assert
 		Map<String, Map<String, float[]>> allBusesValuesHD20 = gatherBusesValues(
 				n,
 				"resultsHades2",
 				StateManager.INITIAL_STATE_ID);
-		checkResults(case_, "HD2 0", allBusesValuesHD20, "V", 0.01f, 0.1f, false);
-		checkResults(case_, "HD2 0", allBusesValuesHD20, "A", 0.01f, 0.1f, false);
-		checkResults(case_, "HD2 0", allBusesValuesHD20, "P", 0.01f, 0.1f, false);
-		checkResults(case_, "HD2 0", allBusesValuesHD20, "Q", 0.01f, 0.1f, false);
+		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "P");
+		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "Q");
+		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "A");
+		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "V");
 
 		// Compare between HELM Flow and Hades2 and assert differences should be lower than ...
 		Map<String, Map<String, float[]>> allBusesValues = gatherBusesValues(
 				n,
 				"resultsHelmflow",
 				"resultsHades2");
-		checkResults(case_, "HF-HD", allBusesValues, "V", 0.01f, 0.1f, true);
-		// checkResults(allBusesValues, "A", 0.1f, 0.2f);
-		// checkResults(case_, allBusesValues, "P", 0.001f, 0.02f);
-		// checkResults(case_, allBusesValues, "Q", 0.01f, 0.1f);
+		checkResults(caseFolder, "HF-HD", allBusesValues, "P");
+		checkResults(caseFolder, "HF-HD", allBusesValues, "Q");
+		checkResults(caseFolder, "HF-HD", allBusesValues, "A");
+		DoubleSummaryStatistics stats = checkResults(caseFolder, "HF-HD", allBusesValues, "V");
+		if (stats != null)
+		{
+			assertTrue(stats.getAverage() < getMaxRelativeErrorAverage("V"));
+			assertTrue(stats.getMax() < getMaxRelativeErrorMax("V"));
+		}
 	}
 
 	private Map<String, Map<String, float[]>> gatherBusesValues(
@@ -169,15 +204,15 @@ public class LoadFlowTest
 		return allBusesValues;
 	}
 
-	private void checkResults(
+	private DoubleSummaryStatistics checkResults(
 			String case_,
 			String label,
 			Map<String, Map<String, float[]>> allBusesValues,
-			String variable,
-			float maxRelativeErrorAverage,
-			float maxRelativeError,
-			boolean assert_)
+			String variable)
 	{
+		float maxRelativeErrorAverage = getMaxRelativeErrorAverage(variable);
+		float maxRelativeErrorMax = getMaxRelativeErrorMax(variable);
+
 		List<Float> relativeErrors = calcRelativeErrors(allBusesValues, variable);
 		DoubleSummaryStatistics stats = relativeErrors.stream()
 				.collect(Collectors.summarizingDouble(Float::doubleValue));
@@ -195,14 +230,9 @@ public class LoadFlowTest
 				label,
 				variable,
 				stats.getMax(),
-				maxRelativeError,
-				stats.getMax() < maxRelativeError ? "PASS" : "FAIL");
-
-		if (assert_)
-		{
-			assertTrue(stats.getAverage() < maxRelativeErrorAverage);
-			assertTrue(stats.getMax() < maxRelativeError);
-		}
+				maxRelativeErrorMax,
+				stats.getMax() < maxRelativeErrorMax ? "PASS" : "FAIL");
+		return stats;
 	}
 
 	private void debugValues(
@@ -249,6 +279,43 @@ public class LoadFlowTest
 		return System.getProperty("os.name").startsWith("Linux");
 	}
 
+	private float getMaxRelativeErrorAverage(String variable)
+	{
+		switch (variable)
+		{
+		case "A":
+		case "V":
+		case "P":
+		case "Q":
+		default:
+			return LOADFLOW_MAX_RELATIVE_ERROR_AVG;
+		}
+	}
+
+	private float getMaxRelativeErrorMax(String variable)
+	{
+		switch (variable)
+		{
+		case "A":
+		case "V":
+		case "P":
+		case "Q":
+		default:
+			return LOADFLOW_MAX_RELATIVE_ERROR_MAX;
+		}
+	}
+
 	private static final String	HELMFLOW_FACTORY	= "com.elequant.helmflow.ipst.HelmFlowFactory";
 	private static final String	HADES2_FACTORY		= "com.rte_france.itesla.hades2.Hades2Factory";
+	private static final float	LOADFLOW_MAX_RELATIVE_ERROR_AVG;
+	private static final float	LOADFLOW_MAX_RELATIVE_ERROR_MAX;
+	static
+	{
+		String savg = System.getProperty("loadFlowTest.maxRelativeErrorAvg");
+		if (savg == null) LOADFLOW_MAX_RELATIVE_ERROR_AVG = 1e-3f;
+		else LOADFLOW_MAX_RELATIVE_ERROR_AVG = Float.valueOf(savg);
+		String smax = System.getProperty("loadFlowTest.maxRelativeErrorMax");
+		if (smax == null) LOADFLOW_MAX_RELATIVE_ERROR_MAX = 1e-3f;
+		else LOADFLOW_MAX_RELATIVE_ERROR_MAX = Float.valueOf(smax);
+	}
 }

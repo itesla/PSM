@@ -48,7 +48,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 		this.tolerance = Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
 
 		this.numOfIntervalsPerSecond = Optional
-				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(500);
+				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(100);
 		this.numOfIntervals = (int) this.stopTime * this.numOfIntervalsPerSecond;
 
 		this.createFilteredMat = Optional.ofNullable(config.getBoolean("createFilteredMat"))

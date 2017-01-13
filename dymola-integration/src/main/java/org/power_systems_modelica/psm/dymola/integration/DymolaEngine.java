@@ -48,7 +48,7 @@ public class DymolaEngine implements ModelicaEngine
 		this.tolerance = Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
 
 		this.numOfIntervalsPerSecond = Optional
-				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(500);
+				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(100);
 		this.numOfIntervals = (int) this.stopTime * this.numOfIntervalsPerSecond;
 		this.intervalSize = this.stopTime / this.numOfIntervals;
 

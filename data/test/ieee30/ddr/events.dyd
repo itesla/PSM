@@ -4,8 +4,8 @@
 		<component type="iPSL.Electrical.Events.PwFault" id="pwFault_{staticId}">
 			<ref name="R" unit="pu" dataSource="EVENT" sourceName="R"/>
 			<ref name="X" unit="pu" dataSource="EVENT" sourceName="X"/>
-			<ref name="t1" unit="s" dataSource="EVENT" sourceName="t1"/>
-			<ref name="t2" unit="s" dataSource="EVENT" sourceName="t2"/>
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 		</component>
 		<interconnection componentId="pwFault_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
 	</model>
@@ -18,8 +18,8 @@
 			<ref name="k" unit="pct" dataSource="EVENT" sourceName="k"/>
 			<ref name="Rfault" unit="pu" dataSource="EVENT" sourceName="Rfault"/>
 			<ref name="Xfault" unit="pu" dataSource="EVENT" sourceName="Xfault"/>
-			<ref name="time_1" unit="s" dataSource="EVENT" sourceName="startTime"/>
-			<ref name="time_2" unit="s" dataSource="EVENT" sourceName="endTime"/>
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 			<ref name="V1_0" dataSource="IIDM" sourceName="V1_pu"/>
 			<ref name="angle1_0" dataSource="IIDM" sourceName="A1"/>
 			<ref name="V2_0" dataSource="IIDM" sourceName="V2_pu"/>

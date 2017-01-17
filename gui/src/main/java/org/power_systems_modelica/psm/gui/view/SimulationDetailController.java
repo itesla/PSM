@@ -304,7 +304,7 @@ public class SimulationDetailController implements MainChildrenController
 				
 				try {
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
-					date = new DateTime(attr.creationTime().toMillis());
+					date = new DateTime(attr.lastModifiedTime().toMillis());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

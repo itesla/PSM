@@ -162,7 +162,7 @@ public class ConversionDetailController implements MainChildrenController {
 				StringBuilder moContent = new StringBuilder();
 				try {
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel), BasicFileAttributes.class);
-					date = new DateTime(attr.creationTime().toMillis());
+					date = new DateTime(attr.lastModifiedTime().toMillis());
 
 					moContent = PathUtils.loadFile(moFile);
 				} catch (IOException e) {
@@ -238,7 +238,7 @@ public class ConversionDetailController implements MainChildrenController {
 			pathLabel = convertedPath.toString();
 			try {
 				BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel), BasicFileAttributes.class);
-				date = new DateTime(attr.creationTime().toMillis());
+				date = new DateTime(attr.lastModifiedTime().toMillis());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -138,7 +138,7 @@ public class WorkflowStatusController implements MainChildrenController
 				{
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
 							BasicFileAttributes.class);
-					DateTime date = new DateTime(attr.creationTime().toMillis());
+					DateTime date = new DateTime(attr.lastModifiedTime().toMillis());
 					secondLabelValue = date.toString("yyyy/MM/dd HH:mm:ss");
 				}
 				catch (IOException e)

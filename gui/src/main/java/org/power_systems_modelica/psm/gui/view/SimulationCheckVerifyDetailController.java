@@ -128,7 +128,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 				
 				try {
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
-					DateTime date = new DateTime(attr.creationTime().toMillis());
+					DateTime date = new DateTime(attr.lastModifiedTime().toMillis());
 					
 					createdLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 				} catch (IOException e) {

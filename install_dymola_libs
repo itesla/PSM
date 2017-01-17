@@ -1,5 +1,0 @@
-FILE_PATH=dymola_interface-2016.jar
-GROUP=com.dassault_systemes.dymola
-ARTIFACT=dymola_interface
-VERSION=2016
-mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar

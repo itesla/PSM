@@ -128,6 +128,8 @@ public class SimulationNewController implements MainChildrenController
 					{
 						if (newValue != null)
 							actionEvent.setItems(mainService.getActionEvents(newValue));
+						if (newValue != oldValue)
+							addedEvents.getItems().clear();
 					}
 				});
 		actionEvent.getSelectionModel().selectedItemProperty()

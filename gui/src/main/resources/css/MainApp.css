@@ -18,14 +18,36 @@
 /*default*/
 .btn-default {
 	-fx-background-color: transparent;
-	-fx-border-color: #113f84;
+	-fx-border-color: #005fac;
 }
 
 /*hover state*/
-.btn-default:hover {
-	-fx-background-color: #113f84;
-	-fx-border-color: #113f84;
+.btn-default:hover, .btn-default .menu-item:hover, .btn-default .menu-item:hover .label {
+	-fx-background-color: #005fac;
+	-fx-border-color: #005fac;
 	-fx-text-fill: white;
+}
+
+.btn-default > .arrow-button {
+    -fx-padding: 0;
+}
+
+.btn-default > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+
+/*primary*/
+.btn-primary {
+	-fx-background-color: #005fac;
+	-fx-border-color: #005fac;
+	-fx-text-fill: white;
+}
+
+/*hover state*/
+.btn-primary:hover {
+	-fx-background-color: transparent;
+	-fx-border-color: #005fac;
+	-fx-text-fill: #005fac;
 }
 
 /* hidden tab bar */

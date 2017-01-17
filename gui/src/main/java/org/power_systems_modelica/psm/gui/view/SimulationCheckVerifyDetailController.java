@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.gui.model.Case;
@@ -32,25 +34,74 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 
-public class SimulationCheckVerifyDetailController {
+public class SimulationCheckVerifyDetailController implements MainChildrenController {
 
+	@Override
+	public void handleMainAction() {
+		
+		handleSimulateWorkflow(false);
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+		switch(action) {
+		case "New":
+			handleNewWorkflow();
+			break;
+		case "Verify":
+			handleSimulateWorkflow(true);
+			break;
+		}
+	}
+
+	@Override
+	public String getMainAction() {
+
+		return "Simulate";
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+
+		List<String> actions = new ArrayList();
+		actions.add("New");
+		if (isCheckDetail)
+			actions.add("Verify");
+		return actions;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		List<String> labels = new ArrayList();
+		labels.add("Case:");
+		labels.add(caseLabel);
+		labels.add("Created:");
+		labels.add(createdLabel);
+		if (isCheckDetail)
+			labels.add("Check:");
+		else
+			labels.add("Verify:");
+		labels.add(checkLabel);
+		return labels;
+	}
+	
 	@FXML
 	private void initialize() {
 	}
 
-	@FXML
 	private void handleNewWorkflow() {
-		LOG.debug("handleNewWorkflow");
+
 		mainService.showSimulationView(null);
 	}
 	
-	@FXML
-	private void handleSimulateWorkflow() {
-		LOG.debug("handleSimulateWorkflow");
+	private void handleSimulateWorkflow(boolean isVerify) {
 
 		try {
 			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
-			mainService.startSimulation(cs, events, dse, stopTime, false, isCheckDetail);
+			mainService.startSimulation(cs, events, dse, stopTime, false, isVerify);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,20 +109,18 @@ public class SimulationCheckVerifyDetailController {
 	}
 
 	public void setMainService(MainService mainService, Workflow w, boolean isCheckDetail) {
+
 		this.mainService = mainService;
 		this.isCheckDetail = isCheckDetail;
 
 		if (isCheckDetail) {
-			simButtonTop.setText("Verify");
-			simButtonBottom.setText("Verify");
 			panel.setText("Simulation check detail");
 		}
 		else {
-			simButtonTop.setText("Simulate");
-			simButtonBottom.setText("Simulate");
 			panel.setText("Simulation verify detail");
 		}
 		
+		checkLabel = "Label";
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 
 			if (td.getTaskClass().equals(ModelicaParserTask.class)) {
@@ -81,7 +130,7 @@ public class SimulationCheckVerifyDetailController {
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
 					DateTime date = new DateTime(attr.creationTime().toMillis());
 					
-					createdLabel.setText(date.toString("yyyy/MM/dd HH:mm:ss"));
+					createdLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -105,7 +154,7 @@ public class SimulationCheckVerifyDetailController {
 					catalogName = catalog.getName();
 					
 					Case c = mainService.getCase(catalog.getName(), casePath);
-					caseLabel.setText(catalogName + "\t" + c.getName());
+					caseLabel = catalogName + "\t" + c.getName();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -136,22 +185,11 @@ public class SimulationCheckVerifyDetailController {
 	private TitledPane panel;
 
 	@FXML
-	private Label caseLabel;
-
-	@FXML
-	private Label createdLabel;
-
-	@FXML
-	private Label checkLabel;
-	
-	@FXML
-	private Button simButtonTop;
-
-	@FXML
-	private Button simButtonBottom;
-
-	@FXML
 	private DynamicTreeView<ProgressData> treeView;
+
+	private String caseLabel;
+	private String createdLabel;
+	private String checkLabel;
 
 	private String catalogName;
 	private Path casePath;

@@ -1,6 +1,8 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Case;
@@ -25,7 +27,51 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
-public class ConversionNewController {
+public class ConversionNewController implements MainChildrenController {
+
+	@Override
+	public void handleMainAction() {
+		
+		handleStartWorkflow();
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		switch(action) {
+		case "Load":
+			handleLoadWorkflow();
+			break;
+		case "Save":
+			handleSaveWorkflow();
+			break;
+		case "Clean":
+			handleCleanWorkflow();
+			break;
+		}
+	}
+
+	@Override
+	public String getMainAction() {
+		
+		return "Start";
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+	
+		List<String> actions = new ArrayList();
+		actions.add("Load");
+		actions.add("Save");
+		actions.add("Clean");
+		return actions;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		return null;
+	}
 
 	@FXML
 	private void initialize() {
@@ -60,8 +106,7 @@ public class ConversionNewController {
 		});
 
 	}
-
-	@FXML
+	
 	private void handleLoadWorkflow() {
 
 		handleCleanWorkflow();
@@ -99,7 +144,6 @@ public class ConversionNewController {
 		}
 	}
 
-	@FXML
 	private void handleSaveWorkflow() {
 
 		Case cs = caseSource.getSelectionModel().getSelectedItem();
@@ -117,7 +161,6 @@ public class ConversionNewController {
 		}
 	}
 
-	@FXML
 	private void handleCleanWorkflow() {
 		caseSource.getSelectionModel().clearSelection();
 		catalogCaseSource.getSelectionModel().clearSelection();
@@ -129,7 +172,6 @@ public class ConversionNewController {
 		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
 	}
 
-	@FXML
 	private void handleStartWorkflow() {
 		LOG.debug("handleStartWorkflow");
 

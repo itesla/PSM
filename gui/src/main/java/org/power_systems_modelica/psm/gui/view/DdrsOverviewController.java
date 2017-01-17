@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
@@ -25,7 +26,37 @@ import javafx.scene.control.TitledPane;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
-public class DdrsOverviewController {
+public class DdrsOverviewController implements MainChildrenController {
+
+	@Override
+	public void handleMainAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+	}
+
+	@Override
+	public String getMainAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		return null;
+	}
 
 	@FXML
 	private void initialize() {

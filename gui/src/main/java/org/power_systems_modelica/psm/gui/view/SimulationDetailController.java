@@ -3,11 +3,16 @@ package org.power_systems_modelica.psm.gui.view;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.power_systems_modelica.psm.gui.model.BusData;
+import org.joda.time.DateTime;
+import org.power_systems_modelica.psm.gui.model.Case;
+import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
@@ -18,8 +23,9 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
+import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,52 +33,62 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tab;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 
-public class SimulationDetailController
+public class SimulationDetailController implements MainChildrenController
 {
+	@Override
+	public void handleMainAction() {
+		
+		handleNewWorkflow();
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+	}
+
+	@Override
+	public String getMainAction() {
+		
+		return "New";
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+
+		return null;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		List<String> labels = new ArrayList();
+		labels.add("Case:");
+		labels.add(caseLabel);
+		labels.add("Created:");
+		labels.add(date.toString("yyyy/MM/dd HH:mm:ss"));
+		labels.add("Dynamic simulator:");
+		labels.add(dsLabel);
+		return labels;
+	}
+	
 	@FXML
 	private void initialize()
 	{
-		fileContentPane.setVisible(false);
-		Utils.setDragablePane(fileContentPane);
-
-		modelicaFileButton.setDisable(true);
-		modelicaEventsFileButton.setDisable(true);
 
 		dsChart.setCreateSymbols(false);
 		yDsAxis.setForceZeroInRange(false);
 		yDsAxis.setAutoRanging(true);
-
-		voltageChart.setLegendVisible(false);
-		phaseChart.setLegendVisible(false);
-		activeChart.setLegendVisible(false);
-		reactiveChart.setLegendVisible(false);
-
-		yVoltageAxis.setForceZeroInRange(false);
-		yVoltageAxis.setAutoRanging(true);
-
-		yPhaseAxis.setForceZeroInRange(false);
-		yPhaseAxis.setAutoRanging(true);
-
-		yActiveAxis.setForceZeroInRange(false);
-		yActiveAxis.setAutoRanging(true);
-
-		yReactiveAxis.setForceZeroInRange(false);
-		yReactiveAxis.setAutoRanging(true);
 	}
 
-	@FXML
 	private void handleNewWorkflow()
 	{
 		LOG.debug("handleNewWorkflow");
@@ -80,21 +96,18 @@ public class SimulationDetailController
 	}
 
 	@FXML
-	private void handleFileEvent()
+	private void handleSaveMoFileContentEvent()
 	{
-		LOG.debug("handleFileEvent");
-		showModelicaFileContent("eventAdder_initial.mo");
+		saveFileContentEvent(moEditor);
 	}
-
+	
 	@FXML
-	private void handleFileWithEventsEvent()
+	private void handleSaveMoweFileContentEvent()
 	{
-		LOG.debug("handleFileWithEventsEvent");
-		showModelicaFileContent("eventAdder_events.mo");
+		saveFileContentEvent(moweEditor);
 	}
-
-	@FXML
-	private void handleSaveFileContentEvent()
+	
+	private void saveFileContentEvent(CodeEditor codeEditor)
 	{
 		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
 		String location = codeEditor.getEditingLocation();
@@ -109,12 +122,21 @@ public class SimulationDetailController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		fileContentPane.setVisible(false);
 	}
 
 	@FXML
-	private void handleSaveAsFileContentEvent()
+	private void handleSaveAsMoFileContentEvent()
+	{
+		saveAsFileContentEvent(moEditor);
+	}
+	
+	@FXML
+	private void handleSaveAsMoweFileContentEvent()
+	{
+		saveAsFileContentEvent(moweEditor);
+	}
+	
+	private void saveAsFileContentEvent(CodeEditor codeEditor)
 	{
 		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
 		String location = codeEditor.getEditingLocation();
@@ -131,23 +153,21 @@ public class SimulationDetailController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		fileContentPane.setVisible(!close);
 	}
 
 	@FXML
-	private void handleRevertFileContentEvent()
+	private void handleRevertMoFileContentEvent()
 	{
-		codeEditor.revertEdits();
+		moEditor.revertEdits();
 	}
 
 	@FXML
-	private void handleCloseFileContentEvent()
+	private void handleRevertMoweFileContentEvent()
 	{
-		fileContentPane.setVisible(false);
+		moweEditor.revertEdits();
 	}
 
-	private void showModelicaFileContent(String file)
+	private void showModelicaFileContent(CodeEditor codeEditor, String file)
 	{
 
 		StringBuilder fileContent = new StringBuilder();
@@ -164,7 +184,6 @@ public class SimulationDetailController
 		codeEditor.setEditingFile(PathUtils.DATA_TMP.toString(), file);
 		codeEditor.setCode(fileContent);
 		codeEditor.setVisible(true);
-		fileContentPane.setVisible(true);
 	}
 
 	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSeriesOnHover(
@@ -233,40 +252,6 @@ public class SimulationDetailController
 
 	public void addSeries(WorkflowResult results)
 	{
-		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections
-				.observableArrayList();
-		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections
-				.observableArrayList();
-		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections
-				.observableArrayList();
-		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections
-				.observableArrayList();
-		XYChart.Series<String, Number> valuesV = new XYChart.Series<>();
-		valuesV.setName("V");
-		XYChart.Series<String, Number> valuesA = new XYChart.Series<>();
-		valuesA.setName("A");
-		XYChart.Series<String, Number> valuesP = new XYChart.Series<>();
-		valuesP.setName("P");
-		XYChart.Series<String, Number> valuesQ = new XYChart.Series<>();
-		valuesQ.setName("Q");
-
-		for (BusData bus : results.getAllBusesValues())
-		{
-			valuesV.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("V", 0)));
-			valuesA.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("A", 0)));
-			valuesP.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("P", 0)));
-			valuesQ.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("Q", 0)));
-		}
-
-		displayedVoltageSeries.add(valuesV);
-		displayedPhaseSeries.add(valuesA);
-		displayedActiveSeries.add(valuesP);
-		displayedReactiveSeries.add(valuesQ);
-
-		voltageChart.getData().addAll(displayedVoltageSeries);
-		phaseChart.getData().addAll(displayedPhaseSeries);
-		activeChart.getData().addAll(displayedActiveSeries);
-		reactiveChart.getData().addAll(displayedReactiveSeries);
 
 		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections
 				.observableArrayList();
@@ -293,39 +278,69 @@ public class SimulationDetailController
 	{
 		this.mainService = mainService;
 
-		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_initial.mo"),
+		moTab.setDisable(true);
+		if (Files.exists(PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_initial.mo"),
 				LinkOption.NOFOLLOW_LINKS))
 		{
-			modelicaFileButton.setDisable(false);
+			moTab.setDisable(false);
+			showModelicaFileContent(moEditor, "gui_workflow_event_adder_initial.mo");
 		}
 
-		if (Files.exists(PathUtils.DATA_TMP.resolve("eventAdder_events.mo"),
+		moweTab.setDisable(true);
+		if (Files.exists(PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_events.mo"),
 				LinkOption.NOFOLLOW_LINKS))
 		{
-			modelicaEventsFileButton.setDisable(false);
+			moweTab.setDisable(false);
+			showModelicaFileContent(moweEditor, "gui_workflow_event_adder_events.mo");
 		}
 	}
 
 	public void setWorkflow(Workflow w)
 	{
-
-		createdLabel.setText("" + w.getId());
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
-			if (td.getTaskClass().equals(LoadFlowTask.class))
-				loadflowLabel.setText(Utils.getLoadflowEngine(td.getTaskId()).name());
+			if (td.getTaskClass().equals(ModelicaParserTask.class)) {
+				String moInput = td.getTaskConfiguration().getParameter("source");
+				
+				try {
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
+					date = new DateTime(attr.creationTime().toMillis());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+				
+				String uri = td.getTaskConfiguration().getParameter("source");
+				
+				java.nio.file.Path casePath;
+				if (uri.endsWith(".xml")) {
+					java.nio.file.Path path = Paths.get(uri);
+					casePath = path.getParent();
+				} else
+					casePath = Paths.get(uri);
+				
+				java.nio.file.Path catalogPath = casePath.getParent();
+
+				try {
+					Catalog catalog = mainService.getCatalog("cases", catalogPath);
+					Case c = mainService.getCase(catalog.getName(), casePath);
+					caseLabel = catalog.getName() + "\t" + c.getName();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
-				dsLabel.setText(Utils.getDsEngine(td.getTaskId()).name());
+				dsLabel = Utils.getDsEngine(td.getTaskId()).name();
 		}
-		statusLabel.setText(w.getState().name());
+		
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
 			addSeries(mainService.getSimulationResult("" + w.getId()));
-			Utils.addTooltipScatterChart(voltageChart, "pu");
-			Utils.addTooltipScatterChart(phaseChart, "º");
-			Utils.addTooltipScatterChart(activeChart, "MW");
-			Utils.addTooltipScatterChart(reactiveChart, "MVar");
 			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 		}
 
@@ -337,51 +352,14 @@ public class SimulationDetailController
 	}
 
 	@FXML
-	private TitledPane						fileContentPane;
+	private Tab								moTab;
 	@FXML
-	private CodeEditor						codeEditor;
+	private Tab								moweTab;
 
 	@FXML
-	private Button							modelicaFileButton;
+	private CodeEditor						moEditor;
 	@FXML
-	private Button							modelicaEventsFileButton;
-
-	@FXML
-	private Label							createdLabel;
-	@FXML
-	private Label							statusLabel;
-	@FXML
-	private Label							loadflowLabel;
-	@FXML
-	private Label							dsLabel;
-
-	@FXML
-	private ScatterChart<String, Number>	voltageChart;
-	@FXML
-	private CategoryAxis					xVoltageAxis;
-	@FXML
-	private NumberAxis						yVoltageAxis;
-
-	@FXML
-	private ScatterChart<String, Number>	phaseChart;
-	@FXML
-	private CategoryAxis					xPhaseAxis;
-	@FXML
-	private NumberAxis						yPhaseAxis;
-
-	@FXML
-	private ScatterChart<String, Number>	activeChart;
-	@FXML
-	private CategoryAxis					xActiveAxis;
-	@FXML
-	private NumberAxis						yActiveAxis;
-
-	@FXML
-	private ScatterChart<String, Number>	reactiveChart;
-	@FXML
-	private CategoryAxis					xReactiveAxis;
-	@FXML
-	private NumberAxis						yReactiveAxis;
+	private CodeEditor						moweEditor;
 
 	@FXML
 	private LineChart<Number, Number>		dsChart;
@@ -390,8 +368,13 @@ public class SimulationDetailController
 	@FXML
 	private NumberAxis						yDsAxis;
 
+	private String							caseLabel;
+	private DateTime						date;
+	private String							dsLabel;
+
 	private Map<String, Paint>				colors	= new HashMap<String, Paint>();
 	private GuiFileChooser					fileChooser;
+	
 	private MainService						mainService;
 
 	private static final Logger				LOG		= LoggerFactory

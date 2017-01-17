@@ -158,7 +158,7 @@ public class MainService {
 
 		try {
 			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le, onlyMainConnectedComponent);
-			cTask = TaskService.createTask(w, () -> getMainApp().showConversionDetailView(this, true));
+			cTask = TaskService.createTask(w, () -> getMainApp().showConversionDetailView(this, true, null));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.CONVERSION);
 			TaskService.startTask(cTask);
 			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation());
@@ -181,6 +181,10 @@ public class MainService {
 		}
 	}
 
+	public WorkflowResult getConversionResult(String name) {
+		return WorkflowServiceConfiguration.getConversionResult(name);
+	}
+
 	public WorkflowResult getSimulationResult(String name) {
 		return WorkflowServiceConfiguration.getSimulationResult(name);
 	}
@@ -189,10 +193,10 @@ public class MainService {
 		return WorkflowServiceConfiguration.getCompareLoadflow();
 	}
 
-	public void startCompareLoadflows(Case cs, boolean generatorsReactiveLimits) {
+	public void startCompareLoadflows(Case cs, boolean generatorsReactiveLimits, boolean helmflowFromHadesResults) {
 
 		try {
-			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, generatorsReactiveLimits);
+			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, generatorsReactiveLimits, helmflowFromHadesResults);
 			clTask = TaskService.createTask(w, () -> getMainApp().showCompareLoadflowsDetailView(this));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.COMPARELOADFLOW);
 			TaskService.startTask(clTask);

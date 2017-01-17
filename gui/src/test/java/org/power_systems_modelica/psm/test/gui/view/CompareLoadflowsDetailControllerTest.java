@@ -130,38 +130,47 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 			public void run()
 			{
 
-				Label avgVoltageErrorLabel = lookup("#avgVoltageErrorLabel").query();
-				Label maxVoltageErrorLabel = lookup("#maxVoltageErrorLabel").query();
+				Label avgVoltageDiffLabel = lookup("#avgVoltageDiffLabel").query();
+				Label maxVoltageDiffLabel = lookup("#maxVoltageDiffLabel").query();
 
-				ScatterChart<String, Number> voltageChart = lookup("#voltageChart").query();
-				ScatterChart<String, Number> phaseChart = lookup("#phaseChart").query();
-				ScatterChart<String, Number> activeChart = lookup("#activeChart").query();
-				ScatterChart<String, Number> reactiveChart = lookup("#reactiveChart").query();
+				ScatterChart<String, Number> voltageDiffChart = lookup("#voltageDiffChart").query();
+				ScatterChart<String, Number> phaseDiffChart = lookup("#phaseDiffChart").query();
+				ScatterChart<String, Number> activeDiffChart = lookup("#activeDiffChart").query();
+				ScatterChart<String, Number> reactiveDiffChart = lookup("#reactiveDiffChart").query();
+				ScatterChart<String, Number> voltageCurvesChart = lookup("#voltageCurvesChart").query();
+				ScatterChart<String, Number> phaseCurvesChart = lookup("#phaseCurvesChart").query();
+				ScatterChart<String, Number> activeCurvesChart = lookup("#activeCurvesChart").query();
+				ScatterChart<String, Number> reactiveCurvesChart = lookup("#reactiveCurvesChart").query();
 
 				DoubleSummaryStatistics voltageStats = results.getAllBusesValues().stream()
 						.map(bus -> bus.getAbsError("V"))
 						.collect(Collectors.summarizingDouble(Float::doubleValue));
-				avgVoltageErrorLabel
+				avgVoltageDiffLabel
 						.setText(String.format("%,.4f%%", voltageStats.getAverage() * 100));
-				maxVoltageErrorLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));
+				maxVoltageDiffLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));
 
-				controller.addSeries(results);
-				Utils.addTooltipComparisonChart(voltageChart, results, "V", "pu");
-				Utils.addTooltipComparisonChart(phaseChart, results, "A", "º");
-				Utils.addTooltipComparisonChart(activeChart, results, "P", "MW");
-				Utils.addTooltipComparisonChart(reactiveChart, results, "Q", "MVar");
+				controller.addDiffSeries(results);
+				controller.addCurvesSeries(results);
+				Utils.addTooltipComparisonChart(voltageDiffChart, results, "V", "pu");
+				Utils.addTooltipComparisonChart(phaseDiffChart, results, "A", "º");
+				Utils.addTooltipComparisonChart(activeDiffChart, results, "P", "MW");
+				Utils.addTooltipComparisonChart(reactiveDiffChart, results, "Q", "MVar");
+				Utils.addTooltipScatterChart(voltageCurvesChart, "pu");
+				Utils.addTooltipScatterChart(phaseCurvesChart, "º");
+				Utils.addTooltipScatterChart(activeCurvesChart, "MW");
+				Utils.addTooltipScatterChart(reactiveCurvesChart, "MVar");
 
-				assertEquals(1, voltageChart.getData().size());
-				XYChart.Series<String, Number> valuesV = voltageChart.getData().get(0);
+				assertEquals(1, voltageDiffChart.getData().size());
+				XYChart.Series<String, Number> valuesV = voltageDiffChart.getData().get(0);
 				assertEquals(14, valuesV.getData().size());
-				assertEquals(1, phaseChart.getData().size());
-				XYChart.Series<String, Number> valuesA = phaseChart.getData().get(0);
+				assertEquals(1, phaseDiffChart.getData().size());
+				XYChart.Series<String, Number> valuesA = phaseDiffChart.getData().get(0);
 				assertEquals(14, valuesA.getData().size());
-				assertEquals(1, activeChart.getData().size());
-				XYChart.Series<String, Number> valuesP = activeChart.getData().get(0);
+				assertEquals(1, activeDiffChart.getData().size());
+				XYChart.Series<String, Number> valuesP = activeDiffChart.getData().get(0);
 				assertEquals(14, valuesP.getData().size());
-				assertEquals(1, reactiveChart.getData().size());
-				XYChart.Series<String, Number> valuesQ = reactiveChart.getData().get(0);
+				assertEquals(1, reactiveDiffChart.getData().size());
+				XYChart.Series<String, Number> valuesQ = reactiveDiffChart.getData().get(0);
 				assertEquals(14, valuesQ.getData().size());
 			}
 		});

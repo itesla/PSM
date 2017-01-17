@@ -4,6 +4,9 @@ import org.power_systems_modelica.psm.workflow.ProcessState;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class ProgressData implements HierarchyData<ProgressData> {
 	
@@ -33,6 +36,30 @@ public class ProgressData implements HierarchyData<ProgressData> {
 	@Override
 	public Boolean isExpanded() {
 		return taskState==null?false:taskState.equals(ProcessState.RUNNING);
+	}
+
+	@Override
+	public Node getGraphic() {
+		
+		if (taskState == null)
+			return null;
+
+		if (taskState.equals(ProcessState.RUNNING))
+			return new ImageView(runningImage);
+
+		if (taskState.equals(ProcessState.FAILED))
+			return new ImageView(failedImage);
+
+		if (taskState.equals(ProcessState.SUCCESS))
+			return new ImageView(successImage);
+
+		if (taskState.equals(ProcessState.IDLE))
+			return new ImageView(idleImage);
+
+		if (taskState.equals(ProcessState.SCHEDULED))
+			return new ImageView(scheduledImage);
+
+		return null;
 	}
 
 	@Override
@@ -77,4 +104,11 @@ public class ProgressData implements HierarchyData<ProgressData> {
 	private String info = null;
 	
 	private ObservableList<ProgressData> children = FXCollections.observableArrayList();
+
+	private Image runningImage = new Image(getClass().getResourceAsStream("/img/running.gif"));
+	private Image failedImage = new Image(getClass().getResourceAsStream("/img/failed.gif"));
+	private Image successImage = new Image(getClass().getResourceAsStream("/img/success.gif"));
+	private Image idleImage = new Image(getClass().getResourceAsStream("/img/idle.gif"));
+	private Image scheduledImage = new Image(getClass().getResourceAsStream("/img/scheduled.gif"));
+
 }

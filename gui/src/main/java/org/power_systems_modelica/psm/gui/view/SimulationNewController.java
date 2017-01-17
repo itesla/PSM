@@ -1,6 +1,8 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Case;
@@ -40,8 +42,62 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class SimulationNewController
+public class SimulationNewController implements MainChildrenController
 {
+	@Override
+	public void handleMainAction() {
+		
+		handleStartWorkflow();
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+		switch(action) {
+		case "Load":
+			handleLoadWorkflow();
+			break;
+		case "Save":
+			handleSaveWorkflow();
+			break;
+		case "Clean":
+			handleCleanWorkflow();
+			break;
+		case "Check":
+			handleCheckWorkflow();
+			break;
+		case "Verify":
+			handleVerifyWorkflow();
+			break;
+		}
+	}
+
+	@Override
+	public String getMainAction() {
+
+		return "Simulate";
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+
+		List<String> actions = new ArrayList();
+		actions.add("Load");
+		actions.add("Save");
+		actions.add("Clean");
+		actions.add("separator");
+		actions.add("Check");
+		actions.add("Verify");
+		return actions;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		return null;
+	}
+
 	@FXML
 	private void initialize()
 	{
@@ -204,7 +260,6 @@ public class SimulationNewController
 		addedEvents.getItems().removeAll(list);
 	}
 
-	@FXML
 	private void handleLoadWorkflow()
 	{
 		handleCleanWorkflow();
@@ -255,7 +310,6 @@ public class SimulationNewController
 		}
 	}
 
-	@FXML
 	private void handleSaveWorkflow()
 	{
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
@@ -279,7 +333,6 @@ public class SimulationNewController
 		}
 	}
 
-	@FXML
 	private void handleCleanWorkflow()
 	{
 		caseSource.getSelectionModel().clearSelection();
@@ -291,7 +344,6 @@ public class SimulationNewController
 		stopTimeText.setText("1");
 	}
 
-	@FXML
 	private void handleCheckWorkflow()
 	{
 		LOG.debug("handleCheckWorkflow");
@@ -299,7 +351,6 @@ public class SimulationNewController
 		startWorkflow(true, false);
 	}
 
-	@FXML
 	private void handleVerifyWorkflow()
 	{
 		LOG.debug("handleCheckWorkflow");
@@ -307,7 +358,6 @@ public class SimulationNewController
 		startWorkflow(false, true);
 	}
 
-	@FXML
 	private void handleStartWorkflow()
 	{
 		LOG.debug("handleStartWorkflow");

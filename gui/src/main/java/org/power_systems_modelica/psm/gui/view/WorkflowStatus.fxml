@@ -16,15 +16,10 @@
 			<content>
 				<AnchorPane>
 					<children>
-						<Button layoutX="492.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleNewWorkflow" styleClass="btn-default" text="New" AnchorPane.rightAnchor="0.0" />
-						<Label fx:id="firstLabelTitle" layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="First:" />
-						<Label fx:id="firstLabelValue" layoutX="91.0" layoutY="14.0" prefHeight="30.0" text="Label" />
-						<Label fx:id="secondLabelTitle" layoutX="24.0" layoutY="54.0" prefHeight="30.0" text="Second:" />
-						<Label fx:id="secondLabelValue" layoutX="91.0" layoutY="54.0" prefHeight="30.0" text="Label" />
-						<Label layoutX="24.0" layoutY="94.0" prefHeight="30.0" text="Status:" />
-						<Label fx:id="statusLabel" layoutX="91.0" layoutY="94.0" prefHeight="30.0" text="Label" />
-						<ProgressBar fx:id="statusBar" layoutX="24.0" layoutY="143.0" prefWidth="200.0" progress="0.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" />
-                  		<DynamicTreeView fx:id="treeView" styleClass="treeViewItem" layoutX="34.0" layoutY="21.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="160.0" />
+						<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Status:" />
+						<Label fx:id="statusLabel" layoutX="91.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+						<ProgressBar fx:id="statusBar" layoutX="24.0" layoutY="63.0" prefWidth="200.0" progress="0.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" />
+                  		<DynamicTreeView fx:id="treeView" styleClass="treeViewItem" layoutX="34.0" layoutY="21.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="80.0" />
 					</children>
 				</AnchorPane>
 			</content>

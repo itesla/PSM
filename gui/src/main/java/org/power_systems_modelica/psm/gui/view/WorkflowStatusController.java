@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
@@ -30,8 +32,45 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 
-public class WorkflowStatusController
+public class WorkflowStatusController implements MainChildrenController
 {
+	@Override
+	public void handleMainAction() {
+
+		handleNewWorkflow();
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+	}
+
+	@Override
+	public String getMainAction() {
+
+		return "New";
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+
+		return null;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		List<String> labels = new ArrayList();
+		labels.add(firstLabelTitle);
+		labels.add(firstLabelValue);
+		if (secondLabelTitle != null) {
+			labels.add(secondLabelTitle);
+			labels.add(secondLabelValue);
+		}
+		return labels;
+	}
+
 	@FXML
 	private void initialize()
 	{
@@ -73,21 +112,21 @@ public class WorkflowStatusController
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
 		{
 			panel.setText("Conversion detail");
-			firstLabelTitle.setText("Case:");
-			secondLabelTitle.setText("Ddr:");
+			firstLabelTitle = "Case:";
+			secondLabelTitle = "Ddr:";
 		}
 		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
 		{
 			panel.setText("Simulation detail");
-			firstLabelTitle.setText("Case:");
-			secondLabelTitle.setText("Created:");
+			firstLabelTitle = "Case:";
+			secondLabelTitle = "Created:";
 		}
 		else
 		{
 			panel.setText("Compare loadflows detail");
-			firstLabelTitle.setText("Case:");
-			secondLabelTitle.setText("");
-			secondLabelValue.setText("");
+			firstLabelTitle = "Case:";
+			secondLabelTitle = null;
+			secondLabelValue = null;
 		}
 
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
@@ -100,7 +139,7 @@ public class WorkflowStatusController
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
 							BasicFileAttributes.class);
 					DateTime date = new DateTime(attr.creationTime().toMillis());
-					secondLabelValue.setText(date.toString("yyyy/MM/dd HH:mm:ss"));
+					secondLabelValue = date.toString("yyyy/MM/dd HH:mm:ss");
 				}
 				catch (IOException e)
 				{
@@ -124,7 +163,7 @@ public class WorkflowStatusController
 				{
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
 					Case c = mainService.getCase(catalog.getName(), casePath);
-					firstLabelValue.setText(catalog.getName() + "\t" + c.getName());
+					firstLabelValue = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
 				{
@@ -142,7 +181,7 @@ public class WorkflowStatusController
 				{
 					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
 					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
-					secondLabelValue.setText(catalog.getName() + "\t" + ddr.getName());
+					secondLabelValue = catalog.getName() + "\t" + ddr.getName();
 				}
 				catch (IOException e)
 				{
@@ -155,20 +194,21 @@ public class WorkflowStatusController
 
 	@FXML
 	private TitledPane						panel;
-	@FXML
-	private Label							firstLabelTitle;
-	@FXML
-	private Label							firstLabelValue;
-	@FXML
-	private Label							secondLabelTitle;
-	@FXML
-	private Label							secondLabelValue;
+	
 	@FXML
 	private Label							statusLabel;
+	
 	@FXML
 	private ProgressBar						statusBar;
+	
 	@FXML
 	private DynamicTreeView<ProgressData>	treeView;
+
+	private String							firstLabelTitle;
+	private String							firstLabelValue;
+	private String							secondLabelTitle;
+	private String							secondLabelValue;
+	
 	private MainService						mainService;
 	private WorkflowType					isWorkflowDetail;
 

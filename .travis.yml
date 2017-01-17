@@ -11,8 +11,8 @@ jdk:
 # We do not yet have a valid repository for ipst, helmflow, hades, dymola and open modelica libraries, 
 # So we have decided to download from a Dropbox public folder and install them locally
 before_install:
-  - ./download_and_install_libs
+  - ./scripts/download_and_install_libs
 after_success:
   - ./mvnw jacoco:report coveralls:report
 after_failure:
-  - ./dump_surefire_reports
+  - ./scripts/dump_surefire_reports

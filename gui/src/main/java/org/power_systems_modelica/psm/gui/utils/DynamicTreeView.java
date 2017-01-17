@@ -146,6 +146,7 @@ public class DynamicTreeView<T extends HierarchyData<T>> extends TreeView<T> {
 		TreeItem<T> treeItem = new TreeItem<T>();
 		treeItem.setValue(value);
 		treeItem.setExpanded(value.isExpanded());
+		treeItem.setGraphic(value.getGraphic());
 
 		if (value != null && value.getChildren() != null) {
 			ListChangeListener<T> listChangeListener = getListChangeListener(treeItem.getChildren());

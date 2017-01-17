@@ -1,5 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.util.List;
+
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.service.MainService;
@@ -15,8 +17,38 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
-public class CompareLoadflowsNewController
+public class CompareLoadflowsNewController implements MainChildrenController
 {
+	@Override
+	public void handleMainAction() {
+
+		handleStartWorkflow();
+	}
+
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+	}
+
+	@Override
+	public String getMainAction() {
+
+		return "Compare";
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+
+		return null;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		return null;
+	}
+
 	@FXML
 	private void initialize()
 	{
@@ -32,7 +64,6 @@ public class CompareLoadflowsNewController
 				});
 	}
 
-	@FXML
 	private void handleStartWorkflow()
 	{
 		LOG.debug("handleStartWorkflow");
@@ -43,7 +74,8 @@ public class CompareLoadflowsNewController
 			return;
 		}
 		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
-		mainService.startCompareLoadflows(cs, generatorsReactiveLimits);
+		boolean helmflowFromHadesResultsValue = helmflowFromHadesResults.isSelected();
+		mainService.startCompareLoadflows(cs, generatorsReactiveLimits, helmflowFromHadesResultsValue);
 	}
 
 	public void setCase(Case c)
@@ -73,6 +105,9 @@ public class CompareLoadflowsNewController
 	private ComboBox<Case>		caseSource;
 	@FXML
 	private CheckBox			enforceGeneratorsReactiveLimits;
+	@FXML
+	private CheckBox			helmflowFromHadesResults;
+	
 	private MainService			mainService;
 
 	private static final Logger	LOG	= LoggerFactory.getLogger(CompareLoadflowsNewController.class);

@@ -456,7 +456,46 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
-	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits)
+	public static WorkflowResult getConversionResult(String id)
+	{
+
+		WorkflowResult results = new WorkflowResult();
+
+		Network n = (Network) conv.getResults("network");
+
+		/*
+		 * LUMA: no specific state for loadflow results, use current network state
+		 * 
+		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); // Fin fix temporal
+		 * 
+		 * n.getStateManager().allowStateMultiThreadAccess(false); n.getStateManager().setWorkingState("resultsLoadflow");
+		 */
+		List<BusData> allBusesValues = new ArrayList<>();
+		n.getBusBreakerView().getBuses().forEach(b -> {
+			Map<String, float[]> bvalues = new HashMap<>();
+			float[] Vs = new float[1];
+			float[] As = new float[1];
+			float[] Ps = new float[1];
+			float[] Qs = new float[1];
+
+			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
+			As[0] = b.getAngle();
+			Ps[0] = b.getP();
+			Qs[0] = b.getQ();
+			bvalues.put("V", Vs);
+			bvalues.put("A", As);
+			bvalues.put("P", Ps);
+			bvalues.put("Q", Qs);
+			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
+		});
+
+		results.setId(id);
+		results.setAllBusesValues(allBusesValues);
+
+		return results;
+	}
+
+	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits, boolean helmflowFromHadesResults)
 			throws WorkflowCreationException
 	{
 		try
@@ -464,9 +503,6 @@ public class WorkflowServiceConfiguration
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
 			// TODO Allow the user change this from the user interface, flag similar to reactive limits
-			boolean helmflowFromHadesResults = Boolean.valueOf(Optional
-					.ofNullable(System.getProperty("helmflowFromHadesResults"))
-					.orElse("false"));
 			String helmSourceStateId = null;
 			if (helmflowFromHadesResults) helmSourceStateId = "resultsHades2";
 

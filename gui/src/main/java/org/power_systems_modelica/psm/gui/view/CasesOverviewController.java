@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -29,8 +30,38 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
-public class CasesOverviewController {
+public class CasesOverviewController implements MainChildrenController {
 
+	@Override
+	public void handleMainAction() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void handleMenuAction(String action)
+	{
+		
+	}
+
+	@Override
+	public String getMainAction() {
+
+		return null;
+	}
+
+	@Override
+	public List<String> getMenuActions() {
+
+		return null;
+	}
+
+	@Override
+	public List<String> getSummaryLabels() {
+		
+		return null;
+	}
+	
 	@FXML
 	private void initialize() {
 
@@ -256,4 +287,5 @@ public class CasesOverviewController {
 	private TableColumn<Case, Number> sizeCaseColumn;
 
 	private MainService mainService;
+
 }

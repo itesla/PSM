@@ -150,7 +150,7 @@ public class WorkflowService extends Task<Void>
 				}
 				updateMessage(states.get(currentTask).taskId + " is "
 						+ states.get(currentTask).state.toString());
-				updateProgress(currentTask + 1, totalTasks);
+				updateProgress(currentTask, totalTasks);
 			}
 
 			@Override

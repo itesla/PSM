@@ -129,15 +129,20 @@ public class IidmReferenceResolver implements ReferenceResolver
 		if (element instanceof ShuntCompensator)
 		{
 			ShuntCompensator s = (ShuntCompensator) element;
+			float V = s.getTerminal().getVoltageLevel().getNominalV();
+			float sectionB = s.getbPerSection();
 			switch (name)
 			{
 			case "B_pu":
-				float sectionB = s.getMaximumB() / s.getMaximumSectionCount();
 				float B = sectionB * s.getCurrentSectionCount();
 				// As a reactive injection at the nominal voltage
-				float V = s.getTerminal().getVoltageLevel().getNominalV();
 				B = B * V * V;
 				return B / SNREF;
+			case "B0_pu":
+				float B0 = sectionB;
+				// As a reactive injection at the nominal voltage
+				B0 = B0 * V * V;
+				return B0 / SNREF;
 			}
 		}
 		if (element instanceof Generator)

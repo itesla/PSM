@@ -52,7 +52,7 @@ public class IidmNames
 			case "B":
 				return "B_pu";
 			case "nsteps":
-				return "MaximumSectionCount";
+				return "CurrentSectionCount";
 			default:
 				return null;
 			}

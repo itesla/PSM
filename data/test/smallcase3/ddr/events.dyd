@@ -4,8 +4,8 @@
 		<component type="iPSL.Electrical.Events.PwFault" id="pwFault_{staticId}">
 			<ref name="R" unit="pu" dataSource="EVENT" sourceName="R"/>
 			<ref name="X" unit="pu" dataSource="EVENT" sourceName="X"/>
-			<ref name="t1" unit="s" dataSource="EVENT" sourceName="t1"/>
-			<ref name="t2" unit="s" dataSource="EVENT" sourceName="t2"/>
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 		</component>
 		<interconnection componentId="pwFault_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
 	</model>
@@ -18,8 +18,8 @@
 			<ref name="k" unit="pct" dataSource="EVENT" sourceName="k"/>
 			<ref name="Rfault" unit="pu" dataSource="EVENT" sourceName="Rfault"/>
 			<ref name="Xfault" unit="pu" dataSource="EVENT" sourceName="Xfault"/>
-			<ref name="time_1" unit="s" dataSource="EVENT" sourceName="startTime"/>
-			<ref name="time_2" unit="s" dataSource="EVENT" sourceName="endTime"/>
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 			<ref name="V1_0" dataSource="IIDM" sourceName="V1_pu"/>
 			<ref name="angle1_0" dataSource="IIDM" sourceName="A1"/>
 			<ref name="V2_0" dataSource="IIDM" sourceName="V2_pu"/>
@@ -30,18 +30,59 @@
 	</model>
 	<model event="LineOpenReceiverSide" injection="REPLACE" id="EVT{staticId}">
 		<component type="iPSL.Electrical.Branches.PwLinewithOpeningReceiving" id="pwLineOpeningReceiving_{staticId}">
+			<ref name="R" dataSource="IIDM" sourceName="R_pu" />
+			<ref name="X" dataSource="IIDM" sourceName="X_pu" />
+			<ref name="G" dataSource="IIDM" sourceName="G1_pu" />
+			<ref name="B" dataSource="IIDM" sourceName="B1_pu" />
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 		</component>
+		<interconnection componentId="pwLineOpeningReceiving_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+		<interconnection componentId="pwLineOpeningReceiving_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
+	</model>
+	<model event="LineOpenSendingSide" injection="REPLACE" id="EVT{staticId}">
+		<component type="iPSL.Electrical.Branches.PwLinewithOpeningSending" id="pwLineOpeningSending_{staticId}">
+			<ref name="R" dataSource="IIDM" sourceName="R_pu" />
+			<ref name="X" dataSource="IIDM" sourceName="X_pu" />
+			<ref name="G" dataSource="IIDM" sourceName="G1_pu" />
+			<ref name="B" dataSource="IIDM" sourceName="B1_pu" />
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
+		</component>
+		<interconnection componentId="pwLineOpeningSending_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+		<interconnection componentId="pwLineOpeningSending_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
 	</model>
 	<model event="LineOpenBothSides" injection="REPLACE" id="EVT{staticId}">
 		<component type="iPSL.Electrical.Branches.PwLine2Openings" id="pwLine2Openings_{staticId}">
+			<ref name="R" dataSource="IIDM" sourceName="R_pu" />
+			<ref name="X" dataSource="IIDM" sourceName="X_pu" />
+			<ref name="G" dataSource="IIDM" sourceName="G1_pu" />
+			<ref name="B" dataSource="IIDM" sourceName="B1_pu" />
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 		</component>
+		<interconnection componentId="pwLine2Openings_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
+		<interconnection componentId="pwLine2Openings_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
 	</model>
 	<model event="BankModification" injection="REPLACE" id="EVT{staticId}">
 		<component type="iPSL.Electrical.Banks.PwCapacitorBankWithModification" id="pwCapacitorBankWithModification_{staticId}">
+            <ref name="nsteps" dataSource="IIDM" sourceName="CurrentSectionCount"/>
+            <ref name="Bo" dataSource="IIDM" sourceName="B0_pu"/>
+            <ref name="nmod" unit="#" dataSource="EVENT" sourceName="stepsToChange"/>
+            <ref name="t1" unit="s" dataSource="EVENT" sourceName="startTime"/>
 		</component>
 	</model>
 	<model event="LoadVariation" injection="REPLACE" id="EVT{staticId}">
-		<component type="iPSL.Electrical.Loads.PwLoadwithVariation" id="pwLoadWithVariation_{staticId}">
+		<component type="iPSL.Electrical.Loads.PwLoadVDepwithVariation" id="pwLoadVDepwithVariation_{staticId}">
+            <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
+            <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
+            <ref name="P_0" dataSource="IIDM" sourceName="P0"/>
+            <ref name="Q_0" dataSource="IIDM" sourceName="Q0"/>
+            <par name="alpha" value="1.5" isGeneric="true"/>
+            <par name="beta" value="2.5" isGeneric="true"/>
+			<ref name="P_1" unit="MW" dataSource="EVENT" sourceName="P"/>
+			<ref name="Q_1" unit="MVAr" dataSource="EVENT" sourceName="Q"/>
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
 		</component>
 	</model>
 </model_container>

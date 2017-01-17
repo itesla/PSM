@@ -1,0 +1,2 @@
+#!/bin/bash
+find . -name "*mo" -exec sed -i "" 's/\([^ ]*\)_init/iPSL.Electrical.Controls.Eurostag.\1_Init/' {} \;

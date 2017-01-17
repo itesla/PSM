@@ -4,6 +4,10 @@
 #	Modelica.Blocks.Sources.Constant zero_<staticId> (k = 0);
 # and an equation
 #	connect(sexs_<staticId>.pin_VS, zero_<staticId>.y)
+#
+# Run it in a single line on an init folder using:
+# find . -name "*mo" | while read mo; do awk -f ../../../../../scripts/fixinitvs.awk $mo > ${mo}.kk && mv ${mo}.kk $mo; done
+#
 
 /^model/ {
 	modelId = $2;

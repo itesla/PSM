@@ -5,7 +5,7 @@ mkdir -p ./temp_libs
 cd ./temp_libs
 
 for l in $( grep "^wget" ../scripts/download_libs | sed 's/^.*\///' );  do
-	if [[ -n $(find ~/.m2/repository -name $l -print -exec cp {} . \;) ]];
+	if [[ -n $(find ~/.m2/repository -name $l -not -path "*/power-systems-modelica/*" -print -exec cp {} . \;) ]];
 	then
 		echo "lib     $l";
 	else

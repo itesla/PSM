@@ -155,7 +155,7 @@ model ieee14bus
 
 // TAP CHANGER TRANSFORMERS
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____4_BUS____7_1_PT (
-	 r = 1.0224949,
+    r = 1.0204082,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -163,7 +163,7 @@ model ieee14bus
 	 X = 0.20911993960205447
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____4_BUS____9_1_PT (
-	 r = 1.0319917,
+    r = 1.0416667,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -171,7 +171,7 @@ model ieee14bus
 	 X = 0.5561794406894949
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__BUS____5_BUS____6_1_PT (
-	 r = 1.0729612,
+    r = 1.0638298,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,

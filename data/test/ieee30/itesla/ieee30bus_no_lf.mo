@@ -298,7 +298,7 @@ model ieee30bus
 
 // TAP CHANGER TRANSFORMERS
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__CLOV__28_CLOV__27_1_PT (
-	 r = 1.0330578,
+    r = 1.0416667,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -306,7 +306,7 @@ model ieee30bus
 	 X = 0.3959997648268911
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__HANC___4_HANC__12_1_PT (
-	 r = 1.0729614,
+    r = 1.0638298,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -314,7 +314,7 @@ model ieee30bus
 	 X = 0.25599977267346763
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__ROAN___6_ROAN__10_1_PT (
-	 r = 1.0319917,
+    r = 1.0416667,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,
@@ -322,7 +322,7 @@ model ieee30bus
 	 X = 0.5559997838828628
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer trafo__ROAN___6_ROAN___9_1_PT (
-	 r = 1.0224949,
+    r = 1.0204082,
 	 B0 = 0.0,
 	 G0 = 0.0,
 	 theta = 0.0,

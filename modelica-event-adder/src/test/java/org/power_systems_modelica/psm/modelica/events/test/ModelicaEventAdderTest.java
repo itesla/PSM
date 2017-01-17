@@ -51,9 +51,9 @@ public class ModelicaEventAdderTest
 				.append(",")
 				.append("X=0.5")
 				.append(",")
-				.append("t1=20.0")
+				.append("startTime=20.0")
 				.append(",")
-				.append("t2=20.2")
+				.append("endTime=20.2")
 				.append("\n")
 				.toString();
 		ModelicaDocument mo = addEvents(

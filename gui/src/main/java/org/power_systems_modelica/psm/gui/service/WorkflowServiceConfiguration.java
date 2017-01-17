@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
@@ -148,20 +149,20 @@ public class WorkflowServiceConfiguration
 		return actions;
 	}
 
-	// XXX LUMA { elements of current case that can be used with current event
+	// Elements of current case that can be used with current event
 
-	// XXX LUMA This configuration should be read from events.dyd
+	// TODO This configuration should be read from events.dyd
 	// Each event should name the type of static network elements it applies to
-	private static final Map<String, ConnectableType> XXX_EVENT_APPLIES_TO = new HashMap<>();
+	private static final Map<String, ConnectableType> EVENT_APPLIES_TO = new HashMap<>();
 	static
 	{
-		XXX_EVENT_APPLIES_TO.put("BusFault", ConnectableType.BUSBAR_SECTION);
-		XXX_EVENT_APPLIES_TO.put("LineFault", ConnectableType.LINE);
-		XXX_EVENT_APPLIES_TO.put("LineOpenReceiverSide", ConnectableType.LINE);
-		XXX_EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
-		XXX_EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
-		XXX_EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
-		XXX_EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
+		EVENT_APPLIES_TO.put("BusFault", ConnectableType.BUSBAR_SECTION);
+		EVENT_APPLIES_TO.put("LineFault", ConnectableType.LINE);
+		EVENT_APPLIES_TO.put("LineOpenReceiverSide", ConnectableType.LINE);
+		EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
+		EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
+		EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
+		EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
 	}
 
 	private static ConnectableType connectableType(Identifiable<?> e)
@@ -201,7 +202,7 @@ public class WorkflowServiceConfiguration
 
 		// Now for each event type, set the list of applicable elements based on the connectable type defined for the event
 		Map<String, Collection<String>> elementsByEventType = new HashMap<>();
-		XXX_EVENT_APPLIES_TO.entrySet().stream()
+		EVENT_APPLIES_TO.entrySet().stream()
 				.forEach(e -> elementsByEventType.put(
 						e.getKey(),
 						elementsByConnectableType.get(e.getValue())));
@@ -231,8 +232,6 @@ public class WorkflowServiceConfiguration
 		}
 		return elements;
 	}
-
-	// XXX LUMA } elements of current case that can be used with current event
 
 	public static ObservableList<EventParamGui> getEventParams(String event)
 	{
@@ -460,19 +459,26 @@ public class WorkflowServiceConfiguration
 	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits)
 			throws WorkflowCreationException
 	{
-
 		try
 		{
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
+			// TODO Allow the user change this from the user interface, flag similar to reactive limits
+			boolean helmflowFromHadesResults = Boolean.valueOf(Optional
+					.ofNullable(System.getProperty("helmflowFromHadesResults"))
+					.orElse("false"));
+			String helmSourceStateId = null;
+			if (helmflowFromHadesResults) helmSourceStateId = "resultsHades2";
+
 			cl = WF(TD(StaticNetworkImporterTask.class, "importer0",
 					TC("source", casePath.toString())),
-					TD(LoadFlowTask.class, "loadflowHelmflow",
-							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
-									"targetStateId", "resultsHelmflow")),
 					TD(LoadFlowTask.class, "loadflowHades2",
 							TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
-									"targetStateId", "resultsHades2")));
+									"targetStateId", "resultsHades2")),
+					TD(LoadFlowTask.class, "loadflowHelmflow",
+							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
+									"sourceStateId", helmSourceStateId,
+									"targetStateId", "resultsHelmflow")));
 		}
 		catch (IOException e)
 		{

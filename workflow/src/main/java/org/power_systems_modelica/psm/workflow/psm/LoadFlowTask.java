@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import eu.itesla_project.computation.ComputationManager;
 import eu.itesla_project.computation.local.LocalComputationManager;
@@ -61,6 +63,11 @@ public class LoadFlowTask extends WorkflowTask
 		// TODO obtain LoadFlowParameters from task configuration
 		loadFlowParams = new LoadFlowParameters();
 		// TODO obtain computationManager parameters and priority from task configuration ?
+
+		LOG.info("loadFlowFactoryClass = " + config.getParameter("loadFlowFactoryClass"));
+		LOG.info("    sourceStateId    = " + sourceStateId);
+		LOG.info("    targetStateId    = " + targetStateId);
+		LOG.info("    targetCsvFolder  = " + targetCsvFolder);
 	}
 
 	@Override
@@ -78,20 +85,31 @@ public class LoadFlowTask extends WorkflowTask
 				network.getStateManager().cloneState(sourceStateId, targetStateId);
 				network.getStateManager().setWorkingState(targetStateId);
 			}
+			
+			// Export the input data
+			if (targetCsvFolder.isPresent())
+			{
+				Path folder = Paths.get(targetCsvFolder.get()).resolve("input");
+				Files.createDirectories(folder);
+				NetworkData d = NetworkDataExtractor.extract(network);
+				NetworkDataExporter.export(d, folder);
+			}
 
 			ComputationManager computationManager = new LocalComputationManager();
 			int priority = 1;
 			LoadFlow lf = loadFlowFactory.create(network, computationManager, priority);
 			LoadFlowResult r = lf.run(loadFlowParams);
-			if (!r.isOk()) throw new Exception("Loadflow is not Ok");
-
+			
+			// Export the data if requested, even if the result if not ok 
 			if (targetCsvFolder.isPresent())
 			{
-				Path folder = Paths.get(targetCsvFolder.get());
+				Path folder = Paths.get(targetCsvFolder.get()).resolve("output");
 				Files.createDirectories(folder);
 				NetworkData d = NetworkDataExtractor.extract(network);
 				NetworkDataExporter.export(d, folder);
 			}
+			
+			if (!r.isOk()) throw new Exception("Loadflow is not Ok");
 
 			succeded();
 		}
@@ -106,4 +124,6 @@ public class LoadFlowTask extends WorkflowTask
 	private String				sourceStateId;
 	private String				targetStateId;
 	private Optional<String>	targetCsvFolder;
+
+	private static final Logger	LOG	= LoggerFactory.getLogger(LoadFlowTask.class);
 }

@@ -154,14 +154,14 @@ public class MainService {
 		return WorkflowServiceConfiguration.getActionEvents(c);
 	}
 
-	public void startConversion(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent) {
+	public void startConversion(Case cs, Ddr ddr, LoadflowEngine le, boolean onlyMainConnectedComponent, DsEngine dse) {
 
 		try {
-			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le, onlyMainConnectedComponent);
+			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
 			cTask = TaskService.createTask(w, () -> getMainApp().showConversionDetailView(this, true, null));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.CONVERSION);
 			TaskService.startTask(cTask);
-			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation());
+			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.name(), onlyMainConnectedComponent, dse.name());
 		} catch (WorkflowCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

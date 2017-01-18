@@ -14,7 +14,6 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
@@ -23,11 +22,9 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
+import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
 import javafx.collections.FXCollections;
@@ -37,8 +34,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tab;
 
 public class ConversionDetailController implements MainChildrenController {
 
@@ -76,8 +72,14 @@ public class ConversionDetailController implements MainChildrenController {
 		labels.add(date.toString("yyyy/MM/dd HH:mm:ss"));
 		labels.add("Case:");
 		labels.add(caseLabel);
-		labels.add("Ddr:");
+		labels.add("DDR:");
 		labels.add(ddrLabel);
+		labels.add("Loadflow:");
+		labels.add(loadflowLabel);
+		labels.add("Modelica network:");
+		labels.add(onlyMainComponentLabel);
+		labels.add("Full model initialization:");
+		labels.add(fullModelInitializationLabel);
 		return labels;
 	}
 
@@ -109,6 +111,7 @@ public class ConversionDetailController implements MainChildrenController {
 	public void setMainService(MainService mainService) {
 		this.mainService = mainService;
 		
+		curvesTab.setDisable(false);
 	}
 
 	public void addSeries(WorkflowResult results)
@@ -151,6 +154,7 @@ public class ConversionDetailController implements MainChildrenController {
 
 	public void setWorkflow(Workflow w) {
 		
+		loadflowLabel = "None";
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 
 			if (td.getTaskClass().equals(ModelicaExporterTask.class)) {
@@ -209,6 +213,13 @@ public class ConversionDetailController implements MainChildrenController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				onlyMainComponentLabel = td.getTaskConfiguration().getParameter("onlyMainConnectedComponent").equals("true")?"Only main connected component":"All connected components";
+				fullModelInitializationLabel = td.getTaskConfiguration().getParameter("modelicaEngine");
+			}
+			
+			if (td.getTaskClass().equals(LoadFlowTask.class)) {
+				loadflowLabel = td.getTaskId();
 			}
 		}
 
@@ -222,6 +233,8 @@ public class ConversionDetailController implements MainChildrenController {
 	}
 	
 	public void setConversionResult(Case c) {
+		
+		curvesTab.setDisable(true);
 		
 		Path casePath = Paths.get(c.getLocation());
 		Path catalogPath = casePath.getParent();
@@ -245,6 +258,10 @@ public class ConversionDetailController implements MainChildrenController {
 			}
 			caseLabel = catalog.getName() + "\t" + c.getName();
 			ddrLabel = catalog.getName() + "\t" + ddr.getName();
+			
+			loadflowLabel = cc.getLoadflowEngine();
+			onlyMainComponentLabel = cc.getOnlyMainConnectedComponent();
+			fullModelInitializationLabel = cc.getFullModelInitializationEgine();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -263,6 +280,9 @@ public class ConversionDetailController implements MainChildrenController {
 
 	@FXML
 	private CodeEditor codeEditor;
+
+	@FXML
+	private Tab								curvesTab;
 
 	@FXML
 	private ScatterChart<String, Number>	voltageChart;
@@ -296,6 +316,9 @@ public class ConversionDetailController implements MainChildrenController {
 	private String pathLabel;
 	private String caseLabel;
 	private String ddrLabel;
+	private String loadflowLabel;
+	private String onlyMainComponentLabel;
+	private String fullModelInitializationLabel;
 	
 	private MainService mainService;
 

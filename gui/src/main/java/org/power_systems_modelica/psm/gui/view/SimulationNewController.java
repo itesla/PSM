@@ -426,7 +426,8 @@ public class SimulationNewController implements MainChildrenController
 				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
 				stopTimeText.setText(stopTime);
 
-				dsEngine.getSelectionModel().select(Utils.getDsEngine(td.getTaskId()));
+				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
+				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
 			}
 		}
 	}

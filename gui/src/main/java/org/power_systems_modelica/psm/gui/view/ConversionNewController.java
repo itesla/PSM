@@ -9,6 +9,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
@@ -17,6 +18,7 @@ import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -194,7 +196,14 @@ public class ConversionNewController implements MainChildrenController {
 
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 
-		mainService.startConversion(cs, ddr, le, onlyMainConnectedComponent);
+		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
+		if (dse == null)
+		{
+			Utils.showWarning("Warning", "Select a full model initialization engine");
+			return;
+		}
+
+		mainService.startConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
 	}
 
 	public void setCase(Case c) {
@@ -232,6 +241,11 @@ public class ConversionNewController implements MainChildrenController {
 			if (td.getTaskClass().equals(LoadFlowTask.class))
 				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(td.getTaskId()));
 
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+			{
+				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
+				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
+			}
 		}
 	}
 
@@ -244,6 +258,8 @@ public class ConversionNewController implements MainChildrenController {
 		loadflowEngine.setItems(mainService.getLoadflowEngines());
 		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
 
+		dsEngine.setItems(mainService.getDsEngines());
+		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
 	
 	public void setFileChooser(GuiFileChooser fileChooser) {
@@ -273,6 +289,9 @@ public class ConversionNewController implements MainChildrenController {
 
 	@FXML
 	private CheckBox mainConnectedComponent;
+
+	@FXML
+	private ComboBox<DsEngine> dsEngine;
 
 	private GuiFileChooser fileChooser;
 	private MainService mainService;

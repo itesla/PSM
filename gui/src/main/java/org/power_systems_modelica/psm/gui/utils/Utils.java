@@ -159,7 +159,9 @@ public class Utils
 	public static DsEngine getDsEngine(String engine)
 	{
 		if (engine.equals("OpenModelica")) return DsEngine.OPENMODELICA;
-		return DsEngine.DYMOLA;
+		if (engine.equals("Dymola")) return DsEngine.DYMOLA;
+		
+		return DsEngine.FAKE;
 	}
 
 	public static void addTooltipLineChart(LineChart<Number, Number> chart)

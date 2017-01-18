@@ -175,8 +175,9 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class)) {
 				stopTime = td.getTaskConfiguration().getParameter("stopTime");
-
-				dse = Utils.getDsEngine(td.getTaskId());
+				
+				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
+				dse = Utils.getDsEngine(simulationEngine);
 			}
 		}
 	}

@@ -32,6 +32,9 @@ public class ConvertedCase implements Serializable
 		this.name = new SimpleStringProperty();
 		this.location = new SimpleStringProperty();
 		this.ddrLocation = new SimpleStringProperty();
+		this.loadflowEngine = new SimpleStringProperty();
+		this.onlyMainConnectedComponent = new SimpleStringProperty();
+		this.fullModelInitializationEgine = new SimpleStringProperty();
 	}
 
 	public String getName()
@@ -79,6 +82,51 @@ public class ConvertedCase implements Serializable
 		this.ddrLocation.set(location);
 	}
 
+	public String getLoadflowEngine()
+	{
+		return loadflowEngine.get();
+	}
+
+	public StringProperty loadflowEngineProperty()
+	{
+		return loadflowEngine;
+	}
+
+	public void setLoadflowEngine(String engine)
+	{
+		this.loadflowEngine.set(engine);
+	}
+
+	public String getOnlyMainConnectedComponent()
+	{
+		return onlyMainConnectedComponent.get();
+	}
+
+	public StringProperty onlyMainConnectedComponentProperty()
+	{
+		return onlyMainConnectedComponent;
+	}
+
+	public void setOnlyMainConnectedComponent(String maincomponent)
+	{
+		this.onlyMainConnectedComponent.set(maincomponent);
+	}
+
+	public String getFullModelInitializationEgine()
+	{
+		return fullModelInitializationEgine.get();
+	}
+
+	public StringProperty fullModelInitializationEgineProperty()
+	{
+		return fullModelInitializationEgine;
+	}
+
+	public void setFullModelInitializationEgine(String engine)
+	{
+		this.fullModelInitializationEgine.set(engine);
+	}
+
 	public String toString()
 	{
 		return name.get();
@@ -97,6 +145,9 @@ public class ConvertedCase implements Serializable
 	private StringProperty					name;
 	private StringProperty					location;
 	private StringProperty					ddrLocation;
+	private StringProperty					loadflowEngine;
+	private StringProperty					onlyMainConnectedComponent;
+	private StringProperty					fullModelInitializationEgine;
 
 	private Map<String, Collection<String>>	elementIdentifiersByEventType;
 }

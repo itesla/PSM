@@ -80,7 +80,7 @@ public class WorkflowServiceConfiguration
 
 	public enum DsEngine
 	{
-		DYMOLA(0), OPENMODELICA(1);
+		DYMOLA(0), OPENMODELICA(1), FAKE(2);
 
 		private int value;
 
@@ -125,6 +125,7 @@ public class WorkflowServiceConfiguration
 	{
 
 		ObservableList<DsEngine> engines = FXCollections.observableArrayList();
+		engines.add(DsEngine.FAKE);
 		engines.add(DsEngine.DYMOLA);
 		engines.add(DsEngine.OPENMODELICA);
 
@@ -307,7 +308,7 @@ public class WorkflowServiceConfiguration
 			else
 				depth = "0";
 
-			tasks.add(TD(ModelicaSimulatorTask.class, simulationEngine,
+			tasks.add(TD(ModelicaSimulatorTask.class, "modelica0",
 					TC("source", simulationSource,
 							"modelicaEngine", simulationEngine,
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
@@ -329,7 +330,7 @@ public class WorkflowServiceConfiguration
 	}
 
 	public static Workflow createConversion(Case cs, Ddr ddr0, LoadflowEngine le,
-			boolean onlyMainConnectedComponent)
+			boolean onlyMainConnectedComponent, DsEngine dse)
 			throws WorkflowCreationException
 	{
 
@@ -379,14 +380,34 @@ public class WorkflowServiceConfiguration
 				tasks.add(TD(LoadFlowTask.class, loadflowId,
 						TC("loadFlowFactoryClass", loadflowClass)));
 			}
-			tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
-					TC("ddrType", "DYD",
-							"ddrLocation", ddr0.getLocation(),
-							"onlyMainConnectedComponent",
-							Boolean.toString(onlyMainConnectedComponent),
-							"modelicaEngine", "Fake",
-							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-							"fakeModelicaEngineResults", fakeInit)));
+			
+			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : dse.equals(DsEngine.DYMOLA) ? "Dymola" : "Fake";
+			
+			if (dse.equals(DsEngine.FAKE)) {
+				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
+						TC("ddrType", "DYD",
+								"ddrLocation", ddr0.getLocation(),
+								"onlyMainConnectedComponent",
+								Boolean.toString(onlyMainConnectedComponent),
+								"modelicaEngine", simulationEngine,
+								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+								"fakeModelicaEngineResults", fakeInit)));
+			}
+			else {
+				String simulationSource = "mo";
+				String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+				
+				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
+						TC("source", simulationSource,
+								"ddrType", "DYD",
+								"ddrLocation", ddr0.getLocation(),
+								"onlyMainConnectedComponent",
+								Boolean.toString(onlyMainConnectedComponent),
+								"modelicaEngine", simulationEngine,
+								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
+								"libraryDir", PathUtils.LIBRARY.toString(),
+								"resultVariables", resultVariables)));
+			}
 			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 					TC("source", "mo",
 							"target", outname,

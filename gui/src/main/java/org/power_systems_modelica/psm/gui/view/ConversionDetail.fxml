@@ -33,7 +33,7 @@
 			                                        <CodeEditor fx:id="codeEditor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
 			                                   </content>
 			                              </Tab>
-			                              <Tab closable="false" text="Curves">
+			                              <Tab fx:id="curvesTab" closable="false" text="Curves">
 			                                   <content>
 														<AnchorPane>
 															<children>

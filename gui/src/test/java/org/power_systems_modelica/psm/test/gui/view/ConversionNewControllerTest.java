@@ -18,6 +18,7 @@ import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.ConversionNewController;
@@ -255,7 +256,7 @@ public class ConversionNewControllerTest extends ApplicationTest {
 		Ddr ddr = new Ddr();
 		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
 
-		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true);
+		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true, DsEngine.OPENMODELICA);
 
 		interact(new Runnable() {
 

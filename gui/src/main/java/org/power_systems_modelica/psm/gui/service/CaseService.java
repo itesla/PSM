@@ -161,8 +161,14 @@ public class CaseService {
 						if (!properties.isEmpty()) {
 
 							String ddrLocation = properties.getProperty("ddrLocation");
+							String loadflowEngine = properties.getProperty("loadflowEngine");
+							String onlyMainConnectedComponent = properties.getProperty("onlyMainConnectedComponent");
+							String fullModelInitializationEgine = properties.getProperty("fullModelInitializationEgine");
 
 							c.setDdrLocation(ddrLocation);
+							c.setLoadflowEngine(loadflowEngine);
+							c.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
+							c.setFullModelInitializationEgine(fullModelInitializationEgine);
 						}
 					}
 				} else if (entry.toString().endsWith("ME.xml"))
@@ -220,7 +226,7 @@ public class CaseService {
 		return properties;
 	}
 
-	public static void saveConvertedCaseProperties(String caseLocation, String ddrLocation) {
+	public static void saveConvertedCaseProperties(String caseLocation, String ddrLocation, String loadflowEngine, boolean onlyMainConnectedComponent, String fullModelInitializationEgine) {
 
 		try {
 			Path defaultFile = Paths.get(caseLocation).resolve("convertedCase.properties");
@@ -228,6 +234,9 @@ public class CaseService {
 
 			Properties defaultProperties = new Properties();
 			defaultProperties.setProperty("ddrLocation", ddrLocation);
+			defaultProperties.setProperty("loadflowEngine", loadflowEngine);
+			defaultProperties.setProperty("onlyMainConnectedComponent", onlyMainConnectedComponent?"Only main connected component":"All connected components");
+			defaultProperties.setProperty("fullModelInitializationEgine", fullModelInitializationEgine);
 			defaultProperties.store(out, "Converted case properties");
 			out.close();
 		} catch (IOException e) {

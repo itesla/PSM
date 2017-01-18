@@ -20,6 +20,10 @@ Clone the iTesla platform repositories and build them:
 	git clone https://github.com/itesla/ipst.git
 	cd ipst
 	mvn clean install -DskipTests
+
+	git clone https://github.com/itesla/ipst-entsoe.git
+	cd ipst-entsoe
+	mvn clean install -DskipTests
 	
 This will put all the iPST artifacts in the local maven repository, so they can be referenced from psm project.
 

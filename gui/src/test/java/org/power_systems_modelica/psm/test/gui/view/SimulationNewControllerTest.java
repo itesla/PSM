@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.CaseService;
@@ -19,26 +19,25 @@ import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
-import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.view.ConversionNewController;
+import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.ListViewMatchers;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ConversionNewControllerTest extends ApplicationTest {
+public class SimulationNewControllerTest extends ApplicationTest {
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -51,7 +50,7 @@ public class ConversionNewControllerTest extends ApplicationTest {
 
 			// Load cases overview.
 			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/ConversionNew.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/SimulationNew.fxml"));
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			controller = loader.getController();
@@ -67,7 +66,6 @@ public class ConversionNewControllerTest extends ApplicationTest {
 		}
 	}
 
-
 	@Test
 	public void testSetCase() {
 		
@@ -79,17 +77,13 @@ public class ConversionNewControllerTest extends ApplicationTest {
 			@Override
 			public void run() {
 				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
-				ComboBox<Case> caseSource = lookup("#caseSource").query();
-				ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
-				ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+				ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
 
 				controller.setCase(cs);
 				
 				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
 
-				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
-				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
 			}
 
 		});
@@ -99,9 +93,7 @@ public class ConversionNewControllerTest extends ApplicationTest {
 	public void testSource() {
 
 		ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
-		ComboBox<Case> caseSource = lookup("#caseSource").query();
-		ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
-		ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+		ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
 
 		ObservableList<Catalog> catalogs = CatalogService.getCatalogs("cases");
 		assertEquals(catalogs.size(), catalogCaseSource.getItems().size());
@@ -109,45 +101,121 @@ public class ConversionNewControllerTest extends ApplicationTest {
 		clickOn("#catalogCaseSource").clickOn("Reference cases");
 		assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 
-		ObservableList<Case> cases = CaseService.getCases(catalog);
+		ObservableList<ConvertedCase> cases = CaseService.getConvertedCases(catalog);
 		assertEquals(cases.size(), caseSource.getItems().size());
 		clickOn("#caseSource").clickOn("ieee14");
 		assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
 
-		assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
-		assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
 	}
 
 	@Test
+	public void testAddEvent() {
+
+		Event event = new Event();
+		event.setElement("_BUS___10_TN");
+		event.setAction("BusFault");
+		List<EventParamGui> params = new ArrayList<>();
+		EventParamGui param = new EventParamGui();
+		param.setName("R");
+		param.setUnit("pu");
+		param.setValue("0.5");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("X");
+		param.setUnit("pu");
+		param.setValue("0.5");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("startTime");
+		param.setUnit("s");
+		param.setValue("0.3");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("endTime");
+		param.setUnit("x");
+		param.setValue("0.5");
+		params.add(param);
+		event.setParams(params);
+
+		clickOn("#catalogCaseSource").clickOn("Reference cases");
+		clickOn("#caseSource").clickOn("ieee14");
+		clickOn("#addEvents");
+
+		clickOn("#actionEvent").clickOn("BusFault");
+		clickOn("#elementEvent").clickOn("_BUS___10_TN");
+
+		TableView<EventParamGui> tableView = lookup("#parametersView").query();
+		param = tableView.getItems().get(0);
+		param.setValue("0.5");
+		param = tableView.getItems().get(1);
+		param.setValue("0.5");
+		param = tableView.getItems().get(2);
+		param.setValue("0.3");
+		param = tableView.getItems().get(3);
+		param.setValue("0.5");
+		clickOn("#add");
+
+		verifyThat("#addedEvents", ListViewMatchers.hasItems(1));
+		ListView<Event> listView = lookup("#addedEvents").query();
+		assertEquals(event.toString(), listView.getItems().get(0).toString());
+		
+		clickOn("#addedEvents").clickOn(event.toString());
+		clickOn("#removeEvents");
+		verifyThat("#addedEvents", ListViewMatchers.isEmpty());
+	}
+	
+	@Test
 	public void testSetWorkflow() throws WorkflowCreationException {
 		
-		Case cs = new Case();
+		ConvertedCase cs = new ConvertedCase();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+		
+		Event event = new Event();
+		event.setElement("_BUS___10_TN");
+		event.setAction("BusFault");
+		List<EventParamGui> params = new ArrayList<>();
+		EventParamGui param = new EventParamGui();
+		param.setName("R");
+		param.setUnit("pu");
+		param.setValue("0.5");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("X");
+		param.setUnit("pu");
+		param.setValue("0.5");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("t1");
+		param.setUnit("s");
+		param.setValue("0.3");
+		params.add(param);
+		param = new EventParamGui();
+		param.setName("t2");
+		param.setUnit("x");
+		param.setValue("0.5");
+		params.add(param);
+		event.setParams(params);
+		
+		ObservableList<Event> events = FXCollections.observableArrayList();
+		events.add(event);
 
-		Ddr ddr = new Ddr();
-		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
-
-		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true, DsEngine.OPENMODELICA);
+		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.FAKE, "1.0", false, false);
 
 		interact(new Runnable() {
 
 			@Override
 			public void run() {
 				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
-				ComboBox<Case> caseSource = lookup("#caseSource").query();
-				ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
-				ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
+				ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
 				
 				controller.setWorkflow(w);
 
 				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
 
-				assertEquals("Reference cases", catalogDdrSource.getSelectionModel().getSelectedItem().getName());
-				assertEquals("ieee14_ddr", ddrSource.getSelectionModel().getSelectedItem().getName());
 			}
 		});
 	}
 
-	private ConversionNewController controller;
+	private SimulationNewController controller;
 }

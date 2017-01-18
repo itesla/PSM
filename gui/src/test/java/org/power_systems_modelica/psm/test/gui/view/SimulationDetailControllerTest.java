@@ -103,32 +103,10 @@ public class SimulationDetailControllerTest extends ApplicationTest
 			@Override
 			public void run()
 			{
-				ScatterChart<String, Number> voltageChart = lookup("#voltageChart").query();
-				ScatterChart<String, Number> phaseChart = lookup("#phaseChart").query();
-				ScatterChart<String, Number> activeChart = lookup("#activeChart").query();
-				ScatterChart<String, Number> reactiveChart = lookup("#reactiveChart").query();
-
 				LineChart<Number, Number> dsChart = lookup("#dsChart").query();
 
 				controller.addSeries(results);
-				Utils.addTooltipScatterChart(voltageChart, "pu");
-				Utils.addTooltipScatterChart(phaseChart, "º");
-				Utils.addTooltipScatterChart(activeChart, "MW");
-				Utils.addTooltipScatterChart(reactiveChart, "MVar");
 				Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
-
-				assertEquals(1, voltageChart.getData().size());
-				XYChart.Series<String, Number> valuesV = voltageChart.getData().get(0);
-				assertEquals(14, valuesV.getData().size());
-				assertEquals(1, phaseChart.getData().size());
-				XYChart.Series<String, Number> valuesA = phaseChart.getData().get(0);
-				assertEquals(14, valuesA.getData().size());
-				assertEquals(1, activeChart.getData().size());
-				XYChart.Series<String, Number> valuesP = activeChart.getData().get(0);
-				assertEquals(14, valuesP.getData().size());
-				assertEquals(1, reactiveChart.getData().size());
-				XYChart.Series<String, Number> valuesQ = reactiveChart.getData().get(0);
-				assertEquals(14, valuesQ.getData().size());
 
 				assertEquals(14, dsChart.getData().size());
 				XYChart.Series<Number, Number> valuesDS = dsChart.getData().get(0);

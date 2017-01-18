@@ -12,7 +12,7 @@
 
 <?import org.power_systems_modelica.psm.gui.utils.CodeEditor?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.DdrsOverviewController">
+<AnchorPane prefHeight="800.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.DdrsOverviewController">
    <children>
       <SplitPane dividerPositions="0.5" layoutX="173.0" layoutY="164.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>

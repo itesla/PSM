@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class WorkflowResult implements Serializable
 {
 	public WorkflowResult()
 	{
 		super();
-		allBusesValues = new ArrayList<BusData>();
+		allBusesValues = FXCollections.observableArrayList();
 		dsValues = new HashMap<String, List<DsData>>();
 	}
 
@@ -25,14 +28,15 @@ public class WorkflowResult implements Serializable
 		this.id = id;
 	}
 
-	public List<BusData> getAllBusesValues()
+	public ObservableList<BusData> getAllBusesValues()
 	{
 		return allBusesValues;
 	}
 
 	public void setAllBusesValues(List<BusData> allBusesValues)
 	{
-		this.allBusesValues = allBusesValues;
+		this.allBusesValues.clear();
+		this.allBusesValues.addAll(allBusesValues);
 	}
 
 	public void setDsValues(Map<String, List<DsData>> values)
@@ -55,6 +59,6 @@ public class WorkflowResult implements Serializable
 
 	private String						id;
 
-	private List<BusData>				allBusesValues;
+	private ObservableList<BusData>				allBusesValues;
 	private Map<String, List<DsData>>	dsValues;
 }

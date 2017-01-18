@@ -94,7 +94,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 
 	private void handleNewWorkflow() {
 
-		mainService.showSimulationView(null);
+		mainService.showSimulationNewView(mainService.getSimulation());
 	}
 	
 	private void handleSimulateWorkflow(boolean isVerify) {

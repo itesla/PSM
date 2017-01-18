@@ -93,7 +93,7 @@ public class WorkflowConfigurationTest
 		assertEquals("exporter0", w.getWorkflowTasks().get(2).getId());
 		assertEquals("eventAdder0", w.getWorkflowTasks().get(3).getId());
 		assertEquals("exporter1", w.getWorkflowTasks().get(4).getId());
-		assertEquals("OpenModelica", w.getWorkflowTasks().get(5).getId());
+		assertEquals("modelica0", w.getWorkflowTasks().get(5).getId());
 	}
 
 	// FIXME Allow loadflow engine in task integration server

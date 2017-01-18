@@ -395,7 +395,6 @@ public class WorkflowServiceConfiguration
 			}
 			else {
 				String simulationSource = "mo";
-				String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 				
 				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
 						TC("source", simulationSource,
@@ -405,8 +404,7 @@ public class WorkflowServiceConfiguration
 								Boolean.toString(onlyMainConnectedComponent),
 								"modelicaEngine", simulationEngine,
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-								"libraryDir", PathUtils.LIBRARY.toString(),
-								"resultVariables", resultVariables)));
+								"libraryDir", PathUtils.LIBRARY.toString())));
 			}
 			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 					TC("source", "mo",

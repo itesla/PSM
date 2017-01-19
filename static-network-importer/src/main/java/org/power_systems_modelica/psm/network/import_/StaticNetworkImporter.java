@@ -10,11 +10,17 @@ import eu.itesla_project.iidm.datasource.ZipFileDataSource;
 import eu.itesla_project.iidm.import_.Importer;
 import eu.itesla_project.iidm.import_.Importers;
 import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
 import eu.itesla_project.iidm.parameters.Parameter;
 
 public class StaticNetworkImporter
 {
 	public static Network import_(Path file)
+	{
+		return import_(file, MIN_X_PU_DEFAULT);
+	}
+
+	public static Network import_(Path file, Float minx)
 	{
 		Path path = file.getParent();
 		Path basename = file.getFileName();
@@ -39,6 +45,10 @@ public class StaticNetworkImporter
 				n = Importers.import_("CIM1",
 						zipDataSource, parameters);
 			}
+
+			// TODO How do we should configure minimum reactance
+			// (maybe use a configuration file similar to other iPST modules)
+			if (minx != null) fixLowReactances(n, minx);
 		}
 		catch (Exception x)
 		{
@@ -56,5 +66,41 @@ public class StaticNetworkImporter
 		return n;
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(StaticNetworkImporter.class);
+	public static void fixLowReactances(Network n, float minx)
+	{
+		n.getLineStream()
+				.filter(l -> Math.abs(l.getX()) < minx)
+				.forEach(l -> l.setX(fixedLowReactance(l.getX(), minx, l)));
+		n.getTwoWindingsTransformerStream()
+				.filter(tr -> Math.abs(tr.getX()) < minx)
+				.forEach(tr -> tr.setX(fixedLowReactance(tr.getX(), minx, tr)));
+	}
+
+	private static float fixedLowReactance(float X, float minx, TwoTerminalsConnectable<?> branch)
+	{
+		final float SNREF = 100.0f;
+		float V = branch.getTerminal2().getVoltageLevel().getNominalV();
+		if (Float.isNaN(V)) return Float.NaN;
+
+		// Set the new value to the minimum allowed reactance
+		// (it comes expressed in pu base SNREF, and we want to store it in Siemens)
+		float Z = (V * V) / SNREF;
+		float X1 = minx * Z;
+		
+		// Preserve the original sign of X
+		float sign = (X == 0.0f ? 1.0f : Math.signum(X));
+		X1 *= sign;
+		
+		LOG.warn("Low reactance {} changed to {} at branch {}, nominal Voltage {}",
+				X,
+				X1,
+				branch,
+				V);
+		return X1;
+	}
+
+	private static final Logger	LOG					= LoggerFactory
+			.getLogger(StaticNetworkImporter.class);
+
+	public static final Float	MIN_X_PU_DEFAULT	= 0.002f;
 }

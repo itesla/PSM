@@ -41,7 +41,7 @@
             													<NumberAxis fx:id="yVoltageDiffAxis" side="LEFT" />
             												</yAxis>
             											</ScatterChart>
-			                                             <ScatterChart fx:id="voltageCurvesChart" layoutX="14.0" layoutY="474.0" title="Voltage curves" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                             <ScatterChart fx:id="voltageCurvesChart" layoutX="14.0" layoutY="474.0" title="Voltage values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
 			                                                <xAxis>
 			                                                   <CategoryAxis side="BOTTOM" fx:id="xVoltageCurvesAxis" />
 			                                                </xAxis>
@@ -78,7 +78,7 @@
             													<NumberAxis fx:id="yPhaseDiffAxis" side="LEFT" />
             												</yAxis>
             											</ScatterChart>
-			                                             <ScatterChart fx:id="phaseCurvesChart" layoutX="14.0" layoutY="474.0" title="Phase curves" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                             <ScatterChart fx:id="phaseCurvesChart" layoutX="14.0" layoutY="474.0" title="Phase values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
 			                                                <xAxis>
 			                                                   <CategoryAxis side="BOTTOM" fx:id="xPhaseCurvesAxis" />
 			                                                </xAxis>
@@ -115,7 +115,7 @@
             													<NumberAxis fx:id="yActiveDiffAxis" side="LEFT" />
             												</yAxis>
             											</ScatterChart>
-			                                             <ScatterChart fx:id="activeCurvesChart" layoutX="14.0" layoutY="474.0" title="Active power curves" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                             <ScatterChart fx:id="activeCurvesChart" layoutX="14.0" layoutY="474.0" title="Active power values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
 			                                                <xAxis>
 			                                                   <CategoryAxis side="BOTTOM" fx:id="xActiveCurvesAxis" />
 			                                                </xAxis>
@@ -152,7 +152,7 @@
             													<NumberAxis fx:id="yReactiveDiffAxis" side="LEFT" />
             												</yAxis>
             											</ScatterChart>
-			                                             <ScatterChart fx:id="reactiveCurvesChart" layoutX="14.0" layoutY="474.0" title="Reactive power curves" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                             <ScatterChart fx:id="reactiveCurvesChart" layoutX="14.0" layoutY="474.0" title="Reactive power values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
 			                                                <xAxis>
 			                                                   <CategoryAxis side="BOTTOM" fx:id="xReactiveCurvesAxis" />
 			                                                </xAxis>

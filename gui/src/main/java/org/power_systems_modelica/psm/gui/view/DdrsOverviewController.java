@@ -154,6 +154,11 @@ public class DdrsOverviewController implements MainChildrenController {
 	}
 
 	@FXML
+	private void handleFindContentEvent() {
+		codeEditor.find();
+	}
+
+	@FXML
 	private void handleSaveFileContentEvent() {
 		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
 		String location = codeEditor.getEditingLocation();

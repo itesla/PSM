@@ -104,6 +104,11 @@ public class ConversionDetailController implements MainChildrenController {
 		yReactiveAxis.setAutoRanging(true);
 	}
 
+	@FXML
+	private void handleFindContentEvent() {
+		codeEditor.find();
+	}
+
 	private void handleNewConversionEvent() {
 		mainService.showConversionNewView(mainService.getConversion());
 	}

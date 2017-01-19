@@ -40,7 +40,7 @@ model case3
 // LINES
   iPSL.Electrical.Branches.PwLine_2 line__GRID_____INF______1_AC (
 	 R = 0.0,
-	 X = 0.0,
+	 X = 0.002,
 	 G = 0.0,
 	 B = 0.0
 	 ) annotation (Placement(transformation()));

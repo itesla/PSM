@@ -1,13 +1,17 @@
 package org.power_systems_modelica.psm.modelica.engine;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Set;
 
 public class ModelicaSimulationFinalResults
 {
@@ -46,7 +50,20 @@ public class ModelicaSimulationFinalResults
 				.append(var)
 				.toString();
 	}
-	
+
+	public void writeToFile(Path filePath)
+	{
+		try (PrintStream printStream = new PrintStream(Files.newOutputStream(filePath)))
+		{
+			getEntries().forEach(e -> printStream.println(e.getKey() + "::" + e.getValue()));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
 	private final Map<String, Object>	results			= new HashMap<>();
 	private static final String			KEY_SEPARATOR	= "::";
 	private static final Logger			LOG				= LoggerFactory

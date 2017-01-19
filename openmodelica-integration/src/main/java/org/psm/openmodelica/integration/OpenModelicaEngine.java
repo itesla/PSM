@@ -28,6 +28,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.power_systems_modelica.psm.modelica.engine.utils.ModelicaEngineUtils;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,11 +55,10 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		this.createFilteredMat = Optional.ofNullable(config.getBoolean("createFilteredMat"))
 				.orElse(false);
-
 		this.simFlags = Optional.ofNullable(config.getParameter("simFlags")).orElse("");
 		this.depth = Optional.ofNullable(config.getInteger("depth")).orElse(0);
 	}
-	
+
 	@Override
 	public void simulate(ModelicaDocument mo)
 	{
@@ -66,11 +66,10 @@ public class OpenModelicaEngine implements ModelicaEngine
 		String modelFileName = modelName + MO_EXTENSION;
 
 		prepareWorkingDirectory(mo);
-		// The first "result" in ModelicaSimulationResults is the simulation
-		// directory "simulation_path"
+		// The first "result" in ModelicaSimulationResults is the simulation directory "simulation_path"
 		this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
 		this.results.addResult(modelName, "successful", true);
-		
+
 		try
 		{
 			LOGGER.info(
@@ -110,25 +109,27 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 			// load to the engine all .mo files
 			loadModelsInDirectory(omSimulationDir);
-		
+
 			boolean simulated = false, validated = false, verified = false;
-			
+
 			validated = validateModel(modelName);
-			if(!validated || depth == 1) 
+			if (!validated || depth == 1)
 			{
 				this.results.addResult(modelName, "successful", false);
 				return;
 			}
-			
-			if(depth != 0) {
-				verified = simulateModel(modelName, startTime, 0.0001 * stopTime, numOfIntervals, tolerance, simFlags, true);
+
+			if (depth != 0)
+			{
+				verified = simulateModel(modelName, startTime, 0.0001 * stopTime, numOfIntervals,
+						tolerance, simFlags, true);
 				if (!simulated || depth == 2)
 				{
 					this.results.addResult(modelName, "successful", false);
 					return;
 				}
 			}
-			
+
 			// Simulate the model
 			// Parameter "simFlags" can be a comma separated list of log level:
 			// -lv LOG_INIT,LOG_SIMULATION,LOG_STATS,LOG_EVENTS
@@ -136,7 +137,8 @@ public class OpenModelicaEngine implements ModelicaEngine
 			// https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
 			// IMPORTANT: These simFlags can greatly increase the simulation
 			// time.
-			simulated = simulateModel(modelName, startTime, stopTime, numOfIntervals, tolerance, simFlags, false);
+			simulated = simulateModel(modelName, startTime, stopTime, numOfIntervals, tolerance,
+					simFlags, false);
 			if (!simulated)
 			{
 				this.results.addResult(modelName, "successful", false);
@@ -167,8 +169,9 @@ public class OpenModelicaEngine implements ModelicaEngine
 		// written properly)
 		mos.forEach(mo -> simulate(mo));
 	}
-		
-	private boolean validateModel(String modelName) throws ConnectException {
+
+	private boolean validateModel(String modelName) throws ConnectException
+	{
 		progress(String.format("Checking model %s.", modelName));
 		Result result = omc.checkModel(modelName);
 		if (!isSuccessful(result))
@@ -181,21 +184,23 @@ public class OpenModelicaEngine implements ModelicaEngine
 		progress(String.format("Model %s checked successfully.", modelName));
 		return true;
 	}
-	
+
 	private boolean simulateModel(String modelName, double startTime, double stopTime,
 			int numOfIntervals, double tolerance, String simFlags, boolean verifying)
 			throws ConnectException
 	{
-		String text;		
+		String text;
 		Instant startms, endms;
 		startms = Instant.now();
 		int i = 0;
 		boolean successful = false;
 		while ((successful == false) && (i < METHOD_LIST.length))
 		{
-			if(verifying) text = "Verifying model %s with integration method %s - start time = %fs - stop time = %fs - number of intervals = %d - tolerance = %f - simulation flags = %s."; 
+			if (verifying)
+				text = "Verifying model %s with integration method %s - start time = %fs - stop time = %fs - number of intervals = %d - tolerance = %f - simulation flags = %s.";
 			else text = "Simulating model %s with integration method %s - start time = %fs - stop time = %fs - number of intervals = %d - tolerance = %f - simulation flags = %s.";
-			progress(String.format(text, modelName, METHOD_LIST[i], startTime, stopTime, numOfIntervals, tolerance, simFlags));
+			progress(String.format(text, modelName, METHOD_LIST[i], startTime, stopTime,
+					numOfIntervals, tolerance, simFlags));
 
 			Result result = omc.simulate(modelName, startTime, stopTime, numOfIntervals,
 					METHOD_LIST[i], tolerance, simFlags);
@@ -204,13 +209,16 @@ public class OpenModelicaEngine implements ModelicaEngine
 				SimulationResult simResult = new SimulationResult(result.res, result.err);
 				if (simResult.getResultFile().isEmpty())
 				{
-					if(verifying) text = "Error verifying model {} with integration method {}. \n Reason : \n {} \n {}"; 
+					if (verifying)
+						text = "Error verifying model {} with integration method {}. \n Reason : \n {} \n {}";
 					else text = "Error simulating model {} with integration method {}. \n Reason : \n {} \n {}";
-					LOGGER.error(text, modelName, METHOD_LIST[i], simResult.getMessages(), simResult.getError());
+					LOGGER.error(text, modelName, METHOD_LIST[i], simResult.getMessages(),
+							simResult.getError());
 				}
 				else if (simResult.getError().contains("Warning:"))
 				{
-					if(verifying) text = "Warning verifying model {} with integration method {}. \n Reason : \n {}"; 
+					if (verifying)
+						text = "Warning verifying model {} with integration method {}. \n Reason : \n {}";
 					else text = "Warning simulating model {} with integration method {}. \n Reason : \n {}";
 					LOGGER.warn(text, modelName, METHOD_LIST[i], simResult.getMessages());
 					successful = true;
@@ -222,20 +230,21 @@ public class OpenModelicaEngine implements ModelicaEngine
 			}
 			else
 			{
-				if(verifying) text = "Error verifying model {} with integration method {}."; 
+				if (verifying) text = "Error verifying model {} with integration method {}.";
 				else text = "Error simulating model {} with integration method {}.";
 				LOGGER.error(text, modelName, METHOD_LIST[i]);
 			}
 			i++;
 		}
 
-		if (!successful) {
-			if(verifying) text = "Model %s verified unsuccessfully."; 
+		if (!successful)
+		{
+			if (verifying) text = "Model %s verified unsuccessfully.";
 			else text = "Model %s simulated unsuccessfully.";
 			progress(String.format(text, modelName));
 			return false;
 		}
-		if(verifying) text = "Model %s verified successfully."; 
+		if (verifying) text = "Model %s verified successfully.";
 		else text = "Model %s simulated successfully.";
 		progress(String.format(text, modelName));
 
@@ -251,7 +260,8 @@ public class OpenModelicaEngine implements ModelicaEngine
 		Result result = omc.readSimulationResultVars(matResultsFile);
 		if (!isSuccessful(result))
 		{
-			if(verifying) text = "Error reading verification results variables from {}. Reason is {} "; 
+			if (verifying)
+				text = "Error reading verification results variables from {}. Reason is {} ";
 			else text = "Error reading simulation results variables from {}. Reason is {} ";
 			LOGGER.error(text, matResultsFile, result.err.replace("\"", ""));
 		}
@@ -282,26 +292,9 @@ public class OpenModelicaEngine implements ModelicaEngine
 						Paths.get(omSimulationDir + File.separator + csvResultsFile))))
 		{
 			writeResults(printStream, matResultsFile, filterResultVariables, resultSize);
-			
-			BufferedReader in = Files.newBufferedReader(
-					Paths.get(omSimulationDir + File.separator + csvResultsFile));
-			String[] header = in.readLine().split(COMMA);
-			Stream.of(header)
-					.forEach(d -> this.results.addResult(modelName, d, new ArrayList<String>()));
-			String line;
-			while ((line = in.readLine()) != null)
-			{
-				String[] values = line.split(COMMA);
-				Stream.of(header)
-						.forEach(d -> getResultsFor(modelName, d)
-								.add(values[Arrays.asList(header).indexOf(d)]));
-			}
-
-			// In SimulationResults put only the last observed value
-			Stream.of(header).forEach(d -> {
-				ArrayList<String> values = getResultsFor(modelName, d);
-				this.results.addResult(modelName, d, values.get(values.size() - 1));
-			});
+			ModelicaEngineUtils.fillModelicaSimulationResults(
+					Paths.get(omSimulationDir + File.separator + csvResultsFile), modelName,
+					this.results);
 		}
 		catch (IOException e)
 		{
@@ -311,19 +304,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 		deleteSimulationFiles();
 
 		return true;
-	}
-	
-	@SuppressWarnings("unchecked")
-	ArrayList<String> getResultsFor(String modelName, String d)
-	{
-		try
-		{
-			return ((ArrayList<String>) this.results.getValue(modelName, d));
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("No results for model " + modelName + " field " + d);
-		}
 	}
 
 	@Override
@@ -350,7 +330,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 	@Override
 	public ModelicaSimulationFinalResults getSimulationResults()
 	{
-		
+		this.results.writeToFile(this.omSimulationDir.resolve("SimulationResults.csv"));
 		return this.results;
 	}
 
@@ -398,7 +378,8 @@ public class OpenModelicaEngine implements ModelicaEngine
 			}
 		}
 
-		String strLine = filterResultVariables.stream().map(e -> e.replace("\"", "")).collect(Collectors.joining(",")).toString();
+		String strLine = filterResultVariables.stream().map(e -> e.replace("\"", ""))
+				.collect(Collectors.joining(",")).toString();
 		printStream.println(strLine);
 		for (int i = 0; i < resultValues.length; i++)
 		{
@@ -537,8 +518,10 @@ public class OpenModelicaEngine implements ModelicaEngine
 					LOGGER.error("Error loading file {}. Reason is {}.", p.getFileName().toString(),
 							result.err.replace("\"", ""));
 				}
-				else {
-					progress(String.format("\t Loading Modelica file : %s.", p.getFileName().toString()));
+				else
+				{
+					progress(String.format("\t Loading Modelica file : %s.",
+							p.getFileName().toString()));
 				}
 			}
 		}
@@ -547,20 +530,21 @@ public class OpenModelicaEngine implements ModelicaEngine
 			throw new RuntimeException("Error reading directory " + omSimulationDir + ".", e);
 		}
 	}
-		
+
 	@Override
-	public void progress(String message) {
+	public void progress(String message)
+	{
 		LOGGER.info(message);
 		engineProgress.updateProgress(message);
 	}
-	
+
 	@Override
 	public ModelicaEngineProgress getModelicaEngineProgress()
 	{
 		return engineProgress;
 	}
-	
-	private ModelicaEngineProgress			engineProgress = new ModelicaEngineProgress();
+
+	private ModelicaEngineProgress			engineProgress	= new ModelicaEngineProgress();
 	private Path							workingDir;
 	private Path							omSimulationDir;
 	private int								numOfIntervalsPerSecond;

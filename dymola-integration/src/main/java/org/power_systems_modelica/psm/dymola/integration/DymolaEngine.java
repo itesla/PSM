@@ -25,6 +25,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.power_systems_modelica.psm.modelica.engine.utils.ModelicaEngineUtils;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,8 @@ public class DymolaEngine implements ModelicaEngine
 	@Override
 	public void configure(Configuration config)
 	{
-		this.wsdlService = Optional.ofNullable(config.getParameter("webService")).orElse("http://localhost:8888/dymservice?wsdl");
+		this.wsdlService = Optional.ofNullable(config.getParameter("webService"))
+				.orElse("http://localhost:8888/dymservice?wsdl");
 		this.workingDir = Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir = Paths.get(config.getParameter("libraryDir"));
 		this.dymSimulationDir = Optional
@@ -85,7 +87,8 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			progress(String.format("Checking model %s.", modelName));
 			simResults = dymolaClient.check(modelName, moFileName);
-			if(!simResults.isEmpty()) {
+			if (!simResults.isEmpty())
+			{
 				this.results.addResult(modelName, "successful", false);
 				progress(String.format("Model %s checked unsuccessfully.", modelName));
 			}
@@ -100,17 +103,21 @@ public class DymolaEngine implements ModelicaEngine
 			return;
 		}
 
-		if(depth != 0) {
+		if (depth != 0)
+		{
 			try
 			{
 				progress(String.format("Verifying model %s.", modelName));
-				simResults = dymolaClient.verify(modelName, moFileName, startTime, 0.0001 * stopTime,
+				simResults = dymolaClient.verify(modelName, moFileName, startTime,
+						0.0001 * stopTime,
 						numOfIntervals, intervalSize, tolerance);
-				if(!simResults.isEmpty()) {
+				if (!simResults.isEmpty())
+				{
 					this.results.addResult(modelName, "successful", false);
 					progress(String.format("Model %s verified unsuccessfully.", modelName));
 				}
-				else {
+				else
+				{
 					progress(String.format("Model %s verified successfully.", modelName));
 					writeResults(outputZipFileName, modelName);
 				}
@@ -123,7 +130,7 @@ public class DymolaEngine implements ModelicaEngine
 				return;
 			}
 		}
-		
+
 		if (depth == 2) return;
 
 		try
@@ -131,12 +138,14 @@ public class DymolaEngine implements ModelicaEngine
 			progress(String.format("Simulating model %s.", modelName));
 			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
 					numOfIntervals, intervalSize, tolerance);
-			if(!simResults.isEmpty()) {
+			if (!simResults.isEmpty())
+			{
 				this.results.addResult(modelName, "successful", false);
 				progress(String.format("Model %s simulated unsuccessfully.", modelName));
 				writeErrorFile(simResults);
 			}
-			else {
+			else
+			{
 				progress(String.format("Model %s simulated successfully.", modelName));
 				writeResults(outputZipFileName, modelName);
 			}
@@ -150,8 +159,9 @@ public class DymolaEngine implements ModelicaEngine
 			return;
 		}
 	}
-	
-	private void writeErrorFile(String simResults) {
+
+	private void writeErrorFile(String simResults)
+	{
 		try (PrintStream printStream = new PrintStream(
 				Files.newOutputStream(workingDir.resolve(outputErrorsFileName))))
 		{
@@ -174,6 +184,7 @@ public class DymolaEngine implements ModelicaEngine
 	@Override
 	public ModelicaSimulationFinalResults getSimulationResults()
 	{
+		this.results.writeToFile(this.dymSimulationDir.resolve("SimulationResults.csv"));
 		return results;
 	}
 
@@ -182,34 +193,14 @@ public class DymolaEngine implements ModelicaEngine
 	 */
 	private void writeResults(String outputZipFileName, String modelName)
 	{
-		// // The first "result" in ModelicaSimulationResults is the simulation directory with var="simulation_path"
-		// this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
-
 		try (ZipFile zipFile = new ZipFile(
 				Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile()))
 		{
 			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymSimulationDir.toFile());
 
 			String fileName = this.outputDymolaFileName + "_filtered" + CSV_EXTENSION;
-			BufferedReader in = Files
-					.newBufferedReader(Paths.get(dymSimulationDir + File.separator + fileName));
-			String[] header = in.readLine().split(COMMA);
-			Stream.of(header)
-					.forEach(d -> this.results.addResult(modelName, d, new ArrayList<String>()));
-			String line;
-			while ((line = in.readLine()) != null)
-			{
-				String[] values = line.split(COMMA);
-				Stream.of(header)
-						.forEach(d -> getResultsFor(modelName, d)
-								.add(values[Arrays.asList(header).indexOf(d)]));
-			}
-
-			// In SimulationResults put only the last observed value
-			Stream.of(header).forEach(d -> {
-				ArrayList<String> values = getResultsFor(modelName, d);
-				this.results.addResult(modelName, d, values.get(values.size() - 1));
-			});
+			ModelicaEngineUtils.fillModelicaSimulationResults(
+					Paths.get(dymSimulationDir + File.separator + fileName), modelName, results);
 		}
 		catch (ZipException e)
 		{

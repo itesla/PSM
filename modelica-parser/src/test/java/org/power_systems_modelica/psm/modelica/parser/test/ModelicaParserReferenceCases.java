@@ -17,55 +17,55 @@ public class ModelicaParserReferenceCases
 	@Test
 	public void parseIeee14() throws Exception
 	{
-		parse("ieee14/itesla", "ieee14bus.mo");
+		parse("ieee14/itesla", "ieee14bus_no_lf.mo");
 	}
 
 	@Test
 	public void parseIeee30() throws Exception
 	{
-		parse("ieee30/itesla", "ieee30bus.mo");
+		parse("ieee30/itesla", "ieee30bus_no_lf.mo");
 	}
 
 	@Test
 	public void parseIeee57() throws Exception
 	{
-		parse("ieee57/itesla", "ieee57bus.mo");
+		parse("ieee57/itesla", "ieee57bus_no_lf.mo");
 	}
 
 	@Test
 	public void parseIeee118() throws Exception
 	{
-		parse("ieee118/itesla", "ieee118bus.mo");
+		parse("ieee118/itesla", "ieee118bus_no_lf.mo");
 	}
 
 	@Test
 	public void parseSmallCase1() throws Exception
 	{
-		parse("smallcase1/itesla", "case1.mo");
+		parse("smallcase1/itesla", "case1_no_lf.mo");
 	}
 
 	@Test
 	public void parseSmallCase2() throws Exception
 	{
-		parse("smallcase2/itesla", "case2.mo");
+		parse("smallcase2/itesla", "case2_no_lf.mo");
 	}
 
 	@Test
 	public void parseSmallCase3() throws Exception
 	{
-		parse("smallcase3/itesla", "case3.mo");
+		parse("smallcase3/itesla", "case3_no_lf.mo");
 	}
 
 	@Test
 	public void parse7buses() throws Exception
 	{
-		parse("7buses/itesla", "CIM_7buses.mo");
+		parse("7buses/itesla", "CIM_7buses_no_lf.mo");
 	}
 
 	@Test
 	public void parseNordic32() throws Exception
 	{
-		parse("Nordic32/itesla", "Nordic32.mo");
+		parse("Nordic32/itesla", "Nordic32_no_lf.mo");
 	}
 
 	protected void parse(String foldername, String moname) throws Exception

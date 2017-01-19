@@ -19,8 +19,7 @@ public class OpenModelicaStepsTest
 {
 
 	private String			folderName			= "ieee14";
-	private String			moFileName			= "ieee14bus.mo";
-	private int				numOfResults; 
+	private String			moFileName			= "ieee14bus_no_lf.mo";
 	private String			filterResVariables	= "bus[a-zA-Z0-9_]*.(V|angle)";
 	private Configuration	config				= setConfiguration(DATA_TMP.toString(),
 			DATA_TEST.resolve("library").toString(), filterResVariables,
@@ -31,17 +30,15 @@ public class OpenModelicaStepsTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
-
+		
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
 			config.setParameter("depth", "1");
 			omEngine.configure(config);
 			omEngine.simulate(mo);
 
-			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
 		}
@@ -56,9 +53,9 @@ public class OpenModelicaStepsTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+		String moName = mo.getSystemModel().getId();
 
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
@@ -69,7 +66,6 @@ public class OpenModelicaStepsTest
 			Path omSimPath = (Path) omEngine.getSimulationResults()
 					.getValue(mo.getSystemModel().getId(), "simulation_path");
 
-			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
 			assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
@@ -86,24 +82,22 @@ public class OpenModelicaStepsTest
 	public void testSimulation() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
-		numOfResults = 30;
 
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
-
+		String moName = mo.getSystemModel().getId();
+		
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
 			config.setParameter("depth", "0");
 			omEngine.configure(config);
 			omEngine.simulate(mo);
 
-			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 
 			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 			assertTrue(!omEngine.getSimulationResults().getEntries().isEmpty());
-			assertTrue(results.getEntries().size() == numOfResults);
+			assertTrue(results.getEntries().size() > 1);
 
 			Path omSimPath = (Path) omEngine.getSimulationResults()
 					.getValue(mo.getSystemModel().getId(), "simulation_path");

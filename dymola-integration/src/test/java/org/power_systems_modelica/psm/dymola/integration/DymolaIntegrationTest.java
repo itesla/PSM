@@ -49,7 +49,7 @@ public class DymolaIntegrationTest
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "smallcase1", "case1.mo", 8);
+		testBuild(config, "smallcase1", "case1_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -65,7 +65,7 @@ public class DymolaIntegrationTest
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "smallcase1", "case1.mo", 8);
+		testBuild(config, "smallcase2", "case2_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -81,7 +81,7 @@ public class DymolaIntegrationTest
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "smallcase1", "case1.mo", 8);
+		testBuild(config, "smallcase3", "case3.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -97,7 +97,7 @@ public class DymolaIntegrationTest
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "7buses", "CIM_7buses.mo", 8);
+		testBuild(config, "7buses", "CIM_7buses_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -113,7 +113,7 @@ public class DymolaIntegrationTest
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "Nordic32", "Nordic32.mo", 8); // TODO PENDING MODIFY NUMBER OF RESULTS
+		testBuild(config, "Nordic32", "Nordic32_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because these systems do not simulate with Dymola Trial Version
@@ -123,11 +123,11 @@ public class DymolaIntegrationTest
 
 		List<ModelicaDocument> moDocsList = new ArrayList<ModelicaDocument>();
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo")));
+				.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus_no_lf.mo")));
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus.mo")));
+				.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus_no_lf.mo")));
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus.mo")));
+				.parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus_no_lf.mo")));
 
 		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 
@@ -178,7 +178,7 @@ public class DymolaIntegrationTest
 				"1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "ieee14", "ieee14bus.mo", 30);
+		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -193,7 +193,7 @@ public class DymolaIntegrationTest
 				"1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "ieee30", "ieee30bus.mo", 60);
+		testBuild(config, "ieee30", "ieee30bus_no_lf.mo", 60);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -208,7 +208,7 @@ public class DymolaIntegrationTest
 				"1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "ieee57", "ieee57bus.mo", 116);
+		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -222,7 +222,7 @@ public class DymolaIntegrationTest
 				DATA_TMP.toString(), DATA_TEST.resolve("ieee118bus").resolve("library").toString(),
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
-		testBuild(config, "ieee118", "ieee118bus.mo", 238);
+		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238);
 	}
 
 	private void testBuild(
@@ -241,7 +241,7 @@ public class DymolaIntegrationTest
 			dymEngine.simulate(mo);
 	
 			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
-			if(results.getEntries().size() > 1) assertTrue(results.getEntries().size() == numOfResults);
+			assertTrue(results.getEntries().size() > 1);
 	
 			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());

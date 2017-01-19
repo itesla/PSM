@@ -38,7 +38,7 @@ public class OpenModelicaIntegrationTest
 		testBuild(config, "singlegen", "singlegen.mo", 6, false);
 	}
 
-//	@Test
+	@Test // TODO This system does not simulate
 	public void testSmallTestCase1() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
@@ -49,10 +49,10 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "smallcase1", "case1.mo", 8, false);
+		testBuild(config, "smallcase1", "case1_no_lf.mo", 8, true);
 	}
 
-//	@Test // FIXME This system does not simulate
+	@Test // TODO This system does not simulate
 	public void testSmallTestCase2() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
@@ -63,8 +63,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		// FIXME This system does not simulate because the InfiniteBus Modelica model is on progress.
-		testBuild(config, "smallcase2", "case2.mo", 8, true);
+		testBuild(config, "smallcase2", "case2_no_lf.mo", 8, true);
 	}
 
 	@Test // FIXME This system does not simulate due to a division by zero
@@ -78,7 +77,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "smallcase3", "case3.mo", 8, true);
+		testBuild(config, "smallcase3", "case3_no_lf.mo", 8, true);
 	}
 
 	@Test // FIXME This system does not simulate
@@ -92,7 +91,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "7buses", "CIM_7buses.mo", 16, true);
+		testBuild(config, "7buses", "CIM_7buses_no_lf.mo", 16, true);
 	}
 
 	// @Test //It takes long time to simulate 1s
@@ -106,7 +105,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "Nordic32", "Nordic32.mo", 106, false);
+		testBuild(config, "Nordic32", "Nordic32_no_lf.mo", 106, false);
 	}
 
 	@Test
@@ -116,11 +115,11 @@ public class OpenModelicaIntegrationTest
 
 		List<ModelicaDocument> moDocsList = new ArrayList<ModelicaDocument>();
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus.mo")));
+				.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus_no_lf.mo")));
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus.mo")));
+				.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus_no_lf.mo")));
 		// moDocsList.add(ModelicaParser
-		// .parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus.mo")));
+		// .parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus_no_lf.mo")));
 
 		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(DATA_TMP.toString(),
@@ -156,7 +155,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "ieee14", "ieee14bus.mo", 30, false);
+		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30, false);
 	}
 
 	@Test
@@ -170,7 +169,7 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "ieee30", "ieee30bus.mo", 62, false);
+		testBuild(config, "ieee30", "ieee30bus_no_lf.mo", 62, false);
 	}
 
 	// @Test
@@ -184,10 +183,10 @@ public class OpenModelicaIntegrationTest
 				"0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "ieee57", "ieee57bus.mo", 116, false);
+		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116, false);
 	}
 
-	// @Test //TODO PENDING
+	 @Test //TODO PENDING
 	public void testIEEE118() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable())
@@ -199,7 +198,7 @@ public class OpenModelicaIntegrationTest
 				"0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "false");
 
-		testBuild(config, "ieee118", "ieee118bus.mo", 238, false);
+		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238, true);
 	}
 
 	private void testBuild(Configuration config,
@@ -209,22 +208,35 @@ public class OpenModelicaIntegrationTest
 			boolean failsSimulation) throws FileNotFoundException, IOException
 	{
 
-		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
-
+		String moName = mo.getSystemModel().getId();
+		
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
 		{
 			config.setParameter("depth", "0");
 			omEngine.configure(config);
 			omEngine.simulate(mo);
 
-			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
 
 			ModelicaSimulationFinalResults results = omEngine.getSimulationResults();
 			Path omSimPath = (Path) omEngine.getSimulationResults()
-					.getValue(mo.getSystemModel().getId(), "simulation_path");
+					.getValue(moName, "simulation_path");
+			
+			if (!failsSimulation)
+  			{
+ 				assertTrue(results.getEntries().size() > 1);
+  				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
+  				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
+  				if (config.getBoolean("createFilteredMat"))
+  					assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.mat")));
+  			}
+  			else
+  			{
+ 				assertFalse(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
+  			}
+			
 		}
 		catch (Exception exc)
 		{

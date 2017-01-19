@@ -2,11 +2,11 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,7 +46,7 @@ public class ModelicaSimulatorTest
 
 		testBuild(
 				"ieee14",
-				"itesla/ieee14bus.mo",
+				"itesla/ieee14bus_no_lf.mo",
 				"library",
 				"OpenModelica",
 				varResults,
@@ -62,7 +62,7 @@ public class ModelicaSimulatorTest
 
 		testBuild(
 				"ieee30",
-				"itesla/ieee30bus.mo",
+				"itesla/ieee30bus_no_lf.mo",
 				"library",
 				"OpenModelica",
 				varResults,
@@ -77,7 +77,7 @@ public class ModelicaSimulatorTest
 
 		testBuild(
 				"ieee57",
-				"itesla/ieee57bus.mo",
+				"itesla/ieee57bus_no_lf.mo",
 				"library",
 				"OpenModelica",
 				varResults,
@@ -92,7 +92,7 @@ public class ModelicaSimulatorTest
 
 		testBuild(
 				"ieee118",
-				"itesla/ieee118bus.mo",
+				"itesla/ieee118bus_no_lf.mo",
 				"library",
 				"OpenModelica",
 				varResults,

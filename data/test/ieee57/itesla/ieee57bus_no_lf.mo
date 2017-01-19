@@ -1,8 +1,9 @@
 within ;
 model ieee57bus
   parameter Real SNREF = 100.0;
-  Modelica.Blocks.Interfaces.RealOutput omegaRef;
-
+  iPSL.Electrical.Machines.Eurostag.omegaRef omegaRef(
+  nGenerators = 7
+  )  annotation (Placement(transformation()));
 
 // BUSES
   iPSL.Electrical.Buses.Bus bus__BEAV___6_TN (
@@ -239,7 +240,7 @@ model ieee57bus
 	 V_0 = 0.98,
 	 P_0 = 75.0,
 	 Q_0 = 2.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -8.65
 	 ) annotation (Placement(transformation()));
@@ -247,7 +248,7 @@ model ieee57bus
 	 V_0 = 0.98599994,
 	 P_0 = 5.0,
 	 Q_0 = 2.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.43
 	 ) annotation (Placement(transformation()));
@@ -255,7 +256,7 @@ model ieee57bus
 	 V_0 = 0.97900003,
 	 P_0 = 18.0,
 	 Q_0 = 2.3,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -9.79
 	 ) annotation (Placement(transformation()));
@@ -263,7 +264,7 @@ model ieee57bus
 	 V_0 = 0.97,
 	 P_0 = 10.5,
 	 Q_0 = 5.3,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -9.33
 	 ) annotation (Placement(transformation()));
@@ -271,7 +272,7 @@ model ieee57bus
 	 V_0 = 0.988,
 	 P_0 = 22.0,
 	 Q_0 = 5.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -7.18
 	 ) annotation (Placement(transformation()));
@@ -279,7 +280,7 @@ model ieee57bus
 	 V_0 = 1.013,
 	 P_0 = 43.0,
 	 Q_0 = 3.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -8.85
 	 ) annotation (Placement(transformation()));
@@ -287,7 +288,7 @@ model ieee57bus
 	 V_0 = 1.017,
 	 P_0 = 42.0,
 	 Q_0 = 8.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -5.39
 	 ) annotation (Placement(transformation()));
@@ -295,7 +296,7 @@ model ieee57bus
 	 V_0 = 0.96999997,
 	 P_0 = 3.3,
 	 Q_0 = 0.6,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -13.2
 	 ) annotation (Placement(transformation()));
@@ -303,7 +304,7 @@ model ieee57bus
 	 V_0 = 0.964,
 	 P_0 = 2.3,
 	 Q_0 = 1.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -13.41
 	 ) annotation (Placement(transformation()));
@@ -311,7 +312,7 @@ model ieee57bus
 	 V_0 = 1.0079999,
 	 P_0 = 6.3,
 	 Q_0 = 2.1,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -12.91
 	 ) annotation (Placement(transformation()));
@@ -319,7 +320,7 @@ model ieee57bus
 	 V_0 = 0.982,
 	 P_0 = 6.3,
 	 Q_0 = 3.2,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -18.13
 	 ) annotation (Placement(transformation()));
@@ -327,7 +328,7 @@ model ieee57bus
 	 V_0 = 0.982,
 	 P_0 = 9.3,
 	 Q_0 = 0.5,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.48
 	 ) annotation (Placement(transformation()));
@@ -335,7 +336,7 @@ model ieee57bus
 	 V_0 = 0.997,
 	 P_0 = 4.6,
 	 Q_0 = 2.3,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -10.45
 	 ) annotation (Placement(transformation()));
@@ -343,7 +344,7 @@ model ieee57bus
 	 V_0 = 1.01,
 	 P_0 = 17.0,
 	 Q_0 = 2.6,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -9.75
 	 ) annotation (Placement(transformation()));
@@ -351,7 +352,7 @@ model ieee57bus
 	 V_0 = 0.962,
 	 P_0 = 3.6,
 	 Q_0 = 1.8,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -18.68
 	 ) annotation (Placement(transformation()));
@@ -359,7 +360,7 @@ model ieee57bus
 	 V_0 = 0.93599993,
 	 P_0 = 5.8,
 	 Q_0 = 2.9,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -19.34
 	 ) annotation (Placement(transformation()));
@@ -367,7 +368,7 @@ model ieee57bus
 	 V_0 = 0.949,
 	 P_0 = 1.6,
 	 Q_0 = 0.8,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -18.46
 	 ) annotation (Placement(transformation()));
@@ -375,7 +376,7 @@ model ieee57bus
 	 V_0 = 0.94699997,
 	 P_0 = 3.8,
 	 Q_0 = 1.9,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -18.5
 	 ) annotation (Placement(transformation()));
@@ -383,7 +384,7 @@ model ieee57bus
 	 V_0 = 0.966,
 	 P_0 = 6.0,
 	 Q_0 = 3.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -13.86
 	 ) annotation (Placement(transformation()));
@@ -391,7 +392,7 @@ model ieee57bus
 	 V_0 = 1.013,
 	 P_0 = 14.0,
 	 Q_0 = 7.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -12.71
 	 ) annotation (Placement(transformation()));
@@ -399,7 +400,7 @@ model ieee57bus
 	 V_0 = 0.966,
 	 P_0 = 7.1,
 	 Q_0 = 4.4,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -15.5
 	 ) annotation (Placement(transformation()));
@@ -407,7 +408,7 @@ model ieee57bus
 	 V_0 = 1.017,
 	 P_0 = 12.0,
 	 Q_0 = 1.8,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.86
 	 ) annotation (Placement(transformation()));
@@ -415,7 +416,7 @@ model ieee57bus
 	 V_0 = 1.033,
 	 P_0 = 29.7,
 	 Q_0 = 11.6,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -12.49
 	 ) annotation (Placement(transformation()));
@@ -423,7 +424,7 @@ model ieee57bus
 	 V_0 = 1.036,
 	 P_0 = 18.0,
 	 Q_0 = 8.5,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -12.92
 	 ) annotation (Placement(transformation()));
@@ -431,7 +432,7 @@ model ieee57bus
 	 V_0 = 1.023,
 	 P_0 = 21.0,
 	 Q_0 = 10.5,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -13.39
 	 ) annotation (Placement(transformation()));
@@ -439,7 +440,7 @@ model ieee57bus
 	 V_0 = 1.052,
 	 P_0 = 18.0,
 	 Q_0 = 5.3,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -12.52
 	 ) annotation (Placement(transformation()));
@@ -447,7 +448,7 @@ model ieee57bus
 	 V_0 = 0.98,
 	 P_0 = 4.9,
 	 Q_0 = 2.2,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.47
 	 ) annotation (Placement(transformation()));
@@ -455,7 +456,7 @@ model ieee57bus
 	 V_0 = 0.971,
 	 P_0 = 20.0,
 	 Q_0 = 10.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -12.23
 	 ) annotation (Placement(transformation()));
@@ -463,7 +464,7 @@ model ieee57bus
 	 V_0 = 0.99599993,
 	 P_0 = 4.1,
 	 Q_0 = 1.4,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.69
 	 ) annotation (Placement(transformation()));
@@ -471,7 +472,7 @@ model ieee57bus
 	 V_0 = 0.968,
 	 P_0 = 7.6,
 	 Q_0 = 2.2,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -16.04
 	 ) annotation (Placement(transformation()));
@@ -479,7 +480,7 @@ model ieee57bus
 	 V_0 = 0.96500003,
 	 P_0 = 6.7,
 	 Q_0 = 2.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -16.56
 	 ) annotation (Placement(transformation()));
@@ -487,7 +488,7 @@ model ieee57bus
 	 V_0 = 0.976,
 	 P_0 = 13.0,
 	 Q_0 = 4.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -8.52
 	 ) annotation (Placement(transformation()));
@@ -495,7 +496,7 @@ model ieee57bus
 	 V_0 = 1.005,
 	 P_0 = 150.0,
 	 Q_0 = 22.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -4.45
 	 ) annotation (Placement(transformation()));
@@ -503,7 +504,7 @@ model ieee57bus
 	 V_0 = 1.0150001,
 	 P_0 = 377.0,
 	 Q_0 = 24.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -10.46
 	 ) annotation (Placement(transformation()));
@@ -511,7 +512,7 @@ model ieee57bus
 	 V_0 = 1.0400001,
 	 P_0 = 55.0,
 	 Q_0 = 17.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -519,7 +520,7 @@ model ieee57bus
 	 V_0 = 0.98499995,
 	 P_0 = 41.0,
 	 Q_0 = 21.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -5.97
 	 ) annotation (Placement(transformation()));
@@ -527,7 +528,7 @@ model ieee57bus
 	 V_0 = 1.031,
 	 P_0 = 6.8,
 	 Q_0 = 3.4,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -10.78
 	 ) annotation (Placement(transformation()));
@@ -535,7 +536,7 @@ model ieee57bus
 	 V_0 = 0.98,
 	 P_0 = 121.0,
 	 Q_0 = 26.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -9.56
 	 ) annotation (Placement(transformation()));
@@ -543,7 +544,7 @@ model ieee57bus
 	 V_0 = 1.0009999,
 	 P_0 = 27.2,
 	 Q_0 = 9.8,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.71
 	 ) annotation (Placement(transformation()));
@@ -551,7 +552,7 @@ model ieee57bus
 	 V_0 = 0.99599993,
 	 P_0 = 6.3,
 	 Q_0 = 3.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -14.05
 	 ) annotation (Placement(transformation()));
@@ -559,7 +560,7 @@ model ieee57bus
 	 V_0 = 1.01,
 	 P_0 = 2.0,
 	 Q_0 = 1.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -11.33
 	 ) annotation (Placement(transformation()));
@@ -567,7 +568,7 @@ model ieee57bus
 	 V_0 = 1.01,
 	 P_0 = 3.0,
 	 Q_0 = 88.0,
-	  alpha = 1.5,
+	 alpha = 1.5,
 	 beta = 2.5,
 	 angle_0 = -1.18
 	 ) annotation (Placement(transformation()));
@@ -1091,15 +1092,15 @@ model ieee57bus
 	 ) annotation (Placement(transformation()));
 
 // CAPACITORS
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BUS___25_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BUS___25_SC (
 	 B = 0.0590000274576146,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__BUS___53_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__BUS___53_SC (
 	 B = 0.06300003052159577,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
-  iPSL.Electrical.Banks.PwCapacitorBank cap_pwCapacitorBank__SPRI__18_SC (
+  iPSL.Electrical.Banks.PwCapacitorBank cap__SPRI__18_SC (
 	 B = 0.10000004822175698,
 	 nsteps = 1
 	 ) annotation (Placement(transformation()));
@@ -1909,15 +1910,37 @@ model ieee57bus
 	 ) annotation (Placement(transformation()));
 
 equation
-  omegaRef = (gen_pwGeneratorM2S__GEN___12_SM.omega*gen_pwGeneratorM2S__GEN___12_SM.SN*gen_pwGeneratorM2S__GEN___12_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.omega*gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.omega*gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.omega*gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn + gen_pwGeneratorM2S__GEN____9_SM.omega*gen_pwGeneratorM2S__GEN____9_SM.SN*gen_pwGeneratorM2S__GEN____9_SM.HIn) / (gen_pwGeneratorM2S__GEN___12_SM.SN*gen_pwGeneratorM2S__GEN___12_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____2_SM.SN*gen_pwGeneratorM2S__GEN____2_SM.HIn + gen_pwGeneratorM2S__GEN____3_SM.SN*gen_pwGeneratorM2S__GEN____3_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn + gen_pwGeneratorM2S__GEN____9_SM.SN*gen_pwGeneratorM2S__GEN____9_SM.HIn);
+  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__GEN___12_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__GEN____1_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__GEN____2_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__GEN____3_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[6], gen_pwGeneratorM2S__GEN____8_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn) annotation (Line());
+  
+  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__GEN___12_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__GEN____1_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__GEN____2_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[4], gen_pwGeneratorM2S__GEN____3_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[5], gen_pwGeneratorM2S__GEN____6_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[6], gen_pwGeneratorM2S__GEN____8_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[7], gen_pwGeneratorM2S__GEN____9_SM.pin_SN) annotation (Line());
 
-  connect(gen_pwGeneratorM2S__GEN___12_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____1_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____2_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____3_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____6_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____8_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____9_SM.omegaRef, omegaRef);
+  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__GEN___12_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__GEN____2_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[4], gen_pwGeneratorM2S__GEN____3_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[5], gen_pwGeneratorM2S__GEN____6_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[6], gen_pwGeneratorM2S__GEN____8_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[7], gen_pwGeneratorM2S__GEN____9_SM.pin_OMEGA) annotation (Line());
+
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___12_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____1_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____2_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____3_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____6_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____8_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____9_SM.omegaRef) annotation (Line());
 
 // Connecting REGULATORS and MACHINES
   connect(reg_pssi3e2b__GEN___12_SM.pin_ActivePowerSN, gen_pwGeneratorM2S__GEN___12_SM.pin_ActivePowerSN) annotation (Line());
@@ -2154,9 +2177,9 @@ equation
   connect(bus__TURN___2_TN.p, load__TURN___2_EC.p) annotation (Line());
 
 // Connecting Capacitors
-  connect(bus__BUS___25_TN.p, cap_pwCapacitorBank__BUS___25_SC.p) annotation (Line());
-  connect(bus__BUS___53_TN.p, cap_pwCapacitorBank__BUS___53_SC.p) annotation (Line());
-  connect(bus__SPRI__18_TN.p, cap_pwCapacitorBank__SPRI__18_SC.p) annotation (Line());
+  connect(bus__BUS___25_TN.p, cap__BUS___25_SC.p) annotation (Line());
+  connect(bus__BUS___53_TN.p, cap__BUS___53_SC.p) annotation (Line());
+  connect(bus__SPRI__18_TN.p, cap__SPRI__18_SC.p) annotation (Line());
 
 // Connecting GENERATORS
   connect(bus__GLEN__12_TN.p, gen_pwGeneratorM2S__GEN___12_SM.sortie) annotation (Line());
@@ -2204,6 +2227,8 @@ equation
   connect(trafo__TAZE__11_TAZE__43_1_PT.n, bus__TAZE__43_TN.p) annotation (Line());
 
 // Connecting OTHERS
-annotation (uses(Modelica(version="3.20.1")));
+
+// Modelica version required
+  annotation (uses(Modelica(version="3.2.1")));
 end ieee57bus;
 

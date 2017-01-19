@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
+import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.slf4j.Logger;
@@ -13,21 +14,29 @@ public class InitializationReferenceResolver implements ReferenceResolver
 	}
 
 	@Override
-	public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
+	public Object resolveReference(
+			ModelicaArgumentReference a,
+			ModelicaModel m,
+			ModelicaDeclaration d)
+			throws UnresolvedReferenceException
 	{
-		// Solve the reference to initialization data "name" in the context of given model and declaration
-		Object value = results.get(m.getStaticId(), name);
-		if (value == null)
+		// Solve the reference to initialization data in the context of given model and declaration
+		Object value;
+		try
+		{
+			value = results.get(m.getStaticId(), a.getSourceName());
+			return value;
+		}
+		catch (Exception e)
 		{
 			String msg = String.format(
 					"Unresolved initialization results reference. staticId = %s, name = %s; inside declaration d = %s",
 					m.getStaticId(),
-					name,
+					a.getSourceName(),
 					d.getId());
 			LOG.error(msg);
-			throw new RuntimeException(msg);
+			throw new UnresolvedReferenceException(a);
 		}
-		else return value;
 	}
 
 	private final InitializationResults	results;

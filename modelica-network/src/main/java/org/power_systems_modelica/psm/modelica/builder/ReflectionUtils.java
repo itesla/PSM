@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 public class ReflectionUtils
 {
-	public static Object getPropertyValue(Object object, String property)
+	public static Object getPropertyValue(Object object, String property) throws Exception
 	{
 		String methodName = "get" + property;
 		Method method;
@@ -25,7 +25,7 @@ public class ReflectionUtils
 					property,
 					object.getClass().getName());
 			LOG.warn(e.getMessage());
-			return null;
+			throw e;
 		}
 		Object value;
 		try
@@ -39,7 +39,7 @@ public class ReflectionUtils
 					property,
 					object.getClass().getName());
 			LOG.warn(e.getMessage());
-			return null;
+			throw e;
 		}
 	}
 

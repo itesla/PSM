@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica.builder;
 
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexUtils;
+import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 
@@ -28,15 +29,33 @@ public class IidmReferenceResolver implements ReferenceResolver
 	}
 
 	@Override
-	public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
+	public Object resolveReference(
+			ModelicaArgumentReference a,
+			ModelicaModel m,
+			ModelicaDeclaration d)
+			throws ModelicaArgumentReferenceException
 	{
+		// Find the element in the network
 		String staticId = m.getStaticId();
 		Identifiable<?> element = network.getIdentifiable(staticId);
 		if (element == null) element = getFromCompoundId(staticId);
-		if (element == null) return null;
-		Object value = fromKnownProperty(element, name);
-		if (value == null) value = ReflectionUtils.getPropertyValue(element, name);
-		return value;
+		if (element == null) throw new UnresolvedReferenceException(a);
+
+		// Check if the referenced property needs transformation from original IIDM data
+		String name = a.getSourceName();
+		Object value = fromTransformedProperty(element, name);
+		if (value != null) return value;
+
+		// Check if we can obtain the property name directly from the IIDM object
+		try
+		{
+			value = ReflectionUtils.getPropertyValue(element, name);
+			return value;
+		}
+		catch (Exception e)
+		{
+			throw new UnresolvedReferenceException(a);
+		}
 	}
 
 	private Identifiable<?> getFromCompoundId(String staticId)
@@ -71,7 +90,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 	// For elements of type Line: R, X, G, B
 	// ...
 
-	private Object fromKnownProperty(Identifiable<?> element, String name)
+	private Object fromTransformedProperty(Identifiable<?> element, String name)
 	{
 		if (element instanceof Bus)
 		{

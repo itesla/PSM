@@ -218,9 +218,12 @@ public class ModelicaBuilderTest
 			registerResolver(DATA_SOURCE_PARAMS, new ReferenceResolver()
 			{
 				@Override
-				public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
+				public Object resolveReference(
+						ModelicaArgumentReference a,
+						ModelicaModel m,
+						ModelicaDeclaration d)
 				{
-					switch (name)
+					switch (a.getSourceName())
 					{
 					case "cb_p0_1":
 						return Math.PI;
@@ -233,9 +236,12 @@ public class ModelicaBuilderTest
 			registerResolver("DYNN", new ReferenceResolver()
 			{
 				@Override
-				public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
+				public Object resolveReference(
+						ModelicaArgumentReference a,
+						ModelicaModel m,
+						ModelicaDeclaration d)
 				{
-					throw new RuntimeException("Resolver only for conecctions");
+					throw new RuntimeException("Resolver only for connections");
 				}
 
 				@Override
@@ -288,6 +294,12 @@ public class ModelicaBuilderTest
 			{
 				mop.print(out);
 			}
+		}
+
+		@Override
+		public boolean haveAllDynamicModelsBeenAdded()
+		{
+			return false;
 		}
 	}
 

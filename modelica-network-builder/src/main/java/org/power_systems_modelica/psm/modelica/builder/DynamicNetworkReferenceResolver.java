@@ -1,8 +1,11 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
@@ -24,16 +27,42 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 	}
 
 	@Override
-	public Object resolveReference(String name, ModelicaModel m, ModelicaDeclaration d)
+	public Object resolveReference(
+			ModelicaArgumentReference a,
+			ModelicaModel m,
+			ModelicaDeclaration d)
+			throws ModelicaArgumentReferenceException
 	{
+		// The source name could be a single name or something similar to a 'function' call, like
+		// numModelsConnectToTarget({system},omegaRef)
+		String[] nameParams = splitNameParams(a.getSourceName());
+		String name = nameParams[0];
+
 		switch (name)
 		{
-		case "numGeneratorsOmegaRef":
-			// TODO We are assuming here that all generators present in the static model will connect to global omegaRef
-			// At least, we should reduce this numbers taking into account generators modeled as fixed injections
-			return network.getGeneratorCount();
+		case "numModelsConnectToTarget":
+			if (nameParams.length < 3)
+			{
+				String msg = String.format(
+						"Invalid reference [%s]: %s requires 2 parameters and %d were present",
+						a.getSourceName(),
+						name,
+						nameParams.length - 1);
+				LOG.error(msg);
+				throw new UnresolvedReferenceException(a);
+			}
+			if (modelicaBuilder.haveAllDynamicModelsBeenAdded())
+			{
+				String targetModel = nameParams[1];
+				String targetName = nameParams[2];
+				return countHowManyModelsConnectToTarget(modelicaBuilder.getModels(), targetModel,
+						targetName);
+			}
+			else
+				throw new IncompleteReferenceException(a);
+		default:
+			throw new UnresolvedReferenceException(a);
 		}
-		return null;
 	}
 
 	@Override
@@ -159,6 +188,53 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		if (p < 0) return "";
 		String name = pin.substring(0, p);
 		return name;
+	}
+
+	private String[] splitNameParams(String s)
+	{
+		int ps = s.indexOf('(');
+		if (ps < 0)
+		{
+			String[] nameParams = { s };
+			return nameParams;
+		}
+		else
+		{
+			String name = s.substring(0, ps);
+			int pe = s.indexOf(')');
+			if (pe < 0) pe = s.length();
+			String[] params = s.substring(ps + 1, pe).split(",");
+			String[] nameParams = new String[params.length + 1];
+			nameParams[0] = name;
+			System.arraycopy(params, 0, nameParams, 1, params.length);
+			return nameParams;
+		}
+	}
+
+	private long countHowManyModelsConnectToTarget(
+			Collection<ModelicaModel> models,
+			String targetModel,
+			String targetName)
+	{
+		long count = models.stream()
+				.map(m -> Arrays.asList(m.getInterconnections()).stream()
+						.filter(i -> isTarget(i, targetModel, targetName))
+						.count())
+				.mapToLong(c -> c)
+				.sum();
+		return count;
+	}
+
+	private static boolean isTarget(
+			ModelicaInterconnection i,
+			String targetModel,
+			String targetName)
+	{
+		if (i.getTargetModel() == null) return false;
+		if (i.getTargetName() == null) return false;
+		boolean isTargetModel = i.getTargetModel().equals(targetModel);
+		boolean isTargetName = i.getTargetName().equals(targetName);
+		return isTargetModel && isTargetName;
 	}
 
 	private final ModelicaBuilder	modelicaBuilder;

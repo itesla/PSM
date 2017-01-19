@@ -1,6 +1,8 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InitializationResults
 {
@@ -9,7 +11,7 @@ public class InitializationResults
 		this.results = results;
 	}
 
-	public Object get(String staticId, String name)
+	public Object get(String staticId, String name) throws Exception
 	{
 		if (results == null)
 		{
@@ -17,10 +19,14 @@ public class InitializationResults
 					"Initialization results not available. staticId = %s, name = %s",
 					staticId,
 					name);
-			throw new RuntimeException(msg);
+			LOG.error(msg);
+			throw new Exception(msg);
 		}
 		return results.getValue(staticId, name);
 	}
 
-	private final ModelicaSimulationFinalResults results;
+	private final ModelicaSimulationFinalResults	results;
+
+	private static final Logger						LOG	= LoggerFactory
+			.getLogger(InitializationResults.class);
 }

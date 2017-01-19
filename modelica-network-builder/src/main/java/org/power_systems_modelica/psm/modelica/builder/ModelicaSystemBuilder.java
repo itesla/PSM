@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.Stage;
+import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
@@ -60,6 +62,8 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		Optional<ModelicaModel> ds = getDdr().getSystemModel(Stage.SIMULATION);
 		if (ds.isPresent()) addDynamicModel(ds.get());
 		addDynamicModels();
+		setAllDynamicModelsAdded(true);
+		resolvePendingReferences();
 		// Add connections between models only after all models have been created
 		addInterconnections();
 
@@ -110,6 +114,43 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
 			else b.visitConnectedOrConnectableEquipments(visitor);
 		}
+	}
+
+	private void resolvePendingReferences()
+	{
+		// FIXME Design problem found when resolving pending references
+
+		// We have a problem adding parts of every model to the global unique "system" model
+		// (all declarations from different models are put together in the system model)
+		// When we have to review the declarations that have been put inside the system model
+		// we do not have a right "parent" model to resolve the reference
+
+		// I think that a right alternative would be:
+		// Models are selected from mappings and transformed in the different phases but are only added to
+		// the system model in the last step, when we have finally solved all references
+
+		// The problem also manifests in the ModelicaDeclaration class,
+		// where now we need to replace arguments in an otherwise immutable Declaration
+		// This need comes solely from the fact that some references can only be resolved when
+		// they have been added to the system model,
+		// and we are lazy and do not want to store/rebuild the system model (even partially)
+		// due to the changed declarations
+
+		// So, now we do not have the original ModelicaModel corresponding to a given declaration
+		// (that could maybe needed to execute a resolveReferences call ...)
+		LOG.warn("We do not have the original ModelicaModel for resolving pending references");
+		ModelicaModel m = null;
+
+		ModelicaSystemModel sys = getModelicaDocument().getSystemModel();
+		sys.getDeclarations().stream().forEach(d -> {
+			if (d.getArguments() == null) return;
+			if (!d.containsAnyReference()) return;
+			List<ModelicaArgument> args1 = d.getArguments().stream()
+					.map(a -> resolveReference(a, m, d))
+					.collect(Collectors.toList());
+			d.replaceArguments(args1);
+			if (d.containsAnyReference()) LOG.warn("Not all pending references have been resolved");
+		});
 	}
 
 	private final ModelicaEngine	modelicaEngine;

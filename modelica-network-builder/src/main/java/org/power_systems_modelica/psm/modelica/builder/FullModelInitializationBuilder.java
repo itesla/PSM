@@ -53,6 +53,7 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
 			else b.visitConnectedOrConnectableEquipments(visitor);
 		}
+		setAllDynamicModelsAdded(true);
 		return mos;
 	}
 
@@ -70,7 +71,7 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 		mo.setWithin("");
 		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId());
 		mo.setSystemModel(ms);
-		
+
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
 		// We solve these references in the context of the current Network and ModelicaModel

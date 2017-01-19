@@ -74,6 +74,16 @@ public class ModelicaDeclaration implements Annotable
 		return null;
 	}
 
+	public void replaceArguments(List<ModelicaArgument> args1)
+	{
+		this.arguments = args1;
+	}
+
+	public boolean containsAnyReference()
+	{
+		return arguments.stream().anyMatch(a -> a instanceof ModelicaArgumentReference);
+	}
+	
 	@Override
 	public Annotation getAnnotation()
 	{
@@ -86,15 +96,14 @@ public class ModelicaDeclaration implements Annotable
 		this.annotation = annotation;
 	}
 
-	private final String					type;
-	private final String					id;
-	private final boolean					isAssignment;
-	private final Object					value;
-	private final List<ModelicaArgument>	arguments;
-	private final boolean					isParameter;
+	private final String			type;
+	private final String			id;
+	private final boolean			isAssignment;
+	private final Object			value;
+	private final boolean			isParameter;
 
-	private Annotation						annotation;
+	private List<ModelicaArgument>	arguments;
+	private Annotation				annotation;
 
-	private static final String				DEFAULT_ANNOTATION	= "Placement(transformation())";
-
+	private static final String		DEFAULT_ANNOTATION	= "Placement(transformation())";
 }

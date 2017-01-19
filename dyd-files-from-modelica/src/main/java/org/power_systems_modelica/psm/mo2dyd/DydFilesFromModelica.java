@@ -741,8 +741,8 @@ public class DydFilesFromModelica
 	private static final Map<String, String>	DYNN_PARAMETERS			= new HashMap<>();
 	static
 	{
-		// We create a DYNN resolved parameter named numGeneratorsOmegaRef for the nGenerators variable of the omegaRef declaration
-		DYNN_PARAMETERS.put("omegaRef::nGenerators", "numGeneratorsOmegaRef");
+		// We create a DYNN resolved parameter for the nGenerators variable of the omegaRef declaration
+		DYNN_PARAMETERS.put("omegaRef::nGenerators", "numModelsConnectToTarget({system},omegaRef)");
 	}
 
 	private static final InitResults2SimInputs initResults2SimInputs;

@@ -30,6 +30,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		setModelicaDocument(moWithEvents);
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 		events.forEach(ev -> addEvent(ev, moWithEvents));
+		setAllDynamicModelsAdded(true);
 		removeResolver("DYNN");
 		return moWithEvents;
 	}

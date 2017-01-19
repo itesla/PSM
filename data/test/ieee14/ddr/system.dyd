@@ -3,7 +3,7 @@
     <model id="DM__SYSTEM_" staticId="_SYSTEM_">
         <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
         <component type="iPSL.Electrical.Machines.Eurostag.omegaRef" id="omegaRef">
-            <ref name="nGenerators" dataSource="DYNN" sourceName="numGeneratorsOmegaRef"/>
+            <ref name="nGenerators" dataSource="DYNN" sourceName="numModelsConnectToTarget({system},omegaRef)"/>
         </component>
         <interconnection name="omegaRef" componentId="omegaRef" componentVar="omegaRef"/>
         <interconnection name="omegaRef_HIn[]" componentId="omegaRef" componentVar="pin_HIn[]"/>

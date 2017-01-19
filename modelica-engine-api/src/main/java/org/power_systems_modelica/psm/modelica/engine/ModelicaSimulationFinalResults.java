@@ -3,6 +3,10 @@ package org.power_systems_modelica.psm.modelica.engine;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Set;
 
 public class ModelicaSimulationFinalResults
@@ -12,9 +16,16 @@ public class ModelicaSimulationFinalResults
 		results.put(buildKey(model, var), value);
 	}
 
-	public Object getValue(String model, String var)
+	public Object getValue(String model, String var) throws Exception
 	{
-		return results.get(buildKey(model, var));
+		String key = buildKey(model, var);
+		if (!results.containsKey(key))
+		{
+			String msg = "no results found for key " + key;
+			LOG.error(msg);
+			throw new Exception(msg);
+		}
+		return results.get(key);
 	}
 
 	public Set<Entry<String, Object>> getEntries()
@@ -35,7 +46,9 @@ public class ModelicaSimulationFinalResults
 				.append(var)
 				.toString();
 	}
-
+	
 	private final Map<String, Object>	results			= new HashMap<>();
 	private static final String			KEY_SEPARATOR	= "::";
+	private static final Logger			LOG				= LoggerFactory
+			.getLogger(ModelicaSimulationFinalResults.class);
 }

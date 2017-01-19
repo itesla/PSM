@@ -178,14 +178,13 @@ public class DymolaEngine implements ModelicaEngine
 			{
 				String[] values = line.split(COMMA);
 				Stream.of(header)
-						.forEach(d -> ((ArrayList<String>) this.results.getValue(modelName, d))
+						.forEach(d -> getResultsFor(modelName, d)
 								.add(values[Arrays.asList(header).indexOf(d)]));
 			}
 
 			// In SimulationResults put only the last observed value
 			Stream.of(header).forEach(d -> {
-				ArrayList<String> values = ((ArrayList<String>) this.results.getValue(modelName,
-						d));
+				ArrayList<String> values = getResultsFor(modelName, d);
 				this.results.addResult(modelName, d, values.get(values.size() - 1));
 			});
 		}
@@ -196,6 +195,19 @@ public class DymolaEngine implements ModelicaEngine
 		catch (IOException e)
 		{
 			LOGGER.error("Error opening/reading file. {}", e.getMessage());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	ArrayList<String> getResultsFor(String modelName, String d)
+	{
+		try
+		{
+			return ((ArrayList<String>) this.results.getValue(modelName, d));
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException("No results for model " + modelName + " field " + d);
 		}
 	}
 

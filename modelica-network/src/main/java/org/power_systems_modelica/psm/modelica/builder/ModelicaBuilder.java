@@ -28,9 +28,14 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ModelicaBuilder
+public abstract class ModelicaBuilder
 {
-	public static final String DEFAULT_MODELICA_VERSION = "3.2.1";
+	public abstract boolean haveAllDynamicModelsBeenAdded();
+
+	public Collection<ModelicaModel> getModels()
+	{
+		return dynamicModelsByStaticId.values();
+	}
 
 	protected void createModelicaDocument(String name, String modelicaVersion)
 	{
@@ -57,11 +62,6 @@ public class ModelicaBuilder
 	{
 		this.mo = mo;
 		dynamicModelsByStaticId = ModelicaUtil.groupByNormalizedStaticId(mo);
-	}
-
-	protected Collection<ModelicaModel> getModels()
-	{
-		return dynamicModelsByStaticId.values();
 	}
 
 	protected ModelicaModel getDynamicModelFor(String staticId)
@@ -257,7 +257,7 @@ public class ModelicaBuilder
 				d.getAnnotation());
 	}
 
-	private ModelicaArgument resolveReference(
+	protected ModelicaArgument resolveReference(
 			ModelicaArgument a0,
 			ModelicaModel m,
 			ModelicaDeclaration d)
@@ -282,8 +282,18 @@ public class ModelicaBuilder
 			return null;
 		}
 
-		value = r.resolveReference(a0.getSourceName(), m, d);
-		if (value == null)
+		try
+		{
+			value = r.resolveReference(a0, m, d);
+		}
+		catch (IncompleteReferenceException e)
+		{
+			// The reference can not yet be resolved,
+			// but maybe will be resolved in a later phase,
+			// We maintain it as a reference
+			return a0;
+		}
+		catch (UnresolvedReferenceException e)
 		{
 			String msg = new StringBuilder()
 					.append("could not resolve reference ")
@@ -296,13 +306,18 @@ public class ModelicaBuilder
 			LOG.error(msg);
 			throw new RuntimeException(msg);
 		}
+		catch (ModelicaArgumentReferenceException e)
+		{
+			throw new RuntimeException(e);
+		}
 		return new ModelicaArgument(a0.getName(), value);
 	}
 
 	private ModelicaDocument						mo;
 	protected Map<String, ModelicaModel>			dynamicModelsByStaticId;
-	private final Map<String, ReferenceResolver>	referenceResolvers	= new HashMap<>();
+	private final Map<String, ReferenceResolver>	referenceResolvers			= new HashMap<>();
 
-	private static final Logger						LOG					= LoggerFactory
+	private static final String						DEFAULT_MODELICA_VERSION	= "3.2.1";
+	private static final Logger						LOG							= LoggerFactory
 			.getLogger(ModelicaBuilder.class);
 }

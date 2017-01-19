@@ -4033,14 +4033,14 @@
 </cim:GeneratingUnit>
 <cim:SynchronousMachine rdf:ID="_GEN___69_SM">
 	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
-	<cim:SynchronousMachine.minQ>-300</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.minQ>-9999</cim:SynchronousMachine.minQ>
 	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
 	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
 	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_GEN___69_GU"/>
 	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
 	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
 	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
-	<cim:SynchronousMachine.maxQ>300</cim:SynchronousMachine.maxQ>
+	<cim:SynchronousMachine.maxQ>9999</cim:SynchronousMachine.maxQ>
 	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_GEN___69_SM_RC"/>
 	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_SPOR__69_VL"/>
 	<cim:IdentifiedObject.name>GEN   69</cim:IdentifiedObject.name>

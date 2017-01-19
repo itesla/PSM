@@ -31,7 +31,7 @@
     <model id="DM{staticId}" type="Shunt">
         <component type="iPSL.Electrical.Banks.PwCapacitorBank" id="cap_{staticId}">
             <ref name="B" dataSource="IIDM" sourceName="B_pu"/>
-            <ref name="nsteps" dataSource="IIDM" sourceName="MaximumSectionCount"/>
+            <ref name="nsteps" dataSource="IIDM" sourceName="CurrentSectionCount"/>
         </component>
         <interconnection componentId="cap_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
@@ -65,12 +65,12 @@
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_INITIALIZATION"/>
-        <component type="iPSL.Electrical.Controls.Eurostag.pssi3e2b_Init" id="pssi3e2b_{staticId}" parFile="params.par" parId="pssi3e2b_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="sexs_{staticId}" parFile="params.par" parId="sexs_{staticId}_INITIALIZATION"/>
+        <component type="iPSL.Electrical.Controls.Eurostag.pssi3e2b_Init" id="pssi3e2b_{staticId}" parFile="params.par" parId="pssi3e2b_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.gsteam0_Init" id="gsteam0_{staticId}" parFile="params.par" parId="gsteam0_{staticId}_INITIALIZATION"/>
-        <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e2b_{staticId}" var2="pin_ActivePowerSN"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_TerminalVoltage" id2="sexs_{staticId}" var2="pin_TerminalVoltage"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>
+        <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e2b_{staticId}" var2="pin_ActivePowerSN"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_OMEGA" id2="gsteam0_{staticId}" var2="pin_OMEGA"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_CM" id2="gsteam0_{staticId}" var2="pin_CM"/>
     </model>

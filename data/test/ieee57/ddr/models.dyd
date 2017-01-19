@@ -31,7 +31,7 @@
     <model id="DM{staticId}" type="Shunt">
         <component type="iPSL.Electrical.Banks.PwCapacitorBank" id="cap_pwCapacitorBank_{staticId}">
             <ref name="B" dataSource="IIDM" sourceName="B_pu"/>
-            <ref name="nsteps" dataSource="IIDM" sourceName="MaximumSectionCount"/>
+            <ref name="nsteps" dataSource="IIDM" sourceName="CurrentSectionCount"/>
         </component>
         <interconnection componentId="cap_pwCapacitorBank_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>

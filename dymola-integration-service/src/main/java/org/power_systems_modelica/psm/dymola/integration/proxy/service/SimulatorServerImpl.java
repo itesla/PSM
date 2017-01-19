@@ -131,7 +131,7 @@ public class SimulatorServerImpl implements SimulatorServer
 			{
 				Files.createDirectories(Paths.get(serviceWorkDir));
 				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir),
-						DYMSERV_VAL_PREFIX);
+						DYMSERV_SIM_PREFIX);
 				Files.createDirectories(workingDir);
 				inputZipFile = workingDir.resolve(DYMOLASERVICE_INPUTFILENAME);
 				inputDh.moveTo(inputZipFile.toFile());
@@ -143,16 +143,16 @@ public class SimulatorServerImpl implements SimulatorServer
 			LOGGER.info(
 					" {} - dymola checking started - inputFileName:{}, problem:{}, resultsFileName:{}.",
 					workingDir, inputFileName, problem, resultsFileName);
-			
-			//Move to working directory, load all needed Modelica files.
+
+			// Move to working directory, load all needed Modelica files.
 			prepareDymola(workingDir, inputFileName);
-			
+
 			checkDymola(workingDir, inputFileName, problem, resultsFileName);
-			
+
 			boolean result = dymola.savelog(DYMOLA_LOG_FILENAME);
 
 			DataHandler outputFileDataHandler = prepareOutputData(workingDir, resultsFileName);
-			
+
 			return outputFileDataHandler;
 		}
 		catch (Exception e)
@@ -218,9 +218,9 @@ public class SimulatorServerImpl implements SimulatorServer
 					" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}.",
 					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
 					outputInterval, tolerance, resultsFileName);
-	
+
 			prepareDymola(workingDir, inputFileName);
-			
+
 			checkDymola(workingDir, inputFileName, problem, resultsFileName);
 
 			simulateDymola(workingDir, inputFileName, problem, startTime, stopTime,
@@ -260,14 +260,15 @@ public class SimulatorServerImpl implements SimulatorServer
 			}
 		}
 	}
-	
-	private void prepareDymola(Path workingDir, String inputFileName) throws DymolaException {
+
+	private void prepareDymola(Path workingDir, String inputFileName) throws DymolaException
+	{
 		boolean result = dymola.clear();
 		 if (!result)
 		 {
 		 LOGGER.error("Error clearing workspace: {}.", dymola.getLastError());
 		 }
-		//TODO
+		// TODO
 
 		result = dymola.cd(workingDir.toAbsolutePath().toString());
 		if (!result)
@@ -307,7 +308,8 @@ public class SimulatorServerImpl implements SimulatorServer
 		return outputFileDataHandler;
 	}
 
-	protected void checkDymola(Path workingDirectory, String inputFileName, String problem, String resultsFileName)
+	protected void checkDymola(Path workingDirectory, String inputFileName, String problem,
+			String resultsFileName)
 	{
 		try
 		{
@@ -317,19 +319,6 @@ public class SimulatorServerImpl implements SimulatorServer
 				LOGGER.error("Error checking model {}. Reason is {}.", problem,
 						dymola.getLastError());
 			}
-			// break;
-			// case 2:
-			// result = dymola.checkModel(problem);
-			// if (!result)
-			// {
-			// LOGGER.error("Error checking model {}. Reason is ,{}", problem,
-			// dymola.getLastError());
-			// }
-			// simulateModel(problem, startTime, 0.0001 * stopTime, numberOfIntervals, tolerance,
-			// outputInterval, resultsFileName);
-			// break;
-			// }
-
 		}
 		catch (Exception e)
 		{
@@ -595,7 +584,6 @@ public class SimulatorServerImpl implements SimulatorServer
 	static final String			DYMOLASERVICE_TEMP			= "/temp/Dymola/server";
 	static final String			DYMOLASERVICE_INPUTFILENAME	= "dyninput.zip";
 	static final String			DYMSERV_SIM_PREFIX			= "dymserv_sim_";
-	static final String			DYMSERV_VAL_PREFIX			= "dymserv_val_";
 	private static final String	DYMOLA_LOG_FILENAME			= "log.txt";
 	private static final int	MSGERRLEN					= 400;
 

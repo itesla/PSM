@@ -45,6 +45,7 @@
 													<children>
 														<HBox layoutX="448.3999938964844" layoutY="19.600000381469727" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 															<children>
+																<Button mnemonicParsing="false" onAction="#handleFindMoContentEvent" styleClass="btn-default" text="Find" />
 																<Button mnemonicParsing="false" onAction="#handleRevertMoFileContentEvent" styleClass="btn-default" text="Revert" />
 																<Button mnemonicParsing="false" onAction="#handleSaveMoFileContentEvent" styleClass="btn-default" text="Save" />
 								                        		<Button mnemonicParsing="false" onAction="#handleSaveAsMoFileContentEvent" styleClass="btn-default" text="Save As" />
@@ -63,6 +64,7 @@
 													<children>
 														<HBox layoutX="448.3999938964844" layoutY="19.600000381469727" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 															<children>
+																<Button mnemonicParsing="false" onAction="#handleFindMoweContentEvent" styleClass="btn-default" text="Find" />
 																<Button mnemonicParsing="false" onAction="#handleRevertMoweFileContentEvent" styleClass="btn-default" text="Revert" />
 																<Button mnemonicParsing="false" onAction="#handleSaveMoweFileContentEvent" styleClass="btn-default" text="Save" />
 								                        		<Button mnemonicParsing="false" onAction="#handleSaveAsMoweFileContentEvent" styleClass="btn-default" text="Save As" />

@@ -96,6 +96,16 @@ public class SimulationDetailController implements MainChildrenController
 	}
 
 	@FXML
+	private void handleFindMoContentEvent() {
+		moEditor.find();
+	}
+
+	@FXML
+	private void handleFindMoweContentEvent() {
+		moweEditor.find();
+	}
+
+	@FXML
 	private void handleSaveMoFileContentEvent()
 	{
 		saveFileContentEvent(moEditor);

@@ -30,7 +30,16 @@
 			                         <tabs>
 			                              <Tab closable="false" text="Modelica File">
 			                                   <content>
-			                                        <CodeEditor fx:id="codeEditor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
+													<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+														<children>
+										                    <HBox layoutX="448.3999938964844" layoutY="19.600000381469727" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+										                       <children>
+										                          <Button fx:id="findEditor" mnemonicParsing="false" onAction="#handleFindContentEvent" styleClass="btn-default" text="Find" />
+										                       </children>
+										                    </HBox>
+					                                        <CodeEditor fx:id="codeEditor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+														</children>
+													</AnchorPane>
 			                                   </content>
 			                              </Tab>
 			                              <Tab fx:id="curvesTab" closable="false" text="Loadflow results">
@@ -41,7 +50,7 @@
 																	<tabs>
 																		<Tab closable="false" text="Voltage">
 																			<content>
-																				<ScatterChart fx:id="voltageChart" prefHeight="361.0" prefWidth="518.0">
+																				<ScatterChart fx:id="voltageChart">
 																					<xAxis>
 																						<CategoryAxis side="BOTTOM" fx:id="xVoltageAxis" />
 																					</xAxis>

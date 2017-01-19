@@ -29,11 +29,11 @@
         <interconnection componentId="load_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Shunt">
-        <component type="iPSL.Electrical.Banks.PwCapacitorBank" id="cap_pwCapacitorBank_{staticId}">
+        <component type="iPSL.Electrical.Banks.PwCapacitorBank" id="cap_{staticId}">
             <ref name="B" dataSource="IIDM" sourceName="B_pu"/>
             <ref name="nsteps" dataSource="IIDM" sourceName="CurrentSectionCount"/>
         </component>
-        <interconnection componentId="cap_pwCapacitorBank_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
+        <interconnection componentId="cap_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Transformer">
         <component type="iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer" id="trafo_{staticId}">
@@ -62,6 +62,9 @@
         <connection id1="reg_pssi3e2b_{staticId}" var1="pin_OMEGA" id2="reg_gsteam0_{staticId}" var2="pin_OMEGA"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="sortie" targetModel="{bus}" targetName="p"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="omegaRef" targetModel="{system}" targetName="omegaRef"/>
+        <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_HIn" targetModel="{system}" targetName="omegaRef_HIn[?]"/>
+        <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_SN" targetModel="{system}" targetName="omegaRef_SN[?]"/>
+        <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_OMEGA" targetModel="{system}" targetName="omegaRef_omega[?]"/>
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_INITIALIZATION"/>

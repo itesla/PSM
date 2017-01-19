@@ -1,9 +1,9 @@
 within ;
 model ieee57bus
   parameter Real SNREF = 100.0;
-  iPSL.Electrical.Machines.Eurostag.omegaRef omegaRef(
+  iPSL.Electrical.Machines.Eurostag.omegaRef omegaRef (
   nGenerators = 7
-  )  annotation (Placement(transformation()));
+  ) annotation (Placement(transformation()));
 
 // BUSES
   iPSL.Electrical.Buses.Bus bus__BEAV___6_TN (
@@ -1916,7 +1916,7 @@ equation
   connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__GEN____3_SM.pin_HIn) annotation (Line());
   connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn) annotation (Line());
   connect(omegaRef.pin_HIn[6], gen_pwGeneratorM2S__GEN____8_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__GEN____9_SM.pin_HIn) annotation (Line());
   
   connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__GEN___12_SM.pin_SN) annotation (Line());
   connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__GEN____1_SM.pin_SN) annotation (Line());

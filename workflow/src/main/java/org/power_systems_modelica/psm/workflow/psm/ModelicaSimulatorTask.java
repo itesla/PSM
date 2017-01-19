@@ -2,8 +2,6 @@ package org.power_systems_modelica.psm.workflow.psm;
 
 import static org.power_systems_modelica.psm.workflow.Workflow.ResultsScope.SCOPE_GLOBAL;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;

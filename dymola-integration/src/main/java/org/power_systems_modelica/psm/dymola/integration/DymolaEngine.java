@@ -83,8 +83,13 @@ public class DymolaEngine implements ModelicaEngine
 
 		try
 		{
+			progress(String.format("Checking model %s.", modelName));
 			simResults = dymolaClient.check(modelName, moFileName);
-			if(!simResults.isEmpty()) this.results.addResult(modelName, "successful", false);
+			if(!simResults.isEmpty()) {
+				this.results.addResult(modelName, "successful", false);
+				progress(String.format("Model %s checked unsuccessfully.", modelName));
+			}
+			else progress(String.format("Model %s checked successfully.", modelName));
 			if (depth == 1) return;
 		}
 		catch (InterruptedException exc)
@@ -98,10 +103,17 @@ public class DymolaEngine implements ModelicaEngine
 		if(depth != 0) {
 			try
 			{
+				progress(String.format("Verifying model %s.", modelName));
 				simResults = dymolaClient.verify(modelName, moFileName, startTime, 0.0001 * stopTime,
 						numOfIntervals, intervalSize, tolerance);
-				if(!simResults.isEmpty()) this.results.addResult(modelName, "successful", false);
-				writeResults(outputZipFileName, modelName);
+				if(!simResults.isEmpty()) {
+					this.results.addResult(modelName, "successful", false);
+					progress(String.format("Model %s verified unsuccessfully.", modelName));
+				}
+				else {
+					progress(String.format("Model %s verified successfully.", modelName));
+					writeResults(outputZipFileName, modelName);
+				}
 			}
 			catch (InterruptedException exc)
 			{
@@ -116,19 +128,30 @@ public class DymolaEngine implements ModelicaEngine
 
 		try
 		{
+			progress(String.format("Simulating model %s.", modelName));
 			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
 					numOfIntervals, intervalSize, tolerance);
-			if(!simResults.isEmpty()) this.results.addResult(modelName, "successful", false); 
-			writeResults(outputZipFileName, modelName);
+			if(!simResults.isEmpty()) {
+				this.results.addResult(modelName, "successful", false);
+				progress(String.format("Model %s simulated unsuccessfully.", modelName));
+				writeErrorFile(simResults);
+			}
+			else {
+				progress(String.format("Model %s simulated successfully.", modelName));
+				writeResults(outputZipFileName, modelName);
+			}
 		}
 		catch (InterruptedException exc)
 		{
 			this.results.addResult(modelName, "successful", false);
+			writeErrorFile(simResults);
 			LOGGER.error("Dymola execution interrupted unexpectedly. Error simulating model {}.",
 					exc.getMessage());
 			return;
 		}
-
+	}
+	
+	private void writeErrorFile(String simResults) {
 		try (PrintStream printStream = new PrintStream(
 				Files.newOutputStream(workingDir.resolve(outputErrorsFileName))))
 		{

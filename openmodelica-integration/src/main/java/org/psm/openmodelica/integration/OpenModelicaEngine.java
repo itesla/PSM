@@ -350,6 +350,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 	@Override
 	public ModelicaSimulationFinalResults getSimulationResults()
 	{
+		
 		return this.results;
 	}
 
@@ -397,7 +398,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 			}
 		}
 
-		String strLine = filterResultVariables.stream().collect(Collectors.joining(",")).toString();
+		String strLine = filterResultVariables.stream().map(e -> e.replace("\"", "")).collect(Collectors.joining(",")).toString();
 		printStream.println(strLine);
 		for (int i = 0; i < resultValues.length; i++)
 		{

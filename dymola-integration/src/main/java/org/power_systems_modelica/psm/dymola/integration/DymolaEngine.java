@@ -35,7 +35,7 @@ public class DymolaEngine implements ModelicaEngine
 	@Override
 	public void configure(Configuration config)
 	{
-		this.wsdlService = config.getParameter("webService");
+		this.wsdlService = Optional.ofNullable(config.getParameter("webService")).orElse("http://localhost:8888/dymservice?wsdl");
 		this.workingDir = Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir = Paths.get(config.getParameter("libraryDir"));
 		this.dymSimulationDir = Optional
@@ -74,42 +74,58 @@ public class DymolaEngine implements ModelicaEngine
 		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 		// The first "result" in ModelicaSimulationResults is the simulation directory with var="simulation_path"
 		this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
+		this.results.addResult(modelName, "successful", true);
 
 		dymolaClient = new StandaloneDymolaClient(dymSimulationDir, inputZipFileName,
 				outputZipFileName, outputDymolaFileName,
 				createFilteredMat, METHOD_LIST, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 
-		try {
+		try
+		{
 			simResults = dymolaClient.check(modelName, moFileName);
+			if(!simResults.isEmpty()) this.results.addResult(modelName, "successful", false);
+			if (depth == 1) return;
 		}
-		catch(InterruptedException exc) {
-			LOGGER.error("Dymola execution interrupted unexpectedly. Error checking model {}.", exc.getMessage());
+		catch (InterruptedException exc)
+		{
+			this.results.addResult(modelName, "successful", false);
+			LOGGER.error("Dymola execution interrupted unexpectedly. Error checking model {}.",
+					exc.getMessage());
 			return;
 		}
-		
-		if(depth == 1) return;		
 
-		try {
-			simResults = dymolaClient.verify(modelName, moFileName, startTime, 0.0001 * stopTime,
-					numOfIntervals, intervalSize, tolerance);
-			writeResults(outputZipFileName, modelName);
-		}
-		catch(InterruptedException exc) {
-			LOGGER.error("Dymola execution interrupted unexpectedly. Error verifying model {}.", exc.getMessage());
-			return;
+		if(depth != 0) {
+			try
+			{
+				simResults = dymolaClient.verify(modelName, moFileName, startTime, 0.0001 * stopTime,
+						numOfIntervals, intervalSize, tolerance);
+				if(!simResults.isEmpty()) this.results.addResult(modelName, "successful", false);
+				writeResults(outputZipFileName, modelName);
+			}
+			catch (InterruptedException exc)
+			{
+				this.results.addResult(modelName, "successful", false);
+				LOGGER.error("Dymola execution interrupted unexpectedly. Error verifying model {}.",
+						exc.getMessage());
+				return;
+			}
 		}
 		
-		if(depth == 2) return;
+		if (depth == 2) return;
 
-		try {
+		try
+		{
 			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
 					numOfIntervals, intervalSize, tolerance);
+			if(!simResults.isEmpty()) this.results.addResult(modelName, "successful", false); 
 			writeResults(outputZipFileName, modelName);
 		}
-		catch(InterruptedException exc)
+		catch (InterruptedException exc)
 		{
-			LOGGER.error("Dymola execution interrupted unexpectedly. Error simulating model {}.", exc.getMessage());
+			this.results.addResult(modelName, "successful", false);
+			LOGGER.error("Dymola execution interrupted unexpectedly. Error simulating model {}.",
+					exc.getMessage());
 			return;
 		}
 
@@ -283,7 +299,7 @@ public class DymolaEngine implements ModelicaEngine
 		return engineProgress;
 	}
 
-	private ModelicaEngineProgress			engineProgress;
+	private ModelicaEngineProgress			engineProgress	= new ModelicaEngineProgress();
 	private Path							workingDir;
 	private Path							dymSimulationDir;
 	private int								numOfIntervalsPerSecond;

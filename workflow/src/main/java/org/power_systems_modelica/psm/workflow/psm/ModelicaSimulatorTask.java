@@ -55,23 +55,21 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 
 				me.simulate(mo);
 
-				dinSimulationParams = me.getSimulationResults();
-				Path dinSimPath = (Path) dinSimulationParams.getValue(modelName, "simulation_path");
-				boolean hasResults = Files.list(dinSimPath)
-						.anyMatch(f -> f.toString().endsWith(".mat"));
+				dinSimulationResults = me.getSimulationResults();
+				boolean hasResults = (boolean) dinSimulationResults.getValue(modelName, "successful");
 
 				if (hasResults) {
 					progress(String.format("Model %s has been simulated.", modelName));
+					succeded();
 				}
 				else { 
 					progress(String.format("Model %s has not been simulated.", modelName));
+					failed();
 				}
 
 				publish(SCOPE_GLOBAL,
 						"simres",
-						dinSimulationParams.getValue(modelName, "simulation_path"));
-
-				succeded();
+						dinSimulationResults.getValue(modelName, "simulation_path"));				
 			}
 			catch (Exception exc)
 			{
@@ -107,6 +105,6 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 	protected ModelicaEngine				me	= null;
 	private String							modelicaEngine;
 	private Configuration					config;
-	private ModelicaSimulationFinalResults	dinSimulationParams;
+	private ModelicaSimulationFinalResults	dinSimulationResults;
 	private String							source;
 }

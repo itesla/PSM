@@ -107,7 +107,6 @@ public class CodeEditor extends StackPane {
             	int height = ((Double) newValue).intValue() - 20;
             	try {
             		webView.getEngine().executeScript("editor.setSize(\"100%\"," + height + ");");
-            		webView.getEngine().notify();
             	}
             	catch (JSException e) {
             		//e.printStackTrace();

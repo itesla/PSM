@@ -12,7 +12,7 @@ public class Ddr implements Serializable
 
 	public enum DdrType
 	{
-		TYPE_DYD(0), TYPE_DDB(1);
+		DYD(0), DDB(1);
 
 		private int value;
 
@@ -32,8 +32,7 @@ public class Ddr implements Serializable
 		this.name = new SimpleStringProperty();
 		this.description = new SimpleStringProperty();
 		this.location = new SimpleStringProperty();
-		this.source = new SimpleStringProperty();
-		this.type = new SimpleObjectProperty<DdrType>(DdrType.TYPE_DYD);
+		this.type = new SimpleObjectProperty<DdrType>(DdrType.DYD);
 	}
 
 	public String getName()
@@ -96,21 +95,6 @@ public class Ddr implements Serializable
 		this.type.set(type);
 	}
 
-	public String getSource()
-	{
-		return source.get();
-	}
-
-	public StringProperty sourceProperty()
-	{
-		return source;
-	}
-
-	public void setSource(String source)
-	{
-		this.source.set(source);
-	}
-
 	public String toString()
 	{
 		return name.get();
@@ -120,5 +104,4 @@ public class Ddr implements Serializable
 	private StringProperty			description;
 	private StringProperty			location;
 	private ObjectProperty<DdrType>	type;
-	private StringProperty			source;
 }

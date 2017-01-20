@@ -163,7 +163,6 @@ public class MainApp extends Application
 
 			DdrsOverviewController controller = loader.getController();
 			controller.setMainService(mainService);
-			controller.setFileChooser(new GuiFileChooser());
 
 			// Set cases overview into the center of the root layout.
 			mainLayoutController.setLayout(ddrsOverview, controller);

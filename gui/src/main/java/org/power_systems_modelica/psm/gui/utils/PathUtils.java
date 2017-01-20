@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class PathUtils {
@@ -276,5 +277,18 @@ public class PathUtils {
 		{
 			return false;
 		}
+	}
+
+	public static String directoryOutput(Stage stage, String initialDirectory) {
+		
+		DirectoryChooser chooser = new DirectoryChooser();
+		chooser.setInitialDirectory(new File(initialDirectory));
+		
+		File selectedFolder = chooser.showDialog(stage);
+		if(selectedFolder != null){
+			return selectedFolder.getPath();
+		}
+		
+		return null;
 	}
 }

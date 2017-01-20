@@ -49,7 +49,6 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 
 			controller = loader.getController();
 			controller.setMainService(mainService);
-			controller.setFileChooser(new GuiFileChooserFake("models.dyd"));
 
 			Scene scene = new Scene(workflowsOverview);
 			stage.setScene(scene);
@@ -132,7 +131,7 @@ public class DdrsOverviewControllerTest extends ApplicationTest {
 		});
 		
 		latch2.await();
-		clickOn("#saveAsEditor");
+		clickOn("#saveEditor");
 		
 		interact(new Runnable() {
 

@@ -53,7 +53,6 @@
                                   <TableColumn fx:id="descriptionDdrColumn" prefWidth="75.0" text="Description" />
                                     <TableColumn fx:id="locationDdrColumn" prefWidth="75.0" text="Location" />
                                     <TableColumn fx:id="typeDdrColumn" prefWidth="75.0" text="Type" />
-                                    <TableColumn fx:id="sourceDdrColumn" prefWidth="75.0" text="Source" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -79,7 +78,6 @@
                         <Button fx:id="findEditor" mnemonicParsing="false" onAction="#handleFindContentEvent" styleClass="btn-default" text="Find" />
                         <Button fx:id="revertEditor" mnemonicParsing="false" onAction="#handleRevertFileContentEvent" styleClass="btn-default" text="Revert" />
                         <Button fx:id="saveEditor" mnemonicParsing="false" onAction="#handleSaveFileContentEvent" styleClass="btn-default" text="Save" />
-                        <Button fx:id="saveAsEditor" mnemonicParsing="false" onAction="#handleSaveAsFileContentEvent" styleClass="btn-default" text="Save As" />
                         <Button fx:id="closeEditor" mnemonicParsing="false" onAction="#handleCloseFileContentEvent" styleClass="btn-default" text="Close" />
                      </children>
                   </HBox>

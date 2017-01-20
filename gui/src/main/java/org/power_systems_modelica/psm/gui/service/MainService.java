@@ -126,6 +126,9 @@ public class MainService {
 		return DdrService.getDdr(CatalogService.getCatalogByName("ddrs", catalogName), path);
 	}
 
+	public boolean duplicateDdr(Ddr ddrIn, Ddr ddrOut) {
+		return DdrService.duplicateDdr(ddrIn, ddrOut);
+	}
 	public ObservableList<EventParamGui> getEventParams(String event) {
 		return WorkflowServiceConfiguration.getEventParams(event);
 	}

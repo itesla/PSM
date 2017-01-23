@@ -53,7 +53,7 @@
 			                                                <columns>
 			                                                   <TableColumn fx:id="elementVoltageColumn" prefWidth="75.0" text="Element" />
 			                                                   <TableColumn fx:id="hadesVoltageColumn" prefWidth="75.0" text="Hades2" />
-			                                                   <TableColumn fx:id="helmflowVoltageColumn" prefWidth="75.0" text="Helmflow" />
+			                                                   <TableColumn fx:id="helmflowVoltageColumn" prefWidth="75.0" text="HELM Flow" />
 			                                                   <TableColumn fx:id="differenceVoltageColumn" prefWidth="75.0" text="Differences" />
 			                                                </columns>
 			                                                <columnResizePolicy>
@@ -90,7 +90,7 @@
 			                                                <columns>
 			                                                   <TableColumn fx:id="elementPhaseColumn" prefWidth="75.0" text="Element" />
 			                                                   <TableColumn fx:id="hadesPhaseColumn" prefWidth="75.0" text="Hades2" />
-			                                                   <TableColumn fx:id="helmflowPhaseColumn" prefWidth="75.0" text="Helmflow" />
+			                                                   <TableColumn fx:id="helmflowPhaseColumn" prefWidth="75.0" text="HELM Flow" />
 			                                                   <TableColumn fx:id="differencePhaseColumn" prefWidth="75.0" text="Differences" />
 			                                                </columns>
 			                                                <columnResizePolicy>
@@ -127,7 +127,7 @@
 			                                                <columns>
 			                                                   <TableColumn fx:id="elementActiveColumn" prefWidth="75.0" text="Element" />
 			                                                   <TableColumn fx:id="hadesActiveColumn" prefWidth="75.0" text="Hades2" />
-			                                                   <TableColumn fx:id="helmflowActiveColumn" prefWidth="75.0" text="Helmflow" />
+			                                                   <TableColumn fx:id="helmflowActiveColumn" prefWidth="75.0" text="HELM Flow" />
 			                                                   <TableColumn fx:id="differenceActiveColumn" prefWidth="75.0" text="Differences" />
 			                                                </columns>
 			                                                <columnResizePolicy>
@@ -164,7 +164,7 @@
 			                                                <columns>
 			                                                   <TableColumn fx:id="elementReactiveColumn" prefWidth="75.0" text="Element" />
 			                                                   <TableColumn fx:id="hadesReactiveColumn" prefWidth="75.0" text="Hades2" />
-			                                                   <TableColumn fx:id="helmflowReactiveColumn" prefWidth="75.0" text="Helmflow" />
+			                                                   <TableColumn fx:id="helmflowReactiveColumn" prefWidth="75.0" text="HELM Flow" />
 			                                                   <TableColumn fx:id="differenceReactiveColumn" prefWidth="75.0" text="Differences" />
 			                                                </columns>
 			                                                <columnResizePolicy>

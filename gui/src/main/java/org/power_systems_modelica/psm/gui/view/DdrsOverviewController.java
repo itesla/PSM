@@ -14,7 +14,6 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 

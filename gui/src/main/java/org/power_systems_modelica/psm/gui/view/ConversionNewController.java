@@ -18,7 +18,6 @@ import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

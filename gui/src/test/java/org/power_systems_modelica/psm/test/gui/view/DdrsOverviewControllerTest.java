@@ -16,7 +16,6 @@ import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
-import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.testfx.framework.junit.ApplicationTest;
 
 import javafx.beans.value.ChangeListener;

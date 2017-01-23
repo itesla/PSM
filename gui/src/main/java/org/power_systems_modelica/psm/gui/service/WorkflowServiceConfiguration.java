@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
@@ -44,11 +43,11 @@ import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.ElementModel;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTaskResults;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.ElementModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -380,12 +379,15 @@ public class WorkflowServiceConfiguration
 			if (loadflowClass != null)
 			{
 				tasks.add(TD(LoadFlowTask.class, loadflowId,
-						TC("loadFlowFactoryClass", loadflowClass)));
+						TC("loadFlowFactoryClass", loadflowClass,
+								"targetStateId", "resultsLoadFlow")));
 			}
-			
-			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : dse.equals(DsEngine.DYMOLA) ? "Dymola" : "Fake";
-			
-			if (dse.equals(DsEngine.FAKE)) {
+
+			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica"
+					: dse.equals(DsEngine.DYMOLA) ? "Dymola" : "Fake";
+
+			if (dse.equals(DsEngine.FAKE))
+			{
 				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
 						TC("ddrType", "DYD",
 								"ddrLocation", ddr0.getLocation(),
@@ -395,9 +397,10 @@ public class WorkflowServiceConfiguration
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"fakeModelicaEngineResults", fakeInit)));
 			}
-			else {
+			else
+			{
 				String simulationSource = "mo";
-				
+
 				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
 						TC("source", simulationSource,
 								"ddrType", "DYD",
@@ -429,39 +432,10 @@ public class WorkflowServiceConfiguration
 
 	public static WorkflowResult getSimulationResult(String id)
 	{
-
 		WorkflowResult results = new WorkflowResult();
 
 		Network n = (Network) sim.getResults("network");
-
-		/*
-		 * LUMA: no specific state for loadflow results, use current network state
-		 * 
-		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); // Fin fix temporal
-		 * 
-		 * n.getStateManager().allowStateMultiThreadAccess(false); n.getStateManager().setWorkingState("resultsLoadflow");
-		 */
-		List<BusData> allBusesValues = new ArrayList<>();
-		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[1];
-			float[] As = new float[1];
-			float[] Ps = new float[1];
-			float[] Qs = new float[1];
-
-			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
-			bvalues.put("V", Vs);
-			bvalues.put("A", As);
-			bvalues.put("P", Ps);
-			bvalues.put("Q", Qs);
-			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
-		});
-
-		results.setId(id);
-		results.setAllBusesValues(allBusesValues);
+		fillLoadflowResults(id, results, n);
 
 		try
 		{
@@ -473,24 +447,29 @@ public class WorkflowServiceConfiguration
 		{
 			LOG.error(e.getMessage());
 		}
-		
+
 		return results;
 	}
 
 	public static WorkflowResult getConversionResult(String id)
 	{
-
 		WorkflowResult results = new WorkflowResult();
 
 		Network n = (Network) conv.getResults("network");
+		fillLoadflowResults(id, results, n);
 
-		/*
-		 * LUMA: no specific state for loadflow results, use current network state
-		 * 
-		 * // Fix temporal n.getStateManager().setWorkingState("resultsLoadflow"); // Fin fix temporal
-		 * 
-		 * n.getStateManager().allowStateMultiThreadAccess(false); n.getStateManager().setWorkingState("resultsLoadflow");
-		 */
+		List<ElementModel> models = (List<ElementModel>) conv.getResults("models");
+		results.setModels(models);
+
+		return results;
+	}
+
+	private static void fillLoadflowResults(String id, WorkflowResult results, Network n)
+	{
+		// Ensure the right current working state is set
+		if (n.getStateManager().getStateIds().contains("resultsLoadFlow"))
+			n.getStateManager().setWorkingState("resultsLoadFlow");
+
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
 			Map<String, float[]> bvalues = new HashMap<>();
@@ -509,17 +488,12 @@ public class WorkflowServiceConfiguration
 			bvalues.put("Q", Qs);
 			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
 		});
-
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
-
-		List<ElementModel> models = (List<ElementModel>) conv.getResults("models");
-		results.setModels(models);
-
-		return results;
 	}
 
-	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits, boolean helmflowFromHadesResults)
+	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits,
+			boolean helmflowFromHadesResults)
 			throws WorkflowCreationException
 	{
 		try
@@ -552,14 +526,7 @@ public class WorkflowServiceConfiguration
 	{
 
 		WorkflowResult results = new WorkflowResult();
-
 		Network n = (Network) cl.getResults("network");
-
-		// Fix temporal
-		n.getStateManager().setWorkingState("resultsHelmflow");
-		// Fin fix temporal
-
-		n.getStateManager().allowStateMultiThreadAccess(false);
 
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {

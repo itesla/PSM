@@ -1,19 +1,14 @@
 package org.power_systems_modelica.psm.test.gui.view;
 
 import static org.junit.Assert.assertEquals;
-import static org.testfx.api.FxAssert.verifyThat;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
-import org.power_systems_modelica.psm.gui.model.Event;
-import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.MainService;
@@ -26,15 +21,11 @@ import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.matcher.control.ListViewMatchers;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 

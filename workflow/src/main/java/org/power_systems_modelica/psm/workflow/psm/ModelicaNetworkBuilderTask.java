@@ -5,6 +5,8 @@ import static org.power_systems_modelica.psm.workflow.Workflow.ResultsScope.SCOP
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
@@ -56,6 +58,14 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			me.configure(config);
 			Network n = (Network) workflow.getResults("network");
 			ModelicaSystemBuilder builder = new ModelicaSystemBuilder(ddr, n, me);
+			builder.getProgress().addObserver(new Observer()
+			{
+				@Override
+				public void update(Observable o, Object arg)
+				{
+					progress((String) arg);
+				}
+			});
 			builder.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
 			ModelicaDocument mo = builder.build();
 

@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.modelica.builder;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,10 +28,20 @@ import eu.itesla_project.iidm.network.Network;
 
 public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 {
+	static class Progress extends Observable
+	{
+		public void report(String message)
+		{
+			setChanged();
+			notifyObservers(message);
+		}
+	}
+
 	public ModelicaSystemBuilder(DynamicDataRepository ddr, Network n, ModelicaEngine me)
 	{
 		super(ddr, n);
 		this.modelicaEngine = me;
+		this.progress = new Progress();
 	}
 
 	public ModelicaDocument build()
@@ -39,13 +50,29 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return buildModelicaSystem();
 	}
 
+	public Observable getProgress()
+	{
+		return progress;
+	}
+
 	private void performFullModelInitialization()
 	{
 		FullModelInitializationBuilder i = new FullModelInitializationBuilder(
 				getDdr(),
 				getNetwork());
 		Collection<ModelicaDocument> mos = i.buildModelicaDocuments();
-		modelicaEngine.simulate(mos);
+
+		// XXX LUMA just temporarily, to avoid one more level of progress updates, we decide to iterate here
+		// But it should be done down in the modelicaEngine, to have the opportunity to optimize loading library ...
+		// Either that or we call explicitly "prepare" / "simulate"
+		// modelicaEngine.simulate(mos);
+		progress.report("Full Model Initialization");
+		mos.forEach(mo -> {
+			String modelName = mo.getSystemModel().getId();
+			progress.report("    " + modelName);
+			modelicaEngine.simulate(mo);
+		});
+
 		ModelicaSimulationFinalResults mor = modelicaEngine.getSimulationResults();
 		InitializationResults results = new InitializationResults(mor);
 		InitializationReferenceResolver ir = new InitializationReferenceResolver(results);
@@ -54,6 +81,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 	private ModelicaDocument buildModelicaSystem()
 	{
+		progress.report("Building Modelica System Document");
 		createModelicaDocument(getNetwork().getName());
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 
@@ -61,10 +89,13 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 		Optional<ModelicaModel> ds = getDdr().getSystemModel(Stage.SIMULATION);
 		if (ds.isPresent()) addDynamicModel(ds.get());
+		progress.report("    Adding dynamic models");
 		addDynamicModels();
 		setAllDynamicModelsAdded(true);
+		progress.report("    Resolving references");
 		resolvePendingReferences();
 		// Add connections between models only after all models have been created
+		progress.report("    Adding interconnections between dynamic models");
 		addInterconnections();
 
 		// TODO This is temporary while we allow omegaRef equations to be specified directly in DYD files
@@ -154,6 +185,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 	}
 
 	private final ModelicaEngine	modelicaEngine;
+	private final Progress			progress;
 
 	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
 }

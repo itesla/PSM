@@ -1,6 +1,5 @@
 package org.psm.openmodelica.integration;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import org.openmodelica.corba.ConnectException;
@@ -330,7 +328,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 	@Override
 	public ModelicaSimulationFinalResults getSimulationResults()
 	{
-		this.results.writeToFile(this.omSimulationDir.resolve("SimulationResults.csv"));
 		return this.results;
 	}
 

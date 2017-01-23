@@ -184,7 +184,6 @@ public class DymolaEngine implements ModelicaEngine
 	@Override
 	public ModelicaSimulationFinalResults getSimulationResults()
 	{
-		this.results.writeToFile(this.dymSimulationDir.resolve("SimulationResults.csv"));
 		return results;
 	}
 

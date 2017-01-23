@@ -199,7 +199,7 @@ public class SimulationNewControllerTest extends ApplicationTest {
 		ObservableList<Event> events = FXCollections.observableArrayList();
 		events.add(event);
 
-		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.FAKE, "1.0", false, false);
+		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.FAKE, "1.0", false, false, false);
 
 		interact(new Runnable() {
 

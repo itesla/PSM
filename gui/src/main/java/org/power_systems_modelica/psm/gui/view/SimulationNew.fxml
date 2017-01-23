@@ -80,12 +80,13 @@
 						</TitledPane>
 						<TitledPane animated="false" collapsible="false" layoutY="280.0" text="Dynamic simulation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="90.0" prefWidth="200.0">
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="200.0">
 									<children>
 										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="60.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
 										<ComboBox fx:id="dsEngine" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
-                              <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="44.0" prefHeight="30.0" prefWidth="60.0" text="Time:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
-                              <TextField fx:id="stopTimeText" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
+		                                <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="44.0" prefHeight="30.0" prefWidth="60.0" text="Time:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
+			                            <TextField fx:id="stopTimeText" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
+			                            <CheckBox fx:id="createFilteredMatCheck" layoutX="175.0" layoutY="74.0" mnemonicParsing="false" prefHeight="30.0" text="Create filtered Mat" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="74.0" />
 									</children>
 								</AnchorPane>
 							</content>

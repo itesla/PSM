@@ -76,6 +76,17 @@
 	-fx-effect: null;
 }
 
+.tree-table-row-cell .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-image: none;
+}
+.tree-table-row-cell:expanded .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-image: none;
+}
+
 /* default chart colors */
 .default-color0.chart-series-line { -fx-stroke: red; }
 .default-color1.chart-series-line { -fx-stroke: green; }

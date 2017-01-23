@@ -46,7 +46,9 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTaskResults;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.ElementModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -253,18 +255,17 @@ public class WorkflowServiceConfiguration
 
 	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events,
 			DsEngine dse,
-			String stopTime, boolean onlyCheck, boolean onlyVerify)
+			String stopTime, boolean onlyCheck, boolean onlyVerify, boolean createFilteredMat)
 			throws WorkflowCreationException
 	{
 		String moInput = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
 		Path modelicaEngineWorkingDir = PathUtils.DATA_TMP.resolve("gui_workflow_moengine_working");
-		Path output = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_initial.mo");
-		Path outputev = PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_events.mo");
+		Path output_with_events = Paths.get(cs.getLocation()).resolve(cs.getName() + "_events.mo");
+		Path output_simulation = Paths.get(cs.getLocation());
 
 		try
 		{
-			Files.deleteIfExists(output);
-			Files.deleteIfExists(outputev);
+			Files.deleteIfExists(output_with_events);
 			Files.createDirectories(modelicaEngineWorkingDir);
 
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
@@ -278,10 +279,6 @@ public class WorkflowServiceConfiguration
 					TC("source", casePath.toString())));
 			tasks.add(TD(ModelicaParserTask.class, "moparser0",
 					TC("source", moInput, "modelicaDocument", "mo")));
-			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
-					TC("source", "mo",
-							"target", output.toString(),
-							"includePsmAnnotations", "true")));
 
 			if (!events.isEmpty())
 			{
@@ -292,9 +289,9 @@ public class WorkflowServiceConfiguration
 								"ddrLocation", cs.getDdrLocation(),
 								"events", (String) events.stream().map(Object::toString)
 										.collect(Collectors.joining("\n")))));
-				tasks.add(TD(ModelicaExporterTask.class, "exporter1",
+				tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 						TC("source", "moWithEvents",
-								"target", outputev.toString(),
+								"target", output_with_events.toString(),
 								"includePsmAnnotations", "true")));
 
 				simulationSource = "moWithEvents";
@@ -315,7 +312,12 @@ public class WorkflowServiceConfiguration
 							"stopTime", stopTime,
 							"libraryDir", PathUtils.LIBRARY.toString(),
 							"resultVariables", resultVariables,
-							"depth", depth)));
+							"depth", depth,
+							"createFilteredMat", Boolean.toString(createFilteredMat))));
+			tasks.add(TD(ModelicaSimulatorTaskResults.class, "results0",
+					TC("source", "simres",
+							"target", output_simulation.toString(),
+							"createFilteredMat", Boolean.toString(createFilteredMat))));
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
 			config.setTaskDefinitions(tasks);
@@ -471,7 +473,7 @@ public class WorkflowServiceConfiguration
 		{
 			LOG.error(e.getMessage());
 		}
-
+		
 		return results;
 	}
 
@@ -510,6 +512,9 @@ public class WorkflowServiceConfiguration
 
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
+
+		List<ElementModel> models = (List<ElementModel>) conv.getResults("models");
+		results.setModels(models);
 
 		return results;
 	}

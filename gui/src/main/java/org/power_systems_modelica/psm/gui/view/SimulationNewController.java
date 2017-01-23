@@ -29,6 +29,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -310,6 +311,12 @@ public class SimulationNewController implements MainChildrenController
 				addedEvents.getItems().add(e);
 			}
 		}
+		
+		if (workflowProperties.containsKey("createFilteredMat")) {
+			Boolean createFilteredMat = Boolean
+					.valueOf(workflowProperties.getProperty("createFilteredMat"));
+			createFilteredMatCheck.setSelected(createFilteredMat);
+		}
 	}
 
 	private void handleSaveWorkflow()
@@ -317,13 +324,14 @@ public class SimulationNewController implements MainChildrenController
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
 		String stopTime = stopTimeText.getText();
+		boolean createFilteredMat = createFilteredMatCheck.isSelected();
 
 		ObservableList<Event> events = addedEvents.getItems();
 
 		Properties workflowProperties;
 		try
 		{
-			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime);
+			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime, createFilteredMat);
 			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"),
 					workflowProperties);
@@ -344,6 +352,8 @@ public class SimulationNewController implements MainChildrenController
 		addedEvents.getItems().clear();
 
 		stopTimeText.setText("1");
+		
+		createFilteredMatCheck.setSelected(CREATEFILTEREDMAT);
 	}
 
 	private void handleCheckWorkflow()
@@ -384,7 +394,9 @@ public class SimulationNewController implements MainChildrenController
 		}
 		String stopTime = stopTimeText.getText();
 		ObservableList<Event> events = addedEvents.getItems();
-		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify);
+		
+		boolean createFilteredMat = createFilteredMatCheck.isSelected();
+		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify, createFilteredMat);
 	}
 
 	@FXML
@@ -428,6 +440,9 @@ public class SimulationNewController implements MainChildrenController
 
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
 				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
+				
+				Boolean createFilteredMat = td.getTaskConfiguration().getBoolean("createFilteredMat");
+				createFilteredMatCheck.setSelected(createFilteredMat);
 			}
 		}
 	}
@@ -485,10 +500,14 @@ public class SimulationNewController implements MainChildrenController
 	private ComboBox<DsEngine>					dsEngine;
 	@FXML
 	private TextField							stopTimeText;
+	@FXML
+	private CheckBox 							createFilteredMatCheck;
+	
 
 	private GuiFileChooser						fileChooser;
 	private MainService							mainService;
 
+	private static final Boolean CREATEFILTEREDMAT = new Boolean(false);
 	private static final Logger					LOG	= LoggerFactory
 			.getLogger(SimulationNewController.class);
 }

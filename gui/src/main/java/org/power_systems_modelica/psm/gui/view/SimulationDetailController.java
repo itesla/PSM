@@ -41,23 +41,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 
-public class SimulationDetailController implements MainChildrenController
-{
+public class SimulationDetailController implements MainChildrenController {
 	@Override
 	public void handleMainAction() {
-		
+
 		handleNewWorkflow();
 	}
 
 	@Override
-	public void handleMenuAction(String action)
-	{
-		
+	public void handleMenuAction(String action) {
+
 	}
 
 	@Override
 	public String getMainAction() {
-		
+
 		return "New";
 	}
 
@@ -69,7 +67,7 @@ public class SimulationDetailController implements MainChildrenController
 
 	@Override
 	public List<String> getSummaryLabels() {
-		
+
 		List<String> labels = new ArrayList();
 		labels.add("Case:");
 		labels.add(caseLabel);
@@ -79,18 +77,16 @@ public class SimulationDetailController implements MainChildrenController
 		labels.add(dsLabel);
 		return labels;
 	}
-	
+
 	@FXML
-	private void initialize()
-	{
+	private void initialize() {
 
 		dsChart.setCreateSymbols(false);
 		yDsAxis.setForceZeroInRange(false);
 		yDsAxis.setAutoRanging(true);
 	}
 
-	private void handleNewWorkflow()
-	{
+	private void handleNewWorkflow() {
 		LOG.debug("handleNewWorkflow");
 		mainService.showSimulationNewView(mainService.getSimulation());
 	}
@@ -106,106 +102,83 @@ public class SimulationDetailController implements MainChildrenController
 	}
 
 	@FXML
-	private void handleSaveMoFileContentEvent()
-	{
+	private void handleSaveMoFileContentEvent() {
 		saveFileContentEvent(moEditor);
 	}
-	
+
 	@FXML
-	private void handleSaveMoweFileContentEvent()
-	{
+	private void handleSaveMoweFileContentEvent() {
 		saveFileContentEvent(moweEditor);
 	}
-	
-	private void saveFileContentEvent(CodeEditor codeEditor)
-	{
+
+	private void saveFileContentEvent(CodeEditor codeEditor) {
 		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
 		String location = codeEditor.getEditingLocation();
 		String file = codeEditor.getEditingFile();
 
-		try
-		{
+		try {
 			PathUtils.saveFile(location, file, ddrContent);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@FXML
-	private void handleSaveAsMoFileContentEvent()
-	{
+	private void handleSaveAsMoFileContentEvent() {
 		saveAsFileContentEvent(moEditor);
 	}
-	
+
 	@FXML
-	private void handleSaveAsMoweFileContentEvent()
-	{
+	private void handleSaveAsMoweFileContentEvent() {
 		saveAsFileContentEvent(moweEditor);
 	}
-	
-	private void saveAsFileContentEvent(CodeEditor codeEditor)
-	{
+
+	private void saveAsFileContentEvent(CodeEditor codeEditor) {
 		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
 		String location = codeEditor.getEditingLocation();
 		String file = codeEditor.getEditingFile();
 
 		boolean close = true;
-		try
-		{
-			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
-					file, ddrContent);
-		}
-		catch (IOException e)
-		{
+		try {
+			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location, file, ddrContent);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@FXML
-	private void handleRevertMoFileContentEvent()
-	{
+	private void handleRevertMoFileContentEvent() {
 		moEditor.revertEdits();
 	}
 
 	@FXML
-	private void handleRevertMoweFileContentEvent()
-	{
+	private void handleRevertMoweFileContentEvent() {
 		moweEditor.revertEdits();
 	}
 
-	private void showModelicaFileContent(CodeEditor codeEditor, String file)
-	{
+	private void showModelicaFileContent(CodeEditor codeEditor, String path, String file) {
 
 		StringBuilder fileContent = new StringBuilder();
-		try
-		{
-			fileContent = PathUtils.loadFile(PathUtils.DATA_TMP.toString(), file);
-		}
-		catch (IOException e)
-		{
+		try {
+			fileContent = PathUtils.loadFile(path, file);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		codeEditor.setEditingFile(PathUtils.DATA_TMP.toString(), file);
+		codeEditor.setEditingFile(path, file);
 		codeEditor.setCode(fileContent);
 		codeEditor.setVisible(true);
 	}
 
-	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSeriesOnHover(
-			T seriesList)
-	{
-		for (XYChart.Series<S1, S2> series : seriesList)
-		{
+	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSeriesOnHover(T seriesList) {
+		for (XYChart.Series<S1, S2> series : seriesList) {
 			Node seriesNode = series.getNode();
 			// seriesNode will be null if this method is called before the scene
 			// CSS has been applied
-			if (seriesNode != null && seriesNode instanceof Path)
-			{
+			if (seriesNode != null && seriesNode instanceof Path) {
 				Path seriesPath = (Path) seriesNode;
 
 				seriesPath.setOnMouseEntered(event -> {
@@ -219,34 +192,25 @@ public class SimulationDetailController implements MainChildrenController
 		}
 	}
 
-	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSerie(T seriesList,
-			Path seriesPath)
-	{
-		for (XYChart.Series<?, ?> series : seriesList)
-		{
+	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSerie(T seriesList, Path seriesPath) {
+		for (XYChart.Series<?, ?> series : seriesList) {
 			Node seriesNode = series.getNode();
 			// seriesNode will be null if this method is called before the scene
 			// CSS has been applied
-			if (seriesNode != null && seriesNode instanceof Path)
-			{
+			if (seriesNode != null && seriesNode instanceof Path) {
 				Path sPath = (Path) seriesNode;
 				Paint color = colors.get(series.getName());
-				if (color == null)
-				{
+				if (color == null) {
 					color = sPath.getStroke();
 					colors.put(series.getName(), color);
 				}
 				int strokeWidth = 2;
 				double opacity = 1;
-				if (seriesPath != null)
-				{
-					if (sPath == seriesPath)
-					{
+				if (seriesPath != null) {
+					if (sPath == seriesPath) {
 						color = ((Color) color).darker();
 						strokeWidth = 4;
-					}
-					else
-					{
+					} else {
 						color = Color.GRAY;
 						strokeWidth = 1;
 						opacity = 0.5;
@@ -260,21 +224,17 @@ public class SimulationDetailController implements MainChildrenController
 		}
 	}
 
-	public void addSeries(WorkflowResult results)
-	{
+	public void addSeries(WorkflowResult results) {
 
-		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections
-				.observableArrayList();
-		for (String key : results.getDsValues().keySet())
-		{
+		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections.observableArrayList();
+		for (String key : results.getDsValues().keySet()) {
 			if (!key.endsWith(".V"))
 				continue;
 
 			XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
 			valuesDS.setName(key);
 
-			for (DsData xyValue : results.getDsValues().get(key))
-			{
+			for (DsData xyValue : results.getDsValues().get(key)) {
 				valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
 			}
 			displayedDsSeries.add(valuesDS);
@@ -284,34 +244,16 @@ public class SimulationDetailController implements MainChildrenController
 		highlightSeriesOnHover(displayedDsSeries);
 	}
 
-	public void setMainService(MainService mainService)
-	{
+	public void setMainService(MainService mainService) {
 		this.mainService = mainService;
-
-		moTab.setDisable(true);
-		if (Files.exists(PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_initial.mo"),
-				LinkOption.NOFOLLOW_LINKS))
-		{
-			moTab.setDisable(false);
-			showModelicaFileContent(moEditor, "gui_workflow_event_adder_initial.mo");
-		}
-
-		moweTab.setDisable(true);
-		if (Files.exists(PathUtils.DATA_TMP.resolve("gui_workflow_event_adder_events.mo"),
-				LinkOption.NOFOLLOW_LINKS))
-		{
-			moweTab.setDisable(false);
-			showModelicaFileContent(moweEditor, "gui_workflow_event_adder_events.mo");
-		}
 	}
 
-	public void setWorkflow(Workflow w)
-	{
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
-		{
+	public void setWorkflow(Workflow w) {
+		String moInput = null;
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 			if (td.getTaskClass().equals(ModelicaParserTask.class)) {
-				String moInput = td.getTaskConfiguration().getParameter("source");
-				
+				moInput = td.getTaskConfiguration().getParameter("source");
+
 				try {
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
 					date = new DateTime(attr.lastModifiedTime().toMillis());
@@ -322,16 +264,16 @@ public class SimulationDetailController implements MainChildrenController
 			}
 
 			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
-				
+
 				String uri = td.getTaskConfiguration().getParameter("source");
-				
+
 				java.nio.file.Path casePath;
 				if (uri.endsWith(".xml")) {
 					java.nio.file.Path path = Paths.get(uri);
 					casePath = path.getParent();
 				} else
 					casePath = Paths.get(uri);
-				
+
 				java.nio.file.Path catalogPath = casePath.getParent();
 
 				try {
@@ -349,46 +291,64 @@ public class SimulationDetailController implements MainChildrenController
 				dsLabel = Utils.getDsEngine(simulationEngine).name();
 			}
 		}
-		
-		if (w.getState().equals(ProcessState.SUCCESS))
-		{
+
+		moTab.setDisable(true);
+		moweTab.setDisable(true);
+		if (moInput != null) {
+			
+			java.nio.file.Path moInputPath = Paths.get(moInput);
+			String path = moInputPath.toFile().getParent();
+			if (Files.exists(moInputPath, LinkOption.NOFOLLOW_LINKS)) {
+				moTab.setDisable(false);
+				String file = moInputPath.toFile().getName();
+				showModelicaFileContent(moEditor, path, file);
+			}
+
+			String moweInput = Utils.replaceLast(moInput, ".mo", "_events.mo");
+			java.nio.file.Path moweInputPath = Paths.get(moweInput);
+			if (Files.exists(moweInputPath, LinkOption.NOFOLLOW_LINKS)) {
+				moweTab.setDisable(false);
+				String file = moweInputPath.toFile().getName();
+				showModelicaFileContent(moweEditor, path, file);
+			}
+		}
+
+		if (w.getState().equals(ProcessState.SUCCESS)) {
 			addSeries(mainService.getSimulationResult("" + w.getId()));
 			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 		}
 
 	}
 
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
+	public void setFileChooser(GuiFileChooser fileChooser) {
 		this.fileChooser = fileChooser;
 	}
 
 	@FXML
-	private Tab								moTab;
+	private Tab moTab;
 	@FXML
-	private Tab								moweTab;
+	private Tab moweTab;
 
 	@FXML
-	private CodeEditor						moEditor;
+	private CodeEditor moEditor;
 	@FXML
-	private CodeEditor						moweEditor;
+	private CodeEditor moweEditor;
 
 	@FXML
-	private LineChart<Number, Number>		dsChart;
+	private LineChart<Number, Number> dsChart;
 	@FXML
-	private NumberAxis						xDsAxis;
+	private NumberAxis xDsAxis;
 	@FXML
-	private NumberAxis						yDsAxis;
+	private NumberAxis yDsAxis;
 
-	private String							caseLabel;
-	private DateTime						date;
-	private String							dsLabel;
+	private String caseLabel;
+	private DateTime date;
+	private String dsLabel;
 
-	private Map<String, Paint>				colors	= new HashMap<String, Paint>();
-	private GuiFileChooser					fileChooser;
-	
-	private MainService						mainService;
+	private Map<String, Paint> colors = new HashMap<String, Paint>();
+	private GuiFileChooser fileChooser;
 
-	private static final Logger				LOG		= LoggerFactory
-			.getLogger(SimulationDetailController.class);
+	private MainService mainService;
+
+	private static final Logger LOG = LoggerFactory.getLogger(SimulationDetailController.class);
 }

@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
+
 import eu.itesla_project.iidm.network.Identifiable;
 
 public class AssociationProvider
 {
 	public Optional<Association> findAssociation(Identifiable<?> element)
 	{
-		return findAssociation(element.getId());
+		String nid = ModelicaUtil.normalizedIdentifier(element.getId());
+		return findAssociation(nid);
 	}
 
 	public Optional<Association> findAssociation(String id)

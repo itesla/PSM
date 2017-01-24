@@ -1,18 +1,30 @@
 /*menu*/
 .btn-menu {
-	-fx-border-color: #cccccc;
-	-fx-text-fill: #333333;
-}
+	-fx-background-color: #f0f0f0;
+	-fx-border-color: #e6e6e6 #e6e6e6 #acacac #e6e6e6;
+	-fx-text-fill: #666666;
+	-fx-background-radius: 4 4 0 0;
+	-fx-border-radius: 4 4 0 0;
+	-fx-border-width: 1;
+	}
 
 .btn-menu.active {
-	-fx-background-color: #f0f0f0;
+	-fx-background-color: #fff;
 	-fx-border-color: #acacac;
+	-fx-text-fill: #333333;
+	-fx-background-radius: 4 4 0 0;
+	-fx-border-radius: 4 4 0 0;
+	-fx-border-width: 1 1 0 1;
 }
 
 /*hover state*/
 .btn-menu.active:hover {
-	-fx-background-color: #e6e6e6;
+	-fx-background-color: #fff;
 	-fx-border-color: #acacac;
+	-fx-text-fill: #333333;
+	-fx-background-radius: 4 4 0 0;
+	-fx-border-radius: 4 4 0 0;
+	-fx-border-width: 1 1 0 1;
 }
 
 /*default*/

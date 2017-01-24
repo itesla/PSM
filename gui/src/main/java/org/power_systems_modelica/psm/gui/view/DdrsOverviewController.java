@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
@@ -32,110 +33,133 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.util.Callback;
 
-public class DdrsOverviewController implements MainChildrenController {
+public class DdrsOverviewController implements MainChildrenController
+{
 
 	@Override
-	public void handleMainAction() {
+	public void handleMainAction()
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void handleMenuAction(String action)
 	{
-		
+
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
-		
+	public List<SummaryLabel> getSummaryLabels()
+	{
+
 		return null;
 	}
 
 	@FXML
-	private void initialize() {
+	private void initialize()
+	{
 
 		fileContentPane.setVisible(false);
 		Utils.setDragablePane(fileContentPane);
 
 		nameCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		descriptionCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
-		locationCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
+		descriptionCatalogColumn
+				.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+		locationCatalogColumn
+				.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
 
 		nameDdrColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		descriptionDdrColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+		descriptionDdrColumn
+				.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		locationDdrColumn.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
 		typeDdrColumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
 
-		catalogs.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				String catalogName = (String) nameCatalogColumn.getCellObservableValue((int) newSelection).getValue();
-				ddrs.setItems(mainService.getDdrs(catalogName));
-			}
-		});
+		catalogs.getSelectionModel().selectedIndexProperty()
+				.addListener((obs, oldSelection, newSelection) -> {
+					if (newSelection != null)
+					{
+						String catalogName = (String) nameCatalogColumn
+								.getCellObservableValue((int) newSelection).getValue();
+						ddrs.setItems(mainService.getDdrs(catalogName));
+					}
+				});
 
-		ddrs.setRowFactory(new Callback<TableView<Ddr>, TableRow<Ddr>>() {
+		ddrs.setRowFactory(new Callback<TableView<Ddr>, TableRow<Ddr>>()
+		{
 			@Override
-			public TableRow<Ddr> call(TableView<Ddr> tableView) {
+			public TableRow<Ddr> call(TableView<Ddr> tableView)
+			{
 				ContextMenu contextMenu = new ContextMenu();
 				TableRow<Ddr> row = new TableRow<>();
-				
-		        row.itemProperty().addListener((obs, oldItem, newItem) -> {
-		        	updateMenu(contextMenu, newItem);
-		        });
-		        	
-		        row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> 
-		             row.setContextMenu(isNowEmpty ? null : contextMenu));
 
-		        return row ;
+				row.itemProperty().addListener((obs, oldItem, newItem) -> {
+					updateMenu(contextMenu, newItem);
+				});
+
+				row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> row
+						.setContextMenu(isNowEmpty ? null : contextMenu));
+
+				return row;
 			}
 
 		});
 	}
 
-	private void updateMenu(ContextMenu contextMenu, Ddr ddr) {
-		
+	private void updateMenu(ContextMenu contextMenu, Ddr ddr)
+	{
+
 		contextMenu.getItems().clear();
 		if (ddr == null) return;
-		
+
 		MenuItem menuItem = new MenuItem("Duplicate DDR");
-		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+		menuItem.setOnAction(new EventHandler<ActionEvent>()
+		{
 			@Override
-			public void handle(ActionEvent event) {
+			public void handle(ActionEvent event)
+			{
 
 				duplicateDdr(ddr);
 			}
 
 		});
 		contextMenu.getItems().add(menuItem);
-		
+
 		Path ddrPath = Paths.get(ddr.getLocation());
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(ddrPath)) {
-			
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(ddrPath))
+		{
+
 			SeparatorMenuItem sMenuItem = new SeparatorMenuItem();
 
-			for (Path entry : stream) {
-				if (entry.toString().endsWith(".dyd") || entry.toString().endsWith(".par")) {
-					if (sMenuItem != null) {
+			for (Path entry : stream)
+			{
+				if (entry.toString().endsWith(".dyd") || entry.toString().endsWith(".par"))
+				{
+					if (sMenuItem != null)
+					{
 						contextMenu.getItems().add(sMenuItem);
 						sMenuItem = null;
 					}
 					menuItem = new MenuItem(entry.getFileName().toString());
-					menuItem.setOnAction(new EventHandler<ActionEvent>() {
+					menuItem.setOnAction(new EventHandler<ActionEvent>()
+					{
 						@Override
-						public void handle(ActionEvent event) {
+						public void handle(ActionEvent event)
+						{
 
 							showDdrFileContent(ddr, entry.getFileName().toString());
 						}
@@ -143,24 +167,31 @@ public class DdrsOverviewController implements MainChildrenController {
 					contextMenu.getItems().add(menuItem);
 				}
 			}
-		} catch (IOException e1) {
+		}
+		catch (IOException e1)
+		{
 		}
 	}
-	
+
 	@FXML
-	private void handleFindContentEvent() {
+	private void handleFindContentEvent()
+	{
 		codeEditor.find();
 	}
 
 	@FXML
-	private void handleSaveFileContentEvent() {
+	private void handleSaveFileContentEvent()
+	{
 		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
 		String location = codeEditor.getEditingLocation();
 		String file = codeEditor.getEditingFile();
 
-		try {
+		try
+		{
 			PathUtils.saveFile(location, file, ddrContent);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -169,21 +200,27 @@ public class DdrsOverviewController implements MainChildrenController {
 	}
 
 	@FXML
-	private void handleRevertFileContentEvent() {
+	private void handleRevertFileContentEvent()
+	{
 		codeEditor.revertEdits();
 	}
 
 	@FXML
-	private void handleCloseFileContentEvent() {
+	private void handleCloseFileContentEvent()
+	{
 		fileContentPane.setVisible(false);
 	}
 
-	private void showDdrFileContent(Ddr ddr, String file) {
+	private void showDdrFileContent(Ddr ddr, String file)
+	{
 
 		StringBuilder ddrContent = new StringBuilder();
-		try {
+		try
+		{
 			ddrContent = PathUtils.loadFile(ddr.getLocation(), file);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -194,10 +231,12 @@ public class DdrsOverviewController implements MainChildrenController {
 		fileContentPane.setVisible(true);
 	}
 
-	private void duplicateDdr(Ddr ddr) {
-		String outputPath = PathUtils.directoryOutput(mainService.getPrimaryStage(), ddr.getLocation());
+	private void duplicateDdr(Ddr ddr)
+	{
+		String outputPath = PathUtils.directoryOutput(mainService.getPrimaryStage(),
+				Paths.get(ddr.getLocation()).resolve("..").toString());
 		if (outputPath == null) return;
-		
+
 		Stream<Ddr> filteredDdr = ddrs.getItems().stream().filter(d -> {
 			try
 			{
@@ -208,8 +247,9 @@ public class DdrsOverviewController implements MainChildrenController {
 			}
 			return false;
 		});
-		
-		if (filteredDdr.count() > 0) {
+
+		if (filteredDdr.count() > 0)
+		{
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Duplicate DDR");
 			alert.setHeaderText(null);
@@ -217,16 +257,18 @@ public class DdrsOverviewController implements MainChildrenController {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() != ButtonType.OK) return;
 		}
-		
+
 		Ddr ddrOut = new Ddr();
 		ddrOut.setLocation(outputPath);
-		if (mainService.duplicateDdr(ddr, ddrOut)) {
+		if (mainService.duplicateDdr(ddr, ddrOut))
+		{
 			Catalog catalog = catalogs.getSelectionModel().getSelectedItem();
 			ddrs.setItems(mainService.getDdrs(catalog.getName()));
 		}
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 		catalogs.setItems(mainService.getCatalogs("ddrs"));
@@ -234,29 +276,29 @@ public class DdrsOverviewController implements MainChildrenController {
 	}
 
 	@FXML
-	private TitledPane fileContentPane;
+	private TitledPane						fileContentPane;
 	@FXML
-	private CodeEditor codeEditor;
+	private CodeEditor						codeEditor;
 
 	@FXML
-	private TableView<Catalog> catalogs;
+	private TableView<Catalog>				catalogs;
 	@FXML
-	private TableColumn<Catalog, String> nameCatalogColumn;
+	private TableColumn<Catalog, String>	nameCatalogColumn;
 	@FXML
-	private TableColumn<Catalog, String> descriptionCatalogColumn;
+	private TableColumn<Catalog, String>	descriptionCatalogColumn;
 	@FXML
-	private TableColumn<Catalog, String> locationCatalogColumn;
+	private TableColumn<Catalog, String>	locationCatalogColumn;
 
 	@FXML
-	private TableView<Ddr> ddrs;
+	private TableView<Ddr>					ddrs;
 	@FXML
-	private TableColumn<Ddr, String> nameDdrColumn;
+	private TableColumn<Ddr, String>		nameDdrColumn;
 	@FXML
-	private TableColumn<Ddr, String> descriptionDdrColumn;
+	private TableColumn<Ddr, String>		descriptionDdrColumn;
 	@FXML
-	private TableColumn<Ddr, String> locationDdrColumn;
+	private TableColumn<Ddr, String>		locationDdrColumn;
 	@FXML
-	private TableColumn<Ddr, DdrType> typeDdrColumn;
+	private TableColumn<Ddr, DdrType>		typeDdrColumn;
 
-	private MainService mainService;
+	private MainService						mainService;
 }

@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
@@ -28,18 +29,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
-public class ConversionNewController implements MainChildrenController {
+public class ConversionNewController implements MainChildrenController
+{
 
 	@Override
-	public void handleMainAction() {
-		
+	public void handleMainAction()
+	{
+
 		handleStartWorkflow();
 	}
 
 	@Override
 	public void handleMenuAction(String action)
 	{
-		switch(action) {
+		switch (action)
+		{
 		case "Load":
 			handleLoadWorkflow();
 			break;
@@ -53,14 +57,16 @@ public class ConversionNewController implements MainChildrenController {
 	}
 
 	@Override
-	public String getMainAction() {
-		
+	public String getMainAction()
+	{
+
 		return "Start";
 	}
 
 	@Override
-	public List<String> getMenuActions() {
-	
+	public List<String> getMenuActions()
+	{
+
 		List<String> actions = new ArrayList();
 		actions.add("Load");
 		actions.add("Save");
@@ -69,83 +75,107 @@ public class ConversionNewController implements MainChildrenController {
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
-		
+	public List<SummaryLabel> getSummaryLabels()
+	{
+
 		return null;
 	}
 
 	@FXML
-	private void initialize() {
+	private void initialize()
+	{
 
-		catalogCaseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
+		catalogCaseSource.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Catalog>()
+				{
+
+					@Override
+					public void changed(ObservableValue<? extends Catalog> observable,
+							Catalog oldValue, Catalog newValue)
+					{
+						if (newValue != null)
+							caseSource.setItems(mainService.getCases(newValue.getName()));
+					}
+
+				});
+
+		caseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Case>()
+		{
 
 			@Override
-			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				if (newValue != null)
-					caseSource.setItems(mainService.getCases(newValue.getName()));
-			}
-
-		});
-
-		caseSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Case>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Case> observable, Case oldValue, Case newValue) {
+			public void changed(ObservableValue<? extends Case> observable, Case oldValue,
+					Case newValue)
+			{
 				if (newValue != null)
 					setDdr(newValue);
 			}
 		});
 
-		catalogDdrSource.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Catalog>() {
+		catalogDdrSource.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Catalog>()
+				{
 
-			@Override
-			public void changed(ObservableValue<? extends Catalog> observable, Catalog oldValue, Catalog newValue) {
-				if (newValue != null)
-					ddrSource.setItems(mainService.getDdrs(newValue.getName()));
-			}
+					@Override
+					public void changed(ObservableValue<? extends Catalog> observable,
+							Catalog oldValue, Catalog newValue)
+					{
+						if (newValue != null)
+							ddrSource.setItems(mainService.getDdrs(newValue.getName()));
+					}
 
-		});
+				});
 
 	}
-	
-	private void handleLoadWorkflow() {
+
+	private void handleLoadWorkflow()
+	{
 
 		handleCleanWorkflow();
-		try {
-			Properties workflowProperties = PathUtils.loadConversionFile(fileChooser, mainService.getPrimaryStage(),
+		try
+		{
+			Properties workflowProperties = PathUtils.loadConversionFile(fileChooser,
+					mainService.getPrimaryStage(),
 					System.getProperty("user.home"));
 			loadWorkflow(workflowProperties);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void loadWorkflow(Properties workflowProperties) {
+	private void loadWorkflow(Properties workflowProperties)
+	{
 
-		if (workflowProperties.containsKey("casePath")) {
+		if (workflowProperties.containsKey("casePath"))
+		{
 			String casePath = workflowProperties.getProperty("casePath");
 			Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
 		}
 
-		if (workflowProperties.containsKey("ddrPath")) {
+		if (workflowProperties.containsKey("ddrPath"))
+		{
 			String ddrPath = workflowProperties.getProperty("ddrPath");
 			Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
 		}
 
-		if (workflowProperties.containsKey("loadflowEngine")) {
+		if (workflowProperties.containsKey("loadflowEngine"))
+		{
 			String le = workflowProperties.getProperty("loadflowEngine");
 			loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(le));
 		}
 
-		if (workflowProperties.containsKey("onlyMainConnectedComponent")) {
+		if (workflowProperties.containsKey("onlyMainConnectedComponent"))
+		{
 			Boolean onlyMainConnectedComponent = Boolean
 					.valueOf(workflowProperties.getProperty("onlyMainConnectedComponent"));
 			mainConnectedComponent.setSelected(onlyMainConnectedComponent);
 		}
 	}
 
-	private void handleSaveWorkflow() {
+	private void handleSaveWorkflow()
+	{
 
 		Case cs = caseSource.getSelectionModel().getSelectedItem();
 		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
@@ -153,16 +183,22 @@ public class ConversionNewController implements MainChildrenController {
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 
 		Properties workflowProperties;
-		try {
-			workflowProperties = Utils.getConversionProperties(cs, ddr, le, onlyMainConnectedComponent);
-			PathUtils.saveConversionFile(fileChooser, mainService.getPrimaryStage(), System.getProperty("user.home"), workflowProperties);
-		} catch (IOException e) {
+		try
+		{
+			workflowProperties = Utils.getConversionProperties(cs, ddr, le,
+					onlyMainConnectedComponent);
+			PathUtils.saveConversionFile(fileChooser, mainService.getPrimaryStage(),
+					System.getProperty("user.home"), workflowProperties);
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void handleCleanWorkflow() {
+	private void handleCleanWorkflow()
+	{
 		caseSource.getSelectionModel().clearSelection();
 		catalogCaseSource.getSelectionModel().clearSelection();
 		ddrSource.getSelectionModel().clearSelection();
@@ -173,22 +209,26 @@ public class ConversionNewController implements MainChildrenController {
 		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
 	}
 
-	private void handleStartWorkflow() {
+	private void handleStartWorkflow()
+	{
 		LOG.debug("handleStartWorkflow");
 
 		Case cs = caseSource.getSelectionModel().getSelectedItem();
-		if (cs == null) {
+		if (cs == null)
+		{
 			Utils.showWarning("Warning", "Select a case");
 			return;
 		}
 		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
-		if (ddr == null) {
+		if (ddr == null)
+		{
 			Utils.showWarning("Warning", "Select a DDR");
 			return;
 		}
 
 		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
-		if (le == null) {
+		if (le == null)
+		{
 			Utils.showWarning("Warning", "Select a Loadflow engine");
 			return;
 		}
@@ -205,35 +245,43 @@ public class ConversionNewController implements MainChildrenController {
 		mainService.startConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
 	}
 
-	public void setCase(Case c) {
+	public void setCase(Case c)
+	{
 
 		Utils.resolveCasePath(c.getLocation(), catalogCaseSource, caseSource);
 		setDdr(c);
 	}
 
-	private void setDdr(Case c) {
+	private void setDdr(Case c)
+	{
 		String ddrLocation = mainService.getDefaultDdrLocation(c);
-		if (ddrLocation != null) {
+		if (ddrLocation != null)
+		{
 			Utils.resolveDdrPath(ddrLocation, catalogDdrSource, ddrSource);
 		}
 	}
 
-	public void setWorkflow(Workflow w) {
+	public void setWorkflow(Workflow w)
+	{
 
 		handleCleanWorkflow();
 
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
 
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
 				String casePath = td.getTaskConfiguration().getParameter("source");
 				Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
 			}
 
-			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class)) {
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+			{
 				String ddrPath = td.getTaskConfiguration().getParameter("ddrLocation");
 				Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
 
-				Boolean onlyMainConnectedComponent = td.getTaskConfiguration().getBoolean("onlyMainConnectedComponent");
+				Boolean onlyMainConnectedComponent = td.getTaskConfiguration()
+						.getBoolean("onlyMainConnectedComponent");
 				mainConnectedComponent.setSelected(onlyMainConnectedComponent);
 			}
 
@@ -248,7 +296,8 @@ public class ConversionNewController implements MainChildrenController {
 		}
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 		catalogCaseSource.setItems(mainService.getCatalogs("cases"));
@@ -260,41 +309,47 @@ public class ConversionNewController implements MainChildrenController {
 		dsEngine.setItems(mainService.getDsEngines());
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
-	
-	public void setFileChooser(GuiFileChooser fileChooser) {
+
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
 		this.fileChooser = fileChooser;
 	}
 
-	public void setDefaultInit() {
+	public void setDefaultInit()
+	{
 		handleCleanWorkflow();
-		try {
+		try
+		{
 			Properties workflowProperties = PathUtils.loadDefaultConversionFile();
 			loadWorkflow(workflowProperties);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 		}
 	}
 
 	@FXML
-	private ComboBox<Catalog> catalogCaseSource;
+	private ComboBox<Catalog>			catalogCaseSource;
 	@FXML
-	private ComboBox<Case> caseSource;
+	private ComboBox<Case>				caseSource;
 	@FXML
-	private ComboBox<Catalog> catalogDdrSource;
+	private ComboBox<Catalog>			catalogDdrSource;
 	@FXML
-	private ComboBox<Ddr> ddrSource;
+	private ComboBox<Ddr>				ddrSource;
 
 	@FXML
-	private ComboBox<LoadflowEngine> loadflowEngine;
+	private ComboBox<LoadflowEngine>	loadflowEngine;
 
 	@FXML
-	private CheckBox mainConnectedComponent;
+	private CheckBox					mainConnectedComponent;
 
 	@FXML
-	private ComboBox<DsEngine> dsEngine;
+	private ComboBox<DsEngine>			dsEngine;
 
-	private GuiFileChooser fileChooser;
-	private MainService mainService;
+	private GuiFileChooser				fileChooser;
+	private MainService					mainService;
 
-	private static final Boolean MAINCONNECTEDCOMPONENTDEFAULT = new Boolean(true);
-	private static final Logger LOG = LoggerFactory.getLogger(ConversionNewController.class);
+	private static final Boolean		MAINCONNECTEDCOMPONENTDEFAULT	= new Boolean(true);
+	private static final Logger			LOG								= LoggerFactory
+			.getLogger(ConversionNewController.class);
 }

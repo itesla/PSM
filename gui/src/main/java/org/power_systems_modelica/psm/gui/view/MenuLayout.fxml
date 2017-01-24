@@ -2,13 +2,12 @@
 
 <?import java.lang.String?>
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="127.0" prefWidth="600.0" style="-fx-background-color: #f8f8f8;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.MenuLayoutController">
@@ -18,22 +17,40 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <ButtonBar layoutX="-2.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <buttons>
-            <Button fx:id="compareLoadflows" mnemonicParsing="false" onAction="#handleCompareLoadflowsOverview" styleClass="btn-menu" text="Compare Loadflows" />
-            <Button fx:id="simulation" mnemonicParsing="false" onAction="#handleSimulationOverview" styleClass="btn-menu" text="Simulation" />
-            <Button fx:id="conversion" mnemonicParsing="false" onAction="#handleConversionOverview" text="Conversion">
-               <styleClass>
-                  <String fx:value="btn-menu" />
-                  <String fx:value="active" />
-               </styleClass></Button>
-            <Button fx:id="ddrs" mnemonicParsing="false" onAction="#handleDdrsOverview" styleClass="btn-menu" text="DDRs" />
-          <Button fx:id="cases" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleCasesOverview" styleClass="btn-menu" text="Cases" />
-        </buttons>
-         <padding>
-            <Insets right="10.0" />
-         </padding>
-      </ButtonBar>
+      <HBox fx:id="buttonBar" layoutY="102.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                <Button fx:id="cases" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleCasesOverview" styleClass="btn-menu" text="Cases" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="ddrs" mnemonicParsing="false" onAction="#handleDdrsOverview" styleClass="btn-menu" text="DDRs" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="conversion" mnemonicParsing="false" onAction="#handleConversionOverview" text="Conversion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <styleClass>
+                        <String fx:value="btn-menu" />
+                        <String fx:value="active" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="simulation" mnemonicParsing="false" onAction="#handleSimulationOverview" styleClass="btn-menu" text="Simulation" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="compareLoadflows" mnemonicParsing="false" onAction="#handleCompareLoadflowsOverview" styleClass="btn-menu" text="Compare Loadflows" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
       <ImageView fitHeight="77.0" fitWidth="85.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@/img/logo.png" />

@@ -52,9 +52,6 @@
 		                                                    <TreeTableColumn fx:id="staticIdColumn" prefWidth="75.0" text="Static Id" />
 		                                                    <TreeTableColumn fx:id="dynamicIdColumn" prefWidth="105.0" text="Dynamic Id" />
 		                                                  </columns>
-		                                                   <columnResizePolicy>
-		                                                      <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-		                                                   </columnResizePolicy>
 		                                                </TreeTableView>
 		                                             </children>
 													</AnchorPane>

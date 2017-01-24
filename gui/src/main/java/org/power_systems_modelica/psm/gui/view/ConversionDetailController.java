@@ -15,6 +15,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
@@ -30,6 +31,8 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.El
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,54 +45,56 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 
-public class ConversionDetailController implements MainChildrenController {
+public class ConversionDetailController implements MainChildrenController
+{
 
 	@Override
-	public void handleMainAction() {
+	public void handleMainAction()
+	{
 
 		handleNewConversionEvent();
 	}
 
 	@Override
-	public void handleMenuAction(String action) {
+	public void handleMenuAction(String action)
+	{
 
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 
 		return "New";
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 
 		return null;
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
+	public List<SummaryLabel> getSummaryLabels()
+	{
 
-		List<String> labels = new ArrayList();
-		labels.add("Path:");
-		labels.add(pathLabel);
-		labels.add("Created:");
-		labels.add(date.toString("yyyy/MM/dd HH:mm:ss"));
-		labels.add("Case:");
-		labels.add(caseLabel);
-		labels.add("DDR:");
-		labels.add(ddrLabel);
-		labels.add("Loadflow:");
-		labels.add(loadflowLabel);
-		labels.add("Modelica network:");
-		labels.add(onlyMainComponentLabel);
-		labels.add("Full model initialization:");
-		labels.add(fullModelInitializationLabel);
+		List<SummaryLabel> labels = new ArrayList();
+		labels.add(new SummaryLabel("Path:", pathLabel, false, false));
+		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
+		labels.add(new SummaryLabel("DDR:", ddrLabel, true, true));
+		labels.add(new SummaryLabel("Created:", date.toString("yyyy/MM/dd HH:mm:ss"), false, true));
+		labels.add(new SummaryLabel("Loadflow:", loadflowLabel, true, true));
+		labels.add(new SummaryLabel("Modelica network:", onlyMainComponentLabel, false, true));
+		labels.add(
+				new SummaryLabel("Full model initialization:", fullModelInitializationLabel, true,
+						true));
 		return labels;
 	}
 
 	@FXML
-	private void initialize() {
+	private void initialize()
+	{
 
 		voltageChart.setLegendVisible(false);
 		phaseChart.setLegendVisible(false);
@@ -107,29 +112,91 @@ public class ConversionDetailController implements MainChildrenController {
 
 		yReactiveAxis.setForceZeroInRange(false);
 		yReactiveAxis.setAutoRanging(true);
+
+		staticIdColumn.setPrefWidth(220.0);
+		staticIdColumn.setCellValueFactory((param) -> {
+			TreeItem<ElementModel> root = param.getTreeTableView().getRoot();
+			if (param.getValue().getParent().equals(root))
+				return new ReadOnlyStringWrapper(param.getValue().getValue().getStaticId());
+			else
+				return new ReadOnlyStringWrapper("");
+		});
+		staticIdColumn.widthProperty().addListener(new ChangeListener<Number>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+					Number newValue)
+			{
+				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue) - 15;
+				dynamicIdColumn.setPrefWidth(dynamicIdColumnWidth);
+			}
+
+		});
+		dynamicIdColumn.setPrefWidth(680.0);
+		dynamicIdColumn.setCellValueFactory(
+				(TreeTableColumn.CellDataFeatures<ElementModel, String> param) -> new ReadOnlyStringWrapper(
+						param.getValue().getValue().getDynamicId()));
+
+		TreeItem<ElementModel> root = new TreeItem<>();
+		root.setExpanded(true);
+		root.getChildren().stream().forEach((item) -> {
+			// Ensure all items are expanded
+			item.expandedProperty().addListener(observable -> {
+				if (!item.isExpanded())
+					item.setExpanded(true);
+			});
+		});
+
+		modelsTable.getStyleClass().add("treeViewItem");
+		modelsTable.setRoot(root);
+		modelsTable.setShowRoot(false);
+		modelsTable.widthProperty().addListener(new ChangeListener<Number>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+					Number newValue)
+			{
+				if (((double) oldValue) == 0.0 || ((double) newValue) == 0.0) return;
+				
+				double ratio = ((double) newValue) / ((double) oldValue);
+				double staticIdColumnWidth = staticIdColumn.getWidth();
+				staticIdColumn.setPrefWidth(staticIdColumnWidth*ratio);
+			}
+
+		});
 	}
 
 	@FXML
-	private void handleFindContentEvent() {
+	private void handleFindContentEvent()
+	{
 		codeEditor.find();
 	}
 
-	private void handleNewConversionEvent() {
+	private void handleNewConversionEvent()
+	{
 		mainService.showConversionNewView(mainService.getConversion());
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 		curvesTab.setDisable(false);
 		modelsTab.setDisable(false);
 	}
 
-	public void addSeries(WorkflowResult results) {
-		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections.observableArrayList();
-		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections.observableArrayList();
-		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections.observableArrayList();
-		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections.observableArrayList();
+	public void addSeries(WorkflowResult results)
+	{
+		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections
+				.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections
+				.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections
+				.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> valuesV = new XYChart.Series<>();
 		valuesV.setName("V");
 		XYChart.Series<String, Number> valuesA = new XYChart.Series<>();
@@ -139,7 +206,8 @@ public class ConversionDetailController implements MainChildrenController {
 		XYChart.Series<String, Number> valuesQ = new XYChart.Series<>();
 		valuesQ.setName("Q");
 
-		for (BusData bus : results.getAllBusesValues()) {
+		for (BusData bus : results.getAllBusesValues())
+		{
 			valuesV.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("V", 0)));
 			valuesA.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("A", 0)));
 			valuesP.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("P", 0)));
@@ -157,79 +225,101 @@ public class ConversionDetailController implements MainChildrenController {
 		reactiveChart.getData().addAll(displayedReactiveSeries);
 	}
 
-	public void setWorkflow(Workflow w) {
+	public void setWorkflow(Workflow w)
+	{
 
 		loadflowLabel = "None";
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
 
-			if (td.getTaskClass().equals(ModelicaExporterTask.class)) {
+			if (td.getTaskClass().equals(ModelicaExporterTask.class))
+			{
 
 				String uri = td.getTaskConfiguration().getParameter("target");
 				Path moFile = Paths.get(uri);
 				pathLabel = uri;
 
 				StringBuilder moContent = new StringBuilder();
-				try {
-					BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel), BasicFileAttributes.class);
+				try
+				{
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel),
+							BasicFileAttributes.class);
 					date = new DateTime(attr.lastModifiedTime().toMillis());
 
 					moContent = PathUtils.loadFile(moFile);
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				codeEditor.setCode(moContent);
 			}
 
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
 
 				String uri = td.getTaskConfiguration().getParameter("source");
 
 				Path casePath;
-				if (uri.endsWith(".xml")) {
+				if (uri.endsWith(".xml"))
+				{
 					Path path = Paths.get(uri);
 					casePath = path.getParent();
-				} else
+				}
+				else
 					casePath = Paths.get(uri);
 
 				Path catalogPath = casePath.getParent();
 
-				try {
+				try
+				{
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
 					Case c = mainService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 
-			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class)) {
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+			{
 
 				String uri = td.getTaskConfiguration().getParameter("ddrLocation");
 				Path ddrPath = Paths.get(uri).normalize();
 				Path catalogPath = ddrPath.getParent().getParent();
 
-				try {
+				try
+				{
 					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
 					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
 					ddrLabel = catalog.getName() + "\t" + ddr.getName();
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				onlyMainComponentLabel = td.getTaskConfiguration().getParameter("onlyMainConnectedComponent")
-						.equals("true") ? "Only main connected component" : "All connected components";
-				fullModelInitializationLabel = td.getTaskConfiguration().getParameter("modelicaEngine");
+				onlyMainComponentLabel = td.getTaskConfiguration()
+						.getParameter("onlyMainConnectedComponent")
+						.equals("true") ? "Only main connected component"
+								: "All connected components";
+				fullModelInitializationLabel = td.getTaskConfiguration()
+						.getParameter("modelicaEngine");
 			}
 
-			if (td.getTaskClass().equals(LoadFlowTask.class)) {
+			if (td.getTaskClass().equals(LoadFlowTask.class))
+			{
 				loadflowLabel = td.getTaskId();
 			}
 		}
 
-		if (w.getState().equals(ProcessState.SUCCESS)) {
+		if (w.getState().equals(ProcessState.SUCCESS))
+		{
 			WorkflowResult r = mainService.getConversionResult("" + w.getId());
 			addSeries(r);
 			Utils.addTooltipScatterChart(voltageChart, "pu");
@@ -237,50 +327,27 @@ public class ConversionDetailController implements MainChildrenController {
 			Utils.addTooltipScatterChart(activeChart, "MW");
 			Utils.addTooltipScatterChart(reactiveChart, "MVar");
 
-			TreeItem<ElementModel> root = new TreeItem<>();
-			root.setExpanded(true);
+			TreeItem<ElementModel> root = modelsTable.getRoot();
 			List<ElementModel> models = r.getModels();
 			models.stream().forEach((model) -> {
 				Optional<TreeItem<ElementModel>> item = root.getChildren().stream().filter(t -> {
-					return ((ElementModel)((TreeItem<ElementModel>) t).getValue()).getStaticId().equals(((ElementModel) model).getStaticId());
+					return ((ElementModel) ((TreeItem<ElementModel>) t).getValue()).getStaticId()
+							.equals(((ElementModel) model).getStaticId());
 				}).findFirst();
-				
+
 				TreeItem<ElementModel> treeItem = root;
-				if (item.isPresent()) 
+				if (item.isPresent())
 					treeItem = item.get();
-				
+
 				treeItem.getChildren().add(new TreeItem<ElementModel>((ElementModel) model));
 				treeItem.setExpanded(true);
 			});
-			
-			root.getChildren().stream().forEach((item) -> {
-				// Ensure all items are expanded
-				item.expandedProperty().addListener(observable -> {
-					if (!item.isExpanded())
-						item.setExpanded(true);
-				});
-			});
-			
-			modelsTable.getStyleClass().add("treeViewItem");
-			modelsTable.setRoot(root);
-			modelsTable.setShowRoot(false);
-			staticIdColumn.prefWidthProperty().bind(modelsTable.widthProperty().multiply(0.2));
-			dynamicIdColumn.prefWidthProperty().bind(modelsTable.widthProperty().multiply(0.8));
 
-			staticIdColumn.setCellValueFactory((param) -> {
-				if (param.getValue().getParent().equals(root))
-					return new ReadOnlyStringWrapper(param.getValue().getValue().getStaticId());
-				else
-					return new ReadOnlyStringWrapper("");
-			});
-
-			dynamicIdColumn.setCellValueFactory(
-					(TreeTableColumn.CellDataFeatures<ElementModel, String> param) -> new ReadOnlyStringWrapper(
-							param.getValue().getValue().getDynamicId()));
 		}
 	}
 
-	public void setConversionResult(Case c) {
+	public void setConversionResult(Case c)
+	{
 
 		curvesTab.setDisable(true);
 		modelsTab.setDisable(true);
@@ -290,7 +357,8 @@ public class ConversionDetailController implements MainChildrenController {
 		Path convertedPath = casePath.resolve(c.getName() + ".mo");
 
 		Catalog catalog;
-		try {
+		try
+		{
 			catalog = mainService.getCatalog("cases", catalogPath);
 			ConvertedCase cc = mainService.getConvertedCase(catalog.getName(), casePath);
 
@@ -298,10 +366,14 @@ public class ConversionDetailController implements MainChildrenController {
 			Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
 
 			pathLabel = convertedPath.toString();
-			try {
-				BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel), BasicFileAttributes.class);
+			try
+			{
+				BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel),
+						BasicFileAttributes.class);
 				date = new DateTime(attr.lastModifiedTime().toMillis());
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -311,15 +383,20 @@ public class ConversionDetailController implements MainChildrenController {
 			loadflowLabel = cc.getLoadflowEngine();
 			onlyMainComponentLabel = cc.getOnlyMainConnectedComponent();
 			fullModelInitializationLabel = cc.getFullModelInitializationEgine();
-		} catch (IOException e1) {
+		}
+		catch (IOException e1)
+		{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		StringBuilder moContent = new StringBuilder();
-		try {
+		try
+		{
 			moContent = PathUtils.loadFile(convertedPath);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -327,56 +404,56 @@ public class ConversionDetailController implements MainChildrenController {
 	}
 
 	@FXML
-	private CodeEditor codeEditor;
+	private CodeEditor								codeEditor;
 
 	@FXML
-	private Tab modelsTab;
+	private Tab										modelsTab;
 	@FXML
-	private TreeTableView<ElementModel> modelsTable;
+	private TreeTableView<ElementModel>				modelsTable;
 	@FXML
-	private TreeTableColumn<ElementModel, String> staticIdColumn;
+	private TreeTableColumn<ElementModel, String>	staticIdColumn;
 	@FXML
-	private TreeTableColumn<ElementModel, String> dynamicIdColumn;
+	private TreeTableColumn<ElementModel, String>	dynamicIdColumn;
 
 	@FXML
-	private Tab curvesTab;
+	private Tab										curvesTab;
 
 	@FXML
-	private ScatterChart<String, Number> voltageChart;
+	private ScatterChart<String, Number>			voltageChart;
 	@FXML
-	private CategoryAxis xVoltageAxis;
+	private CategoryAxis							xVoltageAxis;
 	@FXML
-	private NumberAxis yVoltageAxis;
+	private NumberAxis								yVoltageAxis;
 
 	@FXML
-	private ScatterChart<String, Number> phaseChart;
+	private ScatterChart<String, Number>			phaseChart;
 	@FXML
-	private CategoryAxis xPhaseAxis;
+	private CategoryAxis							xPhaseAxis;
 	@FXML
-	private NumberAxis yPhaseAxis;
+	private NumberAxis								yPhaseAxis;
 
 	@FXML
-	private ScatterChart<String, Number> activeChart;
+	private ScatterChart<String, Number>			activeChart;
 	@FXML
-	private CategoryAxis xActiveAxis;
+	private CategoryAxis							xActiveAxis;
 	@FXML
-	private NumberAxis yActiveAxis;
+	private NumberAxis								yActiveAxis;
 
 	@FXML
-	private ScatterChart<String, Number> reactiveChart;
+	private ScatterChart<String, Number>			reactiveChart;
 	@FXML
-	private CategoryAxis xReactiveAxis;
+	private CategoryAxis							xReactiveAxis;
 	@FXML
-	private NumberAxis yReactiveAxis;
+	private NumberAxis								yReactiveAxis;
 
-	private DateTime date;
-	private String pathLabel;
-	private String caseLabel;
-	private String ddrLabel;
-	private String loadflowLabel;
-	private String onlyMainComponentLabel;
-	private String fullModelInitializationLabel;
+	private DateTime								date;
+	private String									pathLabel;
+	private String									caseLabel;
+	private String									ddrLabel;
+	private String									loadflowLabel;
+	private String									onlyMainComponentLabel;
+	private String									fullModelInitializationLabel;
 
-	private MainService mainService;
+	private MainService								mainService;
 
 }

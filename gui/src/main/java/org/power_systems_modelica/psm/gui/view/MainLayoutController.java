@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.util.List;
 
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 
 import javafx.beans.binding.Bindings;
@@ -18,41 +19,45 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class MainLayoutController {
+public class MainLayoutController
+{
 
 	@FXML
-	private void initialize() {
-		
+	private void initialize()
+	{
+
 		menuActions.graphicProperty().bind(
 				Bindings.when(menuActions.hoverProperty())
-					.then(new ImageView(whiteMenuImage))
-					.otherwise(new ImageView(menuImage))
-				);
+						.then(new ImageView(whiteMenuImage))
+						.otherwise(new ImageView(menuImage)));
 	}
 
 	@FXML
-	protected void handleMainAction() {
-		
+	protected void handleMainAction()
+	{
+
 		controller.handleMainAction();
 	}
-	
-	public void setLayout(AnchorPane node, MainChildrenController controller) {
+
+	public void setLayout(AnchorPane node, MainChildrenController controller)
+	{
 
 		mainLayout.getChildren().remove(this.node);
 		summaryContent.getChildren().clear();
 		menuActions.getItems().clear();
-		
+
 		this.node = node;
 		this.controller = controller;
 		String mainActionText = controller.getMainAction();
 		List<String> menuActionsList = controller.getMenuActions();
-		List<String> summaryLabelsList = controller.getSummaryLabels();
-		
+		List<SummaryLabel> summaryLabelsList = controller.getSummaryLabels();
+
 		double globalLayoutY = 0.0;
 		mainAction.setVisible(true);
 		if (mainActionText == null)
 			mainAction.setVisible(false);
-		else {
+		else
+		{
 			mainAction.setText(mainActionText);
 			globalLayoutY += 50.0;
 		}
@@ -60,47 +65,61 @@ public class MainLayoutController {
 		menuActions.setVisible(true);
 		if (menuActionsList == null)
 			menuActions.setVisible(false);
-		else {
-			for (String action: menuActionsList) {
-				if (action.toLowerCase().equals("separator")) {
+		else
+		{
+			for (String action : menuActionsList)
+			{
+				if (action.toLowerCase().equals("separator"))
+				{
 					SeparatorMenuItem menuItem = new SeparatorMenuItem();
 					menuActions.getItems().add(menuItem);
 				}
-				else {
+				else
+				{
 					MenuItem menuItem = new MenuItem(action);
-					menuItem.setOnAction(new EventHandler<ActionEvent>() {
-	
+					menuItem.setOnAction(new EventHandler<ActionEvent>()
+					{
+
 						@Override
-						public void handle(ActionEvent event) {
+						public void handle(ActionEvent event)
+						{
 							controller.handleMenuAction(action);
 						}
-						
+
 					});
 					menuActions.getItems().add(menuItem);
 				}
 			}
 		}
-		
+
 		summaryPane.setVisible(true);
-		double layoutX = 24.0;
 		double layoutY = 10.0;
-		if (summaryLabelsList == null) {
+		if (summaryLabelsList == null)
+		{
 			summaryPane.setVisible(false);
 			layoutY = 0.0;
 		}
-		else {
-			for (String summaryLabel: summaryLabelsList) {
-				Label label = new Label(summaryLabel);
+		else
+		{
+			for (SummaryLabel summaryLabel : summaryLabelsList)
+			{
+				Label label = new Label(summaryLabel.getLabel());
+				Label value = new Label(summaryLabel.getValue());
 				summaryContent.getChildren().add(label);
-				label.setLayoutX(layoutX);
+				double xLabel = 24.0;
+				double xValue = 200.0;
+				if (summaryLabel.isSecondColumn())
+				{
+					xLabel += 450.0;
+					xValue += 450.0;
+				}
+				label.setLayoutX(xLabel);
 				label.setLayoutY(layoutY);
-				if (layoutX == 24.0) {
-					layoutX = 200.0;
-				}
-				else {
-					layoutX = 24.0;
+				summaryContent.getChildren().add(value);
+				value.setLayoutX(xValue);
+				value.setLayoutY(layoutY);
+				if (!summaryLabel.isMultipleColumns() || summaryLabel.isSecondColumn())
 					layoutY += 30.0;
-				}
 			}
 
 			layoutY += (5.0 + 26.0);
@@ -109,7 +128,7 @@ public class MainLayoutController {
 			summaryPane.setPrefHeight(layoutY);
 			summaryPane.setMaxHeight(layoutY);
 		}
-		
+
 		mainLayout.getChildren().add(node);
 		node.setLayoutY(50);
 		mainLayout.setRightAnchor(node, 0.0);
@@ -119,32 +138,35 @@ public class MainLayoutController {
 			mainLayout.setTopAnchor(node, 0.0);
 		else
 			mainLayout.setTopAnchor(node, globalLayoutY + layoutY + 5.0);
-		
+
 	}
 
-	public void setMainService(MainService mainService) {
-		
+	public void setMainService(MainService mainService)
+	{
+
 	}
 
 	@FXML
-	private Button mainAction;
-	
-	@FXML
-	private MenuButton menuActions;
-	
-	@FXML
-	private TitledPane summaryPane;
-	
-	@FXML
-	private AnchorPane summaryContent;
+	private Button					mainAction;
 
 	@FXML
-	private AnchorPane mainLayout;
+	private MenuButton				menuActions;
 
-	private AnchorPane node;
-	private MainChildrenController controller;
-	private MainService mainService;
+	@FXML
+	private TitledPane				summaryPane;
 
-	private Image whiteMenuImage = new Image(getClass().getResourceAsStream("/img/menu-white-button.png"));
-	private Image menuImage = new Image(getClass().getResourceAsStream("/img/menu-button.png"));
+	@FXML
+	private AnchorPane				summaryContent;
+
+	@FXML
+	private AnchorPane				mainLayout;
+
+	private AnchorPane				node;
+	private MainChildrenController	controller;
+	private MainService				mainService;
+
+	private Image					whiteMenuImage	= new Image(
+			getClass().getResourceAsStream("/img/menu-white-button.png"));
+	private Image					menuImage		= new Image(
+			getClass().getResourceAsStream("/img/menu-button.png"));
 }

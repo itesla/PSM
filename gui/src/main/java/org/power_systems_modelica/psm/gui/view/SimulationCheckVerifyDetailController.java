@@ -13,6 +13,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
@@ -32,19 +33,22 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 
-public class SimulationCheckVerifyDetailController implements MainChildrenController {
+public class SimulationCheckVerifyDetailController implements MainChildrenController
+{
 
 	@Override
-	public void handleMainAction() {
-		
+	public void handleMainAction()
+	{
+
 		handleSimulateWorkflow(false);
 	}
 
 	@Override
 	public void handleMenuAction(String action)
 	{
-		
-		switch(action) {
+
+		switch (action)
+		{
 		case "New":
 			handleNewWorkflow();
 			break;
@@ -55,13 +59,15 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 
 		return "Simulate";
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 
 		List<String> actions = new ArrayList();
 		actions.add("New");
@@ -71,99 +77,121 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
-		
-		List<String> labels = new ArrayList();
-		labels.add("Case:");
-		labels.add(caseLabel);
-		labels.add("Created:");
-		labels.add(createdLabel);
+	public List<SummaryLabel> getSummaryLabels()
+	{
+
+		List<SummaryLabel> labels = new ArrayList();
+		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
+		labels.add(new SummaryLabel("Created:", createdLabel, true, true));
 		if (isCheckDetail)
-			labels.add("Check:");
+			labels.add(new SummaryLabel("Check:", checkLabel, false, false));
 		else
-			labels.add("Verify:");
-		labels.add(checkLabel);
+			labels.add(new SummaryLabel("Verify:", checkLabel, false, false));
 		return labels;
 	}
-	
+
 	@FXML
-	private void initialize() {
+	private void initialize()
+	{
 	}
 
-	private void handleNewWorkflow() {
+	private void handleNewWorkflow()
+	{
 
 		mainService.showSimulationNewView(mainService.getSimulation());
 	}
-	
-	private void handleSimulateWorkflow(boolean isVerify) {
 
-		try {
+	private void handleSimulateWorkflow(boolean isVerify)
+	{
+
+		try
+		{
 			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
-			mainService.startSimulation(cs, events, dse, stopTime, false, isVerify, Boolean.getBoolean(createFilteredMat));
-		} catch (IOException e) {
+			mainService.startSimulation(cs, events, dse, stopTime, false, isVerify,
+					Boolean.getBoolean(createFilteredMat));
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void setMainService(MainService mainService, Workflow w, boolean isCheckDetail) {
+	public void setMainService(MainService mainService, Workflow w, boolean isCheckDetail)
+	{
 
 		this.mainService = mainService;
 		this.isCheckDetail = isCheckDetail;
 
-		if (isCheckDetail) {
+		if (isCheckDetail)
+		{
 			panel.setText("Simulation check detail");
 		}
-		else {
+		else
+		{
 			panel.setText("Simulation verify detail");
 		}
-		
-		checkLabel = "Label";
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
 
-			if (td.getTaskClass().equals(ModelicaParserTask.class)) {
+		checkLabel = "Label";
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+
+			if (td.getTaskClass().equals(ModelicaParserTask.class))
+			{
 				String moInput = td.getTaskConfiguration().getParameter("source");
-				
-				try {
-					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput), BasicFileAttributes.class);
+
+				try
+				{
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
+							BasicFileAttributes.class);
 					DateTime date = new DateTime(attr.lastModifiedTime().toMillis());
-					
+
 					createdLabel = date.toString("yyyy/MM/dd HH:mm:ss");
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
-				
+
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
+
 				String uri = td.getTaskConfiguration().getParameter("source");
-				
-				if (uri.endsWith(".xml")) {
+
+				if (uri.endsWith(".xml"))
+				{
 					Path path = Paths.get(uri);
 					casePath = path.getParent();
-				} else
+				}
+				else
 					casePath = Paths.get(uri);
-				
+
 				Path catalogPath = casePath.getParent();
 
-				try {
+				try
+				{
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
 					catalogName = catalog.getName();
-					
+
 					Case c = mainService.getCase(catalog.getName(), casePath);
 					caseLabel = catalogName + "\t" + c.getName();
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			if (td.getTaskClass().equals(ModelicaEventAdderTask.class)) {
-				
+
+			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
+			{
+
 				events.clear();
 				String[] evs = td.getTaskConfiguration().getParameter("events").split("\n");
-				for (String event : evs) {
+				for (String event : evs)
+				{
 
 					Event e = new Event();
 					e.fromString(event);
@@ -171,10 +199,11 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 				}
 			}
 
-			if (td.getTaskClass().equals(ModelicaSimulatorTask.class)) {
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+			{
 				stopTime = td.getTaskConfiguration().getParameter("stopTime");
 				createFilteredMat = td.getTaskConfiguration().getParameter("stopTime");
-				
+
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
 				dse = Utils.getDsEngine(simulationEngine);
 			}
@@ -182,25 +211,26 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	}
 
 	@FXML
-	private TitledPane panel;
+	private TitledPane						panel;
 
 	@FXML
-	private DynamicTreeView<ProgressData> treeView;
+	private DynamicTreeView<ProgressData>	treeView;
 
-	private String caseLabel;
-	private String createdLabel;
-	private String checkLabel;
+	private String							caseLabel;
+	private String							createdLabel;
+	private String							checkLabel;
 
-	private String catalogName;
-	private Path casePath;
-	private ObservableList<Event> events = FXCollections.observableArrayList();
-	private String stopTime;
-	private DsEngine dse;
-	private String createFilteredMat;
-	
-	private boolean isCheckDetail;
+	private String							catalogName;
+	private Path							casePath;
+	private ObservableList<Event>			events	= FXCollections.observableArrayList();
+	private String							stopTime;
+	private DsEngine						dse;
+	private String							createFilteredMat;
 
-	private MainService mainService;
+	private boolean							isCheckDetail;
 
-	private static final Logger LOG = LoggerFactory.getLogger(SimulationCheckVerifyDetailController.class);
+	private MainService						mainService;
+
+	private static final Logger				LOG		= LoggerFactory
+			.getLogger(SimulationCheckVerifyDetailController.class);
 }

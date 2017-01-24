@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -30,70 +31,86 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
-public class CasesOverviewController implements MainChildrenController {
+public class CasesOverviewController implements MainChildrenController
+{
 
 	@Override
-	public void handleMainAction() {
+	public void handleMainAction()
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void handleMenuAction(String action)
 	{
-		
+
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 
 		return null;
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 
 		return null;
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
-		
+	public List<SummaryLabel> getSummaryLabels()
+	{
+
 		return null;
 	}
-	
+
 	@FXML
-	private void initialize() {
+	private void initialize()
+	{
 
 		summaryPane.setVisible(false);
 		Utils.setDragablePane(summaryPane);
 
 		nameCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		descriptionCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
-		locationCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
+		descriptionCatalogColumn
+				.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+		locationCatalogColumn
+				.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
 
 		nameCaseColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		descriptionCaseColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+		descriptionCaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		locationCaseColumn.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
 		formatCaseColumn.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
 		sizeCaseColumn.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
 
-		catalogs.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				String catalogName = (String) nameCatalogColumn.getCellObservableValue((int) newSelection).getValue();
-				cases.setItems(mainService.getCases(catalogName));
-			}
-		});
+		catalogs.getSelectionModel().selectedIndexProperty()
+				.addListener((obs, oldSelection, newSelection) -> {
+					if (newSelection != null)
+					{
+						String catalogName = (String) nameCatalogColumn
+								.getCellObservableValue((int) newSelection).getValue();
+						cases.setItems(mainService.getCases(catalogName));
+					}
+				});
 
-		cases.setRowFactory(new Callback<TableView<Case>, TableRow<Case>>() {
+		cases.setRowFactory(new Callback<TableView<Case>, TableRow<Case>>()
+		{
 			@Override
-			public TableRow<Case> call(TableView<Case> tableView) {
+			public TableRow<Case> call(TableView<Case> tableView)
+			{
 				final TableRow<Case> row = new TableRow<>();
 				final ContextMenu contextMenu = new ContextMenu();
 				final MenuItem summaryMenuItem = new MenuItem("Summary");
-				summaryMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+				summaryMenuItem.setOnAction(new EventHandler<ActionEvent>()
+				{
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent event)
+					{
 
 						Case c = row.getItem();
 						Network n = mainService.getCaseSummary(c);
@@ -102,9 +119,11 @@ public class CasesOverviewController implements MainChildrenController {
 				});
 				contextMenu.getItems().add(summaryMenuItem);
 				final MenuItem conversionMenuItem = new MenuItem("Conversion");
-				conversionMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+				conversionMenuItem.setOnAction(new EventHandler<ActionEvent>()
+				{
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent event)
+					{
 
 						Case c = row.getItem();
 						mainService.showConversionWithCase(c);
@@ -112,9 +131,11 @@ public class CasesOverviewController implements MainChildrenController {
 				});
 				contextMenu.getItems().add(conversionMenuItem);
 				final MenuItem conversionResultMenuItem = new MenuItem("Conversion Results");
-				conversionResultMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+				conversionResultMenuItem.setOnAction(new EventHandler<ActionEvent>()
+				{
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent event)
+					{
 
 						Case c = row.getItem();
 						mainService.showConversionResult(c);
@@ -122,9 +143,11 @@ public class CasesOverviewController implements MainChildrenController {
 				});
 				contextMenu.getItems().add(conversionResultMenuItem);
 				final MenuItem simluationMenuItem = new MenuItem("Simulation");
-				simluationMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+				simluationMenuItem.setOnAction(new EventHandler<ActionEvent>()
+				{
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent event)
+					{
 
 						Case c = row.getItem();
 						mainService.showSimulationWithCase(c);
@@ -132,24 +155,30 @@ public class CasesOverviewController implements MainChildrenController {
 				});
 				contextMenu.getItems().add(simluationMenuItem);
 				final MenuItem compareMenuItem = new MenuItem("Compare Loadflows");
-				compareMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+				compareMenuItem.setOnAction(new EventHandler<ActionEvent>()
+				{
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent event)
+					{
 
 						Case c = row.getItem();
 						mainService.showCompareLoadflowsWithCase(c);
 					}
 				});
-				contextMenu.setOnShown(new EventHandler<WindowEvent>() {
-					public void handle(WindowEvent e) {
+				contextMenu.setOnShown(new EventHandler<WindowEvent>()
+				{
+					public void handle(WindowEvent e)
+					{
 
 						Case c = row.getItem();
 						ObservableList<MenuItem> items = contextMenu.getItems();
-						for (MenuItem item : items) {
-							if (item.getText().equals("Simulation") || item.getText().equals("Conversion Results"))
+						for (MenuItem item : items)
+						{
+							if (item.getText().equals("Simulation")
+									|| item.getText().equals("Conversion Results"))
 								if (PathUtils.existsFile(c.getLocation(), c.getName() + ".mo"))
 									item.setDisable(false);
-								else
+							else
 									item.setDisable(true);
 							else
 								item.setDisable(false);
@@ -160,7 +189,8 @@ public class CasesOverviewController implements MainChildrenController {
 				// Set context menu on row, but use a binding to make it only
 				// show for non-empty rows:
 				row.contextMenuProperty()
-						.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenu));
+						.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null)
+								.otherwise(contextMenu));
 				return row;
 			}
 		});
@@ -168,11 +198,13 @@ public class CasesOverviewController implements MainChildrenController {
 	}
 
 	@FXML
-	private void handleCloseSummaryEvent() {
+	private void handleCloseSummaryEvent()
+	{
 		summaryPane.setVisible(false);
 	}
 
-	public void showCaseSummary(Point point, Case c, Network n) {
+	public void showCaseSummary(Point point, Case c, Network n)
+	{
 		gridPane.getChildren().removeAll(gridPane.getChildren());
 
 		// Name
@@ -252,7 +284,8 @@ public class CasesOverviewController implements MainChildrenController {
 		summaryPane.setVisible(true);
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 		catalogs.setItems(mainService.getCatalogs("cases"));
@@ -260,32 +293,32 @@ public class CasesOverviewController implements MainChildrenController {
 	}
 
 	@FXML
-	private TitledPane summaryPane;
+	private TitledPane						summaryPane;
 	@FXML
-	private GridPane gridPane;
+	private GridPane						gridPane;
 
 	@FXML
-	private TableView<Catalog> catalogs;
+	private TableView<Catalog>				catalogs;
 	@FXML
-	private TableColumn<Catalog, String> nameCatalogColumn;
+	private TableColumn<Catalog, String>	nameCatalogColumn;
 	@FXML
-	private TableColumn<Catalog, String> descriptionCatalogColumn;
+	private TableColumn<Catalog, String>	descriptionCatalogColumn;
 	@FXML
-	private TableColumn<Catalog, String> locationCatalogColumn;
+	private TableColumn<Catalog, String>	locationCatalogColumn;
 
 	@FXML
-	private TableView<Case> cases;
+	private TableView<Case>					cases;
 	@FXML
-	private TableColumn<Case, String> nameCaseColumn;
+	private TableColumn<Case, String>		nameCaseColumn;
 	@FXML
-	private TableColumn<Case, String> descriptionCaseColumn;
+	private TableColumn<Case, String>		descriptionCaseColumn;
 	@FXML
-	private TableColumn<Case, String> locationCaseColumn;
+	private TableColumn<Case, String>		locationCaseColumn;
 	@FXML
-	private TableColumn<Case, String> formatCaseColumn;
+	private TableColumn<Case, String>		formatCaseColumn;
 	@FXML
-	private TableColumn<Case, Number> sizeCaseColumn;
+	private TableColumn<Case, Number>		sizeCaseColumn;
 
-	private MainService mainService;
+	private MainService						mainService;
 
 }

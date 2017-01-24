@@ -10,6 +10,7 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox;
@@ -46,16 +47,18 @@ import javafx.scene.input.KeyEvent;
 public class SimulationNewController implements MainChildrenController
 {
 	@Override
-	public void handleMainAction() {
-		
+	public void handleMainAction()
+	{
+
 		handleStartWorkflow();
 	}
 
 	@Override
 	public void handleMenuAction(String action)
 	{
-		
-		switch(action) {
+
+		switch (action)
+		{
 		case "Load":
 			handleLoadWorkflow();
 			break;
@@ -75,13 +78,15 @@ public class SimulationNewController implements MainChildrenController
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 
 		return "Simulate";
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 
 		List<String> actions = new ArrayList();
 		actions.add("Load");
@@ -94,8 +99,9 @@ public class SimulationNewController implements MainChildrenController
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
-		
+	public List<SummaryLabel> getSummaryLabels()
+	{
+
 		return null;
 	}
 
@@ -311,8 +317,9 @@ public class SimulationNewController implements MainChildrenController
 				addedEvents.getItems().add(e);
 			}
 		}
-		
-		if (workflowProperties.containsKey("createFilteredMat")) {
+
+		if (workflowProperties.containsKey("createFilteredMat"))
+		{
 			Boolean createFilteredMat = Boolean
 					.valueOf(workflowProperties.getProperty("createFilteredMat"));
 			createFilteredMatCheck.setSelected(createFilteredMat);
@@ -331,7 +338,8 @@ public class SimulationNewController implements MainChildrenController
 		Properties workflowProperties;
 		try
 		{
-			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime, createFilteredMat);
+			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime,
+					createFilteredMat);
 			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"),
 					workflowProperties);
@@ -352,7 +360,7 @@ public class SimulationNewController implements MainChildrenController
 		addedEvents.getItems().clear();
 
 		stopTimeText.setText("1");
-		
+
 		createFilteredMatCheck.setSelected(CREATEFILTEREDMAT);
 	}
 
@@ -394,9 +402,10 @@ public class SimulationNewController implements MainChildrenController
 		}
 		String stopTime = stopTimeText.getText();
 		ObservableList<Event> events = addedEvents.getItems();
-		
+
 		boolean createFilteredMat = createFilteredMatCheck.isSelected();
-		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify, createFilteredMat);
+		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify,
+				createFilteredMat);
 	}
 
 	@FXML
@@ -440,8 +449,9 @@ public class SimulationNewController implements MainChildrenController
 
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
 				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
-				
-				Boolean createFilteredMat = td.getTaskConfiguration().getBoolean("createFilteredMat");
+
+				Boolean createFilteredMat = td.getTaskConfiguration()
+						.getBoolean("createFilteredMat");
 				createFilteredMatCheck.setSelected(createFilteredMat);
 			}
 		}
@@ -501,13 +511,12 @@ public class SimulationNewController implements MainChildrenController
 	@FXML
 	private TextField							stopTimeText;
 	@FXML
-	private CheckBox 							createFilteredMatCheck;
-	
+	private CheckBox							createFilteredMatCheck;
 
 	private GuiFileChooser						fileChooser;
 	private MainService							mainService;
 
-	private static final Boolean CREATEFILTEREDMAT = new Boolean(false);
-	private static final Logger					LOG	= LoggerFactory
+	private static final Boolean				CREATEFILTEREDMAT	= new Boolean(false);
+	private static final Logger					LOG					= LoggerFactory
 			.getLogger(SimulationNewController.class);
 }

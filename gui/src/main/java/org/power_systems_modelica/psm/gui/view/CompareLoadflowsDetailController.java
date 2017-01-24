@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -32,37 +33,42 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class CompareLoadflowsDetailController implements MainChildrenController {
+public class CompareLoadflowsDetailController implements MainChildrenController
+{
 
 	@Override
-	public void handleMainAction() {
+	public void handleMainAction()
+	{
 
 		handleNewWorkflow();
 	}
 
 	@Override
-	public void handleMenuAction(String action) {
+	public void handleMenuAction(String action)
+	{
 
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 
 		return "New";
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 
 		return null;
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
+	public List<SummaryLabel> getSummaryLabels()
+	{
 
-		List<String> labels = new ArrayList();
-		labels.add("Case:");
-		labels.add(caseLabel);
+		List<SummaryLabel> labels = new ArrayList();
+		labels.add(new SummaryLabel("Case:", caseLabel, false, false));
 		return labels;
 	}
 
@@ -84,7 +90,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
 							return String.format("%,.0f%%", object.floatValue() * 100);
-						
+
 						return String.format("%,.4f%%", object.floatValue() * 100);
 					}
 				});
@@ -103,7 +109,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
 							return String.format("%,.0f%%", object.floatValue() * 100);
-						
+
 						return String.format("%,.4f%%", object.floatValue() * 100);
 					}
 				});
@@ -122,7 +128,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
 							return String.format("%,.0f%%", object.floatValue() * 100);
-						
+
 						return String.format("%,.4f%%", object.floatValue() * 100);
 					}
 				});
@@ -141,39 +147,52 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
 							return String.format("%,.0f%%", object.floatValue() * 100);
-						
+
 						return String.format("%,.4f%%", object.floatValue() * 100);
 					}
 				});
-		
+
 		elementVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V",1));
-		helmflowVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V",0));
-		differenceVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().errorProperty("V"));
-			
+		hadesVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 1));
+		helmflowVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 0));
+		differenceVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("V"));
+
 		elementPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A",1));
-		helmflowPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A",0));
-		differencePhaseColumn.setCellValueFactory(cellData -> cellData.getValue().errorProperty("A"));
+		hadesPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 1));
+		helmflowPhaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 0));
+		differencePhaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("A"));
 
 		elementActiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P",1));
-		helmflowActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P",0));
-		differenceActiveColumn.setCellValueFactory(cellData -> cellData.getValue().errorProperty("P"));
+		hadesActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 1));
+		helmflowActiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 0));
+		differenceActiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("P"));
 
 		elementReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q",1));
-		helmflowReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q",0));
-		differenceReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().errorProperty("Q"));
+		hadesReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 1));
+		helmflowReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 0));
+		differenceReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("Q"));
 	}
 
-	private void handleNewWorkflow() {
+	private void handleNewWorkflow()
+	{
 		LOG.debug("handleNewWorkflow");
 		mainService.showCompareLoadflowsView(null);
 	}
 
-	public void addDiffSeries(WorkflowResult workflowResult) {
-		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections.observableArrayList();
+	public void addDiffSeries(WorkflowResult workflowResult)
+	{
+		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> voltageSeries = new XYChart.Series<>();
 
 		for (BusData bus : workflowResult.getAllBusesValues())
@@ -184,7 +203,8 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 
 		voltageDiffChart.getData().addAll(displayedVoltageSeries);
 
-		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> phaseSeries = new XYChart.Series<>();
 
 		for (BusData bus : workflowResult.getAllBusesValues())
@@ -195,7 +215,8 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 
 		phaseDiffChart.getData().addAll(displayedPhaseSeries);
 
-		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> activeSeries = new XYChart.Series<>();
 
 		for (BusData bus : workflowResult.getAllBusesValues())
@@ -206,7 +227,8 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 
 		activeDiffChart.getData().addAll(displayedActiveSeries);
 
-		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> reactiveSeries = new XYChart.Series<>();
 
 		for (BusData bus : workflowResult.getAllBusesValues())
@@ -218,14 +240,19 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 		reactiveDiffChart.getData().addAll(displayedReactiveSeries);
 	}
 
-	public void addCurvesSeries(WorkflowResult workflowResult) {
-		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections.observableArrayList();
+	public void addCurvesSeries(WorkflowResult workflowResult)
+	{
+		ObservableList<XYChart.Series<String, Number>> displayedVoltageSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> voltageHelmflowSeries = new XYChart.Series<>();
 		XYChart.Series<String, Number> voltageHades2Series = new XYChart.Series<>();
 
-		for (BusData bus : workflowResult.getAllBusesValues()) {
-			voltageHelmflowSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("V", 0)));
-			voltageHades2Series.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("V", 1)));
+		for (BusData bus : workflowResult.getAllBusesValues())
+		{
+			voltageHelmflowSeries.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("V", 0)));
+			voltageHades2Series.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("V", 1)));
 		}
 
 		voltageHelmflowSeries.setName(workflowResult.getId());
@@ -235,12 +262,15 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 
 		voltageCurvesChart.getData().addAll(displayedVoltageSeries);
 
-		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedPhaseSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> phaseHelmflowSeries = new XYChart.Series<>();
 		XYChart.Series<String, Number> phaseHades2Series = new XYChart.Series<>();
 
-		for (BusData bus : workflowResult.getAllBusesValues()) {
-			phaseHelmflowSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("A", 0)));
+		for (BusData bus : workflowResult.getAllBusesValues())
+		{
+			phaseHelmflowSeries.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("A", 0)));
 			phaseHades2Series.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("A", 1)));
 		}
 
@@ -251,13 +281,17 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 
 		phaseCurvesChart.getData().addAll(displayedPhaseSeries);
 
-		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedActiveSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> activeHelmflowSeries = new XYChart.Series<>();
 		XYChart.Series<String, Number> activeHades2Series = new XYChart.Series<>();
 
-		for (BusData bus : workflowResult.getAllBusesValues()) {
-			activeHelmflowSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("P", 0)));
-			activeHades2Series.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("P", 1)));
+		for (BusData bus : workflowResult.getAllBusesValues())
+		{
+			activeHelmflowSeries.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("P", 0)));
+			activeHades2Series.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("P", 1)));
 		}
 
 		activeHelmflowSeries.setName(workflowResult.getId());
@@ -267,13 +301,17 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 
 		activeCurvesChart.getData().addAll(displayedActiveSeries);
 
-		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections.observableArrayList();
+		ObservableList<XYChart.Series<String, Number>> displayedReactiveSeries = FXCollections
+				.observableArrayList();
 		XYChart.Series<String, Number> reactiveHelmflowSeries = new XYChart.Series<>();
 		XYChart.Series<String, Number> reactiveHades2Series = new XYChart.Series<>();
 
-		for (BusData bus : workflowResult.getAllBusesValues()) {
-			reactiveHelmflowSeries.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("Q", 0)));
-			reactiveHades2Series.getData().add(new XYChart.Data<>(bus.getName(), bus.getData("Q", 1)));
+		for (BusData bus : workflowResult.getAllBusesValues())
+		{
+			reactiveHelmflowSeries.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("Q", 0)));
+			reactiveHades2Series.getData()
+					.add(new XYChart.Data<>(bus.getName(), bus.getData("Q", 1)));
 		}
 
 		reactiveHelmflowSeries.setName(workflowResult.getId());
@@ -284,62 +322,77 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 		reactiveCurvesChart.getData().addAll(displayedReactiveSeries);
 	}
 
-	public void setMainService(MainService mainService) {
+	public void setMainService(MainService mainService)
+	{
 		this.mainService = mainService;
 
 	}
 
-	public void setWorkflow(Workflow w) {
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions()) {
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class)) {
+	public void setWorkflow(Workflow w)
+	{
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
 
 				String uri = td.getTaskConfiguration().getParameter("source");
 
 				Path casePath;
-				if (uri.endsWith(".xml")) {
+				if (uri.endsWith(".xml"))
+				{
 					Path path = Paths.get(uri);
 					casePath = path.getParent();
-				} else
+				}
+				else
 					casePath = Paths.get(uri);
 
 				Path catalogPath = casePath.getParent();
 
-				try {
+				try
+				{
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
 					Case c = mainService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 
-		if (w.getState().equals(ProcessState.SUCCESS)) {
+		if (w.getState().equals(ProcessState.SUCCESS))
+		{
 			WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
 
-			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("V"))
+			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("V"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
 			avgVoltageDiffLabel.setText(String.format("%,.4f%%", voltageStats.getAverage() * 100));
 			maxVoltageDiffLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));
 
-			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("A"))
+			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("A"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
 			avgPhaseDiffLabel.setText(String.format("%,.4f%%", phaseStats.getAverage() * 100));
 			maxPhaseDiffLabel.setText(String.format("%,.4f%%", phaseStats.getMax() * 100));
 
-			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("P"))
+			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("P"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
 			avgActiveDiffLabel.setText(String.format("%,.4f%%", activeStats.getAverage() * 100));
 			maxActiveDiffLabel.setText(String.format("%,.4f%%", activeStats.getMax() * 100));
 
-			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream().map(bus -> bus.getAbsError("Q"))
+			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream()
+					.map(bus -> bus.getAbsError("Q"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-			avgReactiveDiffLabel.setText(String.format("%,.4f%%", reactiveStats.getAverage() * 100));
+			avgReactiveDiffLabel
+					.setText(String.format("%,.4f%%", reactiveStats.getAverage() * 100));
 			maxReactiveDiffLabel.setText(String.format("%,.4f%%", reactiveStats.getMax() * 100));
 
 			voltageTable.setItems(wr.getAllBusesValues());
@@ -360,124 +413,125 @@ public class CompareLoadflowsDetailController implements MainChildrenController 
 	}
 
 	@FXML
-	private Label avgVoltageDiffLabel;
+	private Label							avgVoltageDiffLabel;
 	@FXML
-	private Label maxVoltageDiffLabel;
+	private Label							maxVoltageDiffLabel;
 	@FXML
-	private ScatterChart<String, Number> voltageDiffChart;
+	private ScatterChart<String, Number>	voltageDiffChart;
 	@FXML
-	private CategoryAxis xVoltageDiffAxis;
+	private CategoryAxis					xVoltageDiffAxis;
 	@FXML
-	private NumberAxis yVoltageDiffAxis;
+	private NumberAxis						yVoltageDiffAxis;
 
 	@FXML
-	private Label avgPhaseDiffLabel;
+	private Label							avgPhaseDiffLabel;
 	@FXML
-	private Label maxPhaseDiffLabel;
+	private Label							maxPhaseDiffLabel;
 	@FXML
-	private ScatterChart<String, Number> phaseDiffChart;
+	private ScatterChart<String, Number>	phaseDiffChart;
 	@FXML
-	private CategoryAxis xPhaseDiffAxis;
+	private CategoryAxis					xPhaseDiffAxis;
 	@FXML
-	private NumberAxis yPhaseDiffAxis;
+	private NumberAxis						yPhaseDiffAxis;
 
 	@FXML
-	private Label avgActiveDiffLabel;
+	private Label							avgActiveDiffLabel;
 	@FXML
-	private Label maxActiveDiffLabel;
+	private Label							maxActiveDiffLabel;
 	@FXML
-	private ScatterChart<String, Number> activeDiffChart;
+	private ScatterChart<String, Number>	activeDiffChart;
 	@FXML
-	private CategoryAxis xActiveDiffDiffAxis;
+	private CategoryAxis					xActiveDiffDiffAxis;
 	@FXML
-	private NumberAxis yActiveDiffAxis;
+	private NumberAxis						yActiveDiffAxis;
 
 	@FXML
-	private Label avgReactiveDiffLabel;
+	private Label							avgReactiveDiffLabel;
 	@FXML
-	private Label maxReactiveDiffLabel;
+	private Label							maxReactiveDiffLabel;
 	@FXML
-	private ScatterChart<String, Number> reactiveDiffChart;
+	private ScatterChart<String, Number>	reactiveDiffChart;
 	@FXML
-	private CategoryAxis xReactiveDiffAxis;
+	private CategoryAxis					xReactiveDiffAxis;
 	@FXML
-	private NumberAxis yReactiveDiffAxis;
+	private NumberAxis						yReactiveDiffAxis;
 
 	@FXML
-	private ScatterChart<String, Number> voltageCurvesChart;
+	private ScatterChart<String, Number>	voltageCurvesChart;
 	@FXML
-	private CategoryAxis xVoltageCurvesAxis;
+	private CategoryAxis					xVoltageCurvesAxis;
 	@FXML
-	private NumberAxis yVoltageCurvesAxis;
+	private NumberAxis						yVoltageCurvesAxis;
 
 	@FXML
-	private ScatterChart<String, Number> phaseCurvesChart;
+	private ScatterChart<String, Number>	phaseCurvesChart;
 	@FXML
-	private CategoryAxis xPhaseCurvesAxis;
+	private CategoryAxis					xPhaseCurvesAxis;
 	@FXML
-	private NumberAxis yPhaseCurvesAxis;
+	private NumberAxis						yPhaseCurvesAxis;
 
 	@FXML
-	private ScatterChart<String, Number> activeCurvesChart;
+	private ScatterChart<String, Number>	activeCurvesChart;
 	@FXML
-	private CategoryAxis xActiveCurvesCurvesAxis;
+	private CategoryAxis					xActiveCurvesCurvesAxis;
 	@FXML
-	private NumberAxis yActiveCurvesAxis;
+	private NumberAxis						yActiveCurvesAxis;
 
 	@FXML
-	private ScatterChart<String, Number> reactiveCurvesChart;
+	private ScatterChart<String, Number>	reactiveCurvesChart;
 	@FXML
-	private CategoryAxis xReactiveCurvesAxis;
+	private CategoryAxis					xReactiveCurvesAxis;
 	@FXML
-	private NumberAxis yReactiveCurvesAxis;
+	private NumberAxis						yReactiveCurvesAxis;
 
 	@FXML
-	private TableView<BusData> voltageTable;
+	private TableView<BusData>				voltageTable;
 	@FXML
-	private TableColumn<BusData, String> elementVoltageColumn;
+	private TableColumn<BusData, String>	elementVoltageColumn;
 	@FXML
-	private TableColumn<BusData, Number> hadesVoltageColumn;
+	private TableColumn<BusData, Number>	hadesVoltageColumn;
 	@FXML
-	private TableColumn<BusData, Number> helmflowVoltageColumn;
+	private TableColumn<BusData, Number>	helmflowVoltageColumn;
 	@FXML
-	private TableColumn<BusData, Number> differenceVoltageColumn;
+	private TableColumn<BusData, Number>	differenceVoltageColumn;
 
 	@FXML
-	private TableView<BusData> phaseTable;
+	private TableView<BusData>				phaseTable;
 	@FXML
-	private TableColumn<BusData, String> elementPhaseColumn;
+	private TableColumn<BusData, String>	elementPhaseColumn;
 	@FXML
-	private TableColumn<BusData, Number> hadesPhaseColumn;
+	private TableColumn<BusData, Number>	hadesPhaseColumn;
 	@FXML
-	private TableColumn<BusData, Number> helmflowPhaseColumn;
+	private TableColumn<BusData, Number>	helmflowPhaseColumn;
 	@FXML
-	private TableColumn<BusData, Number> differencePhaseColumn;
+	private TableColumn<BusData, Number>	differencePhaseColumn;
 
 	@FXML
-	private TableView<BusData> activeTable;
+	private TableView<BusData>				activeTable;
 	@FXML
-	private TableColumn<BusData, String> elementActiveColumn;
+	private TableColumn<BusData, String>	elementActiveColumn;
 	@FXML
-	private TableColumn<BusData, Number> hadesActiveColumn;
+	private TableColumn<BusData, Number>	hadesActiveColumn;
 	@FXML
-	private TableColumn<BusData, Number> helmflowActiveColumn;
+	private TableColumn<BusData, Number>	helmflowActiveColumn;
 	@FXML
-	private TableColumn<BusData, Number> differenceActiveColumn;
+	private TableColumn<BusData, Number>	differenceActiveColumn;
 
 	@FXML
-	private TableView<BusData> reactiveTable;
+	private TableView<BusData>				reactiveTable;
 	@FXML
-	private TableColumn<BusData, String> elementReactiveColumn;
+	private TableColumn<BusData, String>	elementReactiveColumn;
 	@FXML
-	private TableColumn<BusData, Number> hadesReactiveColumn;
+	private TableColumn<BusData, Number>	hadesReactiveColumn;
 	@FXML
-	private TableColumn<BusData, Number> helmflowReactiveColumn;
+	private TableColumn<BusData, Number>	helmflowReactiveColumn;
 	@FXML
-	private TableColumn<BusData, Number> differenceReactiveColumn;
+	private TableColumn<BusData, Number>	differenceReactiveColumn;
 
-	private String caseLabel;
+	private String							caseLabel;
 
-	private MainService mainService;
+	private MainService						mainService;
 
-	private static final Logger LOG = LoggerFactory.getLogger(CompareLoadflowsDetailController.class);
+	private static final Logger				LOG	= LoggerFactory
+			.getLogger(CompareLoadflowsDetailController.class);
 }

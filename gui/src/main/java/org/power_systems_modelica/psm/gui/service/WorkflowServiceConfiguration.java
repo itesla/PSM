@@ -440,7 +440,7 @@ public class WorkflowServiceConfiguration
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					sim.getResults("simres").toString(), ".csv");
+					sim.getResults("simres_output").toString(), ".csv");
 			results.setDsValues(values);
 		}
 		catch (Exception e)

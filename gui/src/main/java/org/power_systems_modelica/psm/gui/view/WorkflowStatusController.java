@@ -13,6 +13,7 @@ import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
@@ -35,7 +36,8 @@ import javafx.scene.control.TreeItem;
 public class WorkflowStatusController implements MainChildrenController
 {
 	@Override
-	public void handleMainAction() {
+	public void handleMainAction()
+	{
 
 		handleNewWorkflow();
 	}
@@ -43,30 +45,32 @@ public class WorkflowStatusController implements MainChildrenController
 	@Override
 	public void handleMenuAction(String action)
 	{
-		
+
 	}
 
 	@Override
-	public String getMainAction() {
+	public String getMainAction()
+	{
 
 		return "New";
 	}
 
 	@Override
-	public List<String> getMenuActions() {
+	public List<String> getMenuActions()
+	{
 
 		return null;
 	}
 
 	@Override
-	public List<String> getSummaryLabels() {
-		
-		List<String> labels = new ArrayList();
-		labels.add(firstLabelTitle);
-		labels.add(firstLabelValue);
-		if (secondLabelTitle != null) {
-			labels.add(secondLabelTitle);
-			labels.add(secondLabelValue);
+	public List<SummaryLabel> getSummaryLabels()
+	{
+
+		List<SummaryLabel> labels = new ArrayList();
+		labels.add(new SummaryLabel(firstLabelTitle, firstLabelValue, false, secondLabelTitle != null));
+		if (secondLabelTitle != null)
+		{
+			labels.add(new SummaryLabel(secondLabelTitle, secondLabelValue, true, true));
 		}
 		return labels;
 	}
@@ -194,13 +198,13 @@ public class WorkflowStatusController implements MainChildrenController
 
 	@FXML
 	private TitledPane						panel;
-	
+
 	@FXML
 	private Label							statusLabel;
-	
+
 	@FXML
 	private ProgressBar						statusBar;
-	
+
 	@FXML
 	private DynamicTreeView<ProgressData>	treeView;
 
@@ -208,7 +212,7 @@ public class WorkflowStatusController implements MainChildrenController
 	private String							firstLabelValue;
 	private String							secondLabelTitle;
 	private String							secondLabelValue;
-	
+
 	private MainService						mainService;
 	private WorkflowType					isWorkflowDetail;
 

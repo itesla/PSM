@@ -67,11 +67,14 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		// Either that or we call explicitly "prepare" / "simulate"
 		// modelicaEngine.simulate(mos);
 		progress.report("Full Model Initialization");
-		mos.forEach(mo -> {
-			String modelName = mo.getSystemModel().getId();
-			progress.report("    " + modelName);
-			modelicaEngine.simulate(mo);
-		});
+		if (mos != null)
+		{
+			mos.forEach(mo -> {
+				String modelName = mo.getSystemModel().getId();
+				progress.report("    " + modelName);
+				modelicaEngine.simulate(mo);
+			});
+		}
 
 		ModelicaSimulationFinalResults mor = modelicaEngine.getSimulationResults();
 		InitializationResults results = new InitializationResults(mor);

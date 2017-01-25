@@ -329,6 +329,7 @@ public class MainApp extends Application
 
 			SimulationCheckVerifyDetailController controller = loader.getController();
 			controller.setMainService(mainService, mainService.getSimulation(), isCheckDetail);
+			controller.setFileChooser(new GuiFileChooser());
 
 			// Set cases overview into the center of the root layout.
 			mainLayoutController.setLayout(workflowsOverview, controller);

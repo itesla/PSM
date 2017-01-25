@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
@@ -22,6 +23,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.ElementModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +41,7 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -228,7 +231,9 @@ public class SimulationNewController implements MainChildrenController
 		LOG.debug("handleAddEvent");
 		actionEvent.getSelectionModel().clearSelection();
 		elementEvent.getTextbox().clear();
+		elementEvent.getData().clear();
 		parametersView.setItems(null);
+		actionEvent.requestFocus();
 		addEventPane.setVisible(true);
 	}
 
@@ -251,6 +256,7 @@ public class SimulationNewController implements MainChildrenController
 		e.setParams(parametersView.getItems());
 
 		addedEvents.getItems().add(e);
+		addedEvents.getItems().sort(Comparator.comparing(t->((Event) t).getParam("startTime").getValue()));
 		addEventPane.setVisible(false);
 	}
 
@@ -441,7 +447,9 @@ public class SimulationNewController implements MainChildrenController
 					e.fromString(event);
 					addedEvents.getItems().add(e);
 				}
+				addedEvents.getItems().sort(Comparator.comparing(t->((Event) t).getParam("startTime").getValue()));
 			}
+			
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
 			{
 				String stopTime = td.getTaskConfiguration().getParameter("stopTime");

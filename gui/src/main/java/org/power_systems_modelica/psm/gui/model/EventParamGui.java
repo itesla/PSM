@@ -16,6 +16,10 @@ public class EventParamGui implements Serializable  {
 		return name.get();
 	}
 	
+	public String getNameWithoutUnit() {
+		return name.get().replace(" (" + unit + ")", "");
+	}
+	
 	public StringProperty nameProperty() {
 		return name;
 	}
@@ -51,7 +55,7 @@ public class EventParamGui implements Serializable  {
 	@Override
 	public String toString() {
 		
-		String t = name.get().replace(" (" + unit + ")", "") +
+		String t = getNameWithoutUnit() +
 				"=" +
 				value.get();
 		

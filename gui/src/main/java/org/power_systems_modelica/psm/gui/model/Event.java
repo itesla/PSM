@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.gui.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Event implements Serializable  {
@@ -29,6 +30,14 @@ public class Event implements Serializable  {
 
 	public void setParams(List<EventParamGui> params) {
 		this.params = params;
+	}
+
+	public EventParamGui getParam(String key) {
+		Optional<EventParamGui> param = params.stream().filter(p->p.getNameWithoutUnit().equals(key)).findFirst();
+		if (param.isPresent())
+			return param.get();
+		
+		return null;
 	}
 
 	public void fromString(String event) {

@@ -35,7 +35,25 @@ model _G10______SM_Initialization
 	IWLMDV = 2,
 	pPuWLMDV = 0.0
     ) annotation (Placement(transformation()));
-  htgpsat3_init htgpsat3__G10______SM
+  iPSL.Electrical.Controls.Eurostag.oelpsat_Init oelpsat__G10______SM
+ (
+	PNALT = 0.0,
+	IFDLIM = 3.,
+	K0 = 50.,
+	VFMAX = 4.,
+	SNREF = 100.0,
+	TE = 0.1,
+	VOELMAX = 1.100000,
+	V0 = 0.,
+	SN = 800.0,
+	T0 = 10.,
+	T1 = 4.,
+	T2 = 20.,
+	TR = 0.001,
+	VFMIN = 0.,
+	PN = 800.0
+  ) annotation (Placement(transformation()));
+  iPSL.Electrical.Controls.Eurostag.htgpsat3_Init htgpsat3__G10______SM
  (
 	A21 = 1.5,
 	PNALT = 0.0,
@@ -56,26 +74,8 @@ model _G10______SM_Initialization
 	TR = 5.,
 	PN = 800.0
   ) annotation (Placement(transformation()));
-  oelpsat_init oelpsat__G10______SM
- (
-	PNALT = 0.0,
-	IFDLIM = 3.,
-	K0 = 50.,
-	VFMAX = 4.,
-	SNREF = 100.0,
-	TE = 0.1,
-	VOELMAX = 1.100000,
-	V0 = 0.,
-	SN = 800.0,
-	T0 = 10.,
-	T1 = 4.,
-	T2 = 20.,
-	TR = 0.001,
-	VFMIN = 0.,
-	PN = 800.0
-  ) annotation (Placement(transformation()));
     equation
+	connect(gen_pwGeneratorM2S__G10______SM.pin_TerminalVoltage, oelpsat__G10______SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__G10______SM.pin_CM, htgpsat3__G10______SM.pin_CM) annotation (Line());
 	connect(gen_pwGeneratorM2S__G10______SM.pin_OMEGA, htgpsat3__G10______SM.pin_OMEGA) annotation (Line());
-	connect(gen_pwGeneratorM2S__G10______SM.pin_TerminalVoltage, oelpsat__G10______SM.pin_TerminalVoltage) annotation (Line());
 end _G10______SM_Initialization;

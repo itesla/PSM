@@ -23,7 +23,6 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.ElementModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +31,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -41,7 +41,6 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -111,7 +110,12 @@ public class SimulationNewController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
+		editingEvent = null;
+
 		addEventPane.setVisible(false);
+		removeEvent.setDisable(true);
+		editEvent.setDisable(true);
+
 		Utils.setDragablePane(addEventPane);
 
 		elementEvent.setFilterMode(true);
@@ -221,6 +225,26 @@ public class SimulationNewController implements MainChildrenController
 			}
 		});
 
+		addedEvents.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Event> observable, Event oldValue,
+					Event newValue)
+			{
+				if (newValue != null)
+				{
+					removeEvent.setDisable(false);
+					editEvent.setDisable(false);
+				}
+				else
+				{
+					removeEvent.setDisable(true);
+					editEvent.setDisable(true);
+				}
+			}
+		});
+
 		// single cell selection mode
 		// parametersView.getSelectionModel().setCellSelectionEnabled(true);
 	}
@@ -229,9 +253,35 @@ public class SimulationNewController implements MainChildrenController
 	private void handleOpenAddEvent()
 	{
 		LOG.debug("handleAddEvent");
+		editingEvent = null;
+		add.setText("Add");
 		elementEvent.clear();
 		actionEvent.getSelectionModel().clearSelection();
 		parametersView.setItems(null);
+		addEventPane.setVisible(true);
+	}
+
+	@FXML
+	private void handleRemoveEvent()
+	{
+		LOG.debug("handleRemoveEvent");
+		ObservableList<Event> list = addedEvents.getSelectionModel().getSelectedItems();
+		addedEvents.getItems().removeAll(list);
+	}
+
+	@FXML
+	private void handleEditEvent()
+	{
+		LOG.debug("handleEditEvent");
+		ObservableList<Event> list = addedEvents.getSelectionModel().getSelectedItems();
+		editingEvent = list.get(0);
+
+		add.setText("Edit");
+		actionEvent.getSelectionModel().clearSelection();
+		actionEvent.getSelectionModel().select(editingEvent.getAction());
+		elementEvent.getTextbox().setText(editingEvent.getElement());
+		parametersView.getItems().clear();
+		parametersView.getItems().addAll(editingEvent.getParams());
 		addEventPane.setVisible(true);
 	}
 
@@ -249,12 +299,17 @@ public class SimulationNewController implements MainChildrenController
 		LOG.debug("handleAddEvent");
 
 		Event e = new Event();
+		if (editingEvent != null)
+			e = editingEvent;
+		else
+			addedEvents.getItems().add(e);
+
 		e.setElement(elementEvent.getText());
 		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
 		e.setParams(parametersView.getItems());
 
-		addedEvents.getItems().add(e);
-		addedEvents.getItems().sort(Comparator.comparing(t->((Event) t).getParam("startTime").getValue()));
+		addedEvents.getItems()
+				.sort(Comparator.comparing(t -> ((Event) t).getParam("startTime").getValue()));
 		addEventPane.setVisible(false);
 	}
 
@@ -263,14 +318,6 @@ public class SimulationNewController implements MainChildrenController
 	{
 		LOG.debug("handleAddEvent");
 		addEventPane.setVisible(false);
-	}
-
-	@FXML
-	private void handleRemoveEvent()
-	{
-		LOG.debug("handleRemoveEvent");
-		ObservableList<Event> list = addedEvents.getSelectionModel().getSelectedItems();
-		addedEvents.getItems().removeAll(list);
 	}
 
 	private void handleLoadWorkflow()
@@ -373,7 +420,7 @@ public class SimulationNewController implements MainChildrenController
 
 		stopTimeText.setText("1");
 		stepBySecondText.setText("100");
-		
+
 		createFilteredMatCheck.setSelected(CREATEFILTEREDMAT);
 	}
 
@@ -455,15 +502,17 @@ public class SimulationNewController implements MainChildrenController
 					e.fromString(event);
 					addedEvents.getItems().add(e);
 				}
-				addedEvents.getItems().sort(Comparator.comparing(t->((Event) t).getParam("startTime").getValue()));
+				addedEvents.getItems().sort(
+						Comparator.comparing(t -> ((Event) t).getParam("startTime").getValue()));
 			}
-			
+
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
 			{
 				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
 				stopTimeText.setText(stopTime);
-				
-				String stepBySecond = td.getTaskConfiguration().getParameter("numOfIntervalsPerSecond");
+
+				String stepBySecond = td.getTaskConfiguration()
+						.getParameter("numOfIntervalsPerSecond");
 				stepBySecondText.setText(stepBySecond);
 
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
@@ -511,6 +560,10 @@ public class SimulationNewController implements MainChildrenController
 
 	@FXML
 	private ListView<Event>						addedEvents;
+	@FXML
+	private Button								removeEvent;
+	@FXML
+	private Button								editEvent;
 
 	@FXML
 	private TitledPane							addEventPane;
@@ -524,6 +577,10 @@ public class SimulationNewController implements MainChildrenController
 	private TableColumn<EventParamGui, String>	nameParamColumn;
 	@FXML
 	private TableColumn<EventParamGui, String>	valueParamColumn;
+	@FXML
+	private Button								add;
+
+	private Event								editingEvent;
 
 	@FXML
 	private ComboBox<DsEngine>					dsEngine;

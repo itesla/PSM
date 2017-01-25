@@ -16,7 +16,9 @@ import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 import eu.itesla_project.iidm.network.SingleTerminalConnectable;
+import eu.itesla_project.iidm.network.Switch;
 import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
+import eu.itesla_project.iidm.network.VoltageLevel.BusBreakerView;
 
 public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 {
@@ -66,7 +68,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 	}
 
 	@Override
-	public Optional<ModelicaInterconnection> resolveConnectionTarget(
+	public ModelicaInterconnection resolveConnectionTarget(
 			String targetItem,
 			String targetPin,
 			ModelicaModel sourceModel)
@@ -107,11 +109,30 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			TwoTerminalsConnectable.Side side;
 			if (targetItem.endsWith("1}")) side = TwoTerminalsConnectable.Side.ONE;
 			else if (targetItem.endsWith("2}")) side = TwoTerminalsConnectable.Side.TWO;
-			else return Optional.empty();
+			else return null;
 
-			TwoTerminalsConnectable<?> e = (TwoTerminalsConnectable<?>) sourceElement;
-			Bus bus = e.getTerminal(side).getBusBreakerView().getBus();
-			targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
+			Bus bus = null;
+			if (sourceElement instanceof TwoTerminalsConnectable)
+			{
+				TwoTerminalsConnectable<?> e = (TwoTerminalsConnectable<?>) sourceElement;
+				bus = e.getTerminal(side).getBusBreakerView().getBus();
+			}
+			else if (sourceElement instanceof Switch)
+			{
+				Switch sw = (Switch) sourceElement;
+				BusBreakerView bbv = sw.getVoltageLevel().getBusBreakerView();
+				switch (side)
+				{
+				case ONE:
+					bus = bbv.getBus1(sw.getId());
+					break;
+				case TWO:
+					bus = bbv.getBus2(sw.getId());
+					break;
+				}
+			}
+			if (bus != null)
+				targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
 		}
 		if (targetModel == null)
 		{
@@ -120,7 +141,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 					targetItem,
 					targetPin,
 					sourceElement.getId());
-			return Optional.empty();
+			return null;
 		}
 
 		Optional<ModelicaInterconnection> c = findInterconnection(targetPin,
@@ -132,13 +153,13 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 					targetPin,
 					targetItem,
 					sourceElement.getId());
-			return Optional.empty();
+			return null;
 		}
 
 		// All connectors that have been resolved through this resolver will receive a proper staticId
 		String targetStaticId = targetModel.getStaticId();
 		c.get().setStaticId(targetStaticId);
-		return c;
+		return c.get();
 	}
 
 	private Optional<ModelicaInterconnection> findInterconnection(
@@ -160,7 +181,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 						int k = c0.nextConnectionArrayItem();
 						String var1 = String.format("%s[%d]", varArrayName, k);
 						ModelicaInterconnection c1 = new ModelicaInterconnection(
-								c0.getName(), c0.getComponentId(), var1);
+								c0.getName(), c0.getComponentId(), var1, null, null, null, null);
 						return c1;
 					});
 		}

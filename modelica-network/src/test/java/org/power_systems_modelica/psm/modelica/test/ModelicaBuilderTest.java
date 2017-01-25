@@ -191,7 +191,9 @@ public class ModelicaBuilderTest
 	{
 		ModelicaInterconnection cnx = new ModelicaInterconnection(
 				name,
-				componentId, componentVar);
+				componentId, componentVar,
+				null, null,
+				null, null);
 		return cnx;
 	}
 
@@ -200,8 +202,10 @@ public class ModelicaBuilderTest
 			String model, String name)
 	{
 		ModelicaInterconnection cnx = new ModelicaInterconnection(
+				null,
 				componentId, componentVar,
-				model, name);
+				model, name,
+				null, null);
 		return cnx;
 	}
 
@@ -245,7 +249,7 @@ public class ModelicaBuilderTest
 				}
 
 				@Override
-				public Optional<ModelicaInterconnection> resolveConnectionTarget(
+				public ModelicaInterconnection resolveConnectionTarget(
 						String targetItem,
 						String targetPin,
 						ModelicaModel sourceModel)
@@ -261,7 +265,7 @@ public class ModelicaBuilderTest
 					// FIXME Maybe the connectors should already have its staticId set ???
 					cnxs[0].setStaticId(targetModel.getStaticId());
 
-					return Optional.of(cnxs[0]);
+					return cnxs[0];
 				}
 			});
 		}

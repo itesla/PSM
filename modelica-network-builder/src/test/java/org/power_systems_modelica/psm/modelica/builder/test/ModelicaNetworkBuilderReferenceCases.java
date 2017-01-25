@@ -72,7 +72,7 @@ public class ModelicaNetworkBuilderReferenceCases
 	@Test
 	public void build7buses() throws Exception
 	{
-		build("7buses", "CIM_7buses_EQ.xml", "7buses/ddr", "itesla/CIM_7buses_no_lf.mo", 7, 3);
+		build("7buses", "M7buses_EQ.xml", "7buses/ddr", "itesla/M7buses_no_lf.mo", 7, 3);
 	}
 
 	@Test

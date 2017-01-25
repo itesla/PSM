@@ -1,10 +1,8 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
-import java.util.Optional;
-
-import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
+import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 
 public interface ReferenceResolver
@@ -14,7 +12,7 @@ public interface ReferenceResolver
 			throws ModelicaArgumentReferenceException;
 
 	// Return the connection point for the target item and pin given the source model
-	default Optional<ModelicaInterconnection> resolveConnectionTarget(
+	default ModelicaInterconnection resolveConnectionTarget(
 			String targetItem,
 			String targetPin,
 			ModelicaModel sourceModel)

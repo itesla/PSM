@@ -59,7 +59,7 @@ public class ModelicaParserReferenceCases
 	@Test
 	public void parse7buses() throws Exception
 	{
-		parse("7buses/itesla", "CIM_7buses_no_lf.mo");
+		parse("7buses/itesla", "M7buses_no_lf.mo");
 	}
 
 	@Test

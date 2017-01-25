@@ -13,6 +13,7 @@ import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Line;
 import eu.itesla_project.iidm.network.Load;
 import eu.itesla_project.iidm.network.ShuntCompensator;
+import eu.itesla_project.iidm.network.Switch;
 import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class ModelProvider
@@ -90,6 +91,7 @@ public class ModelProvider
 		else if (e instanceof Load) return "Load";
 		else if (e instanceof ShuntCompensator) return "Shunt";
 		else if (e instanceof Generator) return "Generator";
+		else if (e instanceof Switch) return "Switch";
 		return null;
 	}
 

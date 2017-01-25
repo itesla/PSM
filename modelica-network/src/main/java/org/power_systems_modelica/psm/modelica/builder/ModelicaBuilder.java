@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
@@ -159,20 +158,34 @@ public abstract class ModelicaBuilder
 
 	protected List<ModelicaEquation> buildInterconnections(ModelicaModel m)
 	{
-		Stream<ModelicaInterconnection> from = Stream.of(m.getInterconnections());
+		List<ModelicaEquation> connections = new ArrayList<>();
+		for (ModelicaInterconnection c : m.getInterconnections())
+		{
+			if (c.isLocal2Target())
+			{
+				ModelicaInterconnection tc = resolveTarget(
+						c.getTargetModel(), c.getTargetName(), m, mo);
+				if (tc == null) continue;
 
-		List<ModelicaEquation> connections = from
-				.filter(fc -> fc.getTargetName() != null)
-				.map(fc -> resolveTarget(fc, m, mo)
-						.map(tc -> {
-							ModelicaConnect eqc = buildConnection(tc, fc);
-							// For resolved targets we have stored the proper static identifier in target connector
-							annotateStaticIdsInConnection(eqc, tc.getStaticId(), m.getStaticId());
-							return eqc;
-						}))
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.collect(Collectors.toList());
+				ModelicaConnect eqc = buildConnection(tc, c);
+				// For resolved targets we have stored the proper static identifier in target connector
+				annotateStaticIdsInConnection(eqc, tc.getStaticId(), m.getStaticId());
+				connections.add(eqc);
+			}
+			else if (c.isDoubleTarget())
+			{
+				ModelicaInterconnection tc1 = resolveTarget(
+						c.getTargetModel(), c.getTargetName(), m, mo);
+				ModelicaInterconnection tc2 = resolveTarget(
+						c.getTargetModel2(), c.getTargetName2(), m, mo);
+				if (tc1 != null && tc2 != null)
+				{
+					ModelicaConnect eqc = buildConnection(tc1, tc2);
+					annotateStaticIdsInConnection(eqc, tc1.getStaticId(), tc2.getStaticId());
+					connections.add(eqc);
+				}
+			}
+		}
 		return connections;
 	}
 
@@ -194,28 +207,26 @@ public abstract class ModelicaBuilder
 		else eqc.getAnnotation().addItem(ids);
 	}
 
-	protected Optional<ModelicaInterconnection> resolveTarget(
-			ModelicaInterconnection ic,
+	protected ModelicaInterconnection resolveTarget(
+			String targetModel,
+			String targetName,
 			ModelicaModel m,
 			ModelicaDocument mo)
 	{
+		if (targetModel == null)
+		{
+			LOG.warn("No model was specified for interconnection with data source {}", targetModel);
+			return null;
+		}
 		// The resolver for target of interconnections is the dynamic network
 		String dataSource = "DYNN";
 		ReferenceResolver r = referenceResolvers.get(dataSource);
 		if (r == null)
 		{
 			LOG.warn("No resolver found for connector with data source {}", dataSource);
-			return Optional.empty();
+			return null;
 		}
-		String model = ic.getTargetModel();
-		if (model == null)
-		{
-			LOG.warn("No model was specified for interconnection with data source {}", model);
-			return Optional.empty();
-		}
-		String name = ic.getTargetName();
-
-		return r.resolveConnectionTarget(model, name, m);
+		return r.resolveConnectionTarget(targetModel, targetName, m);
 	}
 
 	protected void registerResolver(String dataSource, ReferenceResolver resolver)

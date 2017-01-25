@@ -85,6 +85,10 @@ public class IidmNames
 				return "u0_im";
 			case "V2":
 				return "Vnom";
+			case "p0":
+				return "P";
+			case "q0":
+				return "Q";
 			default:
 				return null;
 			}

@@ -19,13 +19,14 @@ public class InterconnectionXml
 
 		String targetModel = r.getAttributeValue(null, "targetModel");
 		String targetName = r.getAttributeValue(null, "targetName");
+		String targetModel2 = r.getAttributeValue(null, "targetModel2");
+		String targetName2 = r.getAttributeValue(null, "targetName2");
 
-		Interconnection ic;
-		// TODO These are in fact two different types of objects!!!
-		if (targetModel != null && targetName != null)
-			ic = new Interconnection(componentId, componentVar, targetModel, targetName);
-		else
-			ic = new Interconnection(name, componentId, componentVar);
+		Interconnection ic = new Interconnection(
+				name, componentId, componentVar,
+				targetModel, targetName,
+				targetModel2, targetName2);
+
 		return ic;
 	}
 
@@ -33,11 +34,16 @@ public class InterconnectionXml
 			throws XMLStreamException
 	{
 		w.writeEmptyElement(ROOT_ELEMENT_NAME);
+
 		if (ic.getName() != null) w.writeAttribute("name", ic.getName());
+
 		if (ic.getComponentId() != null) w.writeAttribute("componentId", ic.getComponentId());
-		w.writeAttribute("componentVar", ic.getComponentVar());
+		if (ic.getComponentVar() != null) w.writeAttribute("componentVar", ic.getComponentVar());
+
 		if (ic.getTargetModel() != null) w.writeAttribute("targetModel", ic.getTargetModel());
-		if (ic.getTargetName() != null)
-			w.writeAttribute("targetName", ic.getTargetName());
+		if (ic.getTargetName() != null) w.writeAttribute("targetName", ic.getTargetName());
+
+		if (ic.getTargetModel2() != null) w.writeAttribute("targetModel2", ic.getTargetModel2());
+		if (ic.getTargetName2() != null) w.writeAttribute("targetName2", ic.getTargetName2());
 	}
 }

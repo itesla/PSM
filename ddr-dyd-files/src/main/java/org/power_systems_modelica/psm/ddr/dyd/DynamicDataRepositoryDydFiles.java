@@ -250,12 +250,14 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		m.addDeclarations(ds);
 
 		m.setInterconnections(mdef.getInterconnections().stream()
-				.map(ic -> ModelicaInterconnection.create(
+				.map(ic -> new ModelicaInterconnection(
 						ic.getName(),
 						dynamicId(ic.getComponentId(), staticId),
 						ic.getComponentVar(),
 						ic.getTargetModel(),
-						ic.getTargetName()))
+						ic.getTargetName(),
+						ic.getTargetModel2(),
+						ic.getTargetName2()))
 				.collect(Collectors.toList()));
 
 		List<ModelicaEquation> meqs = new ArrayList<>(mdef.getConnections().size());

@@ -93,7 +93,7 @@ public class Annotation implements Comparable<Annotation>
 		Objects.requireNonNull(a);
 		items.add(new AnnotationItem(a));
 	}
-	
+
 	public String asText()
 	{
 		return items.stream().map(AnnotationItem::asText).collect(Collectors.joining(","));
@@ -194,7 +194,7 @@ public class Annotation implements Comparable<Annotation>
 
 	private static String writeInterconnection(ModelicaInterconnection c)
 	{
-		// TODO Code for writing and reading interconnections should be symmetric 
+		// TODO Code for writing and reading interconnections should be symmetric
 		String[] attrNames = {
 				"name",
 				"componentId",
@@ -248,12 +248,14 @@ public class Annotation implements Comparable<Annotation>
 			String value = keyvalue[1].replace("\"", "");
 			attrs.put(key, value);
 		}
-		return ModelicaInterconnection.create(
+		return new ModelicaInterconnection(
 				attrs.get("name"),
 				attrs.get("componentId"),
 				attrs.get("componentVar"),
 				attrs.get("targetModel"),
-				attrs.get("targetName"));
+				attrs.get("targetName"),
+				attrs.get("targetModel2"),
+				attrs.get("targetName2"));
 	}
 
 	private final Set<AnnotationItem>	items;

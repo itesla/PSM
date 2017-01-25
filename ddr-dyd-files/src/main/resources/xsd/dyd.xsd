@@ -107,6 +107,8 @@
 			type="dyd:nonEmptyString" />
 		<xs:attribute name="targetModel" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="targetName" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="targetModel2" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="targetName2" use="optional" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="Connection">
 		<xs:attribute name="id1" use="required" type="dyd:nonEmptyString" />

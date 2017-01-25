@@ -25,6 +25,8 @@ import eu.itesla_project.iidm.network.Connectable;
 import eu.itesla_project.iidm.network.EquipmentTopologyVisitor;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.Switch;
+import eu.itesla_project.iidm.network.VoltageLevel;
 
 public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 {
@@ -134,7 +136,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 					ModelicaModel de = getDdr().getModelicaModel(e, Stage.SIMULATION);
 					if (de == null)
 					{
-						LOG.warn("No Modelica Model found for element " + e);
+						LOG.warn("No Dynamic model found for element " + e);
 						return;
 					}
 
@@ -147,6 +149,21 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			};
 			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
 			else b.visitConnectedOrConnectableEquipments(visitor);
+		}
+
+		// Because we have selected to export the bus breaker view, export all the switches
+		for (VoltageLevel vl : network.getVoltageLevels())
+		{
+			for (Switch sw : vl.getBusBreakerView().getSwitches())
+			{
+				ModelicaModel d = getDdr().getModelicaModel(sw, Stage.SIMULATION);
+				if (d == null)
+				{
+					LOG.warn("No dynamic model found for switch " + sw);
+					continue;
+				}
+				addDynamicModel(d);
+			}
 		}
 	}
 

@@ -15,8 +15,12 @@ public class GuiFileChooser {
 	public void setDetails(String initialDirectory, String description, String... extensions) {
 			
         //Set extension filter
+        FileChooser.ExtensionFilter extAllFilter = new FileChooser.ExtensionFilter("All files (*.*)", "*.*");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(description, extensions);
+        fileChooser.getExtensionFilters().clear();
+        fileChooser.getExtensionFilters().add(extAllFilter);
         fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setSelectedExtensionFilter(extFilter);
         fileChooser.setInitialDirectory(new File(initialDirectory));
 		
 	}

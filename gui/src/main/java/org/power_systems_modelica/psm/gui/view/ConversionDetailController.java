@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -342,7 +343,7 @@ public class ConversionDetailController implements MainChildrenController
 				treeItem.getChildren().add(new TreeItem<ElementModel>((ElementModel) model));
 				treeItem.setExpanded(true);
 			});
-
+			root.getChildren().sort(Comparator.comparing(t->((TreeItem<ElementModel>) t).getValue().getStaticId()));
 		}
 	}
 

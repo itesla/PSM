@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -16,7 +17,10 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.ProgressData;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -31,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
 
 public class SimulationCheckVerifyDetailController implements MainChildrenController
@@ -117,6 +122,109 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		}
 	}
 
+	@FXML
+	private void handleFindMoContentEvent()
+	{
+		moEditor.find();
+	}
+
+	@FXML
+	private void handleFindMoweContentEvent()
+	{
+		moweEditor.find();
+	}
+
+	@FXML
+	private void handleSaveMoFileContentEvent()
+	{
+		saveFileContentEvent(moEditor);
+	}
+
+	@FXML
+	private void handleSaveMoweFileContentEvent()
+	{
+		saveFileContentEvent(moweEditor);
+	}
+
+	private void saveFileContentEvent(CodeEditor codeEditor)
+	{
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		try
+		{
+			PathUtils.saveFile(location, file, ddrContent);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void handleSaveAsMoFileContentEvent()
+	{
+		saveAsFileContentEvent(moEditor);
+	}
+
+	@FXML
+	private void handleSaveAsMoweFileContentEvent()
+	{
+		saveAsFileContentEvent(moweEditor);
+	}
+
+	private void saveAsFileContentEvent(CodeEditor codeEditor)
+	{
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		boolean close = true;
+		try
+		{
+			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
+					file, ddrContent);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void handleRevertMoFileContentEvent()
+	{
+		moEditor.revertEdits();
+	}
+
+	@FXML
+	private void handleRevertMoweFileContentEvent()
+	{
+		moweEditor.revertEdits();
+	}
+
+	private void showModelicaFileContent(CodeEditor codeEditor, String path, String file)
+	{
+
+		StringBuilder fileContent = new StringBuilder();
+		try
+		{
+			fileContent = PathUtils.loadFile(path, file);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		codeEditor.setEditingFile(path, file);
+		codeEditor.setCode(fileContent);
+		codeEditor.setVisible(true);
+	}
+
 	public void setMainService(MainService mainService, Workflow w, boolean isCheckDetail)
 	{
 
@@ -133,12 +241,13 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		}
 
 		checkLabel = "Label";
+		String moInput = null;
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 
 			if (td.getTaskClass().equals(ModelicaParserTask.class))
 			{
-				String moInput = td.getTaskConfiguration().getParameter("source");
+				moInput = td.getTaskConfiguration().getParameter("source");
 
 				try
 				{
@@ -208,10 +317,49 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 				dse = Utils.getDsEngine(simulationEngine);
 			}
 		}
+
+		moTab.setDisable(true);
+		moweTab.setDisable(true);
+		if (moInput != null)
+		{
+
+			java.nio.file.Path moInputPath = Paths.get(moInput);
+			String path = moInputPath.toFile().getParent();
+			if (Files.exists(moInputPath, LinkOption.NOFOLLOW_LINKS))
+			{
+				moTab.setDisable(false);
+				String file = moInputPath.toFile().getName();
+				showModelicaFileContent(moEditor, path, file);
+			}
+
+			String moweInput = Utils.replaceLast(moInput, ".mo", "_events.mo");
+			java.nio.file.Path moweInputPath = Paths.get(moweInput);
+			if (Files.exists(moweInputPath, LinkOption.NOFOLLOW_LINKS))
+			{
+				moweTab.setDisable(false);
+				String file = moweInputPath.toFile().getName();
+				showModelicaFileContent(moweEditor, path, file);
+			}
+		}
+	}
+
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+		this.fileChooser = fileChooser;
 	}
 
 	@FXML
 	private TitledPane						panel;
+
+	@FXML
+	private Tab								moTab;
+	@FXML
+	private Tab								moweTab;
+
+	@FXML
+	private CodeEditor						moEditor;
+	@FXML
+	private CodeEditor						moweEditor;
 
 	@FXML
 	private DynamicTreeView<ProgressData>	treeView;
@@ -228,6 +376,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	private String							createFilteredMat;
 
 	private boolean							isCheckDetail;
+	private GuiFileChooser					fileChooser;
 
 	private MainService						mainService;
 

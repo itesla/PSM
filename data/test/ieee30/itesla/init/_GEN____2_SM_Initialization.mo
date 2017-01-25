@@ -101,11 +101,12 @@ model _GEN____2_SM_Initialization
 	PN = 1008.0,
 	T3 = 10.
   ) annotation (Placement(transformation()));
+  Modelica.Blocks.Sources.Constant zero__GEN____2_SM (k = 0) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__GEN____2_SM.pin_ActivePowerSN, pssi3e2b__GEN____2_SM.pin_ActivePowerSN) annotation (Line());
 	connect(gen_pwGeneratorM2S__GEN____2_SM.pin_TerminalVoltage, sexs__GEN____2_SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__GEN____2_SM.pin_EFD, sexs__GEN____2_SM.pin_EFD) annotation (Line());
 	connect(gen_pwGeneratorM2S__GEN____2_SM.pin_OMEGA, gsteam0__GEN____2_SM.pin_OMEGA) annotation (Line());
 	connect(gen_pwGeneratorM2S__GEN____2_SM.pin_CM, gsteam0__GEN____2_SM.pin_CM) annotation (Line());
-	sexs__GEN____2_SM.pin_VS=0;
+    connect(sexs__GEN____2_SM.pin_VS, zero__GEN____2_SM.y) annotation (Line());
 end _GEN____2_SM_Initialization;

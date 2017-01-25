@@ -48,9 +48,6 @@ public class ModelicaSimulatorTaskResults extends WorkflowTask
 		running();
 
 		Path modelicaEngineWorkingDir = Paths.get(workflow.getResults(source).toString());
-		System.out.println("Source: " + source);
-		System.out.println("Source result: " + modelicaEngineWorkingDir);
-		System.out.println("Target: " + target);
 
 		try
 		{
@@ -58,7 +55,6 @@ public class ModelicaSimulatorTaskResults extends WorkflowTask
 					.filter(path -> path.toString().contains("_res") &&
 							(path.toString().endsWith(".mat") || path.toString().endsWith(".csv")))
 					.map(Path::toFile).forEach(file -> {
-						System.out.println("File: " + file.toPath());
 						try
 						{
 							Files.copy(file.toPath(), (new File(target, file.getName())).toPath(),

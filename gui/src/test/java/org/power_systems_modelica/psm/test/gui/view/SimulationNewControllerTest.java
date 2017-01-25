@@ -37,13 +37,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SimulationNewControllerTest extends ApplicationTest {
+public class SimulationNewControllerTest extends ApplicationTest
+{
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws Exception
+	{
 
 		FXMLLoader loader = null;
-		try {
+		try
+		{
 
 			MainService mainService = new MainService(null);
 			mainService.setStage(stage);
@@ -61,45 +64,54 @@ public class SimulationNewControllerTest extends ApplicationTest {
 			stage.setScene(scene);
 			stage.show();
 
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void testSetCase() {
-		
+	public void testSetCase()
+	{
+
 		Case cs = new Case();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
 
-		interact(new Runnable() {
+		interact(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
 				ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
 
 				controller.setCase(cs);
-				
-				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+
+				assertEquals("Reference cases",
+						catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
 
 			}
 
 		});
 	}
-	
+
 	@Test
-	public void testSource() {
+	public void testSource()
+	{
 
 		ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
 		ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
 
 		ObservableList<Catalog> catalogs = CatalogService.getCatalogs("cases");
 		assertEquals(catalogs.size(), catalogCaseSource.getItems().size());
-		Catalog catalog = catalogs.stream().filter(c -> c.getName().equals("Reference cases")).findFirst().get();
+		Catalog catalog = catalogs.stream().filter(c -> c.getName().equals("Reference cases"))
+				.findFirst().get();
 		clickOn("#catalogCaseSource").clickOn("Reference cases");
-		assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+		assertEquals("Reference cases",
+				catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 
 		ObservableList<ConvertedCase> cases = CaseService.getConvertedCases(catalog);
 		assertEquals(cases.size(), caseSource.getItems().size());
@@ -109,7 +121,8 @@ public class SimulationNewControllerTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testAddEvent() {
+	public void testAddEvent()
+	{
 
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
@@ -158,18 +171,19 @@ public class SimulationNewControllerTest extends ApplicationTest {
 		verifyThat("#addedEvents", ListViewMatchers.hasItems(1));
 		ListView<Event> listView = lookup("#addedEvents").query();
 		assertEquals(event.toString(), listView.getItems().get(0).toString());
-		
+
 		clickOn("#addedEvents").clickOn(event.toString());
 		clickOn("#removeEvents");
 		verifyThat("#addedEvents", ListViewMatchers.isEmpty());
 	}
-	
+
 	@Test
-	public void testSetWorkflow() throws WorkflowCreationException {
-		
+	public void testSetWorkflow() throws WorkflowCreationException
+	{
+
 		ConvertedCase cs = new ConvertedCase();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
-		
+
 		Event event = new Event();
 		event.setElement("_BUS___10_TN");
 		event.setAction("BusFault");
@@ -195,22 +209,26 @@ public class SimulationNewControllerTest extends ApplicationTest {
 		param.setValue("0.5");
 		params.add(param);
 		event.setParams(params);
-		
+
 		ObservableList<Event> events = FXCollections.observableArrayList();
 		events.add(event);
 
-		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.FAKE, "1.0", false, false, false);
+		Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, DsEngine.FAKE, "1.0",
+				"100", false, false, false);
 
-		interact(new Runnable() {
+		interact(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
 				ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
-				
+
 				controller.setWorkflow(w);
 
-				assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
+				assertEquals("Reference cases",
+						catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 				assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());
 
 			}

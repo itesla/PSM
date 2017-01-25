@@ -117,7 +117,7 @@ public class WorkflowStatusController implements MainChildrenController
 		{
 			panel.setText("Conversion detail");
 			firstLabelTitle = "Case:";
-			secondLabelTitle = "Ddr:";
+			secondLabelTitle = "DDR:";
 		}
 		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
 		{

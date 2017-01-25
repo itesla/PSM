@@ -35,7 +35,7 @@ model _GEN______SM_Initialization
 	IWLMDV = 1,
 	pPuWLMDV = 475.0
     ) annotation (Placement(transformation()));
-  sexs_init sexs__GEN______SM
+  iPSL.Electrical.Controls.Eurostag.sexs_Init sexs__GEN______SM
  (
 	PNALT = 475.0,
 	TE = 0.05,
@@ -48,7 +48,7 @@ model _GEN______SM_Initialization
 	PN = 475.0,
 	EMAX = 4.
   ) annotation (Placement(transformation()));
-  tgov1_init tgov1__GEN______SM
+  iPSL.Electrical.Controls.Eurostag.tgov1_Init tgov1__GEN______SM
  (
 	DT = 0.,
 	RR = 0.05,
@@ -62,7 +62,7 @@ model _GEN______SM_Initialization
 	PN = 475.0,
 	T3 = 10.
   ) annotation (Placement(transformation()));
-  pss2ab_init pss2ab__GEN______SM
+  iPSL.Electrical.Controls.Eurostag.pss2ab_Init pss2ab__GEN______SM
  (
 	T4 = 0.015,
 	PNALT = 475.0,

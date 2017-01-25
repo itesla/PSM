@@ -35,7 +35,7 @@ model _G5_______SM_Initialization
 	IWLMDV = 2,
 	pPuWLMDV = 0.0
     ) annotation (Placement(transformation()));
-  htgpsat3_init htgpsat3__G5_______SM
+  iPSL.Electrical.Controls.Eurostag.htgpsat3_Init htgpsat3__G5_______SM
  (
 	A21 = 1.5,
 	PNALT = 0.0,
@@ -56,7 +56,7 @@ model _G5_______SM_Initialization
 	TR = 5.,
 	PN = 250.0
   ) annotation (Placement(transformation()));
-  oelpsat_init oelpsat__G5_______SM
+  iPSL.Electrical.Controls.Eurostag.oelpsat_Init oelpsat__G5_______SM
  (
 	PNALT = 0.0,
 	IFDLIM = 3.,

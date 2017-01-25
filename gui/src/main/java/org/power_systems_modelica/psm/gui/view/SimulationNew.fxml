@@ -65,12 +65,13 @@
 						</TitledPane>
 						<TitledPane animated="false" collapsible="false" layoutY="110.0" text="Events" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="200.0">
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0">
 									<children>
-										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="100.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="4.0" />
+										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="140.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="4.0" />
 										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="90.0" text="Added events:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<Button fx:id="addEvents" layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="35.0" styleClass="btn-default" text="+" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
-										<Button fx:id="removeEvents" layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="35.0" styleClass="btn-default" text="-" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
+										<Button fx:id="addEvents" layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="80.0" styleClass="btn-default" text="New" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
+										<Button fx:id="removeEvent" layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="80.0" styleClass="btn-default" text="Remove" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
+										<Button fx:id="editEvent" layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleEditEvent" prefWidth="80.0" styleClass="btn-default" text="Edit" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="84.0" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -78,15 +79,17 @@
 								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
 							</padding>
 						</TitledPane>
-						<TitledPane animated="false" collapsible="false" layoutY="280.0" text="Dynamic simulation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+						<TitledPane animated="false" collapsible="false" layoutY="310.0" text="Dynamic simulation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="200.0">
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="155.0" prefWidth="200.0">
 									<children>
-										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="60.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-										<ComboBox fx:id="dsEngine" layoutX="175.0" layoutY="14.0" prefWidth="300.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
-		                                <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="44.0" prefHeight="30.0" prefWidth="60.0" text="Time:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
-			                            <TextField fx:id="stopTimeText" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
-			                            <CheckBox fx:id="createFilteredMatCheck" layoutX="175.0" layoutY="74.0" mnemonicParsing="false" prefHeight="30.0" text="Create filtered Mat" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="74.0" />
+										<Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="90.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+										<ComboBox fx:id="dsEngine" prefWidth="300.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
+		                                <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="90.0" text="Time:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
+			                            <TextField fx:id="stopTimeText" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
+		                                <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="90.0" text="Steps by second:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="79.0" />
+			                            <TextField fx:id="stepBySecondText" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="79.0" />
+			                            <CheckBox fx:id="createFilteredMatCheck" mnemonicParsing="false" prefHeight="30.0" text="Create filtered Mat" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="109.0" />
 									</children>
 								</AnchorPane>
 							</content>

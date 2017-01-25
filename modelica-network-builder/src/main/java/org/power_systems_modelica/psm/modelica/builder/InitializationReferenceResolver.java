@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.modelica.builder;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ public class InitializationReferenceResolver implements ReferenceResolver
 		Object value;
 		try
 		{
-			value = results.get(m.getStaticId(), a.getSourceName());
+			value = results.get(ModelicaUtil.normalizedIdentifier(m.getStaticId()), a.getSourceName());
 			return value;
 		}
 		catch (Exception e)

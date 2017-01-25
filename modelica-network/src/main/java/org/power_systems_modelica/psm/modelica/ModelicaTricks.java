@@ -283,5 +283,28 @@ public class ModelicaTricks
 		mappingDynamicId2StaticId.put("_W_LA__46_ZANE__48_1_AC", "_W.LA__46_ZANE__48_1_AC");
 
 		mappingDynamicId2StaticId.put("_W_LA__46_SC", "_W.LA__46_SC");
+		
+		mappingDynamicId2StaticId.put("_FP_AND11_TN", "_FP.AND11_TN");
+		mappingDynamicId2StaticId.put("_FP_ANC12_EC", "_FP.ANC12_EC");
+		mappingDynamicId2StaticId.put("_FS_BIS12_TN", "_FS.BIS12_TN");
+		mappingDynamicId2StaticId.put("_FS_BIS11_TN", "_FS.BIS11_TN");
+		mappingDynamicId2StaticId.put("_FS_BIC11_EC", "_FS.BIC11_EC");
+		mappingDynamicId2StaticId.put("_FSSV_O12_TN", "_FSSV.O12_TN");
+		mappingDynamicId2StaticId.put("_FSSV_O11_TN", "_FSSV.O11_TN");
+		
+		mappingDynamicId2StaticId.put("_FP_AND11_FVERGE11_1_AC", "_FP.AND11-FVERGE11-1_AC");
+		mappingDynamicId2StaticId.put("_FP_AND11_FVERGE11_2_AC", "_FP.AND11-FVERGE11-2_AC");
+		mappingDynamicId2StaticId.put("_FS_BIS11_FVALDI11_1_AC", "_FS.BIS11-FVALDI11-1_AC");
+		mappingDynamicId2StaticId.put("_FS_BIS11_FVALDI11_2_AC", "_FS.BIS11-FVALDI11-2_AC");
+		mappingDynamicId2StaticId.put("_FSSV_O11_FP_AND11_1_AC", "_FSSV.O11-FP.AND11-1_AC");
+		mappingDynamicId2StaticId.put("_FSSV_O11_FP_AND11_2_AC", "_FSSV.O11-FP.AND11-2_AC");
+		mappingDynamicId2StaticId.put("_FSSV_O11_FTILL511_1_AC", "_FSSV.O11-FTILL511-1_AC");
+		mappingDynamicId2StaticId.put("_FSSV_O11_FTILL511_2_AC", "_FSSV.O11-FTILL511-2_AC");
+		mappingDynamicId2StaticId.put("_FTILL511_FS_BIS11_1_AC", "_FTILL511-FS.BIS11-1_AC");
+		mappingDynamicId2StaticId.put("_FTILL511_FS_BIS11_2_AC", "_FTILL511-FS.BIS11-2_AC");
+		
+		mappingDynamicId2StaticId.put("_FP_AND11_FTDPRA11_1_PT", "_FP.AND11-FTDPRA11-1_PT");
+		
+		mappingDynamicId2StaticId.put("_FSSV_T11_SM", "_FSSV.T11_SM");		
 	}
 }

@@ -1,6 +1,12 @@
 <?xml version="1.0" ?>
 <parameters xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
-    <set id="_GEN______SM_gen_pwGeneratorM2S_INITIALIZATION">
+    <set id="fixinj_pwLoadPQ_GEN__INF______SM_SIMULATION">
+        <par name="V_0" value="1.0"/>
+        <par name="angle_0" value="0.0"/>
+        <par name="P" value="-0.0"/>
+        <par name="Q" value="-0.0"/>
+    </set>
+    <set id="gen_pwGeneratorM2S__GEN______SM_INITIALIZATION">
         <par name="PNALT" value="475.0"/>
         <par name="p0" value="0.0"/>
         <par name="omega_0" value="1.0"/>
@@ -34,7 +40,7 @@
         <par name="IWLMDV" value="1"/>
         <par name="pPuWLMDV" value="475.0"/>
     </set>
-    <set id="_GEN______SM_gen_pwGeneratorM2S_SIMULATION">
+    <set id="gen_pwGeneratorM2S__GEN______SM_SIMULATION">
         <par name="SNREF" value="SNREF"/>
         <ref name="ur0" dataSource="IIDM" sourceName="u0_re"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
@@ -78,7 +84,7 @@
         <par name="PN" value="475.0"/>
         <par name="IWLMDV" value="1"/>
     </set>
-    <set id="_GEN______SM_pss2ab_INITIALIZATION">
+    <set id="pss2ab__GEN______SM_INITIALIZATION">
         <par name="T4" value="0.015"/>
         <par name="PNALT" value="475.0"/>
         <par name="VSTMIN" value="-0.1"/>
@@ -99,7 +105,7 @@
         <par name="PN" value="475.0"/>
         <par name="T3" value=".1500000"/>
     </set>
-    <set id="_GEN______SM_reg_pss2ab_SIMULATION">
+    <set id="reg_pss2ab__GEN______SM_SIMULATION">
         <par name="SNREF" value="100.0"/>
         <par name="SN" value="500.0"/>
         <par name="PN" value="475.0"/>
@@ -122,7 +128,7 @@
         <par name="T2" value="0.03"/>
         <par name="T3" value=".1500000"/>
     </set>
-    <set id="_GEN______SM_reg_sexs_SIMULATION">
+    <set id="reg_sexs__GEN______SM_SIMULATION">
         <par name="SNREF" value="100.0"/>
         <par name="SN" value="500.0"/>
         <par name="PN" value="475.0"/>
@@ -137,7 +143,7 @@
         <par name="TB" value="10."/>
         <par name="EMAX" value="4."/>
     </set>
-    <set id="_GEN______SM_reg_tgov1_SIMULATION">
+    <set id="reg_tgov1__GEN______SM_SIMULATION">
         <par name="SNREF" value="100.0"/>
         <par name="SN" value="500.0"/>
         <par name="PN" value="475.0"/>
@@ -153,7 +159,7 @@
         <par name="T2" value="3."/>
         <par name="T3" value="10."/>
     </set>
-    <set id="_GEN______SM_sexs_INITIALIZATION">
+    <set id="sexs__GEN______SM_INITIALIZATION">
         <par name="PNALT" value="475.0"/>
         <par name="TE" value="0.05"/>
         <par name="K" value="200."/>
@@ -165,7 +171,7 @@
         <par name="PN" value="475.0"/>
         <par name="EMAX" value="4."/>
     </set>
-    <set id="_GEN______SM_tgov1_INITIALIZATION">
+    <set id="tgov1__GEN______SM_INITIALIZATION">
         <par name="DT" value="0."/>
         <par name="RR" value="0.05"/>
         <par name="PNALT" value="475.0"/>
@@ -177,11 +183,5 @@
         <par name="SNREF" value="100.0"/>
         <par name="PN" value="475.0"/>
         <par name="T3" value="10."/>
-    </set>
-    <set id="_INF______SM_fixinj_pwLoadPQ_GEN_SIMULATION">
-        <par name="V_0" value="1.0"/>
-        <par name="angle_0" value="0.0"/>
-        <par name="P" value="-0.0"/>
-        <par name="Q" value="-0.0"/>
     </set>
 </parameters>

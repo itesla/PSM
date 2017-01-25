@@ -35,7 +35,7 @@ model _G14______SM_Initialization
 	IWLMDV = 2,
 	pPuWLMDV = 0.0
     ) annotation (Placement(transformation()));
-  oelpsat_init oelpsat__G14______SM
+  iPSL.Electrical.Controls.Eurostag.oelpsat_Init oelpsat__G14______SM
  (
 	PNALT = 0.0,
 	IFDLIM = 3.,
@@ -53,7 +53,7 @@ model _G14______SM_Initialization
 	VFMIN = 0.,
 	PN = 700.0
   ) annotation (Placement(transformation()));
-  govpsat1_init govpsat1__G14______SM
+  iPSL.Electrical.Controls.Eurostag.govpsat1_Init govpsat1__G14______SM
  (
 	T4 = 0.01,
 	PNALT = 0.0,

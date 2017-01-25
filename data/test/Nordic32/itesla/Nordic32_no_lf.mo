@@ -1,8 +1,9 @@
 within ;
 model Nordic32
   parameter Real SNREF = 100.0;
-  Modelica.Blocks.Interfaces.RealOutput omegaRef;
-
+  iPSL.Electrical.Machines.Eurostag.omegaRef omegaRef (
+  nGenerators = 20
+  ) annotation (Placement(transformation()));
 
 // BUSES
   iPSL.Electrical.Buses.Bus bus__N1011____TN (
@@ -219,7 +220,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 200.0,
 	 Q_0 = 80.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -227,7 +228,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 300.0,
 	 Q_0 = 100.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -235,7 +236,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 100.0,
 	 Q_0 = 40.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -243,7 +244,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 280.0,
 	 Q_0 = 95.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -251,7 +252,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 400.0,
 	 Q_0 = 180.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -259,7 +260,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 330.0,
 	 Q_0 = 90.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -267,7 +268,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 260.0,
 	 Q_0 = 100.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -275,7 +276,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 840.0,
 	 Q_0 = 300.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -283,7 +284,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 720.0,
 	 Q_0 = 230.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -291,7 +292,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 100.0,
 	 Q_0 = 30.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -299,7 +300,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 200.0,
 	 Q_0 = 50.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -307,7 +308,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 540.0,
 	 Q_0 = 160.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -315,7 +316,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 400.0,
 	 Q_0 = 149.4,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -323,7 +324,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 900.0,
 	 Q_0 = 303.2,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -331,7 +332,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 700.0,
 	 Q_0 = 250.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -339,7 +340,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 100.0,
 	 Q_0 = 50.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -347,7 +348,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 800.0,
 	 Q_0 = 302.4,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -355,7 +356,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 500.0,
 	 Q_0 = 149.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -363,7 +364,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 300.0,
 	 Q_0 = 100.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -371,7 +372,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 590.0,
 	 Q_0 = 300.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -379,7 +380,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 300.0,
 	 Q_0 = 100.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -387,7 +388,7 @@ model Nordic32
 	 V_0 = 1.0,
 	 P_0 = 2000.0,
 	 Q_0 = 500.0,
-	 alpha = 1,
+	 alpha = 2,
 	 beta = 2,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
@@ -1835,7 +1836,7 @@ model Nordic32
 	 ) annotation (Placement(transformation()));
 
 // REGULATORS
-  htgpsat3 reg_htgpsat3__G10______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G10______SM (
 	 SNREF = 100.0,
 	 SN = 800.0,
 	 PN = 800.0,
@@ -1859,7 +1860,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G10______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G10______SM (
 	 SNREF = 100.0,
 	 SN = 800.0,
 	 PN = 800.0,
@@ -1871,7 +1872,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 7.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -1881,7 +1882,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G11______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G11______SM (
 	 SNREF = 100.0,
 	 SN = 300.0,
 	 PN = 300.0,
@@ -1905,7 +1906,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G11______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G11______SM (
 	 SNREF = 100.0,
 	 SN = 300.0,
 	 PN = 300.0,
@@ -1917,7 +1918,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 4.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -1927,7 +1928,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G12______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G12______SM (
 	 SNREF = 100.0,
 	 SN = 350.0,
 	 PN = 350.0,
@@ -1951,7 +1952,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G12______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G12______SM (
 	 SNREF = 100.0,
 	 SN = 350.0,
 	 PN = 350.0,
@@ -1963,7 +1964,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 4.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -1973,7 +1974,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G13______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G13______SM (
 	 SNREF = 100.0,
 	 SN = 300.0,
 	 PN = 300.0,
@@ -1995,7 +1996,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G13______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G13______SM (
 	 SNREF = 100.0,
 	 SN = 300.0,
 	 PN = 300.0,
@@ -2011,7 +2012,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G14______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G14______SM (
 	 SNREF = 100.0,
 	 SN = 700.0,
 	 PN = 700.0,
@@ -2023,7 +2024,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 7.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2033,7 +2034,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G14______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G14______SM (
 	 SNREF = 100.0,
 	 SN = 700.0,
 	 PN = 700.0,
@@ -2049,7 +2050,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G15______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G15______SM (
 	 SNREF = 100.0,
 	 SN = 1200.0,
 	 PN = 1200.0,
@@ -2061,7 +2062,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 12.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2071,7 +2072,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G15______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G15______SM (
 	 SNREF = 100.0,
 	 SN = 1200.0,
 	 PN = 1200.0,
@@ -2087,7 +2088,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G16______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G16______SM (
 	 SNREF = 100.0,
 	 SN = 700.0,
 	 PN = 700.0,
@@ -2099,7 +2100,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 7.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2109,7 +2110,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G16______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G16______SM (
 	 SNREF = 100.0,
 	 SN = 700.0,
 	 PN = 700.0,
@@ -2125,7 +2126,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G17______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G17______SM (
 	 SNREF = 100.0,
 	 SN = 600.0,
 	 PN = 600.0,
@@ -2137,7 +2138,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 6.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2147,7 +2148,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G17______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G17______SM (
 	 SNREF = 100.0,
 	 SN = 600.0,
 	 PN = 600.0,
@@ -2163,7 +2164,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G18______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G18______SM (
 	 SNREF = 100.0,
 	 SN = 1600.0,
 	 PN = 1600.0,
@@ -2175,7 +2176,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 11.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2185,7 +2186,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G18______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G18______SM (
 	 SNREF = 100.0,
 	 SN = 1600.0,
 	 PN = 1600.0,
@@ -2201,7 +2202,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G19______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G19______SM (
 	 SNREF = 100.0,
 	 SN = 500.0,
 	 PN = 500.0,
@@ -2225,7 +2226,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G19______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G19______SM (
 	 SNREF = 100.0,
 	 SN = 500.0,
 	 PN = 500.0,
@@ -2237,7 +2238,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 4.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2247,7 +2248,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G1_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G1_______SM (
 	 SNREF = 100.0,
 	 SN = 800.0,
 	 PN = 800.0,
@@ -2271,7 +2272,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G1_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G1_______SM (
 	 SNREF = 100.0,
 	 SN = 800.0,
 	 PN = 800.0,
@@ -2283,7 +2284,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 7.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2293,7 +2294,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G20______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G20______SM (
 	 SNREF = 100.0,
 	 SN = 4500.0,
 	 PN = 4500.0,
@@ -2317,7 +2318,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G20______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G20______SM (
 	 SNREF = 100.0,
 	 SN = 4500.0,
 	 PN = 4500.0,
@@ -2329,7 +2330,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 22.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2339,7 +2340,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G2_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G2_______SM (
 	 SNREF = 100.0,
 	 SN = 600.0,
 	 PN = 600.0,
@@ -2363,7 +2364,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G2_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G2_______SM (
 	 SNREF = 100.0,
 	 SN = 600.0,
 	 PN = 600.0,
@@ -2375,7 +2376,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 4.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2385,7 +2386,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G3_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G3_______SM (
 	 SNREF = 100.0,
 	 SN = 700.0,
 	 PN = 700.0,
@@ -2409,7 +2410,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G3_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G3_______SM (
 	 SNREF = 100.0,
 	 SN = 700.0,
 	 PN = 700.0,
@@ -2421,7 +2422,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 6.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2431,7 +2432,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G4_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G4_______SM (
 	 SNREF = 100.0,
 	 SN = 600.0,
 	 PN = 600.0,
@@ -2455,7 +2456,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G4_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G4_______SM (
 	 SNREF = 100.0,
 	 SN = 600.0,
 	 PN = 600.0,
@@ -2467,7 +2468,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 5.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2477,7 +2478,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G5_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G5_______SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 250.0,
@@ -2501,7 +2502,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G5_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G5_______SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 250.0,
@@ -2523,7 +2524,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G6_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G6_______SM (
 	 SNREF = 100.0,
 	 SN = 400.0,
 	 PN = 400.0,
@@ -2535,7 +2536,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 5.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2545,7 +2546,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G6_______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G6_______SM (
 	 SNREF = 100.0,
 	 SN = 400.0,
 	 PN = 400.0,
@@ -2561,7 +2562,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G7_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G7_______SM (
 	 SNREF = 100.0,
 	 SN = 200.0,
 	 PN = 200.0,
@@ -2573,7 +2574,7 @@ model Nordic32
 	 XQ = 2.0,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 4.,
 	 K0 = 120.,
 	 VFMAX = 5.,
 	 V0 = 0.,
@@ -2583,7 +2584,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  govpsat1 reg_govpsat1__G7_______SM (
+  iPSL.Electrical.Controls.Eurostag.govpsat1 reg_govpsat1__G7_______SM (
 	 SNREF = 100.0,
 	 SN = 200.0,
 	 PN = 200.0,
@@ -2599,7 +2600,7 @@ model Nordic32
 	 TC = 0.2,
 	 TS = 5.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G8_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G8_______SM (
 	 SNREF = 100.0,
 	 SN = 850.0,
 	 PN = 850.0,
@@ -2623,7 +2624,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G8_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G8_______SM (
 	 SNREF = 100.0,
 	 SN = 850.0,
 	 PN = 850.0,
@@ -2635,7 +2636,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 8.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2645,7 +2646,7 @@ model Nordic32
 	 TR = 0.001,
 	 VFMIN = 0.
 	 ) annotation (Placement(transformation()));
-  htgpsat3 reg_htgpsat3__G9_______SM (
+  iPSL.Electrical.Controls.Eurostag.htgpsat3 reg_htgpsat3__G9_______SM (
 	 SNREF = 100.0,
 	 SN = 1000.0,
 	 PN = 1000.0,
@@ -2669,7 +2670,7 @@ model Nordic32
 	 TP = 0.04,
 	 TR = 5.
 	 ) annotation (Placement(transformation()));
-  oelpsat reg_oelpsat__G9_______SM (
+  iPSL.Electrical.Controls.Eurostag.oelpsat reg_oelpsat__G9_______SM (
 	 SNREF = 100.0,
 	 SN = 1000.0,
 	 PN = 1000.0,
@@ -2681,7 +2682,7 @@ model Nordic32
 	 XQ = 0.7,
 	 TE = 0.1,
 	 VOELMAX = 1.100000,
-	 IFDLIM = 3.,
+	 IFDLIM = 6.,
 	 K0 = 50.,
 	 VFMAX = 4.,
 	 V0 = 0.,
@@ -2693,28 +2694,89 @@ model Nordic32
 	 ) annotation (Placement(transformation()));
 
 equation
-  omegaRef = (gen_pwGeneratorM2S__G10______SM.omega*gen_pwGeneratorM2S__G10______SM.SN*gen_pwGeneratorM2S__G10______SM.HIn + gen_pwGeneratorM2S__G11______SM.omega*gen_pwGeneratorM2S__G11______SM.SN*gen_pwGeneratorM2S__G11______SM.HIn + gen_pwGeneratorM2S__G12______SM.omega*gen_pwGeneratorM2S__G12______SM.SN*gen_pwGeneratorM2S__G12______SM.HIn + gen_pwGeneratorM2S__G13______SM.omega*gen_pwGeneratorM2S__G13______SM.SN*gen_pwGeneratorM2S__G13______SM.HIn + gen_pwGeneratorM2S__G14______SM.omega*gen_pwGeneratorM2S__G14______SM.SN*gen_pwGeneratorM2S__G14______SM.HIn + gen_pwGeneratorM2S__G15______SM.omega*gen_pwGeneratorM2S__G15______SM.SN*gen_pwGeneratorM2S__G15______SM.HIn + gen_pwGeneratorM2S__G16______SM.omega*gen_pwGeneratorM2S__G16______SM.SN*gen_pwGeneratorM2S__G16______SM.HIn + gen_pwGeneratorM2S__G17______SM.omega*gen_pwGeneratorM2S__G17______SM.SN*gen_pwGeneratorM2S__G17______SM.HIn + gen_pwGeneratorM2S__G18______SM.omega*gen_pwGeneratorM2S__G18______SM.SN*gen_pwGeneratorM2S__G18______SM.HIn + gen_pwGeneratorM2S__G19______SM.omega*gen_pwGeneratorM2S__G19______SM.SN*gen_pwGeneratorM2S__G19______SM.HIn + gen_pwGeneratorM2S__G1_______SM.omega*gen_pwGeneratorM2S__G1_______SM.SN*gen_pwGeneratorM2S__G1_______SM.HIn + gen_pwGeneratorM2S__G20______SM.omega*gen_pwGeneratorM2S__G20______SM.SN*gen_pwGeneratorM2S__G20______SM.HIn + gen_pwGeneratorM2S__G2_______SM.omega*gen_pwGeneratorM2S__G2_______SM.SN*gen_pwGeneratorM2S__G2_______SM.HIn + gen_pwGeneratorM2S__G3_______SM.omega*gen_pwGeneratorM2S__G3_______SM.SN*gen_pwGeneratorM2S__G3_______SM.HIn + gen_pwGeneratorM2S__G4_______SM.omega*gen_pwGeneratorM2S__G4_______SM.SN*gen_pwGeneratorM2S__G4_______SM.HIn + gen_pwGeneratorM2S__G5_______SM.omega*gen_pwGeneratorM2S__G5_______SM.SN*gen_pwGeneratorM2S__G5_______SM.HIn + gen_pwGeneratorM2S__G6_______SM.omega*gen_pwGeneratorM2S__G6_______SM.SN*gen_pwGeneratorM2S__G6_______SM.HIn + gen_pwGeneratorM2S__G7_______SM.omega*gen_pwGeneratorM2S__G7_______SM.SN*gen_pwGeneratorM2S__G7_______SM.HIn + gen_pwGeneratorM2S__G8_______SM.omega*gen_pwGeneratorM2S__G8_______SM.SN*gen_pwGeneratorM2S__G8_______SM.HIn + gen_pwGeneratorM2S__G9_______SM.omega*gen_pwGeneratorM2S__G9_______SM.SN*gen_pwGeneratorM2S__G9_______SM.HIn) / (gen_pwGeneratorM2S__G10______SM.SN*gen_pwGeneratorM2S__G10______SM.HIn + gen_pwGeneratorM2S__G11______SM.SN*gen_pwGeneratorM2S__G11______SM.HIn + gen_pwGeneratorM2S__G12______SM.SN*gen_pwGeneratorM2S__G12______SM.HIn + gen_pwGeneratorM2S__G13______SM.SN*gen_pwGeneratorM2S__G13______SM.HIn + gen_pwGeneratorM2S__G14______SM.SN*gen_pwGeneratorM2S__G14______SM.HIn + gen_pwGeneratorM2S__G15______SM.SN*gen_pwGeneratorM2S__G15______SM.HIn + gen_pwGeneratorM2S__G16______SM.SN*gen_pwGeneratorM2S__G16______SM.HIn + gen_pwGeneratorM2S__G17______SM.SN*gen_pwGeneratorM2S__G17______SM.HIn + gen_pwGeneratorM2S__G18______SM.SN*gen_pwGeneratorM2S__G18______SM.HIn + gen_pwGeneratorM2S__G19______SM.SN*gen_pwGeneratorM2S__G19______SM.HIn + gen_pwGeneratorM2S__G1_______SM.SN*gen_pwGeneratorM2S__G1_______SM.HIn + gen_pwGeneratorM2S__G20______SM.SN*gen_pwGeneratorM2S__G20______SM.HIn + gen_pwGeneratorM2S__G2_______SM.SN*gen_pwGeneratorM2S__G2_______SM.HIn + gen_pwGeneratorM2S__G3_______SM.SN*gen_pwGeneratorM2S__G3_______SM.HIn + gen_pwGeneratorM2S__G4_______SM.SN*gen_pwGeneratorM2S__G4_______SM.HIn + gen_pwGeneratorM2S__G5_______SM.SN*gen_pwGeneratorM2S__G5_______SM.HIn + gen_pwGeneratorM2S__G6_______SM.SN*gen_pwGeneratorM2S__G6_______SM.HIn + gen_pwGeneratorM2S__G7_______SM.SN*gen_pwGeneratorM2S__G7_______SM.HIn + gen_pwGeneratorM2S__G8_______SM.SN*gen_pwGeneratorM2S__G8_______SM.HIn + gen_pwGeneratorM2S__G9_______SM.SN*gen_pwGeneratorM2S__G9_______SM.HIn);
+  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__G10______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[10], gen_pwGeneratorM2S__G19______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[11], gen_pwGeneratorM2S__G1_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[12], gen_pwGeneratorM2S__G20______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[13], gen_pwGeneratorM2S__G2_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[14], gen_pwGeneratorM2S__G3_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[15], gen_pwGeneratorM2S__G4_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[16], gen_pwGeneratorM2S__G5_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[17], gen_pwGeneratorM2S__G6_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[18], gen_pwGeneratorM2S__G7_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[19], gen_pwGeneratorM2S__G8_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__G11______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[20], gen_pwGeneratorM2S__G9_______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__G12______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__G13______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__G14______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[6], gen_pwGeneratorM2S__G15______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__G16______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[8], gen_pwGeneratorM2S__G17______SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[9], gen_pwGeneratorM2S__G18______SM.pin_HIn) annotation (Line());
 
-  connect(gen_pwGeneratorM2S__G10______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G11______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G12______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G13______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G14______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G15______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G16______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G17______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G18______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G19______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G1_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G20______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G2_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G3_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G4_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G5_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G6_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G7_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G8_______SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__G9_______SM.omegaRef, omegaRef);
+  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__G10______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[10], gen_pwGeneratorM2S__G19______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[11], gen_pwGeneratorM2S__G1_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[12], gen_pwGeneratorM2S__G20______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[13], gen_pwGeneratorM2S__G2_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[14], gen_pwGeneratorM2S__G3_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[15], gen_pwGeneratorM2S__G4_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[16], gen_pwGeneratorM2S__G5_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[17], gen_pwGeneratorM2S__G6_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[18], gen_pwGeneratorM2S__G7_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[19], gen_pwGeneratorM2S__G8_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__G11______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[20], gen_pwGeneratorM2S__G9_______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__G12______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[4], gen_pwGeneratorM2S__G13______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[5], gen_pwGeneratorM2S__G14______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[6], gen_pwGeneratorM2S__G15______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[7], gen_pwGeneratorM2S__G16______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[8], gen_pwGeneratorM2S__G17______SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[9], gen_pwGeneratorM2S__G18______SM.pin_SN) annotation (Line());
+
+  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__G10______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[10], gen_pwGeneratorM2S__G19______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[11], gen_pwGeneratorM2S__G1_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[12], gen_pwGeneratorM2S__G20______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[13], gen_pwGeneratorM2S__G2_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[14], gen_pwGeneratorM2S__G3_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[15], gen_pwGeneratorM2S__G4_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[16], gen_pwGeneratorM2S__G5_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[17], gen_pwGeneratorM2S__G6_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[18], gen_pwGeneratorM2S__G7_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[19], gen_pwGeneratorM2S__G8_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__G11______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[20], gen_pwGeneratorM2S__G9_______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__G12______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[4], gen_pwGeneratorM2S__G13______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[5], gen_pwGeneratorM2S__G14______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[6], gen_pwGeneratorM2S__G15______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[7], gen_pwGeneratorM2S__G16______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[8], gen_pwGeneratorM2S__G17______SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[9], gen_pwGeneratorM2S__G18______SM.pin_OMEGA) annotation (Line());
+  
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G10______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G11______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G12______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G13______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G14______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G15______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G16______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G17______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G18______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G19______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G1_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G20______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G2_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G3_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G4_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G5_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G6_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G7_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G8_______SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__G9_______SM.omegaRef) annotation (Line());
 
 // Connecting REGULATORS and MACHINES
   connect(reg_htgpsat3__G10______SM.pin_CM, gen_pwGeneratorM2S__G10______SM.pin_CM) annotation (Line());
@@ -3064,6 +3126,8 @@ equation
   connect(trafo__NG9______N4011____1_PT.n, bus__N4011____TN.p) annotation (Line());
 
 // Connecting OTHERS
-annotation (uses(Modelica(version="3.2.1")));
+
+// Modelica version required
+  annotation (uses(Modelica(version="3.2.1")));
 end Nordic32;
 

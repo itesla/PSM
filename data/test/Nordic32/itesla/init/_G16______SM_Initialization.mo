@@ -35,7 +35,22 @@ model _G16______SM_Initialization
 	IWLMDV = 2,
 	pPuWLMDV = 0.0
     ) annotation (Placement(transformation()));
-  oelpsat_init oelpsat__G16______SM
+  iPSL.Electrical.Controls.Eurostag.govpsat1_Init govpsat1__G16______SM
+ (
+	T4 = 0.01,
+	PNALT = 0.0,
+	PMAX = .9500000,
+	T5 = 6.,
+	RD = 0.04,
+	PMIN = 0.,
+	SN = 700.0,
+	SNREF = 100.0,
+	PN = 700.0,
+	T3 = 5.,
+	TC = 0.2,
+	TS = 5.
+  ) annotation (Placement(transformation()));
+  iPSL.Electrical.Controls.Eurostag.oelpsat_Init oelpsat__G16______SM
  (
 	PNALT = 0.0,
 	IFDLIM = 3.,
@@ -53,22 +68,7 @@ model _G16______SM_Initialization
 	VFMIN = 0.,
 	PN = 700.0
   ) annotation (Placement(transformation()));
-  govpsat1_init govpsat1__G16______SM
- (
-	T4 = 0.01,
-	PNALT = 0.0,
-	PMAX = .9500000,
-	T5 = 6.,
-	RD = 0.04,
-	PMIN = 0.,
-	SN = 700.0,
-	SNREF = 100.0,
-	PN = 700.0,
-	T3 = 5.,
-	TC = 0.2,
-	TS = 5.
-  ) annotation (Placement(transformation()));
     equation
-	connect(gen_pwGeneratorM2S__G16______SM.pin_TerminalVoltage, oelpsat__G16______SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__G16______SM.pin_OMEGA, govpsat1__G16______SM.pin_OMEGA) annotation (Line());
+	connect(gen_pwGeneratorM2S__G16______SM.pin_TerminalVoltage, oelpsat__G16______SM.pin_TerminalVoltage) annotation (Line());
 end _G16______SM_Initialization;

@@ -276,7 +276,7 @@ public class AutoFillTextBoxSkin<T extends Comparable<? super T>>
 		if (ov.getValue().toString().length() <= 0)
 		{
 			temporaryTxt = "";
-			if (autofillTextbox.getFilterMode())
+			if (autofillTextbox.getFilterMode() && !data.isEmpty())
 			{
 				listview.setItems(data);
 				showPopup();

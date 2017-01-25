@@ -19,7 +19,8 @@ import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-public class CsvReader {
+public class CsvReader
+{
 
 	public static Map<String, List<DsData>> readVariableColumnsWithCsvListReader(
 			String location,
@@ -31,7 +32,7 @@ public class CsvReader {
 		try
 		{
 			Optional<Path> path = Files
-					.walk(Paths.get(location), FileVisitOption.FOLLOW_LINKS)
+					.walk(Paths.get(location), 1, FileVisitOption.FOLLOW_LINKS)
 					.filter((p) -> !p.toFile().isDirectory()
 							&& p.toFile().getAbsolutePath().endsWith(extension))
 					.findFirst();
@@ -50,8 +51,8 @@ public class CsvReader {
 			for (int i = 2; i <= columns; i++)
 			{
 				List<DsData> dsData = new ArrayList<DsData>();
-				columnNames[i-1] = listReader.get(i);
-				values.put(columnNames[i-1], dsData);
+				columnNames[i - 1] = listReader.get(i);
+				values.put(columnNames[i - 1], dsData);
 			}
 			final CellProcessor[] processors = getProcessors(columns);
 
@@ -83,7 +84,7 @@ public class CsvReader {
 			processors[i] = new StrReplace("null", STR_DOUBLE_NAN, new ParseDouble());
 		return processors;
 	}
-	
+
 	private static final String STR_DOUBLE_NAN = "" + Double.NaN;
 
 }

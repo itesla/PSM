@@ -255,7 +255,7 @@ public class Utils {
 	}
 
 	public static Properties getSimulationProperties(ConvertedCase cs, ObservableList<Event> events, DsEngine dse,
-			String stopTime, boolean createFilteredMat) throws IOException {
+			String stopTime, String stepBySecond, boolean createFilteredMat) throws IOException {
 		Properties properties = new Properties();
 
 		properties.setProperty("casePath", PathUtils.findCasePath(Paths.get(cs.getLocation())).toString());
@@ -267,6 +267,7 @@ public class Utils {
 		String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 		properties.setProperty("dsEngine", simulationEngine);
 		properties.setProperty("dsStopTime", stopTime);
+		properties.setProperty("dsStepBySecond", stepBySecond);
 		properties.setProperty("createFilteredMat", Boolean.toString(createFilteredMat));
 
 		return properties;

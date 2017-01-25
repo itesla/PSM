@@ -112,7 +112,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		try
 		{
 			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
-			mainService.startSimulation(cs, events, dse, stopTime, false, isVerify,
+			mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, false, isVerify,
 					Boolean.getBoolean(createFilteredMat));
 		}
 		catch (IOException e)
@@ -311,6 +311,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
 			{
 				stopTime = td.getTaskConfiguration().getParameter("stopTime");
+				stepBySecond = td.getTaskConfiguration().getParameter("numOfIntervalsPerSecond");
 				createFilteredMat = td.getTaskConfiguration().getParameter("stopTime");
 
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
@@ -372,6 +373,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	private Path							casePath;
 	private ObservableList<Event>			events	= FXCollections.observableArrayList();
 	private String							stopTime;
+	private String							stepBySecond;
 	private DsEngine						dse;
 	private String							createFilteredMat;
 

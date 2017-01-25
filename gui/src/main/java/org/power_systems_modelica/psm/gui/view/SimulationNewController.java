@@ -229,11 +229,9 @@ public class SimulationNewController implements MainChildrenController
 	private void handleOpenAddEvent()
 	{
 		LOG.debug("handleAddEvent");
+		elementEvent.clear();
 		actionEvent.getSelectionModel().clearSelection();
-		elementEvent.getTextbox().clear();
-		elementEvent.getData().clear();
 		parametersView.setItems(null);
-		actionEvent.requestFocus();
 		addEventPane.setVisible(true);
 	}
 
@@ -312,6 +310,12 @@ public class SimulationNewController implements MainChildrenController
 			stopTimeText.setText(stopTime);
 		}
 
+		if (workflowProperties.containsKey("dsStepBySecond"))
+		{
+			String stepBySecond = workflowProperties.getProperty("dsStepBySecond");
+			stepBySecondText.setText(stepBySecond);
+		}
+
 		if (workflowProperties.containsKey("events"))
 		{
 			String[] events = workflowProperties.getProperty("events").split("\n");
@@ -337,6 +341,8 @@ public class SimulationNewController implements MainChildrenController
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
 		String stopTime = stopTimeText.getText();
+		String stepBySecond = stepBySecondText.getText();
+
 		boolean createFilteredMat = createFilteredMatCheck.isSelected();
 
 		ObservableList<Event> events = addedEvents.getItems();
@@ -345,7 +351,7 @@ public class SimulationNewController implements MainChildrenController
 		try
 		{
 			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime,
-					createFilteredMat);
+					stepBySecond, createFilteredMat);
 			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"),
 					workflowProperties);
@@ -366,7 +372,8 @@ public class SimulationNewController implements MainChildrenController
 		addedEvents.getItems().clear();
 
 		stopTimeText.setText("1");
-
+		stepBySecondText.setText("100");
+		
 		createFilteredMatCheck.setSelected(CREATEFILTEREDMAT);
 	}
 
@@ -407,10 +414,11 @@ public class SimulationNewController implements MainChildrenController
 			return;
 		}
 		String stopTime = stopTimeText.getText();
+		String stepBySecond = stepBySecondText.getText();
 		ObservableList<Event> events = addedEvents.getItems();
 
 		boolean createFilteredMat = createFilteredMatCheck.isSelected();
-		mainService.startSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify,
+		mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, onlyCheck, onlyVerify,
 				createFilteredMat);
 	}
 
@@ -454,6 +462,9 @@ public class SimulationNewController implements MainChildrenController
 			{
 				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
 				stopTimeText.setText(stopTime);
+				
+				String stepBySecond = td.getTaskConfiguration().getParameter("numOfIntervalsPerSecond");
+				stepBySecondText.setText(stepBySecond);
 
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
 				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
@@ -518,6 +529,8 @@ public class SimulationNewController implements MainChildrenController
 	private ComboBox<DsEngine>					dsEngine;
 	@FXML
 	private TextField							stopTimeText;
+	@FXML
+	private TextField							stepBySecondText;
 	@FXML
 	private CheckBox							createFilteredMatCheck;
 

@@ -254,7 +254,8 @@ public class WorkflowServiceConfiguration
 
 	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events,
 			DsEngine dse,
-			String stopTime, boolean onlyCheck, boolean onlyVerify, boolean createFilteredMat)
+			String stopTime, String stepBySecond, boolean onlyCheck, boolean onlyVerify,
+			boolean createFilteredMat)
 			throws WorkflowCreationException
 	{
 		String moInput = Paths.get(cs.getLocation()).resolve(cs.getName() + ".mo").toString();
@@ -309,6 +310,7 @@ public class WorkflowServiceConfiguration
 							"modelicaEngine", simulationEngine,
 							"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 							"stopTime", stopTime,
+							"numOfIntervalsPerSecond", stepBySecond,
 							"libraryDir", PathUtils.LIBRARY.toString(),
 							"resultVariables", resultVariables,
 							"depth", depth,

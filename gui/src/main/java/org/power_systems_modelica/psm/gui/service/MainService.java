@@ -171,10 +171,10 @@ public class MainService {
 		}
 	}
 
-	public void startSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse, String stopTime, boolean onlyCheck, boolean onlyVerify, boolean createFilteredMat) {
+	public void startSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse, String stopTime, String stepBySecond, boolean onlyCheck, boolean onlyVerify, boolean createFilteredMat) {
 
 		try {
-			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime, onlyCheck, onlyVerify, createFilteredMat);
+			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime, stepBySecond, onlyCheck, onlyVerify, createFilteredMat);
 			sTask = TaskService.createTask(w, () -> getMainApp().showSimulationDetailView(this, onlyCheck, onlyVerify));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.SIMULATION);
 			TaskService.startTask(sTask);

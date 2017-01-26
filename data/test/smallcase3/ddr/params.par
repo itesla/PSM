@@ -8,7 +8,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__GEN______SM_INITIALIZATION">
         <par name="PNALT" value="475.0"/>
-        <par name="p0" value="4.7576475"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -25,7 +25,7 @@
         <par name="TPQ0" value="2.16"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="1.5600538"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.25"/>
         <par name="transformerIncluded" value="false"/>

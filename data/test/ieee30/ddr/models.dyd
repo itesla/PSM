@@ -35,6 +35,9 @@
         </component>
         <interconnection componentId="cap_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
+    <model id="DM{staticId}" type="Switch">
+        <interconnection targetModel="{bus1}" targetName="p" targetModel2="{bus2}" targetName2="p"/>
+    </model>
     <model id="DM{staticId}" type="Transformer">
         <component type="iPSL.Electrical.Branches.Eurostag.PwPhaseTransformer" id="trafo_{staticId}">
             <ref name="r" dataSource="IIDM" sourceName="ratio"/>

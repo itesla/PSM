@@ -1,5 +1,9 @@
 package org.power_systems_modelica.psm.gui.utils;
 
+import java.util.Comparator;
+
+import org.power_systems_modelica.psm.gui.model.Event;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,6 +28,7 @@ public class AutoFillTextBox<T> extends Control
 		// this();
 		init();
 		this.data = data;
+		this.data.sort(Comparator.comparing(d -> d.toString()));
 	}
 
 	public AutoFillTextBox()
@@ -61,13 +66,19 @@ public class AutoFillTextBox<T> extends Control
 	public void addData(T data)
 	{
 		this.data.add(data);
+		this.data.sort(Comparator.comparing(d -> d.toString()));
+	}
 
+	public void removeData(T data)
+	{
+		this.data.remove(data);
 	}
 
 	public void setData(ObservableList<T> data)
 	{
 		this.data.clear();
 		this.data.addAll(data);
+		this.data.sort(Comparator.comparing(d -> d.toString()));
 	}
 
 	public ObservableList<T> getData()
@@ -93,6 +104,15 @@ public class AutoFillTextBox<T> extends Control
 	public boolean getFilterMode()
 	{
 		return filterMode;
+	}
+
+	public void resetTextbox() 
+	{
+		ObservableList<T> tmp = FXCollections.observableArrayList();
+		tmp.addAll(data);
+		data.clear();
+		textbox.clear();
+		data.addAll(tmp);
 	}
 
 	public void clear()

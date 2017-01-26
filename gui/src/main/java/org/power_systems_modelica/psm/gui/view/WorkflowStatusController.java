@@ -39,7 +39,7 @@ public class WorkflowStatusController implements MainChildrenController
 	public void handleMainAction()
 	{
 
-		handleNewWorkflow();
+		handleStopWorkflow();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class WorkflowStatusController implements MainChildrenController
 	public String getMainAction()
 	{
 
-		return "New";
+		return "Stop";
 	}
 
 	@Override
@@ -81,15 +81,15 @@ public class WorkflowStatusController implements MainChildrenController
 	}
 
 	@FXML
-	private void handleNewWorkflow()
+	private void handleStopWorkflow()
 	{
-		LOG.debug("handleNewWorkflow");
+		LOG.debug("handleStopWorkflow");
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.showConversionView(null);
+			mainService.stopConversion();
 		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.showSimulationView(null);
+			mainService.stopSimulation();
 		else
-			mainService.showCompareLoadflowsView(null);
+			mainService.stopCompareLoadflows();
 	}
 
 	public void setTask(Workflow w, Task<?> task)

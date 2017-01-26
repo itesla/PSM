@@ -29,6 +29,11 @@ public class WorkflowService extends Task<Void>
 			observableProgress.add(data);
 		}
 	}
+	
+	public Workflow getWorkflow()
+	{
+		return w;
+	}
 
 	public void updateWorkflowStates(List<TaskStatePair> states)
 	{

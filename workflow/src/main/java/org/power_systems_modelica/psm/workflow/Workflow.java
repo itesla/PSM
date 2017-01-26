@@ -97,6 +97,11 @@ public class Workflow implements Process
 		sequence(workflowTasks);
 	}
 
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
+
 	public List<WorkflowTask> getWorkflowTasks()
 	{
 		return workflowTasks;
@@ -235,4 +240,5 @@ public class Workflow implements Process
 	private final List<WorkflowListener>	listeners	= new ArrayList<>();
 
 	private static final Logger				LOG			= LoggerFactory.getLogger(Workflow.class);
+
 }

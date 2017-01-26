@@ -131,6 +131,12 @@ public class WorkflowService extends Task<Void>
 	{
 		return observableProgress;
 	}
+	
+	public final boolean cancelTask()
+	{
+		w.cancel();
+		return super.cancel();
+	}
 
 	@Override
 	protected Void call() throws Exception

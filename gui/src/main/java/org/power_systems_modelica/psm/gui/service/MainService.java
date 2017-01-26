@@ -213,29 +213,23 @@ public class MainService {
 		return WorkflowServiceConfiguration.getCompareLoadflowsResult(name);
 	}
 
-	public void stopConversion()
+	public void stopConversion(Workflow w)
 	{
-		Workflow w = ((WorkflowService) cTask).getWorkflow();
-		w.cancel();
-		cTask.cancel();	
+		((WorkflowService) cTask).cancelTask();	
 		resetConversionTask();
 		showConversionNewView(w);
 	}
 
-	public void stopSimulation()
+	public void stopSimulation(Workflow w)
 	{
-		Workflow w = ((WorkflowService) sTask).getWorkflow();
-		w.cancel();
-		sTask.cancel();
+		((WorkflowService) sTask).cancelTask();
 		resetSimulationTask();
 		showSimulationNewView(w);
 	}
 
 	public void stopCompareLoadflows()
 	{
-		Workflow w = ((WorkflowService) clTask).getWorkflow();
-		w.cancel();
-		clTask.cancel();
+		((WorkflowService) clTask).cancelTask();
 		resetCompareLoadflowTask();
 		showCompareLoadflowsView(null);
 	}

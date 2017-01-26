@@ -67,7 +67,8 @@ public class WorkflowStatusController implements MainChildrenController
 	{
 
 		List<SummaryLabel> labels = new ArrayList();
-		labels.add(new SummaryLabel(firstLabelTitle, firstLabelValue, false, secondLabelTitle != null));
+		labels.add(new SummaryLabel(firstLabelTitle, firstLabelValue, false,
+				secondLabelTitle != null));
 		if (secondLabelTitle != null)
 		{
 			labels.add(new SummaryLabel(secondLabelTitle, secondLabelValue, true, true));
@@ -85,9 +86,9 @@ public class WorkflowStatusController implements MainChildrenController
 	{
 		LOG.debug("handleStopWorkflow");
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.stopConversion();
+			mainService.stopConversion(w);
 		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.stopSimulation();
+			mainService.stopSimulation(w);
 		else
 			mainService.stopCompareLoadflows();
 	}
@@ -111,6 +112,7 @@ public class WorkflowStatusController implements MainChildrenController
 	public void setMainService(MainService mainService, Workflow w, WorkflowType isWorkflowDetail)
 	{
 		this.mainService = mainService;
+		this.w = w;
 
 		this.isWorkflowDetail = isWorkflowDetail;
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
@@ -213,6 +215,7 @@ public class WorkflowStatusController implements MainChildrenController
 	private String							secondLabelTitle;
 	private String							secondLabelValue;
 
+	private Workflow						w;
 	private MainService						mainService;
 	private WorkflowType					isWorkflowDetail;
 

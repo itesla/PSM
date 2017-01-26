@@ -17,6 +17,9 @@
         <interconnection componentId="line_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
         <interconnection componentId="line_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
     </model>
+    <model id="DM{staticId}" type="Switch">
+        <interconnection targetModel="{bus1}" targetName="p" targetModel2="{bus2}" targetName2="p"/>
+    </model>
     <model id="DM{staticId}" type="Transformer">
         <component type="iPSL.Electrical.Branches.Eurostag.PwTransformer_2" id="trafo_{staticId}">
             <ref name="R" dataSource="IIDM" sourceName="R_pu"/>

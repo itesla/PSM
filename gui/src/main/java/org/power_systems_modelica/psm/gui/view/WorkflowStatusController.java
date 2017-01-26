@@ -39,7 +39,7 @@ public class WorkflowStatusController implements MainChildrenController
 	public void handleMainAction()
 	{
 
-		handleNewWorkflow();
+		handleStopWorkflow();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class WorkflowStatusController implements MainChildrenController
 	public String getMainAction()
 	{
 
-		return "New";
+		return "Stop";
 	}
 
 	@Override
@@ -67,7 +67,8 @@ public class WorkflowStatusController implements MainChildrenController
 	{
 
 		List<SummaryLabel> labels = new ArrayList();
-		labels.add(new SummaryLabel(firstLabelTitle, firstLabelValue, false, secondLabelTitle != null));
+		labels.add(new SummaryLabel(firstLabelTitle, firstLabelValue, false,
+				secondLabelTitle != null));
 		if (secondLabelTitle != null)
 		{
 			labels.add(new SummaryLabel(secondLabelTitle, secondLabelValue, true, true));
@@ -81,15 +82,15 @@ public class WorkflowStatusController implements MainChildrenController
 	}
 
 	@FXML
-	private void handleNewWorkflow()
+	private void handleStopWorkflow()
 	{
-		LOG.debug("handleNewWorkflow");
+		LOG.debug("handleStopWorkflow");
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.showConversionView(null);
+			mainService.stopConversion(w);
 		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.showSimulationView(null);
+			mainService.stopSimulation(w);
 		else
-			mainService.showCompareLoadflowsView(null);
+			mainService.stopCompareLoadflows();
 	}
 
 	public void setTask(Workflow w, Task<?> task)
@@ -111,6 +112,7 @@ public class WorkflowStatusController implements MainChildrenController
 	public void setMainService(MainService mainService, Workflow w, WorkflowType isWorkflowDetail)
 	{
 		this.mainService = mainService;
+		this.w = w;
 
 		this.isWorkflowDetail = isWorkflowDetail;
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
@@ -213,6 +215,7 @@ public class WorkflowStatusController implements MainChildrenController
 	private String							secondLabelTitle;
 	private String							secondLabelValue;
 
+	private Workflow						w;
 	private MainService						mainService;
 	private WorkflowType					isWorkflowDetail;
 

@@ -53,12 +53,18 @@ public class ConversionDetailController implements MainChildrenController
 	public void handleMainAction()
 	{
 
-		handleNewConversionEvent();
+		mainService.showSimulationWithCase(c);
 	}
 
 	@Override
 	public void handleMenuAction(String action)
 	{
+		switch (action)
+		{
+		case "New conversion":
+			handleNewConversionEvent();
+			break;
+		}
 
 	}
 
@@ -66,14 +72,16 @@ public class ConversionDetailController implements MainChildrenController
 	public String getMainAction()
 	{
 
-		return "New";
+		return "Simulate";
 	}
 
 	@Override
 	public List<String> getMenuActions()
 	{
 
-		return null;
+		List<String> actions = new ArrayList();
+		actions.add("New conversion");
+		return actions;
 	}
 
 	@Override
@@ -160,10 +168,10 @@ public class ConversionDetailController implements MainChildrenController
 					Number newValue)
 			{
 				if (((double) oldValue) == 0.0 || ((double) newValue) == 0.0) return;
-				
+
 				double ratio = ((double) newValue) / ((double) oldValue);
 				double staticIdColumnWidth = staticIdColumn.getWidth();
-				staticIdColumn.setPrefWidth(staticIdColumnWidth*ratio);
+				staticIdColumn.setPrefWidth(staticIdColumnWidth * ratio);
 			}
 
 		});
@@ -276,7 +284,7 @@ public class ConversionDetailController implements MainChildrenController
 				try
 				{
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					Case c = mainService.getCase(catalog.getName(), casePath);
+					c = mainService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -343,13 +351,15 @@ public class ConversionDetailController implements MainChildrenController
 				treeItem.getChildren().add(new TreeItem<ElementModel>((ElementModel) model));
 				treeItem.setExpanded(true);
 			});
-			root.getChildren().sort(Comparator.comparing(t->((TreeItem<ElementModel>) t).getValue().getStaticId()));
+			root.getChildren().sort(Comparator
+					.comparing(t -> ((TreeItem<ElementModel>) t).getValue().getStaticId()));
 		}
 	}
 
 	public void setConversionResult(Case c)
 	{
-
+		this.c = c;
+		
 		curvesTab.setDisable(true);
 		modelsTab.setDisable(true);
 
@@ -449,6 +459,7 @@ public class ConversionDetailController implements MainChildrenController
 
 	private DateTime								date;
 	private String									pathLabel;
+	private Case									c;
 	private String									caseLabel;
 	private String									ddrLabel;
 	private String									loadflowLabel;

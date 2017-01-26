@@ -213,6 +213,27 @@ public class MainService {
 		return WorkflowServiceConfiguration.getCompareLoadflowsResult(name);
 	}
 
+	public void stopConversion(Workflow w)
+	{
+		((WorkflowService) cTask).cancelTask();	
+		resetConversionTask();
+		showConversionNewView(w);
+	}
+
+	public void stopSimulation(Workflow w)
+	{
+		((WorkflowService) sTask).cancelTask();
+		resetSimulationTask();
+		showSimulationNewView(w);
+	}
+
+	public void stopCompareLoadflows()
+	{
+		((WorkflowService) clTask).cancelTask();
+		resetCompareLoadflowTask();
+		showCompareLoadflowsView(null);
+	}
+
 	public Task<?> getConversionTask() {
 		return cTask;
 	}

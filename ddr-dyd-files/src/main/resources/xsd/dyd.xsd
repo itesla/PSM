@@ -103,11 +103,12 @@
 	<xs:complexType name="Interconnection">
 		<xs:attribute name="name" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="componentId" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="componentVar" use="required"
+		<xs:attribute name="componentVar" use="optional"
 			type="dyd:nonEmptyString" />
 		<xs:attribute name="targetModel" use="optional" type="dyd:nonEmptyString" />
 		<xs:attribute name="targetName" use="optional" type="dyd:nonEmptyString" />
-		<xs:attribute name="targetModel2" use="optional" type="dyd:nonEmptyString" />
+		<xs:attribute name="targetModel2" use="optional"
+			type="dyd:nonEmptyString" />
 		<xs:attribute name="targetName2" use="optional" type="dyd:nonEmptyString" />
 	</xs:complexType>
 	<xs:complexType name="Connection">

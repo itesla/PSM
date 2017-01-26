@@ -9,10 +9,12 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.mo2dyd.DydFilesFromModelica;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
@@ -30,6 +32,12 @@ import eu.itesla_project.iidm.network.Network;
 
 public class Mo2Dyd2MoTest
 {
+	@Before
+	public void setup()
+	{
+		XmlUtil.isValidationActive = true;
+	}
+
 	@Test
 	public void rebuildIeee14() throws Exception
 	{
@@ -121,7 +129,7 @@ public class Mo2Dyd2MoTest
 				2);
 	}
 
-	// FIXME @Test
+	@Test
 	public void rebuild7buses() throws Exception
 	{
 		rebuild(

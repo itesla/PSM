@@ -2,7 +2,7 @@
 <parameters xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <set id="gen_pwGeneratorM2S__G10______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="6.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -19,7 +19,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="2.4937"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -80,7 +80,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G11______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="2.5"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -97,7 +97,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.5224"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -158,7 +158,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G12______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="3.1"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -175,7 +175,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="1.4510001"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -236,7 +236,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G13______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="0.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -253,7 +253,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.35029998"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -314,7 +314,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G14______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="6.3"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -331,7 +331,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="2.7851"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -392,7 +392,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G15______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="10.8"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -409,7 +409,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="3.6235998"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -470,7 +470,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G16______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="6.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -487,7 +487,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="2.128"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -548,7 +548,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G17______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="5.3"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -565,7 +565,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.4316"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -626,7 +626,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G18______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="10.6"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -643,7 +643,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="2.87"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -704,7 +704,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G19______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="3.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -721,7 +721,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="1.1967"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -782,7 +782,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G1_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="6.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -799,7 +799,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.53470004"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -860,7 +860,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G20______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="21.325"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -877,7 +877,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="3.7381"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -938,7 +938,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G2_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="3.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -955,7 +955,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.1513"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1016,7 +1016,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G3_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="5.5"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -1033,7 +1033,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.1915"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1094,7 +1094,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G4_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="4.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -1111,7 +1111,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.2696"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1172,7 +1172,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G5_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="2.0"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -1189,7 +1189,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.53650004"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1250,7 +1250,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G6_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="3.6"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -1267,7 +1267,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="1.3549"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1328,7 +1328,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G7_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="1.8"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="4"/>
         <par name="TX" value="0"/>
@@ -1345,7 +1345,7 @@
         <par name="TPQ0" value="1.5"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="0.5573"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1406,7 +1406,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G8_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="7.5"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -1423,7 +1423,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="2.2022"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>
@@ -1484,7 +1484,7 @@
     </set>
     <set id="gen_pwGeneratorM2S__G9_______SM_INITIALIZATION">
         <par name="PNALT" value="0.0"/>
-        <par name="p0" value="6.685"/>
+        <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>
         <par name="omega_0" value="1.0"/>
         <par name="IENR" value="3"/>
         <par name="TX" value="0"/>
@@ -1501,7 +1501,7 @@
         <par name="TPQ0" value="0"/>
         <ref name="ui0" dataSource="IIDM" sourceName="u0_im"/>
         <par name="nDSat" value="0"/>
-        <par name="q0" value="1.9193"/>
+        <ref name="q0" dataSource="IIDM" sourceName="-Q_pu"/>
         <par name="mDSatIn" value="0"/>
         <par name="XSD" value="0.2"/>
         <par name="transformerIncluded" value="false"/>

@@ -9,14 +9,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.DsData;
+import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
@@ -24,6 +28,7 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
@@ -32,12 +37,19 @@ import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
@@ -61,7 +73,7 @@ public class SimulationDetailController implements MainChildrenController
 	public String getMainAction()
 	{
 
-		return "New";
+		return "New simulation";
 	}
 
 	@Override
@@ -85,6 +97,7 @@ public class SimulationDetailController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
+		element.setFilterMode(true);
 
 		dsChart.setCreateSymbols(false);
 		yDsAxis.setForceZeroInRange(false);
@@ -95,6 +108,37 @@ public class SimulationDetailController implements MainChildrenController
 	{
 		LOG.debug("handleNewWorkflow");
 		mainService.showSimulationNewView(mainService.getSimulation());
+	}
+
+	@FXML
+	private void handleAddElement()
+	{
+		LOG.debug("handleAddElement");
+		String bus = element.getText();
+		element.removeData(bus);
+		element.resetTextbox();
+		selectedBuses.add(bus);
+		
+		XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
+		valuesDS.setName(bus);
+		for (DsData xyValue : results.getDsValues().get(bus))
+		{
+			valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
+		}
+
+		dsChart.getData().add(valuesDS);
+		highlightSeriesOnHover(dsChart.getData());
+	}
+
+	private void handleRemoveElement(String bus)
+	{
+		LOG.debug("handleRemoveElement");
+		element.addData(bus);
+		selectedBuses.remove(bus);
+		FilteredList<XYChart.Series<Number, Number>> series = dsChart.getData().filtered(s->s.getName().equals(bus));
+		if (series.isEmpty()) return;
+		
+		dsChart.getData().removeAll(series);
 	}
 
 	@FXML
@@ -219,6 +263,32 @@ public class SimulationDetailController implements MainChildrenController
 					// Reset
 					highlightSerie(seriesList, null);
 				});
+
+				seriesPath.setOnMouseClicked(new EventHandler<MouseEvent>()
+				{
+
+					@Override
+					public void handle(MouseEvent event)
+					{
+
+						if (MouseButton.SECONDARY.equals(event.getButton()))
+						{
+							MenuItem removeItem = new MenuItem("Remove " + series.getName());
+							removeItem.setOnAction(new EventHandler<ActionEvent>()
+							{
+								@Override
+								public void handle(ActionEvent event)
+								{
+									handleRemoveElement(series.getName());
+								}
+							});
+							menu.getItems().clear();
+							menu.getItems().add(removeItem);
+							menu.show(mainService.getPrimaryStage(), event.getScreenX(),
+									event.getScreenY());
+						}
+					}
+				});
 			}
 		}
 	}
@@ -266,12 +336,18 @@ public class SimulationDetailController implements MainChildrenController
 
 	public void addSeries(WorkflowResult results)
 	{
+		element.clear();
+		ObservableList<String> buses = FXCollections.observableArrayList();
+		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
+				.filter(k -> !selectedBuses.contains(k)).collect(Collectors.toList());
+		buses.addAll(keys);
+		element.setData(buses);
 
 		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections
 				.observableArrayList();
 		for (String key : results.getDsValues().keySet())
 		{
-			if (!key.endsWith(".V"))
+			if (!selectedBuses.contains(key))
 				continue;
 
 			XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
@@ -286,6 +362,36 @@ public class SimulationDetailController implements MainChildrenController
 
 		dsChart.getData().addAll(displayedDsSeries);
 		highlightSeriesOnHover(displayedDsSeries);
+	}
+
+	private void addDefaultBuses(Workflow w, WorkflowResult results)
+	{
+		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
+				.collect(Collectors.toList());
+
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
+			{
+				List<Event> addedEvents = new ArrayList<Event>();
+				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
+				for (String event : events)
+				{
+
+					Event e = new Event();
+					e.fromString(event);
+					Optional<String> bus = keys.stream().filter(k -> k.contains(e.getElement()))
+							.findAny();
+					if (bus.isPresent())
+						selectedBuses.add(bus.get());
+				}
+			}
+		}
+
+		if (selectedBuses.isEmpty())
+		{
+			selectedBuses.addAll(keys.subList(0, 5));
+		}
 	}
 
 	public void setMainService(MainService mainService)
@@ -377,7 +483,9 @@ public class SimulationDetailController implements MainChildrenController
 
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			addSeries(mainService.getSimulationResult("" + w.getId()));
+			results = mainService.getSimulationResult("" + w.getId());
+			addDefaultBuses(w, results);
+			addSeries(results);
 			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 		}
 
@@ -399,6 +507,8 @@ public class SimulationDetailController implements MainChildrenController
 	private CodeEditor					moweEditor;
 
 	@FXML
+	private AutoFillTextBox<String>		element;
+	@FXML
 	private LineChart<Number, Number>	dsChart;
 	@FXML
 	private NumberAxis					xDsAxis;
@@ -409,11 +519,15 @@ public class SimulationDetailController implements MainChildrenController
 	private DateTime					date;
 	private String						dsLabel;
 
-	private Map<String, Paint>			colors	= new HashMap<String, Paint>();
+	private Map<String, Paint>			colors			= new HashMap<String, Paint>();
 	private GuiFileChooser				fileChooser;
 
+	ObservableList<String>				selectedBuses	= FXCollections.observableArrayList();
+	private ContextMenu					menu			= new ContextMenu();
+
+	private WorkflowResult				results;
 	private MainService					mainService;
 
-	private static final Logger			LOG		= LoggerFactory
+	private static final Logger			LOG				= LoggerFactory
 			.getLogger(SimulationDetailController.class);
 }

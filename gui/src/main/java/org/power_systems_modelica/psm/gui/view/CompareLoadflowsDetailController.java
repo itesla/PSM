@@ -53,7 +53,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	public String getMainAction()
 	{
 
-		return "New";
+		return "New comparison";
 	}
 
 	@Override

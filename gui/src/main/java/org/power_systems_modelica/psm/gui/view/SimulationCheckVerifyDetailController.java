@@ -54,7 +54,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 
 		switch (action)
 		{
-		case "New":
+		case "New simulation":
 			handleNewWorkflow();
 			break;
 		case "Verify":
@@ -75,7 +75,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	{
 
 		List<String> actions = new ArrayList();
-		actions.add("New");
+		actions.add("New simulation");
 		if (isCheckDetail)
 			actions.add("Verify");
 		return actions;

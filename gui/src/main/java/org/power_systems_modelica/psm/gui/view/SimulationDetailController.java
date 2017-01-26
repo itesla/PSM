@@ -73,7 +73,7 @@ public class SimulationDetailController implements MainChildrenController
 	public String getMainAction()
 	{
 
-		return "New";
+		return "New simulation";
 	}
 
 	@Override

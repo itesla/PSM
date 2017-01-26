@@ -177,8 +177,8 @@ public class ModelicaEventAdderTest
 		return moev;
 	}
 
-	// XXX LUMA remove this, test function should accept a list of events,
-	// XXX LUMA workflow test should write this list as a string, then the task will read it from string
+	// FIXME remove this, test function should accept a list of events,
+	// FIXME workflow test should write this list as a string, then the task will read it from string
 	private static List<Event> eventsFrom(String eventData, Network network)
 	{
 		List<Event> events = new ArrayList<>();

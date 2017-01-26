@@ -175,10 +175,6 @@ public class IidmReferenceResolver implements ReferenceResolver
 			if (b != null) a = (float) Math.toRadians(b.getAngle());
 			Complex u = ComplexUtils.polar2Complex(v, a);
 
-			// XXX LUMA check different results same input data
-			System.out.printf("XXX LUMA %-12s %10.6f %10.6f %10.6f%n", element, b.getAngle(), a,
-					u.getImaginary());
-
 			switch (name)
 			{
 			case "u0_re":

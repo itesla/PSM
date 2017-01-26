@@ -26,8 +26,6 @@ import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 
 import com.google.common.collect.Iterables;
 
-import eu.itesla_project.iidm.network.Bus;
-import eu.itesla_project.iidm.network.Generator;
 import eu.itesla_project.iidm.network.Network;
 
 public class Mo2Dyd2MoTest
@@ -187,16 +185,6 @@ public class Mo2Dyd2MoTest
 		assertNotNull(n);
 		assertEquals(expectedNumBuses, Iterables.size(n.getBusView().getBuses()));
 		assertEquals(expectedNumGenerators, n.getGeneratorCount());
-		
-		// XXX LUMA check different results same input data
-		Generator g = n.getGenerator("_FVERGT11_SM");
-		if (g != null)
-		{
-			Bus b = g.getTerminal().getBusBreakerView().getBus();
-			System.out.printf("XXX LUMA %-15s %10.5f%n", b, b.getAngle());
-			b = g.getTerminal().getBusView().getBus();
-			System.out.printf("XXX LUMA %-15s %10.5f%n", b, b.getAngle());
-		}
 
 		String sddrLocation = ddrLocation.toAbsolutePath().toString();
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", sddrLocation);

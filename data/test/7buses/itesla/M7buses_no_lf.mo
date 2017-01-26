@@ -56,7 +56,7 @@ model M7buses
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__FVERGE11_TN (
 	 V_0 = 1.0696054,
-	 angle_0 = 0.0
+	 angle_0 = -0.01734
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__FVERGE12_TN (
 	 V_0 = 1.0696054,

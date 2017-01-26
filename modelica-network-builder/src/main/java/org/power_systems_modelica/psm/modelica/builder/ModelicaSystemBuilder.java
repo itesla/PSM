@@ -64,7 +64,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 				getNetwork());
 		Collection<ModelicaDocument> mos = i.buildModelicaDocuments();
 
-		// XXX LUMA just temporarily, to avoid one more level of progress updates, we decide to iterate here
+		// FIXME Just temporarily, to avoid one more level of progress updates, we decide to iterate here
 		// But it should be done down in the modelicaEngine, to have the opportunity to optimize loading library ...
 		// Either that or we call explicitly "prepare" / "simulate"
 		// modelicaEngine.simulate(mos);

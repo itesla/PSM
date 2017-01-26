@@ -69,10 +69,10 @@ public class ModelicaNetworkBuilderReferenceCases
 		build("smallcase3", "case3_EQ.xml", "smallcase3/ddr", "itesla/case3_no_lf.mo", 3, 2);
 	}
 
-	@Test
+	// XXX LUMA @Test
 	public void build7buses() throws Exception
 	{
-		build("7buses", "CIM_7buses_EQ.xml", "7buses/ddr", "itesla/CIM_7buses_no_lf.mo", 7, 3);
+		build("7buses", "M7buses_EQ.xml", "7buses/ddr", "itesla/M7buses_no_lf.mo", 7, 3);
 	}
 
 	@Test

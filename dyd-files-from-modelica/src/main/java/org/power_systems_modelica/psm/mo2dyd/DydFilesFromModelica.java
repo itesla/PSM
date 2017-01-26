@@ -107,6 +107,7 @@ public class DydFilesFromModelica
 	private void processMoFiles() throws IOException, XMLStreamException
 	{
 		processMoFile(modelicaFile, Stage.SIMULATION);
+		hardcodedModels2dyd(Stage.SIMULATION);
 		if (modelicaInitPath == null) return;
 
 		// Walk all the Modelica files found in the folder for initialization files
@@ -185,6 +186,15 @@ public class DydFilesFromModelica
 			addedModels.add(mdef);
 			processModelForInitialization(mo, mdef);
 		}
+	}
+
+	private void hardcodedModels2dyd(Stage stage)
+	{
+		String baseId = "DM{staticId}";
+		Model mdef = new ModelForType("Switch", baseId);
+		Interconnection i = Interconnection.createDoubleTarget("{bus1}", "p", "{bus2}", "p");
+		mdef.addInterconnections(Arrays.asList(i));
+		ddr.addModel(MODELS_NAME, mdef);
 	}
 
 	private void processSystemModel(ModelicaModel m, Stage stage)
@@ -675,55 +685,61 @@ public class DydFilesFromModelica
 		// Branches have two interconnections (one sender to corresponding bus at each end)
 		// Generators have multiple connections related to omegaRef and one sender to the bus
 		// For the rest of equipment types we will create one sender to the bus
-		if (isSystem)
-		{
-			switch (omegaRefModel)
-			{
-			case COMPONENT:
-				return Arrays.asList(
-						new Interconnection("omegaRef", "omegaRef", "omegaRef"),
-						new Interconnection("omegaRef_HIn[]", "omegaRef", "pin_HIn[]"),
-						new Interconnection("omegaRef_SN[]", "omegaRef", "pin_SN[]"),
-						new Interconnection("omegaRef_omega[]", "omegaRef", "pin_omega[]"));
-			case REAL_OUTPUT:
-				return Arrays.asList(new Interconnection("omegaRef", null, "omegaRef"));
-			case CONSTANT_VALUE:
-				return Arrays.asList(new Interconnection("omegaRef", "omegaRef", "y"));
-			default:
-				return Collections.emptyList();
-			}
-		}
-		if (isBus) return Arrays.asList(new Interconnection("p", componentId, "p"));
+		if (isSystem) return createInterconnectionsOmegaRef();
+		else if (isBus) return Arrays.asList(
+				Interconnection.createReceiver("p", componentId, "p"));
 		else if (isBranch) return Arrays.asList(
-				new Interconnection(componentId, "p", "{bus1}", "p"),
-				new Interconnection(componentId, "n", "{bus2}", "p"));
-		else if (isGenerator)
+				Interconnection.createSender(componentId, "p", "{bus1}", "p"),
+				Interconnection.createSender(componentId, "n", "{bus2}", "p"));
+		else if (isGenerator) return createInterconnectionsGenerator(componentId);
+		else return Arrays.asList(
+				Interconnection.createSender(componentId, "p", "{bus}", "p"));
+	}
+
+	private List<Interconnection> createInterconnectionsOmegaRef()
+	{
+		switch (omegaRefModel)
 		{
-			switch (omegaRefModel)
-			{
-			case COMPONENT:
-				return Arrays.asList(
-						new Interconnection(componentId, "sortie", "{bus}", "p"),
-						new Interconnection(componentId, "omegaRef", "{system}", "omegaRef"),
-						new Interconnection(componentId, "pin_HIn", "{system}", "omegaRef_HIn[?]"),
-						new Interconnection(componentId, "pin_SN", "{system}", "omegaRef_SN[?]"),
-						new Interconnection(componentId, "pin_OMEGA", "{system}",
-								"omegaRef_omega[?]"));
-			case REAL_OUTPUT:
-				return Arrays.asList(
-						new Interconnection(componentId, "sortie", "{bus}", "p"),
-						new Interconnection(componentId, "omegaRef", "{system}", "omegaRef"));
-			case CONSTANT_VALUE:
-				return Arrays.asList(
-						new Interconnection(componentId, "sortie", "{bus}", "p"),
-						new Interconnection(componentId, "omegaRef", "{system}", "omegaRef"));
-			default:
-				return Arrays.asList(new Interconnection(componentId, "sortie", "{bus}", "p"));
-			}
+		case COMPONENT:
+			return Arrays.asList(
+					Interconnection.createReceiver("omegaRef", "omegaRef", "omegaRef"),
+					Interconnection.createReceiver("omegaRef_HIn[]", "omegaRef", "pin_HIn[]"),
+					Interconnection.createReceiver("omegaRef_SN[]", "omegaRef", "pin_SN[]"),
+					Interconnection.createReceiver("omegaRef_omega[]", "omegaRef", "pin_omega[]"));
+		case REAL_OUTPUT:
+			return Arrays.asList(Interconnection.createReceiver("omegaRef", null, "omegaRef"));
+		case CONSTANT_VALUE:
+			return Arrays.asList(Interconnection.createReceiver("omegaRef", "omegaRef", "y"));
+		default:
+			return Collections.emptyList();
 		}
-		else
+	}
+
+	private List<Interconnection> createInterconnectionsGenerator(String cid)
+	{
+		switch (omegaRefModel)
 		{
-			return Arrays.asList(new Interconnection(componentId, "p", "{bus}", "p"));
+		case COMPONENT:
+			return Arrays.asList(
+					Interconnection.createSender(cid, "sortie", "{bus}", "p"),
+					Interconnection.createSender(cid, "omegaRef", "{system}", "omegaRef"),
+					Interconnection.createSender(cid, "pin_HIn",
+							"{system}", "omegaRef_HIn[?]"),
+					Interconnection.createSender(cid, "pin_SN",
+							"{system}", "omegaRef_SN[?]"),
+					Interconnection.createSender(cid, "pin_OMEGA",
+							"{system}", "omegaRef_omega[?]"));
+		case REAL_OUTPUT:
+			return Arrays.asList(
+					Interconnection.createSender(cid, "sortie", "{bus}", "p"),
+					Interconnection.createSender(cid, "omegaRef", "{system}", "omegaRef"));
+		case CONSTANT_VALUE:
+			return Arrays.asList(
+					Interconnection.createSender(cid, "sortie", "{bus}", "p"),
+					Interconnection.createSender(cid, "omegaRef", "{system}", "omegaRef"));
+		default:
+			return Arrays.asList(
+					Interconnection.createSender(cid, "sortie", "{bus}", "p"));
 		}
 	}
 

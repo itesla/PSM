@@ -2,10 +2,23 @@
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <model id="DM__SYSTEM_" staticId="_SYSTEM_">
         <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
-        <component type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef"/>
-        <interconnection name="omegaRef" componentVar="omegaRef"/>
+        <component type="iPSL.Electrical.Machines.Eurostag.omegaRef" id="omegaRef">
+            <ref name="nGenerators" dataSource="DYNN" sourceName="numModelsConnectToTarget({system},omegaRef)"/>
+        </component>
+        <interconnection name="omegaRef" componentId="omegaRef" componentVar="omegaRef"/>
+        <interconnection name="omegaRef_HIn[]" componentId="omegaRef" componentVar="pin_HIn[]"/>
+        <interconnection name="omegaRef_SN[]" componentId="omegaRef" componentVar="pin_SN[]"/>
+        <interconnection name="omegaRef_omega[]" componentId="omegaRef" componentVar="pin_omega[]"/>
+    </model>
+    <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
         <equation>
-            <unparsed>omegaRef = (gen_pwGeneratorM2S__G0000000_SM.omega*gen_pwGeneratorM2S__G0000000_SM.SN*gen_pwGeneratorM2S__G0000000_SM.HIn + gen_pwGeneratorM2S__G0000001_SM.omega*gen_pwGeneratorM2S__G0000001_SM.SN*gen_pwGeneratorM2S__G0000001_SM.HIn + gen_pwGeneratorM2S__G0000002_SM.omega*gen_pwGeneratorM2S__G0000002_SM.SN*gen_pwGeneratorM2S__G0000002_SM.HIn) / (gen_pwGeneratorM2S__G0000000_SM.SN*gen_pwGeneratorM2S__G0000000_SM.HIn + gen_pwGeneratorM2S__G0000001_SM.SN*gen_pwGeneratorM2S__G0000001_SM.HIn + gen_pwGeneratorM2S__G0000002_SM.SN*gen_pwGeneratorM2S__G0000002_SM.HIn)</unparsed>
+            <unparsed>sexs__FSSV_T11_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__FVALDT11_SM.pin_VS = 0</unparsed>
+        </equation>
+        <equation>
+            <unparsed>sexs__FVERGT11_SM.pin_VS = 0</unparsed>
         </equation>
     </model>
 </model_container>

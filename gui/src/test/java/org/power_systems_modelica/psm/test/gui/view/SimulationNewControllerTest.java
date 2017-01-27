@@ -173,7 +173,7 @@ public class SimulationNewControllerTest extends ApplicationTest
 		assertEquals(event.toString(), listView.getItems().get(0).toString());
 
 		clickOn("#addedEvents").clickOn(event.toString());
-		clickOn("#removeEvents");
+		clickOn("#removeEvent");
 		verifyThat("#addedEvents", ListViewMatchers.isEmpty());
 	}
 

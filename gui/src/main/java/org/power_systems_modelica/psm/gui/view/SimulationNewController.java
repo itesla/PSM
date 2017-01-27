@@ -225,25 +225,26 @@ public class SimulationNewController implements MainChildrenController
 			}
 		});
 
-		addedEvents.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>()
-		{
+		addedEvents.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Event>()
+				{
 
-			@Override
-			public void changed(ObservableValue<? extends Event> observable, Event oldValue,
-					Event newValue)
-			{
-				if (newValue != null)
-				{
-					removeEvent.setDisable(false);
-					editEvent.setDisable(false);
-				}
-				else
-				{
-					removeEvent.setDisable(true);
-					editEvent.setDisable(true);
-				}
-			}
-		});
+					@Override
+					public void changed(ObservableValue<? extends Event> observable, Event oldValue,
+							Event newValue)
+					{
+						if (newValue != null)
+						{
+							removeEvent.setDisable(false);
+							editEvent.setDisable(false);
+						}
+						else
+						{
+							removeEvent.setDisable(true);
+							editEvent.setDisable(true);
+						}
+					}
+				});
 
 		// single cell selection mode
 		// parametersView.getSelectionModel().setCellSelectionEnabled(true);
@@ -308,8 +309,29 @@ public class SimulationNewController implements MainChildrenController
 		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
 		e.setParams(parametersView.getItems());
 
-		addedEvents.getItems()
-				.sort(Comparator.comparing(t -> ((Event) t).getParam("startTime").getValue()));
+		addedEvents.getItems().sort(new Comparator<Event>()
+		{
+
+			@Override
+			public int compare(Event e1, Event e2)
+			{
+				Double startTime1 = Double.valueOf(e1.getParam("startTime").getValue());
+				Double startTime2 = Double.valueOf(e2.getParam("startTime").getValue());
+
+				int c = startTime1.compareTo(startTime2);
+				if (c == 0)
+				{
+					Double endTime1 = Double.valueOf(e1.getParam("endTime").getValue());
+					Double endTime2 = Double.valueOf(e2.getParam("endTime").getValue());
+
+					c = endTime1.compareTo(endTime2);
+				}
+
+				return c;
+			}
+
+		});
+
 		addEventPane.setVisible(false);
 	}
 

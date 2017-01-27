@@ -93,14 +93,7 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<!-- 
-					package for distribution:
-					1) clean compile whole project,
-					2) package gui with dependencies (offline so update of dependencies does not take years)
-					
-					mvnw clean install -DskipTests
-					mvnw -offline compile assembly:single \-\-projects gui
-				-->
+				<!-- package for distribution, see scripts/dist/prepare_dist.sh -->
 		        <artifactId>maven-assembly-plugin</artifactId>
 		        <configuration>
 		          <descriptorRefs>

@@ -42,7 +42,7 @@ model _FVALDT11_SM_Initialization
 	pPuWLMDV = 1539.0,
 	xTfoIn = 0.1583
     ) annotation (Placement(transformation()));
-  gsteam1_init gsteam1__FVALDT11_SM
+  iPSL.Electrical.Controls.Eurostag.gsteam1_Iinit gsteam1__FVALDT11_SM
  (
 	PNALT = 1539.0,
 	K1 = 0.2,
@@ -75,7 +75,7 @@ model _FVALDT11_SM_Initialization
 	DB2 = 0.,
 	PN = 1539.0
   ) annotation (Placement(transformation()));
-  pssi3e3b_init pssi3e3b__FVALDT11_SM
+  iPSL.Electrical.Controls.Eurostag.pssi3e3b_Init pssi3e3b__FVALDT11_SM
  (
 	PNALT = 1539.0,
 	VSTMIN = -0.1,
@@ -99,7 +99,7 @@ model _FVALDT11_SM_Initialization
 	T2 = 0.012,
 	PN = 1539.0
   ) annotation (Placement(transformation()));
-  sexs_init sexs__FVALDT11_SM
+  iPSL.Electrical.Controls.Eurostag.sexs_Init sexs__FVALDT11_SM
  (
 	PNALT = 1539.0,
 	K = 200.,

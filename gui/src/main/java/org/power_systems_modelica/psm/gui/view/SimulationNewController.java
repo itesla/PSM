@@ -110,6 +110,13 @@ public class SimulationNewController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
+
+		Properties p = PathUtils.getGUIProperties();
+		DSE = p.getProperty("simulation.dynamicSimulation.engine");
+		STOPTIME = p.getProperty("simulation.dynamicSimulation.stopTime");
+		STEPSECOND = p.getProperty("simulation.dynamicSimulation.stepsPerSecond");
+		FILTMAT = p.getProperty("simulation.dynamicSimulation.createFilteredMAT");
+
 		editingEvent = null;
 
 		addEventPane.setVisible(false);
@@ -437,13 +444,13 @@ public class SimulationNewController implements MainChildrenController
 		caseSource.getSelectionModel().clearSelection();
 		catalogCaseSource.getSelectionModel().clearSelection();
 
-		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+		dsEngine.getSelectionModel().select(Utils.getDsEngine(DSE));
 		addedEvents.getItems().clear();
 
-		stopTimeText.setText("1");
-		stepBySecondText.setText("100");
+		stopTimeText.setText(STOPTIME);
+		stepBySecondText.setText(STEPSECOND);
 
-		createFilteredMatCheck.setSelected(CREATEFILTEREDMAT);
+		createFilteredMatCheck.setSelected(Boolean.getBoolean(FILTMAT));
 	}
 
 	private void handleCheckWorkflow()
@@ -547,6 +554,7 @@ public class SimulationNewController implements MainChildrenController
 		}
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
@@ -616,7 +624,11 @@ public class SimulationNewController implements MainChildrenController
 	private GuiFileChooser						fileChooser;
 	private MainService							mainService;
 
-	private static final Boolean				CREATEFILTEREDMAT	= new Boolean(false);
-	private static final Logger					LOG					= LoggerFactory
+	private String								DSE			= "OpenModelica";
+	private String								STOPTIME	= "1.0";
+	private String								STEPSECOND	= "100";
+	private String								FILTMAT		= "false";
+
+	private static final Logger					LOG			= LoggerFactory
 			.getLogger(SimulationNewController.class);
 }

@@ -30,9 +30,12 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
+import org.power_systems_modelica.psm.gui.model.Validation;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
+import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
@@ -48,9 +51,12 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTaskResults;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
+import org.power_systems_modelica.psm.workflow.psm.SwtoswValidationTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.supercsv.io.ICsvListReader;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
 import eu.itesla_project.iidm.network.ConnectableType;
@@ -442,7 +448,39 @@ public class WorkflowServiceConfiguration
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					sim.getResults("simres_output").toString(), ".csv");
+					sim.getResults("simres_output").toString(),
+					new CsvReaderPopulator<DsData>()
+					{
+
+						@Override
+						public void prepare(ICsvListReader listReader,
+								Map<String, List<DsData>> values)
+						{
+							columns = listReader.length();
+							columnNames = new String[columns];
+							for (int i = 2; i <= columns; i++)
+							{
+								List<DsData> dsData = new ArrayList<DsData>();
+								columnNames[i - 1] = listReader.get(i);
+								values.put(columnNames[i - 1], dsData);
+							}
+						}
+
+						@Override
+						public void populate(List<Object> columnValues,
+								Map<String, List<DsData>> values)
+						{
+							Double time = (Double) columnValues.get(0);
+							for (int i = 1; i < columns; i++)
+							{
+								List<DsData> dsData = values.get(columnNames[i]);
+								dsData.add(new DsData(time, (Double) columnValues.get(i)));
+							}
+						}
+
+						private int	columns;
+						private String[]	columnNames;
+					});
 			results.setDsValues(values);
 		}
 		catch (Exception e)
@@ -577,11 +615,58 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
+	public static Workflow createSwtoswValidation(String expectedPath, String casePath,
+			String stepSize) throws WorkflowCreationException
+	{
+		sts = WF(TD(SwtoswValidationTask.class, "validator0",
+				TC()));
+
+		return sts;
+	}
+
+	public static WorkflowResult getSwtoswValidationResult(String name)
+	{
+		WorkflowResult results = new WorkflowResult();
+		
+		String[] buses = { "bus_BUS____1_TN.V", "bus_BUS____2_TN.V", "bus_BUS____3_TN.V",
+				"bus_BUS____4_TN.V",
+				"bus_BUS____5_TN.V", "bus_BUS____6_TN.V", "bus_BUS____7_TN.V", "bus_BUS____8_TN.V",
+				"bus_BUS____9_TN.V", "bus_BUS___10_TN.V",
+				"bus_BUS___11_TN.V", "bus_BUS___12_TN.V", "bus_BUS___13_TN.V",
+				"bus_BUS___14_TN.V" };
+		ObservableList<Validation> list = FXCollections.observableArrayList();
+
+		Validation v;
+
+		for (String bus : buses)
+		{
+			v = new Validation();
+			v.setName(bus);
+			v.setRmse(Utils.randomDouble(0,0.0015));
+			v.setRd(Utils.randomDouble(0,0.06));
+			v.setAd(Utils.randomDouble(0,0.06));
+			
+			list.add(v);
+		}
+		
+		String[] summary = new String[3];
+		summary[0] = Utils.randomDouble(0,0.06);
+		summary[1] = Utils.randomDouble(0,0.06);
+		summary[2] = Utils.randomDouble(0,0.06);
+		
+		results.setSummaryValidation(summary);
+		results.setValidation(list);
+
+		return results;
+	}
+
 	private static Workflow					conv	= null;
 	private static Workflow					sim		= null;
 	private static Workflow					cl		= null;
+	private static Workflow					sts		= null;
 	private static DynamicDataRepository	ddr		= null;
 
 	private static final Logger				LOG		= LoggerFactory
 			.getLogger(WorkflowServiceConfiguration.class);
+
 }

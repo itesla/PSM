@@ -47,7 +47,8 @@ public class WorkflowStatusControllerTest extends ApplicationTest
 					TD(WorkflowTaskFake.class, "fake2"),
 					TD(WorkflowTaskFake.class, "fake3"),
 					TD(WorkflowTaskFake.class, "fake4"));
-			controller.setMainService(mainService, w, WorkflowType.CONVERSION);
+			controller.setMainService(mainService);
+			controller.setWorkflow(w, WorkflowType.CONVERSION);
 
 			task = (WorkflowService) TaskService.createTask(w, () -> {
 			});

@@ -284,6 +284,7 @@ public class CasesOverviewController implements MainChildrenController
 		summaryPane.setVisible(true);
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;

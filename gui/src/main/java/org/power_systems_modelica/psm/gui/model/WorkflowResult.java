@@ -18,6 +18,7 @@ public class WorkflowResult implements Serializable
 		allBusesValues = FXCollections.observableArrayList();
 		dsValues = new HashMap<String, List<DsData>>();
 		models = FXCollections.observableArrayList();
+		validation = FXCollections.observableArrayList();
 	}
 
 	public String getId()
@@ -62,6 +63,25 @@ public class WorkflowResult implements Serializable
 		this.models.addAll(models);
 	}
 	
+	public String[] getSummaryValidation()
+	{
+		return summaryValidation;
+	}
+
+	public void setSummaryValidation(String[] summaryValidation)
+	{
+		this.summaryValidation = summaryValidation;
+	}
+
+	public ObservableList<Validation> getValidation()
+	{
+		return validation;
+	}
+
+	public void setValidation(ObservableList<Validation> list)
+	{
+		validation.addAll(list);
+	}
 	/**
 	 * sample function to obtain data by variable public void getBusesVoltages() { List<Float> valuesV = allBusesValues.stream() .map(bv -> bv.getData().get("V")[0]) .collect(Collectors.toList()); }
 	 **/
@@ -75,4 +95,6 @@ public class WorkflowResult implements Serializable
 	private ObservableList<BusData>			allBusesValues;
 	private Map<String, List<DsData>>		dsValues;
 	private ObservableList<ElementModel>	models;
+	private String[] 						summaryValidation;
+	private ObservableList<Validation> 		validation;
 }

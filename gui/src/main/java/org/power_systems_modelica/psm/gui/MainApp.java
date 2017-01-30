@@ -16,6 +16,7 @@ import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
 import org.power_systems_modelica.psm.gui.view.SimulationCheckVerifyDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationNewController;
+import org.power_systems_modelica.psm.gui.view.SwtoswValidationController;
 import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -138,11 +139,8 @@ public class MainApp extends Application
 			loader.setLocation(MainApp.class.getResource("view/CasesOverview.fxml"));
 			AnchorPane casesOverview = (AnchorPane) loader.load();
 
-			CasesOverviewController controller = loader.getController();
-			controller.setMainService(mainService);
-
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(casesOverview, controller);
+			mainLayoutController.setLayout(casesOverview, loader.getController());
 		}
 		catch (IOException e)
 		{
@@ -161,11 +159,8 @@ public class MainApp extends Application
 			loader.setLocation(MainApp.class.getResource("view/DdrsOverview.fxml"));
 			AnchorPane ddrsOverview = (AnchorPane) loader.load();
 
-			DdrsOverviewController controller = loader.getController();
-			controller.setMainService(mainService);
-
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(ddrsOverview, controller);
+			mainLayoutController.setLayout(ddrsOverview, loader.getController());
 		}
 		catch (IOException e)
 		{
@@ -199,7 +194,6 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			ConversionNewController controller = loader.getController();
-			controller.setMainService(mainService);
 			controller.setFileChooser(new GuiFileChooser());
 			controller.setDefaultInit();
 			if (w != null)
@@ -229,7 +223,6 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			ConversionDetailController controller = loader.getController();
-			controller.setMainService(mainService);
 			if (loadWorkflow)
 				controller.setWorkflow(mainService.getConversion());
 			
@@ -289,7 +282,6 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			SimulationNewController controller = loader.getController();
-			controller.setMainService(mainService);
 			controller.setFileChooser(new GuiFileChooser());
 			controller.setDefaultInit();
 			if (w != null)
@@ -328,7 +320,7 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			SimulationCheckVerifyDetailController controller = loader.getController();
-			controller.setMainService(mainService, mainService.getSimulation(), isCheckDetail);
+			controller.setWorkflow(mainService.getSimulation(), isCheckDetail);
 			controller.setFileChooser(new GuiFileChooser());
 
 			// Set cases overview into the center of the root layout.
@@ -355,7 +347,6 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			SimulationDetailController controller = loader.getController();
-			controller.setMainService(mainService);
 			controller.setWorkflow(mainService.getSimulation());
 			controller.setFileChooser(new GuiFileChooser());
 
@@ -381,7 +372,7 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			WorkflowStatusController controller = loader.getController();
-			controller.setMainService(mainService, w, compareloadflow);
+			controller.setWorkflow(w, compareloadflow);
 
 			if (compareloadflow.equals(WorkflowType.CONVERSION))
 				controller.setTask(w, mainService.getConversionTask());
@@ -428,7 +419,6 @@ public class MainApp extends Application
 			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
 
 			CompareLoadflowsDetailController controller = loader.getController();
-			controller.setMainService(mainService);
 			controller.setWorkflow(mainService.getCompareLoadflows());
 
 			// Set cases overview into the center of the root layout.
@@ -451,17 +441,43 @@ public class MainApp extends Application
 			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsNew.fxml"));
 			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
 
-			CompareLoadflowsNewController controller = loader.getController();
-			controller.setMainService(mainService);
-
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(compareLoadflowsOverview, controller);
+			mainLayoutController.setLayout(compareLoadflowsOverview, loader.getController());
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		return loader;
+	}
+
+	public FXMLLoader showSwtoswValidationView(MainService mainService)
+	{
+		FXMLLoader loader = null;
+		try
+		{
+			// Load cases overview.
+			loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/SwtoswValidation.fxml"));
+			AnchorPane swtoswValidationView = (AnchorPane) loader.load();
+
+			SwtoswValidationController controller = loader.getController();
+			controller.setFileChooser(new GuiFileChooser());
+			
+			// Set cases overview into the center of the root layout.
+			mainLayoutController.setLayout(swtoswValidationView, controller);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return loader;
+	}
+
+	public void showSwtoswValidationResults(MainService mainService, Workflow w)
+	{
+		SwtoswValidationController controller = (SwtoswValidationController) mainLayoutController.getController();
+		controller.setWorkflow(w);
 	}
 
 	public void showConversionWithCase(MainService mainService, Case c)

@@ -1,12 +1,15 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.util.Properties;
+
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 public class MenuLayoutController
 {
@@ -14,8 +17,14 @@ public class MenuLayoutController
 	@FXML
 	private void initialize()
 	{
-		compareLoadflows.setVisible(!DISABLECOMPARELOADFLOWS);
-		compareLoadflows.setDisable(DISABLECOMPARELOADFLOWS);
+		Properties p = PathUtils.getGUIProperties();
+		DISABLECOMPARELOADFLOWS = Boolean.valueOf(p.getProperty("menu.disableCompareLoadflows"));
+		DISABLESWTOSWVALIDATION = Boolean.valueOf(p.getProperty("menu.disableSwtoswValidation"));
+
+		if (DISABLECOMPARELOADFLOWS)
+			buttonBar.getChildren().remove(compareLoadflowsBox);
+		if (DISABLESWTOSWVALIDATION)
+			buttonBar.getChildren().remove(swtoswValidationBox);
 	}
 
 	@FXML
@@ -26,6 +35,7 @@ public class MenuLayoutController
 		conversion.getStyleClass().remove("active");
 		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
+		swtoswValidation.getStyleClass().remove("active");
 
 		mainService.showCasesOverview();
 	}
@@ -38,6 +48,7 @@ public class MenuLayoutController
 		conversion.getStyleClass().remove("active");
 		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
+		swtoswValidation.getStyleClass().remove("active");
 
 		mainService.showDdrsOverview();
 	}
@@ -50,6 +61,7 @@ public class MenuLayoutController
 		conversion.getStyleClass().add("active");
 		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
+		swtoswValidation.getStyleClass().remove("active");
 
 		Workflow w = mainService.getConversion();
 		mainService.showConversionView(w);
@@ -63,6 +75,7 @@ public class MenuLayoutController
 		conversion.getStyleClass().remove("active");
 		simulation.getStyleClass().add("active");
 		compareLoadflows.getStyleClass().remove("active");
+		swtoswValidation.getStyleClass().remove("active");
 
 		Workflow w = mainService.getSimulation();
 		mainService.showSimulationView(w);
@@ -76,9 +89,23 @@ public class MenuLayoutController
 		conversion.getStyleClass().remove("active");
 		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().add("active");
+		swtoswValidation.getStyleClass().remove("active");
 
 		Workflow w = mainService.getCompareLoadflows();
 		mainService.showCompareLoadflowsView(w);
+	}
+
+	@FXML
+	private void handleSwtoswValidationOverview()
+	{
+		cases.getStyleClass().remove("active");
+		ddrs.getStyleClass().remove("active");
+		conversion.getStyleClass().remove("active");
+		simulation.getStyleClass().remove("active");
+		compareLoadflows.getStyleClass().remove("active");
+		swtoswValidation.getStyleClass().add("active");
+
+		mainService.showSwtoswValidationView();
 	}
 
 	private void selectOption(Button b)
@@ -88,6 +115,7 @@ public class MenuLayoutController
 		conversion.getStyleClass().remove("active");
 		simulation.getStyleClass().remove("active");
 		compareLoadflows.getStyleClass().remove("active");
+		swtoswValidation.getStyleClass().remove("active");
 
 		b.getStyleClass().add("active");
 	}
@@ -107,25 +135,38 @@ public class MenuLayoutController
 		selectOption(compareLoadflows);
 	}
 
+	public void selectSwtoswValidationOption()
+	{
+		selectOption(swtoswValidation);
+	}
+
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
 	}
 
 	@FXML
-	private HBox					buttonBar;
+	private HBox		buttonBar;
 	@FXML
-	private Button					cases;
+	private AnchorPane	compareLoadflowsBox;
 	@FXML
-	private Button					ddrs;
-	@FXML
-	private Button					conversion;
-	@FXML
-	private Button					simulation;
-	@FXML
-	private Button					compareLoadflows;
+	private AnchorPane	swtoswValidationBox;
 
-	private MainService				mainService;
+	@FXML
+	private Button		cases;
+	@FXML
+	private Button		ddrs;
+	@FXML
+	private Button		conversion;
+	@FXML
+	private Button		simulation;
+	@FXML
+	private Button		compareLoadflows;
+	@FXML
+	private Button		swtoswValidation;
 
-	private static final Boolean	DISABLECOMPARELOADFLOWS	= new Boolean(false);
+	private MainService	mainService;
+
+	private Boolean		DISABLECOMPARELOADFLOWS	= new Boolean(false);
+	private Boolean		DISABLESWTOSWVALIDATION	= new Boolean(false);
 }

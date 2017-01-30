@@ -22,19 +22,18 @@ import org.supercsv.prefs.CsvPreference;
 public class CsvReader
 {
 
-	public static Map<String, List<DsData>> readVariableColumnsWithCsvListReader(
-			String location,
-			String extension) throws Exception
+	public static <T> Map<String, List<T>> readVariableColumnsWithCsvListReader(
+			String location, CsvReaderPopulator<T> populator) throws Exception
 	{
 
-		Map<String, List<DsData>> values = new HashMap<String, List<DsData>>();
+		Map<String, List<T>> values = new HashMap<String, List<T>>();
 		ICsvListReader listReader = null;
 		try
 		{
 			Optional<Path> path = Files
 					.walk(Paths.get(location), 1, FileVisitOption.FOLLOW_LINKS)
 					.filter((p) -> !p.toFile().isDirectory()
-							&& p.toFile().getAbsolutePath().endsWith(extension))
+							&& p.toFile().getAbsolutePath().endsWith(".csv"))
 					.findFirst();
 			if (!path.isPresent()) return null;
 
@@ -46,25 +45,14 @@ public class CsvReader
 			// https://super-csv.github.io/super-csv/apidocs/org/supercsv/io/ICsvReader.html#get-int-
 			// column indexes begin at 1
 			listReader.getHeader(true);
-			int columns = listReader.length();
-			String[] columnNames = new String[columns];
-			for (int i = 2; i <= columns; i++)
-			{
-				List<DsData> dsData = new ArrayList<DsData>();
-				columnNames[i - 1] = listReader.get(i);
-				values.put(columnNames[i - 1], dsData);
-			}
-			final CellProcessor[] processors = getProcessors(columns);
+			populator.prepare(listReader, values);
+
+			final CellProcessor[] processors = getProcessors(listReader.length());
 
 			while ((listReader.read()) != null)
 			{
 				final List<Object> columnValues = listReader.executeProcessors(processors);
-				Double time = (Double) columnValues.get(0);
-				for (int i = 1; i < columns; i++)
-				{
-					List<DsData> dsData = values.get(columnNames[i]);
-					dsData.add(new DsData(time, (Double) columnValues.get(i)));
-				}
+				populator.populate(columnValues, values);
 			}
 		}
 		finally

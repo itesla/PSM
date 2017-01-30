@@ -267,6 +267,7 @@ public class DdrsOverviewController implements MainChildrenController
 		}
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;

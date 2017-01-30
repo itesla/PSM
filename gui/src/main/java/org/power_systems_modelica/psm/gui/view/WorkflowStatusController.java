@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,6 +18,7 @@ import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -93,33 +95,18 @@ public class WorkflowStatusController implements MainChildrenController
 			mainService.stopCompareLoadflows();
 	}
 
-	public void setTask(Workflow w, Task<?> task)
-	{
-		if (task != null)
-		{
-			statusLabel.textProperty().bind(task.messageProperty());
-			statusBar.progressProperty().bind(task.progressProperty());
-		}
-
-		TreeItem<ProgressData> root = new TreeItem<>();
-		root.setExpanded(true);
-		treeView.getStyleClass().add("treeViewItem");
-		treeView.setRoot(root);
-		treeView.setShowRoot(false);
-		treeView.setItems(((WorkflowService) task).getWorkflowInfo());
-	}
-
 	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
 	}
 
-	public void setWorkflow(Workflow w, WorkflowType isWorkflowDetail)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 		this.w = w;
 
-		this.isWorkflowDetail = isWorkflowDetail;
+		this.isWorkflowDetail = (WorkflowType) objects[0];
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
 		{
 			panel.setText("Conversion detail");
@@ -201,6 +188,37 @@ public class WorkflowStatusController implements MainChildrenController
 				}
 			}
 		}
+
+		Task<?> task = null;
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			task = mainService.getConversionTask();
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			task = mainService.getSimulationTask();
+		else
+			task = mainService.getCompareLoadflowTask();
+		
+		if (task != null)
+		{
+			statusLabel.textProperty().bind(task.messageProperty());
+			statusBar.progressProperty().bind(task.progressProperty());
+		}
+
+		TreeItem<ProgressData> root = new TreeItem<>();
+		root.setExpanded(true);
+		treeView.getStyleClass().add("treeViewItem");
+		treeView.setRoot(root);
+		treeView.setShowRoot(false);
+		treeView.setItems(((WorkflowService) task).getWorkflowInfo());
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML
@@ -226,4 +244,5 @@ public class WorkflowStatusController implements MainChildrenController
 
 	private static final Logger				LOG	= LoggerFactory
 			.getLogger(WorkflowStatusController.class);
+
 }

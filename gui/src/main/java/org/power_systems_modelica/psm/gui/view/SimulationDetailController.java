@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -400,7 +402,8 @@ public class SimulationDetailController implements MainChildrenController
 		this.mainService = mainService;
 	}
 
-	public void setWorkflow(Workflow w)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 		String moInput = null;
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
@@ -492,9 +495,15 @@ public class SimulationDetailController implements MainChildrenController
 
 	}
 
+	@Override
 	public void setFileChooser(GuiFileChooser fileChooser)
 	{
 		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML
@@ -531,4 +540,5 @@ public class SimulationDetailController implements MainChildrenController
 
 	private static final Logger			LOG				= LoggerFactory
 			.getLogger(SimulationDetailController.class);
+
 }

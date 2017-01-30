@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -16,6 +17,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -293,6 +295,7 @@ public class SwtoswValidationController implements MainChildrenController
 		handleCleanWorkflow();
 	}
 
+	@Override
 	public void setFileChooser(GuiFileChooser fileChooser)
 	{
 		this.fileChooser = fileChooser;
@@ -313,6 +316,16 @@ public class SwtoswValidationController implements MainChildrenController
 		{
 			tf.setStyle("-fx-background-color: " + notValidValue);
 		}
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
 	}
 
 	@FXML

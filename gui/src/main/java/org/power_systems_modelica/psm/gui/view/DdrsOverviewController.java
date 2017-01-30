@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,9 +16,12 @@ import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.workflow.Workflow;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -276,6 +280,21 @@ public class DdrsOverviewController implements MainChildrenController
 		catalogs.getSelectionModel().selectFirst();
 	}
 
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+	}
+
 	@FXML
 	private TitledPane						fileContentPane;
 	@FXML
@@ -302,4 +321,5 @@ public class DdrsOverviewController implements MainChildrenController
 	private TableColumn<Ddr, DdrType>		typeDdrColumn;
 
 	private MainService						mainService;
+
 }

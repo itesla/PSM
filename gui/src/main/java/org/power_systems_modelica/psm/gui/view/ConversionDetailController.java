@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,6 +21,7 @@ import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
@@ -36,6 +38,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -235,7 +238,8 @@ public class ConversionDetailController implements MainChildrenController
 		reactiveChart.getData().addAll(displayedReactiveSeries);
 	}
 
-	public void setWorkflow(Workflow w)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 
 		loadflowLabel = "None";
@@ -357,7 +361,7 @@ public class ConversionDetailController implements MainChildrenController
 		}
 	}
 
-	public void setConversionResult(Case c)
+	public void setCase(Case c)
 	{
 		this.c = c;
 		
@@ -413,6 +417,16 @@ public class ConversionDetailController implements MainChildrenController
 			e.printStackTrace();
 		}
 		codeEditor.setCode(moContent);
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML

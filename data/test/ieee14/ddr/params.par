@@ -1041,19 +1041,4 @@
         <par name="PN" value="242.0"/>
         <par name="EMAX" value="4."/>
     </set>
-    <set id="zero__GEN____1_SM_INITIALIZATION">
-        <par name="k" value="0"/>
-    </set>
-    <set id="zero__GEN____2_SM_INITIALIZATION">
-        <par name="k" value="0"/>
-    </set>
-    <set id="zero__GEN____3_SM_INITIALIZATION">
-        <par name="k" value="0"/>
-    </set>
-    <set id="zero__GEN____6_SM_INITIALIZATION">
-        <par name="k" value="0"/>
-    </set>
-    <set id="zero__GEN____8_SM_INITIALIZATION">
-        <par name="k" value="0"/>
-    </set>
 </parameters>

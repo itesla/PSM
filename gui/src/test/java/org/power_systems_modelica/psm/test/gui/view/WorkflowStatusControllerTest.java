@@ -56,8 +56,7 @@ public class WorkflowStatusControllerTest extends ApplicationTest
 				if (newState == Worker.State.SUCCEEDED || newState == Worker.State.FAILED)
 					latch.countDown();
 			});
-			controller.setTask(w, task);
-
+			
 			Scene scene = new Scene(workflowsStatus, 1000, 800);
 			stage.setScene(scene);
 			stage.show();

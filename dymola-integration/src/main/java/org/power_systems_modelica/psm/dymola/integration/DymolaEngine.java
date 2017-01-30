@@ -109,8 +109,7 @@ public class DymolaEngine implements ModelicaEngine
 			{
 				progress(String.format("Verifying model %s.", modelName));
 				simResults = dymolaClient.verify(modelName, moFileName, startTime,
-						0.0001 * stopTime,
-						numOfIntervals, intervalSize, tolerance);
+						0.1, 10, 0.001, tolerance);
 				if (!simResults.isEmpty())
 				{
 					this.results.addResult(modelName, "successful", false);

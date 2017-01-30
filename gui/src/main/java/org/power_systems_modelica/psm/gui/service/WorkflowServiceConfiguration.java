@@ -166,6 +166,7 @@ public class WorkflowServiceConfiguration
 	{
 		EVENT_APPLIES_TO.put("BusFault", ConnectableType.BUSBAR_SECTION);
 		EVENT_APPLIES_TO.put("LineFault", ConnectableType.LINE);
+		EVENT_APPLIES_TO.put("LineOpenSendingSide", ConnectableType.LINE);
 		EVENT_APPLIES_TO.put("LineOpenReceiverSide", ConnectableType.LINE);
 		EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
 		EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);

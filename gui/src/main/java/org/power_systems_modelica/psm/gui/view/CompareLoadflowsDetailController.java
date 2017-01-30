@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -329,7 +332,8 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 
 	}
 
-	public void setWorkflow(Workflow w)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
@@ -411,6 +415,16 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			Utils.addTooltipScatterChart(activeCurvesChart, "MW");
 			Utils.addTooltipScatterChart(reactiveCurvesChart, "MVar");
 		}
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML
@@ -535,4 +549,5 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 
 	private static final Logger				LOG	= LoggerFactory
 			.getLogger(CompareLoadflowsDetailController.class);
+
 }

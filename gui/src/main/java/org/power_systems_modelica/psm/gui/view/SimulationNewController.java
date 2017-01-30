@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -450,7 +452,7 @@ public class SimulationNewController implements MainChildrenController
 		stopTimeText.setText(STOPTIME);
 		stepBySecondText.setText(STEPSECOND);
 
-		createFilteredMatCheck.setSelected(Boolean.getBoolean(FILTMAT));
+		createFilteredMatCheck.setSelected(Boolean.parseBoolean(FILTMAT));
 	}
 
 	private void handleCheckWorkflow()
@@ -508,7 +510,8 @@ public class SimulationNewController implements MainChildrenController
 		Utils.resolveConvertedCasePath(c.getLocation(), catalogCaseSource, caseSource);
 	}
 
-	public void setWorkflow(Workflow w)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 		handleCleanWorkflow();
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
@@ -565,11 +568,13 @@ public class SimulationNewController implements MainChildrenController
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
 
+	@Override
 	public void setFileChooser(GuiFileChooser fileChooser)
 	{
 		this.fileChooser = fileChooser;
 	}
 
+	@Override
 	public void setDefaultInit()
 	{
 		handleCleanWorkflow();

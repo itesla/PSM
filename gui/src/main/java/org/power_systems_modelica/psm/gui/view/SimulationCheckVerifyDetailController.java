@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
@@ -113,7 +115,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		{
 			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
 			mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, false, isVerify,
-					Boolean.getBoolean(createFilteredMat));
+					Boolean.parseBoolean(createFilteredMat));
 		}
 		catch (IOException e)
 		{
@@ -232,11 +234,12 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		this.mainService = mainService;
 	}
 
-	public void setWorkflow(Workflow w, boolean isCheckDetail)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 
 		this.mainService = mainService;
-		this.isCheckDetail = isCheckDetail;
+		this.isCheckDetail = (boolean) objects[0];
 
 		if (isCheckDetail)
 		{
@@ -351,9 +354,15 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		}
 	}
 
+	@Override
 	public void setFileChooser(GuiFileChooser fileChooser)
 	{
 		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML
@@ -391,4 +400,5 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 
 	private static final Logger				LOG		= LoggerFactory
 			.getLogger(SimulationCheckVerifyDetailController.class);
+
 }

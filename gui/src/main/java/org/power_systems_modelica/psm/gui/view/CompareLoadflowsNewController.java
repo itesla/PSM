@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Properties;
 
@@ -7,8 +8,10 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +19,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -63,8 +67,8 @@ public class CompareLoadflowsNewController implements MainChildrenController
 		EGRL = p.getProperty("compareLoadflows.loadflow.enforceGeneratorsReactiveLimits");
 		UHRAIS = p.getProperty("compareLoadflows.HELMflow.useHadesResultsAsInputState");
 
-		enforceGeneratorsReactiveLimits.setSelected(Boolean.getBoolean(EGRL));
-		helmflowFromHadesResults.setSelected(Boolean.getBoolean(UHRAIS));
+		enforceGeneratorsReactiveLimits.setSelected(Boolean.parseBoolean(EGRL));
+		helmflowFromHadesResults.setSelected(Boolean.parseBoolean(UHRAIS));
 		
 		catalogSource.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Catalog>()
@@ -115,6 +119,21 @@ public class CompareLoadflowsNewController implements MainChildrenController
 		catalogSource.setItems(mainService.getCatalogs("cases"));
 	}
 
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+	}
+
 	@FXML
 	private ComboBox<Catalog>	catalogSource;
 	@FXML
@@ -131,4 +150,5 @@ public class CompareLoadflowsNewController implements MainChildrenController
 
 	private static final Logger	LOG		= LoggerFactory
 			.getLogger(CompareLoadflowsNewController.class);
+
 }

@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -218,7 +220,7 @@ public class ConversionNewController implements MainChildrenController
 
 		loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(LE));
 
-		mainConnectedComponent.setSelected(Boolean.getBoolean(OMCC));
+		mainConnectedComponent.setSelected(Boolean.parseBoolean(OMCC));
 		
 		dsEngine.getSelectionModel().select(Utils.getDsEngine(FMIE));
 	}
@@ -325,11 +327,13 @@ public class ConversionNewController implements MainChildrenController
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
 
+	@Override
 	public void setFileChooser(GuiFileChooser fileChooser)
 	{
 		this.fileChooser = fileChooser;
 	}
 
+	@Override
 	public void setDefaultInit()
 	{
 		handleCleanWorkflow();
@@ -341,6 +345,11 @@ public class ConversionNewController implements MainChildrenController
 		catch (IOException e)
 		{
 		}
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
 	}
 
 	@FXML
@@ -370,4 +379,5 @@ public class ConversionNewController implements MainChildrenController
 
 	private static final Logger			LOG		= LoggerFactory
 			.getLogger(ConversionNewController.class);
+
 }

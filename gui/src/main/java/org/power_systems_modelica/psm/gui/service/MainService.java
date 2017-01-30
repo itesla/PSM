@@ -65,12 +65,12 @@ public class MainService
 
 	public void showCasesOverview()
 	{
-		getMainApp().showCasesOverview(this);
+		getMainApp().showCasesOverview();
 	}
 
 	public void showDdrsOverview()
 	{
-		getMainApp().showDdrsOverview(this);
+		getMainApp().showDdrsOverview();
 	}
 
 	public void showConversionView(Workflow w)
@@ -80,7 +80,7 @@ public class MainService
 
 	public void showConversionNewView(Workflow w)
 	{
-		getMainApp().showConversionNewView(this, w);
+		getMainApp().showConversionNewView(w);
 	}
 
 	public void showSimulationView(Workflow w)
@@ -90,12 +90,12 @@ public class MainService
 
 	public void showSimulationNewView(Workflow w)
 	{
-		getMainApp().showSimulationNewView(this, w);
+		getMainApp().showSimulationNewView(w);
 	}
 
 	public void showSwtoswValidationView()
 	{
-		getMainApp().showSwtoswValidationView(this);
+		getMainApp().showSwtoswValidationView();
 	}
 
 	public ObservableList<Catalog> getCatalogs(String name)
@@ -286,7 +286,7 @@ public class MainService
 			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(expectedPath, casePath,
 					stepSize);
 			stsTask = TaskService.createTask(w,
-					() -> getMainApp().showSwtoswValidationResults(this, w));
+					() -> getMainApp().showSwtoswValidationResults(w));
 			TaskService.startTask(stsTask);
 		}
 		catch (WorkflowCreationException e)

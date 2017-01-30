@@ -2,20 +2,24 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.workflow.Workflow;
 
 import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -293,6 +297,21 @@ public class CasesOverviewController implements MainChildrenController
 		catalogs.getSelectionModel().selectFirst();
 	}
 
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+	}
+
 	@FXML
 	private TitledPane						summaryPane;
 	@FXML
@@ -321,5 +340,4 @@ public class CasesOverviewController implements MainChildrenController
 	private TableColumn<Case, Number>		sizeCaseColumn;
 
 	private MainService						mainService;
-
 }

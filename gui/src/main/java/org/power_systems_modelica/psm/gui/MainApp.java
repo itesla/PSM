@@ -1,6 +1,7 @@
 package org.power_systems_modelica.psm.gui;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.service.MainService;
@@ -24,6 +25,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -96,7 +98,7 @@ public class MainApp extends Application
 			mainLayout = (AnchorPane) loader.load();
 
 			rootLayout.setCenter(mainLayout);
-			
+
 			mainLayoutController = loader.getController();
 			mainLayoutController.setMainService(mainService);
 		}
@@ -129,52 +131,20 @@ public class MainApp extends Application
 		return loader;
 	}
 
-	public FXMLLoader showCasesOverview(MainService mainService)
+	public FXMLLoader showCasesOverview()
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/CasesOverview.fxml"));
-			AnchorPane casesOverview = (AnchorPane) loader.load();
-			mainLayoutController.setController(loader.getController());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(casesOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/CasesOverview.fxml", null);
 	}
 
-	public FXMLLoader showDdrsOverview(MainService mainService)
+	public FXMLLoader showDdrsOverview()
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/DdrsOverview.fxml"));
-			AnchorPane ddrsOverview = (AnchorPane) loader.load();
-			mainLayoutController.setController(loader.getController());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(ddrsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/DdrsOverview.fxml", null);
 	}
 
 	public FXMLLoader showConversionView(MainService mainService, Workflow w)
 	{
 		if (w == null)
-			return showConversionNewView(mainService, w);
+			return showConversionNewView(w);
 		else
 		{
 			if (!w.getState().equals(ProcessState.SUCCESS)
@@ -185,60 +155,26 @@ public class MainApp extends Application
 		}
 	}
 
-	public FXMLLoader showConversionNewView(MainService mainService, Workflow w)
+	public FXMLLoader showConversionNewView(Workflow w)
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/ConversionNew.fxml"));
-			AnchorPane workflowsOverview = (AnchorPane) loader.load();
-
-			ConversionNewController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			controller.setFileChooser(new GuiFileChooser());
-			controller.setDefaultInit();
-			if (w != null)
-				controller.setWorkflow(w);
-			
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/ConversionNew.fxml", w);
 	}
 
-	public FXMLLoader showConversionDetailView(MainService mainService, boolean loadWorkflow, Case c)
+	public FXMLLoader showConversionDetailView(MainService mainService, boolean loadWorkflow,
+			Case c)
 	{
-		FXMLLoader loader = null;
-		try
+		if (mainService.getConversionTask() != null)
+			mainService.resetConversionTask();
+
+		Workflow w = null;
+		if (loadWorkflow)
+			w = mainService.getConversion();
+
+		FXMLLoader loader = this.getFXMLLoader("view/ConversionDetail.fxml", w);
+		if (c != null)
 		{
-			if (mainService.getConversionTask() != null)
-				mainService.resetConversionTask();
-
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/ConversionDetail.fxml"));
-			AnchorPane workflowsOverview = (AnchorPane) loader.load();
-
 			ConversionDetailController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			if (loadWorkflow)
-				controller.setWorkflow(mainService.getConversion());
-			
-			if (c != null)
-				controller.setConversionResult(c);
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
+			controller.setCase(c);
 		}
 		return loader;
 	}
@@ -246,7 +182,7 @@ public class MainApp extends Application
 	public FXMLLoader showSimulationView(MainService mainService, Workflow w)
 	{
 		if (w == null)
-			return showSimulationNewView(mainService, w);
+			return showSimulationNewView(w);
 		else
 		{
 			if (!w.getState().equals(ProcessState.SUCCESS)
@@ -275,31 +211,9 @@ public class MainApp extends Application
 		}
 	}
 
-	public FXMLLoader showSimulationNewView(MainService mainService, Workflow w)
+	public FXMLLoader showSimulationNewView(Workflow w)
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/SimulationNew.fxml"));
-			AnchorPane workflowsOverview = (AnchorPane) loader.load();
-
-			SimulationNewController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			controller.setFileChooser(new GuiFileChooser());
-			controller.setDefaultInit();
-			if (w != null)
-				controller.setWorkflow(w);
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/SimulationNew.fxml", w);
 	}
 
 	public FXMLLoader showSimulationDetailView(MainService mainService, boolean onlyCheck,
@@ -313,96 +227,31 @@ public class MainApp extends Application
 
 	public FXMLLoader showSimulationCheckDetailView(MainService mainService, boolean isCheckDetail)
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			if (mainService.getSimulationTask() != null)
-				mainService.resetSimulationTask();
+		if (mainService.getSimulationTask() != null)
+			mainService.resetSimulationTask();
 
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/SimulationCheckVerifyDetail.fxml"));
-			AnchorPane workflowsOverview = (AnchorPane) loader.load();
-
-			SimulationCheckVerifyDetailController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			controller.setWorkflow(mainService.getSimulation(), isCheckDetail);
-			controller.setFileChooser(new GuiFileChooser());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/SimulationCheckVerifyDetail.fxml",
+				mainService.getSimulation(), isCheckDetail);
 	}
 
 	public FXMLLoader showSimulationDetailView(MainService mainService)
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			if (mainService.getSimulationTask() != null)
-				mainService.resetSimulationTask();
+		if (mainService.getSimulationTask() != null)
+			mainService.resetSimulationTask();
 
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/SimulationDetail.fxml"));
-			AnchorPane workflowsOverview = (AnchorPane) loader.load();
-
-			SimulationDetailController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			controller.setWorkflow(mainService.getSimulation());
-			controller.setFileChooser(new GuiFileChooser());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/SimulationDetail.fxml", mainService.getSimulation());
 	}
 
 	public FXMLLoader showWorkflowStatusView(MainService mainService, Workflow w,
 			WorkflowType compareloadflow)
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/WorkflowStatus.fxml"));
-			AnchorPane workflowsOverview = (AnchorPane) loader.load();
-
-			WorkflowStatusController controller = loader.getController();
-			mainLayoutController.setController(controller);
-			controller.setWorkflow(w, compareloadflow);
-
-			if (compareloadflow.equals(WorkflowType.CONVERSION))
-				controller.setTask(w, mainService.getConversionTask());
-			else if (compareloadflow.equals(WorkflowType.SIMULATION))
-				controller.setTask(w, mainService.getSimulationTask());
-			else
-				controller.setTask(w, mainService.getCompareLoadflowTask());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/WorkflowStatus.fxml", w, compareloadflow);
 	}
 
 	public FXMLLoader showCompareLoadflowsView(MainService mainService, Workflow w)
 	{
 		if (w == null)
-			return showCompareLoadflowsNewView(mainService);
+			return showCompareLoadflowsNewView();
 		else
 		{
 			if (!w.getState().equals(ProcessState.SUCCESS)
@@ -415,80 +264,26 @@ public class MainApp extends Application
 
 	public FXMLLoader showCompareLoadflowsDetailView(MainService mainService)
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			if (mainService.getCompareLoadflowTask() != null)
-				mainService.resetCompareLoadflowTask();
+		if (mainService.getCompareLoadflowTask() != null)
+			mainService.resetCompareLoadflowTask();
 
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsDetail.fxml"));
-			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
-
-			CompareLoadflowsDetailController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			controller.setWorkflow(mainService.getCompareLoadflows());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(compareLoadflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/CompareLoadflowsDetail.fxml",
+				mainService.getCompareLoadflows());
 	}
 
-	private FXMLLoader showCompareLoadflowsNewView(MainService mainService)
+	private FXMLLoader showCompareLoadflowsNewView()
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsNew.fxml"));
-			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
-			mainLayoutController.setController(loader.getController());
-
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(compareLoadflowsOverview);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/CompareLoadflowsNew.fxml", null);
 	}
 
-	public FXMLLoader showSwtoswValidationView(MainService mainService)
+	public FXMLLoader showSwtoswValidationView()
 	{
-		FXMLLoader loader = null;
-		try
-		{
-			// Load cases overview.
-			loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/SwtoswValidation.fxml"));
-			AnchorPane swtoswValidationView = (AnchorPane) loader.load();
-
-			SwtoswValidationController controller = loader.getController();
-			mainLayoutController.setController(loader.getController());
-			controller.setFileChooser(new GuiFileChooser());
-			
-			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(swtoswValidationView);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return loader;
+		return this.getFXMLLoader("view/SwtoswValidation.fxml", null);
 	}
 
-	public void showSwtoswValidationResults(MainService mainService, Workflow w)
+	public void showSwtoswValidationResults(Workflow w)
 	{
-		SwtoswValidationController controller = (SwtoswValidationController) mainLayoutController.getController();
-		controller.setWorkflow(w);
+		mainLayoutController.setWorkflow(w);
 	}
 
 	public void showConversionWithCase(MainService mainService, Case c)
@@ -496,7 +291,7 @@ public class MainApp extends Application
 		FXMLLoader menuLoader = showMenuLayout(mainService);
 		((MenuLayoutController) menuLoader.getController()).selectConversionOption();
 
-		FXMLLoader loader = showConversionNewView(mainService, null);
+		FXMLLoader loader = showConversionNewView(null);
 		ConversionNewController controller = loader.getController();
 		controller.setCase(c);
 	}
@@ -506,7 +301,7 @@ public class MainApp extends Application
 		FXMLLoader menuLoader = showMenuLayout(mainService);
 		((MenuLayoutController) menuLoader.getController()).selectConversionOption();
 
-		FXMLLoader loader = showConversionDetailView(mainService, false, c);
+		showConversionDetailView(mainService, false, c);
 	}
 
 	public void showSimulationWithCase(MainService mainService, Case c)
@@ -514,7 +309,7 @@ public class MainApp extends Application
 		FXMLLoader menuLoader = showMenuLayout(mainService);
 		((MenuLayoutController) menuLoader.getController()).selectSimulationOption();
 
-		FXMLLoader loader = showSimulationNewView(mainService, null);
+		FXMLLoader loader = showSimulationNewView(null);
 		SimulationNewController controller = loader.getController();
 		controller.setCase(c);
 	}
@@ -524,9 +319,35 @@ public class MainApp extends Application
 		FXMLLoader menuLoader = showMenuLayout(mainService);
 		((MenuLayoutController) menuLoader.getController()).selectCompareLoadflowsOption();
 
-		FXMLLoader loader = showCompareLoadflowsNewView(mainService);
+		FXMLLoader loader = showCompareLoadflowsNewView();
 		CompareLoadflowsNewController controller = loader.getController();
 		controller.setCase(c);
+	}
+
+	public FXMLLoader getFXMLLoader(String viewResource, Workflow w, Object... objects)
+	{
+		FXMLLoader loader = null;
+		try
+		{
+			// Load cases overview.
+			loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource(viewResource));
+			AnchorPane view = (AnchorPane) loader.load();
+
+			mainLayoutController.setController(loader.getController());
+			mainLayoutController.setFileChooser(fileChooser);
+			mainLayoutController.setDefaultInit();
+
+			if (w != null)
+				mainLayoutController.setWorkflow(w, objects);
+
+			mainLayoutController.setLayout(view);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return loader;
 	}
 
 	public Stage getPrimaryStage()
@@ -541,6 +362,8 @@ public class MainApp extends Application
 
 	private Stage					primaryStage;
 	private AnchorPane				mainLayout;
-	private MainLayoutController 	mainLayoutController;
+	private MainLayoutController	mainLayoutController;
 	private BorderPane				rootLayout;
+
+	private final GuiFileChooser	fileChooser	= new GuiFileChooser();
 }

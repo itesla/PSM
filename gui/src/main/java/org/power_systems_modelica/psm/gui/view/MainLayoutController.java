@@ -1,11 +1,15 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.binding.Bindings;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -154,6 +158,21 @@ public class MainLayoutController
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
+	}
+
+	public void setFileChooser(GuiFileChooser guiFileChooser)
+	{
+		controller.setFileChooser(guiFileChooser);
+	}
+
+	public void setDefaultInit()
+	{
+		controller.setDefaultInit();
+	}
+
+	public void setWorkflow(Workflow w, Object...objects)
+	{
+		controller.setWorkflow(w,objects);
 	}
 
 	@FXML

@@ -138,9 +138,10 @@ public class MainApp extends Application
 			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/CasesOverview.fxml"));
 			AnchorPane casesOverview = (AnchorPane) loader.load();
+			mainLayoutController.setController(loader.getController());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(casesOverview, loader.getController());
+			mainLayoutController.setLayout(casesOverview);
 		}
 		catch (IOException e)
 		{
@@ -158,9 +159,10 @@ public class MainApp extends Application
 			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/DdrsOverview.fxml"));
 			AnchorPane ddrsOverview = (AnchorPane) loader.load();
+			mainLayoutController.setController(loader.getController());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(ddrsOverview, loader.getController());
+			mainLayoutController.setLayout(ddrsOverview);
 		}
 		catch (IOException e)
 		{
@@ -194,13 +196,14 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			ConversionNewController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			controller.setFileChooser(new GuiFileChooser());
 			controller.setDefaultInit();
 			if (w != null)
 				controller.setWorkflow(w);
 			
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview, controller);
+			mainLayoutController.setLayout(workflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -223,6 +226,7 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			ConversionDetailController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			if (loadWorkflow)
 				controller.setWorkflow(mainService.getConversion());
 			
@@ -230,7 +234,7 @@ public class MainApp extends Application
 				controller.setConversionResult(c);
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview, controller);
+			mainLayoutController.setLayout(workflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -282,13 +286,14 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			SimulationNewController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			controller.setFileChooser(new GuiFileChooser());
 			controller.setDefaultInit();
 			if (w != null)
 				controller.setWorkflow(w);
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview, controller);
+			mainLayoutController.setLayout(workflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -320,11 +325,12 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			SimulationCheckVerifyDetailController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			controller.setWorkflow(mainService.getSimulation(), isCheckDetail);
 			controller.setFileChooser(new GuiFileChooser());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview, controller);
+			mainLayoutController.setLayout(workflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -347,11 +353,12 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			SimulationDetailController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			controller.setWorkflow(mainService.getSimulation());
 			controller.setFileChooser(new GuiFileChooser());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview, controller);
+			mainLayoutController.setLayout(workflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -372,6 +379,7 @@ public class MainApp extends Application
 			AnchorPane workflowsOverview = (AnchorPane) loader.load();
 
 			WorkflowStatusController controller = loader.getController();
+			mainLayoutController.setController(controller);
 			controller.setWorkflow(w, compareloadflow);
 
 			if (compareloadflow.equals(WorkflowType.CONVERSION))
@@ -382,7 +390,7 @@ public class MainApp extends Application
 				controller.setTask(w, mainService.getCompareLoadflowTask());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(workflowsOverview, controller);
+			mainLayoutController.setLayout(workflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -419,10 +427,11 @@ public class MainApp extends Application
 			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
 
 			CompareLoadflowsDetailController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			controller.setWorkflow(mainService.getCompareLoadflows());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(compareLoadflowsOverview, controller);
+			mainLayoutController.setLayout(compareLoadflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -440,9 +449,10 @@ public class MainApp extends Application
 			loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/CompareLoadflowsNew.fxml"));
 			AnchorPane compareLoadflowsOverview = (AnchorPane) loader.load();
+			mainLayoutController.setController(loader.getController());
 
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(compareLoadflowsOverview, loader.getController());
+			mainLayoutController.setLayout(compareLoadflowsOverview);
 		}
 		catch (IOException e)
 		{
@@ -462,10 +472,11 @@ public class MainApp extends Application
 			AnchorPane swtoswValidationView = (AnchorPane) loader.load();
 
 			SwtoswValidationController controller = loader.getController();
+			mainLayoutController.setController(loader.getController());
 			controller.setFileChooser(new GuiFileChooser());
 			
 			// Set cases overview into the center of the root layout.
-			mainLayoutController.setLayout(swtoswValidationView, controller);
+			mainLayoutController.setLayout(swtoswValidationView);
 		}
 		catch (IOException e)
 		{

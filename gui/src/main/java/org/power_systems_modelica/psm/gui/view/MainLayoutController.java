@@ -38,17 +38,21 @@ public class MainLayoutController
 
 		controller.handleMainAction();
 	}
-
-	public void setLayout(AnchorPane node, MainChildrenController controller)
+	
+	public void setController(MainChildrenController controller)
 	{
-		controller.setMainService(mainService);
+		this.controller = controller;
 		
+		controller.setMainService(mainService);
+	}
+
+	public void setLayout(AnchorPane node)
+	{
 		mainLayout.getChildren().remove(this.node);
 		summaryContent.getChildren().clear();
 		menuActions.getItems().clear();
 
 		this.node = node;
-		this.controller = controller;
 		String mainActionText = controller.getMainAction();
 		List<String> menuActionsList = controller.getMenuActions();
 		List<SummaryLabel> summaryLabelsList = controller.getSummaryLabels();

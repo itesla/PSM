@@ -96,11 +96,12 @@ model _FSSV_T11_SM_Initialization
 	PN = 1215.0,
 	EMAX = 4.
   ) annotation (Placement(transformation()));
+  Modelica.Blocks.Sources.Constant zero__FSSV_T11_SM (k = 0) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__FSSV_T11_SM.pin_OMEGA, tgov1__FSSV_T11_SM.pin_OMEGA) annotation (Line());
 	connect(gen_pwGeneratorM2S__FSSV_T11_SM.pin_CM, tgov1__FSSV_T11_SM.pin_CM) annotation (Line());
 	connect(gen_pwGeneratorM2S__FSSV_T11_SM.pin_ActivePowerSN, pssi3e3b__FSSV_T11_SM.pin_ActivePowerSN) annotation (Line());
 	connect(gen_pwGeneratorM2S__FSSV_T11_SM.pin_TerminalVoltage, sexs__FSSV_T11_SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__FSSV_T11_SM.pin_EFD, sexs__FSSV_T11_SM.pin_EFD) annotation (Line());
-	sexs__FSSV_T11_SM.pin_VS=0;
+    connect(sexs__FSSV_T11_SM.pin_VS, zero__FSSV_T11_SM.y) annotation (Line());
 end _FSSV_T11_SM_Initialization;

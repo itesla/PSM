@@ -414,10 +414,10 @@
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="PNALT" value="1539.0"/>
-        <ref name="init_PGV" dataSource="INIT" sourceName="reg_gsteam1__FVALDT11_SM.PGV"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_gsteam1__FVALDT11_SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_gsteam1__FVALDT11_SM.CM"/>
-        <ref name="init_CM2" dataSource="INIT" sourceName="reg_gsteam1__FVALDT11_SM.CM2"/>
+        <ref name="init_PGV" dataSource="INIT" sourceName="gsteam1__FVALDT11_SM.pin_PGV"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="gsteam1__FVALDT11_SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.pin_CM"/>
+        <ref name="init_CM2" dataSource="INIT" sourceName="gsteam1__FVALDT11_SM.pin_CM2"/>
         <par name="K1" value="0.2"/>
         <par name="K2" value="0."/>
         <par name="PMIN" value="0."/>
@@ -450,10 +450,10 @@
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="PNALT" value="1090.0"/>
-        <ref name="init_PGV" dataSource="INIT" sourceName="reg_gsteam1__FVERGT11_SM.PGV"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_gsteam1__FVERGT11_SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_gsteam1__FVERGT11_SM.CM"/>
-        <ref name="init_CM2" dataSource="INIT" sourceName="reg_gsteam1__FVERGT11_SM.CM2"/>
+        <ref name="init_PGV" dataSource="INIT" sourceName="gsteam1__FVERGT11_SM.pin_PGV"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="gsteam1__FVERGT11_SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.pin_CM"/>
+        <ref name="init_CM2" dataSource="INIT" sourceName="gsteam1__FVERGT11_SM.pin_CM2"/>
         <par name="K1" value="0.2"/>
         <par name="K2" value="0."/>
         <par name="PMIN" value="0."/>
@@ -486,7 +486,7 @@
         <par name="SN" value="1078.0"/>
         <par name="PN" value="1215.0"/>
         <par name="PNALT" value="970.0"/>
-        <ref name="init_P" dataSource="INIT" sourceName="reg_pssi3e3b__FSSV_T11_SM.P"/>
+        <ref name="init_P" dataSource="INIT" sourceName="pssi3e3b__FSSV_T11_SM.pin_P"/>
         <par name="VSTMIN" value="-0.1"/>
         <par name="KS1" value="-0.602"/>
         <par name="KS2" value="30.12000"/>
@@ -510,7 +510,7 @@
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="PNALT" value="1539.0"/>
-        <ref name="init_P" dataSource="INIT" sourceName="reg_pssi3e3b__FVALDT11_SM.P"/>
+        <ref name="init_P" dataSource="INIT" sourceName="pssi3e3b__FVALDT11_SM.pin_P"/>
         <par name="VSTMIN" value="-0.1"/>
         <par name="KS1" value="-0.602"/>
         <par name="KS2" value="30.12000"/>
@@ -534,7 +534,7 @@
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="PNALT" value="1090.0"/>
-        <ref name="init_P" dataSource="INIT" sourceName="reg_pssi3e3b__FVERGT11_SM.P"/>
+        <ref name="init_P" dataSource="INIT" sourceName="pssi3e3b__FVERGT11_SM.pin_P"/>
         <par name="VSTMIN" value="-0.1"/>
         <par name="KS1" value="-0.602"/>
         <par name="KS2" value="30.12000"/>
@@ -612,9 +612,9 @@
         <par name="SN" value="1078.0"/>
         <par name="PN" value="1215.0"/>
         <par name="PNALT" value="970.0"/>
-        <ref name="init_REF" dataSource="INIT" sourceName="reg_tgov1__FSSV_T11_SM.REF"/>
-        <ref name="init_PMECH" dataSource="INIT" sourceName="reg_tgov1__FSSV_T11_SM.PMECH"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_tgov1__FSSV_T11_SM.CM"/>
+        <ref name="init_REF" dataSource="INIT" sourceName="tgov1__FSSV_T11_SM.pin_REF"/>
+        <ref name="init_PMECH" dataSource="INIT" sourceName="tgov1__FSSV_T11_SM.pin_PMECH"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.pin_CM"/>
         <par name="DT" value="0."/>
         <par name="RR" value="0.05"/>
         <par name="VMIN" value="0."/>

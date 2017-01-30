@@ -16,7 +16,15 @@ reg_cmconst,init_CM,gen_pwGeneratorM2S,pin_CM
 reg_gsteam0,init_CM,gen_pwGeneratorM2S,pin_CM
 reg_gsteam0,init_PMECH,gsteam0,pin_PMECH
 reg_gsteam0,init_REF,gsteam0,pin_REF
+reg_gsteam1,init_CM,gen_pwGeneratorM2S,pin_CM
+reg_gsteam1,init_CM2,gsteam1,pin_CM2
+reg_gsteam1,init_OMEGREF,gsteam1,pin_OMEGREF
+reg_gsteam1,init_PGV,gsteam1,pin_PGV
 reg_pssi3e2b,init_APREF,pssi3e2b,pin_APREF
+reg_pssi3e3b,init_P,pssi3e3b,pin_P
 reg_sexs,init_EFD,gen_pwGeneratorM2S,pin_EFD
 reg_sexs,init_VREF,sexs,pin_VREF
 reg_sexs,init_YLL,sexs,pin_YLL
+reg_tgov1,init_CM,gen_pwGeneratorM2S,pin_CM
+reg_tgov1,init_PMECH,tgov1,pin_PMECH
+reg_tgov1,init_REF,tgov1,pin_REF

@@ -42,7 +42,7 @@ model _FVALDT11_SM_Initialization
 	pPuWLMDV = 1539.0,
 	xTfoIn = 0.1583
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Controls.Eurostag.gsteam1_Iinit gsteam1__FVALDT11_SM
+  iPSL.Electrical.Controls.Eurostag.gsteam1_Init gsteam1__FVALDT11_SM
  (
 	PNALT = 1539.0,
 	K1 = 0.2,
@@ -115,11 +115,12 @@ model _FVALDT11_SM_Initialization
 	PN = 1539.0,
 	EMAX = 4.
   ) annotation (Placement(transformation()));
+  Modelica.Blocks.Sources.Constant zero__FVALDT11_SM (k = 0) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__FVALDT11_SM.pin_CM, gsteam1__FVALDT11_SM.pin_CM) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVALDT11_SM.pin_OMEGA, gsteam1__FVALDT11_SM.pin_OMEGA) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVALDT11_SM.pin_ActivePowerSN, pssi3e3b__FVALDT11_SM.pin_ActivePowerSN) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVALDT11_SM.pin_TerminalVoltage, sexs__FVALDT11_SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVALDT11_SM.pin_EFD, sexs__FVALDT11_SM.pin_EFD) annotation (Line());
-	sexs__FVALDT11_SM.pin_VS=0;
+    connect(sexs__FVALDT11_SM.pin_VS, zero__FVALDT11_SM.y) annotation (Line());
 end _FVALDT11_SM_Initialization;

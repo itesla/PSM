@@ -42,7 +42,7 @@ model _FSSV_T11_SM_Initialization
 	pPuWLMDV = 970.0,
 	xTfoIn = 0.137
     ) annotation (Placement(transformation()));
-  tgov1_Init tgov1__FSSV_T11_SM
+  iPSL.Electrical.Controls.Eurostag.tgov1_Init tgov1__FSSV_T11_SM
  (
 	DT = 0.,
 	RR = 0.05,
@@ -56,7 +56,7 @@ model _FSSV_T11_SM_Initialization
 	PN = 1215.0,
 	T3 = 10.
   ) annotation (Placement(transformation()));
-  pssi3e3b_Init pssi3e3b__FSSV_T11_SM
+  iPSL.Electrical.Controls.Eurostag.pssi3e3b_Init pssi3e3b__FSSV_T11_SM
  (
 	PNALT = 970.0,
 	VSTMIN = -0.1,
@@ -80,7 +80,7 @@ model _FSSV_T11_SM_Initialization
 	T2 = 0.012,
 	PN = 1215.0
   ) annotation (Placement(transformation()));
-  sexs_Init sexs__FSSV_T11_SM
+  iPSL.Electrical.Controls.Eurostag.sexs_Init sexs__FSSV_T11_SM
  (
 	PNALT = 970.0,
 	K = 200.,

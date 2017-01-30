@@ -1,11 +1,13 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,13 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
+		Properties p = PathUtils.getGUIProperties();
+		EGRL = p.getProperty("compareLoadflows.loadflow.enforceGeneratorsReactiveLimits");
+		UHRAIS = p.getProperty("compareLoadflows.HELMflow.useHadesResultsAsInputState");
+
+		enforceGeneratorsReactiveLimits.setSelected(Boolean.getBoolean(EGRL));
+		helmflowFromHadesResults.setSelected(Boolean.getBoolean(UHRAIS));
+		
 		catalogSource.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Catalog>()
 				{
@@ -98,6 +107,7 @@ public class CompareLoadflowsNewController implements MainChildrenController
 		caseSource.getSelectionModel().select(c);
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
@@ -116,5 +126,9 @@ public class CompareLoadflowsNewController implements MainChildrenController
 
 	private MainService			mainService;
 
-	private static final Logger	LOG	= LoggerFactory.getLogger(CompareLoadflowsNewController.class);
+	private String				EGRL	= "true";
+	private String				UHRAIS	= "true";
+
+	private static final Logger	LOG		= LoggerFactory
+			.getLogger(CompareLoadflowsNewController.class);
 }

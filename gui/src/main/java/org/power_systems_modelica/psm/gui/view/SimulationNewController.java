@@ -110,6 +110,13 @@ public class SimulationNewController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
+
+		Properties p = PathUtils.getGUIProperties();
+		DSE = p.getProperty("simulation.dynamicSimulation.engine");
+		STOPTIME = p.getProperty("simulation.dynamicSimulation.stopTime");
+		STEPSECOND = p.getProperty("simulation.dynamicSimulation.stepsPerSecond");
+		FILTMAT = p.getProperty("simulation.dynamicSimulation.createFilteredMAT");
+
 		editingEvent = null;
 
 		addEventPane.setVisible(false);
@@ -225,25 +232,26 @@ public class SimulationNewController implements MainChildrenController
 			}
 		});
 
-		addedEvents.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>()
-		{
+		addedEvents.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Event>()
+				{
 
-			@Override
-			public void changed(ObservableValue<? extends Event> observable, Event oldValue,
-					Event newValue)
-			{
-				if (newValue != null)
-				{
-					removeEvent.setDisable(false);
-					editEvent.setDisable(false);
-				}
-				else
-				{
-					removeEvent.setDisable(true);
-					editEvent.setDisable(true);
-				}
-			}
-		});
+					@Override
+					public void changed(ObservableValue<? extends Event> observable, Event oldValue,
+							Event newValue)
+					{
+						if (newValue != null)
+						{
+							removeEvent.setDisable(false);
+							editEvent.setDisable(false);
+						}
+						else
+						{
+							removeEvent.setDisable(true);
+							editEvent.setDisable(true);
+						}
+					}
+				});
 
 		// single cell selection mode
 		// parametersView.getSelectionModel().setCellSelectionEnabled(true);
@@ -308,8 +316,29 @@ public class SimulationNewController implements MainChildrenController
 		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
 		e.setParams(parametersView.getItems());
 
-		addedEvents.getItems()
-				.sort(Comparator.comparing(t -> ((Event) t).getParam("startTime").getValue()));
+		addedEvents.getItems().sort(new Comparator<Event>()
+		{
+
+			@Override
+			public int compare(Event e1, Event e2)
+			{
+				Double startTime1 = Double.valueOf(e1.getParam("startTime").getValue());
+				Double startTime2 = Double.valueOf(e2.getParam("startTime").getValue());
+
+				int c = startTime1.compareTo(startTime2);
+				if (c == 0)
+				{
+					Double endTime1 = Double.valueOf(e1.getParam("endTime").getValue());
+					Double endTime2 = Double.valueOf(e2.getParam("endTime").getValue());
+
+					c = endTime1.compareTo(endTime2);
+				}
+
+				return c;
+			}
+
+		});
+
 		addEventPane.setVisible(false);
 	}
 
@@ -415,13 +444,13 @@ public class SimulationNewController implements MainChildrenController
 		caseSource.getSelectionModel().clearSelection();
 		catalogCaseSource.getSelectionModel().clearSelection();
 
-		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+		dsEngine.getSelectionModel().select(Utils.getDsEngine(DSE));
 		addedEvents.getItems().clear();
 
-		stopTimeText.setText("1");
-		stepBySecondText.setText("100");
+		stopTimeText.setText(STOPTIME);
+		stepBySecondText.setText(STEPSECOND);
 
-		createFilteredMatCheck.setSelected(CREATEFILTEREDMAT);
+		createFilteredMatCheck.setSelected(Boolean.getBoolean(FILTMAT));
 	}
 
 	private void handleCheckWorkflow()
@@ -525,6 +554,7 @@ public class SimulationNewController implements MainChildrenController
 		}
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
@@ -594,7 +624,11 @@ public class SimulationNewController implements MainChildrenController
 	private GuiFileChooser						fileChooser;
 	private MainService							mainService;
 
-	private static final Boolean				CREATEFILTEREDMAT	= new Boolean(false);
-	private static final Logger					LOG					= LoggerFactory
+	private String								DSE			= "OpenModelica";
+	private String								STOPTIME	= "1.0";
+	private String								STEPSECOND	= "100";
+	private String								FILTMAT		= "false";
+
+	private static final Logger					LOG			= LoggerFactory
 			.getLogger(SimulationNewController.class);
 }

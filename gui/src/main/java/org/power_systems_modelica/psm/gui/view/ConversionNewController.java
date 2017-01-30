@@ -85,6 +85,11 @@ public class ConversionNewController implements MainChildrenController
 	private void initialize()
 	{
 
+		Properties p = PathUtils.getGUIProperties();
+		LE = p.getProperty("conversion.loadflow.engine");
+		OMCC = p.getProperty("conversion.modelicaNetwork.onlyMainConnectedComponent");
+		FMIE = p.getProperty("conversion.fullModelInitialization.engine");
+
 		catalogCaseSource.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Catalog>()
 				{
@@ -172,6 +177,12 @@ public class ConversionNewController implements MainChildrenController
 					.valueOf(workflowProperties.getProperty("onlyMainConnectedComponent"));
 			mainConnectedComponent.setSelected(onlyMainConnectedComponent);
 		}
+
+		if (workflowProperties.containsKey("fullModelInitializationEngine"))
+		{
+			String dse = workflowProperties.getProperty("fullModelInitializationEngine");
+			dsEngine.getSelectionModel().select(Utils.getDsEngine(dse));
+		}
 	}
 
 	private void handleSaveWorkflow()
@@ -181,12 +192,13 @@ public class ConversionNewController implements MainChildrenController
 		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
 		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
-
+		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
+		
 		Properties workflowProperties;
 		try
 		{
 			workflowProperties = Utils.getConversionProperties(cs, ddr, le,
-					onlyMainConnectedComponent);
+					onlyMainConnectedComponent,dse);
 			PathUtils.saveConversionFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"), workflowProperties);
 		}
@@ -204,9 +216,11 @@ public class ConversionNewController implements MainChildrenController
 		ddrSource.getSelectionModel().clearSelection();
 		catalogDdrSource.getSelectionModel().clearSelection();
 
-		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
+		loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(LE));
 
-		mainConnectedComponent.setSelected(MAINCONNECTEDCOMPONENTDEFAULT);
+		mainConnectedComponent.setSelected(Boolean.getBoolean(OMCC));
+		
+		dsEngine.getSelectionModel().select(Utils.getDsEngine(FMIE));
 	}
 
 	private void handleStartWorkflow()
@@ -296,6 +310,7 @@ public class ConversionNewController implements MainChildrenController
 		}
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
@@ -349,7 +364,10 @@ public class ConversionNewController implements MainChildrenController
 	private GuiFileChooser				fileChooser;
 	private MainService					mainService;
 
-	private static final Boolean		MAINCONNECTEDCOMPONENTDEFAULT	= new Boolean(true);
-	private static final Logger			LOG								= LoggerFactory
+	private String						LE		= "none";
+	private String						OMCC	= "true";
+	private String						FMIE	= "OpenModelica";
+
+	private static final Logger			LOG		= LoggerFactory
 			.getLogger(ConversionNewController.class);
 }

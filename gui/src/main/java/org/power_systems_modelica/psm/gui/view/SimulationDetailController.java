@@ -364,7 +364,7 @@ public class SimulationDetailController implements MainChildrenController
 		highlightSeriesOnHover(displayedDsSeries);
 	}
 
-	private void addDefaultBuses(Workflow w, WorkflowResult results)
+	public void addDefaultBuses(Workflow w, WorkflowResult results)
 	{
 		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
 				.collect(Collectors.toList());
@@ -394,6 +394,7 @@ public class SimulationDetailController implements MainChildrenController
 		}
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;

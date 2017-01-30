@@ -44,9 +44,14 @@
                   <Button fx:id="simulation" mnemonicParsing="false" onAction="#handleSimulationOverview" styleClass="btn-menu" text="Simulation" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <AnchorPane HBox.hgrow="ALWAYS">
+            <AnchorPane fx:id="compareLoadflowsBox" HBox.hgrow="ALWAYS">
                <children>
                   <Button fx:id="compareLoadflows" mnemonicParsing="false" onAction="#handleCompareLoadflowsOverview" styleClass="btn-menu" text="Compare Loadflows" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="swtoswValidationBox" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="swtoswValidation" mnemonicParsing="false" onAction="#handleSwtoswValidationOverview" styleClass="btn-menu" text="Sw-to-Sw Validation" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>

@@ -322,6 +322,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 		reactiveCurvesChart.getData().addAll(displayedReactiveSeries);
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;

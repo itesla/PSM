@@ -188,6 +188,7 @@ public class ConversionDetailController implements MainChildrenController
 		mainService.showConversionNewView(mainService.getConversion());
 	}
 
+	@Override
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;

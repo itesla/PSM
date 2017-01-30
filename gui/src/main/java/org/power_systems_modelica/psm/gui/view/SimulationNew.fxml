@@ -89,7 +89,7 @@
 			                            <TextField fx:id="stopTimeText" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
 		                                <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="Steps per second:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="79.0" />
 			                            <TextField fx:id="stepBySecondText" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="79.0" />
-			                            <CheckBox fx:id="createFilteredMatCheck" mnemonicParsing="false" prefHeight="30.0" text="Create filtered Mat" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="109.0" />
+			                            <CheckBox fx:id="createFilteredMatCheck" mnemonicParsing="false" prefHeight="30.0" text="Create filtered MAT" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="109.0" />
 									</children>
 								</AnchorPane>
 							</content>

@@ -109,9 +109,14 @@ public class WorkflowStatusController implements MainChildrenController
 		treeView.setItems(((WorkflowService) task).getWorkflowInfo());
 	}
 
-	public void setMainService(MainService mainService, Workflow w, WorkflowType isWorkflowDetail)
+	@Override
+	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
+	}
+
+	public void setWorkflow(Workflow w, WorkflowType isWorkflowDetail)
+	{
 		this.w = w;
 
 		this.isWorkflowDetail = isWorkflowDetail;

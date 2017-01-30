@@ -225,7 +225,14 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		codeEditor.setVisible(true);
 	}
 
-	public void setMainService(MainService mainService, Workflow w, boolean isCheckDetail)
+	@Override
+	public void setMainService(MainService mainService)
+	{
+
+		this.mainService = mainService;
+	}
+
+	public void setWorkflow(Workflow w, boolean isCheckDetail)
 	{
 
 		this.mainService = mainService;

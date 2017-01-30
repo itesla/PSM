@@ -41,7 +41,8 @@ public class MainLayoutController
 
 	public void setLayout(AnchorPane node, MainChildrenController controller)
 	{
-
+		controller.setMainService(mainService);
+		
 		mainLayout.getChildren().remove(this.node);
 		summaryContent.getChildren().clear();
 		menuActions.getItems().clear();
@@ -141,9 +142,14 @@ public class MainLayoutController
 
 	}
 
+	public MainChildrenController getController()
+	{
+		return controller;
+	}
+
 	public void setMainService(MainService mainService)
 	{
-
+		this.mainService = mainService;
 	}
 
 	@FXML

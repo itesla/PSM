@@ -17,9 +17,11 @@ import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
+import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
+import org.supercsv.io.ICsvListReader;
 import org.testfx.framework.junit.ApplicationTest;
 
 import javafx.fxml.FXMLLoader;
@@ -114,7 +116,39 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					PathUtils.DATA_TEST.resolve("ieee14").resolve("expected").toString(), ".csv");
+					PathUtils.DATA_TEST.resolve("ieee14").resolve("expected").toString(), 
+					new CsvReaderPopulator<DsData>()
+					{
+
+						@Override
+						public void prepare(ICsvListReader listReader,
+								Map<String, List<DsData>> values)
+						{
+							columns = listReader.length();
+							columnNames = new String[columns];
+							for (int i = 2; i <= columns; i++)
+							{
+								List<DsData> dsData = new ArrayList<DsData>();
+								columnNames[i - 1] = listReader.get(i);
+								values.put(columnNames[i - 1], dsData);
+							}
+						}
+
+						@Override
+						public void populate(List<Object> columnValues,
+								Map<String, List<DsData>> values)
+						{
+							Double time = (Double) columnValues.get(0);
+							for (int i = 1; i < columns; i++)
+							{
+								List<DsData> dsData = values.get(columnNames[i]);
+								dsData.add(new DsData(time, (Double) columnValues.get(i)));
+							}
+						}
+
+						private int	columns;
+						private String[]	columnNames;
+					});
 			results.setDsValues(values);
 		}
 		catch (Exception e)
@@ -136,11 +170,15 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 				ScatterChart<String, Number> voltageDiffChart = lookup("#voltageDiffChart").query();
 				ScatterChart<String, Number> phaseDiffChart = lookup("#phaseDiffChart").query();
 				ScatterChart<String, Number> activeDiffChart = lookup("#activeDiffChart").query();
-				ScatterChart<String, Number> reactiveDiffChart = lookup("#reactiveDiffChart").query();
-				ScatterChart<String, Number> voltageCurvesChart = lookup("#voltageCurvesChart").query();
+				ScatterChart<String, Number> reactiveDiffChart = lookup("#reactiveDiffChart")
+						.query();
+				ScatterChart<String, Number> voltageCurvesChart = lookup("#voltageCurvesChart")
+						.query();
 				ScatterChart<String, Number> phaseCurvesChart = lookup("#phaseCurvesChart").query();
-				ScatterChart<String, Number> activeCurvesChart = lookup("#activeCurvesChart").query();
-				ScatterChart<String, Number> reactiveCurvesChart = lookup("#reactiveCurvesChart").query();
+				ScatterChart<String, Number> activeCurvesChart = lookup("#activeCurvesChart")
+						.query();
+				ScatterChart<String, Number> reactiveCurvesChart = lookup("#reactiveCurvesChart")
+						.query();
 
 				DoubleSummaryStatistics voltageStats = results.getAllBusesValues().stream()
 						.map(bus -> bus.getAbsError("V"))

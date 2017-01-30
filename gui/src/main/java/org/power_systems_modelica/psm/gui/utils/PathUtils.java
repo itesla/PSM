@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -291,4 +295,30 @@ public class PathUtils {
 		
 		return null;
 	}
+	
+	public static String selectCsvFile(GuiFileChooser fileChooser, Stage stage, String initialDirectory) {
+		
+		fileChooser.setDetails(initialDirectory, "CSV files (*.csv)", "*.csv");
+        File selectedFile = fileChooser.showOpenDialog(stage);
+		if(selectedFile != null){
+			return selectedFile.getPath();
+		}
+		
+		return null;
+	}
+	
+	public static Properties getGUIProperties() {
+
+		Properties properties = new Properties();
+		try {
+			try (InputStream is = Files.newInputStream(DATA_TEST.resolve("cfg").resolve("gui.properties"))) {
+				properties.load(is);
+			}
+		} catch (IOException e) {
+			LOG.error(e.getMessage());
+		}
+		return properties;
+	}
+
+	private static final Logger LOG = LoggerFactory.getLogger(PathUtils.class);
 }

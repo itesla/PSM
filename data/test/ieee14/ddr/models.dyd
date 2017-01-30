@@ -74,7 +74,9 @@
         <component type="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="sexs_{staticId}" parFile="params.par" parId="sexs_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.gsteam0_Init" id="gsteam0_{staticId}" parFile="params.par" parId="gsteam0_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.pssi3e2b_Init" id="pssi3e2b_{staticId}" parFile="params.par" parId="pssi3e2b_{staticId}_INITIALIZATION"/>
-        <component type="Modelica.Blocks.Sources.Constant" id="zero_{staticId}" parFile="params.par" parId="zero_{staticId}_INITIALIZATION"/>
+        <component type="Modelica.Blocks.Sources.Constant" id="zero_{staticId}">
+            <par name="k" value="0" isGeneric="true"/>
+        </component>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_TerminalVoltage" id2="sexs_{staticId}" var2="pin_TerminalVoltage"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_OMEGA" id2="gsteam0_{staticId}" var2="pin_OMEGA"/>

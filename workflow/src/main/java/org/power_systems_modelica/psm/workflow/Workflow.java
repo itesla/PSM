@@ -207,6 +207,7 @@ public class Workflow implements Process
 
 	private void updateWorkflowState()
 	{
+		this.state = IDLE;
 		currentTaskStates.stream()
 				.filter(s -> s.state == RUNNING || s.state == SCHEDULED).findAny()
 				.ifPresent(s -> this.state = RUNNING);

@@ -277,7 +277,8 @@ public class ConversionNewController implements MainChildrenController
 		}
 	}
 
-	public void setWorkflow(Workflow w)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 
 		handleCleanWorkflow();
@@ -345,11 +346,6 @@ public class ConversionNewController implements MainChildrenController
 		catch (IOException e)
 		{
 		}
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
 	}
 
 	@FXML

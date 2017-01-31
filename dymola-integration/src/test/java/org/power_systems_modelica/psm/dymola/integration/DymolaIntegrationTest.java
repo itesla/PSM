@@ -97,7 +97,7 @@ public class DymolaIntegrationTest
 				varResults, "0.0", "1.0", "0.000001", "500");
 		config.setParameter("createFilteredMat", "true");
 
-		testBuild(config, "7buses", "CIM_7buses_no_lf.mo", 8);
+		testBuild(config, "7buses", "M7buses_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version

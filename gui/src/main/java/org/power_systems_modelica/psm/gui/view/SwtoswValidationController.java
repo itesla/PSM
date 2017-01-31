@@ -73,7 +73,6 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 		Properties p = PathUtils.getGUIProperties();
 		STEPSIZE = p.getProperty("swtoswValidation.source.stepSize");
-		TOLERANCE = p.getProperty("swtoswValidation.validation.tolerance");
 		THRMSE = p.getProperty("swtoswValidation.validation.thrmse");
 		THRD = p.getProperty("swtoswValidation.validation.thrd");
 		THAD = p.getProperty("swtoswValidation.validation.thad");
@@ -87,12 +86,6 @@ public class SwtoswValidationController implements MainChildrenController
 				Bindings.when(caseFileSelector.hoverProperty())
 						.then(new ImageView(whiteSelectImage))
 						.otherwise(new ImageView(selectImage)));
-
-		tolerance.textProperty().addListener((observable, oldValue, newValue) -> {
-			setTextfieldColor(pctRmse, newValue);
-			setTextfieldColor(pctRd, newValue);
-			setTextfieldColor(pctAd, newValue);
-		});
 
 		thRmse.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null && oldValue != newValue)
@@ -235,10 +228,6 @@ public class SwtoswValidationController implements MainChildrenController
 		caseFile.setText("");
 
 		stepSize.setText(STEPSIZE);
-		tolerance.setText(TOLERANCE);
-		pctRmse.setText("");
-		pctRd.setText("");
-		pctAd.setText("");
 		thRmse.setText(THRMSE);
 		thRd.setText(THRD);
 		thAd.setText(THAD);
@@ -270,21 +259,13 @@ public class SwtoswValidationController implements MainChildrenController
 		}
 	}
 
-	public void setWorkflow(Workflow w)
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
 	{
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
 			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
 			validationTable.setItems(result.getValidation());
-
-			String[] symmary = result.getSummaryValidation();
-			String tl = tolerance.getText();
-			pctRmse.setText(symmary[0]);
-			setTextfieldColor(pctRmse, tl);
-			pctRd.setText(symmary[1]);
-			setTextfieldColor(pctRd, tl);
-			pctAd.setText(symmary[2]);
-			setTextfieldColor(pctAd, tl);
 		}
 	}
 
@@ -301,30 +282,8 @@ public class SwtoswValidationController implements MainChildrenController
 		this.fileChooser = fileChooser;
 	}
 
-	private void setTextfieldColor(TextField tf, String value)
-	{
-		if (tf.getText().equals(""))
-		{
-			tf.setStyle("-fx-background-color: white");
-
-		}
-		else if (Double.valueOf(value) >= Double.valueOf(tf.getText()))
-		{
-			tf.setStyle("-fx-background-color: " + validValue);
-		}
-		else
-		{
-			tf.setStyle("-fx-background-color: " + notValidValue);
-		}
-	}
-
 	@Override
 	public void setDefaultInit()
-	{
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
 	{
 	}
 
@@ -339,14 +298,6 @@ public class SwtoswValidationController implements MainChildrenController
 	@FXML
 	private TextField						stepSize;
 
-	@FXML
-	private TextField						tolerance;
-	@FXML
-	private TextField						pctRmse;
-	@FXML
-	private TextField						pctRd;
-	@FXML
-	private TextField						pctAd;
 	@FXML
 	private TextField						thRmse;
 	@FXML

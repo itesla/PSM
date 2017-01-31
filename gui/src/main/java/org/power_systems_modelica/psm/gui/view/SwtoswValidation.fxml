@@ -42,20 +42,6 @@
                            <children>
                               <HBox AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="4.0">
                                  <children>
-                              		<HBox prefWidth="155.0" spacing="5.0" HBox.hgrow="ALWAYS">
-	                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" text="Tolerance:" />
-	                                    <TextField fx:id="tolerance" HBox.hgrow="ALWAYS" />
-                                       <padding>
-                                          <Insets right="10.0" />
-                                       </padding>
-                              		</HBox>
-                                    <TextField fx:id="pctRmse" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                                    <TextField fx:id="pctRd" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                                    <TextField fx:id="pctAd" prefWidth="100.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <HBox AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="44.0">
-                                 <children>
                               		<HBox spacing="5.0" HBox.hgrow="ALWAYS">
 	                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="50.0" text="" visible="false" />
 	                                    <TextField prefWidth="100.0" visible="false" HBox.hgrow="ALWAYS" />
@@ -74,7 +60,7 @@
                               		</HBox>
                                  </children>
                               </HBox>
-                              <TableView fx:id="validationTable" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="84.0">
+                              <TableView fx:id="validationTable" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="44.0">
                                 <columns>
                                   <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="rmseColumn" prefWidth="75.0" text="RMSE" />

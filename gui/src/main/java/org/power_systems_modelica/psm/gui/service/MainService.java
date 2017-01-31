@@ -296,9 +296,9 @@ public class MainService
 		}
 	}
 
-	public WorkflowResult getSwtoswValidationResult(String name)
+	public WorkflowResult getSwtoswValidationResult(String name, String... variables)
 	{
-		return WorkflowServiceConfiguration.getSwtoswValidationResult(name);
+		return WorkflowServiceConfiguration.getSwtoswValidationResult(name, variables);
 	}
 
 	public WorkflowResult getCompareLoadflowsResult(String name)

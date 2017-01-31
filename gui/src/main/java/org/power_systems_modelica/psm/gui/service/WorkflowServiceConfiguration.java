@@ -625,37 +625,55 @@ public class WorkflowServiceConfiguration
 		return sts;
 	}
 
-	public static WorkflowResult getSwtoswValidationResult(String name)
+	public static WorkflowResult getSwtoswValidationResult(String name, String...variables)
 	{
 		WorkflowResult results = new WorkflowResult();
 		
-		String[] buses = { "bus_BUS____1_TN.V", "bus_BUS____2_TN.V", "bus_BUS____3_TN.V",
-				"bus_BUS____4_TN.V",
-				"bus_BUS____5_TN.V", "bus_BUS____6_TN.V", "bus_BUS____7_TN.V", "bus_BUS____8_TN.V",
-				"bus_BUS____9_TN.V", "bus_BUS___10_TN.V",
-				"bus_BUS___11_TN.V", "bus_BUS___12_TN.V", "bus_BUS___13_TN.V",
-				"bus_BUS___14_TN.V" };
 		ObservableList<Validation> list = FXCollections.observableArrayList();
 
 		Validation v;
-
-		for (String bus : buses)
+		
+		if (variables.length == 0)
 		{
-			v = new Validation();
-			v.setName(bus);
-			v.setRmse(Utils.randomDouble(0,0.0015));
-			v.setRd(Utils.randomDouble(0,0.06));
-			v.setAd(Utils.randomDouble(0,0.06));
+			String[] summaries = { "V", "A", "P", "Q" };
 			
-			list.add(v);
+			for (String summary : summaries)
+			{
+				v = new Validation();
+				v.setName(summary);
+				v.setRmse(Utils.randomDouble(0,0.0015));
+				v.setRd(Utils.randomDouble(0,0.06));
+				v.setAd(Utils.randomDouble(0,0.06));
+				
+				list.add(v);
+			}
 		}
-		
-		String[] summary = new String[3];
-		summary[0] = Utils.randomDouble(0,0.06);
-		summary[1] = Utils.randomDouble(0,0.06);
-		summary[2] = Utils.randomDouble(0,0.06);
-		
-		results.setSummaryValidation(summary);
+		else
+		{
+
+			for (String variable : variables)
+			{
+				String[] buses = { "bus_BUS____1_TN." + variable, "bus_BUS____2_TN." + variable, 
+						"bus_BUS____3_TN." + variable, "bus_BUS____4_TN." + variable,
+						"bus_BUS____5_TN." + variable, "bus_BUS____6_TN." + variable, 
+						"bus_BUS____7_TN." + variable, "bus_BUS____8_TN." + variable,
+						"bus_BUS____9_TN." + variable, "bus_BUS___10_TN." + variable,
+						"bus_BUS___11_TN." + variable, "bus_BUS___12_TN." + variable, 
+						"bus_BUS___13_TN." + variable, "bus_BUS___14_TN.V" };
+				
+				for (String bus : buses)
+				{
+					v = new Validation();
+					v.setName(bus);
+					v.setRmse(Utils.randomDouble(0,0.0015));
+					v.setRd(Utils.randomDouble(0,0.06));
+					v.setAd(Utils.randomDouble(0,0.06));
+					
+					list.add(v);
+				}
+			}
+		}
+
 		results.setValidation(list);
 
 		return results;

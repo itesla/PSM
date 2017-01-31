@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -16,16 +15,16 @@ import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class SwtoswValidationController implements MainChildrenController
 {
@@ -71,6 +70,9 @@ public class SwtoswValidationController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
+		backButton.setVisible(false);
+		backButton.setDisable(true);
+		
 		Properties p = PathUtils.getGUIProperties();
 		STEPSIZE = p.getProperty("swtoswValidation.source.stepSize");
 		THRMSE = p.getProperty("swtoswValidation.validation.thrmse");
@@ -193,6 +195,35 @@ public class SwtoswValidationController implements MainChildrenController
 		});
 	}
 
+	@FXML
+	private void handleSelectValidation(MouseEvent event)
+	{
+		
+		if (event.getClickCount() == 2 && backButton.isDisabled())
+		{
+			Validation v = validationTable.getSelectionModel().getSelectedItem();
+
+			backButton.setVisible(true);
+			backButton.setDisable(false);
+
+			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId(),
+					v.getName());
+			validationTable.getItems().clear();
+			validationTable.setItems(result.getValidation());
+		}
+	}
+	
+	@FXML
+	private void handleBackAction()
+	{
+		backButton.setVisible(false);
+		backButton.setDisable(true);
+		
+		WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
+		validationTable.getItems().clear();
+		validationTable.setItems(result.getValidation());
+	}
+
 	public void handleValidateAction()
 	{
 		String expectedPath = expectedFile.getText();
@@ -262,6 +293,8 @@ public class SwtoswValidationController implements MainChildrenController
 	@Override
 	public void setWorkflow(Workflow w, Object... objects)
 	{
+		this.w = w;
+
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
 			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
@@ -299,6 +332,8 @@ public class SwtoswValidationController implements MainChildrenController
 	private TextField						stepSize;
 
 	@FXML
+	private Button							backButton;
+	@FXML
 	private TextField						thRmse;
 	@FXML
 	private TextField						thRd;
@@ -321,6 +356,7 @@ public class SwtoswValidationController implements MainChildrenController
 	private Image							whiteSelectImage	= new Image(
 			getClass().getResourceAsStream("/img/white-select.png"));
 
+	private Workflow						w;
 	private GuiFileChooser					fileChooser;
 	private MainService						mainService;
 

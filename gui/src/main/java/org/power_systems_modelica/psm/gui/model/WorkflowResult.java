@@ -63,16 +63,6 @@ public class WorkflowResult implements Serializable
 		this.models.addAll(models);
 	}
 	
-	public String[] getSummaryValidation()
-	{
-		return summaryValidation;
-	}
-
-	public void setSummaryValidation(String[] summaryValidation)
-	{
-		this.summaryValidation = summaryValidation;
-	}
-
 	public ObservableList<Validation> getValidation()
 	{
 		return validation;
@@ -95,6 +85,5 @@ public class WorkflowResult implements Serializable
 	private ObservableList<BusData>			allBusesValues;
 	private Map<String, List<DsData>>		dsValues;
 	private ObservableList<ElementModel>	models;
-	private String[] 						summaryValidation;
 	private ObservableList<Validation> 		validation;
 }

@@ -9,9 +9,23 @@ echo "debug=true" >> ${PSM_DATA}/test/cfg/hades2.properties
 echo "Using Hades2 from $(grep homeDir ${PSM_DATA}/test/cfg/hades2.properties)"
 
 # Access HELM Flow through the path
+function get_system_folder_name {
+    if [[ "$(uname)" == "Linux" ]];
+    then
+        echo "linux"
+    fi
+    if [[ "$(uname)" == CYGWIN* ]];
+    then
+        echo "windows"
+    fi
+}
 if [[ -z "$(which helmflow)" ]]; 
 then
-	export PATH=${PATH}:$(pwd)/helmflow
+	export PATH=${PATH}:$(pwd)/helmflow/$(get_system_folder_name)
+	if [[ -z "$(which helmflow)" ]]; 
+		echo "Missing HELM Flow binaries"
+		exit
+	fi
 fi
 echo "Using HELM Flow binary $(which helmflow)"
 

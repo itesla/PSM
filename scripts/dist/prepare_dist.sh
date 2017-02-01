@@ -19,7 +19,8 @@ rm -rf $DIST_TMP_FOLDER
 mkdir -p $DIST_TMP_FOLDER
 mkdir -p $DIST_TMP_FOLDER/data
 mkdir -p $DIST_TMP_FOLDER/hades2LF
-mkdir -p $DIST_TMP_FOLDER/helmflow
+mkdir -p $DIST_TMP_FOLDER/helmflow/linux
+mkdir -p $DIST_TMP_FOLDER/helmflow/windows
 mkdir -p $DIST_TMP_FOLDER/lib
 
 if [[ "${BUILD}" == "build" ]];
@@ -37,7 +38,8 @@ rsync -avP --exclude='tmp/*' --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOL
 echo "    Copying Hades2"
 rsync -avP ../hades/hades2LF/* $DIST_TMP_FOLDER/hades2LF/. &> ${DIST_TMP_FOLDER}/hades.log
 echo "    Copying HELM FLow"
-rsync -avP ../helmflow/linux_binaries/* $DIST_TMP_FOLDER/helmflow/. &> ${DIST_TMP_FOLDER}/helmflow.log
+rsync -avP ../helmflow/linux_binaries/* $DIST_TMP_FOLDER/helmflow/linux/. &> ${DIST_TMP_FOLDER}/helmflow.log
+rsync -avP ../helmflow/windows_binaries/* $DIST_TMP_FOLDER/helmflow/windows/. &> ${DIST_TMP_FOLDER}/helmflow.log
 
 echo "    Preparing additional Java libraries"
 rsync -avP ../dymola/dymola_interface-2016.jar $DIST_TMP_FOLDER/lib/. &> ${DIST_TMP_FOLDER}/jars.log

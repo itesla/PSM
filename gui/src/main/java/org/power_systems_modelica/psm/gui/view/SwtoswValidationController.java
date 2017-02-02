@@ -72,7 +72,7 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 		backButton.setVisible(false);
 		backButton.setDisable(true);
-		
+
 		Properties p = PathUtils.getGUIProperties();
 		STEPSIZE = p.getProperty("swtoswValidation.source.stepSize");
 		THRMSE = p.getProperty("swtoswValidation.validation.thrmse");
@@ -125,13 +125,20 @@ public class SwtoswValidationController implements MainChildrenController
 					else
 					{
 						setText(item.toString());
-						if (Double.valueOf(item.toString()) <= Double.valueOf(thRmse.getText()))
+						try
 						{
-							setStyle("-fx-background-color: " + validValue);
+							if (Double.valueOf(item.toString()) <= Double.valueOf(thRmse.getText()))
+							{
+								setStyle("-fx-background-color: " + validValue);
+							}
+							else
+							{
+								setStyle("-fx-background-color: " + notValidValue);
+							}
 						}
-						else
+						catch (NumberFormatException e)
 						{
-							setStyle("-fx-background-color: " + notValidValue);
+							setStyle("");
 						}
 					}
 				}
@@ -153,13 +160,20 @@ public class SwtoswValidationController implements MainChildrenController
 					else
 					{
 						setText(item.toString());
-						if (Double.valueOf(item.toString()) <= Double.valueOf(thRd.getText()))
+						try
 						{
-							setStyle("-fx-background-color: " + validValue);
+							if (Double.valueOf(item.toString()) <= Double.valueOf(thRd.getText()))
+							{
+								setStyle("-fx-background-color: " + validValue);
+							}
+							else
+							{
+								setStyle("-fx-background-color: " + notValidValue);
+							}
 						}
-						else
+						catch (NumberFormatException e)
 						{
-							setStyle("-fx-background-color: " + notValidValue);
+							setStyle("");
 						}
 					}
 				}
@@ -181,13 +195,20 @@ public class SwtoswValidationController implements MainChildrenController
 					else
 					{
 						setText(item.toString());
-						if (Double.valueOf(item.toString()) <= Double.valueOf(thAd.getText()))
+						try
 						{
-							setStyle("-fx-background-color: " + validValue);
+							if (Double.valueOf(item.toString()) <= Double.valueOf(thAd.getText()))
+							{
+								setStyle("-fx-background-color: " + validValue);
+							}
+							else
+							{
+								setStyle("-fx-background-color: " + notValidValue);
+							}
 						}
-						else
+						catch (NumberFormatException e)
 						{
-							setStyle("-fx-background-color: " + notValidValue);
+							setStyle("");
 						}
 					}
 				}
@@ -198,7 +219,7 @@ public class SwtoswValidationController implements MainChildrenController
 	@FXML
 	private void handleSelectValidation(MouseEvent event)
 	{
-		
+
 		if (event.getClickCount() == 2 && backButton.isDisabled())
 		{
 			Validation v = validationTable.getSelectionModel().getSelectedItem();
@@ -212,13 +233,13 @@ public class SwtoswValidationController implements MainChildrenController
 			validationTable.setItems(result.getValidation());
 		}
 	}
-	
+
 	@FXML
 	private void handleBackAction()
 	{
 		backButton.setVisible(false);
 		backButton.setDisable(true);
-		
+
 		WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
 		validationTable.getItems().clear();
 		validationTable.setItems(result.getValidation());

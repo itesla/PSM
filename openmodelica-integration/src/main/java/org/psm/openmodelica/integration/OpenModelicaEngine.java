@@ -49,7 +49,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		this.numOfIntervalsPerSecond = Optional
 				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(100);
-		this.numOfIntervals = (int) this.stopTime * this.numOfIntervalsPerSecond;
+		this.numOfIntervals = (int) (this.stopTime * this.numOfIntervalsPerSecond);
 
 		this.createFilteredMat = Optional.ofNullable(config.getBoolean("createFilteredMat"))
 				.orElse(false);

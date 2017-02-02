@@ -277,7 +277,7 @@ public class WorkflowServiceConfiguration
 
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
-			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+			String resultVariables = "[a-zA-Z0-9_]*((TN.(V|angle))|(EC.(P|Q))|(SM.(efd|cm|lambdad|lambdaf|lambdaq1|lambdaq2)))";
 
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));

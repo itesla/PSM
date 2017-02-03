@@ -37,7 +37,7 @@ import eu.itesla_project.iidm.network.VoltageLevel;
 public class ModelicaNetworkBuilderSimpleTests
 {
 	@Test
-	public void testBuildEmptyNetwork() throws IOException
+	public void testBuildEmptyNetwork() throws Exception
 	{
 		Network n = Mockito.mock(Network.class);
 		Mockito.when(n.getName()).thenReturn("mocked_network");
@@ -67,7 +67,7 @@ public class ModelicaNetworkBuilderSimpleTests
 	}
 
 	@Test
-	public void testBuildSingleElement() throws IOException
+	public void testBuildSingleElement() throws Exception
 	{
 		// Build the Network
 		Network n = createTestNetwork();
@@ -119,7 +119,7 @@ public class ModelicaNetworkBuilderSimpleTests
 	}
 
 	@Test
-	public void testBuildSingleElementParameterReference() throws IOException
+	public void testBuildSingleElementParameterReference() throws Exception
 	{
 		// Build the Network
 		Network n = createTestNetwork();

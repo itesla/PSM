@@ -58,7 +58,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public void simulate(ModelicaDocument mo)
+	public void simulate(ModelicaDocument mo) throws Exception
 	{
 		modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
@@ -68,105 +68,89 @@ public class OpenModelicaEngine implements ModelicaEngine
 		this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
 		this.results.addResult(modelName, "successful", true);
 
-		try
+		LOG.info(
+				" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}.",
+				omSimulationDir, modelFileName, modelName, startTime, stopTime,
+				numOfIntervalsPerSecond, tolerance);
+		Result result;
+
+		progress("Cleaning OpenModelica workspace.");
+		result = omc.clear();
+		if (!isSuccessful(result) || !result.res.contains("true"))
 		{
-			LOG.info(
-					" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}.",
-					omSimulationDir, modelFileName, modelName, startTime, stopTime,
-					numOfIntervalsPerSecond, tolerance);
-			Result result;
+			this.results.addResult(modelName, "successful", false);
+			LOG.error("Error clearing workspace: {}.", result.err.replace("\"", ""));
+			throw new RuntimeException(
+					"Error clearing workspace : " + result.err.replace("\"", ""));
+		}
 
-			progress("Cleaning OpenModelica workspace.");
-			result = omc.clear();
-			if (!isSuccessful(result) || !result.res.contains("true"))
-			{
-				this.results.addResult(modelName, "successful", false);
-				LOG.error("Error clearing workspace: {}.", result.err.replace("\"", ""));
-				throw new RuntimeException(
-						"Error clearing workspace : " + result.err.replace("\"", ""));
-			}
+		progress(String.format("Moving to working directory %s", this.omSimulationDir));
+		Path wdabs = omSimulationDir.toAbsolutePath();
+		result = omc.cd("\"" + wdabs.toString().replace("\\", "/") + "\"");
+		if (!isSuccessful(result))
+		{
+			this.results.addResult(modelName, "successful", false);
+			throw new RuntimeException(
+					"Error setting the working directory " + omSimulationDir + ". "
+							+ result.err.replace("\"", ""));
+		}
 
-			progress(String.format("Moving to working directory %s", this.omSimulationDir));
-			Path wdabs = omSimulationDir.toAbsolutePath();
-			result = omc.cd("\"" + wdabs.toString().replace("\\", "/") + "\"");
-			if (!isSuccessful(result))
-			{
-				this.results.addResult(modelName, "successful", false);
-				throw new RuntimeException(
-						"Error setting the working directory " + omSimulationDir + ". "
-								+ result.err.replace("\"", ""));
-			}
+		progress(String.format("Loading Modelica standard library."));
+		result = omc.loadStandardLibrary();
+		if (!isSuccessful(result))
+		{
+			this.results.addResult(modelName, "successful", false);
+			throw new RuntimeException(
+					"Error loading the standard library. " + result.err.replace("\"", ""));
+		}
 
-			progress(String.format("Loading Modelica standard library."));
-			result = omc.loadStandardLibrary();
-			if (!isSuccessful(result))
-			{
-				this.results.addResult(modelName, "successful", false);
-				throw new RuntimeException(
-						"Error loading the standard library. " + result.err.replace("\"", ""));
-			}
+		// load to the engine all .mo files
+		loadModelsInDirectory(omSimulationDir);
 
-			// load to the engine all .mo files
-			loadModelsInDirectory(omSimulationDir);
+		boolean simulated = false, validated = false, verified = false;
 
-			boolean simulated = false, validated = false, verified = false;
+		validated = validateModel(modelName);
+		if (!validated || depth == 1)
+		{
+			this.results.addResult(modelName, "successful", false);
+			return;
+		}
 
-			validated = validateModel(modelName);
-			if (!validated || depth == 1)
-			{
-				this.results.addResult(modelName, "successful", false);
-				return;
-			}
-
-			if (depth != 0)
-			{
-				verified = simulateModel(modelName, startTime, 0.1, 10,
-						tolerance, simFlags, true);
-				if (!verified || depth == 2)
-				{
-					this.results.addResult(modelName, "successful", false);
-					return;
-				}
-			}
-
-			// Simulate the model
-			// Parameter "simFlags" can be a comma separated list of log level:
-			// -lv LOG_INIT,LOG_SIMULATION,LOG_STATS,LOG_EVENTS
-			// See
-			// https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
-			// IMPORTANT: These simFlags can greatly increase the simulation
-			// time.
-			simulated = simulateModel(modelName, startTime, stopTime, numOfIntervals, tolerance,
-					simFlags, false);
-			if (!simulated)
+		if (depth != 0)
+		{
+			verified = simulateModel(modelName, startTime, 0.1, 10,
+					tolerance, simFlags, true);
+			if (!verified || depth == 2)
 			{
 				this.results.addResult(modelName, "successful", false);
 				return;
 			}
 		}
-		catch (Exception e)
+
+		// Simulate the model
+		// Parameter "simFlags" can be a comma separated list of log level:
+		// -lv LOG_INIT,LOG_SIMULATION,LOG_STATS,LOG_EVENTS
+		// See
+		// https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
+		// IMPORTANT: These simFlags can greatly increase the simulation
+		// time.
+		simulated = simulateModel(modelName, startTime, stopTime, numOfIntervals, tolerance,
+				simFlags, false);
+		if (!simulated)
 		{
-			progress(String.format("Simulation of model %s completed unsuccessfully.", modelName));
 			this.results.addResult(modelName, "successful", false);
-			LOG.error(
-					" {} - openmodelica simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}: {}",
-					workingDir, modelFileName, modelName, startTime, stopTime,
-					numOfIntervalsPerSecond, tolerance, e);
-			throw new RuntimeException(
-					"openmodelica simulation failed - remote working directory " + workingDir
-							+ ", fileName: " + modelFileName + ", problem:" + modelName
-							+ ", error message:" + e.getMessage(),
-					e);
+			return;
 		}
 	}
 
 	@Override
-	public void simulate(Collection<ModelicaDocument> mos)
+	public void simulate(Collection<ModelicaDocument> mos) throws Exception
 	{
 		// FIXME Just as an exercise, do it in parallel
 		// Temporal files are overwritten if run in parallel (equations not
 		// written properly)
-		mos.forEach(mo -> simulate(mo));
+		for (ModelicaDocument mo : mos)
+			simulate(mo);
 	}
 
 	private boolean validateModel(String modelName) throws ConnectException

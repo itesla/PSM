@@ -103,16 +103,19 @@ public class StandaloneDymolaClient
 		return retCode;
 	}
 
-	protected String verify(String modelName, String modelFileName, double startTime, double stopTime,
-			int numOfIntervals, double intervalSize, double tolerance) throws InterruptedException
+	protected String verify(String modelName, String modelFileName, double startTime,
+			double stopTime,
+			int numOfIntervals, double intervalSize, double tolerance) throws Exception
 	{
-		String retCode = simulate(modelName, modelFileName, startTime, stopTime, numOfIntervals, intervalSize, tolerance);
+		String retCode = simulate(modelName, modelFileName, startTime, stopTime, numOfIntervals,
+				intervalSize, tolerance);
 
 		return retCode;
 	}
 
 	protected String simulate(String modelName, String modelFileName, double startTime,
-			double stopTime, int numOfIntervals, double intervalSize, double tolerance) throws InterruptedException
+			double stopTime, int numOfIntervals, double intervalSize, double tolerance)
+			throws Exception
 	{
 		Path pathIn = workingDirectory.resolve(inputFileName);
 		Path pathOut = workingDirectory.resolve(outputFileName);
@@ -163,16 +166,10 @@ public class StandaloneDymolaClient
 					LOGGER.warn(" - retry ... ({})", e.getMessage());
 					retry.errorOccured(e);
 				}
-				catch (RuntimeException e1)
-				{
-					LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
-					retCode = e.toString();
-				}
 				catch (Exception e1)
 				{
 					LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
-					// retCode= Throwables.getRootCause(e).toString();
-					retCode = e1.toString();
+					throw e;
 				}
 			}
 		}

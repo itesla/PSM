@@ -61,7 +61,7 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public void simulate(ModelicaDocument mo)
+	public void simulate(ModelicaDocument mo) throws Exception
 	{
 		String modelName = mo.getSystemModel().getId();
 		String moFileName = modelName + MO_EXTENSION;
@@ -83,79 +83,48 @@ public class DymolaEngine implements ModelicaEngine
 				createFilteredMat, METHOD_LIST, wsdlService, resultVariables);
 		LOGGER.info("Running Dymola client: {}", dymolaClient.toString());
 
-		try
-		{
-			progress(String.format("Checking model %s.", modelName));
-			simResults = dymolaClient.check(modelName, moFileName);
-			if (!simResults.isEmpty())
-			{
-				this.results.addResult(modelName, "successful", false);
-				progress(String.format("Model %s checked unsuccessfully.", modelName));
-			}
-			else progress(String.format("Model %s checked successfully.", modelName));
-			if (depth == 1) return;
-		}
-		catch (InterruptedException exc)
+		progress(String.format("Checking model %s.", modelName));
+		simResults = dymolaClient.check(modelName, moFileName);
+		if (!simResults.isEmpty())
 		{
 			this.results.addResult(modelName, "successful", false);
-			LOGGER.error("Dymola execution interrupted unexpectedly. Error checking model {}.",
-					exc.getMessage());
-			return;
+			progress(String.format("Model %s checked unsuccessfully.", modelName));
 		}
+		else progress(String.format("Model %s checked successfully.", modelName));
+		if (depth == 1) return;
 
 		if (depth != 0)
 		{
-			try
-			{
-				progress(String.format("Verifying model %s.", modelName));
-				simResults = dymolaClient.verify(modelName, moFileName, startTime,
-						0.1, 10, 0.001, tolerance);
-				if (!simResults.isEmpty())
-				{
-					this.results.addResult(modelName, "successful", false);
-					progress(String.format("Model %s verified unsuccessfully.", modelName));
-				}
-				else
-				{
-					progress(String.format("Model %s verified successfully.", modelName));
-					writeResults(outputZipFileName, modelName);
-				}
-			}
-			catch (InterruptedException exc)
+			progress(String.format("Verifying model %s.", modelName));
+			simResults = dymolaClient.verify(modelName, moFileName, startTime,
+					0.1, 10, 0.001, tolerance);
+			if (!simResults.isEmpty())
 			{
 				this.results.addResult(modelName, "successful", false);
-				LOGGER.error("Dymola execution interrupted unexpectedly. Error verifying model {}.",
-						exc.getMessage());
-				return;
+				progress(String.format("Model %s verified unsuccessfully.", modelName));
+			}
+			else
+			{
+				progress(String.format("Model %s verified successfully.", modelName));
+				writeResults(outputZipFileName, modelName);
 			}
 		}
 
 		if (depth == 2) return;
 
-		try
-		{
-			progress(String.format("Simulating model %s.", modelName));
-			simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
-					numOfIntervals, intervalSize, tolerance);
-			if (!simResults.isEmpty())
-			{
-				this.results.addResult(modelName, "successful", false);
-				progress(String.format("Model %s simulated unsuccessfully.", modelName));
-				writeErrorFile(simResults);
-			}
-			else
-			{
-				progress(String.format("Model %s simulated successfully.", modelName));
-				writeResults(outputZipFileName, modelName);
-			}
-		}
-		catch (InterruptedException exc)
+		progress(String.format("Simulating model %s.", modelName));
+		simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
+				numOfIntervals, intervalSize, tolerance);
+		if (!simResults.isEmpty())
 		{
 			this.results.addResult(modelName, "successful", false);
+			progress(String.format("Model %s simulated unsuccessfully.", modelName));
 			writeErrorFile(simResults);
-			LOGGER.error("Dymola execution interrupted unexpectedly. Error simulating model {}.",
-					exc.getMessage());
-			return;
+		}
+		else
+		{
+			progress(String.format("Model %s simulated successfully.", modelName));
+			writeResults(outputZipFileName, modelName);
 		}
 	}
 
@@ -173,11 +142,13 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
-	public void simulate(Collection<ModelicaDocument> mos)
+	public void simulate(Collection<ModelicaDocument> mos) throws Exception
 	{
-		// Just as an exercise, do it in parallel
-		// Be careful with using parallel (https://dzone.com/articles/think-twice-using-java-8)
-		mos.parallelStream().forEach(mo -> simulate(mo));
+		// FIXME Just as an exercise, do it in parallel
+		// Temporal files are overwritten if run in parallel (equations not
+		// written properly)
+		for (ModelicaDocument mo : mos)
+			simulate(mo);
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		this.progress = new Progress();
 	}
 
-	public ModelicaDocument build()
+	public ModelicaDocument build() throws Exception
 	{
 		performFullModelInitialization();
 		return buildModelicaSystem();
@@ -57,7 +57,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return progress;
 	}
 
-	private void performFullModelInitialization()
+	private void performFullModelInitialization() throws Exception
 	{
 		FullModelInitializationBuilder i = new FullModelInitializationBuilder(
 				getDdr(),
@@ -71,11 +71,12 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		progress.report("Full Model Initialization");
 		if (mos != null)
 		{
-			mos.forEach(mo -> {
+			for (ModelicaDocument mo : mos) 
+			{
 				String modelName = mo.getSystemModel().getId();
 				progress.report("    " + modelName);
 				modelicaEngine.simulate(mo);
-			});
+			};
 		}
 
 		ModelicaSimulationFinalResults mor = modelicaEngine.getSimulationResults();

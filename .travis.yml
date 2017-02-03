@@ -12,6 +12,7 @@ jdk:
 # So we have decided to download from a Dropbox public folder and install them locally
 before_install:
   - ./scripts/download_and_install_libs
+  - sed -i "" 's/DEBUG/INFO/' data/test/cfg/logback.xml
 after_success:
   - ./mvnw jacoco:report coveralls:report
 after_failure:

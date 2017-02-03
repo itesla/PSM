@@ -40,57 +40,50 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 	public void run()
 	{
 		running();
+		me = null;
 
 		try
 		{
 			ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
-			try
+			me = ModelicaEngineMainFactory.create(modelicaEngine);
+			me.getModelicaEngineProgress().addObserver(this);
+			me.configure(config);
+			String modelName = mo.getSystemModel().getId();
+
+			me.simulate(mo);
+
+			dinSimulationResults = me.getSimulationResults();
+			boolean hasResults = (boolean) dinSimulationResults.getValue(modelName, "successful");
+
+			if (!hasResults)
 			{
-				me = ModelicaEngineMainFactory.create(modelicaEngine);
-				me.getModelicaEngineProgress().addObserver(this);
-				me.configure(config);
-				String modelName = mo.getSystemModel().getId();
-
-				me.simulate(mo);
-
-				dinSimulationResults = me.getSimulationResults();
-				boolean hasResults = (boolean) dinSimulationResults.getValue(modelName, "successful");
-
-				if (hasResults) {
-					progress(String.format("Model %s has been simulated.", modelName));
-					succeded();
-				}
-				else { 
-					progress(String.format("Model %s has not been simulated.", modelName));
-					failed();
-				}
-
-				publish(SCOPE_GLOBAL,
-						"simres",
-						dinSimulationResults.getValue(modelName, "simulation_path"));				
+				progress(String.format("Model %s has not been simulated.", modelName));
+				throw new Exception("No results obtained");
 			}
-			catch (Exception exc)
-			{
-				exc.printStackTrace();
-			}
-			finally
-			{
-				if (me != null)
-				{
-					try
-					{
-						me.close();
-					}
-					catch (Exception ex)
-					{
-						ex.printStackTrace();
-					}
-				}
-			}
+			progress(String.format("Model %s has been simulated.", modelName));
+			publish(SCOPE_GLOBAL,
+					"simres",
+					dinSimulationResults.getValue(modelName, "simulation_path"));
+			succeded();
 		}
 		catch (Exception x)
 		{
 			failed(x);
+		}
+		finally
+		{
+			if (me != null)
+			{
+				try
+				{
+					me.close();
+				}
+				catch (Exception ex)
+				{
+					
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -99,7 +92,7 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 	{
 		progress(arg1.toString());
 	}
-	
+
 	protected ModelicaEngine				me	= null;
 	private String							modelicaEngine;
 	private Configuration					config;

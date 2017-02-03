@@ -170,6 +170,38 @@
 	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GRID    -INF     -1_AC_TE_OR</cim:IdentifiedObject.name>
 </cim:Terminal>
+<cim:ACLineSegment rdf:ID="_GRID____-INF_____-2_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>9.99248</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.08664</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_2"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_GRID____-INF_____-2_AC_CL">
+	<cim:CurrentLimit.value>9116.06</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_GRID____-INF_____-2_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_GRID____-INF_____-2_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_GRID____-INF_____-2_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_GRID____-INF_____-2_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.TopologicalNode rdf:resource="#_INF______TN"/>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID____-INF_____-2_AC"/>
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_GRID____-INF_____-2_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.TopologicalNode rdf:resource="#_GRID_____TN"/>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID____-INF_____-2_AC"/>
+	<cim:Terminal.connected>true</cim:Terminal.connected>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
 <cim:EnergyConsumer rdf:ID="_GRID_____EC">
 	<cim:EnergyConsumer.LoadResponse rdf:resource="#_GRID_____EC_LRC"/>
 	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_GRID_____VL"/>
@@ -287,7 +319,7 @@
 <cim:SvVoltage rdf:ID="_SV_1">
 	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_GRID_____TN"/>
-	<cim:SvVoltage.v>380</cim:SvVoltage.v>
+	<cim:SvVoltage.v>399</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_2">
 	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>

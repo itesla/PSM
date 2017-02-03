@@ -1,17 +1,17 @@
 within ;
-model case3
+model case4
   parameter Real SNREF = 100.0;
   Modelica.Blocks.Sources.Constant omegaRef (
   k = 1
   ) annotation (Placement(transformation()));
-
+ 
 // BUSES
   iPSL.Electrical.Buses.Bus bus__GEN______TN (
 	 V_0 = 1.0,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__GRID_____TN (
-	 V_0 = 1.0,
+	 V_0 = 1.05,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
 
@@ -25,16 +25,15 @@ model case3
      angle_0 = 0.0, 
      R = 0.00438, 
      X = 0.0438
-     ) annotation (Placement(transformation()));
+     ) annotation (Placement(transformation())); 
+	 
 // LOADS
-  iPSL.Electrical.Loads.Eurostag.PwLoadVoltFrecDependence load__GRID_____EC (
-	 V_0 = 1.0,
+  iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__GRID_____EC (
+	 V_0 = 1.05,
 	 P_0 = 475.0,
 	 Q_0 = 76.0,
-	 alpha = 2,
+	 alpha = 1,
 	 beta = 2,
-	 gamma = 1,
-	 delta = 1,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
 
@@ -54,10 +53,16 @@ model case3
 	 G = 0.0,
 	 B = 0.0
 	 ) annotation (Placement(transformation()));
+  iPSL.Electrical.Branches.PwLine_2 line__GRID_____INF______2_AC (
+	 R = 6.0E-5,
+	 X = 0.00692,
+	 G = 0.0,
+	 B = 0.0
+	 ) annotation (Placement(transformation()));
 
 // FIXED INJECTIONS
   iPSL.Electrical.Loads.Eurostag.PwLoadPQ fixinj_pwLoadPQ_GEN__INF______SM (
-	 V_0 = 1.05, 
+	 V_0 = 1.0, 
 	 angle_0 = 0.0, 
 	 P = -0.0, 
 	 Q = -0.0
@@ -125,7 +130,7 @@ model case3
 	 TA = 3.,
 	 TB = 10.,
 	 EFDMAX = 999,
-	 EFDMIN = -999,		 
+	 EFDMIN = -999,	
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
   tgov1 reg_tgov1__GEN______SM (
@@ -169,8 +174,8 @@ model case3
 	 ) annotation (Placement(transformation()));
 
 equation
- connect(omegaRef.y, gen_pwGeneratorM2S__GEN______SM.omegaRef);
- 
+  connect(omegaRef.y, gen_pwGeneratorM2S__GEN______SM.omegaRef);
+
 // Connecting REGULATORS and MACHINES
   connect(reg_sexs__GEN______SM.pin_EFD, gen_pwGeneratorM2S__GEN______SM.pin_EFD) annotation (Line());
   connect(reg_sexs__GEN______SM.pin_TerminalVoltage, gen_pwGeneratorM2S__GEN______SM.pin_TerminalVoltage) annotation (Line());
@@ -186,12 +191,14 @@ equation
 // Connecting LINES
   connect(bus__GRID_____TN.p, line__GRID_____INF______1_AC.p) annotation (Line());
   connect(line__GRID_____INF______1_AC.n, bus__INF______TN.p) annotation (Line());
+  connect(bus__GRID_____TN.p, line__GRID_____INF______2_AC.p) annotation (Line());
+  connect(line__GRID_____INF______2_AC.n, bus__INF______TN.p) annotation (Line());
 
 // COUPLING DEVICES
 
 // Connecting LOADS
   connect(bus__GRID_____TN.p, load__GRID_____EC.p) annotation (Line());
-  connect(omegaRef.y, load__GRID_____EC.omegaRef);
+
 // Connecting GENERATORS
   connect(bus__GEN______TN.p, gen_pwGeneratorM2S__GEN______SM.sortie) annotation (Line());
 
@@ -201,13 +208,13 @@ equation
 // Connecting FIXED TRANSFORMERS
   connect(bus__GEN______TN.p, trafo__GEN______GRID_____1_PT.p) annotation (Line());
   connect(trafo__GEN______GRID_____1_PT.n, bus__GRID_____TN.p) annotation (Line());
-
+  
 // Connecting INFINITE BUSES
-  connect(bus__INF______TN.p, busInf__INF______TN.p) annotation (Line());  
+  connect(bus__INF______TN.p, busInf__INF______TN.p) annotation (Line());    
 
 // Connecting OTHERS
 
 // Modelica version required
   annotation (uses(Modelica(version="3.2.1")));
-end case3;
+end case4;
 

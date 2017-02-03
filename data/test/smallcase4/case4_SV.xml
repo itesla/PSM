@@ -23,7 +23,7 @@
 <cim:SvVoltage rdf:ID="_SV_1">
 	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_GRID_____TN"/>
-	<cim:SvVoltage.v>380</cim:SvVoltage.v>
+	<cim:SvVoltage.v>399</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_2">
 	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>

@@ -3,7 +3,7 @@ model _GEN______SM_Initialization
     iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init gen_pwGeneratorM2S__GEN______SM
    (
         PNALT = 475.0,
-        p0 = 0.0,
+        p0 = 4.75,
         omega_0 = 1.0,
         IENR = 4,
         TX = 0,
@@ -35,19 +35,19 @@ model _GEN______SM_Initialization
         IWLMDV = 1,
         pPuWLMDV = 475.0
     ) annotation (Placement(transformation()));
-  iPSL.Electrical.Controls.Eurostag.sexs_Init sexs__GEN______SM
+  iPSL.Electrical.Controls.Eurostag.tgov1_Init tgov1__GEN______SM
  (
+        DT = 0.,
+        RR = 0.05,
         PNALT = 475.0,
-        TE = 0.05,
-    KC = 1,
-        K = 200.,
+        VMIN = 0.,
+        VMAX = 1.010000,
         SN = 500.0,
-        EMIN = 0.,
-        TA = 3.,
-        TB = 10.,
+        T1 = 0.5,
+        T2 = 3.,
         SNREF = 100.0,
         PN = 475.0,
-        EMAX = 4.
+        T3 = 10.
   ) annotation (Placement(transformation()));
   iPSL.Electrical.Controls.Eurostag.pss2ab_Init pss2ab__GEN______SM
  (
@@ -71,27 +71,27 @@ model _GEN______SM_Initialization
         PN = 475.0,
         T3 = .1500000
   ) annotation (Placement(transformation()));
-  iPSL.Electrical.Controls.Eurostag.tgov1_Init tgov1__GEN______SM
+  iPSL.Electrical.Controls.Eurostag.sexs_Init sexs__GEN______SM
  (
-        DT = 0.,
-        RR = 0.05,
         PNALT = 475.0,
-        VMIN = 0.,
-        VMAX = 1.010000,
+        TE = 0.05,
+        KC = 1,
+        K = 200.,
         SN = 500.0,
-        T1 = 0.5,
-        T2 = 3.,
+        EMIN = 0.,
+        TA = 3.,
+        TB = 10.,
         SNREF = 100.0,
         PN = 475.0,
-        T3 = 10.
+        EMAX = 4.
   ) annotation (Placement(transformation()));
   Modelica.Blocks.Sources.Constant zero__GEN______SM (k = 0) annotation (Placement(transformation()));
     equation
-        connect(gen_pwGeneratorM2S__GEN______SM.pin_EFD, sexs__GEN______SM.pin_EFD) annotation (Line());
-        connect(gen_pwGeneratorM2S__GEN______SM.pin_TerminalVoltage, sexs__GEN______SM.pin_TerminalVoltage) annotation (Line());
-        connect(gen_pwGeneratorM2S__GEN______SM.pin_ActivePowerSN, pss2ab__GEN______SM.pin_ActivePowerSN) annotation (Line());
-        connect(gen_pwGeneratorM2S__GEN______SM.pin_OMEGA, pss2ab__GEN______SM.pin_OMEGA) annotation (Line());
         connect(gen_pwGeneratorM2S__GEN______SM.pin_OMEGA, tgov1__GEN______SM.pin_OMEGA) annotation (Line());
         connect(gen_pwGeneratorM2S__GEN______SM.pin_CM, tgov1__GEN______SM.pin_CM) annotation (Line());
+        connect(gen_pwGeneratorM2S__GEN______SM.pin_ActivePowerSN, pss2ab__GEN______SM.pin_ActivePowerSN) annotation (Line());
+        connect(gen_pwGeneratorM2S__GEN______SM.pin_OMEGA, pss2ab__GEN______SM.pin_OMEGA) annotation (Line());
+        connect(gen_pwGeneratorM2S__GEN______SM.pin_EFD, sexs__GEN______SM.pin_EFD) annotation (Line());
+        connect(gen_pwGeneratorM2S__GEN______SM.pin_TerminalVoltage, sexs__GEN______SM.pin_TerminalVoltage) annotation (Line());
     connect(sexs__GEN______SM.pin_VS, zero__GEN______SM.y) annotation (Line());
 end _GEN______SM_Initialization;

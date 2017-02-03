@@ -53,9 +53,7 @@
 </cim:OperationalLimitSet>
 <cim:Terminal rdf:ID="_GEN_____-GRID____-1_TW_EX_TE">
 	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_GRID_____TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN_____-GRID____-1_TW_EX"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GEN     -GRID    -1_TW_EX_TE</cim:IdentifiedObject.name>
 </cim:Terminal>
 <cim:TransformerWinding rdf:ID="_GEN_____-GRID____-1_TW_OR">
@@ -82,9 +80,7 @@
 </cim:OperationalLimitSet>
 <cim:Terminal rdf:ID="_GEN_____-GRID____-1_TW_OR_TE">
 	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_GEN______TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN_____-GRID____-1_TW_OR"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GEN     -GRID    -1_TW_OR_TE</cim:IdentifiedObject.name>
 </cim:Terminal>
 <cim:GeneratingUnit rdf:ID="_GEN______GU">
@@ -117,22 +113,13 @@
 </cim:RegulatingControl>
 <cim:Terminal rdf:ID="_GEN______SM_TE">
 	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_GEN______TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_GEN______SM"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GEN     </cim:IdentifiedObject.name>
 </cim:Terminal>
 <cim:Substation rdf:ID="_GEN______SS">
 	<cim:Substation.Region rdf:resource="#_SGR_1_"/>
 	<cim:IdentifiedObject.name>GEN     _SS</cim:IdentifiedObject.name>
 </cim:Substation>
-<cim:TopologicalNode rdf:ID="_GEN______TN">
-	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_GEN______VL"/>
-	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
-	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_0"/>
-	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
-	<cim:IdentifiedObject.name>GEN     </cim:IdentifiedObject.name>
-</cim:TopologicalNode>
 <cim:VoltageLevel rdf:ID="_GEN______VL">
 	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_0"/>
 	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_GEN______SS"/>
@@ -158,17 +145,41 @@
 </cim:OperationalLimitSet>
 <cim:Terminal rdf:ID="_GRID____-INF_____-1_AC_TE_EX">
 	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_INF______TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID____-INF_____-1_AC"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GRID    -INF     -1_AC_TE_EX</cim:IdentifiedObject.name>
 </cim:Terminal>
 <cim:Terminal rdf:ID="_GRID____-INF_____-1_AC_TE_OR">
 	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_GRID_____TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID____-INF_____-1_AC"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GRID    -INF     -1_AC_TE_OR</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:ACLineSegment rdf:ID="_GRID____-INF_____-2_AC">
+	<cim:Conductor.gch>0</cim:Conductor.gch>
+	<cim:Conductor.x>9.99248</cim:Conductor.x>
+	<cim:Conductor.bch>0</cim:Conductor.bch>
+	<cim:Conductor.r>0.08664</cim:Conductor.r>
+	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_2"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2</cim:IdentifiedObject.name>
+</cim:ACLineSegment>
+<cim:CurrentLimit rdf:ID="_GRID____-INF_____-2_AC_CL">
+	<cim:CurrentLimit.value>9116.06</cim:CurrentLimit.value>
+	<cim:OperationalLimit.OperationalLimitSet rdf:resource="#_GRID____-INF_____-2_AC_OLS"/>
+	<cim:OperationalLimit.OperationalLimitType rdf:resource="#_AC_PATL_OLT"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_CL</cim:IdentifiedObject.name>
+</cim:CurrentLimit>
+<cim:OperationalLimitSet rdf:ID="_GRID____-INF_____-2_AC_OLS">
+	<cim:OperationalLimitSet.Terminal rdf:resource="#_GRID____-INF_____-2_AC_TE_OR"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_OLS</cim:IdentifiedObject.name>
+</cim:OperationalLimitSet>
+<cim:Terminal rdf:ID="_GRID____-INF_____-2_AC_TE_EX">
+	<cim:Terminal.sequenceNumber>2</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID____-INF_____-2_AC"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_TE_EX</cim:IdentifiedObject.name>
+</cim:Terminal>
+<cim:Terminal rdf:ID="_GRID____-INF_____-2_AC_TE_OR">
+	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
+	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID____-INF_____-2_AC"/>
+	<cim:IdentifiedObject.name>GRID    -INF     -2_AC_TE_OR</cim:IdentifiedObject.name>
 </cim:Terminal>
 <cim:EnergyConsumer rdf:ID="_GRID_____EC">
 	<cim:EnergyConsumer.LoadResponse rdf:resource="#_GRID_____EC_LRC"/>
@@ -189,18 +200,9 @@
 </cim:LoadResponseCharacteristic>
 <cim:Terminal rdf:ID="_GRID_____EC_TE">
 	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_GRID_____TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_GRID_____EC"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>GRID    _EC_TE</cim:IdentifiedObject.name>
 </cim:Terminal>
-<cim:TopologicalNode rdf:ID="_GRID_____TN">
-	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_GRID_____VL"/>
-	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
-	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_1"/>
-	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
-	<cim:IdentifiedObject.name>GRID    </cim:IdentifiedObject.name>
-</cim:TopologicalNode>
 <cim:VoltageLevel rdf:ID="_GRID_____VL">
 	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_1"/>
 	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_GEN______SS"/>
@@ -239,22 +241,13 @@
 </cim:RegulatingControl>
 <cim:Terminal rdf:ID="_INF______SM_TE">
 	<cim:Terminal.sequenceNumber>1</cim:Terminal.sequenceNumber>
-	<cim:Terminal.TopologicalNode rdf:resource="#_INF______TN"/>
 	<cim:Terminal.ConductingEquipment rdf:resource="#_INF______SM"/>
-	<cim:Terminal.connected>true</cim:Terminal.connected>
 	<cim:IdentifiedObject.name>INF     </cim:IdentifiedObject.name>
 </cim:Terminal>
 <cim:Substation rdf:ID="_INF______SS">
 	<cim:Substation.Region rdf:resource="#_SGR_1_"/>
 	<cim:IdentifiedObject.name>INF     _SS</cim:IdentifiedObject.name>
 </cim:Substation>
-<cim:TopologicalNode rdf:ID="_INF______TN">
-	<cim:TopologicalNode.ConnectivityNodeContainer rdf:resource="#_INF______VL"/>
-	<cim:TopologicalNode.TopologicalIsland rdf:resource="#_TI_1"/>
-	<cim:TopologicalNode.BaseVoltage rdf:resource="#_BV_2"/>
-	<cim:TopologicalNode.ControlArea rdf:resource="#_CA_1"/>
-	<cim:IdentifiedObject.name>INF     </cim:IdentifiedObject.name>
-</cim:TopologicalNode>
 <cim:VoltageLevel rdf:ID="_INF______VL">
 	<cim:VoltageLevel.BaseVoltage rdf:resource="#_BV_2"/>
 	<cim:VoltageLevel.MemberOf_Substation rdf:resource="#_INF______SS"/>
@@ -264,44 +257,11 @@
 	<cim:SubGeographicalRegion.Region rdf:resource="#_GR_1_"/>
 	<cim:IdentifiedObject.name>1 </cim:IdentifiedObject.name>
 </cim:SubGeographicalRegion>
-<cim:SvPowerFlow rdf:ID="_SVPF_0">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_GEN______SM_TE"/>
-	<cim:SvPowerFlow.p>-475</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>-0</cim:SvPowerFlow.q>
-</cim:SvPowerFlow>
-<cim:SvPowerFlow rdf:ID="_SVPF_1">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_INF______SM_TE"/>
-	<cim:SvPowerFlow.p>-0</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>-0</cim:SvPowerFlow.q>
-</cim:SvPowerFlow>
-<cim:SvPowerFlow rdf:ID="_SVPF_2">
-	<cim:SvPowerFlow.Terminal rdf:resource="#_GRID_____EC_TE"/>
-	<cim:SvPowerFlow.p>475</cim:SvPowerFlow.p>
-	<cim:SvPowerFlow.q>76</cim:SvPowerFlow.q>
-</cim:SvPowerFlow>
-<cim:SvVoltage rdf:ID="_SV_0">
-	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>
-	<cim:SvVoltage.TopologicalNode rdf:resource="#_GEN______TN"/>
-	<cim:SvVoltage.v>21</cim:SvVoltage.v>
-</cim:SvVoltage>
-<cim:SvVoltage rdf:ID="_SV_1">
-	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>
-	<cim:SvVoltage.TopologicalNode rdf:resource="#_GRID_____TN"/>
-	<cim:SvVoltage.v>380</cim:SvVoltage.v>
-</cim:SvVoltage>
-<cim:SvVoltage rdf:ID="_SV_2">
-	<cim:SvVoltage.angle>0</cim:SvVoltage.angle>
-	<cim:SvVoltage.TopologicalNode rdf:resource="#_INF______TN"/>
-	<cim:SvVoltage.v>399</cim:SvVoltage.v>
-</cim:SvVoltage>
 <cim:OperationalLimitType rdf:ID="_T3_PATL_OLT">
 	<cim:OperationalLimitType.direction rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#OperationalLimitDirectionKind.absoluteValue"/>
 	<cim:OperationalLimitType.acceptableDuration>45000</cim:OperationalLimitType.acceptableDuration>
 	<cim:IdentifiedObject.name>PATL</cim:IdentifiedObject.name>
 </cim:OperationalLimitType>
-<cim:TopologicalIsland rdf:ID="_TI_1">
-	<cim:TopologicalIsland.AngleRef_TopologicalNode rdf:resource="#_INF______TN"/>
-</cim:TopologicalIsland>
 <cim:OperationalLimitType rdf:ID="_TW_PATL_OLT">
 	<cim:OperationalLimitType.direction rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#OperationalLimitDirectionKind.absoluteValue"/>
 	<cim:OperationalLimitType.acceptableDuration>45000</cim:OperationalLimitType.acceptableDuration>

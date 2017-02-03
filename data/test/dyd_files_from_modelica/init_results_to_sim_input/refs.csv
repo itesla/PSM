@@ -13,6 +13,8 @@ gen_pwGeneratorM2S,init_omega,gen_pwGeneratorM2S,omega_0
 gen_pwGeneratorM2S,init_theta,gen_pwGeneratorM2S,teta0
 gen_pwGeneratorM2S,mDVPu,gen_pwGeneratorM2S,mDVPu
 reg_cmconst,init_CM,gen_pwGeneratorM2S,pin_CM
+reg_govpsat1,init_CM,gen_pwGeneratorM2S,pin_CM
+reg_govpsat1,init_OMREF,govpsat1,pin_OMREF
 reg_gsteam0,init_CM,gen_pwGeneratorM2S,pin_CM
 reg_gsteam0,init_PMECH,gsteam0,pin_PMECH
 reg_gsteam0,init_REF,gsteam0,pin_REF
@@ -20,6 +22,15 @@ reg_gsteam1,init_CM,gen_pwGeneratorM2S,pin_CM
 reg_gsteam1,init_CM2,gsteam1,pin_CM2
 reg_gsteam1,init_OMEGREF,gsteam1,pin_OMEGREF
 reg_gsteam1,init_PGV,gsteam1,pin_PGV
+reg_htgpsat3,init_CM,gen_pwGeneratorM2S,pin_CM
+reg_htgpsat3,init_OMEGREF,htgpsat3,pin_OMEGREF
+reg_htgpsat3,init_PREF,htgpsat3,pin_PREF
+reg_htgpsat3,init_T1,htgpsat3,pin_T1
+reg_oelpsat,init_EFD,gen_pwGeneratorM2S,pin_EFD
+reg_oelpsat,init_VREF,oelpsat,pin_VREF
+reg_oelpsat,init_VV,oelpsat,pin_VV
+reg_pss2ab,init_AP,pss2ab,pin_AP
+reg_pss2ab,init_IN,pss2ab,pin_IN
 reg_pssi3e2b,init_APREF,pssi3e2b,pin_APREF
 reg_pssi3e3b,init_P,pssi3e3b,pin_P
 reg_sexs,init_EFD,gen_pwGeneratorM2S,pin_EFD

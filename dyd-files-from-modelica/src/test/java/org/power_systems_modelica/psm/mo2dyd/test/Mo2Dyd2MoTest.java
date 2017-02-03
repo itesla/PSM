@@ -115,18 +115,18 @@ public class Mo2Dyd2MoTest
 	}
 
 	@Test
-	public void rebuildSmallCase3() throws Exception
+	public void rebuildSmallCase4() throws Exception
 	{
 		rebuild(
-				"smallcase3",
-				"itesla/case3_no_lf.mo",
+				"smallcase4",
+				"itesla/case4_no_lf.mo",
 				"itesla/init",
-				"case3_EQ.xml",
-				"smallcase3_ddr",
+				"case4_EQ.xml",
+				"smallcase4_ddr",
 				3,
 				2);
 	}
-
+	
 	@Test
 	public void rebuild7buses() throws Exception
 	{

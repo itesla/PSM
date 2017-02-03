@@ -164,9 +164,9 @@
 </cim:VoltageLevel>
 <cim:ACLineSegment rdf:ID="_GRID____-INF_____-1_AC">
 	<cim:Conductor.gch>0</cim:Conductor.gch>
-	<cim:Conductor.x>0</cim:Conductor.x>
+	<cim:Conductor.x>9.99248</cim:Conductor.x>
 	<cim:Conductor.bch>0</cim:Conductor.bch>
-	<cim:Conductor.r>0</cim:Conductor.r>
+	<cim:Conductor.r>0.08664</cim:Conductor.r>
 	<cim:ConductingEquipment.BaseVoltage rdf:resource="#_BV_2"/>
 	<cim:IdentifiedObject.name>GRID    -INF     -1</cim:IdentifiedObject.name>
 </cim:ACLineSegment>

@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,15 +25,17 @@ import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 
 public class CompareLoadflowsDetailController implements MainChildrenController
 {
@@ -335,6 +336,10 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	@Override
 	public void setWorkflow(Workflow w, Object... objects)
 	{
+		voltageTab.setDisable(true);
+		phaseTab.setDisable(true);
+		activeTab.setDisable(true);
+		reactiveTab.setDisable(true);
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
@@ -367,9 +372,13 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			}
 		}
 
+		WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
+			voltageTab.setDisable(false);
+			phaseTab.setDisable(false);
+			activeTab.setDisable(false);
+			reactiveTab.setDisable(false);
 
 			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("V"))
@@ -415,6 +424,19 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			Utils.addTooltipScatterChart(activeCurvesChart, "MW");
 			Utils.addTooltipScatterChart(reactiveCurvesChart, "MVar");
 		}
+		else
+		{
+			tabPane.getSelectionModel().select(logTab);
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (Exception e : wr.getExceptions())
+		{
+			sb.append(Utils.getStackTrace(e));
+			sb.append("\n\n");
+		}
+
+		logArea.setText(sb.toString());
 	}
 
 	@Override
@@ -426,6 +448,19 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	public void setDefaultInit()
 	{
 	}
+
+	@FXML
+	private TabPane							tabPane;
+	@FXML
+	private Tab								voltageTab;
+	@FXML
+	private Tab								phaseTab;
+	@FXML
+	private Tab								activeTab;
+	@FXML
+	private Tab								reactiveTab;
+	@FXML
+	private Tab								logTab;
 
 	@FXML
 	private Label							avgVoltageDiffLabel;
@@ -542,6 +577,9 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	private TableColumn<BusData, Number>	helmflowReactiveColumn;
 	@FXML
 	private TableColumn<BusData, Number>	differenceReactiveColumn;
+
+	@FXML
+	private TextArea						logArea;
 
 	private String							caseLabel;
 

@@ -47,10 +47,9 @@ public class ModelicaSimulatorTaskResults extends WorkflowTask
 	{
 		running();
 
-		Path modelicaEngineWorkingDir = Paths.get(workflow.getResults(source).toString());
-
 		try
 		{
+			Path modelicaEngineWorkingDir = Paths.get(workflow.getResults(source).toString());
 			Files.walk(modelicaEngineWorkingDir, FileVisitOption.FOLLOW_LINKS)
 					.filter(path -> path.toString().contains("_res") &&
 							(path.toString().endsWith(".mat") || path.toString().endsWith(".csv")))

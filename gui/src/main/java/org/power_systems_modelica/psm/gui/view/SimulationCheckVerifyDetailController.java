@@ -24,6 +24,7 @@ import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.ProgressData;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -269,8 +270,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					createdLabel = "";
 				}
 			}
 
@@ -299,8 +299,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					caseLabel = "";
 				}
 			}
 

@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,13 +37,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
@@ -90,12 +90,15 @@ public class ConversionDetailController implements MainChildrenController
 	@Override
 	public List<SummaryLabel> getSummaryLabels()
 	{
+		String dateLabel = "";
+		if (date != null)
+			dateLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 
 		List<SummaryLabel> labels = new ArrayList();
 		labels.add(new SummaryLabel("Path:", pathLabel, false, false));
 		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
 		labels.add(new SummaryLabel("DDR:", ddrLabel, true, true));
-		labels.add(new SummaryLabel("Created:", date.toString("yyyy/MM/dd HH:mm:ss"), false, true));
+		labels.add(new SummaryLabel("Created:", dateLabel, false, true));
 		labels.add(new SummaryLabel("Loadflow:", loadflowLabel, true, true));
 		labels.add(new SummaryLabel("Modelica network:", onlyMainComponentLabel, false, true));
 		labels.add(
@@ -243,6 +246,9 @@ public class ConversionDetailController implements MainChildrenController
 	{
 
 		loadflowLabel = "None";
+		moTab.setDisable(true);
+		curvesTab.setDisable(true);
+		modelsTab.setDisable(true);
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 
@@ -257,15 +263,14 @@ public class ConversionDetailController implements MainChildrenController
 				try
 				{
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(pathLabel),
-							BasicFileAttributes.class);
+								BasicFileAttributes.class);
 					date = new DateTime(attr.lastModifiedTime().toMillis());
-
+	
 					moContent = PathUtils.loadFile(moFile);
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					date = null;
 				}
 				codeEditor.setCode(moContent);
 			}
@@ -294,8 +299,7 @@ public class ConversionDetailController implements MainChildrenController
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					caseLabel = "";
 				}
 			}
 
@@ -314,8 +318,7 @@ public class ConversionDetailController implements MainChildrenController
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ddrLabel = "";
 				}
 
 				onlyMainComponentLabel = td.getTaskConfiguration()
@@ -332,9 +335,13 @@ public class ConversionDetailController implements MainChildrenController
 			}
 		}
 
+		WorkflowResult r = mainService.getConversionResult("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			WorkflowResult r = mainService.getConversionResult("" + w.getId());
+			moTab.setDisable(false);
+			curvesTab.setDisable(false);
+			modelsTab.setDisable(false);
+
 			addSeries(r);
 			Utils.addTooltipScatterChart(voltageChart, "pu");
 			Utils.addTooltipScatterChart(phaseChart, "º");
@@ -359,12 +366,25 @@ public class ConversionDetailController implements MainChildrenController
 			root.getChildren().sort(Comparator
 					.comparing(t -> ((TreeItem<ElementModel>) t).getValue().getStaticId()));
 		}
+		else
+		{
+			tabPane.getSelectionModel().select(logTab);
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		for (Exception e : r.getExceptions())
+		{
+			sb.append(Utils.getStackTrace(e));
+			sb.append("\n\n");
+		}
+		
+		logArea.setText(sb.toString());
 	}
 
 	public void setCase(Case c)
 	{
 		this.c = c;
-		
+
 		curvesTab.setDisable(true);
 		modelsTab.setDisable(true);
 
@@ -430,6 +450,11 @@ public class ConversionDetailController implements MainChildrenController
 	}
 
 	@FXML
+	private TabPane									tabPane;
+
+	@FXML
+	private Tab										moTab;
+	@FXML
 	private CodeEditor								codeEditor;
 
 	@FXML
@@ -472,6 +497,11 @@ public class ConversionDetailController implements MainChildrenController
 	@FXML
 	private NumberAxis								yReactiveAxis;
 
+	@FXML
+	private Tab										logTab;
+	@FXML
+	private TextArea								logArea;
+	
 	private DateTime								date;
 	private String									pathLabel;
 	private Case									c;

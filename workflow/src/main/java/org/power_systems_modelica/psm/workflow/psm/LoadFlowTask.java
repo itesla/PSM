@@ -47,19 +47,8 @@ public class LoadFlowTask extends WorkflowTask
 		targetStateId = Optional.ofNullable(config.getParameter("targetStateId"))
 				.orElse(sourceStateId);
 		targetCsvFolder = Optional.ofNullable(config.getParameter("targetCsvFolder"));
+		loadFlowFactoryClassName = config.getParameter("loadFlowFactoryClass");
 
-		try
-		{
-			// TODO use ModuleConfig getClassProperty from ipst
-			Class<? extends LoadFlowFactory> loadFlowFactoryClass = Class
-					.forName(config.getParameter("loadFlowFactoryClass"))
-					.asSubclass(LoadFlowFactory.class);
-			loadFlowFactory = loadFlowFactoryClass.newInstance();
-		}
-		catch (InstantiationException | IllegalAccessException | ClassNotFoundException e)
-		{
-			throw new RuntimeException(e);
-		}
 		// TODO obtain LoadFlowParameters from task configuration
 		loadFlowParams = new LoadFlowParameters();
 		// TODO obtain computationManager parameters and priority from task configuration ?
@@ -77,6 +66,12 @@ public class LoadFlowTask extends WorkflowTask
 
 		try
 		{
+			// TODO use ModuleConfig getClassProperty from ipst
+			Class<? extends LoadFlowFactory> loadFlowFactoryClass = Class
+					.forName(loadFlowFactoryClassName)
+					.asSubclass(LoadFlowFactory.class);
+			loadFlowFactory = loadFlowFactoryClass.newInstance();
+
 			Network network = (Network) workflow.getResults("network");
 			network.getStateManager().allowStateMultiThreadAccess(true);
 			network.getStateManager().setWorkingState(sourceStateId);
@@ -85,7 +80,7 @@ public class LoadFlowTask extends WorkflowTask
 				network.getStateManager().cloneState(sourceStateId, targetStateId);
 				network.getStateManager().setWorkingState(targetStateId);
 			}
-			
+
 			// Export the input data
 			if (targetCsvFolder.isPresent())
 			{
@@ -99,8 +94,8 @@ public class LoadFlowTask extends WorkflowTask
 			int priority = 1;
 			LoadFlow lf = loadFlowFactory.create(network, computationManager, priority);
 			LoadFlowResult r = lf.run(loadFlowParams);
-			
-			// Export the data if requested, even if the result if not ok 
+
+			// Export the data if requested, even if the result if not ok
 			if (targetCsvFolder.isPresent())
 			{
 				Path folder = Paths.get(targetCsvFolder.get()).resolve("output");
@@ -108,7 +103,7 @@ public class LoadFlowTask extends WorkflowTask
 				NetworkData d = NetworkDataExtractor.extract(network);
 				NetworkDataExporter.export(d, folder);
 			}
-			
+
 			if (!r.isOk()) throw new Exception("Loadflow is not Ok");
 
 			succeded();
@@ -124,6 +119,7 @@ public class LoadFlowTask extends WorkflowTask
 	private String				sourceStateId;
 	private String				targetStateId;
 	private Optional<String>	targetCsvFolder;
+	private String				loadFlowFactoryClassName;
 
 	private static final Logger	LOG	= LoggerFactory.getLogger(LoadFlowTask.class);
 }

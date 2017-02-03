@@ -6,6 +6,8 @@ import java.util.StringTokenizer;
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.openmodelica.corba.SmartProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.stringtemplate.v4.compiler.STParser.memberExpr_return;
 
 public class OpenModelicaWrapper extends SmartProxy
@@ -211,7 +213,10 @@ public class OpenModelicaWrapper extends SmartProxy
 	@Override
 	public void logOMCStatus(String message)
 	{
-		//TODO Temp
-//		System.out.println(">>>><<<< " + message);
+		LOG.debug(message);
 	}
+	
+	
+	private static final Logger				LOG				= LoggerFactory
+			.getLogger(OpenModelicaWrapper.class);
 }

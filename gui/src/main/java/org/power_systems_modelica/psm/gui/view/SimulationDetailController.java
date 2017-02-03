@@ -50,6 +50,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -88,10 +90,13 @@ public class SimulationDetailController implements MainChildrenController
 	@Override
 	public List<SummaryLabel> getSummaryLabels()
 	{
+		String dateLabel = "";
+		if (date != null)
+			dateLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 
 		List<SummaryLabel> labels = new ArrayList();
 		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
-		labels.add(new SummaryLabel("Created:", date.toString("yyyy/MM/dd HH:mm:ss"), true, true));
+		labels.add(new SummaryLabel("Created:", dateLabel, true, true));
 		labels.add(new SummaryLabel("Dynamic simulator:", dsLabel, false, false));
 		return labels;
 	}
@@ -120,7 +125,7 @@ public class SimulationDetailController implements MainChildrenController
 		element.removeData(bus);
 		element.resetTextbox();
 		selectedBuses.add(bus);
-		
+
 		XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
 		valuesDS.setName(bus);
 		for (DsData xyValue : results.getDsValues().get(bus))
@@ -137,9 +142,10 @@ public class SimulationDetailController implements MainChildrenController
 		LOG.debug("handleRemoveElement");
 		element.addData(bus);
 		selectedBuses.remove(bus);
-		FilteredList<XYChart.Series<Number, Number>> series = dsChart.getData().filtered(s->s.getName().equals(bus));
+		FilteredList<XYChart.Series<Number, Number>> series = dsChart.getData()
+				.filtered(s -> s.getName().equals(bus));
 		if (series.isEmpty()) return;
-		
+
 		dsChart.getData().removeAll(series);
 	}
 
@@ -406,6 +412,9 @@ public class SimulationDetailController implements MainChildrenController
 	public void setWorkflow(Workflow w, Object... objects)
 	{
 		String moInput = null;
+		curvesTab.setDisable(true);
+		moTab.setDisable(true);
+		moweTab.setDisable(true);
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 			if (td.getTaskClass().equals(ModelicaParserTask.class))
@@ -420,8 +429,7 @@ public class SimulationDetailController implements MainChildrenController
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					date = null;
 				}
 			}
 
@@ -449,8 +457,7 @@ public class SimulationDetailController implements MainChildrenController
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					caseLabel = "";
 				}
 			}
 
@@ -461,8 +468,6 @@ public class SimulationDetailController implements MainChildrenController
 			}
 		}
 
-		moTab.setDisable(true);
-		moweTab.setDisable(true);
 		if (moInput != null)
 		{
 
@@ -485,14 +490,27 @@ public class SimulationDetailController implements MainChildrenController
 			}
 		}
 
+		results = mainService.getSimulationResult("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			results = mainService.getSimulationResult("" + w.getId());
+			curvesTab.setDisable(false);
 			addDefaultBuses(w, results);
 			addSeries(results);
 			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 		}
+		else
+		{
+			tabPane.getSelectionModel().select(logTab);
+		}
 
+		StringBuilder sb = new StringBuilder();
+		for (Exception e : results.getExceptions())
+		{
+			sb.append(Utils.getStackTrace(e));
+			sb.append("\n\n");
+		}
+		
+		logArea.setText(sb.toString());
 	}
 
 	@Override
@@ -507,9 +525,16 @@ public class SimulationDetailController implements MainChildrenController
 	}
 
 	@FXML
+	private TabPane						tabPane;
+
+	@FXML
+	private Tab							curvesTab;
+	@FXML
 	private Tab							moTab;
 	@FXML
 	private Tab							moweTab;
+	@FXML
+	private Tab							logTab;
 
 	@FXML
 	private CodeEditor					moEditor;
@@ -524,6 +549,9 @@ public class SimulationDetailController implements MainChildrenController
 	private NumberAxis					xDsAxis;
 	@FXML
 	private NumberAxis					yDsAxis;
+
+	@FXML
+	private TextArea					logArea;
 
 	private String						caseLabel;
 	private DateTime					date;

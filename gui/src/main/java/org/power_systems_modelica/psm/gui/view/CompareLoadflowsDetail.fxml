@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.ScatterChart?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -24,9 +25,9 @@
             			<content>
             				<AnchorPane minHeight="0.0" minWidth="0.0">
             					<children>
-            						<TabPane layoutX="18.6" layoutY="14.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.0">
+            						<TabPane fx:id="tabPane" layoutX="18.6" layoutY="14.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.0">
             							<tabs>
-            								<Tab closable="false" text="Voltage">
+            								<Tab fx:id="voltageTab" closable="false" text="Voltage">
             									<content>
             										<AnchorPane minHeight="0.0" minWidth="0.0">
             											<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
@@ -63,7 +64,7 @@
             										</AnchorPane>
             									</content>
             								</Tab>
-            								<Tab closable="false" text="Phase">
+            								<Tab fx:id="phaseTab" closable="false" text="Phase">
             									<content>
             										<AnchorPane minHeight="0.0" minWidth="0.0">
             											<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
@@ -100,7 +101,7 @@
             										</AnchorPane>
             									</content>
             								</Tab>
-            								<Tab closable="false" text="Active Power">
+            								<Tab fx:id="activeTab" closable="false" text="Active Power">
             									<content>
             										<AnchorPane minHeight="0.0" minWidth="0.0">
             											<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
@@ -137,7 +138,7 @@
             										</AnchorPane>
             									</content>
             								</Tab>
-            								<Tab closable="false" text="Reactive Power">
+            								<Tab fx:id="reactiveTab" closable="false" text="Reactive Power">
             									<content>
             										<AnchorPane minHeight="0.0" minWidth="0.0">
             											<Label layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
@@ -174,6 +175,15 @@
             										</AnchorPane>
             									</content>
             								</Tab>
+			                              <Tab fx:id="logTab" closable="false" text="Logs">
+			                                   <content>
+												<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+												   <children>
+												      <TextArea fx:id="logArea" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+												   </children>
+												</AnchorPane>
+			                                   </content>
+			                              </Tab>
             							</tabs>
             						</TabPane>
             					</children>

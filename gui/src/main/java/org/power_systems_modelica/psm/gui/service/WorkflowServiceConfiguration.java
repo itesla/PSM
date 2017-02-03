@@ -489,6 +489,8 @@ public class WorkflowServiceConfiguration
 			LOG.error(e.getMessage());
 		}
 
+		results.setExceptions(sim.getExceptions());
+
 		return results;
 	}
 
@@ -501,6 +503,8 @@ public class WorkflowServiceConfiguration
 
 		List<ElementModel> models = (List<ElementModel>) conv.getResults("models");
 		results.setModels(models);
+
+		results.setExceptions(conv.getExceptions());
 
 		return results;
 	}
@@ -545,15 +549,22 @@ public class WorkflowServiceConfiguration
 			String helmSourceStateId = null;
 			if (helmflowFromHadesResults) helmSourceStateId = "resultsHades2";
 
-			cl = WF(TD(StaticNetworkImporterTask.class, "importer0",
-					TC("source", casePath.toString())),
-					TD(LoadFlowTask.class, "loadflowHades2",
-							TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
-									"targetStateId", "resultsHades2")),
-					TD(LoadFlowTask.class, "loadflowHelmflow",
-							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
-									"sourceStateId", helmSourceStateId,
-									"targetStateId", "resultsHelmflow")));
+			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
+
+			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
+					TC("source", casePath.toString())));
+			tasks.add(TD(LoadFlowTask.class, "loadflowHades2",
+					TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
+							"targetStateId", "resultsHades2")));
+			tasks.add(TD(LoadFlowTask.class, "loadflowHelmflow",
+					TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
+							"sourceStateId", helmSourceStateId,
+							"targetStateId", "resultsHelmflow")));
+
+			WorkflowConfiguration config = new WorkflowConfiguration();
+			config.setTaskDefinitions(tasks);
+			TaskFactory tf = new TaskFactory();
+			cl = Workflow.create(config, tf);
 		}
 		catch (IOException e)
 		{
@@ -570,30 +581,37 @@ public class WorkflowServiceConfiguration
 		Network n = (Network) cl.getResults("network");
 
 		List<BusData> allBusesValues = new ArrayList<>();
-		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
+		try
+		{
+			n.getBusBreakerView().getBuses().forEach(b -> {
+				Map<String, float[]> bvalues = new HashMap<>();
+				float[] Vs = new float[2];
+				float[] As = new float[2];
+				float[] Ps = new float[2];
+				float[] Qs = new float[2];
 
-			n.getStateManager().setWorkingState("resultsHelmflow");
-			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
-			n.getStateManager().setWorkingState("resultsHades2");
-			Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[1] = b.getAngle();
-			Ps[1] = b.getP();
-			Qs[1] = b.getQ();
-			bvalues.put("V", Vs);
-			bvalues.put("A", As);
-			bvalues.put("P", Ps);
-			bvalues.put("Q", Qs);
-			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
+				n.getStateManager().setWorkingState("resultsHelmflow");
+				Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
+				As[0] = b.getAngle();
+				Ps[0] = b.getP();
+				Qs[0] = b.getQ();
+				n.getStateManager().setWorkingState("resultsHades2");
+				Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
+				As[1] = b.getAngle();
+				Ps[1] = b.getP();
+				Qs[1] = b.getQ();
+				bvalues.put("V", Vs);
+				bvalues.put("A", As);
+				bvalues.put("P", Ps);
+				bvalues.put("Q", Qs);
+				allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
 
-		});
+			});
+		}
+		catch (Exception e)
+		{
+			LOG.error(e.getMessage());
+		}
 
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
@@ -613,6 +631,8 @@ public class WorkflowServiceConfiguration
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
 
+		results.setExceptions(cl.getExceptions());
+
 		return results;
 	}
 
@@ -625,26 +645,26 @@ public class WorkflowServiceConfiguration
 		return sts;
 	}
 
-	public static WorkflowResult getSwtoswValidationResult(String name, String...variables)
+	public static WorkflowResult getSwtoswValidationResult(String name, String... variables)
 	{
 		WorkflowResult results = new WorkflowResult();
-		
+
 		ObservableList<Validation> list = FXCollections.observableArrayList();
 
 		Validation v;
-		
+
 		if (variables.length == 0)
 		{
 			String[] summaries = { "V", "A", "P", "Q" };
-			
+
 			for (String summary : summaries)
 			{
 				v = new Validation();
 				v.setName(summary);
-				v.setRmse(Utils.randomDouble(0,0.0015));
-				v.setRd(Utils.randomDouble(0,0.06));
-				v.setAd(Utils.randomDouble(0,0.06));
-				
+				v.setRmse(Utils.randomDouble(0, 0.0015));
+				v.setRd(Utils.randomDouble(0, 0.06));
+				v.setAd(Utils.randomDouble(0, 0.06));
+
 				list.add(v);
 			}
 		}
@@ -653,28 +673,29 @@ public class WorkflowServiceConfiguration
 
 			for (String variable : variables)
 			{
-				String[] buses = { "bus_BUS____1_TN." + variable, "bus_BUS____2_TN." + variable, 
+				String[] buses = { "bus_BUS____1_TN." + variable, "bus_BUS____2_TN." + variable,
 						"bus_BUS____3_TN." + variable, "bus_BUS____4_TN." + variable,
-						"bus_BUS____5_TN." + variable, "bus_BUS____6_TN." + variable, 
+						"bus_BUS____5_TN." + variable, "bus_BUS____6_TN." + variable,
 						"bus_BUS____7_TN." + variable, "bus_BUS____8_TN." + variable,
 						"bus_BUS____9_TN." + variable, "bus_BUS___10_TN." + variable,
-						"bus_BUS___11_TN." + variable, "bus_BUS___12_TN." + variable, 
+						"bus_BUS___11_TN." + variable, "bus_BUS___12_TN." + variable,
 						"bus_BUS___13_TN." + variable, "bus_BUS___14_TN.V" };
-				
+
 				for (String bus : buses)
 				{
 					v = new Validation();
 					v.setName(bus);
-					v.setRmse(Utils.randomDouble(0,0.0015));
-					v.setRd(Utils.randomDouble(0,0.06));
-					v.setAd(Utils.randomDouble(0,0.06));
-					
+					v.setRmse(Utils.randomDouble(0, 0.0015));
+					v.setRd(Utils.randomDouble(0, 0.06));
+					v.setAd(Utils.randomDouble(0, 0.06));
+
 					list.add(v);
 				}
 			}
 		}
 
 		results.setValidation(list);
+		results.setExceptions(sts.getExceptions());
 
 		return results;
 	}

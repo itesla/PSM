@@ -184,6 +184,11 @@ public class Workflow implements Process
 		return String.join(":", scopeId, resultsId);
 	}
 
+	public List<Exception> getExceptions()
+	{
+		return exceptions;
+	}
+
 	private void updateState()
 	{
 		currentTaskStates = workflowTasks
@@ -194,8 +199,13 @@ public class Workflow implements Process
 		broadcast();
 	}
 
-	protected void updateState(String taskId, ProcessState state)
+	protected void updateState(String taskId, ProcessState state, Exception... es)
 	{
+		for (Exception e: es)
+		{
+			exceptions.add(e);
+		}
+
 		// Only modify the state of the given taskId
 		currentTaskStates = currentTaskStates
 				.stream()
@@ -238,6 +248,7 @@ public class Workflow implements Process
 	private List<WorkflowTask>				workflowTasks;
 	private List<TaskStatePair>				currentTaskStates;
 	private Map<String, Object>				results		= new HashMap<>();
+	private List<Exception>					exceptions	= new ArrayList<>();
 	private final List<WorkflowListener>	listeners	= new ArrayList<>();
 
 	private static final Logger				LOG			= LoggerFactory.getLogger(Workflow.class);

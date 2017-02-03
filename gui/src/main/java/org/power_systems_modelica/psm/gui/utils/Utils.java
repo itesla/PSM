@@ -1,6 +1,8 @@
 package org.power_systems_modelica.psm.gui.utils;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -363,6 +365,13 @@ public class Utils
 		DecimalFormat df = new DecimalFormat("#.#####", symbols);
 		Random r = new Random();
 		return df.format(rangeMin + (rangeMax - rangeMin) * r.nextDouble());
+	}
+	
+	public static String getStackTrace(final Throwable throwable) {
+	     final StringWriter sw = new StringWriter();
+	     final PrintWriter pw = new PrintWriter(sw, true);
+	     throwable.printStackTrace(pw);
+	     return sw.getBuffer().toString();
 	}
 
 	static class Delta

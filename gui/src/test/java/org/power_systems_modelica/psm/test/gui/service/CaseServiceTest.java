@@ -29,7 +29,7 @@ public class CaseServiceTest {
 	}
 
 	@Test
-	public void importCase() throws WorkflowCreationException {
+	public void importCase() throws Exception {
 		
 		Case c = new Case();
 		c.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());

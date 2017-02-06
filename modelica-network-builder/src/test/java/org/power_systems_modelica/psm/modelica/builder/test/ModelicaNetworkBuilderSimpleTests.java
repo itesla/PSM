@@ -3,7 +3,6 @@ package org.power_systems_modelica.psm.modelica.builder.test;
 import static org.junit.Assert.assertEquals;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.NEW_LINE;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -31,6 +30,7 @@ import eu.itesla_project.iidm.network.Load;
 import eu.itesla_project.iidm.network.Network;
 import eu.itesla_project.iidm.network.NetworkFactory;
 import eu.itesla_project.iidm.network.Substation;
+import eu.itesla_project.iidm.network.Switch;
 import eu.itesla_project.iidm.network.TopologyKind;
 import eu.itesla_project.iidm.network.VoltageLevel;
 
@@ -66,43 +66,21 @@ public class ModelicaNetworkBuilderSimpleTests
 		assertEquals(expected, converted);
 	}
 
-//	@Test //TODO Pending review after commit 681aa00700a89af762b2c8e50f3958388d6eda46
+	@Test
 	public void testBuildSingleElement() throws Exception
 	{
 		// Build the Network
 		Network n = createTestNetwork();
-		Bus firstBus = n.getBusBreakerView().getBuses().iterator().next();
 
-		// Mocking the Dynamic Data Repository
-		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
-		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
-		ModelicaArgument V = new ModelicaArgument("V", "1.0");
-		ModelicaArgument A = new ModelicaArgument("A", "0.0");
-		ModelicaDeclaration dbusi = new ModelicaDeclaration(
-				"BusModel",
-				"dynamicBus1",
-				Arrays.asList(V, A),
-				false,
-				null);
-		ModelicaModel dbus = new ModelicaModel("DM_bus1");
-		dbus.setStaticId("bus1");
-		dbus.addDeclarations(Arrays.asList(dbusi));
-		// Mocked ddr will only return dynamic model for the first bus
-		Mockito.when(ddr.getModelicaModel(firstBus, Stage.SIMULATION)).thenReturn(dbus);
+		// Mocking the Dynamic Data Repository for this network
+		boolean useReferences = false;
+		DynamicDataRepository ddr = mockDdr(n, useReferences);
 
 		// Mocking the Modelica engine
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
 
-		// Build Modelica
-		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
-		ModelicaDocument mo = moc.build();
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		StringWriter sout = new StringWriter();
-		PrintWriter out = new PrintWriter(sout);
-		mop.print(out);
-		out.flush();
-		out.close();
-		String converted = sout.toString();
+		// Build Modelica Document and obtain as text
+		String converted = convertToModelica(n, ddr, me);
 
 		String expected = String.join(NEW_LINE,
 				"within ;",
@@ -111,6 +89,13 @@ public class ModelicaNetworkBuilderSimpleTests
 				"    V = 1.0,",
 				"    A = 0.0",
 				"    ) annotation (Placement(transformation()));",
+				"  LoadModel dynamicLoad1 (",
+				"    P = 10.0,",
+				"    Q = 10.0",
+				"    ) annotation (Placement(transformation()));",
+				"  SwitchModel dynamicSwitch1 (",
+				"",
+				"    ) annotation (Placement(transformation()));",
 				"equation",
 				"  annotation (uses(Modelica(version=\"3.2.1\")));",
 				"end network1;",
@@ -118,36 +103,48 @@ public class ModelicaNetworkBuilderSimpleTests
 		assertEquals(expected, converted);
 	}
 
-//	@Test //TODO Pending review after commit 681aa00700a89af762b2c8e50f3958388d6eda46
+	@Test
 	public void testBuildSingleElementParameterReference() throws Exception
 	{
 		// Build the Network
 		Network n = createTestNetwork();
-		Bus firstBus = n.getBusBreakerView().getBuses().iterator().next();
-		firstBus.setV(1.234f);
+		Bus bus = n.getBusBreakerView().getBuses().iterator().next();
+		bus.setV(1.234f);
 
-		// Mocking the Dynamic Data Repository
-		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
-		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
-		ModelicaArgument V = new ModelicaArgumentReference("V0", "IIDM", "V");
-		ModelicaArgument A = new ModelicaArgument("A", "0.0");
-		ModelicaDeclaration dbusi = new ModelicaDeclaration(
-				"BusModel",
-				"dynamicBus1",
-				Arrays.asList(V, A),
-				false,
-				null);
-		ModelicaModel dbus = new ModelicaModel("DM_bus1");
-		String bid = firstBus.getVoltageLevel().getId() + "::" + firstBus.getId();
-		dbus.setStaticId(bid);
-		dbus.addDeclarations(Arrays.asList(dbusi));
-		// Mocked ddr will only return dynamic model for the first bus
-		Mockito.when(ddr.getModelicaModel(firstBus, Stage.SIMULATION)).thenReturn(dbus);
+		// Mocking the Dynamic Data Repository for this network
+		boolean useReferences = true;
+		DynamicDataRepository ddr = mockDdr(n, useReferences);
 
 		// Mocking the Modelica engine
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
 
-		// Build Modelica
+		// Build Modelica Document and obtain as text
+		String converted = convertToModelica(n, ddr, me);
+
+		String expected = String.join(NEW_LINE,
+				"within ;",
+				"model network1",
+				"  BusModel dynamicBus1 (",
+				"    V0 = 1.234,",
+				"    A = 0.0",
+				"    ) annotation (Placement(transformation()));",
+				"  LoadModel dynamicLoad1 (",
+				"    P = 10.0,",
+				"    Q = 10.0",
+				"    ) annotation (Placement(transformation()));",
+				"  SwitchModel dynamicSwitch1 (",
+				"",
+				"    ) annotation (Placement(transformation()));",
+				"equation",
+				"  annotation (uses(Modelica(version=\"3.2.1\")));",
+				"end network1;",
+				"");
+		assertEquals(expected, converted);
+	}
+
+	private String convertToModelica(Network n, DynamicDataRepository ddr, ModelicaEngine me)
+			throws Exception
+	{
 		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
@@ -157,22 +154,62 @@ public class ModelicaNetworkBuilderSimpleTests
 		out.flush();
 		out.close();
 		String converted = sout.toString();
-
-		String expected = String.join(NEW_LINE,
-				"within ;",
-				"model network1",
-				"  BusModel dynamicBus1 (",
-				"    V0 = 1.234,",
-				"    A = 0.0",
-				"    ) annotation (Placement(transformation()));",
-				"equation",
-				"  annotation (uses(Modelica(version=\"3.2.1\")));",
-				"end network1;",
-				"");
-		assertEquals(expected, converted);
+		return converted;
 	}
 
-	public static Network createTestNetwork()
+	private static DynamicDataRepository mockDdr(Network n, boolean useReferences)
+	{
+		Bus bus = n.getBusBreakerView().getBuses().iterator().next();
+		Load load = n.getLoad("load1");
+		Switch sw = bus.getVoltageLevel().getBusBreakerView()
+				.getSwitch("voltageLevel1Breaker1");
+
+		DynamicDataRepository ddr = Mockito.mock(DynamicDataRepository.class);
+		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
+		ModelicaArgument V;
+		if (useReferences) V = new ModelicaArgumentReference("V0", "IIDM", "V");
+		else V = new ModelicaArgument("V", "1.0");
+		ModelicaArgument A = new ModelicaArgument("A", "0.0");
+		ModelicaDeclaration dbusi = new ModelicaDeclaration(
+				"BusModel",
+				"dynamicBus1",
+				Arrays.asList(V, A),
+				false,
+				null);
+		ModelicaModel dbus = new ModelicaModel("DM_bus1");
+		//dbus.setStaticId("bus1");
+		String bid = bus.getVoltageLevel().getId() + "::" + bus.getId();
+		dbus.setStaticId(bid);
+		dbus.addDeclarations(Arrays.asList(dbusi));
+		ModelicaArgument P = new ModelicaArgument("P", "10.0");
+		ModelicaArgument Q = new ModelicaArgument("Q", "10.0");
+		ModelicaDeclaration dloadd = new ModelicaDeclaration(
+				"LoadModel",
+				"dynamicLoad1",
+				Arrays.asList(P, Q),
+				false,
+				null);
+		ModelicaModel dload = new ModelicaModel("DM_load1");
+		dload.setStaticId("load1");
+		dload.addDeclarations(Arrays.asList(dloadd));
+		ModelicaDeclaration dswd = new ModelicaDeclaration(
+				"SwitchModel",
+				"dynamicSwitch1",
+				Arrays.asList(),
+				false,
+				null);
+		ModelicaModel dsw = new ModelicaModel("DM_switch1");
+		dsw.setStaticId("voltageLevel1Breaker1");
+		dsw.addDeclarations(Arrays.asList(dswd));
+		// Mocked ddr will only return dynamic model for the first bus
+		Mockito.when(ddr.getModelicaModel(bus, Stage.SIMULATION)).thenReturn(dbus);
+		Mockito.when(ddr.getModelicaModel(load, Stage.SIMULATION)).thenReturn(dload);
+		Mockito.when(ddr.getModelicaModel(sw, Stage.SIMULATION)).thenReturn(dsw);
+
+		return ddr;
+	}
+
+	private static Network createTestNetwork()
 	{
 		Network network = NetworkFactory.create("network1", "test");
 		Substation substation1 = network.newSubstation()

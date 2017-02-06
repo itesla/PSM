@@ -13,6 +13,7 @@ wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow-api-0.1-
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow-api-impl-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow-ipst-integration-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow_core-2.2.4.201606211030.0.jar
+wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow_core-2.2.5.201702061800.0.jar
 
 # iPST
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/commons-0.1-SNAPSHOT.jar

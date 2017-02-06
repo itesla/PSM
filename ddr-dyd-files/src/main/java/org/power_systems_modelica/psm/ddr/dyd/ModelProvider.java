@@ -67,6 +67,27 @@ public class ModelProvider
 		index(m);
 	}
 
+	public boolean checkDuplicated(Model m) 
+	{
+		boolean isDuplicated = false;
+
+		if (m instanceof ModelForElement)
+			isDuplicated = dynamicModelsForElement.containsKey(((ModelForElement) m).getStaticId());
+		else if (m instanceof ModelForAssociation)
+			isDuplicated = dynamicModelsForAssociation
+					.containsKey(((ModelForAssociation) m).getAssociation());
+		else if (m instanceof ModelForType)
+			isDuplicated = dynamicModelsForType.containsKey(((ModelForType) m).getType());
+		else if (m instanceof ModelForEvent)
+			isDuplicated = dynamicModelsForEvent.containsKey(((ModelForEvent) m).getEvent());
+
+		// Even if no duplicate has been found we have to add this model and then
+		// next time someone tries to store a model with same id it will found as duplicated
+		index(m);
+
+		return isDuplicated;
+	}
+
 	private void index(Model m)
 	{
 		if (m instanceof ModelForElement)

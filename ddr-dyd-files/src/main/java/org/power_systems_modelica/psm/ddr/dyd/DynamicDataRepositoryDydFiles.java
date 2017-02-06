@@ -332,6 +332,25 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		});
 	}
 
+	public List<Model> checkDuplicates() throws IOException
+	{
+		List<Model> duplicates = new ArrayList<>();
+
+		// Read all DYD files in the given location
+		Path start = location;
+		Files.walkFileTree(start, new SimpleFileVisitor<Path>()
+		{
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+			{
+				if (isDyd(file)) checkDuplicatesDyd(file, duplicates);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+		return duplicates;
+	}
+
 	private void readDyd(Path file)
 	{
 		try
@@ -363,6 +382,28 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					resolveParameters(mc);
 				}
 			}
+		}
+		catch (XMLStreamException | IOException e)
+		{
+			LOG.warn("ignored DYD file {} because of error {}", file, e);
+		}
+	}
+
+	private void checkDuplicatesDyd(Path file, List<Model> duplicates)
+	{
+		try
+		{
+			DydContent dyd = DydXml.read(file);
+			if (dyd == null) return;
+			if (!(dyd instanceof ModelContainer)) return;
+			ModelContainer mc = (ModelContainer) dyd;
+
+			// TODO Check also system definitions are not duplicated
+			if (mc.isForSystemDefinitions()) return;
+
+			// TODO Check also the associations (do not allow duplicated names)
+			// mc.getAssociations().forEach(a -> addAssociation(name, a));
+			mc.getModels().forEach(m -> checkDuplicatedModel(m, duplicates));
 		}
 		catch (XMLStreamException | IOException e)
 		{
@@ -448,6 +489,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		ModelContainer mc = getCreateModelContainer(containerName);
 		mc.add(mdef);
 		modelsByStage.get(mdef.getStage()).add(mdef);
+	}
+
+	public void checkDuplicatedModel(Model mdef, List<Model> duplicates)
+	{
+		if (modelsByStage.get(mdef.getStage()).checkDuplicated(mdef)) duplicates.add(mdef);
 	}
 
 	public void addAssociation(String containerName, Association a)

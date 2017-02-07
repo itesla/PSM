@@ -3,7 +3,9 @@ package org.power_systems_modelica.psm.gui.service;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
+import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
@@ -12,7 +14,6 @@ import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
-import org.power_systems_modelica.psm.gui.model.Validation;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
@@ -166,6 +167,11 @@ public class MainService
 		return DdrService.duplicateDdr(ddrIn, ddrOut);
 	}
 
+	public Map<String, ModelMapping> checkDdr(String ddr)
+	{
+		return DdrService.checkDdr(ddr);
+	}
+	
 	public ObservableList<EventParamGui> getEventParams(String event)
 	{
 		return WorkflowServiceConfiguration.getEventParams(event);

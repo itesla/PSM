@@ -12,6 +12,12 @@ public class ModelForType extends Model
 	{
 		return type;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "Type " + type;
+	}
 
 	private final String type;
 }

@@ -332,9 +332,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		});
 	}
 
-	public List<Model> checkDuplicates() throws IOException
+	public Map<String, ModelMapping> checkDuplicates() throws IOException
 	{
-		List<Model> duplicates = new ArrayList<>();
+		Map<String, ModelMapping> modelMapping = new HashMap<>();
 
 		// Read all DYD files in the given location
 		Path start = location;
@@ -343,12 +343,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
 			{
-				if (isDyd(file)) checkDuplicatesDyd(file, duplicates);
+				if (isDyd(file)) checkDuplicatesDyd(file, modelMapping);
 				return FileVisitResult.CONTINUE;
 			}
 		});
 
-		return duplicates;
+		return modelMapping;
 	}
 
 	private void readDyd(Path file)
@@ -389,12 +389,16 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		}
 	}
 
-	private void checkDuplicatesDyd(Path file, List<Model> duplicates)
+	private void checkDuplicatesDyd(Path file, Map<String, ModelMapping> modelMapping)
 	{
 		try
 		{
 			DydContent dyd = DydXml.read(file);
 			if (dyd == null) return;
+			Path rfile = location.relativize(file);
+			String name = rfile.toString().replace(".dyd", "");
+			dyd.setName(name);
+
 			if (!(dyd instanceof ModelContainer)) return;
 			ModelContainer mc = (ModelContainer) dyd;
 
@@ -403,7 +407,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 			// TODO Check also the associations (do not allow duplicated names)
 			// mc.getAssociations().forEach(a -> addAssociation(name, a));
-			mc.getModels().forEach(m -> checkDuplicatedModel(m, duplicates));
+			mc.getModels().forEach(m -> checkDuplicatedModel(mc, m, modelMapping));
 		}
 		catch (XMLStreamException | IOException e)
 		{
@@ -491,11 +495,15 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		modelsByStage.get(mdef.getStage()).add(mdef);
 	}
 
-	public void checkDuplicatedModel(Model mdef, List<Model> duplicates)
+	public void checkDuplicatedModel(ModelContainer mc, Model mdef, Map<String, ModelMapping> modelMapping)
 	{
-		if (modelsByStage.get(mdef.getStage()).checkDuplicated(mdef)) duplicates.add(mdef);
-	}
+		String mdefKey = DynamicDataRepositoryDydFiles.getModelKey(mdef);
+		if (!modelMapping.containsKey(mdefKey))
+			modelMapping.put(mdefKey, new ModelMapping(mdefKey));
 
+		modelMapping.get(mdefKey).add(mdef, mc);
+	}
+	
 	public void addAssociation(String containerName, Association a)
 	{
 		ModelContainer mc = getCreateModelContainer(containerName);
@@ -556,6 +564,24 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		f.toFile().getParentFile().mkdirs();
 		return f;
+	}
+
+	private static String getModelKey(Model mdef)
+	{
+		String stage = mdef.getStage().name();
+		String className = mdef.getClass().getName();
+		
+		String id = "";
+		if (mdef instanceof ModelForElement)
+			id = ((ModelForElement) mdef).getStaticId();
+		else if (mdef instanceof ModelForAssociation)
+			id = ((ModelForAssociation) mdef).getAssociation();
+		else if (mdef instanceof ModelForType)
+			id = ((ModelForType) mdef).getType();
+		else if (mdef instanceof ModelForEvent)
+			id = ((ModelForEvent) mdef).getEvent();
+		
+		return stage+className+id;
 	}
 
 	private Path						location;

@@ -8,10 +8,14 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
+import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
@@ -41,6 +45,23 @@ public class DdrService
 		}
 
 		return true;
+	}
+
+	public static Map<String, ModelMapping> checkDdr(String location)
+	{
+		Map<String, ModelMapping> duplicates = new HashMap<>();
+		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
+		ddr.setLocation(location);
+		try
+		{
+			duplicates = ddr.checkDuplicates();
+		}
+		catch (IOException e)
+		{
+			LOG.error(e.getMessage());
+		}
+		
+		return duplicates;
 	}
 
 	public static Ddr getDdr(Catalog catalog, Path path) throws IOException

@@ -12,6 +12,13 @@ public class ModelForAssociation extends Model
 	{
 		return association;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "Association " + association;
+	}
+
 
 	private final String association;
 }

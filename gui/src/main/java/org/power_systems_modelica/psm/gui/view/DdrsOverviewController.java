@@ -1,15 +1,17 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
+import org.power_systems_modelica.psm.ddr.dyd.Model;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
@@ -21,12 +23,12 @@ import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -143,6 +145,19 @@ public class DdrsOverviewController implements MainChildrenController
 		});
 		contextMenu.getItems().add(menuItem);
 
+		menuItem = new MenuItem("Check DDR");
+		menuItem.setOnAction(new EventHandler<ActionEvent>()
+		{
+			@Override
+			public void handle(ActionEvent event)
+			{
+
+				checkDdr(ddr);
+			}
+
+		});
+		contextMenu.getItems().add(menuItem);
+		
 		Path ddrPath = Paths.get(ddr.getLocation());
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(ddrPath))
 		{
@@ -229,12 +244,39 @@ public class DdrsOverviewController implements MainChildrenController
 			e.printStackTrace();
 		}
 
+		revertEditor.setVisible(true);
+		revertEditor.setDisable(false);
+		saveEditor.setVisible(true);
+		saveEditor.setDisable(false);
 		codeEditor.setEditingFile(ddr.getLocation(), file);
 		codeEditor.setCode(ddrContent);
 		codeEditor.setVisible(true);
 		fileContentPane.setVisible(true);
 	}
 
+	private void checkDdr(Ddr ddr)
+	{
+		Map<String, ModelMapping> modelMapping = mainService.checkDdr(ddr.getLocation());
+		
+		StringBuilder ddrContent = new StringBuilder();
+		
+		ddrContent.append("Duplicated model mappings:\n");
+		
+		for (String key: modelMapping.keySet())
+		{
+			if (modelMapping.get(key).isDuplicated())
+				ddrContent.append("\t - " + modelMapping.get(key).toString() + "\n");
+		}
+
+		revertEditor.setVisible(false);
+		revertEditor.setDisable(true);
+		saveEditor.setVisible(false);
+		saveEditor.setDisable(true);
+		codeEditor.setCode(ddrContent);
+		codeEditor.setVisible(true);
+		fileContentPane.setVisible(true);
+	}
+	
 	private void duplicateDdr(Ddr ddr)
 	{
 		String outputPath = PathUtils.directoryOutput(mainService.getPrimaryStage(),
@@ -299,6 +341,11 @@ public class DdrsOverviewController implements MainChildrenController
 	private TitledPane						fileContentPane;
 	@FXML
 	private CodeEditor						codeEditor;
+	
+	@FXML
+	private Button							revertEditor;
+	@FXML
+	private Button							saveEditor;
 
 	@FXML
 	private TableView<Catalog>				catalogs;

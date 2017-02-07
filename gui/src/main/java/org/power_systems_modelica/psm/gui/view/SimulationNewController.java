@@ -308,14 +308,30 @@ public class SimulationNewController implements MainChildrenController
 	{
 		LOG.debug("handleAddEvent");
 
+		if (actionEvent.getSelectionModel().getSelectedItem() == null)
+		{
+			Utils.showWarning("Warning", "Select a type");
+			return;
+		}
+		if (elementEvent.getText().equals(""))
+		{
+			Utils.showWarning("Warning", "Select an element");
+			return;
+		}
+		if (parametersView.getItems().stream().filter(i -> i.getValue().equals("")).findAny().isPresent())
+		{
+			Utils.showWarning("Warning", "Complete all parameters");
+			return;
+		}
+
 		Event e = new Event();
 		if (editingEvent != null)
 			e = editingEvent;
 		else
 			addedEvents.getItems().add(e);
 
-		e.setElement(elementEvent.getText());
 		e.setAction(actionEvent.getSelectionModel().getSelectedItem());
+		e.setElement(elementEvent.getText());
 		e.setParams(parametersView.getItems());
 
 		addedEvents.getItems().sort(new Comparator<Event>()
@@ -324,14 +340,14 @@ public class SimulationNewController implements MainChildrenController
 			@Override
 			public int compare(Event e1, Event e2)
 			{
-				Double startTime1 = Double.valueOf(e1.getParam("startTime").getValue());
-				Double startTime2 = Double.valueOf(e2.getParam("startTime").getValue());
+				Double startTime1 = Double.parseDouble(e1.getParam("startTime").getValue());
+				Double startTime2 = Double.parseDouble(e2.getParam("startTime").getValue());
 
 				int c = startTime1.compareTo(startTime2);
 				if (c == 0)
 				{
-					Double endTime1 = Double.valueOf(e1.getParam("endTime").getValue());
-					Double endTime2 = Double.valueOf(e2.getParam("endTime").getValue());
+					Double endTime1 = Double.parseDouble(e1.getParam("endTime").getValue());
+					Double endTime2 = Double.parseDouble(e2.getParam("endTime").getValue());
 
 					c = endTime1.compareTo(endTime2);
 				}

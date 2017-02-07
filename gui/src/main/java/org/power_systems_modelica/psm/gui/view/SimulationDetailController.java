@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -36,10 +34,14 @@ import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Identifiable;
+import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.SingleTerminalConnectable;
+import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -94,7 +96,7 @@ public class SimulationDetailController implements MainChildrenController
 		if (date != null)
 			dateLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 
-		List<SummaryLabel> labels = new ArrayList();
+		List<SummaryLabel> labels = new ArrayList<>();
 		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
 		labels.add(new SummaryLabel("Created:", dateLabel, true, true));
 		labels.add(new SummaryLabel("Dynamic simulator:", dsLabel, false, false));
@@ -185,7 +187,6 @@ public class SimulationDetailController implements MainChildrenController
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -208,15 +209,13 @@ public class SimulationDetailController implements MainChildrenController
 		String location = codeEditor.getEditingLocation();
 		String file = codeEditor.getEditingFile();
 
-		boolean close = true;
 		try
 		{
-			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
+			PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
 					file, ddrContent);
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -243,7 +242,6 @@ public class SimulationDetailController implements MainChildrenController
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -377,21 +375,21 @@ public class SimulationDetailController implements MainChildrenController
 		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
 				.collect(Collectors.toList());
 
+		Network n = (Network) w.getResults("network");
+
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
 			{
-				List<Event> addedEvents = new ArrayList<Event>();
 				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
 				for (String event : events)
 				{
 
 					Event e = new Event();
 					e.fromString(event);
-					Optional<String> bus = keys.stream().filter(k -> k.contains(e.getElement()))
-							.findAny();
-					if (bus.isPresent())
-						selectedBuses.add(bus.get());
+					keys.stream().filter(k -> containsRelatedBuses(n, e, k)).forEach(key -> {
+						selectedBuses.add(key);
+					});
 				}
 			}
 		}
@@ -400,6 +398,27 @@ public class SimulationDetailController implements MainChildrenController
 		{
 			selectedBuses.addAll(keys.subList(0, 5));
 		}
+	}
+
+	private boolean containsRelatedBuses(Network n, Event e, String key)
+	{
+		Identifiable<?> i = n.getIdentifiable(e.getElement());
+		if (i instanceof Bus)
+			return i.getId().equals(key);
+		else if (i instanceof SingleTerminalConnectable)
+		{
+			return ((SingleTerminalConnectable<?>) i).getTerminal().getBusBreakerView().getBus()
+					.getId().equals(key);
+		}
+		else if (i instanceof TwoTerminalsConnectable)
+		{
+			return ((TwoTerminalsConnectable<?>) i).getTerminal1().getBusBreakerView().getBus().getId()
+					.equals(key)
+					|| ((TwoTerminalsConnectable<?>) i).getTerminal2().getBusBreakerView().getBus()
+							.getId().equals(key);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -509,7 +528,7 @@ public class SimulationDetailController implements MainChildrenController
 			sb.append(Utils.getStackTrace(e));
 			sb.append("\n\n");
 		}
-		
+
 		logArea.setText(sb.toString());
 	}
 

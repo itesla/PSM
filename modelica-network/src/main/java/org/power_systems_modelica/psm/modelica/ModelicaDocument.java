@@ -24,11 +24,11 @@ public class ModelicaDocument
 		return systemModel;
 	}
 
-	public ModelicaDocument copy()
+	public ModelicaDocument copy(String systemId)
 	{
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin(within);
-		mo.setSystemModel(systemModel.copy());
+		mo.setSystemModel(systemModel.copy(systemId));
 		return mo;
 	}
 

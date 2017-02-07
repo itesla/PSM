@@ -26,7 +26,8 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 
 	public ModelicaDocument addEvents()
 	{
-		ModelicaDocument moWithEvents = original.copy();
+		String systemIdWithEvents = original.getSystemModel().getId() + "_withEvents";
+		ModelicaDocument moWithEvents = original.copy(systemIdWithEvents);
 		setModelicaDocument(moWithEvents);
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 		events.forEach(ev -> addEvent(ev, moWithEvents));

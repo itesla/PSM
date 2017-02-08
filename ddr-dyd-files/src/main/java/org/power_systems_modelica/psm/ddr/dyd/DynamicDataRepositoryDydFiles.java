@@ -34,6 +34,7 @@ import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
+import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
@@ -332,6 +333,29 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		});
 	}
 
+	public Map<String, String> checkXmls() throws IOException
+	{
+		boolean isValidationActive = XmlUtil.isValidationActive;
+		XmlUtil.isValidationActive = true;
+		
+		Map<String, String> xmlErrors = new HashMap<>();
+
+		// Read all DYD files in the given location
+		Path start = location;
+		Files.walkFileTree(start, new SimpleFileVisitor<Path>()
+		{
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+			{
+				if (isDyd(file)) checkXmlDyd(file, xmlErrors);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+		XmlUtil.isValidationActive = isValidationActive;
+		return xmlErrors;
+	}
+
 	public Map<String, ModelMapping> checkDuplicates() throws IOException
 	{
 		Map<String, ModelMapping> modelMapping = new HashMap<>();
@@ -383,9 +407,24 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 				}
 			}
 		}
-		catch (XMLStreamException | IOException e)
+		catch (XMLStreamException | IOException | RuntimeException e)
 		{
 			LOG.warn("ignored DYD file {} because of error {}", file, e);
+		}
+	}
+
+	private void checkXmlDyd(Path file, Map<String, String> xmlErrors)
+	{
+		try
+		{
+			DydXml.read(file);
+		}
+		catch (Exception e)
+		{
+			Path rfile = location.relativize(file);
+			String name = rfile.toString().replace(".dyd", "");
+
+			xmlErrors.put(name, e.getMessage());
 		}
 	}
 

@@ -62,6 +62,7 @@ public class MainLayoutController
 		List<SummaryLabel> summaryLabelsList = controller.getSummaryLabels();
 
 		double globalLayoutY = 0.0;
+		mainAction.disableProperty().bind(controller.disableBackground());
 		mainAction.setVisible(true);
 		if (mainActionText == null)
 			mainAction.setVisible(false);
@@ -71,6 +72,7 @@ public class MainLayoutController
 			globalLayoutY += 50.0;
 		}
 
+		menuActions.disableProperty().bind(controller.disableBackground());
 		menuActions.setVisible(true);
 		if (menuActionsList == null)
 			menuActions.setVisible(false);

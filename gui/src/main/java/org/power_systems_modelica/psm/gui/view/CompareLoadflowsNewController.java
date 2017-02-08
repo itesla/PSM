@@ -15,6 +15,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -58,6 +59,12 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	{
 
 		return null;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML

@@ -27,6 +27,7 @@ import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -109,6 +110,12 @@ public class SimulationNewController implements MainChildrenController
 		return null;
 	}
 
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return addEventPane.visibleProperty();
+	}
+
 	@FXML
 	private void initialize()
 	{
@@ -129,6 +136,7 @@ public class SimulationNewController implements MainChildrenController
 
 		elementEvent.setFilterMode(true);
 
+		catalogCaseSource.disableProperty().bind(addEventPane.visibleProperty());
 		catalogCaseSource.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Catalog>()
 				{
@@ -141,6 +149,7 @@ public class SimulationNewController implements MainChildrenController
 					}
 
 				});
+		caseSource.disableProperty().bind(addEventPane.visibleProperty());
 		caseSource.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<ConvertedCase>()
 				{
@@ -234,6 +243,7 @@ public class SimulationNewController implements MainChildrenController
 			}
 		});
 
+		addedEvents.disableProperty().bind(addEventPane.visibleProperty());
 		addedEvents.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Event>()
 				{
@@ -254,6 +264,11 @@ public class SimulationNewController implements MainChildrenController
 						}
 					}
 				});
+
+		dsEngine.disableProperty().bind(addEventPane.visibleProperty());
+		stopTimeText.disableProperty().bind(addEventPane.visibleProperty());
+		stepBySecondText.disableProperty().bind(addEventPane.visibleProperty());
+		createFilteredMatCheck.disableProperty().bind(addEventPane.visibleProperty());
 
 		// single cell selection mode
 		// parametersView.getSelectionModel().setCellSelectionEnabled(true);

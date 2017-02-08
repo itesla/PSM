@@ -20,6 +20,8 @@ import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -72,6 +74,12 @@ public class CasesOverviewController implements MainChildrenController
 	{
 
 		return null;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML
@@ -352,4 +360,5 @@ public class CasesOverviewController implements MainChildrenController
 	private TableColumn<Case, Number>		sizeCaseColumn;
 
 	private MainService						mainService;
+
 }

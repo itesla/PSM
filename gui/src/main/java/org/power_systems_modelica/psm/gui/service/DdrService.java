@@ -47,7 +47,7 @@ public class DdrService
 		return true;
 	}
 
-	public static Map<String, ModelMapping> checkDdr(String location)
+	public static Map<String, ModelMapping> checkDuplicates(String location)
 	{
 		Map<String, ModelMapping> duplicates = new HashMap<>();
 		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
@@ -62,6 +62,23 @@ public class DdrService
 		}
 		
 		return duplicates;
+	}
+
+	public static Map<String, String> checkXml(String location)
+	{
+		Map<String, String> xmls = new HashMap<>();
+		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
+		ddr.setLocation(location);
+		try
+		{
+			xmls = ddr.checkXmls();
+		}
+		catch (IOException e)
+		{
+			LOG.error(e.getMessage());
+		}
+		
+		return xmls;
 	}
 
 	public static Ddr getDdr(Catalog catalog, Path path) throws IOException

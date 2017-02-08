@@ -33,6 +33,7 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.El
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -105,6 +106,12 @@ public class ConversionDetailController implements MainChildrenController
 				new SummaryLabel("Full model initialization:", fullModelInitializationLabel, true,
 						true));
 		return labels;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML

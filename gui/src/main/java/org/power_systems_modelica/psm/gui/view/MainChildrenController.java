@@ -8,6 +8,7 @@ import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 
 public interface MainChildrenController
@@ -30,4 +31,6 @@ public interface MainChildrenController
 	void setDefaultInit();
 	
 	void setWorkflow(Workflow w, Object...objects);
+
+	ObservableValue<? extends Boolean> disableBackground();
 }

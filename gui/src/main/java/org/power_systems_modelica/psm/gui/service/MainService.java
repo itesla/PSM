@@ -167,9 +167,14 @@ public class MainService
 		return DdrService.duplicateDdr(ddrIn, ddrOut);
 	}
 
-	public Map<String, ModelMapping> checkDdr(String ddr)
+	public Map<String, String> checkXml(String ddr)
 	{
-		return DdrService.checkDdr(ddr);
+		return DdrService.checkXml(ddr);
+	}
+
+	public Map<String, ModelMapping> checkDuplicates(String ddr)
+	{
+		return DdrService.checkDuplicates(ddr);
 	}
 	
 	public ObservableList<EventParamGui> getEventParams(String event)

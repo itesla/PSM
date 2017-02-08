@@ -39,6 +39,8 @@ import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 import eu.itesla_project.iidm.network.SingleTerminalConnectable;
 import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -101,6 +103,12 @@ public class SimulationDetailController implements MainChildrenController
 		labels.add(new SummaryLabel("Created:", dateLabel, true, true));
 		labels.add(new SummaryLabel("Dynamic simulator:", dsLabel, false, false));
 		return labels;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML

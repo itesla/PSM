@@ -41,6 +41,7 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 	{
 		running();
 		me = null;
+		boolean failed = false;
 
 		try
 		{
@@ -69,6 +70,7 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 		catch (Exception x)
 		{
 			failed(x);
+			failed = true;
 		}
 		finally
 		{
@@ -78,10 +80,10 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 				{
 					me.close();
 				}
-				catch (Exception ex)
+				catch (Exception x)
 				{
-					
-					ex.printStackTrace();
+					// Only fail with this information if not already failed
+					if (!failed) failed(x);
 				}
 			}
 		}

@@ -201,7 +201,7 @@ public class WorkflowServiceConfiguration
 		EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
 		EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
 		EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
-		EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
+		EVENT_APPLIES_TO.put("GeneratorVSetpointModification", ConnectableType.GENERATOR);
 	}
 
 	private static ConnectableType connectableType(Identifiable<?> e)

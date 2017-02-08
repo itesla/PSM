@@ -7,7 +7,7 @@
 			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
 			<ref name="endTime" unit="s" dataSource="EVENT" sourceName="endTime"/>
 		</component>
-		<interconnection componentId="pwFault_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
+		<interconnection componentId="pwFault_{staticId}" componentVar="p" targetModel="{element}" targetName="p"/>
 	</model>
 	<model event="LineFault" injection="REPLACE" id="EVT{staticId}">
 		<component type="iPSL.Electrical.Events.PwLineFault" id="pwLineFault_{staticId}">
@@ -40,5 +40,12 @@
 			<ref name="Q_1" unit="MVAr" dataSource="EVENT" sourceName="Q"/>
 			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
 		</component>
+	</model>
+	<model event="GeneratorVSetpointModification" injection="ADD" id="EVT{staticId}">
+		<component type="iPSL.Electrical.Events.SetPointModification" id="vsetModification_{staticId}">
+			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
+			<ref name="v2" unit="pu" dataSource="EVENT" sourceName="Vset"/>
+		</component>
+		<interconnection componentId="vsetModification_{staticId}" componentVar="setPointModification" targetModel="{element}" targetName="Vset"/>
 	</model>
 </model_container>

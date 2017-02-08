@@ -253,7 +253,8 @@ public class ModelicaTricks
 			"other",
 			"other-other",
 			"other-gen",
-			"gen-other"
+			"gen-other",
+			"reg-other"
 			);
 
 

@@ -5,6 +5,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
@@ -102,6 +104,16 @@ public class DdrsOverviewController implements MainChildrenController
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
 						ddrs.setItems(mainService.getDdrs(catalogName));
+						ddrs.getItems().sort(new Comparator<Ddr>()
+						{
+
+							@Override
+							public int compare(Ddr d1, Ddr d2)
+							{
+								return d1.getName().compareToIgnoreCase(d2.getName());
+							}
+
+						});
 					}
 				});
 

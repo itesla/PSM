@@ -3,10 +3,12 @@ package org.power_systems_modelica.psm.gui.view;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
@@ -99,6 +101,16 @@ public class CasesOverviewController implements MainChildrenController
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
 						cases.setItems(mainService.getCases(catalogName));
+						cases.getItems().sort(new Comparator<Case>()
+						{
+
+							@Override
+							public int compare(Case c1, Case c2)
+							{
+								return c1.getName().compareToIgnoreCase(c2.getName());
+							}
+
+						});
 					}
 				});
 

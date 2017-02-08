@@ -61,6 +61,7 @@
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_HIn" targetModel="{system}" targetName="omegaRef_HIn[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_SN" targetModel="{system}" targetName="omegaRef_SN[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_OMEGA" targetModel="{system}" targetName="omegaRef_omega[?]"/>
+        <interconnection name="Vset" componentId="reg_sexs_{staticId}" componentVar="setPointModification_12" />
     </model>
     <model id="DM_{staticId}" association="association1">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_SIMULATION"/>
@@ -80,6 +81,7 @@
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_HIn" targetModel="{system}" targetName="omegaRef_HIn[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_SN" targetModel="{system}" targetName="omegaRef_SN[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_OMEGA" targetModel="{system}" targetName="omegaRef_omega[?]"/>
+        <interconnection name="Vset" componentId="reg_sexs_{staticId}" componentVar="setPointModification_12" />
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association1">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_INITIALIZATION"/>

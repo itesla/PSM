@@ -83,7 +83,7 @@
 }
 
 /* tab pane header color */
-.tab-pane  .tab-header-area .tab-header-background {
+.tab-pane .tab-header-area .tab-header-background {
 	-fx-background-color: white;
 	-fx-effect: null;
 }

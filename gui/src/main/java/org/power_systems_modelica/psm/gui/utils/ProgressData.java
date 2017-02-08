@@ -66,7 +66,7 @@ public class ProgressData implements HierarchyData<ProgressData> {
 	public String toString() {
 		
 		if (info != null)
-			return info;
+			return "\t" + info;
 		
 		return Utils.padString(taskId, 20) + Utils.padString(taskName, 60) + taskState.toString();
 	}

@@ -167,9 +167,14 @@ public class MainService
 		return DdrService.duplicateDdr(ddrIn, ddrOut);
 	}
 
-	public Map<String, ModelMapping> checkDdr(String ddr)
+	public Map<String, String> checkXml(String ddr)
 	{
-		return DdrService.checkDdr(ddr);
+		return DdrService.checkXml(ddr);
+	}
+
+	public Map<String, ModelMapping> checkDuplicates(String ddr)
+	{
+		return DdrService.checkDuplicates(ddr);
 	}
 	
 	public ObservableList<EventParamGui> getEventParams(String event)
@@ -219,8 +224,8 @@ public class MainService
 					() -> getMainApp().showConversionDetailView(this, true, null));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.CONVERSION);
 			TaskService.startTask(cTask);
-			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.name(),
-					onlyMainConnectedComponent, dse.name());
+			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.toString(),
+					onlyMainConnectedComponent, dse.toString());
 		}
 		catch (WorkflowCreationException e)
 		{

@@ -34,6 +34,8 @@ import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -96,6 +98,12 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 		else
 			labels.add(new SummaryLabel("Verify:", checkLabel, false, false));
 		return labels;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML

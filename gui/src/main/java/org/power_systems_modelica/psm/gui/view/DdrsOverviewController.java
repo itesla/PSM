@@ -5,6 +5,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.ddr.dyd.Model;
+import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
@@ -23,6 +25,8 @@ import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -76,6 +80,12 @@ public class DdrsOverviewController implements MainChildrenController
 		return null;
 	}
 
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
+	}
+
 	@FXML
 	private void initialize()
 	{
@@ -102,6 +112,16 @@ public class DdrsOverviewController implements MainChildrenController
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
 						ddrs.setItems(mainService.getDdrs(catalogName));
+						ddrs.getItems().sort(new Comparator<Ddr>()
+						{
+
+							@Override
+							public int compare(Ddr d1, Ddr d2)
+							{
+								return d1.getName().compareToIgnoreCase(d2.getName());
+							}
+
+						});
 					}
 				});
 
@@ -256,18 +276,39 @@ public class DdrsOverviewController implements MainChildrenController
 
 	private void checkDdr(Ddr ddr)
 	{
-		Map<String, ModelMapping> modelMapping = mainService.checkDdr(ddr.getLocation());
+		Map<String, String> xmlMapping = mainService.checkXml(ddr.getLocation());
+		Map<String, ModelMapping> modelMapping = mainService.checkDuplicates(ddr.getLocation());
 		
-		StringBuilder ddrContent = new StringBuilder();
-		
-		ddrContent.append("Duplicated model mappings:\n");
+		StringBuilder ddrDuplicates = new StringBuilder();
 		
 		for (String key: modelMapping.keySet())
 		{
 			if (modelMapping.get(key).isDuplicated())
-				ddrContent.append("\t - " + modelMapping.get(key).toString() + "\n");
+				ddrDuplicates.append("\t - " + modelMapping.get(key).toString() + "\n");
 		}
 
+		StringBuilder ddrXml = new StringBuilder();
+		
+		for (String key: xmlMapping.keySet())
+		{
+			ddrXml.append(key + " - " + xmlMapping.get(key) + "\n");
+		}
+
+		StringBuilder ddrContent = new StringBuilder();
+		
+		if (ddrXml.length() > 0) 
+		{
+			ddrContent.append("Xml files with errors:\n");
+			ddrContent.append(ddrXml);
+		}
+		if (ddrDuplicates.length() > 0)
+		{
+			ddrContent.append("Duplicated model mappings:\n");
+			ddrContent.append(ddrDuplicates);
+		}
+		if (ddrContent.length() == 0)
+			ddrContent.append("Successfully checked\n");
+		
 		revertEditor.setVisible(false);
 		revertEditor.setDisable(true);
 		saveEditor.setVisible(false);

@@ -33,6 +33,7 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.El
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -105,6 +106,12 @@ public class ConversionDetailController implements MainChildrenController
 				new SummaryLabel("Full model initialization:", fullModelInitializationLabel, true,
 						true));
 		return labels;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML
@@ -325,13 +332,13 @@ public class ConversionDetailController implements MainChildrenController
 						.getParameter("onlyMainConnectedComponent")
 						.equals("true") ? "Only main connected component"
 								: "All connected components";
-				fullModelInitializationLabel = td.getTaskConfiguration()
-						.getParameter("modelicaEngine");
+				fullModelInitializationLabel = Utils.getDsEngine(td.getTaskConfiguration()
+						.getParameter("modelicaEngine")).toString();
 			}
 
 			if (td.getTaskClass().equals(LoadFlowTask.class))
 			{
-				loadflowLabel = td.getTaskId();
+				loadflowLabel = Utils.getLoadflowEngine(td.getTaskId()).toString();
 			}
 		}
 

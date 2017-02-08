@@ -83,6 +83,21 @@ public class WorkflowServiceConfiguration
 		{
 			return value;
 		}
+		
+		@Override
+		public String toString()
+		{
+			switch(value)
+			{
+			case 0:
+				return "Hades";
+			case 1:
+				return "HELM Flow";
+			case 2:
+				return "None";
+			}
+			return null;
+		}
 	}
 
 	public enum DsEngine
@@ -99,6 +114,21 @@ public class WorkflowServiceConfiguration
 		public int getValue()
 		{
 			return value;
+		}
+
+		@Override
+		public String toString()
+		{
+			switch(value)
+			{
+			case 0:
+				return "Dymola";
+			case 1:
+				return "Open Modelica";
+			case 2:
+				return "Fake";
+			}
+			return null;
 		}
 	}
 
@@ -171,7 +201,7 @@ public class WorkflowServiceConfiguration
 		EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
 		EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
 		EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
-		EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
+		EVENT_APPLIES_TO.put("GeneratorVSetpointModification", ConnectableType.GENERATOR);
 	}
 
 	private static ConnectableType connectableType(Identifiable<?> e)

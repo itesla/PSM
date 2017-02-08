@@ -15,6 +15,8 @@ import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -65,6 +67,12 @@ public class SwtoswValidationController implements MainChildrenController
 	public List<SummaryLabel> getSummaryLabels()
 	{
 		return null;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
 	}
 
 	@FXML

@@ -369,7 +369,7 @@ public class ConversionNewController implements MainChildrenController
 	private GuiFileChooser				fileChooser;
 	private MainService					mainService;
 
-	private String						LE		= "none";
+	private String						LE		= "loadflowHelmflow";
 	private String						OMCC	= "true";
 	private String						FMIE	= "OpenModelica";
 

@@ -83,6 +83,21 @@ public class WorkflowServiceConfiguration
 		{
 			return value;
 		}
+		
+		@Override
+		public String toString()
+		{
+			switch(value)
+			{
+			case 0:
+				return "Hades";
+			case 1:
+				return "HELM Flow";
+			case 2:
+				return "None";
+			}
+			return null;
+		}
 	}
 
 	public enum DsEngine
@@ -99,6 +114,21 @@ public class WorkflowServiceConfiguration
 		public int getValue()
 		{
 			return value;
+		}
+
+		@Override
+		public String toString()
+		{
+			switch(value)
+			{
+			case 0:
+				return "Dymola";
+			case 1:
+				return "Open Modelica";
+			case 2:
+				return "Fake";
+			}
+			return null;
 		}
 	}
 

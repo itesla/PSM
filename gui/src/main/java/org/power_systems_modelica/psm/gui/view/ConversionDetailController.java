@@ -325,13 +325,13 @@ public class ConversionDetailController implements MainChildrenController
 						.getParameter("onlyMainConnectedComponent")
 						.equals("true") ? "Only main connected component"
 								: "All connected components";
-				fullModelInitializationLabel = td.getTaskConfiguration()
-						.getParameter("modelicaEngine");
+				fullModelInitializationLabel = Utils.getDsEngine(td.getTaskConfiguration()
+						.getParameter("modelicaEngine")).toString();
 			}
 
 			if (td.getTaskClass().equals(LoadFlowTask.class))
 			{
-				loadflowLabel = td.getTaskId();
+				loadflowLabel = Utils.getLoadflowEngine(td.getTaskId()).toString();
 			}
 		}
 

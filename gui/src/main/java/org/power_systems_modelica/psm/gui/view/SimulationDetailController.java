@@ -484,7 +484,7 @@ public class SimulationDetailController implements MainChildrenController
 			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
 			{
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
-				dsLabel = Utils.getDsEngine(simulationEngine).name();
+				dsLabel = Utils.getDsEngine(simulationEngine).toString();
 			}
 		}
 

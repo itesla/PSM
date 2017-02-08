@@ -219,8 +219,8 @@ public class MainService
 					() -> getMainApp().showConversionDetailView(this, true, null));
 			getMainApp().showWorkflowStatusView(this, w, WorkflowType.CONVERSION);
 			TaskService.startTask(cTask);
-			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.name(),
-					onlyMainConnectedComponent, dse.name());
+			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.toString(),
+					onlyMainConnectedComponent, dse.toString());
 		}
 		catch (WorkflowCreationException e)
 		{

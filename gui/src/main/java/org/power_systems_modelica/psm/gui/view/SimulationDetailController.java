@@ -396,7 +396,8 @@ public class SimulationDetailController implements MainChildrenController
 
 		if (selectedBuses.isEmpty())
 		{
-			selectedBuses.addAll(keys.subList(0, 5));
+			int max = Math.min(5, keys.size());
+			selectedBuses.addAll(keys.subList(0, max));
 		}
 	}
 

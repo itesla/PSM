@@ -336,10 +336,8 @@ public class ConversionNewController implements MainChildrenController
 		catalogDdrSource.setItems(mainService.getCatalogs("ddrs"));
 
 		loadflowEngine.setItems(mainService.getLoadflowEngines());
-		loadflowEngine.getSelectionModel().select(LoadflowEngine.NONE);
 
 		dsEngine.setItems(mainService.getDsEngines());
-		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
 
 	@Override

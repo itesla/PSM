@@ -10,6 +10,7 @@ import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.scene.control.Button;
 
 public interface MainChildrenController
 {
@@ -33,4 +34,6 @@ public interface MainChildrenController
 	void setWorkflow(Workflow w, Object...objects);
 
 	ObservableValue<? extends Boolean> disableBackground();
+
+	Button getDefaultEnterButton();
 }

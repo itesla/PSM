@@ -40,6 +40,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
 
@@ -104,6 +105,12 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	public ObservableValue<? extends Boolean> disableBackground()
 	{
 		return new SimpleBooleanProperty(false);
+	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
 	}
 
 	@FXML

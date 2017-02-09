@@ -32,6 +32,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -82,6 +83,12 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	public ObservableValue<? extends Boolean> disableBackground()
 	{
 		return new SimpleBooleanProperty(false);
+	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
 	}
 
 	@FXML

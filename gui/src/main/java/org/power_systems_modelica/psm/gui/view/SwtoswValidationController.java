@@ -74,6 +74,12 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 		return new SimpleBooleanProperty(false);
 	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
+	}
 
 	@FXML
 	private void initialize()

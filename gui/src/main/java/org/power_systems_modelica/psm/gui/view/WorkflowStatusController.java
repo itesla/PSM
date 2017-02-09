@@ -32,6 +32,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
@@ -84,6 +85,12 @@ public class WorkflowStatusController implements MainChildrenController
 	public ObservableValue<? extends Boolean> disableBackground()
 	{
 		return new SimpleBooleanProperty(false);
+	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
 	}
 
 	@FXML

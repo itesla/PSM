@@ -115,6 +115,15 @@ public class SimulationNewController implements MainChildrenController
 	{
 		return addEventPane.visibleProperty();
 	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+        if (addEventPane.isVisible())
+        	return add;
+        
+		return null;
+	}
 
 	@FXML
 	private void initialize()

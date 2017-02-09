@@ -43,7 +43,7 @@
                               <HBox AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="4.0">
                                  <children>
                               		<HBox spacing="5.0" HBox.hgrow="ALWAYS">
-                                       <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackAction" styleClass="btn-default" prefWidth="60.0" text="Back" HBox.hgrow="ALWAYS">
+                                       <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackAction" prefWidth="60.0" styleClass="btn-default" text="Back" HBox.hgrow="ALWAYS">
                                           <HBox.margin>
                                              <Insets left="5.0" right="35.0" />
                                           </HBox.margin>

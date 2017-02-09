@@ -29,6 +29,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
@@ -88,6 +89,12 @@ public class ConversionNewController implements MainChildrenController
 	public ObservableValue<? extends Boolean> disableBackground()
 	{
 		return new SimpleBooleanProperty(false);
+	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
 	}
 
 	@FXML

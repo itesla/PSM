@@ -51,6 +51,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -109,6 +110,12 @@ public class SimulationDetailController implements MainChildrenController
 	public ObservableValue<? extends Boolean> disableBackground()
 	{
 		return new SimpleBooleanProperty(false);
+	}
+	
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
 	}
 
 	@FXML

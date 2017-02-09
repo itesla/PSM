@@ -1,5 +1,15 @@
-FILE_PATH=dymola_interface-2016.jar
-GROUP=com.dassault_systemes.dymola
-ARTIFACT=dymola_interface
-VERSION=2016
-mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+export DYMOLAHOME_PATH=
+export DYMOLA_VERSION=2017
+export DYMOLA_GROUP=com.dassault_systemes.dymola
+export DYMOLA_ARTIFACT=dymola_interface
+
+if [[ -z "$DYMOLAHOME" ]];
+then
+	DYMOLAHOME_PATH=dymola_interface.jar
+else 
+	DYMOLAHOME_PATH="${DYMOLAHOME}\Modelica\Library\java_interface\dymola_interface.jar"
+fi
+echo "Using Dymola from ${DYMOLAHOME_PATH}"
+echo ""
+
+mvn install:install-file -Dfile="${DYMOLAHOME_PATH}" -DgroupId=${DYMOLA_GROUP} -DartifactId=${DYMOLA_ARTIFACT} -Dversion=${DYMOLA_VERSION} -Dpackaging=jar

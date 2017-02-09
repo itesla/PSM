@@ -26,7 +26,6 @@ mkdir -p $DIST_TMP_FOLDER/lib
 if [[ "${BUILD}" == "build" ]];
 then
 	echo "    Building the project"
-
 	mvnw clean install -DskipTests &> ${DIST_TMP_FOLDER}/build.log
 
 	echo "    Building jar with dependencies in GUI module"
@@ -46,8 +45,7 @@ rsync -avP ../helmflow/linux_binaries/* $DIST_TMP_FOLDER/helmflow/linux/. &> ${D
 rsync -avP ../helmflow/windows_binaries/* $DIST_TMP_FOLDER/helmflow/windows/. &> ${DIST_TMP_FOLDER}/helmflow.log
 
 echo "    Preparing additional Java libraries"
-rsync -avP ../dymola/dymola_interface-2016.jar $DIST_TMP_FOLDER/lib/. &> ${DIST_TMP_FOLDER}/jars.log
-rsync -avP ../openmodelica/modelica_java.jar $DIST_TMP_FOLDER/lib/. >> ${DIST_TMP_FOLDER}/jars.log 2>&1
+rsync -avP ../openmodelica/modelica_java.jar $DIST_TMP_FOLDER/lib/. &> ${DIST_TMP_FOLDER}/jars.log 2>&1
 rsync -avP ../helmflow/*.jar $DIST_TMP_FOLDER/lib/. >> ${DIST_TMP_FOLDER}/jars.log 2>&1
 rsync -avP gui/target/gui*with*depend*jar $DIST_TMP_FOLDER/lib/. >> ${DIST_TMP_FOLDER}/jars.log 2>&1
 rsync -avP dymola-integration-service/target/dymola-integration-service*with*depend*jar $DIST_TMP_FOLDER/lib/. >> ${DIST_TMP_FOLDER}/jars.log 2>&1

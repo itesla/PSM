@@ -133,7 +133,7 @@ model case4
 	 EFDMIN = -999,	
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  tgov1 reg_tgov1__GEN______SM (
+  iPSL.Electrical.Controls.Eurostag.tgov1 reg_tgov1__GEN______SM (
 	 SNREF = 100.0,
 	 SN = 500.0,
 	 PN = 475.0,
@@ -149,7 +149,7 @@ model case4
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pss2ab reg_pss2ab__GEN______SM (
+  iPSL.Electrical.Controls.Eurostag.pss2ab reg_pss2ab__GEN______SM (
 	 SNREF = 100.0,
 	 SN = 500.0,
 	 PN = 475.0,

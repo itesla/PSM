@@ -678,11 +678,14 @@ public class DydFilesFromModelica
 		if (stage.equals(Stage.INITIALIZATION)) return Collections.emptyList();
 
 		String firstDeclarationId = m.getDeclarations().get(0).getId();
+		String firstDeclarationType = m.getDeclarations().get(0).getType();
 		boolean isBranch = firstDeclarationId.startsWith("line_")
 				|| firstDeclarationId.startsWith("trafo_")
 				|| firstDeclarationId.startsWith("Line_")
 				|| firstDeclarationId.startsWith("Transformer");
 		boolean isGenerator = firstDeclarationId.startsWith("gen_");
+		boolean isLoadOmegaRef = firstDeclarationId.startsWith("load_")
+				&& firstDeclarationType.contains("FrecDependence");
 		boolean isBus = firstDeclarationId.startsWith("bus_")
 				|| firstDeclarationId.startsWith("Bus_");
 		boolean isSystem = ModelicaUtil.isSystemModel(m);
@@ -700,6 +703,9 @@ public class DydFilesFromModelica
 				Interconnection.createSender(componentId, "p", "{bus1}", "p"),
 				Interconnection.createSender(componentId, "n", "{bus2}", "p"));
 		else if (isGenerator) return createInterconnectionsGenerator(componentId);
+		else if (isLoadOmegaRef) return Arrays.asList(
+				Interconnection.createSender(componentId, "p", "{bus}", "p"),
+				Interconnection.createSender(componentId, "omegaRef", "{system}", "omegaRef"));
 		else return Arrays.asList(
 				Interconnection.createSender(componentId, "p", "{bus}", "p"));
 	}

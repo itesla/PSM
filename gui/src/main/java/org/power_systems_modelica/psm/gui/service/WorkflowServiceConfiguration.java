@@ -536,6 +536,8 @@ public class WorkflowServiceConfiguration
 
 	private static void fillLoadflowResults(String id, WorkflowResult results, Network n)
 	{
+		if (n == null) return;
+		
 		// Ensure the right current working state is set
 		if (n.getStateManager().getStateIds().contains("resultsLoadFlow"))
 			n.getStateManager().setWorkingState("resultsLoadFlow");

@@ -153,6 +153,11 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 				+ targetModel.getStaticId());
 		LOG.info("resolveConnectionTarget, targetModel.interconn size  = "
 				+ targetModel.getInterconnections().length);
+		LOG.info("resolveConnectionTarget, targetModel.declarati size  = "
+				+ targetModel.getDeclarations().size());
+		targetModel.getDeclarations().forEach(d -> LOG.info("    " + d.getType()));
+		LOG.info("resolveConnectionTarget, targetModel.equations size  = "
+				+ targetModel.getEquations().size());
 		Optional<ModelicaInterconnection> c = findInterconnection(
 				targetPin,
 				targetModel.getInterconnections());

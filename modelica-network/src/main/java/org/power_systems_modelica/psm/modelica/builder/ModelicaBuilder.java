@@ -124,14 +124,14 @@ public abstract class ModelicaBuilder
 		mo.getSystemModel().removeAnnotations(sas);
 
 		// Also identify and remove previous interconnections with the rest of the system
-		String staticId = m.getStaticId();
+		String nstaticId = ModelicaUtil.normalizedIdentifier(m.getStaticId());
 		List<ModelicaEquation> allInterconnections = ModelicaUtil
 				.getInterconnections(dynamicModelsByStaticId);
 		List<ModelicaEquation> interconnections = allInterconnections.stream()
 				.filter(eq -> {
 					ModelicaConnect eqc = (ModelicaConnect) eq;
-					return ModelicaUtil.getStaticId(eqc, 1).equals(staticId)
-							|| ModelicaUtil.getStaticId(eqc, 2).equals(staticId);
+					return ModelicaUtil.getNormalizedStaticId(eqc, 1).equals(nstaticId)
+							|| ModelicaUtil.getNormalizedStaticId(eqc, 2).equals(nstaticId);
 				})
 				.collect(Collectors.toList());
 		mo.getSystemModel().removeEquations(interconnections);

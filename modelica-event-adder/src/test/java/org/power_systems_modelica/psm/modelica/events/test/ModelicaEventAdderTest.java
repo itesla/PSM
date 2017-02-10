@@ -161,7 +161,7 @@ public class ModelicaEventAdderTest
 		assertEquals(5, models.get("_FSSV_T11_SM").getDeclarations().size());
 	}
 
-	// XXX LUMA @Test
+	@Test
 	public void addEvents7busesVSetPointReRead() throws Exception
 	{
 		String events = new StringBuilder(100)

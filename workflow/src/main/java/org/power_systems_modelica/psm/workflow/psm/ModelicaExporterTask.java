@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.workflow.psm;
 
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.commons.Configuration;

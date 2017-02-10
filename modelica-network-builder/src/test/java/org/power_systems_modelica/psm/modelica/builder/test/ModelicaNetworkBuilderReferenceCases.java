@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
+import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 
@@ -114,6 +116,8 @@ public class ModelicaNetworkBuilderReferenceCases
 		assertEquals(expectedNumBuses, Iterables.size(n.getBusView().getBuses()));
 		assertEquals(expectedNumGenerators, n.getGeneratorCount());
 
+		// Check first the DDR we will use
+		checkDyd(ddrLocation);
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", ddrLocation);
 		ddr.connect();
 
@@ -129,16 +133,36 @@ public class ModelicaNetworkBuilderReferenceCases
 		ModelicaDocument mo = builder.build();
 		assertNotNull(mo);
 
+		// Check that the Modelica document built is equal to the reference
 		boolean includePsmAnnotations = false;
 		ModelicaTextPrinter.print(mo, output, includePsmAnnotations);
-
 		Path expected = folder.resolve(expectedmoname);
 		Path actual = output;
 		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
 
+		// Check that the obtained Modelica document can be printed with PSM annotations
+		// And all annotations are recovered
+		checkPrintWithAnnotations(mo, name);
+	}
+
+	private void checkPrintWithAnnotations(ModelicaDocument mo, String name) throws IOException
+	{
+		boolean includePsmAnnotations = true;
+		Path outputa = DATA_TMP.resolve("modelica_builder_output_" + name + "_annotations.mo");
+		Path outputa1 = DATA_TMP.resolve("modelica_builder_output_" + name + "_annotations1.mo");
+		ModelicaTextPrinter.print(mo, outputa, includePsmAnnotations);
+		ModelicaDocument mo1 = ModelicaParser.parse(outputa);
+		
+		ModelicaTextPrinter.print(mo1, outputa1, includePsmAnnotations);
+		Path expected = outputa;
+		Path actual = outputa1;
+		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
+	}
+
+	private void checkDyd(String ddrLocation) throws IOException
+	{
 		DynamicDataRepositoryDydFiles ddr2 = new DynamicDataRepositoryDydFiles();
 		ddr2.setLocation(ddrLocation);
-
 		Map<String, ModelMapping> modelMapping = ddr2.checkDuplicates();
 		for (String key : modelMapping.keySet())
 		{

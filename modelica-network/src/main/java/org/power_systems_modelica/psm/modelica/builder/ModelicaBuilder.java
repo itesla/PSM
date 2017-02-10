@@ -95,7 +95,7 @@ public abstract class ModelicaBuilder
 		// Information about connectors are put as annotations in the system model
 		Annotation a = new Annotation(refs);
 		if (m.getInterconnections() != null && m.getInterconnections().length > 0)
-			a.addItem(Annotation.writeConnectors(Arrays.asList(m.getInterconnections())));
+			a.addItems(Annotation.writeConnectors(Arrays.asList(m.getInterconnections())));
 		system.addAnnotation(a);
 
 		// FIXME When adding we should be merging declarations and equations
@@ -124,15 +124,11 @@ public abstract class ModelicaBuilder
 
 		// Also identify and remove previous interconnections with the rest of the system
 		String nstaticId = ModelicaUtil.normalizedIdentifier(m.getStaticId());
-		LOG.debug("LUMA remove interconnections related to nid = [" + nstaticId + "]");
 		List<ModelicaEquation> allInterconnections = ModelicaUtil
 				.getInterconnections(dynamicModelsByStaticId);
 		List<ModelicaEquation> interconnections = allInterconnections.stream()
 				.filter(eq -> {
 					ModelicaConnect eqc = (ModelicaConnect) eq;
-					LOG.debug("LUMA     r1 [" + ModelicaUtil.getNormalizedStaticId(eqc, 1) + "]");
-					LOG.debug("LUMA     r2 [" + ModelicaUtil.getNormalizedStaticId(eqc, 2) + "]");
-					LOG.debug("LUMA");
 					return ModelicaUtil.getNormalizedStaticId(eqc, 1).equals(nstaticId)
 							|| ModelicaUtil.getNormalizedStaticId(eqc, 2).equals(nstaticId);
 				})

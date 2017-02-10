@@ -152,6 +152,7 @@ public class ModelicaTextPrinter
 		String s = a.getItems().stream()
 				.filter(a1 -> includeAnnotationItem(a1))
 				.map(AnnotationItem::asText)
+				.sorted()
 				.collect(Collectors.joining(","));
 		return s;
 	}

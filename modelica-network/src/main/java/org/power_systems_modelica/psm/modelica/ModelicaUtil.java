@@ -9,9 +9,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class ModelicaUtil
 {
 	public static String idvar2ref(String id, String var)
@@ -135,25 +132,19 @@ public class ModelicaUtil
 
 	private static String getNormalizedStaticId(ModelicaConnect eqc, int side, String dynamicId)
 	{
-		LOG.debug("LUMA     equation " + eqc.getText());
 		String id = null;
 		if (eqc.getAnnotation() != null)
 		{
-			LOG.debug("LUMA         annotation " + eqc.getAnnotation().asText());
 			// If the equation is an interconnection it will have two different staticIds
 			if (eqc.getAnnotation().getStaticId(side).isPresent())
 				id = eqc.getAnnotation().getStaticId(side).get();
-			LOG.debug("LUMA         id0        " + id);
 			// If the equation is a connection inside components of the same dynamic model there is only one staticId
 			if (id == null)
 				if (eqc.getAnnotation().getStaticId().isPresent())
 					id = eqc.getAnnotation().getStaticId().get();
-			LOG.debug("LUMA         id1        " + id);
 		}
 		if (id == null) id = getStaticIdFromDynamicId(dynamicId);
-		LOG.debug("LUMA         id2        " + id);
 		if (id == null) id = SYSTEM_ID;
-		LOG.debug("LUMA         id3        " + id);
 		return normalizedIdentifier(id);
 	}
 
@@ -171,20 +162,9 @@ public class ModelicaUtil
 		String dmid = dynamicIdFromStaticId(staticId);
 		ModelicaModel m = new ModelicaModel(dmid);
 		m.setStaticId(staticId);
-		//String refs = Annotation.writeIdStaticId(m.getId(), m.getStaticId());
 
-		if (declarations != null)
-		{
-			m.addDeclarations(declarations);
-			// NO need to re-annotate, they have been read with their annotations
-			//m.getDeclarations().forEach(d -> Annotation.annotate(d, refs));
-		}
-		if (equations != null)
-		{
-			m.addEquations(equations);
-			// NO need to re-annotate, they should have been read with their annotations???
-			//m.getEquations().forEach(eq -> Annotation.annotate(eq, refs));
-		}
+		if (declarations != null) m.addDeclarations(declarations);
+		if (equations != null) m.addEquations(equations);
 		if (annotations != null)
 		{
 			List<ModelicaInterconnection> connectors = Annotation.readConnectors(annotations);
@@ -204,6 +184,4 @@ public class ModelicaUtil
 
 	private static final String	SYSTEM_ID				= "_SYSTEM_";
 	private static final String	INTERCONNECTIONS_ID		= "_INTERCONNECTIONS_";
-
-	private static final Logger	LOG						= LoggerFactory.getLogger("X");
 }

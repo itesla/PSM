@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.dymola.integration;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -10,10 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Stream;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
@@ -37,7 +34,7 @@ public class DymolaEngine implements ModelicaEngine
 	public void configure(Configuration config)
 	{
 		this.wsdlService = Optional.ofNullable(config.getParameter("webService"))
-				.orElse("http://localhost:8888/dymservice?wsdl");
+				.orElse("http://0.0.0.0:8888/dymservice?wsdl");
 		this.workingDir = Paths.get(config.getParameter("modelicaEngineWorkingDir"));
 		this.libraryDir = Paths.get(config.getParameter("libraryDir"));
 		this.dymSimulationDir = Optional
@@ -59,7 +56,7 @@ public class DymolaEngine implements ModelicaEngine
 				.orElse(false);
 		this.depth = Optional.ofNullable(config.getInteger("depth")).orElse(0);
 	}
-
+	
 	@Override
 	public void simulate(ModelicaDocument mo) throws Exception
 	{
@@ -278,7 +275,7 @@ public class DymolaEngine implements ModelicaEngine
 	public void close() throws Exception
 	{
 		// The Dymola service is independent of the Dymola Engine.
-		LOGGER.info("(Fake) Closing Dymola service.");
+		LOGGER.info("Closing Dymola service.");
 	}
 
 	@Override

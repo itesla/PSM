@@ -31,7 +31,7 @@ class ServiceMain {
 	        int dymolaPortsRangeSize = 10;
 	        boolean dymolaDebug=true;
 	
-	        String wsHost="192.168.201.152";
+	        String wsHost="0.0.0.0";
 	        int wsPort=8888;
 	        int wsNthreads = 5;
 	
@@ -66,6 +66,7 @@ class ServiceMain {
 	        dymolaService.endpoint.publish(serviceURL);
        }
        catch(Exception e) {
+    	   LOGGER.error("Error starting Dymola service. {}", e.getMessage());
     	   if(simImpl != null) {
     		   simImpl.close();
     	   }

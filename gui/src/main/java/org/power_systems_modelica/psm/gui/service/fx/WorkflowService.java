@@ -1,10 +1,10 @@
-package org.power_systems_modelica.psm.gui.service;
+package org.power_systems_modelica.psm.gui.service.fx;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.power_systems_modelica.psm.gui.utils.ProgressData;
+import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskProgress;
 import org.power_systems_modelica.psm.workflow.TaskStatePair;

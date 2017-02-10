@@ -3,6 +3,8 @@ package org.power_systems_modelica.psm.test.gui.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -23,7 +25,7 @@ public class CaseServiceTest {
 		Catalog catalog = new Catalog();
 		catalog.setName("Reference cases");
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
-		ObservableList<Case> list = CaseService.getCases(catalog);
+		List<Case> list = CaseService.getCases(catalog);
 		assertNotNull(list);
 		assertEquals(10, list.size());
 	}

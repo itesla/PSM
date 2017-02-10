@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -10,12 +9,14 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
@@ -27,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -90,11 +91,91 @@ public class ConversionNewController implements MainChildrenController
 	{
 		return new SimpleBooleanProperty(false);
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
 		return null;
+	}
+
+	public void setCase(Case c)
+	{
+
+		UtilsFX.resolveCasePath(c.getLocation(), catalogCaseSource, caseSource);
+		setDdr(c);
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+
+		handleCleanWorkflow();
+
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+
+			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
+			{
+				String casePath = td.getTaskConfiguration().getParameter("source");
+				UtilsFX.resolveCasePath(casePath, catalogCaseSource, caseSource);
+				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine("None"));
+			}
+
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+			{
+				String ddrPath = td.getTaskConfiguration().getParameter("ddrLocation");
+				UtilsFX.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
+
+				Boolean onlyMainConnectedComponent = td.getTaskConfiguration()
+						.getBoolean("onlyMainConnectedComponent");
+				mainConnectedComponent.setSelected(onlyMainConnectedComponent);
+			}
+
+			if (td.getTaskClass().equals(LoadFlowTask.class))
+				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(td.getTaskId()));
+
+			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+			{
+				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
+				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
+			}
+		}
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+
+		catalogCaseSource
+				.setItems(FXCollections.observableArrayList(mainService.getCatalogs("cases")));
+		catalogDdrSource
+				.setItems(FXCollections.observableArrayList(mainService.getCatalogs("ddrs")));
+
+		loadflowEngine
+				.setItems(FXCollections.observableArrayList(mainService.getLoadflowEngines()));
+
+		dsEngine.setItems(FXCollections.observableArrayList(mainService.getDsEngines()));
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+		handleCleanWorkflow();
+		try
+		{
+			Properties workflowProperties = PathUtils.loadDefaultConversionFile();
+			loadWorkflow(workflowProperties);
+		}
+		catch (IOException e)
+		{
+		}
 	}
 
 	@FXML
@@ -115,7 +196,8 @@ public class ConversionNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						if (newValue != null)
-							caseSource.setItems(mainService.getCases(newValue.getName()));
+							caseSource.setItems(FXCollections
+									.observableArrayList(mainService.getCases(newValue.getName())));
 					}
 
 				});
@@ -141,7 +223,8 @@ public class ConversionNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						if (newValue != null)
-							ddrSource.setItems(mainService.getDdrs(newValue.getName()));
+							ddrSource.setItems(FXCollections
+									.observableArrayList(mainService.getDdrs(newValue.getName())));
 					}
 
 				});
@@ -154,7 +237,7 @@ public class ConversionNewController implements MainChildrenController
 		handleCleanWorkflow();
 		try
 		{
-			Properties workflowProperties = PathUtils.loadConversionFile(fileChooser,
+			Properties workflowProperties = PathUtilsFX.loadConversionFile(fileChooser,
 					mainService.getPrimaryStage(),
 					System.getProperty("user.home"));
 			loadWorkflow(workflowProperties);
@@ -172,13 +255,13 @@ public class ConversionNewController implements MainChildrenController
 		if (workflowProperties.containsKey("casePath"))
 		{
 			String casePath = workflowProperties.getProperty("casePath");
-			Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
+			UtilsFX.resolveCasePath(casePath, catalogCaseSource, caseSource);
 		}
 
 		if (workflowProperties.containsKey("ddrPath"))
 		{
 			String ddrPath = workflowProperties.getProperty("ddrPath");
-			Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
+			UtilsFX.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
 		}
 
 		if (workflowProperties.containsKey("loadflowEngine"))
@@ -209,13 +292,13 @@ public class ConversionNewController implements MainChildrenController
 		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
-		
+
 		Properties workflowProperties;
 		try
 		{
 			workflowProperties = Utils.getConversionProperties(cs, ddr, le,
-					onlyMainConnectedComponent,dse);
-			PathUtils.saveConversionFile(fileChooser, mainService.getPrimaryStage(),
+					onlyMainConnectedComponent, dse);
+			PathUtilsFX.saveConversionFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"), workflowProperties);
 		}
 		catch (IOException e)
@@ -235,7 +318,7 @@ public class ConversionNewController implements MainChildrenController
 		loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(LE));
 
 		mainConnectedComponent.setSelected(Boolean.parseBoolean(OMCC));
-		
+
 		dsEngine.getSelectionModel().select(Utils.getDsEngine(FMIE));
 	}
 
@@ -246,20 +329,20 @@ public class ConversionNewController implements MainChildrenController
 		Case cs = caseSource.getSelectionModel().getSelectedItem();
 		if (cs == null)
 		{
-			Utils.showWarning("Warning", "Select a case");
+			UtilsFX.showWarning("Warning", "Select a case");
 			return;
 		}
 		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
 		if (ddr == null)
 		{
-			Utils.showWarning("Warning", "Select a DDR");
+			UtilsFX.showWarning("Warning", "Select a DDR");
 			return;
 		}
 
 		LoadflowEngine le = loadflowEngine.getSelectionModel().getSelectedItem();
 		if (le == null)
 		{
-			Utils.showWarning("Warning", "Select a Loadflow engine");
+			UtilsFX.showWarning("Warning", "Select a Loadflow engine");
 			return;
 		}
 
@@ -268,18 +351,11 @@ public class ConversionNewController implements MainChildrenController
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
 		if (dse == null)
 		{
-			Utils.showWarning("Warning", "Select a full model initialization engine");
+			UtilsFX.showWarning("Warning", "Select a full model initialization engine");
 			return;
 		}
 
 		mainService.startConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
-	}
-
-	public void setCase(Case c)
-	{
-
-		Utils.resolveCasePath(c.getLocation(), catalogCaseSource, caseSource);
-		setDdr(c);
 	}
 
 	private void setDdr(Case c)
@@ -287,76 +363,7 @@ public class ConversionNewController implements MainChildrenController
 		String ddrLocation = mainService.getDefaultDdrLocation(c);
 		if (ddrLocation != null)
 		{
-			Utils.resolveDdrPath(ddrLocation, catalogDdrSource, ddrSource);
-		}
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
-
-		handleCleanWorkflow();
-
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
-		{
-
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
-			{
-				String casePath = td.getTaskConfiguration().getParameter("source");
-				Utils.resolveCasePath(casePath, catalogCaseSource, caseSource);
-			}
-
-			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
-			{
-				String ddrPath = td.getTaskConfiguration().getParameter("ddrLocation");
-				Utils.resolveDdrPath(ddrPath, catalogDdrSource, ddrSource);
-
-				Boolean onlyMainConnectedComponent = td.getTaskConfiguration()
-						.getBoolean("onlyMainConnectedComponent");
-				mainConnectedComponent.setSelected(onlyMainConnectedComponent);
-			}
-
-			if (td.getTaskClass().equals(LoadFlowTask.class))
-				loadflowEngine.getSelectionModel().select(Utils.getLoadflowEngine(td.getTaskId()));
-
-			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
-			{
-				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
-				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
-			}
-		}
-	}
-
-	@Override
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
-
-		catalogCaseSource.setItems(mainService.getCatalogs("cases"));
-		catalogDdrSource.setItems(mainService.getCatalogs("ddrs"));
-
-		loadflowEngine.setItems(mainService.getLoadflowEngines());
-
-		dsEngine.setItems(mainService.getDsEngines());
-	}
-
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-		this.fileChooser = fileChooser;
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
-		handleCleanWorkflow();
-		try
-		{
-			Properties workflowProperties = PathUtils.loadDefaultConversionFile();
-			loadWorkflow(workflowProperties);
-		}
-		catch (IOException e)
-		{
+			UtilsFX.resolveDdrPath(ddrLocation, catalogDdrSource, ddrSource);
 		}
 	}
 

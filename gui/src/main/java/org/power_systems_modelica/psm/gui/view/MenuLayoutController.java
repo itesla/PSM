@@ -2,7 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.util.Properties;
 
-import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
@@ -13,6 +13,31 @@ import javafx.scene.layout.HBox;
 
 public class MenuLayoutController
 {
+
+	public void selectConversionOption()
+	{
+		selectOption(conversion);
+	}
+
+	public void selectSimulationOption()
+	{
+		selectOption(simulation);
+	}
+
+	public void selectCompareLoadflowsOption()
+	{
+		selectOption(compareLoadflows);
+	}
+
+	public void selectSwtoswValidationOption()
+	{
+		selectOption(swtoswValidation);
+	}
+
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+	}
 
 	@FXML
 	private void initialize()
@@ -118,31 +143,6 @@ public class MenuLayoutController
 		swtoswValidation.getStyleClass().remove("active");
 
 		b.getStyleClass().add("active");
-	}
-
-	public void selectConversionOption()
-	{
-		selectOption(conversion);
-	}
-
-	public void selectSimulationOption()
-	{
-		selectOption(simulation);
-	}
-
-	public void selectCompareLoadflowsOption()
-	{
-		selectOption(compareLoadflows);
-	}
-
-	public void selectSwtoswValidationOption()
-	{
-		selectOption(swtoswValidation);
-	}
-
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
 	}
 
 	@FXML

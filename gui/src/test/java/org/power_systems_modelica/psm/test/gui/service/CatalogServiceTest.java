@@ -3,6 +3,8 @@ package org.power_systems_modelica.psm.test.gui.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
@@ -33,7 +35,7 @@ public class CatalogServiceTest {
 
 	private void loadCatalog(String name, int num) {
 		
-		ObservableList<Catalog> list = CatalogService.getCatalogs(name);
+		List<Catalog> list = CatalogService.getCatalogs(name);
 		
 		assertNotNull(list);
 		assertEquals(num, list.size());

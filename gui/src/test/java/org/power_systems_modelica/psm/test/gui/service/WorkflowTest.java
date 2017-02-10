@@ -12,9 +12,9 @@ import javax.swing.SwingUtilities;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.power_systems_modelica.psm.gui.service.TaskService;
-import org.power_systems_modelica.psm.gui.service.WorkflowService;
-import org.power_systems_modelica.psm.gui.utils.ProgressData;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
+import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.test.gui.WorkflowTaskFake;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;

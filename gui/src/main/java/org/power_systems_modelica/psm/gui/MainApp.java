@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import org.power_systems_modelica.psm.gui.model.Case;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;

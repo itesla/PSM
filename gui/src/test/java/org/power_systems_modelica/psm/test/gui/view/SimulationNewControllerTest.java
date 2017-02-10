@@ -16,9 +16,9 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
-import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
@@ -105,7 +105,7 @@ public class SimulationNewControllerTest extends ApplicationTest
 		ComboBox<Catalog> catalogCaseSource = lookup("#catalogCaseSource").query();
 		ComboBox<ConvertedCase> caseSource = lookup("#caseSource").query();
 
-		ObservableList<Catalog> catalogs = CatalogService.getCatalogs("cases");
+		List<Catalog> catalogs = CatalogService.getCatalogs("cases");
 		assertEquals(catalogs.size(), catalogCaseSource.getItems().size());
 		Catalog catalog = catalogs.stream().filter(c -> c.getName().equals("Reference cases"))
 				.findFirst().get();
@@ -113,7 +113,7 @@ public class SimulationNewControllerTest extends ApplicationTest
 		assertEquals("Reference cases",
 				catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 
-		ObservableList<ConvertedCase> cases = CaseService.getConvertedCases(catalog);
+		List<ConvertedCase> cases = CaseService.getConvertedCases(catalog);
 		assertEquals(cases.size(), caseSource.getItems().size());
 		clickOn("#caseSource").clickOn("ieee14");
 		assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());

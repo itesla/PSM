@@ -12,21 +12,21 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
-import org.power_systems_modelica.psm.ddr.dyd.Model;
-import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.CodeEditor;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -85,11 +85,35 @@ public class DdrsOverviewController implements MainChildrenController
 	{
 		return new SimpleBooleanProperty(false);
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
 		return null;
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+
+		catalogs.setItems(FXCollections.observableArrayList(mainService.getCatalogs("ddrs")));
+		catalogs.getSelectionModel().selectFirst();
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
 	}
 
 	@FXML
@@ -97,7 +121,7 @@ public class DdrsOverviewController implements MainChildrenController
 	{
 
 		fileContentPane.setVisible(false);
-		Utils.setDragablePane(fileContentPane);
+		UtilsFX.setDragablePane(fileContentPane);
 
 		nameCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		descriptionCatalogColumn
@@ -117,7 +141,8 @@ public class DdrsOverviewController implements MainChildrenController
 					{
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
-						ddrs.setItems(mainService.getDdrs(catalogName));
+						ddrs.setItems(FXCollections
+								.observableArrayList(mainService.getDdrs(catalogName)));
 						ddrs.getItems().sort(new Comparator<Ddr>()
 						{
 
@@ -183,7 +208,7 @@ public class DdrsOverviewController implements MainChildrenController
 
 		});
 		contextMenu.getItems().add(menuItem);
-		
+
 		Path ddrPath = Paths.get(ddr.getLocation());
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(ddrPath))
 		{
@@ -284,25 +309,25 @@ public class DdrsOverviewController implements MainChildrenController
 	{
 		Map<String, String> xmlMapping = mainService.checkXml(ddr.getLocation());
 		Map<String, ModelMapping> modelMapping = mainService.checkDuplicates(ddr.getLocation());
-		
+
 		StringBuilder ddrDuplicates = new StringBuilder();
-		
-		for (String key: modelMapping.keySet())
+
+		for (String key : modelMapping.keySet())
 		{
 			if (modelMapping.get(key).isDuplicated())
 				ddrDuplicates.append("\t - " + modelMapping.get(key).toString() + "\n");
 		}
 
 		StringBuilder ddrXml = new StringBuilder();
-		
-		for (String key: xmlMapping.keySet())
+
+		for (String key : xmlMapping.keySet())
 		{
 			ddrXml.append(key + " - " + xmlMapping.get(key) + "\n");
 		}
 
 		StringBuilder ddrContent = new StringBuilder();
-		
-		if (ddrXml.length() > 0) 
+
+		if (ddrXml.length() > 0)
 		{
 			ddrContent.append("Xml files with errors:\n");
 			ddrContent.append(ddrXml);
@@ -314,7 +339,7 @@ public class DdrsOverviewController implements MainChildrenController
 		}
 		if (ddrContent.length() == 0)
 			ddrContent.append("Successfully checked\n");
-		
+
 		revertEditor.setVisible(false);
 		revertEditor.setDisable(true);
 		saveEditor.setVisible(false);
@@ -323,10 +348,10 @@ public class DdrsOverviewController implements MainChildrenController
 		codeEditor.setVisible(true);
 		fileContentPane.setVisible(true);
 	}
-	
+
 	private void duplicateDdr(Ddr ddr)
 	{
-		String outputPath = PathUtils.directoryOutput(mainService.getPrimaryStage(),
+		String outputPath = PathUtilsFX.directoryOutput(mainService.getPrimaryStage(),
 				Paths.get(ddr.getLocation()).resolve("..").toString());
 		if (outputPath == null) return;
 
@@ -356,39 +381,16 @@ public class DdrsOverviewController implements MainChildrenController
 		if (mainService.duplicateDdr(ddr, ddrOut))
 		{
 			Catalog catalog = catalogs.getSelectionModel().getSelectedItem();
-			ddrs.setItems(mainService.getDdrs(catalog.getName()));
+			ddrs.setItems(
+					FXCollections.observableArrayList(mainService.getDdrs(catalog.getName())));
 		}
-	}
-
-	@Override
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
-
-		catalogs.setItems(mainService.getCatalogs("ddrs"));
-		catalogs.getSelectionModel().selectFirst();
-	}
-
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
 	}
 
 	@FXML
 	private TitledPane						fileContentPane;
 	@FXML
 	private CodeEditor						codeEditor;
-	
+
 	@FXML
 	private Button							revertEditor;
 	@FXML

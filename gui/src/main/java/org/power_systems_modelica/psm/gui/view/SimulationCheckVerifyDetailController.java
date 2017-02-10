@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -16,15 +15,15 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
-import org.power_systems_modelica.psm.gui.utils.CodeEditor;
-import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.ProgressData;
 import org.power_systems_modelica.psm.gui.utils.Utils;
-import org.power_systems_modelica.psm.workflow.ProcessState;
+import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.fx.DynamicTreeView;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -38,7 +37,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -106,141 +104,11 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	{
 		return new SimpleBooleanProperty(false);
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
 		return null;
-	}
-
-	@FXML
-	private void initialize()
-	{
-	}
-
-	private void handleNewWorkflow()
-	{
-
-		mainService.showSimulationNewView(mainService.getSimulation());
-	}
-
-	private void handleSimulateWorkflow(boolean isVerify)
-	{
-
-		try
-		{
-			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
-			mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, false, isVerify,
-					Boolean.parseBoolean(createFilteredMat));
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	private void handleFindMoContentEvent()
-	{
-		moEditor.find();
-	}
-
-	@FXML
-	private void handleFindMoweContentEvent()
-	{
-		moweEditor.find();
-	}
-
-	@FXML
-	private void handleSaveMoFileContentEvent()
-	{
-		saveFileContentEvent(moEditor);
-	}
-
-	@FXML
-	private void handleSaveMoweFileContentEvent()
-	{
-		saveFileContentEvent(moweEditor);
-	}
-
-	private void saveFileContentEvent(CodeEditor codeEditor)
-	{
-		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
-		String location = codeEditor.getEditingLocation();
-		String file = codeEditor.getEditingFile();
-
-		try
-		{
-			PathUtils.saveFile(location, file, ddrContent);
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	private void handleSaveAsMoFileContentEvent()
-	{
-		saveAsFileContentEvent(moEditor);
-	}
-
-	@FXML
-	private void handleSaveAsMoweFileContentEvent()
-	{
-		saveAsFileContentEvent(moweEditor);
-	}
-
-	private void saveAsFileContentEvent(CodeEditor codeEditor)
-	{
-		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
-		String location = codeEditor.getEditingLocation();
-		String file = codeEditor.getEditingFile();
-
-		boolean close = true;
-		try
-		{
-			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
-					file, ddrContent);
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	private void handleRevertMoFileContentEvent()
-	{
-		moEditor.revertEdits();
-	}
-
-	@FXML
-	private void handleRevertMoweFileContentEvent()
-	{
-		moweEditor.revertEdits();
-	}
-
-	private void showModelicaFileContent(CodeEditor codeEditor, String path, String file)
-	{
-
-		StringBuilder fileContent = new StringBuilder();
-		try
-		{
-			fileContent = PathUtils.loadFile(path, file);
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		codeEditor.setEditingFile(path, file);
-		codeEditor.setCode(fileContent);
-		codeEditor.setVisible(true);
 	}
 
 	@Override
@@ -377,6 +245,136 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	@Override
 	public void setDefaultInit()
 	{
+	}
+
+	@FXML
+	private void initialize()
+	{
+	}
+
+	private void handleNewWorkflow()
+	{
+
+		mainService.showSimulationNewView(mainService.getSimulation());
+	}
+
+	private void handleSimulateWorkflow(boolean isVerify)
+	{
+
+		try
+		{
+			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
+			mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, false, isVerify,
+					Boolean.parseBoolean(createFilteredMat));
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void handleFindMoContentEvent()
+	{
+		moEditor.find();
+	}
+
+	@FXML
+	private void handleFindMoweContentEvent()
+	{
+		moweEditor.find();
+	}
+
+	@FXML
+	private void handleSaveMoFileContentEvent()
+	{
+		saveFileContentEvent(moEditor);
+	}
+
+	@FXML
+	private void handleSaveMoweFileContentEvent()
+	{
+		saveFileContentEvent(moweEditor);
+	}
+
+	private void saveFileContentEvent(CodeEditor codeEditor)
+	{
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		try
+		{
+			PathUtils.saveFile(location, file, ddrContent);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void handleSaveAsMoFileContentEvent()
+	{
+		saveAsFileContentEvent(moEditor);
+	}
+
+	@FXML
+	private void handleSaveAsMoweFileContentEvent()
+	{
+		saveAsFileContentEvent(moweEditor);
+	}
+
+	private void saveAsFileContentEvent(CodeEditor codeEditor)
+	{
+		StringBuilder ddrContent = codeEditor.getCodeAndSnapshot();
+		String location = codeEditor.getEditingLocation();
+		String file = codeEditor.getEditingFile();
+
+		boolean close = true;
+		try
+		{
+			close = PathUtilsFX.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
+					file, ddrContent);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void handleRevertMoFileContentEvent()
+	{
+		moEditor.revertEdits();
+	}
+
+	@FXML
+	private void handleRevertMoweFileContentEvent()
+	{
+		moweEditor.revertEdits();
+	}
+
+	private void showModelicaFileContent(CodeEditor codeEditor, String path, String file)
+	{
+
+		StringBuilder fileContent = new StringBuilder();
+		try
+		{
+			fileContent = PathUtils.loadFile(path, file);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		codeEditor.setEditingFile(path, file);
+		codeEditor.setCode(fileContent);
+		codeEditor.setVisible(true);
 	}
 
 	@FXML

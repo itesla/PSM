@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox?>
+<?import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox?>
 
 <AnchorPane prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.SimulationNewController">
 	<children>

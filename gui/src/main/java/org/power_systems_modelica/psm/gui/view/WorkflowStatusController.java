@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,11 +14,11 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.service.WorkflowService;
-import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
-import org.power_systems_modelica.psm.gui.utils.ProgressData;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
+import org.power_systems_modelica.psm.gui.utils.fx.DynamicTreeView;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
@@ -86,7 +85,7 @@ public class WorkflowStatusController implements MainChildrenController
 	{
 		return new SimpleBooleanProperty(false);
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
@@ -96,18 +95,6 @@ public class WorkflowStatusController implements MainChildrenController
 	@FXML
 	private void initialize()
 	{
-	}
-
-	@FXML
-	private void handleStopWorkflow()
-	{
-		LOG.debug("handleStopWorkflow");
-		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.stopConversion(w);
-		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.stopSimulation(w);
-		else
-			mainService.stopCompareLoadflows();
 	}
 
 	@Override
@@ -211,7 +198,7 @@ public class WorkflowStatusController implements MainChildrenController
 			task = mainService.getSimulationTask();
 		else
 			task = mainService.getCompareLoadflowTask();
-		
+
 		if (task != null)
 		{
 			statusLabel.textProperty().bind(task.messageProperty());
@@ -234,6 +221,18 @@ public class WorkflowStatusController implements MainChildrenController
 	@Override
 	public void setDefaultInit()
 	{
+	}
+
+	@FXML
+	private void handleStopWorkflow()
+	{
+		LOG.debug("handleStopWorkflow");
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			mainService.stopConversion(w);
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			mainService.stopSimulation(w);
+		else
+			mainService.stopCompareLoadflows();
 	}
 
 	@FXML

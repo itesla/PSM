@@ -15,11 +15,11 @@ import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
 import org.supercsv.io.ICsvListReader;
 import org.testfx.framework.junit.ApplicationTest;
@@ -189,14 +189,14 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 
 				controller.addDiffSeries(results);
 				controller.addCurvesSeries(results);
-				Utils.addTooltipComparisonChart(voltageDiffChart, results, "V", "pu");
-				Utils.addTooltipComparisonChart(phaseDiffChart, results, "A", "º");
-				Utils.addTooltipComparisonChart(activeDiffChart, results, "P", "MW");
-				Utils.addTooltipComparisonChart(reactiveDiffChart, results, "Q", "MVar");
-				Utils.addTooltipScatterChart(voltageCurvesChart, "pu");
-				Utils.addTooltipScatterChart(phaseCurvesChart, "º");
-				Utils.addTooltipScatterChart(activeCurvesChart, "MW");
-				Utils.addTooltipScatterChart(reactiveCurvesChart, "MVar");
+				UtilsFX.addTooltipComparisonChart(voltageDiffChart, results, "V", "pu");
+				UtilsFX.addTooltipComparisonChart(phaseDiffChart, results, "A", "º");
+				UtilsFX.addTooltipComparisonChart(activeDiffChart, results, "P", "MW");
+				UtilsFX.addTooltipComparisonChart(reactiveDiffChart, results, "Q", "MVar");
+				UtilsFX.addTooltipScatterChart(voltageCurvesChart, "pu");
+				UtilsFX.addTooltipScatterChart(phaseCurvesChart, "º");
+				UtilsFX.addTooltipScatterChart(activeCurvesChart, "MW");
+				UtilsFX.addTooltipScatterChart(reactiveCurvesChart, "MVar");
 
 				assertEquals(1, voltageDiffChart.getData().size());
 				XYChart.Series<String, Number> valuesV = voltageDiffChart.getData().get(0);

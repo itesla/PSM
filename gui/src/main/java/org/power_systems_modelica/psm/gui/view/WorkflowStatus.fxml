@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import org.power_systems_modelica.psm.gui.utils.DynamicTreeView?>
+<?import org.power_systems_modelica.psm.gui.utils.fx.DynamicTreeView?>
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.WorkflowStatusController">
 	<children>

@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.gui.service;
+package org.power_systems_modelica.psm.gui.service.fx;
 
 import org.power_systems_modelica.psm.gui.utils.InitCompletionHandler;
 import org.power_systems_modelica.psm.workflow.ProcessState;

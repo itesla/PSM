@@ -1,15 +1,13 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.binding.Bindings;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,23 +25,6 @@ import javafx.scene.layout.AnchorPane;
 
 public class MainLayoutController
 {
-
-	@FXML
-	private void initialize()
-	{
-
-		menuActions.graphicProperty().bind(
-				Bindings.when(menuActions.hoverProperty())
-						.then(new ImageView(whiteMenuImage))
-						.otherwise(new ImageView(menuImage)));
-	}
-
-	@FXML
-	protected void handleMainAction()
-	{
-
-		controller.handleMainAction();
-	}
 
 	public void setController(MainChildrenController controller)
 	{
@@ -180,6 +161,23 @@ public class MainLayoutController
 		controller.setWorkflow(w, objects);
 	}
 
+	@FXML
+	protected void handleMainAction()
+	{
+
+		controller.handleMainAction();
+	}
+
+	@FXML
+	private void initialize()
+	{
+
+		menuActions.graphicProperty().bind(
+				Bindings.when(menuActions.hoverProperty())
+						.then(new ImageView(whiteMenuImage))
+						.otherwise(new ImageView(menuImage)));
+	}
+
 	private void setGlobalEventHandler()
 	{
 		mainService.getPrimaryStage().addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
@@ -190,7 +188,7 @@ public class MainLayoutController
 					button.fire();
 				else
 					mainAction.fire();
-				
+
 				ev.consume();
 			}
 		});

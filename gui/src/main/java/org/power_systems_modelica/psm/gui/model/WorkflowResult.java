@@ -71,7 +71,7 @@ public class WorkflowResult implements Serializable
 		return validation;
 	}
 
-	public void setValidation(ObservableList<Validation> list)
+	public void setValidation(List<Validation> list)
 	{
 		validation.clear();
 		if (list != null)

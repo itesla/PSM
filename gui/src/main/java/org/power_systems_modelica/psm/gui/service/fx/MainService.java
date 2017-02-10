@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.gui.service;
+package org.power_systems_modelica.psm.gui.service.fx;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -15,6 +15,10 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.DdrService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -99,7 +103,7 @@ public class MainService
 		getMainApp().showSwtoswValidationView();
 	}
 
-	public ObservableList<Catalog> getCatalogs(String name)
+	public List<Catalog> getCatalogs(String name)
 	{
 		return CatalogService.getCatalogs(name);
 	}
@@ -109,7 +113,7 @@ public class MainService
 		return CatalogService.getCatalog(name, path);
 	}
 
-	public ObservableList<Case> getCases(String catalogName)
+	public List<Case> getCases(String catalogName)
 	{
 		return CaseService.getCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
@@ -119,7 +123,7 @@ public class MainService
 		return CaseService.getCase(CatalogService.getCatalogByName("cases", catalogName), casePath);
 	}
 
-	public ObservableList<ConvertedCase> getConvertedCases(String catalogName)
+	public List<ConvertedCase> getConvertedCases(String catalogName)
 	{
 		return CaseService.getConvertedCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
@@ -152,7 +156,7 @@ public class MainService
 		return CaseService.getDefaultDdrLocation(c);
 	}
 
-	public ObservableList<Ddr> getDdrs(String catalogName)
+	public List<Ddr> getDdrs(String catalogName)
 	{
 		return DdrService.getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
 	}
@@ -177,7 +181,7 @@ public class MainService
 		return DdrService.checkDuplicates(ddr);
 	}
 	
-	public ObservableList<EventParamGui> getEventParams(String event)
+	public List<EventParamGui> getEventParams(String event)
 	{
 		return WorkflowServiceConfiguration.getEventParams(event);
 	}
@@ -192,22 +196,22 @@ public class MainService
 		return WorkflowServiceConfiguration.getSimulation();
 	}
 
-	public ObservableList<LoadflowEngine> getLoadflowEngines()
+	public List<LoadflowEngine> getLoadflowEngines()
 	{
 		return WorkflowServiceConfiguration.getLoadflowEngines();
 	}
 
-	public ObservableList<DsEngine> getDsEngines()
+	public List<DsEngine> getDsEngines()
 	{
 		return WorkflowServiceConfiguration.getDsEngines();
 	}
 
-	public ObservableList<String> getNetworkElements(ConvertedCase c, String action)
+	public List<String> getNetworkElements(ConvertedCase c, String action)
 	{
 		return WorkflowServiceConfiguration.getNetworkElements(c, action);
 	}
 
-	public ObservableList<String> getActionEvents(ConvertedCase c)
+	public List<String> getActionEvents(ConvertedCase c)
 	{
 		return WorkflowServiceConfiguration.getActionEvents(c);
 	}

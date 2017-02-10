@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.gui.utils;
+package org.power_systems_modelica.psm.gui.utils.fx;
 
 import java.io.File;
 

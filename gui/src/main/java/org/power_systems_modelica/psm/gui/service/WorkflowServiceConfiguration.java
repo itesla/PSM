@@ -62,8 +62,6 @@ import eu.itesla_project.iidm.network.Connectable;
 import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class WorkflowServiceConfiguration
 {
@@ -147,10 +145,10 @@ public class WorkflowServiceConfiguration
 		return cl;
 	}
 
-	public static ObservableList<LoadflowEngine> getLoadflowEngines()
+	public static List<LoadflowEngine> getLoadflowEngines()
 	{
 
-		ObservableList<LoadflowEngine> engines = FXCollections.observableArrayList();
+		List<LoadflowEngine> engines = new ArrayList<>();
 		engines.add(LoadflowEngine.HADES2);
 		engines.add(LoadflowEngine.HELMFLOW);
 		engines.add(LoadflowEngine.NONE);
@@ -158,10 +156,10 @@ public class WorkflowServiceConfiguration
 		return engines;
 	}
 
-	public static ObservableList<DsEngine> getDsEngines()
+	public static List<DsEngine> getDsEngines()
 	{
 
-		ObservableList<DsEngine> engines = FXCollections.observableArrayList();
+		List<DsEngine> engines = new ArrayList<>();
 		engines.add(DsEngine.FAKE);
 		engines.add(DsEngine.DYMOLA);
 		engines.add(DsEngine.OPENMODELICA);
@@ -169,9 +167,9 @@ public class WorkflowServiceConfiguration
 		return engines;
 	}
 
-	public static ObservableList<String> getActionEvents(ConvertedCase newValue)
+	public static List<String> getActionEvents(ConvertedCase newValue)
 	{
-		ObservableList<String> actions = FXCollections.observableArrayList();
+		List<String> actions = new ArrayList<>();
 		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
 		try
 		{
@@ -248,9 +246,9 @@ public class WorkflowServiceConfiguration
 		return elementsByEventType;
 	}
 
-	public static ObservableList<String> getNetworkElements(ConvertedCase case_, String eventType)
+	public static List<String> getNetworkElements(ConvertedCase case_, String eventType)
 	{
-		ObservableList<String> elements = FXCollections.observableArrayList();
+		List<String> elements = new ArrayList<>();
 
 		// Cached list of element identifiers by event type is stored in ConvertedCase
 		Map<String, Collection<String>> elementsByEventType = case_.getElementIdsByEventType();
@@ -272,10 +270,10 @@ public class WorkflowServiceConfiguration
 		return elements;
 	}
 
-	public static ObservableList<EventParamGui> getEventParams(String event)
+	public static List<EventParamGui> getEventParams(String event)
 	{
 
-		ObservableList<EventParamGui> eventParams = FXCollections.observableArrayList();
+		List<EventParamGui> eventParams = new ArrayList<>();
 		List<EventParameter> parameters = ddr.getEventParameters(event);
 
 		parameters.forEach(p -> {
@@ -289,7 +287,7 @@ public class WorkflowServiceConfiguration
 		return eventParams;
 	}
 
-	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events,
+	public static Workflow createSimulation(ConvertedCase cs, List<Event> events,
 			DsEngine dse,
 			String stopTime, String stepBySecond, boolean onlyCheck, boolean onlyVerify,
 			boolean createFilteredMat)
@@ -678,7 +676,7 @@ public class WorkflowServiceConfiguration
 	{
 		WorkflowResult results = new WorkflowResult();
 
-		ObservableList<Validation> list = FXCollections.observableArrayList();
+		List<Validation> list = new ArrayList<>();
 
 		Validation v;
 

@@ -8,8 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -21,9 +23,6 @@ import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class DdrService
 {
@@ -84,7 +83,7 @@ public class DdrService
 	public static Ddr getDdr(Catalog catalog, Path path) throws IOException
 	{
 
-		ObservableList<Ddr> ddrs = getDdrs(catalog);
+		List<Ddr> ddrs = getDdrs(catalog);
 
 		for (Ddr ddr : ddrs)
 		{
@@ -95,9 +94,9 @@ public class DdrService
 		return null;
 	}
 
-	public static ObservableList<Ddr> getDdrs(Catalog catalog)
+	public static List<Ddr> getDdrs(Catalog catalog)
 	{
-		ObservableList<Ddr> ddrs = FXCollections.observableArrayList();
+		List<Ddr> ddrs = new ArrayList<>();
 		Path catalogPath = Paths.get(catalog.getLocation());
 		try
 		{
@@ -110,7 +109,7 @@ public class DdrService
 		return ddrs;
 	}
 
-	private static boolean searchCatalogDdrs(ObservableList<Ddr> ddrs, Path path) throws IOException
+	private static boolean searchCatalogDdrs(List<Ddr> ddrs, Path path) throws IOException
 	{
 
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))

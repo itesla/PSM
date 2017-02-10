@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -12,14 +14,11 @@ import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class CatalogService {
 	
 	public static Catalog getCatalog(String name, Path path) throws IOException {
 	
-		ObservableList<Catalog> catalogs = getCatalogs(name);
+		List<Catalog> catalogs = getCatalogs(name);
 		
 		for (Catalog catalog: catalogs) {
 			if (Files.isSameFile(Paths.get(catalog.getLocation()), path))
@@ -29,10 +28,10 @@ public class CatalogService {
 		return null;
 	}
 
-	public static ObservableList<Catalog> getCatalogs(String name) {
+	public static List<Catalog> getCatalogs(String name) {
 		
 		LOG.debug("getCatalogs");
-		ObservableList<Catalog> catalogs = FXCollections.observableArrayList();
+		List<Catalog> catalogs = new ArrayList<>();
 		Path path = PathUtils.DATA_TEST.resolve("cfg").resolve(name + ".properties");
         Properties properties = new Properties();
         try {
@@ -62,7 +61,7 @@ public class CatalogService {
 
 	public static Catalog getCatalogByName(String name, String catalogName) {
 		
-		ObservableList<Catalog> catalogs = getCatalogs(name);
+		List<Catalog> catalogs = getCatalogs(name);
 		for (Catalog c : catalogs) {
 			if (c.getName().equals(catalogName))
 				return c;

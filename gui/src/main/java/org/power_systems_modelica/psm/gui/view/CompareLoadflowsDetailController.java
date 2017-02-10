@@ -13,9 +13,10 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -84,128 +85,11 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	{
 		return new SimpleBooleanProperty(false);
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
 		return null;
-	}
-
-	@FXML
-	private void initialize()
-	{
-
-		voltageDiffChart.setLegendVisible(false);
-		voltageCurvesChart.setLegendVisible(false);
-
-		yVoltageDiffAxis.setLowerBound(0);
-		yVoltageDiffAxis.setUpperBound(2.25);
-		yVoltageDiffAxis.setTickUnit(0.25);
-		yVoltageDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		phaseDiffChart.setLegendVisible(false);
-		phaseCurvesChart.setLegendVisible(false);
-
-		yPhaseDiffAxis.setLowerBound(0);
-		yPhaseDiffAxis.setUpperBound(2.25);
-		yPhaseDiffAxis.setTickUnit(0.25);
-		yPhaseDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		activeDiffChart.setLegendVisible(false);
-		activeCurvesChart.setLegendVisible(false);
-
-		yActiveDiffAxis.setLowerBound(0);
-		yActiveDiffAxis.setUpperBound(2.25);
-		yActiveDiffAxis.setTickUnit(0.25);
-		yActiveDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		reactiveDiffChart.setLegendVisible(false);
-		reactiveCurvesChart.setLegendVisible(false);
-
-		yReactiveDiffAxis.setLowerBound(0);
-		yReactiveDiffAxis.setUpperBound(2.25);
-		yReactiveDiffAxis.setTickUnit(0.25);
-		yReactiveDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		elementVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesVoltageColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 1));
-		helmflowVoltageColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 0));
-		differenceVoltageColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("V"));
-
-		elementPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 1));
-		helmflowPhaseColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 0));
-		differencePhaseColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("A"));
-
-		elementActiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 1));
-		helmflowActiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 0));
-		differenceActiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("P"));
-
-		elementReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesReactiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 1));
-		helmflowReactiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 0));
-		differenceReactiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("Q"));
-	}
-
-	private void handleNewWorkflow()
-	{
-		LOG.debug("handleNewWorkflow");
-		mainService.showCompareLoadflowsView(null);
 	}
 
 	public void addDiffSeries(WorkflowResult workflowResult)
@@ -430,14 +314,14 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			reactiveTable.setItems(wr.getAllBusesValues());
 			addDiffSeries(wr);
 			addCurvesSeries(wr);
-			Utils.addTooltipComparisonChart(voltageDiffChart, wr, "V", "pu");
-			Utils.addTooltipComparisonChart(phaseDiffChart, wr, "A", "º");
-			Utils.addTooltipComparisonChart(activeDiffChart, wr, "P", "MW");
-			Utils.addTooltipComparisonChart(reactiveDiffChart, wr, "Q", "MVar");
-			Utils.addTooltipScatterChart(voltageCurvesChart, "pu");
-			Utils.addTooltipScatterChart(phaseCurvesChart, "º");
-			Utils.addTooltipScatterChart(activeCurvesChart, "MW");
-			Utils.addTooltipScatterChart(reactiveCurvesChart, "MVar");
+			UtilsFX.addTooltipComparisonChart(voltageDiffChart, wr, "V", "pu");
+			UtilsFX.addTooltipComparisonChart(phaseDiffChart, wr, "A", "º");
+			UtilsFX.addTooltipComparisonChart(activeDiffChart, wr, "P", "MW");
+			UtilsFX.addTooltipComparisonChart(reactiveDiffChart, wr, "Q", "MVar");
+			UtilsFX.addTooltipScatterChart(voltageCurvesChart, "pu");
+			UtilsFX.addTooltipScatterChart(phaseCurvesChart, "º");
+			UtilsFX.addTooltipScatterChart(activeCurvesChart, "MW");
+			UtilsFX.addTooltipScatterChart(reactiveCurvesChart, "MVar");
 		}
 		else
 		{
@@ -462,6 +346,123 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	@Override
 	public void setDefaultInit()
 	{
+	}
+
+	@FXML
+	private void initialize()
+	{
+
+		voltageDiffChart.setLegendVisible(false);
+		voltageCurvesChart.setLegendVisible(false);
+
+		yVoltageDiffAxis.setLowerBound(0);
+		yVoltageDiffAxis.setUpperBound(2.25);
+		yVoltageDiffAxis.setTickUnit(0.25);
+		yVoltageDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		phaseDiffChart.setLegendVisible(false);
+		phaseCurvesChart.setLegendVisible(false);
+
+		yPhaseDiffAxis.setLowerBound(0);
+		yPhaseDiffAxis.setUpperBound(2.25);
+		yPhaseDiffAxis.setTickUnit(0.25);
+		yPhaseDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		activeDiffChart.setLegendVisible(false);
+		activeCurvesChart.setLegendVisible(false);
+
+		yActiveDiffAxis.setLowerBound(0);
+		yActiveDiffAxis.setUpperBound(2.25);
+		yActiveDiffAxis.setTickUnit(0.25);
+		yActiveDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		reactiveDiffChart.setLegendVisible(false);
+		reactiveCurvesChart.setLegendVisible(false);
+
+		yReactiveDiffAxis.setLowerBound(0);
+		yReactiveDiffAxis.setUpperBound(2.25);
+		yReactiveDiffAxis.setTickUnit(0.25);
+		yReactiveDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		elementVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 1));
+		helmflowVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 0));
+		differenceVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("V"));
+
+		elementPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 1));
+		helmflowPhaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 0));
+		differencePhaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("A"));
+
+		elementActiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 1));
+		helmflowActiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 0));
+		differenceActiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("P"));
+
+		elementReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 1));
+		helmflowReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 0));
+		differenceReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("Q"));
+	}
+
+	private void handleNewWorkflow()
+	{
+		LOG.debug("handleNewWorkflow");
+		mainService.showCompareLoadflowsView(null);
 	}
 
 	@FXML

@@ -3,7 +3,7 @@ package org.power_systems_modelica.psm.test.gui;
 import java.io.File;
 import java.nio.file.Paths;
 
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 
 import javafx.stage.Stage;
 

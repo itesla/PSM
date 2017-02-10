@@ -12,12 +12,14 @@ import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
-import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
@@ -28,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -112,14 +115,93 @@ public class SimulationNewController implements MainChildrenController
 	{
 		return addEventPane.visibleProperty();
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
-        if (addEventPane.isVisible())
-        	return add;
-        
+		if (addEventPane.isVisible())
+			return add;
+
 		return null;
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+		handleCleanWorkflow();
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+
+			if (td.getTaskClass().equals(ModelicaParserTask.class))
+			{
+				String casePath = td.getTaskConfiguration().getParameter("source");
+				System.out.println("Simulation new" + casePath);
+				UtilsFX.resolveConvertedCasePath(casePath, catalogCaseSource, caseSource);
+			}
+
+			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
+			{
+				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
+				for (String event : events)
+				{
+
+					Event e = new Event();
+					e.fromString(event);
+					addedEvents.getItems().add(e);
+				}
+				addedEvents.getItems().sort(
+						Comparator.comparing(t -> ((Event) t).getParam("startTime").getValue()));
+			}
+
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+			{
+				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
+				stopTimeText.setText(stopTime);
+
+				String stepBySecond = td.getTaskConfiguration()
+						.getParameter("numOfIntervalsPerSecond");
+				stepBySecondText.setText(stepBySecond);
+
+				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
+				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
+
+				Boolean createFilteredMat = td.getTaskConfiguration()
+						.getBoolean("createFilteredMat");
+				createFilteredMatCheck.setSelected(createFilteredMat);
+			}
+		}
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+
+		catalogCaseSource
+				.setItems(FXCollections.observableArrayList(mainService.getCatalogs("cases")));
+
+		dsEngine.setItems(FXCollections.observableArrayList(mainService.getDsEngines()));
+		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+		handleCleanWorkflow();
+		try
+		{
+			Properties workflowProperties = PathUtils.loadDefaultSimulationFile();
+			loadWorkflow(workflowProperties);
+		}
+		catch (IOException e)
+		{
+		}
 	}
 
 	@FXML
@@ -138,7 +220,7 @@ public class SimulationNewController implements MainChildrenController
 		removeEvent.setDisable(true);
 		editEvent.setDisable(true);
 
-		Utils.setDragablePane(addEventPane);
+		UtilsFX.setDragablePane(addEventPane);
 
 		elementEvent.setFilterMode(true);
 
@@ -151,7 +233,8 @@ public class SimulationNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						if (newValue != null)
-							caseSource.setItems(mainService.getConvertedCases(newValue.getName()));
+							caseSource.setItems(FXCollections.observableArrayList(
+									mainService.getConvertedCases(newValue.getName())));
 					}
 
 				});
@@ -165,7 +248,8 @@ public class SimulationNewController implements MainChildrenController
 							ConvertedCase newValue)
 					{
 						if (newValue != null)
-							actionEvent.setItems(mainService.getActionEvents(newValue));
+							actionEvent.setItems(FXCollections
+									.observableArrayList(mainService.getActionEvents(newValue)));
 						if (newValue != oldValue)
 							addedEvents.getItems().clear();
 					}
@@ -179,8 +263,10 @@ public class SimulationNewController implements MainChildrenController
 					{
 						if (newValue != null)
 						{
-							elementEvent.setData(mainService.getNetworkElements(
-									caseSource.getSelectionModel().getSelectedItem(), newValue));
+							elementEvent.setData(FXCollections
+									.observableArrayList(mainService.getNetworkElements(
+											caseSource.getSelectionModel().getSelectedItem(),
+											newValue)));
 						}
 					}
 				});
@@ -321,7 +407,8 @@ public class SimulationNewController implements MainChildrenController
 	{
 		String event = actionEvent.getSelectionModel().getSelectedItem();
 		if (event != null)
-			parametersView.setItems(mainService.getEventParams(event));
+			parametersView
+					.setItems(FXCollections.observableArrayList(mainService.getEventParams(event)));
 	}
 
 	@FXML
@@ -331,17 +418,18 @@ public class SimulationNewController implements MainChildrenController
 
 		if (actionEvent.getSelectionModel().getSelectedItem() == null)
 		{
-			Utils.showWarning("Warning", "Select a type");
+			UtilsFX.showWarning("Warning", "Select a type");
 			return;
 		}
 		if (elementEvent.getText().equals(""))
 		{
-			Utils.showWarning("Warning", "Select an element");
+			UtilsFX.showWarning("Warning", "Select an element");
 			return;
 		}
-		if (parametersView.getItems().stream().filter(i -> i.getValue().equals("")).findAny().isPresent())
+		if (parametersView.getItems().stream().filter(i -> i.getValue().equals("")).findAny()
+				.isPresent())
 		{
-			Utils.showWarning("Warning", "Complete all parameters");
+			UtilsFX.showWarning("Warning", "Complete all parameters");
 			return;
 		}
 
@@ -393,7 +481,7 @@ public class SimulationNewController implements MainChildrenController
 		handleCleanWorkflow();
 		try
 		{
-			Properties workflowProperties = PathUtils.loadSimulationFile(fileChooser,
+			Properties workflowProperties = PathUtilsFX.loadSimulationFile(fileChooser,
 					mainService.getPrimaryStage(),
 					System.getProperty("user.home"));
 			loadWorkflow(workflowProperties);
@@ -410,7 +498,7 @@ public class SimulationNewController implements MainChildrenController
 		if (workflowProperties.containsKey("casePath"))
 		{
 			String casePath = workflowProperties.getProperty("casePath");
-			Utils.resolveConvertedCasePath(casePath, catalogCaseSource, caseSource);
+			UtilsFX.resolveConvertedCasePath(casePath, catalogCaseSource, caseSource);
 		}
 
 		if (workflowProperties.containsKey("dsEngine"))
@@ -467,7 +555,7 @@ public class SimulationNewController implements MainChildrenController
 		{
 			workflowProperties = Utils.getSimulationProperties(cs, events, dse, stopTime,
 					stepBySecond, createFilteredMat);
-			PathUtils.saveSimulationFile(fileChooser, mainService.getPrimaryStage(),
+			PathUtilsFX.saveSimulationFile(fileChooser, mainService.getPrimaryStage(),
 					System.getProperty("user.home"),
 					workflowProperties);
 		}
@@ -518,14 +606,14 @@ public class SimulationNewController implements MainChildrenController
 		ConvertedCase cs = caseSource.getSelectionModel().getSelectedItem();
 		if (cs == null)
 		{
-			Utils.showWarning("Warning", "Select a case");
+			UtilsFX.showWarning("Warning", "Select a case");
 			return;
 		}
 
 		DsEngine dse = dsEngine.getSelectionModel().getSelectedItem();
 		if (dse == null)
 		{
-			Utils.showWarning("Warning", "Select a Dynamic simulation engine");
+			UtilsFX.showWarning("Warning", "Select a Dynamic simulation engine");
 			return;
 		}
 		String stopTime = stopTimeText.getText();
@@ -544,85 +632,7 @@ public class SimulationNewController implements MainChildrenController
 
 	public void setCase(Case c)
 	{
-		Utils.resolveConvertedCasePath(c.getLocation(), catalogCaseSource, caseSource);
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
-		handleCleanWorkflow();
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
-		{
-
-			if (td.getTaskClass().equals(ModelicaParserTask.class))
-			{
-				String casePath = td.getTaskConfiguration().getParameter("source");
-				System.out.println("Simulation new" + casePath);
-				Utils.resolveConvertedCasePath(casePath, catalogCaseSource, caseSource);
-			}
-
-			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
-			{
-				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
-				for (String event : events)
-				{
-
-					Event e = new Event();
-					e.fromString(event);
-					addedEvents.getItems().add(e);
-				}
-				addedEvents.getItems().sort(
-						Comparator.comparing(t -> ((Event) t).getParam("startTime").getValue()));
-			}
-
-			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
-			{
-				String stopTime = td.getTaskConfiguration().getParameter("stopTime");
-				stopTimeText.setText(stopTime);
-
-				String stepBySecond = td.getTaskConfiguration()
-						.getParameter("numOfIntervalsPerSecond");
-				stepBySecondText.setText(stepBySecond);
-
-				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
-				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
-
-				Boolean createFilteredMat = td.getTaskConfiguration()
-						.getBoolean("createFilteredMat");
-				createFilteredMatCheck.setSelected(createFilteredMat);
-			}
-		}
-	}
-
-	@Override
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
-
-		catalogCaseSource.setItems(mainService.getCatalogs("cases"));
-
-		dsEngine.setItems(mainService.getDsEngines());
-		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
-	}
-
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-		this.fileChooser = fileChooser;
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
-		handleCleanWorkflow();
-		try
-		{
-			Properties workflowProperties = PathUtils.loadDefaultSimulationFile();
-			loadWorkflow(workflowProperties);
-		}
-		catch (IOException e)
-		{
-		}
+		UtilsFX.resolveConvertedCasePath(c.getLocation(), catalogCaseSource, caseSource);
 	}
 
 	@FXML

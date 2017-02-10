@@ -7,10 +7,11 @@ import java.util.Properties;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.Validation;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
@@ -21,7 +22,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -74,11 +74,107 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 		return new SimpleBooleanProperty(false);
 	}
-	
+
 	@Override
 	public Button getDefaultEnterButton()
 	{
 		return null;
+	}
+
+	public void handleValidateAction()
+	{
+		String expectedPath = expectedFile.getText();
+		if (expectedPath.equals(""))
+		{
+			UtilsFX.showWarning("Warning", "Select an expected case");
+			return;
+		}
+		String casePath = caseFile.getText();
+		if (casePath.equals(""))
+		{
+			UtilsFX.showWarning("Warning", "Select a case");
+			return;
+		}
+
+		String stepSizeV = stepSize.getText();
+		try
+		{
+			Double.valueOf(stepSizeV);
+		}
+		catch (NumberFormatException e)
+		{
+			UtilsFX.showWarning("Warning", "Select a step size");
+			return;
+		}
+
+		mainService.startSwtoswValidation(expectedPath, casePath, stepSizeV);
+	}
+
+	public void handleCleanWorkflow()
+	{
+		expectedFile.setText("");
+		caseFile.setText("");
+
+		stepSize.setText(STEPSIZE);
+		thRmse.setText(THRMSE);
+		thRd.setText(THRD);
+		thAd.setText(THAD);
+
+		validationTable.getItems().clear();
+	}
+
+	@FXML
+	public void handleSelectExpectedFileAction()
+	{
+		String file = PathUtilsFX.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
+				PathUtils.DATA_TEST.toString());
+
+		if (file != null)
+		{
+			expectedFile.setText(file);
+		}
+	}
+
+	@FXML
+	public void handleSelectCaseFileAction()
+	{
+		String file = PathUtilsFX.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
+				PathUtils.DATA_TEST.toString());
+
+		if (file != null)
+		{
+			caseFile.setText(file);
+		}
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+		this.w = w;
+
+		if (w.getState().equals(ProcessState.SUCCESS))
+		{
+			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
+			validationTable.setItems(result.getValidation());
+		}
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+		handleCleanWorkflow();
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML
@@ -257,102 +353,6 @@ public class SwtoswValidationController implements MainChildrenController
 		WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
 		validationTable.getItems().clear();
 		validationTable.setItems(result.getValidation());
-	}
-
-	public void handleValidateAction()
-	{
-		String expectedPath = expectedFile.getText();
-		if (expectedPath.equals(""))
-		{
-			Utils.showWarning("Warning", "Select an expected case");
-			return;
-		}
-		String casePath = caseFile.getText();
-		if (casePath.equals(""))
-		{
-			Utils.showWarning("Warning", "Select a case");
-			return;
-		}
-
-		String stepSizeV = stepSize.getText();
-		try
-		{
-			Double.valueOf(stepSizeV);
-		}
-		catch (NumberFormatException e)
-		{
-			Utils.showWarning("Warning", "Select a step size");
-			return;
-		}
-
-		mainService.startSwtoswValidation(expectedPath, casePath, stepSizeV);
-	}
-
-	public void handleCleanWorkflow()
-	{
-		expectedFile.setText("");
-		caseFile.setText("");
-
-		stepSize.setText(STEPSIZE);
-		thRmse.setText(THRMSE);
-		thRd.setText(THRD);
-		thAd.setText(THAD);
-
-		validationTable.getItems().clear();
-	}
-
-	@FXML
-	public void handleSelectExpectedFileAction()
-	{
-		String file = PathUtils.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
-				PathUtils.DATA_TEST.toString());
-
-		if (file != null)
-		{
-			expectedFile.setText(file);
-		}
-	}
-
-	@FXML
-	public void handleSelectCaseFileAction()
-	{
-		String file = PathUtils.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
-				PathUtils.DATA_TEST.toString());
-
-		if (file != null)
-		{
-			caseFile.setText(file);
-		}
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
-		this.w = w;
-
-		if (w.getState().equals(ProcessState.SUCCESS))
-		{
-			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
-			validationTable.setItems(result.getValidation());
-		}
-	}
-
-	@Override
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
-		handleCleanWorkflow();
-	}
-
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-		this.fileChooser = fileChooser;
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
 	}
 
 	@FXML

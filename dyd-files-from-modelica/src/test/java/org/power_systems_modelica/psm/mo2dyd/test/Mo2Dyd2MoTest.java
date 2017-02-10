@@ -139,7 +139,7 @@ public class Mo2Dyd2MoTest
 				3,
 				2);
 	}
-	
+
 	@Test
 	public void rebuild7buses() throws Exception
 	{
@@ -215,13 +215,8 @@ public class Mo2Dyd2MoTest
 		ModelicaDocument mo = builder.build();
 		assertNotNull(mo);
 
-		ModelicaTextPrinter printer = new ModelicaTextPrinter(mo);
 		boolean includePsmAnnotations = false;
-		printer.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(moOutput.toFile());)
-		{
-			printer.print(out);
-		}
+		ModelicaTextPrinter.print(mo, moOutput, includePsmAnnotations);
 
 		Path expected = moInput;
 		Path actual = moOutput;

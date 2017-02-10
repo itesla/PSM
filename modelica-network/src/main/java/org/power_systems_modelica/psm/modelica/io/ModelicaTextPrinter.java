@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica.io;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -20,26 +21,37 @@ import com.google.common.collect.Ordering;
 
 public class ModelicaTextPrinter
 {
-	public ModelicaTextPrinter(ModelicaDocument mo)
+	public static void print(ModelicaDocument mo, Path p, boolean includePsmAnnotations)
+			throws IOException
+	{
+		try (PrintWriter w = new PrintWriter(p.toFile()))
+		{
+			print(mo, w, includePsmAnnotations);
+		}
+	}
+
+	public static void print(ModelicaDocument mo, PrintWriter pw, boolean includePsmAnnotations)
+			throws IOException
+	{
+		new ModelicaTextPrinter(mo, pw, includePsmAnnotations).print();
+	}
+
+	private ModelicaTextPrinter(ModelicaDocument mo, PrintWriter pw, boolean includePsmAnnotations)
 	{
 		this.mo = mo;
-		this.includePsmAnnotations = false;
-	}
-
-	public void setIncludePsmAnnotations(boolean includePsmAnnotations)
-	{
 		this.includePsmAnnotations = includePsmAnnotations;
+		this.pw = pw;
 	}
 
-	public void print(PrintWriter out) throws IOException
+	public void print() throws IOException
 	{
-		printWithin(out);
-		printSystemModelHeader(out);
-		printDeclarations(out);
-		printEquations(out);
+		printWithin();
+		printSystemModelHeader();
+		printDeclarations();
+		printEquations();
 		// System level annotations only if we are including psm annotations
-		printSystemAnnotations(out);
-		printSystemModelEnd(out);
+		printSystemAnnotations();
+		printSystemModelEnd();
 	}
 
 	private List<ModelicaDeclaration> sortedDeclarations()
@@ -75,54 +87,54 @@ public class ModelicaTextPrinter
 		return ModelicaTricks.getKey(eq);
 	}
 
-	private void printWithin(PrintWriter out)
+	private void printWithin()
 	{
-		out.printf("within %s;%n", mo.getWithin());
+		pw.printf("within %s;%n", mo.getWithin());
 	}
 
-	private void printSystemModelHeader(PrintWriter out)
+	private void printSystemModelHeader()
 	{
-		out.printf("model %s%n", mo.getSystemModel().getId());
+		pw.printf("model %s%n", mo.getSystemModel().getId());
 	}
 
-	private void printDeclarations(PrintWriter out)
+	private void printDeclarations()
 	{
 		for (ModelicaDeclaration d : sortedDeclarations())
 		{
 			String sparameter = d.isParameter() ? "parameter " : "";
-			out.printf("  %s%s %s", sparameter, d.getType(), d.getId());
+			pw.printf("  %s%s %s", sparameter, d.getType(), d.getId());
 			if (d.isAssignment() && d.getValue() != null)
 			{
-				out.printf(" = %s", d.getValue());
+				pw.printf(" = %s", d.getValue());
 			}
 			else if (d.getArguments() != null)
 			{
-				out.printf(" (%n");
+				pw.printf(" (%n");
 				Iterator<ModelicaArgument> k = d.getArguments().iterator();
 				if (k.hasNext())
 				{
-					printArgument(out, k.next());
+					printArgument(k.next());
 					while (k.hasNext())
 					{
-						out.printf(",%n");
-						printArgument(out, k.next());
+						pw.printf(",%n");
+						printArgument(k.next());
 					}
 				}
-				out.printf("%n    )");
+				pw.printf("%n    )");
 			}
-			printAnnotation(out, d.getAnnotation(), " ");
-			out.printf(";%n");
+			printAnnotation(d.getAnnotation(), " ");
+			pw.printf(";%n");
 		}
 	}
 
-	private boolean printAnnotation(PrintWriter out, Annotation a, String indent)
+	private boolean printAnnotation(Annotation a, String indent)
 	{
 		if (a != null && !a.isEmpty())
 		{
 			String sa = asText(a);
 			if (!sa.isEmpty())
 			{
-				out.printf("%sannotation (%s)", indent, sa);
+				pw.printf("%sannotation (%s)", indent, sa);
 				return true;
 			}
 		}
@@ -144,9 +156,9 @@ public class ModelicaTextPrinter
 		return s;
 	}
 
-	private void printArgument(PrintWriter out, ModelicaArgument a)
+	private void printArgument(ModelicaArgument a)
 	{
-		out.printf("    %s = %s", a.getName(), a.getValue());
+		pw.printf("    %s = %s", a.getName(), a.getValue());
 	}
 
 	private List<ModelicaEquation> sortedEquations()
@@ -174,32 +186,33 @@ public class ModelicaTextPrinter
 		return eqs;
 	}
 
-	private void printEquations(PrintWriter out)
+	private void printEquations()
 	{
-		out.printf("equation%n");
+		pw.printf("equation%n");
 		for (ModelicaEquation eq : sortedEquations())
 		{
-			// out.printf(" // kind = %s%n", ModelicaTricks.normalizeKind(getKind(eq)));
-			out.printf("  %s", eq.getText());
-			printAnnotation(out, eq.getAnnotation(), " ");
-			out.printf(";%n");
+			// pw.printf(" // kind = %s%n", ModelicaTricks.normalizeKind(getKind(eq)));
+			pw.printf("  %s", eq.getText());
+			printAnnotation(eq.getAnnotation(), " ");
+			pw.printf(";%n");
 		}
 	}
 
-	private void printSystemAnnotations(PrintWriter out)
+	private void printSystemAnnotations()
 	{
 		for (Annotation a : mo.getSystemModel().getAnnotations())
 		{
-			if (printAnnotation(out, a, "  "))
-				out.printf(";%n");
+			if (printAnnotation(a, "  "))
+				pw.printf(";%n");
 		}
 	}
 
-	private void printSystemModelEnd(PrintWriter out)
+	private void printSystemModelEnd()
 	{
-		out.printf("end %s;%n", mo.getSystemModel().getId());
+		pw.printf("end %s;%n", mo.getSystemModel().getId());
 	}
 
-	private ModelicaDocument	mo;
-	private boolean				includePsmAnnotations;
+	private final ModelicaDocument	mo;
+	private final boolean			includePsmAnnotations;
+	private final PrintWriter		pw;
 }

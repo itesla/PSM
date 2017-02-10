@@ -3,7 +3,6 @@ package org.psm.openmodelica.integration;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -318,15 +317,15 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 	private void printModelicaDocument(ModelicaDocument mo, Path outputPath)
 	{
-		String moFileName = modelName + MO_EXTENSION;
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
+		Path out = outputPath.resolve(modelName + MO_EXTENSION);
+		boolean printPsmAnnotations = true;
+		try
 		{
-			mop.print(out);
+			ModelicaTextPrinter.print(mo, out, printPsmAnnotations);
 		}
-		catch (Exception e)
+		catch (IOException x)
 		{
-			LOG.error("Error printing Modelica File. {}", e.getMessage());
+			LOG.error("Error printing Modelica File. {}", x);
 		}
 	}
 

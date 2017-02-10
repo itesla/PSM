@@ -76,12 +76,8 @@ public class ModelicaParserReferenceCases
 
 		ModelicaDocument mo = ModelicaParser.parse(moGiven);
 
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		mop.setIncludePsmAnnotations(false);
-		try (PrintWriter out = new PrintWriter(moParsed.toFile());)
-		{
-			mop.print(out);
-		}
+		boolean includePsmAnnotations = false;
+		ModelicaTextPrinter.print(mo, moParsed, includePsmAnnotations);
 
 		Path expected = moGiven;
 		Path actual = moParsed;

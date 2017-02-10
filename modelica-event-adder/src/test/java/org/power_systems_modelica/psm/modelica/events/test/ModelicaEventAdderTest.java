@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -182,8 +180,9 @@ public class ModelicaEventAdderTest
 				true);
 		Path output0 = DATA_TMP.resolve("event_adder_7buses_vset0.mo");
 		Path output1 = DATA_TMP.resolve("event_adder_7buses_vset1.mo");
-		printMo(mo0, output0);
-		printMo(mo1, output1);
+		boolean printPsmAnnotations = true;
+		ModelicaTextPrinter.print(mo0, output0, printPsmAnnotations);
+		ModelicaTextPrinter.print(mo1, output1, printPsmAnnotations);
 		ModelicaTestUtil.assertEqualsNormalizedModelicaText(output0, output1);
 	}
 
@@ -204,6 +203,7 @@ public class ModelicaEventAdderTest
 		String ddrLocation = folder.resolve(ddrname).toString();
 		Path outputbase = DATA_TMP.resolve("event_adder_base.mo");
 		Path outputev = DATA_TMP.resolve("event_adder_events.mo");
+		boolean printPsmAnnotations = true;
 
 		Network n = StaticNetworkImporter.import_(cim);
 		assertNotNull(n);
@@ -215,7 +215,7 @@ public class ModelicaEventAdderTest
 
 		ModelicaDocument mo = convert(n, ddr);
 		assertNotNull(mo);
-		printMo(mo, outputbase);
+		ModelicaTextPrinter.print(mo, outputbase, printPsmAnnotations);
 
 		ModelicaDocument mobase = mo;
 		if (reread) mobase = ModelicaParser.parse(outputbase);
@@ -224,7 +224,7 @@ public class ModelicaEventAdderTest
 		ModelicaEventAdder adder = new ModelicaEventAdder(mobase, ddr, n, events);
 		ModelicaDocument moev = adder.addEvents();
 		assertNotNull(moev);
-		printMo(moev, outputev);
+		ModelicaTextPrinter.print(moev, outputev, printPsmAnnotations);
 
 		int ndecls = mo.getSystemModel().getDeclarations().size();
 		int ndeclsev = moev.getSystemModel().getDeclarations().size();
@@ -252,28 +252,6 @@ public class ModelicaEventAdderTest
 		ModelicaDocument mo = builder.build();
 
 		return mo;
-	}
-
-	private void printMo(ModelicaDocument mo, Path p) throws IOException
-	{
-		ModelicaTextPrinter printer = new ModelicaTextPrinter(mo);
-		printer.setIncludePsmAnnotations(true);
-		try (PrintWriter out = new PrintWriter(p.toFile());)
-		{
-			printer.print(out);
-
-			// XXX LUMA
-			boolean xxxluma = false;
-			if (!xxxluma) return;
-			ModelicaDocument mo1 = ModelicaParser.parse(p);
-			Path p1 = p.resolveSibling("reread.mo");
-			ModelicaTextPrinter printer1 = new ModelicaTextPrinter(mo1);
-			printer1.setIncludePsmAnnotations(true);
-			try (PrintWriter out1 = new PrintWriter(p1.toFile());)
-			{
-				printer1.print(out1);
-			}
-		}
 	}
 
 	// FIXME remove this, test function should accept a list of events,

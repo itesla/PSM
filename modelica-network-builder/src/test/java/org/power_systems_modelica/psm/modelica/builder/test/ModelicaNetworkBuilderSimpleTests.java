@@ -48,10 +48,9 @@ public class ModelicaNetworkBuilderSimpleTests
 		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
 
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		mop.print(out);
+		ModelicaTextPrinter.print(mo, out, false);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -147,10 +146,9 @@ public class ModelicaNetworkBuilderSimpleTests
 	{
 		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
 		ModelicaDocument mo = moc.build();
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
-		mop.print(out);
+		ModelicaTextPrinter.print(mo, out, false);
 		out.flush();
 		out.close();
 		String converted = sout.toString();
@@ -177,7 +175,7 @@ public class ModelicaNetworkBuilderSimpleTests
 				false,
 				null);
 		ModelicaModel dbus = new ModelicaModel("DM_bus1");
-		//dbus.setStaticId("bus1");
+		// dbus.setStaticId("bus1");
 		String bid = bus.getVoltageLevel().getId() + "::" + bus.getId();
 		dbus.setStaticId(bid);
 		dbus.addDeclarations(Arrays.asList(dbusi));

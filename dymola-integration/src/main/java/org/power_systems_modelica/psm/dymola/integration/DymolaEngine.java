@@ -3,7 +3,6 @@ package org.power_systems_modelica.psm.dymola.integration;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,7 +55,7 @@ public class DymolaEngine implements ModelicaEngine
 				.orElse(false);
 		this.depth = Optional.ofNullable(config.getInteger("depth")).orElse(0);
 	}
-	
+
 	@Override
 	public void simulate(ModelicaDocument mo) throws Exception
 	{
@@ -193,17 +192,15 @@ public class DymolaEngine implements ModelicaEngine
 
 	private void printModelicaDocument(ModelicaDocument mo, Path outputPath)
 	{
-		String moFileName = mo.getSystemModel().getId() + ".mo";
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		try (PrintWriter out = new PrintWriter(outputPath.resolve(moFileName).toFile());)
+		Path out = outputPath.resolve(mo.getSystemModel().getId() + ".mo");
+		boolean printPsmAnnotations = true;
+		try
 		{
-			mop.print(out);
-			out.flush();
-			out.close();
+			ModelicaTextPrinter.print(mo, out, printPsmAnnotations);
 		}
-		catch (Exception e)
+		catch (IOException x)
 		{
-			LOGGER.error("Error printing Modelica File. {}", e.getMessage());
+			LOGGER.error("Error printing Modelica File. {}", x);
 		}
 	}
 

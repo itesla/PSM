@@ -39,11 +39,9 @@ public class ModelicaExporterTask extends WorkflowTask
 		running();
 
 		ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		mop.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(Paths.get(target).toFile());)
+		try
 		{
-			mop.print(out);
+			ModelicaTextPrinter.print(mo, Paths.get(target), includePsmAnnotations);
 			succeded();
 		}
 		catch (Exception x)

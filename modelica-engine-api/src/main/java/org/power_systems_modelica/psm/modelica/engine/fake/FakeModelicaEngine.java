@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.modelica.engine.fake;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -38,10 +37,9 @@ public class FakeModelicaEngine implements ModelicaEngine
 	{
 		String moFilename = mo.getSystemModel().getId() + ".mo";
 		Path mof = workingDir.resolve(moFilename);
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		try (PrintWriter out = new PrintWriter(mof.toFile());)
+		try
 		{
-			mop.print(out);
+			ModelicaTextPrinter.print(mo, mof, false);
 			System.out.println("Modelica output sent to " + mof.toAbsolutePath().toString());
 		}
 		catch (IOException e)

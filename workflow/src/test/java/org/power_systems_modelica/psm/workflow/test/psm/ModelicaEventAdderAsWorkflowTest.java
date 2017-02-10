@@ -9,14 +9,12 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.events.test.ModelicaEventAdderTest;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
@@ -35,9 +33,12 @@ public class ModelicaEventAdderAsWorkflowTest extends ModelicaEventAdderTest
 			String casename,
 			String ddrname,
 			String events,
+			int expectedNumBuses,
+			int expectedNumGenerators,
 			int expectedAdditionalDeclarations,
-			int expectedAdditionalEquations)
-			throws WorkflowCreationException, IOException
+			int expectedAdditionalEquations,
+			boolean reread)
+			throws Exception
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
@@ -85,8 +86,8 @@ public class ModelicaEventAdderAsWorkflowTest extends ModelicaEventAdderTest
 
 		Network n = (Network) wf.getResults("network");
 		assertNotNull(n);
-		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
-		assertEquals(5, n.getGeneratorCount());
+		assertEquals(expectedNumBuses, Iterables.size(n.getBusView().getBuses()));
+		assertEquals(expectedNumGenerators, n.getGeneratorCount());
 		ModelicaDocument mo = (ModelicaDocument) wf.getResults("mo");
 		assertNotNull(mo);
 		ModelicaDocument mo2 = (ModelicaDocument) wf.getResults("moWithEvents");

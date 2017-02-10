@@ -16,6 +16,8 @@ public interface DynamicDataRepository
 
 	void setLocation(String location);
 
+	String getLocation();
+
 	void connect() throws ConnectionException;
 
 	ModelicaModel getModelicaModel(Identifiable<?> e, Stage stage);

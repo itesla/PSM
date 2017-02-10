@@ -35,7 +35,7 @@ public class ModelicaText
 			float num1 = Math.round(num * FLOATING_POINT_ROUNDING) / FLOATING_POINT_ROUNDING;
 			String replacement = "" + num1;
 			if (!snum.equals(replacement))
-				m.appendReplacement(result, replacement);
+				m.appendReplacement(result, m.group("pre") + replacement + m.group("post"));
 		}
 		m.appendTail(result);
 		return result.toString();
@@ -92,7 +92,7 @@ public class ModelicaText
 			.compile("(\\n|\\r|\\r\\n){2,}+");
 	private static final Pattern	ALL_LINE_SEPARATORS		= Pattern.compile("(\\n|\\r|\\r\\n)");
 	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern.compile(
-			"(?<number>[\\+\\-]?([0-9]*[.])?[0-9]+([eE][\\+\\-]?[0-9]+)?)");
+			"(?<pre>[^a-zA-Z_])(?<number>[\\+\\-]?([0-9]*[.])?[0-9]+([eE][\\+\\-]?[0-9]+)?)(?<post>[^a-zA-Z_])");
 	private static final float		FLOATING_POINT_ROUNDING	= 1e6f;
 
 	private static final String		LINE_SEPARATOR			= System.getProperty("line.separator");

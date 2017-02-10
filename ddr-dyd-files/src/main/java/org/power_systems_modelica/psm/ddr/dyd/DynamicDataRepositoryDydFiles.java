@@ -85,6 +85,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
+	public String getLocation()
+	{
+		return location.toAbsolutePath().toString();
+	}
+
+	@Override
 	public List<ModelicaEquation> getSystemOtherEquationsInContext(
 			ModelicaSystemModel moSystem,
 			Stage stage)
@@ -337,7 +343,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		boolean isValidationActive = XmlUtil.isValidationActive;
 		XmlUtil.isValidationActive = true;
-		
+
 		Map<String, String> xmlErrors = new HashMap<>();
 
 		// Read all DYD files in the given location
@@ -534,7 +540,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		modelsByStage.get(mdef.getStage()).add(mdef);
 	}
 
-	public void checkDuplicatedModel(ModelContainer mc, Model mdef, Map<String, ModelMapping> modelMapping)
+	public void checkDuplicatedModel(ModelContainer mc, Model mdef,
+			Map<String, ModelMapping> modelMapping)
 	{
 		String mdefKey = DynamicDataRepositoryDydFiles.getModelKey(mdef);
 		if (!modelMapping.containsKey(mdefKey))
@@ -542,7 +549,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 
 		modelMapping.get(mdefKey).add(mdef, mc);
 	}
-	
+
 	public void addAssociation(String containerName, Association a)
 	{
 		ModelContainer mc = getCreateModelContainer(containerName);
@@ -609,7 +616,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		String stage = mdef.getStage().name();
 		String className = mdef.getClass().getName();
-		
+
 		String id = "";
 		if (mdef instanceof ModelForElement)
 			id = ((ModelForElement) mdef).getStaticId();
@@ -619,8 +626,8 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			id = ((ModelForType) mdef).getType();
 		else if (mdef instanceof ModelForEvent)
 			id = ((ModelForEvent) mdef).getEvent();
-		
-		return stage+className+id;
+
+		return stage + className + id;
 	}
 
 	private Path						location;

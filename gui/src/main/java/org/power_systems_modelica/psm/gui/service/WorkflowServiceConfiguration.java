@@ -312,8 +312,6 @@ public class WorkflowServiceConfiguration
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
-			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
-					TC("source", casePath.toString())));
 			tasks.add(TD(ModelicaParserTask.class, "moparser0",
 					TC("source", moInput, "modelicaDocument", "mo")));
 
@@ -472,9 +470,6 @@ public class WorkflowServiceConfiguration
 	public static WorkflowResult getSimulationResult(String id)
 	{
 		WorkflowResult results = new WorkflowResult();
-
-		Network n = (Network) sim.getResults("network");
-		fillLoadflowResults(id, results, n);
 
 		try
 		{

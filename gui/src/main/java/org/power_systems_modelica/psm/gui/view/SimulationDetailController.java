@@ -456,31 +456,14 @@ public class SimulationDetailController implements MainChildrenController
 			{
 				moInput = td.getTaskConfiguration().getParameter("source");
 
-				try
-				{
-					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
-							BasicFileAttributes.class);
-					date = new DateTime(attr.lastModifiedTime().toMillis());
-				}
-				catch (IOException e)
-				{
-					date = null;
-				}
-			}
-
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
-			{
-
-				String uri = td.getTaskConfiguration().getParameter("source");
-
 				java.nio.file.Path casePath;
-				if (uri.endsWith(".xml"))
+				if (moInput.endsWith(".mo"))
 				{
-					java.nio.file.Path path = Paths.get(uri);
+					java.nio.file.Path path = Paths.get(moInput);
 					casePath = path.getParent();
 				}
 				else
-					casePath = Paths.get(uri);
+					casePath = Paths.get(moInput);
 
 				java.nio.file.Path catalogPath = casePath.getParent();
 
@@ -489,10 +472,15 @@ public class SimulationDetailController implements MainChildrenController
 					Catalog catalog = mainService.getCatalog("cases", catalogPath);
 					Case c = mainService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
+
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
+							BasicFileAttributes.class);
+					date = new DateTime(attr.lastModifiedTime().toMillis());
 				}
 				catch (IOException e)
 				{
 					caseLabel = "";
+					date = null;
 				}
 			}
 

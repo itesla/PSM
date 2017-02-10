@@ -312,7 +312,9 @@ public class WorkflowServiceConfiguration
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
 
-			tasks.add(TD(ModelicaParserTask.class, "moparser0",
+			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
+					TC("source", casePath.toString())));
+		tasks.add(TD(ModelicaParserTask.class, "moparser0",
 					TC("source", moInput, "modelicaDocument", "mo")));
 
 			if (!events.isEmpty())

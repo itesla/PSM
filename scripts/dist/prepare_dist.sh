@@ -55,7 +55,7 @@ mv psm-services.jar $DIST_TMP_FOLDER/lib/.
 
 echo "    Preparing scripts"
 rsync -avP scripts/dist/psmgui $DIST_TMP_FOLDER/. &> ${DIST_TMP_FOLDER}/scripts.log
-rsync -avP scripts/dist/dymola_integration_service $DIST_TMP_FOLDER/. >> ${DIST_TMP_FOLDER}/scripts.log 2>&1
+rsync -avP scripts/dist/dymola_integration_service.cmd $DIST_TMP_FOLDER/. >> ${DIST_TMP_FOLDER}/scripts.log 2>&1
 
 echo "    Creating distribution package"
 BAK_CD=$(pwd)

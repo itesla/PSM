@@ -3,11 +3,14 @@ package org.power_systems_modelica.psm.test.gui.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
+import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
@@ -20,14 +23,30 @@ import javafx.collections.ObservableList;
 public class CaseServiceTest {
 	
 	@Test
-	public void loadCases() {
+	public void loadCase() throws IOException {
 		
 		Catalog catalog = new Catalog();
 		catalog.setName("Reference cases");
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
-		List<Case> list = CaseService.getCases(catalog);
-		assertNotNull(list);
-		assertEquals(10, list.size());
+		
+		Case c = CaseService.getCase(catalog, PathUtils.DATA_TEST.resolve("ieee14"));
+		assertNotNull(c);
+		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
+		
+		String ddrPath = CaseService.getDefaultDdrLocation(c);
+		assertNotNull(ddrPath);
+	}
+
+	@Test
+	public void loadConvertedCase() throws IOException {
+		
+		Catalog catalog = new Catalog();
+		catalog.setName("Reference cases");
+		catalog.setLocation(PathUtils.DATA_TEST.toString());
+		
+		ConvertedCase c = CaseService.getConvertedCase(catalog, PathUtils.DATA_TEST.resolve("ieee14"));
+		assertNotNull(c);
+		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
 	}
 
 	@Test

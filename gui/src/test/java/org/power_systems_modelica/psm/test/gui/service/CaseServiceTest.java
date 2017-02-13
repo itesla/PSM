@@ -3,9 +3,9 @@ package org.power_systems_modelica.psm.test.gui.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 
-import org.h2.store.fs.FileUtils;
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -44,7 +44,7 @@ public class CaseServiceTest
 		catalog.setName("Reference cases");
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
 
-		FileUtils.createFile(PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toString());
+		new File(PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toString()).createNewFile();
 		CaseService.saveConvertedCaseProperties(PathUtils.DATA_TEST.resolve("ieee14").toString(),
 				PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString(), "loadflowHelmflow",
 				true, "OpenModelica");

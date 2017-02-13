@@ -1,7 +1,7 @@
 package org.power_systems_modelica.psm.test.gui.service;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Map;
 
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.Test;
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.gui.model.Catalog;

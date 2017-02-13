@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
 
 import org.h2.store.fs.FileUtils;
 import org.junit.Test;
@@ -14,12 +12,10 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 
 import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
-import javafx.collections.ObservableList;
 
 public class CaseServiceTest
 {

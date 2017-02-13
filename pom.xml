@@ -321,12 +321,12 @@
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
-				<artifactId>iidm-network-api</artifactId>
+				<artifactId>iidm-api</artifactId>
 				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
-				<artifactId>iidm-network-impl</artifactId>
+				<artifactId>iidm-impl</artifactId>
 				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
@@ -408,7 +408,7 @@
 	        </dependency>
 	        <dependency>
 	            <groupId>eu.itesla_project</groupId>
-	            <artifactId>graph</artifactId>
+	            <artifactId>math</artifactId>
 	            <version>${ipst.core.version}</version>
 	        </dependency>
             <dependency>

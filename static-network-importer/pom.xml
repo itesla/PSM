@@ -41,7 +41,7 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>iidm-network-impl</artifactId>
+			<artifactId>iidm-impl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
@@ -49,7 +49,7 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>iidm-network-api</artifactId>
+			<artifactId>iidm-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -84,7 +84,7 @@
 		</dependency>
         <dependency>
             <groupId>eu.itesla_project</groupId>
-            <artifactId>graph</artifactId>
+            <artifactId>math</artifactId>
 		</dependency>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>

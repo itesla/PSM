@@ -18,8 +18,8 @@ wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/helmflow_core-2.2
 # iPST
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/commons-0.1-SNAPSHOT.jar
 
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-network-api-0.1-SNAPSHOT.jar
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-network-impl-0.1-SNAPSHOT.jar
+wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-api-0.1-SNAPSHOT.jar
+wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-impl-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-converter-api-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/iidm-xml-converter-0.1-SNAPSHOT.jar
 
@@ -33,4 +33,4 @@ wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/online-workflow-0
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/computation-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/computation-local-0.1-SNAPSHOT.jar
 wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/entsoe-util-0.1-SNAPSHOT.jar
-wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/graph-0.1-SNAPSHOT.jar
+wget https://dl.dropboxusercontent.com/u/41536604/psm_all_libs/math-0.1-SNAPSHOT.jar

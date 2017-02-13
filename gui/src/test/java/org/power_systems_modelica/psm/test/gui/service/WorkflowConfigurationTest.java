@@ -131,7 +131,7 @@ public class WorkflowConfigurationTest
 		assertNotNull(w);
 		assertEquals(3, w.getWorkflowTasks().size());
 		assertEquals("importer0", w.getWorkflowTasks().get(0).getId());
-		assertEquals("loadflowHelmflow", w.getWorkflowTasks().get(1).getId());
-		assertEquals("loadflowHades2", w.getWorkflowTasks().get(2).getId());
+		assertEquals("loadflowHades2", w.getWorkflowTasks().get(1).getId());
+		assertEquals("loadflowHelmflow", w.getWorkflowTasks().get(2).getId());
 	}
 }

@@ -112,5 +112,5 @@
 
 
 .autofill-text {
-	-fx-skin: "org.power_systems_modelica.psm.gui.utils.AutoFillTextBoxSkin";
+	-fx-skin: "org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBoxSkin";
 }

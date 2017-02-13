@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.h2.store.fs.FileUtils;
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -20,38 +21,50 @@ import com.google.common.collect.Iterables;
 import eu.itesla_project.iidm.network.Network;
 import javafx.collections.ObservableList;
 
-public class CaseServiceTest {
-	
+public class CaseServiceTest
+{
+
 	@Test
-	public void loadCase() throws IOException {
-		
+	public void loadCase() throws IOException
+	{
+
 		Catalog catalog = new Catalog();
 		catalog.setName("Reference cases");
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
-		
+
 		Case c = CaseService.getCase(catalog, PathUtils.DATA_TEST.resolve("ieee14"));
 		assertNotNull(c);
 		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
-		
+
 		String ddrPath = CaseService.getDefaultDdrLocation(c);
 		assertNotNull(ddrPath);
 	}
 
 	@Test
-	public void loadConvertedCase() throws IOException {
-		
+	public void loadConvertedCase() throws IOException
+	{
+
 		Catalog catalog = new Catalog();
 		catalog.setName("Reference cases");
 		catalog.setLocation(PathUtils.DATA_TEST.toString());
-		
-		ConvertedCase c = CaseService.getConvertedCase(catalog, PathUtils.DATA_TEST.resolve("ieee14"));
+
+		FileUtils.createFile(PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toString());
+		CaseService.saveConvertedCaseProperties(PathUtils.DATA_TEST.resolve("ieee14").toString(),
+				PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString(), "loadflowHelmflow",
+				true, "OpenModelica");
+		ConvertedCase c = CaseService.getConvertedCase(catalog,
+				PathUtils.DATA_TEST.resolve("ieee14"));
 		assertNotNull(c);
 		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
+		
+		FileUtils.delete(PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toString());
+		FileUtils.delete(PathUtils.DATA_TEST.resolve("ieee14").resolve("convertedCase.properties").toString());
 	}
 
 	@Test
-	public void importCase() throws Exception {
-		
+	public void importCase() throws Exception
+	{
+
 		Case c = new Case();
 		c.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
 		Network n = CaseService.importCase(c);

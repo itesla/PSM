@@ -57,8 +57,8 @@ public class CaseServiceTest
 		assertNotNull(c);
 		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
 		
-		FileUtils.delete(PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toString());
-		FileUtils.delete(PathUtils.DATA_TEST.resolve("ieee14").resolve("convertedCase.properties").toString());
+		PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toFile().delete();
+		PathUtils.DATA_TEST.resolve("ieee14").resolve("convertedCase.properties").toFile().delete();
 	}
 
 	@Test

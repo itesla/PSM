@@ -211,9 +211,9 @@ public class MainService
 		return WorkflowServiceConfiguration.getNetworkElements(c, action);
 	}
 
-	public List<String> getActionEvents(ConvertedCase c)
+	public List<String> getAvailableEvents(ConvertedCase c)
 	{
-		return WorkflowServiceConfiguration.getActionEvents(c);
+		return WorkflowServiceConfiguration.getAvailableEvents(c);
 	}
 
 	public void startConversion(Case cs, Ddr ddr, LoadflowEngine le,

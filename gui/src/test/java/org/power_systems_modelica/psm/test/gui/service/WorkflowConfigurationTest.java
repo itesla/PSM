@@ -38,7 +38,7 @@ public class WorkflowConfigurationTest
 		ConvertedCase cs = new ConvertedCase();
 		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
 		cs.setDdrLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
-		List<String> actions = WorkflowServiceConfiguration.getActionEvents(cs);
+		List<String> actions = WorkflowServiceConfiguration.getAvailableEvents(cs);
 		assertTrue(actions.size() > 0);
 
 		List<String> elements = WorkflowServiceConfiguration.getNetworkElements(cs, actions.get(1));

@@ -13,10 +13,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
@@ -56,7 +58,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.supercsv.io.ICsvListReader;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
 import eu.itesla_project.iidm.network.ConnectableType;
@@ -81,11 +82,11 @@ public class WorkflowServiceConfiguration
 		{
 			return value;
 		}
-		
+
 		@Override
 		public String toString()
 		{
-			switch(value)
+			switch (value)
 			{
 			case 0:
 				return "Hades";
@@ -117,7 +118,7 @@ public class WorkflowServiceConfiguration
 		@Override
 		public String toString()
 		{
-			switch(value)
+			switch (value)
 			{
 			case 0:
 				return "Dymola";
@@ -167,39 +168,43 @@ public class WorkflowServiceConfiguration
 		return engines;
 	}
 
-	public static List<String> getActionEvents(ConvertedCase newValue)
+	public static List<String> getAvailableEvents(ConvertedCase newValue)
 	{
+		// TODO do not connect to the DDR each time, store the connected DDR reference inside ConvertedCase ?
 		List<String> actions = new ArrayList<>();
 		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
 		try
 		{
 			ddr.connect();
-
 			actions.addAll(ddr.getEvents());
 		}
 		catch (ConnectionException e)
 		{
 			LOG.error(e.getMessage());
 		}
-
 		return actions;
 	}
 
 	// Elements of current case that can be used with current event
 
-	// TODO This configuration should be read from events.dyd
-	// Each event should name the type of static network elements it applies to
-	private static final Map<String, ConnectableType> EVENT_APPLIES_TO = new HashMap<>();
-	static
+	public static Map<String, ConnectableType> getConnectableTypesForEvents(ConvertedCase newValue)
 	{
-		EVENT_APPLIES_TO.put("BusFault", ConnectableType.BUSBAR_SECTION);
-		EVENT_APPLIES_TO.put("LineFault", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("LineOpenSendingSide", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("LineOpenReceiverSide", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
-		EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
-		EVENT_APPLIES_TO.put("GeneratorVSetpointModification", ConnectableType.GENERATOR);
+		// TODO do not connect to the DDR each time, store the connected DDR reference inside ConvertedCase ?
+		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
+		try
+		{
+			ddr.connect();
+			Map<String, ConnectableType> eventAppliesTo = ddr.getEvents().stream()
+					.collect(Collectors.toMap(
+							ev -> ev,
+							ev -> ddr.getEventAppliesToConnectableType(ev)));
+			return eventAppliesTo;
+		}
+		catch (ConnectionException e)
+		{
+			LOG.error(e.getMessage());
+			return Collections.emptyMap();
+		}
 	}
 
 	private static ConnectableType connectableType(Identifiable<?> e)
@@ -239,7 +244,7 @@ public class WorkflowServiceConfiguration
 
 		// Now for each event type, set the list of applicable elements based on the connectable type defined for the event
 		Map<String, Collection<String>> elementsByEventType = new HashMap<>();
-		EVENT_APPLIES_TO.entrySet().stream()
+		getConnectableTypesForEvents(case_).entrySet().stream()
 				.forEach(e -> elementsByEventType.put(
 						e.getKey(),
 						elementsByConnectableType.get(e.getValue())));
@@ -312,7 +317,7 @@ public class WorkflowServiceConfiguration
 
 			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
 					TC("source", casePath.toString())));
-		tasks.add(TD(ModelicaParserTask.class, "moparser0",
+			tasks.add(TD(ModelicaParserTask.class, "moparser0",
 					TC("source", moInput, "modelicaDocument", "mo")));
 
 			if (!events.isEmpty())
@@ -526,6 +531,7 @@ public class WorkflowServiceConfiguration
 		Network n = (Network) conv.getResults("network");
 		fillLoadflowResults(id, results, n);
 
+		@SuppressWarnings("unchecked")
 		List<ElementModel> models = (List<ElementModel>) conv.getResults("models");
 		results.setModels(models);
 
@@ -537,7 +543,7 @@ public class WorkflowServiceConfiguration
 	private static void fillLoadflowResults(String id, WorkflowResult results, Network n)
 	{
 		if (n == null) return;
-		
+
 		// Ensure the right current working state is set
 		if (n.getStateManager().getStateIds().contains("resultsLoadFlow"))
 			n.getStateManager().setWorkingState("resultsLoadFlow");

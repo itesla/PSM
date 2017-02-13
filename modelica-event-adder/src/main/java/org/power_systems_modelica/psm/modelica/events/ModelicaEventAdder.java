@@ -54,7 +54,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		registerResolver(DynamicDataRepository.EVENT_PARAMS_DATA_SOURCE,
 				new MapReferenceResolver(ev.getParameters()));
 
-		Injection injection = getDdr().getInjectionForEvent(ev.getId());
+		Injection injection = getDdr().getEventInjection(ev.getId());
 		switch (injection)
 		{
 		case ADD:

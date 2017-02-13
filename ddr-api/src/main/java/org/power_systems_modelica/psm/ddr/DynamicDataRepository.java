@@ -8,6 +8,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
 
+import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 
 public interface DynamicDataRepository
@@ -35,11 +36,13 @@ public interface DynamicDataRepository
 		ADD, REPLACE
 	}
 
-	Injection getInjectionForEvent(String id);
-
 	Collection<String> getEvents();
 
+	Injection getEventInjection(String event);
+
 	List<EventParameter> getEventParameters(String event);
+
+	ConnectableType getEventAppliesToConnectableType(String event);
 
 	public static final String EVENT_PARAMS_DATA_SOURCE = "EVENT";
 }

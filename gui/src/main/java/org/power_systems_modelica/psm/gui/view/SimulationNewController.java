@@ -249,7 +249,7 @@ public class SimulationNewController implements MainChildrenController
 					{
 						if (newValue != null)
 							actionEvent.setItems(FXCollections
-									.observableArrayList(mainService.getActionEvents(newValue)));
+									.observableArrayList(mainService.getAvailableEvents(newValue)));
 						if (newValue != oldValue)
 							addedEvents.getItems().clear();
 					}

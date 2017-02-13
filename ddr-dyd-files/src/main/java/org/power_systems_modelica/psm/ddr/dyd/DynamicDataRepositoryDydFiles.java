@@ -48,6 +48,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 
 public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
@@ -168,14 +169,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public Injection getInjectionForEvent(String ev)
-	{
-		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
-		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
-		return mdef.getInjection();
-	}
-
-	@Override
 	public Collection<String> getEvents()
 	{
 		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
@@ -183,6 +176,14 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Set<String> events = new TreeSet<>();
 		events.addAll(dynamicModels.getEvents());
 		return events;
+	}
+
+	@Override
+	public Injection getEventInjection(String ev)
+	{
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
+		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
+		return mdef.getInjection();
 	}
 
 	@Override
@@ -217,6 +218,32 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					});
 		});
 		return eventParams;
+	}
+
+	@Override
+	public ConnectableType getEventAppliesToConnectableType(String event)
+	{
+		// FIXME move this to the xml files
+		switch (event)
+		{
+		case "BusFault":
+			return ConnectableType.BUSBAR_SECTION;
+		case "LineFault":
+			return ConnectableType.LINE;
+		case "LineOpenSendingSide":
+			return ConnectableType.LINE;
+		case "LineOpenReceiverSide":
+			return ConnectableType.LINE;
+		case "LineOpenBothSides":
+			return ConnectableType.LINE;
+		case "BankModification":
+			return ConnectableType.SHUNT_COMPENSATOR;
+		case "LoadVariation":
+			return ConnectableType.LOAD;
+		case "GeneratorVSetpointModification":
+			return ConnectableType.GENERATOR;
+		}
+		return null;
 	}
 
 	public void createSystemDefinitions(String name)

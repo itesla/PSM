@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.test.gui.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -24,6 +25,28 @@ import javafx.collections.ObservableList;
 
 public class WorkflowConfigurationTest
 {
+
+	@Test
+	public void configurationTest() throws WorkflowCreationException
+	{
+		List<LoadflowEngine> le = WorkflowServiceConfiguration.getLoadflowEngines();
+		assertEquals(3, le.size());
+
+		List<DsEngine> dse = WorkflowServiceConfiguration.getDsEngines();
+		assertEquals(3, dse.size());
+
+		ConvertedCase cs = new ConvertedCase();
+		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+		cs.setDdrLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
+		List<String> actions = WorkflowServiceConfiguration.getAvailableEvents(cs);
+		assertTrue(actions.size() > 0);
+
+		List<String> elements = WorkflowServiceConfiguration.getNetworkElements(cs, actions.get(1));
+		assertTrue(elements.size() > 0);
+
+		List<EventParamGui> events = WorkflowServiceConfiguration.getEventParams(actions.get(0));
+		assertTrue(events.size() > 0);
+	}
 
 	@Test
 	public void createConversionTest() throws WorkflowCreationException
@@ -96,20 +119,19 @@ public class WorkflowConfigurationTest
 		assertEquals("results0", w.getWorkflowTasks().get(5).getId());
 	}
 
-	// FIXME Allow loadflow engine in task integration server
-	// @Test
-	// public void createCompareLoadflowsTest() throws WorkflowCreationException {
-	//
-	// Case cs = new Case();
-	// cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
-	//
-	// Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, true);
-	//
-	// assertNotNull(w);
-	// assertEquals(3,w.getWorkflowTasks().size());
-	// assertEquals("importer0",w.getWorkflowTasks().get(0).getId());
-	// assertEquals("loadflowHelmflow",w.getWorkflowTasks().get(1).getId());
-	// assertEquals("loadflowHades2",w.getWorkflowTasks().get(2).getId());
-	//
-	// }
+	@Test
+	public void createCompareLoadflowsTest() throws WorkflowCreationException
+	{
+
+		Case cs = new Case();
+		cs.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
+
+		Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs, true, true);
+
+		assertNotNull(w);
+		assertEquals(3, w.getWorkflowTasks().size());
+		assertEquals("importer0", w.getWorkflowTasks().get(0).getId());
+		assertEquals("loadflowHades2", w.getWorkflowTasks().get(1).getId());
+		assertEquals("loadflowHelmflow", w.getWorkflowTasks().get(2).getId());
+	}
 }

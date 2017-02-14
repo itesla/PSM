@@ -34,6 +34,7 @@ import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
 import org.power_systems_modelica.psm.ddr.dyd.xml.DydXml;
 import org.power_systems_modelica.psm.ddr.dyd.xml.ParXml;
+import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
@@ -47,6 +48,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 
 public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
@@ -81,6 +83,12 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	public void setLocation(String location)
 	{
 		this.location = Paths.get(location);
+	}
+
+	@Override
+	public String getLocation()
+	{
+		return location.toAbsolutePath().toString();
 	}
 
 	@Override
@@ -161,14 +169,6 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public Injection getInjectionForEvent(String ev)
-	{
-		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
-		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
-		return mdef.getInjection();
-	}
-
-	@Override
 	public Collection<String> getEvents()
 	{
 		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
@@ -176,6 +176,14 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		Set<String> events = new TreeSet<>();
 		events.addAll(dynamicModels.getEvents());
 		return events;
+	}
+
+	@Override
+	public Injection getEventInjection(String ev)
+	{
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
+		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
+		return mdef.getInjection();
 	}
 
 	@Override
@@ -210,6 +218,32 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					});
 		});
 		return eventParams;
+	}
+
+	@Override
+	public ConnectableType getEventAppliesToConnectableType(String event)
+	{
+		// FIXME move this to the xml files
+		switch (event)
+		{
+		case "BusFault":
+			return ConnectableType.BUSBAR_SECTION;
+		case "LineFault":
+			return ConnectableType.LINE;
+		case "LineOpenSendingSide":
+			return ConnectableType.LINE;
+		case "LineOpenReceiverSide":
+			return ConnectableType.LINE;
+		case "LineOpenBothSides":
+			return ConnectableType.LINE;
+		case "BankModification":
+			return ConnectableType.SHUNT_COMPENSATOR;
+		case "LoadVariation":
+			return ConnectableType.LOAD;
+		case "GeneratorVSetpointModification":
+			return ConnectableType.GENERATOR;
+		}
+		return null;
 	}
 
 	public void createSystemDefinitions(String name)
@@ -332,6 +366,48 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		});
 	}
 
+	public Map<String, String> checkXmls() throws IOException
+	{
+		boolean isValidationActive = XmlUtil.isValidationActive;
+		XmlUtil.isValidationActive = true;
+
+		Map<String, String> xmlErrors = new HashMap<>();
+
+		// Read all DYD files in the given location
+		Path start = location;
+		Files.walkFileTree(start, new SimpleFileVisitor<Path>()
+		{
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+			{
+				if (isDyd(file)) checkXmlDyd(file, xmlErrors);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+		XmlUtil.isValidationActive = isValidationActive;
+		return xmlErrors;
+	}
+
+	public Map<String, ModelMapping> checkDuplicates() throws IOException
+	{
+		Map<String, ModelMapping> modelMapping = new HashMap<>();
+
+		// Read all DYD files in the given location
+		Path start = location;
+		Files.walkFileTree(start, new SimpleFileVisitor<Path>()
+		{
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+			{
+				if (isDyd(file)) checkDuplicatesDyd(file, modelMapping);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+		return modelMapping;
+	}
+
 	private void readDyd(Path file)
 	{
 		try
@@ -363,6 +439,47 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 					resolveParameters(mc);
 				}
 			}
+		}
+		catch (XMLStreamException | IOException | RuntimeException e)
+		{
+			LOG.warn("ignored DYD file {} because of error {}", file, e);
+		}
+	}
+
+	private void checkXmlDyd(Path file, Map<String, String> xmlErrors)
+	{
+		try
+		{
+			DydXml.read(file);
+		}
+		catch (Exception e)
+		{
+			Path rfile = location.relativize(file);
+			String name = rfile.toString().replace(".dyd", "");
+
+			xmlErrors.put(name, e.getMessage());
+		}
+	}
+
+	private void checkDuplicatesDyd(Path file, Map<String, ModelMapping> modelMapping)
+	{
+		try
+		{
+			DydContent dyd = DydXml.read(file);
+			if (dyd == null) return;
+			Path rfile = location.relativize(file);
+			String name = rfile.toString().replace(".dyd", "");
+			dyd.setName(name);
+
+			if (!(dyd instanceof ModelContainer)) return;
+			ModelContainer mc = (ModelContainer) dyd;
+
+			// TODO Check also system definitions are not duplicated
+			if (mc.isForSystemDefinitions()) return;
+
+			// TODO Check also the associations (do not allow duplicated names)
+			// mc.getAssociations().forEach(a -> addAssociation(name, a));
+			mc.getModels().forEach(m -> checkDuplicatedModel(mc, m, modelMapping));
 		}
 		catch (XMLStreamException | IOException e)
 		{
@@ -450,6 +567,16 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		modelsByStage.get(mdef.getStage()).add(mdef);
 	}
 
+	public void checkDuplicatedModel(ModelContainer mc, Model mdef,
+			Map<String, ModelMapping> modelMapping)
+	{
+		String mdefKey = DynamicDataRepositoryDydFiles.getModelKey(mdef);
+		if (!modelMapping.containsKey(mdefKey))
+			modelMapping.put(mdefKey, new ModelMapping(mdefKey));
+
+		modelMapping.get(mdefKey).add(mdef, mc);
+	}
+
 	public void addAssociation(String containerName, Association a)
 	{
 		ModelContainer mc = getCreateModelContainer(containerName);
@@ -510,6 +637,24 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		f.toFile().getParentFile().mkdirs();
 		return f;
+	}
+
+	private static String getModelKey(Model mdef)
+	{
+		String stage = mdef.getStage().name();
+		String className = mdef.getClass().getName();
+
+		String id = "";
+		if (mdef instanceof ModelForElement)
+			id = ((ModelForElement) mdef).getStaticId();
+		else if (mdef instanceof ModelForAssociation)
+			id = ((ModelForAssociation) mdef).getAssociation();
+		else if (mdef instanceof ModelForType)
+			id = ((ModelForType) mdef).getType();
+		else if (mdef instanceof ModelForEvent)
+			id = ((ModelForEvent) mdef).getEvent();
+
+		return stage + className + id;
 	}
 
 	private Path						location;

@@ -34,7 +34,7 @@
 		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.findbugs.version>3.0.4</maven.findbugs.version>
 		<maven.javadoc.version>2.10.4</maven.javadoc.version>
-		<maven.jacoco.version>0.7.7.201606060606</maven.jacoco.version>
+		<maven.jacoco.version>0.7.8</maven.jacoco.version>
 		<maven.buildnumber.version>1.4</maven.buildnumber.version>
 		<maven.surefire.version>2.19.1</maven.surefire.version>
 		<maven.templating.version>1.0.0</maven.templating.version>
@@ -321,12 +321,12 @@
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
-				<artifactId>iidm-network-api</artifactId>
+				<artifactId>iidm-api</artifactId>
 				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.itesla_project</groupId>
-				<artifactId>iidm-network-impl</artifactId>
+				<artifactId>iidm-impl</artifactId>
 				<version>${ipst.core.version}</version>
 			</dependency>
 			<dependency>
@@ -408,7 +408,7 @@
 	        </dependency>
 	        <dependency>
 	            <groupId>eu.itesla_project</groupId>
-	            <artifactId>graph</artifactId>
+	            <artifactId>math</artifactId>
 	            <version>${ipst.core.version}</version>
 	        </dependency>
             <dependency>

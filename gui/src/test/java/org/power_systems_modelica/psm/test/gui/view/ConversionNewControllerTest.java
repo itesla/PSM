@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.test.gui.view;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.gui.MainApp;
@@ -11,10 +12,10 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
-import org.power_systems_modelica.psm.gui.service.MainService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.ConversionNewController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
@@ -94,13 +95,13 @@ public class ConversionNewControllerTest extends ApplicationTest {
 		ComboBox<Catalog> catalogDdrSource = lookup("#catalogDdrSource").query();
 		ComboBox<Ddr> ddrSource = lookup("#ddrSource").query();
 
-		ObservableList<Catalog> catalogs = CatalogService.getCatalogs("cases");
+		List<Catalog> catalogs = CatalogService.getCatalogs("cases");
 		assertEquals(catalogs.size(), catalogCaseSource.getItems().size());
 		Catalog catalog = catalogs.stream().filter(c -> c.getName().equals("Reference cases")).findFirst().get();
 		clickOn("#catalogCaseSource").clickOn("Reference cases");
 		assertEquals("Reference cases", catalogCaseSource.getSelectionModel().getSelectedItem().getName());
 
-		ObservableList<Case> cases = CaseService.getCases(catalog);
+		List<Case> cases = CaseService.getCases(catalog);
 		assertEquals(cases.size(), caseSource.getItems().size());
 		clickOn("#caseSource").clickOn("ieee14");
 		assertEquals("ieee14", caseSource.getSelectionModel().getSelectedItem().getName());

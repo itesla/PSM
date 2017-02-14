@@ -264,10 +264,10 @@ public class SimulatorServerImpl implements SimulatorServer
 	private void prepareDymola(Path workingDir, String inputFileName) throws DymolaException
 	{
 		boolean result = dymola.clear();
-		 if (!result)
-		 {
-		 LOGGER.error("Error clearing workspace: {}.", dymola.getLastError());
-		 }
+//		 if (!result)
+//		 {
+//		 LOGGER.error("Error clearing workspace: {}.", dymola.getLastError());
+//		 }
 		// TODO
 
 		result = dymola.cd(workingDir.toAbsolutePath().toString());
@@ -292,8 +292,7 @@ public class SimulatorServerImpl implements SimulatorServer
 				entry("log.txt", resultsFileName + "_log.txt"),
 				entry("dslog.txt", resultsFileName + "_dslog.txt"),
 				entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
-				entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"),
-				entry(resultsFileName + "_temp.csv", resultsFileName + "_temp.csv"));
+				entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"));
 
 		prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
 
@@ -336,10 +335,10 @@ public class SimulatorServerImpl implements SimulatorServer
 
 		boolean result = false;
 		result = dymola.clear();
-		 if (!result)
-		 {
-		 throw new RuntimeException("Error clearing workspace : " + dymola.getLastError());
-		 }
+//		 if (!result)
+//		 {
+//		 throw new RuntimeException("Error clearing workspace : " + dymola.getLastError());
+//		 }
 
 		result = dymola.cd(workingDirectory.toAbsolutePath().toString());
 		if (!result)
@@ -571,6 +570,21 @@ public class SimulatorServerImpl implements SimulatorServer
 			super.close();
 			boolean isDeleted = file.delete();
 			LOGGER.trace(" **** " + file.getAbsoluteFile() + " :" + isDeleted);
+		}
+	}
+	
+	public void close() {
+		try
+		{
+			if (this.dymola != null)
+			{
+				this.dymola.close();
+				this.dymola = null;
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Dymola server has not been closed successfuly.");
 		}
 	}
 

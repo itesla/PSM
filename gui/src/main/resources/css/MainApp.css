@@ -83,7 +83,7 @@
 }
 
 /* tab pane header color */
-.tab-pane  .tab-header-area .tab-header-background {
+.tab-pane .tab-header-area .tab-header-background {
 	-fx-background-color: white;
 	-fx-effect: null;
 }
@@ -112,5 +112,5 @@
 
 
 .autofill-text {
-	-fx-skin: "org.power_systems_modelica.psm.gui.utils.AutoFillTextBoxSkin";
+	-fx-skin: "org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBoxSkin";
 }

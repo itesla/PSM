@@ -9,9 +9,9 @@ public interface ModelicaEngine extends AutoCloseable
 {
 	void configure(Configuration config);
 
-	void simulate(ModelicaDocument mo);
+	void simulate(ModelicaDocument mo) throws Exception;
 
-	void simulate(Collection<ModelicaDocument> mos);
+	void simulate(Collection<ModelicaDocument> mos) throws Exception;
 
 	ModelicaSimulationFinalResults getSimulationResults();
 	

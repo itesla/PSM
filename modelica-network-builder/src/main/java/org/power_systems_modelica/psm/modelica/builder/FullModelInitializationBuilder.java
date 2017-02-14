@@ -3,13 +3,16 @@ package org.power_systems_modelica.psm.modelica.builder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaSystemModel;
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
@@ -69,15 +72,19 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 	{
 		ModelicaDocument mo = new ModelicaDocument();
 		mo.setWithin("");
-		ModelicaSystemModel ms = new ModelicaSystemModel(m.getStaticId());
+		ModelicaSystemModel ms = new ModelicaSystemModel(
+				ModelicaUtil.normalizedIdentifier(m.getStaticId()));
 		mo.setSystemModel(ms);
 
 		// We solve here potential external references
 		// Argument values in the declarations could be referred to external source (the IIDM Network)
 		// We solve these references in the context of the current Network and ModelicaModel
-
 		ms.addDeclarations(resolveReferences(m.getDeclarations(), m));
 		ms.addEquations(m.getEquations());
+
+		List<ModelicaEquation> otherSystemEquations;
+		otherSystemEquations = getDdr().getSystemOtherEquationsInContext(ms, Stage.INITIALIZATION);
+		if (otherSystemEquations != null) ms.addEquations(otherSystemEquations);
 		return mo;
 	}
 }

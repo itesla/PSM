@@ -13,10 +13,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
@@ -56,14 +58,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.supercsv.io.ICsvListReader;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
 import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class WorkflowServiceConfiguration
 {
@@ -83,6 +82,21 @@ public class WorkflowServiceConfiguration
 		{
 			return value;
 		}
+
+		@Override
+		public String toString()
+		{
+			switch (value)
+			{
+			case 0:
+				return "Hades";
+			case 1:
+				return "HELM Flow";
+			case 2:
+				return "None";
+			}
+			return null;
+		}
 	}
 
 	public enum DsEngine
@@ -99,6 +113,21 @@ public class WorkflowServiceConfiguration
 		public int getValue()
 		{
 			return value;
+		}
+
+		@Override
+		public String toString()
+		{
+			switch (value)
+			{
+			case 0:
+				return "Dymola";
+			case 1:
+				return "Open Modelica";
+			case 2:
+				return "Fake";
+			}
+			return null;
 		}
 	}
 
@@ -117,10 +146,10 @@ public class WorkflowServiceConfiguration
 		return cl;
 	}
 
-	public static ObservableList<LoadflowEngine> getLoadflowEngines()
+	public static List<LoadflowEngine> getLoadflowEngines()
 	{
 
-		ObservableList<LoadflowEngine> engines = FXCollections.observableArrayList();
+		List<LoadflowEngine> engines = new ArrayList<>();
 		engines.add(LoadflowEngine.HADES2);
 		engines.add(LoadflowEngine.HELMFLOW);
 		engines.add(LoadflowEngine.NONE);
@@ -128,10 +157,10 @@ public class WorkflowServiceConfiguration
 		return engines;
 	}
 
-	public static ObservableList<DsEngine> getDsEngines()
+	public static List<DsEngine> getDsEngines()
 	{
 
-		ObservableList<DsEngine> engines = FXCollections.observableArrayList();
+		List<DsEngine> engines = new ArrayList<>();
 		engines.add(DsEngine.FAKE);
 		engines.add(DsEngine.DYMOLA);
 		engines.add(DsEngine.OPENMODELICA);
@@ -139,39 +168,43 @@ public class WorkflowServiceConfiguration
 		return engines;
 	}
 
-	public static ObservableList<String> getActionEvents(ConvertedCase newValue)
+	public static List<String> getAvailableEvents(ConvertedCase newValue)
 	{
-		ObservableList<String> actions = FXCollections.observableArrayList();
+		// TODO do not connect to the DDR each time, store the connected DDR reference inside ConvertedCase ?
+		List<String> actions = new ArrayList<>();
 		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
 		try
 		{
 			ddr.connect();
-
 			actions.addAll(ddr.getEvents());
 		}
 		catch (ConnectionException e)
 		{
 			LOG.error(e.getMessage());
 		}
-
 		return actions;
 	}
 
 	// Elements of current case that can be used with current event
 
-	// TODO This configuration should be read from events.dyd
-	// Each event should name the type of static network elements it applies to
-	private static final Map<String, ConnectableType> EVENT_APPLIES_TO = new HashMap<>();
-	static
+	public static Map<String, ConnectableType> getConnectableTypesForEvents(ConvertedCase newValue)
 	{
-		EVENT_APPLIES_TO.put("BusFault", ConnectableType.BUSBAR_SECTION);
-		EVENT_APPLIES_TO.put("LineFault", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("LineOpenSendingSide", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("LineOpenReceiverSide", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("LineOpenBothSides", ConnectableType.LINE);
-		EVENT_APPLIES_TO.put("BankModification", ConnectableType.SHUNT_COMPENSATOR);
-		EVENT_APPLIES_TO.put("LoadVariation", ConnectableType.LOAD);
-		EVENT_APPLIES_TO.put("GeneratorSetpointModification", ConnectableType.GENERATOR);
+		// TODO do not connect to the DDR each time, store the connected DDR reference inside ConvertedCase ?
+		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
+		try
+		{
+			ddr.connect();
+			Map<String, ConnectableType> eventAppliesTo = ddr.getEvents().stream()
+					.collect(Collectors.toMap(
+							ev -> ev,
+							ev -> ddr.getEventAppliesToConnectableType(ev)));
+			return eventAppliesTo;
+		}
+		catch (ConnectionException e)
+		{
+			LOG.error(e.getMessage());
+			return Collections.emptyMap();
+		}
 	}
 
 	private static ConnectableType connectableType(Identifiable<?> e)
@@ -211,16 +244,16 @@ public class WorkflowServiceConfiguration
 
 		// Now for each event type, set the list of applicable elements based on the connectable type defined for the event
 		Map<String, Collection<String>> elementsByEventType = new HashMap<>();
-		EVENT_APPLIES_TO.entrySet().stream()
+		getConnectableTypesForEvents(case_).entrySet().stream()
 				.forEach(e -> elementsByEventType.put(
 						e.getKey(),
 						elementsByConnectableType.get(e.getValue())));
 		return elementsByEventType;
 	}
 
-	public static ObservableList<String> getNetworkElements(ConvertedCase case_, String eventType)
+	public static List<String> getNetworkElements(ConvertedCase case_, String eventType)
 	{
-		ObservableList<String> elements = FXCollections.observableArrayList();
+		List<String> elements = new ArrayList<>();
 
 		// Cached list of element identifiers by event type is stored in ConvertedCase
 		Map<String, Collection<String>> elementsByEventType = case_.getElementIdsByEventType();
@@ -242,10 +275,10 @@ public class WorkflowServiceConfiguration
 		return elements;
 	}
 
-	public static ObservableList<EventParamGui> getEventParams(String event)
+	public static List<EventParamGui> getEventParams(String event)
 	{
 
-		ObservableList<EventParamGui> eventParams = FXCollections.observableArrayList();
+		List<EventParamGui> eventParams = new ArrayList<>();
 		List<EventParameter> parameters = ddr.getEventParameters(event);
 
 		parameters.forEach(p -> {
@@ -259,7 +292,7 @@ public class WorkflowServiceConfiguration
 		return eventParams;
 	}
 
-	public static Workflow createSimulation(ConvertedCase cs, ObservableList<Event> events,
+	public static Workflow createSimulation(ConvertedCase cs, List<Event> events,
 			DsEngine dse,
 			String stopTime, String stepBySecond, boolean onlyCheck, boolean onlyVerify,
 			boolean createFilteredMat)
@@ -277,7 +310,7 @@ public class WorkflowServiceConfiguration
 
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
-			String resultVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+			String resultVariables = "[a-zA-Z0-9_]*((TN.(V|angle))|(EC.(P|Q))|(SM.(efd|cm|lambdad|lambdaf|lambdaq1|lambdaq2)))";
 
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
@@ -443,9 +476,6 @@ public class WorkflowServiceConfiguration
 	{
 		WorkflowResult results = new WorkflowResult();
 
-		Network n = (Network) sim.getResults("network");
-		fillLoadflowResults(id, results, n);
-
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
@@ -489,6 +519,8 @@ public class WorkflowServiceConfiguration
 			LOG.error(e.getMessage());
 		}
 
+		results.setExceptions(sim.getExceptions());
+
 		return results;
 	}
 
@@ -499,14 +531,19 @@ public class WorkflowServiceConfiguration
 		Network n = (Network) conv.getResults("network");
 		fillLoadflowResults(id, results, n);
 
+		@SuppressWarnings("unchecked")
 		List<ElementModel> models = (List<ElementModel>) conv.getResults("models");
 		results.setModels(models);
+
+		results.setExceptions(conv.getExceptions());
 
 		return results;
 	}
 
 	private static void fillLoadflowResults(String id, WorkflowResult results, Network n)
 	{
+		if (n == null) return;
+
 		// Ensure the right current working state is set
 		if (n.getStateManager().getStateIds().contains("resultsLoadFlow"))
 			n.getStateManager().setWorkingState("resultsLoadFlow");
@@ -545,15 +582,22 @@ public class WorkflowServiceConfiguration
 			String helmSourceStateId = null;
 			if (helmflowFromHadesResults) helmSourceStateId = "resultsHades2";
 
-			cl = WF(TD(StaticNetworkImporterTask.class, "importer0",
-					TC("source", casePath.toString())),
-					TD(LoadFlowTask.class, "loadflowHades2",
-							TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
-									"targetStateId", "resultsHades2")),
-					TD(LoadFlowTask.class, "loadflowHelmflow",
-							TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
-									"sourceStateId", helmSourceStateId,
-									"targetStateId", "resultsHelmflow")));
+			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
+
+			tasks.add(TD(StaticNetworkImporterTask.class, "importer0",
+					TC("source", casePath.toString())));
+			tasks.add(TD(LoadFlowTask.class, "loadflowHades2",
+					TC("loadFlowFactoryClass", "com.rte_france.itesla.hades2.Hades2Factory",
+							"targetStateId", "resultsHades2")));
+			tasks.add(TD(LoadFlowTask.class, "loadflowHelmflow",
+					TC("loadFlowFactoryClass", "com.elequant.helmflow.ipst.HelmFlowFactory",
+							"sourceStateId", helmSourceStateId,
+							"targetStateId", "resultsHelmflow")));
+
+			WorkflowConfiguration config = new WorkflowConfiguration();
+			config.setTaskDefinitions(tasks);
+			TaskFactory tf = new TaskFactory();
+			cl = Workflow.create(config, tf);
 		}
 		catch (IOException e)
 		{
@@ -570,30 +614,37 @@ public class WorkflowServiceConfiguration
 		Network n = (Network) cl.getResults("network");
 
 		List<BusData> allBusesValues = new ArrayList<>();
-		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
+		try
+		{
+			n.getBusBreakerView().getBuses().forEach(b -> {
+				Map<String, float[]> bvalues = new HashMap<>();
+				float[] Vs = new float[2];
+				float[] As = new float[2];
+				float[] Ps = new float[2];
+				float[] Qs = new float[2];
 
-			n.getStateManager().setWorkingState("resultsHelmflow");
-			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
-			n.getStateManager().setWorkingState("resultsHades2");
-			Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
-			As[1] = b.getAngle();
-			Ps[1] = b.getP();
-			Qs[1] = b.getQ();
-			bvalues.put("V", Vs);
-			bvalues.put("A", As);
-			bvalues.put("P", Ps);
-			bvalues.put("Q", Qs);
-			allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
+				n.getStateManager().setWorkingState("resultsHelmflow");
+				Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
+				As[0] = b.getAngle();
+				Ps[0] = b.getP();
+				Qs[0] = b.getQ();
+				n.getStateManager().setWorkingState("resultsHades2");
+				Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
+				As[1] = b.getAngle();
+				Ps[1] = b.getP();
+				Qs[1] = b.getQ();
+				bvalues.put("V", Vs);
+				bvalues.put("A", As);
+				bvalues.put("P", Ps);
+				bvalues.put("Q", Qs);
+				allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
 
-		});
+			});
+		}
+		catch (Exception e)
+		{
+			LOG.error(e.getMessage());
+		}
 
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
@@ -613,6 +664,8 @@ public class WorkflowServiceConfiguration
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
 
+		results.setExceptions(cl.getExceptions());
+
 		return results;
 	}
 
@@ -625,38 +678,57 @@ public class WorkflowServiceConfiguration
 		return sts;
 	}
 
-	public static WorkflowResult getSwtoswValidationResult(String name)
+	public static WorkflowResult getSwtoswValidationResult(String name, String... variables)
 	{
 		WorkflowResult results = new WorkflowResult();
-		
-		String[] buses = { "bus_BUS____1_TN.V", "bus_BUS____2_TN.V", "bus_BUS____3_TN.V",
-				"bus_BUS____4_TN.V",
-				"bus_BUS____5_TN.V", "bus_BUS____6_TN.V", "bus_BUS____7_TN.V", "bus_BUS____8_TN.V",
-				"bus_BUS____9_TN.V", "bus_BUS___10_TN.V",
-				"bus_BUS___11_TN.V", "bus_BUS___12_TN.V", "bus_BUS___13_TN.V",
-				"bus_BUS___14_TN.V" };
-		ObservableList<Validation> list = FXCollections.observableArrayList();
+
+		List<Validation> list = new ArrayList<>();
 
 		Validation v;
 
-		for (String bus : buses)
+		if (variables.length == 0)
 		{
-			v = new Validation();
-			v.setName(bus);
-			v.setRmse(Utils.randomDouble(0,0.0015));
-			v.setRd(Utils.randomDouble(0,0.06));
-			v.setAd(Utils.randomDouble(0,0.06));
-			
-			list.add(v);
+			String[] summaries = { "V", "A", "P", "Q" };
+
+			for (String summary : summaries)
+			{
+				v = new Validation();
+				v.setName(summary);
+				v.setRmse(Utils.randomDouble(0, 0.0015));
+				v.setRd(Utils.randomDouble(0, 0.06));
+				v.setAd(Utils.randomDouble(0, 0.06));
+
+				list.add(v);
+			}
 		}
-		
-		String[] summary = new String[3];
-		summary[0] = Utils.randomDouble(0,0.06);
-		summary[1] = Utils.randomDouble(0,0.06);
-		summary[2] = Utils.randomDouble(0,0.06);
-		
-		results.setSummaryValidation(summary);
+		else
+		{
+
+			for (String variable : variables)
+			{
+				String[] buses = { "bus_BUS____1_TN." + variable, "bus_BUS____2_TN." + variable,
+						"bus_BUS____3_TN." + variable, "bus_BUS____4_TN." + variable,
+						"bus_BUS____5_TN." + variable, "bus_BUS____6_TN." + variable,
+						"bus_BUS____7_TN." + variable, "bus_BUS____8_TN." + variable,
+						"bus_BUS____9_TN." + variable, "bus_BUS___10_TN." + variable,
+						"bus_BUS___11_TN." + variable, "bus_BUS___12_TN." + variable,
+						"bus_BUS___13_TN." + variable, "bus_BUS___14_TN.V" };
+
+				for (String bus : buses)
+				{
+					v = new Validation();
+					v.setName(bus);
+					v.setRmse(Utils.randomDouble(0, 0.0015));
+					v.setRd(Utils.randomDouble(0, 0.06));
+					v.setAd(Utils.randomDouble(0, 0.06));
+
+					list.add(v);
+				}
+			}
+		}
+
 		results.setValidation(list);
+		results.setExceptions(sts.getExceptions());
 
 		return results;
 	}

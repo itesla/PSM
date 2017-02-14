@@ -2,24 +2,22 @@ package org.power_systems_modelica.psm.modelica.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.modelica.Annotation;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
-import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
+import org.power_systems_modelica.psm.modelica.ModelicaInterconnection;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaBuilder;
@@ -292,12 +290,7 @@ public class ModelicaBuilderTest
 
 		public void print(Path path) throws Exception
 		{
-			ModelicaTextPrinter mop = new ModelicaTextPrinter(getDoc());
-			mop.setIncludePsmAnnotations(true);
-			try (PrintWriter out = new PrintWriter(path.toFile());)
-			{
-				mop.print(out);
-			}
+			ModelicaTextPrinter.print(getDoc(), path, true);
 		}
 
 		@Override

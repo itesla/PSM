@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.tools;
 
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -147,7 +146,8 @@ public class ModelicaNetworkBuilderTool implements Tool
 		// Only fake modelica engine needs configuration that depends on each use (fake results for initializations)
 		Configuration config = new Configuration();
 		Path data = Paths.get(System.getenv("PSM_DATA"));
-		config.setParameter("fakeModelicaEngineResults", data.resolve("test/ieee14/ddr/fake_init.csv").toString());
+		config.setParameter("fakeModelicaEngineResults",
+				data.resolve("test/ieee14/ddr/fake_init.csv").toString());
 		config.setParameter("modelicaEngineWorkingDir", data.resolve("tmp").toString());
 		config.setParameter("libraryDir", data.resolve("test/library").toString());
 
@@ -159,12 +159,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 		ModelicaDocument mo = b.build();
 
 		Path mof = Paths.get(moFilename);
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		mop.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(mof.toFile());)
-		{
-			mop.print(out);
-			System.out.println("Modelica output sent to " + mof.toAbsolutePath().toString());
-		}
+		ModelicaTextPrinter.print(mo, mof, includePsmAnnotations);
+		System.out.println("Modelica output sent to " + mof.toAbsolutePath().toString());
 	}
 }

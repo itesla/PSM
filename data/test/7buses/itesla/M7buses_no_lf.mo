@@ -567,21 +567,21 @@ model M7buses
 	 ) annotation (Placement(transformation()));
 
 equation
-  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__FSSV_T11_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__FVALDT11_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__FVERGT11_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__FSSV_T11_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__FVALDT11_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__FVERGT11_SM.pin_HIn);
 
-  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__FSSV_T11_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__FVALDT11_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__FVERGT11_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__FSSV_T11_SM.pin_SN);
+  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__FVALDT11_SM.pin_SN);
+  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__FVERGT11_SM.pin_SN);
 
-  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__FSSV_T11_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__FVALDT11_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__FVERGT11_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__FSSV_T11_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__FVALDT11_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__FVERGT11_SM.pin_OMEGA);
 
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__FSSV_T11_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__FVALDT11_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__FVERGT11_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__FSSV_T11_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__FVALDT11_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__FVERGT11_SM.omegaRef);
 
 // Connecting REGULATORS and MACHINES
   connect(reg_pssi3e3b__FSSV_T11_SM.pin_ActivePowerSN, gen_pwGeneratorM2S__FSSV_T11_SM.pin_ActivePowerSN) annotation (Line());

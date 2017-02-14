@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,11 +14,14 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.service.WorkflowService;
-import org.power_systems_modelica.psm.gui.utils.DynamicTreeView;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
-import org.power_systems_modelica.psm.gui.utils.ProgressData;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.DdrService;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
+import org.power_systems_modelica.psm.gui.utils.fx.DynamicTreeView;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
@@ -28,8 +30,11 @@ import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
@@ -78,21 +83,21 @@ public class WorkflowStatusController implements MainChildrenController
 		return labels;
 	}
 
-	@FXML
-	private void initialize()
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
 	{
+		return new SimpleBooleanProperty(false);
+	}
+
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
 	}
 
 	@FXML
-	private void handleStopWorkflow()
+	private void initialize()
 	{
-		LOG.debug("handleStopWorkflow");
-		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.stopConversion(w);
-		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.stopSimulation(w);
-		else
-			mainService.stopCompareLoadflows();
 	}
 
 	@Override
@@ -159,8 +164,8 @@ public class WorkflowStatusController implements MainChildrenController
 				Path catalogPath = casePath.getParent();
 				try
 				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					Case c = mainService.getCase(catalog.getName(), casePath);
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
+					Case c = CaseService.getCase(catalog.getName(), casePath);
 					firstLabelValue = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -177,8 +182,8 @@ public class WorkflowStatusController implements MainChildrenController
 				Path catalogPath = ddrPath.getParent().getParent();
 				try
 				{
-					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
-					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
+					Catalog catalog = CatalogService.getCatalog("ddrs", catalogPath);
+					Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
 					secondLabelValue = catalog.getName() + "\t" + ddr.getName();
 				}
 				catch (IOException e)
@@ -196,7 +201,7 @@ public class WorkflowStatusController implements MainChildrenController
 			task = mainService.getSimulationTask();
 		else
 			task = mainService.getCompareLoadflowTask();
-		
+
 		if (task != null)
 		{
 			statusLabel.textProperty().bind(task.messageProperty());
@@ -219,6 +224,29 @@ public class WorkflowStatusController implements MainChildrenController
 	@Override
 	public void setDefaultInit()
 	{
+	}
+
+	@FXML
+	private void handleStopWorkflow()
+	{
+		LOG.debug("handleStopWorkflow");
+		
+		WorkflowService ws;
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			ws = (WorkflowService) mainService.getConversionTask();
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			ws = (WorkflowService) mainService.getSimulationTask();
+		else
+			ws = (WorkflowService) mainService.getCompareLoadflowTask();
+		
+		ws.cancelTask();
+		
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			mainService.showConversionNewView(w);
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			mainService.showSimulationNewView(w);
+		else
+			mainService.showCompareLoadflowsView(null);
 	}
 
 	@FXML

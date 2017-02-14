@@ -1,3 +1,26 @@
+#
+# We are interested in obtaining a global mapping between init outputs and sim inputs
+#
+# This script builds the file refs.csv used by the dyd-files-from-modelica module
+# Run it from the command line:
+#
+#        awk -f prepare_refs_from_map_inits.awk map_init_results_to_sim_input.tsv | grep OUTPUT2 | sed 's/OUTPUT2.//' | sort | sed 's/head //' | sed 's/row  //' > refs.csv
+#
+# We start from mappings obtained from debug output taken from old modelica-export process
+# For every new case, we run it through the old itesla modelica-export process and 
+# get the stdout lines starting with "LUMA", 
+# then add these lines to the input file of this script, map_init_results_to_sim_input.tsv
+#
+# We check that refs between different configurations are coherent:
+# If we find that a variable of a simulation component is initialized 
+# from different initialization components/vars we stop with error
+#
+# This error means that we can not build a mapping table from init results 
+# to sim inputs that is global for all configurations
+#
+# Filtered outputs OUTPUT0 and OUTPUT2 should be equal
+# If one is interested in the mappings identified for every machine, OUTPUT1 could be used
+
 BEGIN {
 	getline sinit_vars < "map_init_vars_to_sim_vars.csv";
 	getline ssim_vars < "map_init_vars_to_sim_vars.csv";
@@ -20,7 +43,7 @@ BEGIN {
 	for (x in map_init_vars) {
 		print "DEBUG     [" x "] --> [" map_init_vars[x] "]";
 	}
-	print "OUTPUT0 h sim_component,sim_var,init_component,init_var";
+	print "OUTPUT0 sim_component,sim_var,init_component,init_var";
 }
 
 !/keysource/ {
@@ -76,17 +99,34 @@ BEGIN {
 	
 	print "OUTPUT1 " init_staticId "," sim_component "," sim_var1 "," init_component "," init_var;
 	
-	# The real output we are interested in (global mapping between init output and sim input)
-	# we obtain the end results filtering output of this script by OUTPUT0 and then applying sort --unique
-	print "OUTPUT0 l " sim_component "," sim_var1 "," init_component "," init_var;
-
-	# Only to check that refs between different configurations are coherent
-	# Output all refs of every single generator to a different file, then compare files ...
-	detailed_output = false;
-	if (detailed_output) {
-		output_file = init_staticId ".refs.csv";
-		print sim_component "," sim_var1 "," init_component "," init_var >> output_file;
-		close(output_file);
+	print "OUTPUT0 " sim_component "," sim_var1 "," init_component "," init_var;
+	
+	# Check if the mapping is generic or there are ambiguities
+	keysim = sim_component "::" sim_var1;
+	keyinit = init_component "::" init_var;
+	if (keysim in mappings) {
+		if (mappings[keysim] != keyinit) {
+			print "ERROR The table would contain two different sources for the same simulation var"
+			print "ERROR    simulation component = " sim_components
+			print "ERROR    simulation variable  = " sim_var1
+			print "ERROR    initialization from1 = " mappings[keysim]
+			print "ERROR    initialization from2 = " keyinit
+			exit 1
+		}
 	}
+	mappings[keysim] = keyinit;
 }
 
+END {
+	print "OUTPUT2 head sim_component,sim_var,init_component,init_var";
+	for (keysim in mappings) {
+		split(keysim, parts, "::")
+		sim_component = parts[1]
+		sim_var1 = parts[2]
+		keyinit = mappings[keysim]
+		split(keyinit, parts, "::")
+		init_component = parts[1]
+		init_var = parts[2]
+		print "OUTPUT2 row  " sim_component "," sim_var1 "," init_component "," init_var;
+	}
+}

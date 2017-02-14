@@ -2257,8 +2257,8 @@
         <par name="SN" value="300.0"/>
         <par name="PN" value="300.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G13______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G13______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G13______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2273,8 +2273,8 @@
         <par name="SN" value="700.0"/>
         <par name="PN" value="700.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G14______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G14______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G14______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2289,8 +2289,8 @@
         <par name="SN" value="1200.0"/>
         <par name="PN" value="1200.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G15______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G15______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G15______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2305,8 +2305,8 @@
         <par name="SN" value="700.0"/>
         <par name="PN" value="700.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G16______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G16______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G16______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2321,8 +2321,8 @@
         <par name="SN" value="600.0"/>
         <par name="PN" value="600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G17______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G17______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G17______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2337,8 +2337,8 @@
         <par name="SN" value="1600.0"/>
         <par name="PN" value="1600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G18______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G18______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G18______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2353,8 +2353,8 @@
         <par name="SN" value="400.0"/>
         <par name="PN" value="400.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G6_______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G6_______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G6_______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2369,8 +2369,8 @@
         <par name="SN" value="200.0"/>
         <par name="PN" value="200.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_govpsat1__G7_______SM.CM"/>
-        <ref name="init_OMREF" dataSource="INIT" sourceName="reg_govpsat1__G7_______SM.OMREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.pin_CM"/>
+        <ref name="init_OMREF" dataSource="INIT" sourceName="govpsat1__G7_______SM.pin_OMREF"/>
         <par name="T4" value="0.01"/>
         <par name="PMAX" value=".9500000"/>
         <par name="T5" value="6."/>
@@ -2385,10 +2385,10 @@
         <par name="SN" value="800.0"/>
         <par name="PN" value="800.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G10______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G10______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G10______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G10______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G10______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G10______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G10______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2409,10 +2409,10 @@
         <par name="SN" value="300.0"/>
         <par name="PN" value="300.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G11______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G11______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G11______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G11______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G11______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G11______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G11______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2433,10 +2433,10 @@
         <par name="SN" value="350.0"/>
         <par name="PN" value="350.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G12______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G12______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G12______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G12______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G12______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G12______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G12______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2457,10 +2457,10 @@
         <par name="SN" value="500.0"/>
         <par name="PN" value="500.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G19______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G19______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G19______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G19______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G19______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G19______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G19______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2481,10 +2481,10 @@
         <par name="SN" value="800.0"/>
         <par name="PN" value="800.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G1_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G1_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G1_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G1_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G1_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G1_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G1_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2505,10 +2505,10 @@
         <par name="SN" value="4500.0"/>
         <par name="PN" value="4500.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G20______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G20______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G20______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G20______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G20______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G20______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G20______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2529,10 +2529,10 @@
         <par name="SN" value="600.0"/>
         <par name="PN" value="600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G2_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G2_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G2_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G2_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G2_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G2_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G2_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2553,10 +2553,10 @@
         <par name="SN" value="700.0"/>
         <par name="PN" value="700.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G3_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G3_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G3_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G3_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G3_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G3_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G3_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2577,10 +2577,10 @@
         <par name="SN" value="600.0"/>
         <par name="PN" value="600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G4_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G4_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G4_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G4_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G4_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G4_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G4_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2601,10 +2601,10 @@
         <par name="SN" value="250.0"/>
         <par name="PN" value="250.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G5_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G5_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G5_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G5_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G5_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G5_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G5_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2625,10 +2625,10 @@
         <par name="SN" value="850.0"/>
         <par name="PN" value="850.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G8_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G8_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G8_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G8_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G8_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G8_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G8_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2649,10 +2649,10 @@
         <par name="SN" value="1000.0"/>
         <par name="PN" value="1000.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_PREF" dataSource="INIT" sourceName="reg_htgpsat3__G9_______SM.PREF"/>
-        <ref name="init_OMEGREF" dataSource="INIT" sourceName="reg_htgpsat3__G9_______SM.OMEGREF"/>
-        <ref name="init_CM" dataSource="INIT" sourceName="reg_htgpsat3__G9_______SM.CM"/>
-        <ref name="init_T1" dataSource="INIT" sourceName="reg_htgpsat3__G9_______SM.T1"/>
+        <ref name="init_PREF" dataSource="INIT" sourceName="htgpsat3__G9_______SM.pin_PREF"/>
+        <ref name="init_OMEGREF" dataSource="INIT" sourceName="htgpsat3__G9_______SM.pin_OMEGREF"/>
+        <ref name="init_CM" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.pin_CM"/>
+        <ref name="init_T1" dataSource="INIT" sourceName="htgpsat3__G9_______SM.pin_T1"/>
         <par name="A21" value="1.5"/>
         <par name="A11" value="0.5"/>
         <par name="A23" value="1."/>
@@ -2673,9 +2673,9 @@
         <par name="SN" value="800.0"/>
         <par name="PN" value="800.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G10______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G10______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G10______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G10______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G10______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2695,9 +2695,9 @@
         <par name="SN" value="300.0"/>
         <par name="PN" value="300.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G11______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G11______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G11______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G11______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G11______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2717,9 +2717,9 @@
         <par name="SN" value="350.0"/>
         <par name="PN" value="350.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G12______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G12______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G12______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G12______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G12______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2739,9 +2739,9 @@
         <par name="SN" value="300.0"/>
         <par name="PN" value="300.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G13______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G13______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G13______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G13______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G13______SM.pin_VV"/>
         <par name="XD" value="1.55"/>
         <par name="XQ" value="1.0"/>
         <par name="TE" value="0.1"/>
@@ -2761,9 +2761,9 @@
         <par name="SN" value="700.0"/>
         <par name="PN" value="700.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G14______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G14______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G14______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G14______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G14______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -2783,9 +2783,9 @@
         <par name="SN" value="1200.0"/>
         <par name="PN" value="1200.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G15______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G15______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G15______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G15______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G15______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -2805,9 +2805,9 @@
         <par name="SN" value="700.0"/>
         <par name="PN" value="700.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G16______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G16______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G16______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G16______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G16______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -2827,9 +2827,9 @@
         <par name="SN" value="600.0"/>
         <par name="PN" value="600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G17______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G17______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G17______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G17______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G17______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -2849,9 +2849,9 @@
         <par name="SN" value="1600.0"/>
         <par name="PN" value="1600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G18______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G18______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G18______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G18______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G18______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -2871,9 +2871,9 @@
         <par name="SN" value="500.0"/>
         <par name="PN" value="500.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G19______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G19______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G19______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G19______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G19______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2893,9 +2893,9 @@
         <par name="SN" value="800.0"/>
         <par name="PN" value="800.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G1_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G1_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G1_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G1_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G1_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2915,9 +2915,9 @@
         <par name="SN" value="4500.0"/>
         <par name="PN" value="4500.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G20______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G20______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G20______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G20______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G20______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2937,9 +2937,9 @@
         <par name="SN" value="600.0"/>
         <par name="PN" value="600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G2_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G2_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G2_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G2_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G2_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2959,9 +2959,9 @@
         <par name="SN" value="700.0"/>
         <par name="PN" value="700.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G3_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G3_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G3_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G3_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G3_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -2981,9 +2981,9 @@
         <par name="SN" value="600.0"/>
         <par name="PN" value="600.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G4_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G4_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G4_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G4_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G4_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -3003,9 +3003,9 @@
         <par name="SN" value="250.0"/>
         <par name="PN" value="250.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G5_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G5_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G5_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G5_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G5_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -3025,9 +3025,9 @@
         <par name="SN" value="400.0"/>
         <par name="PN" value="400.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G6_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G6_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G6_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G6_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G6_______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -3047,9 +3047,9 @@
         <par name="SN" value="200.0"/>
         <par name="PN" value="200.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G7_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G7_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G7_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G7_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G7_______SM.pin_VV"/>
         <par name="XD" value="2.2"/>
         <par name="XQ" value="2.0"/>
         <par name="TE" value="0.1"/>
@@ -3069,9 +3069,9 @@
         <par name="SN" value="850.0"/>
         <par name="PN" value="850.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G8_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G8_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G8_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G8_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G8_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>
@@ -3091,9 +3091,9 @@
         <par name="SN" value="1000.0"/>
         <par name="PN" value="1000.0"/>
         <par name="PNALT" value="0.0"/>
-        <ref name="init_EFD" dataSource="INIT" sourceName="reg_oelpsat__G9_______SM.EFD"/>
-        <ref name="init_VREF" dataSource="INIT" sourceName="reg_oelpsat__G9_______SM.VREF"/>
-        <ref name="init_VV" dataSource="INIT" sourceName="reg_oelpsat__G9_______SM.VV"/>
+        <ref name="init_EFD" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.pin_EFD"/>
+        <ref name="init_VREF" dataSource="INIT" sourceName="oelpsat__G9_______SM.pin_VREF"/>
+        <ref name="init_VV" dataSource="INIT" sourceName="oelpsat__G9_______SM.pin_VV"/>
         <par name="XD" value="1.1"/>
         <par name="XQ" value="0.7"/>
         <par name="TE" value="0.1"/>

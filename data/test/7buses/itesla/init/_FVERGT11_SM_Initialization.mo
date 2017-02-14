@@ -115,11 +115,12 @@ model _FVERGT11_SM_Initialization
 	DB2 = 0.,
 	PN = 1090.0
   ) annotation (Placement(transformation()));
+  Modelica.Blocks.Sources.Constant zero__FVERGT11_SM (k = 0) annotation (Placement(transformation()));
     equation
 	connect(gen_pwGeneratorM2S__FVERGT11_SM.pin_ActivePowerSN, pssi3e3b__FVERGT11_SM.pin_ActivePowerSN) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVERGT11_SM.pin_TerminalVoltage, sexs__FVERGT11_SM.pin_TerminalVoltage) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVERGT11_SM.pin_EFD, sexs__FVERGT11_SM.pin_EFD) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVERGT11_SM.pin_CM, gsteam1__FVERGT11_SM.pin_CM) annotation (Line());
 	connect(gen_pwGeneratorM2S__FVERGT11_SM.pin_OMEGA, gsteam1__FVERGT11_SM.pin_OMEGA) annotation (Line());
-	sexs__FVERGT11_SM.pin_VS=0;
+    connect(sexs__FVERGT11_SM.pin_VS, zero__FVERGT11_SM.y) annotation (Line());
 end _FVERGT11_SM_Initialization;

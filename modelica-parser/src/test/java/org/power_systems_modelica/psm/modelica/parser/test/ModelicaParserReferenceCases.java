@@ -3,7 +3,6 @@ package org.power_systems_modelica.psm.modelica.parser.test;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.PrintWriter;
 import java.nio.file.Path;
 
 import org.junit.Test;
@@ -76,12 +75,8 @@ public class ModelicaParserReferenceCases
 
 		ModelicaDocument mo = ModelicaParser.parse(moGiven);
 
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		mop.setIncludePsmAnnotations(false);
-		try (PrintWriter out = new PrintWriter(moParsed.toFile());)
-		{
-			mop.print(out);
-		}
+		boolean includePsmAnnotations = false;
+		ModelicaTextPrinter.print(mo, moParsed, includePsmAnnotations);
 
 		Path expected = moGiven;
 		Path actual = moParsed;

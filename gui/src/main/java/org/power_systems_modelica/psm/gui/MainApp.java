@@ -1,31 +1,23 @@
 package org.power_systems_modelica.psm.gui;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import org.power_systems_modelica.psm.gui.model.Case;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
-import org.power_systems_modelica.psm.gui.view.CasesOverviewController;
-import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
 import org.power_systems_modelica.psm.gui.view.ConversionDetailController;
 import org.power_systems_modelica.psm.gui.view.ConversionNewController;
-import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.power_systems_modelica.psm.gui.view.MainLayoutController;
 import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
-import org.power_systems_modelica.psm.gui.view.SimulationCheckVerifyDetailController;
-import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationNewController;
-import org.power_systems_modelica.psm.gui.view.SwtoswValidationController;
-import org.power_systems_modelica.psm.gui.view.WorkflowStatusController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -168,7 +160,7 @@ public class MainApp extends Application
 
 		Workflow w = null;
 		if (loadWorkflow)
-			w = mainService.getConversion();
+			w = WorkflowServiceConfiguration.getConversion();
 
 		FXMLLoader loader = this.getFXMLLoader("view/ConversionDetail.fxml", w);
 		if (c != null)
@@ -231,7 +223,7 @@ public class MainApp extends Application
 			mainService.resetSimulationTask();
 
 		return this.getFXMLLoader("view/SimulationCheckVerifyDetail.fxml",
-				mainService.getSimulation(), isCheckDetail);
+				WorkflowServiceConfiguration.getSimulation(), isCheckDetail);
 	}
 
 	public FXMLLoader showSimulationDetailView(MainService mainService)
@@ -239,7 +231,7 @@ public class MainApp extends Application
 		if (mainService.getSimulationTask() != null)
 			mainService.resetSimulationTask();
 
-		return this.getFXMLLoader("view/SimulationDetail.fxml", mainService.getSimulation());
+		return this.getFXMLLoader("view/SimulationDetail.fxml", WorkflowServiceConfiguration.getSimulation());
 	}
 
 	public FXMLLoader showWorkflowStatusView(MainService mainService, Workflow w,
@@ -268,7 +260,7 @@ public class MainApp extends Application
 			mainService.resetCompareLoadflowTask();
 
 		return this.getFXMLLoader("view/CompareLoadflowsDetail.fxml",
-				mainService.getCompareLoadflows());
+				WorkflowServiceConfiguration.getCompareLoadflow());
 	}
 
 	private FXMLLoader showCompareLoadflowsNewView()

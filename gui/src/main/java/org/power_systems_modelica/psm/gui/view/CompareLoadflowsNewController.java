@@ -1,26 +1,33 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Properties;
 
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
@@ -60,48 +67,24 @@ public class CompareLoadflowsNewController implements MainChildrenController
 		return null;
 	}
 
-	@FXML
-	private void initialize()
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
 	{
-		Properties p = PathUtils.getGUIProperties();
-		EGRL = p.getProperty("compareLoadflows.loadflow.enforceGeneratorsReactiveLimits");
-		UHRAIS = p.getProperty("compareLoadflows.HELMflow.useHadesResultsAsInputState");
-
-		enforceGeneratorsReactiveLimits.setSelected(Boolean.parseBoolean(EGRL));
-		helmflowFromHadesResults.setSelected(Boolean.parseBoolean(UHRAIS));
-		
-		catalogSource.getSelectionModel().selectedItemProperty()
-				.addListener(new ChangeListener<Catalog>()
-				{
-					@Override
-					public void changed(ObservableValue<? extends Catalog> observable,
-							Catalog oldValue, Catalog newValue)
-					{
-						caseSource.setItems(mainService.getCases(newValue.getName()));
-					}
-				});
+		return new SimpleBooleanProperty(false);
 	}
 
-	private void handleStartWorkflow()
+	@Override
+	public Button getDefaultEnterButton()
 	{
-		LOG.debug("handleStartWorkflow");
-		Case cs = (Case) caseSource.getSelectionModel().getSelectedItem();
-		if (cs == null)
-		{
-			Utils.showWarning("Warning", "Select a case");
-			return;
-		}
-		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
-		boolean helmflowFromHadesResultsValue = helmflowFromHadesResults.isSelected();
-		mainService.startCompareLoadflows(cs, generatorsReactiveLimits,
-				helmflowFromHadesResultsValue);
+		return null;
 	}
 
 	public void setCase(Case c)
 	{
-		ObservableList<Catalog> catalogs = mainService.getCatalogs("cases");
+		List<Catalog> catalogs = CatalogService.getCatalogs("cases");
 
-		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog>(catalogs,
+		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog>(
+				FXCollections.observableArrayList(catalogs),
 				catalog -> c.getLocation().contains(catalog.getLocation()));
 
 		filteredCatalogs.forEach(catalog -> {
@@ -116,7 +99,7 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	{
 		this.mainService = mainService;
 
-		catalogSource.setItems(mainService.getCatalogs("cases"));
+		catalogSource.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
 	}
 
 	@Override
@@ -132,6 +115,65 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	@Override
 	public void setWorkflow(Workflow w, Object... objects)
 	{
+	}
+
+	@FXML
+	private void initialize()
+	{
+		Properties p = PathUtils.getGUIProperties();
+		EGRL = p.getProperty("compareLoadflows.loadflow.enforceGeneratorsReactiveLimits");
+		UHRAIS = p.getProperty("compareLoadflows.HELMflow.useHadesResultsAsInputState");
+
+		enforceGeneratorsReactiveLimits.setSelected(Boolean.parseBoolean(EGRL));
+		helmflowFromHadesResults.setSelected(Boolean.parseBoolean(UHRAIS));
+
+		catalogSource.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<Catalog>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends Catalog> observable,
+							Catalog oldValue, Catalog newValue)
+					{
+						caseSource.setItems(FXCollections
+								.observableArrayList(CaseService.getCases(newValue.getName())));
+					}
+				});
+	}
+
+	private void handleStartWorkflow()
+	{
+		LOG.debug("handleStartWorkflow");
+		Case cs = (Case) caseSource.getSelectionModel().getSelectedItem();
+		if (cs == null)
+		{
+			UtilsFX.showWarning("Warning", "Select a case");
+			return;
+		}
+		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
+		boolean helmflowFromHadesResultsValue = helmflowFromHadesResults.isSelected();
+		startCompareLoadflows(cs, generatorsReactiveLimits,
+				helmflowFromHadesResultsValue);
+	}
+
+	private void startCompareLoadflows(Case cs, boolean generatorsReactiveLimits,
+			boolean helmflowFromHadesResults)
+	{
+
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs,
+					generatorsReactiveLimits, helmflowFromHadesResults);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showCompareLoadflowsDetailView(mainService));
+			mainService.setCompareLoadflowTask(task);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w, WorkflowType.COMPARELOADFLOW);
+			TaskService.startTask(task);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,9 +13,13 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -24,17 +27,22 @@ import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 
 public class CompareLoadflowsDetailController implements MainChildrenController
 {
@@ -75,121 +83,16 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 		return labels;
 	}
 
-	@FXML
-	private void initialize()
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
 	{
-
-		voltageDiffChart.setLegendVisible(false);
-		voltageCurvesChart.setLegendVisible(false);
-
-		yVoltageDiffAxis.setLowerBound(0);
-		yVoltageDiffAxis.setUpperBound(2.25);
-		yVoltageDiffAxis.setTickUnit(0.25);
-		yVoltageDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		phaseDiffChart.setLegendVisible(false);
-		phaseCurvesChart.setLegendVisible(false);
-
-		yPhaseDiffAxis.setLowerBound(0);
-		yPhaseDiffAxis.setUpperBound(2.25);
-		yPhaseDiffAxis.setTickUnit(0.25);
-		yPhaseDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		activeDiffChart.setLegendVisible(false);
-		activeCurvesChart.setLegendVisible(false);
-
-		yActiveDiffAxis.setLowerBound(0);
-		yActiveDiffAxis.setUpperBound(2.25);
-		yActiveDiffAxis.setTickUnit(0.25);
-		yActiveDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		reactiveDiffChart.setLegendVisible(false);
-		reactiveCurvesChart.setLegendVisible(false);
-
-		yReactiveDiffAxis.setLowerBound(0);
-		yReactiveDiffAxis.setUpperBound(2.25);
-		yReactiveDiffAxis.setTickUnit(0.25);
-		yReactiveDiffAxis.setTickLabelFormatter(
-				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
-				{
-					@Override
-					public String toString(Number object)
-					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
-
-						return String.format("%,.4f%%", object.floatValue() * 100);
-					}
-				});
-
-		elementVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesVoltageColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 1));
-		helmflowVoltageColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 0));
-		differenceVoltageColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("V"));
-
-		elementPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 1));
-		helmflowPhaseColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 0));
-		differencePhaseColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("A"));
-
-		elementActiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 1));
-		helmflowActiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 0));
-		differenceActiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("P"));
-
-		elementReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		hadesReactiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 1));
-		helmflowReactiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 0));
-		differenceReactiveColumn
-				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("Q"));
+		return new SimpleBooleanProperty(false);
 	}
 
-	private void handleNewWorkflow()
+	@Override
+	public Button getDefaultEnterButton()
 	{
-		LOG.debug("handleNewWorkflow");
-		mainService.showCompareLoadflowsView(null);
+		return null;
 	}
 
 	public void addDiffSeries(WorkflowResult workflowResult)
@@ -335,6 +238,10 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	@Override
 	public void setWorkflow(Workflow w, Object... objects)
 	{
+		voltageTab.setDisable(true);
+		phaseTab.setDisable(true);
+		activeTab.setDisable(true);
+		reactiveTab.setDisable(true);
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
@@ -355,8 +262,8 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 
 				try
 				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					Case c = mainService.getCase(catalog.getName(), casePath);
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
+					Case c = CaseService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -367,9 +274,13 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			}
 		}
 
+		WorkflowResult wr = WorkflowServiceConfiguration.getCompareLoadflowsResult("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
+			voltageTab.setDisable(false);
+			phaseTab.setDisable(false);
+			activeTab.setDisable(false);
+			reactiveTab.setDisable(false);
 
 			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("V"))
@@ -406,15 +317,28 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			reactiveTable.setItems(wr.getAllBusesValues());
 			addDiffSeries(wr);
 			addCurvesSeries(wr);
-			Utils.addTooltipComparisonChart(voltageDiffChart, wr, "V", "pu");
-			Utils.addTooltipComparisonChart(phaseDiffChart, wr, "A", "º");
-			Utils.addTooltipComparisonChart(activeDiffChart, wr, "P", "MW");
-			Utils.addTooltipComparisonChart(reactiveDiffChart, wr, "Q", "MVar");
-			Utils.addTooltipScatterChart(voltageCurvesChart, "pu");
-			Utils.addTooltipScatterChart(phaseCurvesChart, "º");
-			Utils.addTooltipScatterChart(activeCurvesChart, "MW");
-			Utils.addTooltipScatterChart(reactiveCurvesChart, "MVar");
+			UtilsFX.addTooltipComparisonChart(voltageDiffChart, wr, "V", "pu");
+			UtilsFX.addTooltipComparisonChart(phaseDiffChart, wr, "A", "º");
+			UtilsFX.addTooltipComparisonChart(activeDiffChart, wr, "P", "MW");
+			UtilsFX.addTooltipComparisonChart(reactiveDiffChart, wr, "Q", "MVar");
+			UtilsFX.addTooltipScatterChart(voltageCurvesChart, "pu");
+			UtilsFX.addTooltipScatterChart(phaseCurvesChart, "º");
+			UtilsFX.addTooltipScatterChart(activeCurvesChart, "MW");
+			UtilsFX.addTooltipScatterChart(reactiveCurvesChart, "MVar");
 		}
+		else
+		{
+			tabPane.getSelectionModel().select(logTab);
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (Exception e : wr.getExceptions())
+		{
+			sb.append(Utils.getStackTrace(e));
+			sb.append("\n\n");
+		}
+
+		logArea.setText(sb.toString());
 	}
 
 	@Override
@@ -426,6 +350,136 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	public void setDefaultInit()
 	{
 	}
+
+	@FXML
+	private void initialize()
+	{
+
+		voltageDiffChart.setLegendVisible(false);
+		voltageCurvesChart.setLegendVisible(false);
+
+		yVoltageDiffAxis.setLowerBound(0);
+		yVoltageDiffAxis.setUpperBound(2.25);
+		yVoltageDiffAxis.setTickUnit(0.25);
+		yVoltageDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		phaseDiffChart.setLegendVisible(false);
+		phaseCurvesChart.setLegendVisible(false);
+
+		yPhaseDiffAxis.setLowerBound(0);
+		yPhaseDiffAxis.setUpperBound(2.25);
+		yPhaseDiffAxis.setTickUnit(0.25);
+		yPhaseDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		activeDiffChart.setLegendVisible(false);
+		activeCurvesChart.setLegendVisible(false);
+
+		yActiveDiffAxis.setLowerBound(0);
+		yActiveDiffAxis.setUpperBound(2.25);
+		yActiveDiffAxis.setTickUnit(0.25);
+		yActiveDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		reactiveDiffChart.setLegendVisible(false);
+		reactiveCurvesChart.setLegendVisible(false);
+
+		yReactiveDiffAxis.setLowerBound(0);
+		yReactiveDiffAxis.setUpperBound(2.25);
+		yReactiveDiffAxis.setTickUnit(0.25);
+		yReactiveDiffAxis.setTickLabelFormatter(
+				new NumberAxis.DefaultFormatter(new NumberAxis(0, 2.25, 0.25))
+				{
+					@Override
+					public String toString(Number object)
+					{
+						if (Math.abs(object.floatValue() * 100) > 1000)
+							return String.format("%,.0f%%", object.floatValue() * 100);
+
+						return String.format("%,.4f%%", object.floatValue() * 100);
+					}
+				});
+
+		elementVoltageColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 1));
+		helmflowVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("V", 0));
+		differenceVoltageColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("V"));
+
+		elementPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesPhaseColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 1));
+		helmflowPhaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("A", 0));
+		differencePhaseColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("A"));
+
+		elementActiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesActiveColumn.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 1));
+		helmflowActiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("P", 0));
+		differenceActiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("P"));
+
+		elementReactiveColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		hadesReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 1));
+		helmflowReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().dataProperty("Q", 0));
+		differenceReactiveColumn
+				.setCellValueFactory(cellData -> cellData.getValue().errorProperty("Q"));
+	}
+
+	private void handleNewWorkflow()
+	{
+		LOG.debug("handleNewWorkflow");
+		mainService.showCompareLoadflowsView(null);
+	}
+
+	@FXML
+	private TabPane							tabPane;
+	@FXML
+	private Tab								voltageTab;
+	@FXML
+	private Tab								phaseTab;
+	@FXML
+	private Tab								activeTab;
+	@FXML
+	private Tab								reactiveTab;
+	@FXML
+	private Tab								logTab;
 
 	@FXML
 	private Label							avgVoltageDiffLabel;
@@ -542,6 +596,9 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 	private TableColumn<BusData, Number>	helmflowReactiveColumn;
 	@FXML
 	private TableColumn<BusData, Number>	differenceReactiveColumn;
+
+	@FXML
+	private TextArea						logArea;
 
 	private String							caseLabel;
 

@@ -6,9 +6,9 @@ import static org.junit.Assert.assertTrue;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +30,8 @@ import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.events.Event;
 import org.power_systems_modelica.psm.modelica.events.ModelicaEventAdder;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
+import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
+import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 
 import com.google.common.collect.Iterables;
@@ -41,6 +43,17 @@ public class ModelicaEventAdderTest
 {
 	@Test
 	public void addEventsIeee14BusFault() throws Exception
+	{
+		addEventsIeee14BusFault(false);
+	}
+
+	@Test
+	public void addEventsIeee14BusFaultReread() throws Exception
+	{
+		addEventsIeee14BusFault(true);
+	}
+
+	private void addEventsIeee14BusFault(boolean reread) throws Exception
 	{
 		String events = new StringBuilder(100)
 				.append("BusFault")
@@ -56,13 +69,8 @@ public class ModelicaEventAdderTest
 				.append("endTime=20.2")
 				.append("\n")
 				.toString();
-		ModelicaDocument mo = addEvents(
-				"ieee14",
-				"ieee14bus_EQ.xml",
-				"ddr",
-				events,
-				1,
-				1);
+		ModelicaDocument mo = addEvents("ieee14", "ieee14bus_EQ.xml", "ddr", events, 14, 5, 1, 1,
+				reread);
 		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
 		ModelicaModel mb = models.get("_BUS___10_TN");
 		String busId = "bus__BUS___10_TN";
@@ -87,6 +95,17 @@ public class ModelicaEventAdderTest
 	@Test
 	public void addEventsIeee14LineFault() throws Exception
 	{
+		addEventsIeee14LineFault(false);
+	}
+
+	@Test
+	public void addEventsIeee14LineFaultReread() throws Exception
+	{
+		addEventsIeee14LineFault(true);
+	}
+
+	private void addEventsIeee14LineFault(boolean reread) throws Exception
+	{
 		String events = new StringBuilder(100)
 				.append("LineFault")
 				.append(",")
@@ -103,13 +122,8 @@ public class ModelicaEventAdderTest
 				.append("endTime=400")
 				.append("\n")
 				.toString();
-		ModelicaDocument mo = addEvents(
-				"ieee14",
-				"ieee14bus_EQ.xml",
-				"ddr",
-				events,
-				0,
-				0);
+		ModelicaDocument mo = addEvents("ieee14", "ieee14bus_EQ.xml", "ddr", events, 14, 5, 0, 0,
+				reread);
 		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
 		assertTrue(models.get("_BUS___10_BUS___11_1_AC").getDeclarations()
 				.get(0)
@@ -117,56 +131,100 @@ public class ModelicaEventAdderTest
 				.endsWith("LineFault"));
 	}
 
+	@Test
+	public void addEvents7busesVSetpoint() throws Exception
+	{
+		addEvents7busesVSetpoint(false);
+	}
+
+	@Test
+	public void addEvents7busesVSetpointReread() throws Exception
+	{
+		addEvents7busesVSetpoint(true);
+	}
+
+	private void addEvents7busesVSetpoint(boolean reread) throws Exception
+	{
+		String events = new StringBuilder(100)
+				.append("GeneratorVSetpointModification")
+				.append(",")
+				.append("_FSSV.T11_SM")
+				.append(",")
+				.append("startTime=0.1")
+				.append(",")
+				.append("Vset=1.0")
+				.append("\n")
+				.toString();
+		ModelicaDocument mo = addEvents("7buses", "M7buses_EQ.xml", "ddr", events, 7, 3, 1, 1,
+				false);
+		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
+		assertEquals(5, models.get("_FSSV_T11_SM").getDeclarations().size());
+	}
+
+	@Test
+	public void addEvents7busesVSetPointReRead() throws Exception
+	{
+		String events = new StringBuilder(100)
+				.append("GeneratorVSetpointModification")
+				.append(",")
+				.append("_FSSV.T11_SM")
+				.append(",")
+				.append("startTime=0.1")
+				.append(",")
+				.append("Vset=1.0")
+				.append("\n")
+				.toString();
+		ModelicaDocument mo0 = addEvents("7buses", "M7buses_EQ.xml", "ddr", events, 7, 3, 1, 1,
+				false);
+		ModelicaDocument mo1 = addEvents("7buses", "M7buses_EQ.xml", "ddr", events, 7, 3, 1, 1,
+				true);
+		Path output0 = DATA_TMP.resolve("event_adder_7buses_vset0.mo");
+		Path output1 = DATA_TMP.resolve("event_adder_7buses_vset1.mo");
+		boolean printPsmAnnotations = true;
+		ModelicaTextPrinter.print(mo0, output0, printPsmAnnotations);
+		ModelicaTextPrinter.print(mo1, output1, printPsmAnnotations);
+		ModelicaTestUtil.assertEqualsNormalizedModelicaText(output0, output1);
+	}
+
 	public ModelicaDocument addEvents(
 			String foldername,
 			String casename,
 			String ddrname,
 			String eventData,
+			int expectedNumBuses,
+			int expectedNumGenerators,
 			int expectedAdditionalDeclarations,
-			int expectedAdditionalEquations)
+			int expectedAdditionalEquations,
+			boolean reread)
 			throws Exception
 	{
-		// TODO Use ShrinkWrap filesystem for temporal files used in tests
 		Path folder = TEST_SAMPLES.resolve(foldername);
 		Path cim = folder.resolve(casename);
 		String ddrLocation = folder.resolve(ddrname).toString();
-		String fakeInit = folder.resolve(ddrname).resolve("fake_init.csv").toString();
+		Path outputbase = DATA_TMP.resolve("event_adder_base.mo");
 		Path outputev = DATA_TMP.resolve("event_adder_events.mo");
-		Path modelicaEngineWorkingDir = DATA_TMP.resolve("event_adder");
-		Files.createDirectories(modelicaEngineWorkingDir);
+		boolean printPsmAnnotations = true;
 
 		Network n = StaticNetworkImporter.import_(cim);
 		assertNotNull(n);
-		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
-		assertEquals(5, n.getGeneratorCount());
+		assertEquals(expectedNumBuses, Iterables.size(n.getBusView().getBuses()));
+		assertEquals(expectedNumGenerators, n.getGeneratorCount());
 
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", ddrLocation);
 		ddr.connect();
 
-		ModelicaEngine me = ModelicaEngineMainFactory.create("Fake");
-		Configuration config = new Configuration();
-		config.setParameter("modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString());
-		config.setParameter("fakeModelicaEngineResults", fakeInit);
-		me.configure(config);
-
-		ModelicaSystemBuilder builder = new ModelicaSystemBuilder(ddr, n, me);
-		boolean onlyMainConnectedComponent = true;
-		builder.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
-		ModelicaDocument mo = builder.build();
+		ModelicaDocument mo = convert(n, ddr);
 		assertNotNull(mo);
+		ModelicaTextPrinter.print(mo, outputbase, printPsmAnnotations);
+
+		ModelicaDocument mobase = mo;
+		if (reread) mobase = ModelicaParser.parse(outputbase);
 
 		List<Event> events = eventsFrom(eventData, n);
-		ModelicaEventAdder adder = new ModelicaEventAdder(mo, ddr, n, events);
+		ModelicaEventAdder adder = new ModelicaEventAdder(mobase, ddr, n, events);
 		ModelicaDocument moev = adder.addEvents();
 		assertNotNull(moev);
-
-		ModelicaTextPrinter printer = new ModelicaTextPrinter(moev);
-		boolean includePsmAnnotations = false;
-		printer.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(outputev.toFile());)
-		{
-			printer.print(out);
-		}
+		ModelicaTextPrinter.print(moev, outputev, printPsmAnnotations);
 
 		int ndecls = mo.getSystemModel().getDeclarations().size();
 		int ndeclsev = moev.getSystemModel().getDeclarations().size();
@@ -175,6 +233,25 @@ public class ModelicaEventAdderTest
 		int neqsev = moev.getSystemModel().getEquations().size();
 		assertEquals(neqs + expectedAdditionalEquations, neqsev);
 		return moev;
+	}
+
+	private ModelicaDocument convert(Network n, DynamicDataRepository ddr) throws Exception
+	{
+		ModelicaEngine me = ModelicaEngineMainFactory.create("Fake");
+		Configuration config = new Configuration();
+		String fakeInit = Paths.get(ddr.getLocation()).resolve("fake_init.csv").toString();
+		Path modelicaEngineWorkingDir = DATA_TMP.resolve("event_adder");
+		Files.createDirectories(modelicaEngineWorkingDir);
+		config.setParameter("modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString());
+		config.setParameter("fakeModelicaEngineResults", fakeInit);
+		me.configure(config);
+
+		ModelicaSystemBuilder builder = new ModelicaSystemBuilder(ddr, n, me);
+		boolean onlyMainConnectedComponent = true;
+		builder.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
+		ModelicaDocument mo = builder.build();
+
+		return mo;
 	}
 
 	// FIXME remove this, test function should accept a list of events,

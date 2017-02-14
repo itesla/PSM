@@ -8,18 +8,21 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
+import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class DdrService
 {
@@ -43,10 +46,50 @@ public class DdrService
 		return true;
 	}
 
+	public static Map<String, ModelMapping> checkDuplicates(String location)
+	{
+		Map<String, ModelMapping> duplicates = new HashMap<>();
+		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
+		ddr.setLocation(location);
+		try
+		{
+			duplicates = ddr.checkDuplicates();
+		}
+		catch (IOException e)
+		{
+			LOG.error(e.getMessage());
+		}
+		
+		return duplicates;
+	}
+
+	public static Map<String, String> checkXml(String location)
+	{
+		Map<String, String> xmls = new HashMap<>();
+		DynamicDataRepositoryDydFiles ddr = new DynamicDataRepositoryDydFiles();
+		ddr.setLocation(location);
+		try
+		{
+			xmls = ddr.checkXmls();
+		}
+		catch (IOException e)
+		{
+			LOG.error(e.getMessage());
+		}
+		
+		return xmls;
+	}
+
+	public static Ddr getDdr(String catalogName, Path path) throws IOException
+	{
+		
+		return getDdr(CatalogService.getCatalogByName("ddrs", catalogName), path);
+	}
+
 	public static Ddr getDdr(Catalog catalog, Path path) throws IOException
 	{
 
-		ObservableList<Ddr> ddrs = getDdrs(catalog);
+		List<Ddr> ddrs = getDdrs(catalog);
 
 		for (Ddr ddr : ddrs)
 		{
@@ -57,9 +100,15 @@ public class DdrService
 		return null;
 	}
 
-	public static ObservableList<Ddr> getDdrs(Catalog catalog)
+	public static List<Ddr> getDdrs(String catalogName)
 	{
-		ObservableList<Ddr> ddrs = FXCollections.observableArrayList();
+		
+		return getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
+	}
+
+	public static List<Ddr> getDdrs(Catalog catalog)
+	{
+		List<Ddr> ddrs = new ArrayList<>();
 		Path catalogPath = Paths.get(catalog.getLocation());
 		try
 		{
@@ -72,7 +121,7 @@ public class DdrService
 		return ddrs;
 	}
 
-	private static boolean searchCatalogDdrs(ObservableList<Ddr> ddrs, Path path) throws IOException
+	private static boolean searchCatalogDdrs(List<Ddr> ddrs, Path path) throws IOException
 	{
 
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))

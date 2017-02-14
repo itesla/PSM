@@ -96,7 +96,7 @@
 	</binding>
 	<service name="SimulatorServerImplService">
 		<port name="SimulatorServerImplPort" binding="tns:SimulatorServerImplPortBinding">
-			<soap:address location="http://localhost:8888/dymservice"></soap:address>
+			<soap:address location="http://0.0.0.0:8888/dymservice"></soap:address>
 		</port>
 	</service>
 </definitions>

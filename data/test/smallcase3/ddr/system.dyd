@@ -2,15 +2,9 @@
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <model id="DM__SYSTEM_" staticId="_SYSTEM_">
         <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
-        <component type="Modelica.Blocks.Interfaces.RealOutput" id="omegaRef"/>
-        <interconnection name="omegaRef" componentVar="omegaRef"/>
-        <equation>
-            <unparsed>omegaRef = (gen_pwGeneratorM2S__GEN______SM.omega*gen_pwGeneratorM2S__GEN______SM.SN*gen_pwGeneratorM2S__GEN______SM.HIn) / (gen_pwGeneratorM2S__GEN______SM.SN*gen_pwGeneratorM2S__GEN______SM.HIn)</unparsed>
-        </equation>
-    </model>
-    <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
-        <equation>
-            <unparsed>sexs__GEN______SM.pin_VS = 0</unparsed>
-        </equation>
+        <component type="Modelica.Blocks.Sources.Constant" id="omegaRef">
+            <par name="k" value="1"/>
+        </component>
+        <interconnection name="omegaRef" componentId="omegaRef" componentVar="y"/>
     </model>
 </model_container>

@@ -7,9 +7,4 @@
         </component>
         <interconnection name="omegaRef" componentId="omegaRef" componentVar="y"/>
     </model>
-    <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
-        <equation>
-            <unparsed>sexs__GEN______SM.pin_VS = 0</unparsed>
-        </equation>
-    </model>
 </model_container>

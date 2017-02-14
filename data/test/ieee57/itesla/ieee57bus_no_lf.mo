@@ -1910,37 +1910,37 @@ model ieee57bus
 	 ) annotation (Placement(transformation()));
 
 equation
-  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__GEN___12_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__GEN____1_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__GEN____2_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__GEN____3_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[6], gen_pwGeneratorM2S__GEN____8_SM.pin_HIn) annotation (Line());
-  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__GEN____9_SM.pin_HIn) annotation (Line());
+  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__GEN___12_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__GEN____1_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__GEN____2_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__GEN____3_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[6], gen_pwGeneratorM2S__GEN____8_SM.pin_HIn);
+  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__GEN____9_SM.pin_HIn);
   
-  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__GEN___12_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__GEN____1_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__GEN____2_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[4], gen_pwGeneratorM2S__GEN____3_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[5], gen_pwGeneratorM2S__GEN____6_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[6], gen_pwGeneratorM2S__GEN____8_SM.pin_SN) annotation (Line());
-  connect(omegaRef.pin_SN[7], gen_pwGeneratorM2S__GEN____9_SM.pin_SN) annotation (Line());
+  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__GEN___12_SM.pin_SN);
+  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__GEN____1_SM.pin_SN);
+  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__GEN____2_SM.pin_SN);
+  connect(omegaRef.pin_SN[4], gen_pwGeneratorM2S__GEN____3_SM.pin_SN);
+  connect(omegaRef.pin_SN[5], gen_pwGeneratorM2S__GEN____6_SM.pin_SN);
+  connect(omegaRef.pin_SN[6], gen_pwGeneratorM2S__GEN____8_SM.pin_SN);
+  connect(omegaRef.pin_SN[7], gen_pwGeneratorM2S__GEN____9_SM.pin_SN);
 
-  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__GEN___12_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__GEN____2_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[4], gen_pwGeneratorM2S__GEN____3_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[5], gen_pwGeneratorM2S__GEN____6_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[6], gen_pwGeneratorM2S__GEN____8_SM.pin_OMEGA) annotation (Line());
-  connect(omegaRef.pin_omega[7], gen_pwGeneratorM2S__GEN____9_SM.pin_OMEGA) annotation (Line());
+  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__GEN___12_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__GEN____2_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[4], gen_pwGeneratorM2S__GEN____3_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[5], gen_pwGeneratorM2S__GEN____6_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[6], gen_pwGeneratorM2S__GEN____8_SM.pin_OMEGA);
+  connect(omegaRef.pin_omega[7], gen_pwGeneratorM2S__GEN____9_SM.pin_OMEGA);
 
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___12_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____1_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____2_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____3_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____6_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____8_SM.omegaRef) annotation (Line());
-  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____9_SM.omegaRef) annotation (Line());
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___12_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____1_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____2_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____3_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____6_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____8_SM.omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____9_SM.omegaRef);
 
 // Connecting REGULATORS and MACHINES
   connect(reg_pssi3e2b__GEN___12_SM.pin_ActivePowerSN, gen_pwGeneratorM2S__GEN___12_SM.pin_ActivePowerSN) annotation (Line());

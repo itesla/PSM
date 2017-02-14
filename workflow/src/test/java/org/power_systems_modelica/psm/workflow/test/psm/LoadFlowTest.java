@@ -120,7 +120,7 @@ public class LoadFlowTest
 	@Test
 	public void helmflow7buses() throws WorkflowCreationException
 	{
-		helmflow("7buses", "CIM_7buses_EQ.xml");
+		helmflow("7buses", "M7buses_EQ.xml");
 	}
 
 	@Test

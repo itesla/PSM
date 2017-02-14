@@ -7,9 +7,9 @@ public class ModelicaSystemModel extends ModelicaModel
 		super(id);
 	}
 
-	public ModelicaSystemModel copy()
+	public ModelicaSystemModel copy(String id)
 	{
-		ModelicaSystemModel m = new ModelicaSystemModel(getId());
+		ModelicaSystemModel m = new ModelicaSystemModel(id);
 		copy(this, m);
 		return m;
 	}

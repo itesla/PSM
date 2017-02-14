@@ -82,25 +82,29 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			// A direct reference to a "system pin" (omegaRef)
 			targetModel = modelicaBuilder.getSystemModel();
 		}
+		else if (targetItem.equals("{element}"))
+		{
+			// Events can ask for a reference to the dynamic model of the element they are linked to
+			targetModel = modelicaBuilder.getDynamicModelFor(sourceElement.getId());
+		}
 		// The target is my "bus" from the point of view of the sourceElement
 		else if (targetItem.equals("{bus}"))
 		{
-			// The source element could be a Bus
-			// This is the case when the source dynamic model is a fault in a bus,
-			// The targetModel is the same bus
 			if (sourceElement instanceof Bus)
 			{
-				targetModel = modelicaBuilder.getDynamicModelFor(sourceElement.getId());
+				LOG.error("Bus connection should not have a reference to its bus in target {}:{}, sourceElement {}",
+						targetItem,
+						targetPin,
+						sourceElement.getId());
+				return null;
 			}
-			else
-			{
-				// If sourceElement is not a Bus,
-				// Then it should be a SingleTerminalConnectable element
-				// Someone that wants to connect to "its unique" bus
-				SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) sourceElement;
-				Bus bus = e.getTerminal().getBusBreakerView().getBus();
-				targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
-			}
+
+			// If sourceElement is not a Bus,
+			// Then it should be a SingleTerminalConnectable element
+			// Someone that wants to connect to "its unique" bus
+			SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) sourceElement;
+			Bus bus = e.getTerminal().getBusBreakerView().getBus();
+			targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
 		}
 		else if (targetItem.startsWith("{bus"))
 		{
@@ -144,7 +148,8 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			return null;
 		}
 
-		Optional<ModelicaInterconnection> c = findInterconnection(targetPin,
+		Optional<ModelicaInterconnection> c = findInterconnection(
+				targetPin,
 				targetModel.getInterconnections());
 		if (!c.isPresent())
 		{
@@ -188,7 +193,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 
 		// Find by name
 		c = Stream.of(connectors)
-				.filter(c0 -> c0.getName().equals(name))
+				.filter(c0 -> c0.getName() != null && c0.getName().equals(name))
 				.findFirst();
 		return c;
 	}

@@ -21,6 +21,12 @@ public class ModelForEvent extends Model
 		return injection;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Event " + event;
+	}
+
 	private final String	event;
 	private final Injection	injection;
 }

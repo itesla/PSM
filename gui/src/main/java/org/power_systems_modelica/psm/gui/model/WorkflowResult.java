@@ -19,6 +19,7 @@ public class WorkflowResult implements Serializable
 		dsValues = new HashMap<String, List<DsData>>();
 		models = FXCollections.observableArrayList();
 		validation = FXCollections.observableArrayList();
+		exceptions = FXCollections.observableArrayList();
 	}
 
 	public String getId()
@@ -39,7 +40,8 @@ public class WorkflowResult implements Serializable
 	public void setAllBusesValues(List<BusData> allBusesValues)
 	{
 		this.allBusesValues.clear();
-		this.allBusesValues.addAll(allBusesValues);
+		if (allBusesValues != null)
+			this.allBusesValues.addAll(allBusesValues);
 	}
 
 	public void setDsValues(Map<String, List<DsData>> values)
@@ -60,28 +62,34 @@ public class WorkflowResult implements Serializable
 	public void setModels(List<ElementModel> models) 
 	{
 		this.models.clear();
-		this.models.addAll(models);
+		if (models != null)
+			this.models.addAll(models);
 	}
 	
-	public String[] getSummaryValidation()
-	{
-		return summaryValidation;
-	}
-
-	public void setSummaryValidation(String[] summaryValidation)
-	{
-		this.summaryValidation = summaryValidation;
-	}
-
 	public ObservableList<Validation> getValidation()
 	{
 		return validation;
 	}
 
-	public void setValidation(ObservableList<Validation> list)
+	public void setValidation(List<Validation> list)
 	{
-		validation.addAll(list);
+		validation.clear();
+		if (list != null)
+			validation.addAll(list);
 	}
+
+	public ObservableList<Exception> getExceptions()
+	{
+		return exceptions;
+	}
+
+	public void setExceptions(List<Exception> list)
+	{
+		exceptions.clear();
+		if (list != null)
+			exceptions.addAll(list);
+	}
+
 	/**
 	 * sample function to obtain data by variable public void getBusesVoltages() { List<Float> valuesV = allBusesValues.stream() .map(bv -> bv.getData().get("V")[0]) .collect(Collectors.toList()); }
 	 **/
@@ -95,6 +103,6 @@ public class WorkflowResult implements Serializable
 	private ObservableList<BusData>			allBusesValues;
 	private Map<String, List<DsData>>		dsValues;
 	private ObservableList<ElementModel>	models;
-	private String[] 						summaryValidation;
 	private ObservableList<Validation> 		validation;
+	private ObservableList<Exception> 		exceptions;
 }

@@ -136,12 +136,13 @@ public class Annotation implements Comparable<Annotation>
 				.collect(Collectors.toList());
 	}
 
-	public static String writeConnectors(List<ModelicaInterconnection> connectors)
+	public static Collection<AnnotationItem> writeConnectors(
+			List<ModelicaInterconnection> connectors)
 	{
-		if (connectors == null || connectors.isEmpty()) return "";
+		if (connectors == null || connectors.isEmpty()) return Collections.emptyList();
 		return connectors.stream()
 				.map(c -> writeInterconnection(c))
-				.collect(Collectors.joining(","));
+				.collect(Collectors.toList());
 	}
 
 	private Optional<String> getAttributeValue(String attributeName)
@@ -192,7 +193,7 @@ public class Annotation implements Comparable<Annotation>
 		return srefs.toString();
 	}
 
-	private static String writeInterconnection(ModelicaInterconnection c)
+	private static AnnotationItem writeInterconnection(ModelicaInterconnection c)
 	{
 		// TODO Code for writing and reading interconnections should be symmetric
 		String[] attrNames = {
@@ -212,10 +213,10 @@ public class Annotation implements Comparable<Annotation>
 		for (int k = 0; k < attrNames.length; k++)
 			if (attrValues[k] != null)
 				as.add(writeAttributeValue(attrNames[k], attrValues[k]));
-		return INTERCONNECTION_KEYWORD
+		return new AnnotationItem(INTERCONNECTION_KEYWORD
 				.concat("(")
 				.concat(String.join(",", as))
-				.concat(")");
+				.concat(")"));
 	}
 
 	private static String writeAttributeValue(String attribute, String value)

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -72,11 +71,7 @@ public class ModelicaParserTest
 				mo.getSystemModel().getDeclarations().get(1).getId());
 		assertEquals(4, mo.getSystemModel().getEquations().size());
 
-		PrintWriter out = new PrintWriter(output.toFile());
-		ModelicaTextPrinter p = new ModelicaTextPrinter(mo);
-		p.print(out);
-		out.flush();
-		out.close();
+		ModelicaTextPrinter.print(mo, output, false);
 	}
 
 	private ModelicaDocument parse(String name) throws FileNotFoundException, IOException

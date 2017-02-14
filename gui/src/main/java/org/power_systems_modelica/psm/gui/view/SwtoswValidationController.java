@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -8,15 +7,20 @@ import java.util.Properties;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.Validation;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 
 import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,6 +30,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class SwtoswValidationController implements MainChildrenController
 {
@@ -68,12 +73,140 @@ public class SwtoswValidationController implements MainChildrenController
 		return null;
 	}
 
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
+	}
+
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
+	}
+
+	public void handleValidateAction()
+	{
+		String expectedPath = expectedFile.getText();
+		if (expectedPath.equals(""))
+		{
+			UtilsFX.showWarning("Warning", "Select an expected case");
+			return;
+		}
+		String casePath = caseFile.getText();
+		if (casePath.equals(""))
+		{
+			UtilsFX.showWarning("Warning", "Select a case");
+			return;
+		}
+
+		String stepSizeV = stepSize.getText();
+		try
+		{
+			Double.valueOf(stepSizeV);
+		}
+		catch (NumberFormatException e)
+		{
+			UtilsFX.showWarning("Warning", "Select a step size");
+			return;
+		}
+
+		startSwtoswValidation(expectedPath, casePath, stepSizeV);
+	}
+
+	public void handleCleanWorkflow()
+	{
+		expectedFile.setText("");
+		caseFile.setText("");
+
+		stepSize.setText(STEPSIZE);
+		thRmse.setText(THRMSE);
+		thRd.setText(THRD);
+		thAd.setText(THAD);
+
+		validationTable.getItems().clear();
+	}
+
+	@FXML
+	public void handleSelectExpectedFileAction()
+	{
+		String file = PathUtilsFX.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
+				PathUtils.DATA_TEST.toString());
+
+		if (file != null)
+		{
+			expectedFile.setText(file);
+		}
+	}
+
+	@FXML
+	public void handleSelectCaseFileAction()
+	{
+		String file = PathUtilsFX.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
+				PathUtils.DATA_TEST.toString());
+
+		if (file != null)
+		{
+			caseFile.setText(file);
+		}
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+		this.w = w;
+
+		if (w.getState().equals(ProcessState.SUCCESS))
+		{
+			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId());
+			validationTable.setItems(result.getValidation());
+		}
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+		handleCleanWorkflow();
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	private void startSwtoswValidation(String expectedPath, String casePath, String stepSize)
+	{
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(expectedPath, casePath,
+					stepSize);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showSwtoswValidationResults(w));
+			mainService.setSwtoswValidationTask(task);
+			TaskService.startTask(task);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@FXML
 	private void initialize()
 	{
+		backButton.setVisible(false);
+		backButton.setDisable(true);
+
 		Properties p = PathUtils.getGUIProperties();
 		STEPSIZE = p.getProperty("swtoswValidation.source.stepSize");
-		TOLERANCE = p.getProperty("swtoswValidation.validation.tolerance");
 		THRMSE = p.getProperty("swtoswValidation.validation.thrmse");
 		THRD = p.getProperty("swtoswValidation.validation.thrd");
 		THAD = p.getProperty("swtoswValidation.validation.thad");
@@ -87,12 +220,6 @@ public class SwtoswValidationController implements MainChildrenController
 				Bindings.when(caseFileSelector.hoverProperty())
 						.then(new ImageView(whiteSelectImage))
 						.otherwise(new ImageView(selectImage)));
-
-		tolerance.textProperty().addListener((observable, oldValue, newValue) -> {
-			setTextfieldColor(pctRmse, newValue);
-			setTextfieldColor(pctRd, newValue);
-			setTextfieldColor(pctAd, newValue);
-		});
 
 		thRmse.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null && oldValue != newValue)
@@ -130,13 +257,20 @@ public class SwtoswValidationController implements MainChildrenController
 					else
 					{
 						setText(item.toString());
-						if (Double.valueOf(item.toString()) <= Double.valueOf(thRmse.getText()))
+						try
 						{
-							setStyle("-fx-background-color: " + validValue);
+							if (Double.valueOf(item.toString()) <= Double.valueOf(thRmse.getText()))
+							{
+								setStyle("-fx-background-color: " + validValue);
+							}
+							else
+							{
+								setStyle("-fx-background-color: " + notValidValue);
+							}
 						}
-						else
+						catch (NumberFormatException e)
 						{
-							setStyle("-fx-background-color: " + notValidValue);
+							setStyle("");
 						}
 					}
 				}
@@ -158,13 +292,20 @@ public class SwtoswValidationController implements MainChildrenController
 					else
 					{
 						setText(item.toString());
-						if (Double.valueOf(item.toString()) <= Double.valueOf(thRd.getText()))
+						try
 						{
-							setStyle("-fx-background-color: " + validValue);
+							if (Double.valueOf(item.toString()) <= Double.valueOf(thRd.getText()))
+							{
+								setStyle("-fx-background-color: " + validValue);
+							}
+							else
+							{
+								setStyle("-fx-background-color: " + notValidValue);
+							}
 						}
-						else
+						catch (NumberFormatException e)
 						{
-							setStyle("-fx-background-color: " + notValidValue);
+							setStyle("");
 						}
 					}
 				}
@@ -186,13 +327,20 @@ public class SwtoswValidationController implements MainChildrenController
 					else
 					{
 						setText(item.toString());
-						if (Double.valueOf(item.toString()) <= Double.valueOf(thAd.getText()))
+						try
 						{
-							setStyle("-fx-background-color: " + validValue);
+							if (Double.valueOf(item.toString()) <= Double.valueOf(thAd.getText()))
+							{
+								setStyle("-fx-background-color: " + validValue);
+							}
+							else
+							{
+								setStyle("-fx-background-color: " + notValidValue);
+							}
 						}
-						else
+						catch (NumberFormatException e)
 						{
-							setStyle("-fx-background-color: " + notValidValue);
+							setStyle("");
 						}
 					}
 				}
@@ -200,132 +348,33 @@ public class SwtoswValidationController implements MainChildrenController
 		});
 	}
 
-	public void handleValidateAction()
-	{
-		String expectedPath = expectedFile.getText();
-		if (expectedPath.equals(""))
-		{
-			Utils.showWarning("Warning", "Select an expected case");
-			return;
-		}
-		String casePath = caseFile.getText();
-		if (casePath.equals(""))
-		{
-			Utils.showWarning("Warning", "Select a case");
-			return;
-		}
-
-		String stepSizeV = stepSize.getText();
-		try
-		{
-			Double.valueOf(stepSizeV);
-		}
-		catch (NumberFormatException e)
-		{
-			Utils.showWarning("Warning", "Select a step size");
-			return;
-		}
-
-		mainService.startSwtoswValidation(expectedPath, casePath, stepSizeV);
-	}
-
-	public void handleCleanWorkflow()
-	{
-		expectedFile.setText("");
-		caseFile.setText("");
-
-		stepSize.setText(STEPSIZE);
-		tolerance.setText(TOLERANCE);
-		pctRmse.setText("");
-		pctRd.setText("");
-		pctAd.setText("");
-		thRmse.setText(THRMSE);
-		thRd.setText(THRD);
-		thAd.setText(THAD);
-
-		validationTable.getItems().clear();
-	}
-
 	@FXML
-	public void handleSelectExpectedFileAction()
+	private void handleSelectValidation(MouseEvent event)
 	{
-		String file = PathUtils.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
-				PathUtils.DATA_TEST.toString());
 
-		if (file != null)
+		if (event.getClickCount() == 2 && backButton.isDisabled())
 		{
-			expectedFile.setText(file);
-		}
-	}
+			Validation v = validationTable.getSelectionModel().getSelectedItem();
 
-	@FXML
-	public void handleSelectCaseFileAction()
-	{
-		String file = PathUtils.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
-				PathUtils.DATA_TEST.toString());
+			backButton.setVisible(true);
+			backButton.setDisable(false);
 
-		if (file != null)
-		{
-			caseFile.setText(file);
-		}
-	}
-
-	public void setWorkflow(Workflow w)
-	{
-		if (w.getState().equals(ProcessState.SUCCESS))
-		{
-			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
+			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId(),
+					v.getName());
+			validationTable.getItems().clear();
 			validationTable.setItems(result.getValidation());
-
-			String[] symmary = result.getSummaryValidation();
-			String tl = tolerance.getText();
-			pctRmse.setText(symmary[0]);
-			setTextfieldColor(pctRmse, tl);
-			pctRd.setText(symmary[1]);
-			setTextfieldColor(pctRd, tl);
-			pctAd.setText(symmary[2]);
-			setTextfieldColor(pctAd, tl);
 		}
 	}
 
-	@Override
-	public void setMainService(MainService mainService)
+	@FXML
+	private void handleBackAction()
 	{
-		this.mainService = mainService;
-		handleCleanWorkflow();
-	}
+		backButton.setVisible(false);
+		backButton.setDisable(true);
 
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-		this.fileChooser = fileChooser;
-	}
-
-	private void setTextfieldColor(TextField tf, String value)
-	{
-		if (tf.getText().equals(""))
-		{
-			tf.setStyle("-fx-background-color: white");
-
-		}
-		else if (Double.valueOf(value) >= Double.valueOf(tf.getText()))
-		{
-			tf.setStyle("-fx-background-color: " + validValue);
-		}
-		else
-		{
-			tf.setStyle("-fx-background-color: " + notValidValue);
-		}
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
+		WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId());
+		validationTable.getItems().clear();
+		validationTable.setItems(result.getValidation());
 	}
 
 	@FXML
@@ -340,13 +389,7 @@ public class SwtoswValidationController implements MainChildrenController
 	private TextField						stepSize;
 
 	@FXML
-	private TextField						tolerance;
-	@FXML
-	private TextField						pctRmse;
-	@FXML
-	private TextField						pctRd;
-	@FXML
-	private TextField						pctAd;
+	private Button							backButton;
 	@FXML
 	private TextField						thRmse;
 	@FXML
@@ -370,6 +413,7 @@ public class SwtoswValidationController implements MainChildrenController
 	private Image							whiteSelectImage	= new Image(
 			getClass().getResourceAsStream("/img/white-select.png"));
 
+	private Workflow						w;
 	private GuiFileChooser					fileChooser;
 	private MainService						mainService;
 

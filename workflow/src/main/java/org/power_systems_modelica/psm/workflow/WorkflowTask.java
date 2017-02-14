@@ -69,7 +69,7 @@ public abstract class WorkflowTask
 	{
 		LOG.error("Workflow task {} failed", this.id, x);
 		state = FAILED;
-		workflow.updateState(this.id, state);
+		workflow.updateState(this.id, state, x);
 	}
 
 	protected void progress(String info)

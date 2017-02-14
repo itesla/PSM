@@ -26,7 +26,8 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 
 	public ModelicaDocument addEvents()
 	{
-		ModelicaDocument moWithEvents = original.copy();
+		String systemIdWithEvents = original.getSystemModel().getId() + "_withEvents";
+		ModelicaDocument moWithEvents = original.copy(systemIdWithEvents);
 		setModelicaDocument(moWithEvents);
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
 		events.forEach(ev -> addEvent(ev, moWithEvents));
@@ -53,7 +54,7 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		registerResolver(DynamicDataRepository.EVENT_PARAMS_DATA_SOURCE,
 				new MapReferenceResolver(ev.getParameters()));
 
-		Injection injection = getDdr().getInjectionForEvent(ev.getId());
+		Injection injection = getDdr().getEventInjection(ev.getId());
 		switch (injection)
 		{
 		case ADD:

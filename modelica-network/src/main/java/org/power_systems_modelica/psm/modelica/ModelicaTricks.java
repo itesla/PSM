@@ -13,7 +13,7 @@ public class ModelicaTricks
 	public static String getKind(String name)
 	{
 		if (name.equals("SNREF")) return "system";
-		if (name.equals("omegaRef")) return "system";
+		if (name.startsWith("omegaRef")) return "system";
 
 		int p = name.indexOf("_");
 		if (p < 0) return "other";
@@ -220,17 +220,20 @@ public class ModelicaTricks
 			"fixinj",
 			"gen",
 			"Generator",
-			"reg");
-	private static final List<String>	KIND_PAIRS			= Arrays.asList(
+			"reg",
+			"other");
+	
+	private static final List<String>	ALL_EQUATION_KINDS			= Arrays.asList(
+			"system",
 			"gen-system",
 			"system-gen",
+			"load-system",
+			"system-load",			
 			"reg-gen",
 			"reg-reg",
 			// bus-bus correspond to switches
 			"bus-bus",
 			"bus-busInf",
-			// bus-other may correspond to a bus-fault for example
-			"bus-other",
 			"bus-line",
 			"Bus-Line",
 			// "line-bus" must be equivalent to bus-line, we have normalized
@@ -244,21 +247,20 @@ public class ModelicaTricks
 			"Bus-fixinj",
 			"bus-trafo",
 			// "trafo-bus" is equivalent to bus-trafo, we have normalized
-			"Bus-Transformer");
+			"Bus-Transformer",
+			// bus-other may correspond to a bus-fault for example
+			"bus-other",
+			"other",
+			"other-other",
+			"other-gen",
+			"gen-other",
+			"reg-other"
+			);
+
 
 	private static final Set<String>	KINDS_SET			= new HashSet<>(KINDS);
 	private static final List<String>	ALL_KINDS			= new ArrayList<>(KINDS);
-	private static final List<String>	ALL_EQUATION_KINDS	= new ArrayList<>(KIND_PAIRS);
-	static
-	{
-		ALL_KINDS.add("other");
 
-		ALL_EQUATION_KINDS.add("system");
-		ALL_EQUATION_KINDS.add("other");
-		ALL_EQUATION_KINDS.add("other-other");
-		ALL_EQUATION_KINDS.add("other-gen");
-		ALL_EQUATION_KINDS.add("gen-other");
-	}
 	private static final Map<String, String> mappingDynamicId2StaticId = new HashMap<>();
 	static
 	{

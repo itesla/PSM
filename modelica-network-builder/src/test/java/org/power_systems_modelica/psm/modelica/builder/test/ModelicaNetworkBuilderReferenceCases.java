@@ -1,23 +1,28 @@
 package org.power_systems_modelica.psm.modelica.builder.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
+import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
+import org.power_systems_modelica.psm.modelica.parser.ModelicaParser;
 import org.power_systems_modelica.psm.modelica.test.ModelicaTestUtil;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 
@@ -70,6 +75,12 @@ public class ModelicaNetworkBuilderReferenceCases
 	}
 
 	@Test
+	public void buildSmallCase4() throws Exception
+	{
+		build("smallcase4", "case4_EQ.xml", "smallcase4/ddr", "itesla/case4_no_lf.mo", 3, 2);
+	}
+
+	@Test
 	public void build7buses() throws Exception
 	{
 		build("7buses", "M7buses_EQ.xml", "7buses/ddr", "itesla/M7buses_no_lf.mo", 7, 3);
@@ -105,6 +116,8 @@ public class ModelicaNetworkBuilderReferenceCases
 		assertEquals(expectedNumBuses, Iterables.size(n.getBusView().getBuses()));
 		assertEquals(expectedNumGenerators, n.getGeneratorCount());
 
+		// Check first the DDR we will use
+		checkDyd(ddrLocation);
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", ddrLocation);
 		ddr.connect();
 
@@ -120,16 +133,42 @@ public class ModelicaNetworkBuilderReferenceCases
 		ModelicaDocument mo = builder.build();
 		assertNotNull(mo);
 
-		ModelicaTextPrinter printer = new ModelicaTextPrinter(mo);
+		// Check that the Modelica document built is equal to the reference
 		boolean includePsmAnnotations = false;
-		printer.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(output.toFile());)
-		{
-			printer.print(out);
-		}
-
+		ModelicaTextPrinter.print(mo, output, includePsmAnnotations);
 		Path expected = folder.resolve(expectedmoname);
 		Path actual = output;
 		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
+
+		// Check that the obtained Modelica document can be printed with PSM annotations
+		// And all annotations are recovered
+		checkPrintWithAnnotations(mo, name);
+	}
+
+	private void checkPrintWithAnnotations(ModelicaDocument mo, String name) throws IOException
+	{
+		boolean includePsmAnnotations = true;
+		Path outputa = DATA_TMP.resolve("modelica_builder_output_" + name + "_annotations.mo");
+		Path outputa1 = DATA_TMP.resolve("modelica_builder_output_" + name + "_annotations1.mo");
+		ModelicaTextPrinter.print(mo, outputa, includePsmAnnotations);
+		ModelicaDocument mo1 = ModelicaParser.parse(outputa);
+		
+		ModelicaTextPrinter.print(mo1, outputa1, includePsmAnnotations);
+		Path expected = outputa;
+		Path actual = outputa1;
+		ModelicaTestUtil.assertEqualsNormalizedModelicaText(expected, actual);
+	}
+
+	private void checkDyd(String ddrLocation) throws IOException
+	{
+		DynamicDataRepositoryDydFiles ddr2 = new DynamicDataRepositoryDydFiles();
+		ddr2.setLocation(ddrLocation);
+		Map<String, ModelMapping> modelMapping = ddr2.checkDuplicates();
+		for (String key : modelMapping.keySet())
+		{
+			assertFalse(modelMapping.get(key).isDuplicated());
+			assertEquals(modelMapping.get(key).getModels().size(),
+					modelMapping.get(key).getModelContainers().size());
+		}
 	}
 }

@@ -61,6 +61,7 @@
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_HIn" targetModel="{system}" targetName="omegaRef_HIn[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_SN" targetModel="{system}" targetName="omegaRef_SN[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_OMEGA" targetModel="{system}" targetName="omegaRef_omega[?]"/>
+        <interconnection name="Vset" componentId="reg_sexs_{staticId}" componentVar="setPointModification_12" />
     </model>
     <model id="DM_{staticId}" association="association1">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_SIMULATION"/>
@@ -80,28 +81,37 @@
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_HIn" targetModel="{system}" targetName="omegaRef_HIn[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_SN" targetModel="{system}" targetName="omegaRef_SN[?]"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="pin_OMEGA" targetModel="{system}" targetName="omegaRef_omega[?]"/>
+        <interconnection name="Vset" componentId="reg_sexs_{staticId}" componentVar="setPointModification_12" />
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association1">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.tgov1_Init" id="tgov1_{staticId}" parFile="params.par" parId="tgov1_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.pssi3e3b_Init" id="pssi3e3b_{staticId}" parFile="params.par" parId="pssi3e3b_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="sexs_{staticId}" parFile="params.par" parId="sexs_{staticId}_INITIALIZATION"/>
+        <component type="Modelica.Blocks.Sources.Constant" id="zero_{staticId}">
+            <par name="k" value="0" isGeneric="true"/>
+        </component>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_OMEGA" id2="tgov1_{staticId}" var2="pin_OMEGA"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_CM" id2="tgov1_{staticId}" var2="pin_CM"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e3b_{staticId}" var2="pin_ActivePowerSN"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_TerminalVoltage" id2="sexs_{staticId}" var2="pin_TerminalVoltage"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>
+        <connection id1="sexs_{staticId}" var1="pin_VS" id2="zero_{staticId}" var2="y"/>
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_INITIALIZATION"/>
-        <component type="iPSL.Electrical.Controls.Eurostag.gsteam1_Iinit" id="gsteam1_{staticId}" parFile="params.par" parId="gsteam1_{staticId}_INITIALIZATION"/>
+        <component type="iPSL.Electrical.Controls.Eurostag.gsteam1_Init" id="gsteam1_{staticId}" parFile="params.par" parId="gsteam1_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.pssi3e3b_Init" id="pssi3e3b_{staticId}" parFile="params.par" parId="pssi3e3b_{staticId}_INITIALIZATION"/>
         <component type="iPSL.Electrical.Controls.Eurostag.sexs_Init" id="sexs_{staticId}" parFile="params.par" parId="sexs_{staticId}_INITIALIZATION"/>
+        <component type="Modelica.Blocks.Sources.Constant" id="zero_{staticId}">
+            <par name="k" value="0" isGeneric="true"/>
+        </component>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_CM" id2="gsteam1_{staticId}" var2="pin_CM"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_OMEGA" id2="gsteam1_{staticId}" var2="pin_OMEGA"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_ActivePowerSN" id2="pssi3e3b_{staticId}" var2="pin_ActivePowerSN"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_TerminalVoltage" id2="sexs_{staticId}" var2="pin_TerminalVoltage"/>
         <connection id1="gen_pwGeneratorM2S_{staticId}" var1="pin_EFD" id2="sexs_{staticId}" var2="pin_EFD"/>
+        <connection id1="sexs_{staticId}" var1="pin_VS" id2="zero_{staticId}" var2="y"/>
     </model>
     <association id="association0" pattern="_FVALDT11_SM|_FVERGT11_SM"/>
     <association id="association1" pattern="_FSSV_T11_SM"/>

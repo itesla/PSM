@@ -13,5 +13,11 @@ public class ModelForElement extends Model
 		return staticId;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Element " + staticId;
+	}
+
 	private final String staticId;
 }

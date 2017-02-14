@@ -15,11 +15,11 @@ import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.test.gui.GuiFileChooserFake;
 import org.power_systems_modelica.psm.test.gui.WorkflowTaskFake;
@@ -146,7 +146,7 @@ public class SimulationDetailControllerTest extends ApplicationTest
 
 				controller.addDefaultBuses(w, results);
 				controller.addSeries(results);
-				Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
+				UtilsFX.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 
 				assertEquals(5, dsChart.getData().size());
 				XYChart.Series<Number, Number> valuesDS = dsChart.getData().get(0);

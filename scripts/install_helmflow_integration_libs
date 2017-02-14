@@ -1,3 +1,9 @@
+FILE_PATH=helmflow_core-2.2.5.201702061800.0.jar
+GROUP=com.elequant.helmflow
+ARTIFACT=helmflow-core
+VERSION=2.2.5
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
 FILE_PATH=helmflow_core-2.2.4.201606211030.0.jar
 GROUP=com.elequant.helmflow
 ARTIFACT=helmflow-core

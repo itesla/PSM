@@ -10,15 +10,4 @@
         <interconnection name="omegaRef_SN[]" componentId="omegaRef" componentVar="pin_SN[]"/>
         <interconnection name="omegaRef_omega[]" componentId="omegaRef" componentVar="pin_omega[]"/>
     </model>
-    <model stage="INITIALIZATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
-        <equation>
-            <unparsed>sexs__FSSV_T11_SM.pin_VS = 0</unparsed>
-        </equation>
-        <equation>
-            <unparsed>sexs__FVALDT11_SM.pin_VS = 0</unparsed>
-        </equation>
-        <equation>
-            <unparsed>sexs__FVERGT11_SM.pin_VS = 0</unparsed>
-        </equation>
-    </model>
 </model_container>

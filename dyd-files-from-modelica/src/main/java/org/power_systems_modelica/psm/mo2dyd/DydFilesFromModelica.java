@@ -580,7 +580,7 @@ public class DydFilesFromModelica
 			p = asInitializationReference(staticId, declarationId, a);
 			if (p == null) p = asIidmReference(stype, a);
 			if (p == null) p = asDynamicNetworkReference(staticId, declarationId, a);
-			if (p == null) p = asGenericParameterValue(stype, a);
+			if (p == null) p = asGenericParameterValue(stype, declarationId, a);
 			if (p == null)
 			{
 				String defaultType = null;
@@ -592,10 +592,18 @@ public class DydFilesFromModelica
 		return params;
 	}
 
-	private static Parameter asGenericParameterValue(String staticType, ModelicaArgument a)
+	private static Parameter asGenericParameterValue(
+			String staticType,
+			String declarationId,
+			ModelicaArgument a)
 	{
-		String genericParameterKey = String.format("%s::%s", staticType, a.getName());
-		if (GENERIC_PARAMETER_KEYS.contains(genericParameterKey))
+		boolean isGeneric = false;
+
+		String kTypeArgname = String.format("%s::%s", staticType, a.getName());
+		if (GENERIC_PARAMETERS_TYPE.contains(kTypeArgname)) isGeneric = true;
+		if (declarationId.startsWith("zero_")) isGeneric = true;
+
+		if (isGeneric)
 		{
 			String paramType = null;
 			String paramUnit = null;
@@ -670,11 +678,14 @@ public class DydFilesFromModelica
 		if (stage.equals(Stage.INITIALIZATION)) return Collections.emptyList();
 
 		String firstDeclarationId = m.getDeclarations().get(0).getId();
+		String firstDeclarationType = m.getDeclarations().get(0).getType();
 		boolean isBranch = firstDeclarationId.startsWith("line_")
 				|| firstDeclarationId.startsWith("trafo_")
 				|| firstDeclarationId.startsWith("Line_")
 				|| firstDeclarationId.startsWith("Transformer");
 		boolean isGenerator = firstDeclarationId.startsWith("gen_");
+		boolean isLoadOmegaRef = firstDeclarationId.startsWith("load_")
+				&& firstDeclarationType.contains("FrecDependence");
 		boolean isBus = firstDeclarationId.startsWith("bus_")
 				|| firstDeclarationId.startsWith("Bus_");
 		boolean isSystem = ModelicaUtil.isSystemModel(m);
@@ -692,6 +703,9 @@ public class DydFilesFromModelica
 				Interconnection.createSender(componentId, "p", "{bus1}", "p"),
 				Interconnection.createSender(componentId, "n", "{bus2}", "p"));
 		else if (isGenerator) return createInterconnectionsGenerator(componentId);
+		else if (isLoadOmegaRef) return Arrays.asList(
+				Interconnection.createSender(componentId, "p", "{bus}", "p"),
+				Interconnection.createSender(componentId, "omegaRef", "{system}", "omegaRef"));
 		else return Arrays.asList(
 				Interconnection.createSender(componentId, "p", "{bus}", "p"));
 	}
@@ -748,7 +762,7 @@ public class DydFilesFromModelica
 	private static final String					MODELS_NAME				= "models";
 	private static final String					FAKE_INIT_NAME			= "fake_init.csv";
 
-	private static final Set<String>			GENERIC_PARAMETER_KEYS	= new HashSet<>(
+	private static final Set<String>			GENERIC_PARAMETERS_TYPE	= new HashSet<>(
 			// We consider parameters alpha and beta of models for type Load to be constant for all instances
 			Arrays.asList(
 					"Load::alpha",
@@ -761,15 +775,27 @@ public class DydFilesFromModelica
 		DYNN_PARAMETERS.put("omegaRef::nGenerators", "numModelsConnectToTarget({system},omegaRef)");
 	}
 
-	private static final InitResults2SimInputs initResults2SimInputs;
+	private static final Logger					LOG	= LoggerFactory
+			.getLogger(DydFilesFromModelica.class);
+
+	private static final InitResults2SimInputs	initResults2SimInputs;
 	static
 	{
-		Path refsCsv = Paths.get(System.getenv("PSM_DATA"))
+		Path refs = Paths.get(System.getenv("PSM_DATA"))
 				.resolve("test")
 				.resolve("dyd_files_from_modelica")
 				.resolve("init_results_to_sim_input")
 				.resolve("refs.csv");
-		initResults2SimInputs = new InitResults2SimInputs(refsCsv);
+		initResults2SimInputs = new InitResults2SimInputs();
+		try
+		{
+			initResults2SimInputs.read(refs);
+		}
+		catch (IOException e)
+		{
+			LOG.error("Processing init results 2 sim inputs references");
+			e.printStackTrace();
+		}
 	}
 
 	private static enum OmegaRefModel
@@ -786,7 +812,4 @@ public class DydFilesFromModelica
 	private final AssociationsDiscoverer			associations;
 	private final Set<Model>						addedModels;
 	private OmegaRefModel							omegaRefModel;
-
-	private static final Logger						LOG	= LoggerFactory
-			.getLogger(DydFilesFromModelica.class);
 }

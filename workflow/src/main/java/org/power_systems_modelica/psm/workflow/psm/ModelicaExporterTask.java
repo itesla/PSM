@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.workflow.psm;
 
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -39,11 +38,9 @@ public class ModelicaExporterTask extends WorkflowTask
 		running();
 
 		ModelicaDocument mo = (ModelicaDocument) workflow.getResults(source);
-		ModelicaTextPrinter mop = new ModelicaTextPrinter(mo);
-		mop.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(Paths.get(target).toFile());)
+		try
 		{
-			mop.print(out);
+			ModelicaTextPrinter.print(mo, Paths.get(target), includePsmAnnotations);
 			succeded();
 		}
 		catch (Exception x)

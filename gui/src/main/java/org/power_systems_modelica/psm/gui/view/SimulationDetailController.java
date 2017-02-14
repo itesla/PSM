@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
@@ -20,26 +18,36 @@ import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.AutoFillTextBox;
-import org.power_systems_modelica.psm.gui.utils.CodeEditor;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox;
+import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
-import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Identifiable;
+import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.SingleTerminalConnectable;
+import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,9 +55,12 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -88,12 +99,220 @@ public class SimulationDetailController implements MainChildrenController
 	@Override
 	public List<SummaryLabel> getSummaryLabels()
 	{
+		String dateLabel = "";
+		if (date != null)
+			dateLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 
-		List<SummaryLabel> labels = new ArrayList();
+		List<SummaryLabel> labels = new ArrayList<>();
 		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
-		labels.add(new SummaryLabel("Created:", date.toString("yyyy/MM/dd HH:mm:ss"), true, true));
+		labels.add(new SummaryLabel("Created:", dateLabel, true, true));
 		labels.add(new SummaryLabel("Dynamic simulator:", dsLabel, false, false));
 		return labels;
+	}
+
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
+	}
+
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
+	}
+
+	public void addSeries(WorkflowResult results)
+	{
+		element.clear();
+		ObservableList<String> buses = FXCollections.observableArrayList();
+		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
+				.filter(k -> !selectedBuses.contains(k)).collect(Collectors.toList());
+		buses.addAll(keys);
+		element.setData(buses);
+
+		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections
+				.observableArrayList();
+		for (String key : results.getDsValues().keySet())
+		{
+			if (!selectedBuses.contains(key))
+				continue;
+
+			XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
+			valuesDS.setName(key);
+
+			for (DsData xyValue : results.getDsValues().get(key))
+			{
+				valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
+			}
+			displayedDsSeries.add(valuesDS);
+		}
+
+		dsChart.getData().addAll(displayedDsSeries);
+		highlightSeriesOnHover(displayedDsSeries);
+	}
+
+	public void addDefaultBuses(Workflow w, WorkflowResult results)
+	{
+		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
+				.collect(Collectors.toList());
+
+		Network n = (Network) w.getResults("network");
+
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
+			{
+				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
+				for (String event : events)
+				{
+
+					Event e = new Event();
+					e.fromString(event);
+					keys.stream().filter(k -> containsRelatedBuses(n, e, k)).forEach(key -> {
+						selectedBuses.add(key);
+					});
+				}
+			}
+		}
+
+		if (selectedBuses.isEmpty())
+		{
+			int max = Math.min(5, keys.size());
+			selectedBuses.addAll(keys.subList(0, max));
+		}
+	}
+
+	private boolean containsRelatedBuses(Network n, Event e, String key)
+	{
+		Identifiable<?> i = n.getIdentifiable(e.getElement());
+		if (i instanceof Bus)
+			return i.getId().equals(key);
+		else if (i instanceof SingleTerminalConnectable)
+		{
+			return ((SingleTerminalConnectable<?>) i).getTerminal().getBusBreakerView().getBus()
+					.getId().equals(key);
+		}
+		else if (i instanceof TwoTerminalsConnectable)
+		{
+			return ((TwoTerminalsConnectable<?>) i).getTerminal1().getBusBreakerView().getBus()
+					.getId()
+					.equals(key)
+					|| ((TwoTerminalsConnectable<?>) i).getTerminal2().getBusBreakerView().getBus()
+							.getId().equals(key);
+		}
+
+		return false;
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+		String moInput = null;
+		curvesTab.setDisable(true);
+		moTab.setDisable(true);
+		moweTab.setDisable(true);
+		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+		{
+			if (td.getTaskClass().equals(ModelicaParserTask.class))
+			{
+				moInput = td.getTaskConfiguration().getParameter("source");
+
+				java.nio.file.Path casePath;
+				if (moInput.endsWith(".mo"))
+				{
+					java.nio.file.Path path = Paths.get(moInput);
+					casePath = path.getParent();
+				}
+				else
+					casePath = Paths.get(moInput);
+
+				java.nio.file.Path catalogPath = casePath.getParent();
+
+				try
+				{
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
+					Case c = CaseService.getCase(catalog.getName(), casePath);
+					caseLabel = catalog.getName() + "\t" + c.getName();
+
+					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
+							BasicFileAttributes.class);
+					date = new DateTime(attr.lastModifiedTime().toMillis());
+				}
+				catch (IOException e)
+				{
+					caseLabel = "";
+					date = null;
+				}
+			}
+
+			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
+			{
+				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
+				dsLabel = Utils.getDsEngine(simulationEngine).toString();
+			}
+		}
+
+		if (moInput != null)
+		{
+
+			java.nio.file.Path moInputPath = Paths.get(moInput);
+			String path = moInputPath.toFile().getParent();
+			if (Files.exists(moInputPath, LinkOption.NOFOLLOW_LINKS))
+			{
+				moTab.setDisable(false);
+				String file = moInputPath.toFile().getName();
+				showModelicaFileContent(moEditor, path, file);
+			}
+
+			String moweInput = Utils.replaceLast(moInput, ".mo", "_events.mo");
+			java.nio.file.Path moweInputPath = Paths.get(moweInput);
+			if (Files.exists(moweInputPath, LinkOption.NOFOLLOW_LINKS))
+			{
+				moweTab.setDisable(false);
+				String file = moweInputPath.toFile().getName();
+				showModelicaFileContent(moweEditor, path, file);
+			}
+		}
+
+		results = WorkflowServiceConfiguration.getSimulationResult("" + w.getId());
+		if (w.getState().equals(ProcessState.SUCCESS))
+		{
+			curvesTab.setDisable(false);
+			addDefaultBuses(w, results);
+			addSeries(results);
+			UtilsFX.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
+		}
+		else
+		{
+			tabPane.getSelectionModel().select(logTab);
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (Exception e : results.getExceptions())
+		{
+			sb.append(Utils.getStackTrace(e));
+			sb.append("\n\n");
+		}
+
+		logArea.setText(sb.toString());
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+		this.fileChooser = fileChooser;
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
 	}
 
 	@FXML
@@ -109,7 +328,7 @@ public class SimulationDetailController implements MainChildrenController
 	private void handleNewWorkflow()
 	{
 		LOG.debug("handleNewWorkflow");
-		mainService.showSimulationNewView(mainService.getSimulation());
+		mainService.showSimulationNewView(WorkflowServiceConfiguration.getSimulation());
 	}
 
 	@FXML
@@ -120,7 +339,7 @@ public class SimulationDetailController implements MainChildrenController
 		element.removeData(bus);
 		element.resetTextbox();
 		selectedBuses.add(bus);
-		
+
 		XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
 		valuesDS.setName(bus);
 		for (DsData xyValue : results.getDsValues().get(bus))
@@ -137,9 +356,10 @@ public class SimulationDetailController implements MainChildrenController
 		LOG.debug("handleRemoveElement");
 		element.addData(bus);
 		selectedBuses.remove(bus);
-		FilteredList<XYChart.Series<Number, Number>> series = dsChart.getData().filtered(s->s.getName().equals(bus));
+		FilteredList<XYChart.Series<Number, Number>> series = dsChart.getData()
+				.filtered(s -> s.getName().equals(bus));
 		if (series.isEmpty()) return;
-		
+
 		dsChart.getData().removeAll(series);
 	}
 
@@ -179,7 +399,6 @@ public class SimulationDetailController implements MainChildrenController
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -202,15 +421,13 @@ public class SimulationDetailController implements MainChildrenController
 		String location = codeEditor.getEditingLocation();
 		String file = codeEditor.getEditingFile();
 
-		boolean close = true;
 		try
 		{
-			close = PathUtils.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
+			PathUtilsFX.saveAsMoFile(fileChooser, mainService.getPrimaryStage(), location,
 					file, ddrContent);
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -237,7 +454,6 @@ public class SimulationDetailController implements MainChildrenController
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -336,180 +552,17 @@ public class SimulationDetailController implements MainChildrenController
 		}
 	}
 
-	public void addSeries(WorkflowResult results)
-	{
-		element.clear();
-		ObservableList<String> buses = FXCollections.observableArrayList();
-		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
-				.filter(k -> !selectedBuses.contains(k)).collect(Collectors.toList());
-		buses.addAll(keys);
-		element.setData(buses);
+	@FXML
+	private TabPane						tabPane;
 
-		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections
-				.observableArrayList();
-		for (String key : results.getDsValues().keySet())
-		{
-			if (!selectedBuses.contains(key))
-				continue;
-
-			XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
-			valuesDS.setName(key);
-
-			for (DsData xyValue : results.getDsValues().get(key))
-			{
-				valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
-			}
-			displayedDsSeries.add(valuesDS);
-		}
-
-		dsChart.getData().addAll(displayedDsSeries);
-		highlightSeriesOnHover(displayedDsSeries);
-	}
-
-	public void addDefaultBuses(Workflow w, WorkflowResult results)
-	{
-		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
-				.collect(Collectors.toList());
-
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
-		{
-			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
-			{
-				List<Event> addedEvents = new ArrayList<Event>();
-				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
-				for (String event : events)
-				{
-
-					Event e = new Event();
-					e.fromString(event);
-					Optional<String> bus = keys.stream().filter(k -> k.contains(e.getElement()))
-							.findAny();
-					if (bus.isPresent())
-						selectedBuses.add(bus.get());
-				}
-			}
-		}
-
-		if (selectedBuses.isEmpty())
-		{
-			selectedBuses.addAll(keys.subList(0, 5));
-		}
-	}
-
-	@Override
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
-		String moInput = null;
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
-		{
-			if (td.getTaskClass().equals(ModelicaParserTask.class))
-			{
-				moInput = td.getTaskConfiguration().getParameter("source");
-
-				try
-				{
-					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
-							BasicFileAttributes.class);
-					date = new DateTime(attr.lastModifiedTime().toMillis());
-				}
-				catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if (td.getTaskClass().equals(StaticNetworkImporterTask.class))
-			{
-
-				String uri = td.getTaskConfiguration().getParameter("source");
-
-				java.nio.file.Path casePath;
-				if (uri.endsWith(".xml"))
-				{
-					java.nio.file.Path path = Paths.get(uri);
-					casePath = path.getParent();
-				}
-				else
-					casePath = Paths.get(uri);
-
-				java.nio.file.Path catalogPath = casePath.getParent();
-
-				try
-				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					Case c = mainService.getCase(catalog.getName(), casePath);
-					caseLabel = catalog.getName() + "\t" + c.getName();
-				}
-				catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if (td.getTaskClass().equals(ModelicaSimulatorTask.class))
-			{
-				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
-				dsLabel = Utils.getDsEngine(simulationEngine).name();
-			}
-		}
-
-		moTab.setDisable(true);
-		moweTab.setDisable(true);
-		if (moInput != null)
-		{
-
-			java.nio.file.Path moInputPath = Paths.get(moInput);
-			String path = moInputPath.toFile().getParent();
-			if (Files.exists(moInputPath, LinkOption.NOFOLLOW_LINKS))
-			{
-				moTab.setDisable(false);
-				String file = moInputPath.toFile().getName();
-				showModelicaFileContent(moEditor, path, file);
-			}
-
-			String moweInput = Utils.replaceLast(moInput, ".mo", "_events.mo");
-			java.nio.file.Path moweInputPath = Paths.get(moweInput);
-			if (Files.exists(moweInputPath, LinkOption.NOFOLLOW_LINKS))
-			{
-				moweTab.setDisable(false);
-				String file = moweInputPath.toFile().getName();
-				showModelicaFileContent(moweEditor, path, file);
-			}
-		}
-
-		if (w.getState().equals(ProcessState.SUCCESS))
-		{
-			results = mainService.getSimulationResult("" + w.getId());
-			addDefaultBuses(w, results);
-			addSeries(results);
-			Utils.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
-		}
-
-	}
-
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-		this.fileChooser = fileChooser;
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
-	}
-
+	@FXML
+	private Tab							curvesTab;
 	@FXML
 	private Tab							moTab;
 	@FXML
 	private Tab							moweTab;
+	@FXML
+	private Tab							logTab;
 
 	@FXML
 	private CodeEditor					moEditor;
@@ -524,6 +577,9 @@ public class SimulationDetailController implements MainChildrenController
 	private NumberAxis					xDsAxis;
 	@FXML
 	private NumberAxis					yDsAxis;
+
+	@FXML
+	private TextArea					logArea;
 
 	private String						caseLabel;
 	private DateTime					date;

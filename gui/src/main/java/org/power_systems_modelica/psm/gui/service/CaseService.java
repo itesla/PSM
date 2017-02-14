@@ -11,6 +11,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.Case;
@@ -24,10 +26,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.itesla_project.iidm.network.Network;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class CaseService {
+
+	public static Network getCaseSummary(Case input)
+	{
+
+		Network n = null;
+		try
+		{
+			n = importCase(input);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return n;
+	}
 
 	public static Network importCase(Case input) throws WorkflowCreationException {
 
@@ -47,9 +64,14 @@ public class CaseService {
 		return n;
 	}
 
+	public static Case getCase(String catalogName, Path path) throws IOException {
+		
+		return getCase(CatalogService.getCatalogByName("cases", catalogName), path);
+	}
+
 	public static Case getCase(Catalog catalog, Path path) throws IOException {
 
-		ObservableList<Case> cases = getCases(catalog);
+		List<Case> cases = getCases(catalog);
 		
 		for (Case c: cases) {
 			if (Files.isSameFile(Paths.get(c.getLocation()), path))
@@ -59,9 +81,14 @@ public class CaseService {
 		return null;
 	}
 
-	public static ObservableList<Case> getCases(Catalog catalog) {
+	public static List<Case> getCases(String catalogName) {
+		
+		return getCases(CatalogService.getCatalogByName("cases", catalogName));
+	}
+
+	public static List<Case> getCases(Catalog catalog) {
 		LOG.debug("getCases " + catalog.getName());
-		ObservableList<Case> cases = FXCollections.observableArrayList();
+		List<Case> cases = new ArrayList<>();
 
 		Path catalogPath = Paths.get(catalog.getLocation());
 		try {
@@ -73,9 +100,15 @@ public class CaseService {
 		return cases;
 	}
 
+	public static ConvertedCase getConvertedCase(String catalogName, Path path) throws IOException {
+		
+		return getConvertedCase(CatalogService.getCatalogByName("cases", catalogName),
+				path);
+	}
+
 	public static ConvertedCase getConvertedCase(Catalog catalog, Path path) throws IOException {
 
-		ObservableList<ConvertedCase> cases = getConvertedCases(catalog);
+		List<ConvertedCase> cases = getConvertedCases(catalog);
 		
 		for (ConvertedCase c: cases) {
 			if (Files.isSameFile(Paths.get(c.getLocation()), path))
@@ -85,9 +118,14 @@ public class CaseService {
 		return null;
 	}
 	
-	public static ObservableList<ConvertedCase> getConvertedCases(Catalog catalog) {
+	public static List<ConvertedCase> getConvertedCases(String catalogName) {
+		
+		return getConvertedCases(CatalogService.getCatalogByName("cases", catalogName));
+	}
+	
+	public static List<ConvertedCase> getConvertedCases(Catalog catalog) {
 
-		ObservableList<ConvertedCase> cases = FXCollections.observableArrayList();
+		List<ConvertedCase> cases = new ArrayList<>();
 
 		Path catalogPath = Paths.get(catalog.getLocation());
 		try {
@@ -100,7 +138,7 @@ public class CaseService {
 		return cases;
 	}
 
-	private static boolean searchCatalogCases(ObservableList<Case> cases, Path path) throws IOException {
+	private static boolean searchCatalogCases(List<Case> cases, Path path) throws IOException {
 
 		boolean eq = false, sv = false, tp = false;
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
@@ -140,7 +178,7 @@ public class CaseService {
 		return false;
 	}
 
-	private static boolean searchCatalogConvertedCases(ObservableList<ConvertedCase> cases, Path path)
+	private static boolean searchCatalogConvertedCases(List<ConvertedCase> cases, Path path)
 			throws IOException {
 
 		boolean eq = false, sv = false, tp = false;

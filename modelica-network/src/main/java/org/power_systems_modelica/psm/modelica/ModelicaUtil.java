@@ -54,11 +54,12 @@ public class ModelicaUtil
 		Map<String, List<ModelicaEquation>> eqs = mo.getSystemModel()
 				.getEquations()
 				.stream()
-				.collect(Collectors.groupingBy(eq -> getStaticId(eq)));
+				.collect(Collectors.groupingBy(eq -> getNormalizedStaticId(eq)));
 		Map<String, List<Annotation>> as = mo.getSystemModel()
 				.getAnnotations()
 				.stream()
-				.collect(Collectors.groupingBy(a -> a.getStaticId().orElse(SYSTEM_ID)));
+				.collect(Collectors.groupingBy(
+						a -> ModelicaUtil.normalizedIdentifier(a.getStaticId().orElse(SYSTEM_ID))));
 
 		// These are all the static identifiers that have been found
 		Set<String> sids = new HashSet<>();
@@ -111,20 +112,20 @@ public class ModelicaUtil
 		return normalizedIdentifier(id);
 	}
 
-	private static String getStaticId(ModelicaEquation eq)
+	private static String getNormalizedStaticId(ModelicaEquation eq)
 	{
 		if (eq instanceof ModelicaConnect)
 		{
 			ModelicaConnect eqc = (ModelicaConnect) eq;
-			String id1 = getStaticId(eqc, 1);
-			String id2 = getStaticId(eqc, 2);
+			String id1 = getNormalizedStaticId(eqc, 1);
+			String id2 = getNormalizedStaticId(eqc, 2);
 			if (id1 != null && id1.equals(id2)) return id1;
 			else return INTERCONNECTIONS_ID;
 		}
 		return SYSTEM_ID;
 	}
 
-	public static String getStaticId(ModelicaConnect eqc, int side)
+	public static String getNormalizedStaticId(ModelicaConnect eqc, int side)
 	{
 		return getNormalizedStaticId(eqc, side, ModelicaUtil.ref2idvar(eqc.getRef(side))[0]);
 	}
@@ -169,6 +170,7 @@ public class ModelicaUtil
 			List<ModelicaInterconnection> connectors = Annotation.readConnectors(annotations);
 			m.setInterconnections(connectors);
 		}
+
 		return m;
 	}
 

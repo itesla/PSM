@@ -24,7 +24,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "SimulatorServerImplService", targetNamespace = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/", wsdlLocation = "http://localhost:8888/dymservice?wsdl")
+@WebServiceClient(name = "SimulatorServerImplService", targetNamespace = "http://service.proxy.integration.dymola.psm.power_systems_modelica.org/", wsdlLocation = "http://0.0.0.0:8888/dymservice?wsdl")
 public class SimulatorServerImplService
     extends Service
 {
@@ -37,7 +37,7 @@ public class SimulatorServerImplService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8888/dymservice?wsdl");
+            url = new URL("http://0.0.0.0:8888/dymservice?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

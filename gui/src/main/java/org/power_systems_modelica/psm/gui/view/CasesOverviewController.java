@@ -2,27 +2,32 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import com.google.common.collect.Iterables;
 
 import eu.itesla_project.iidm.network.Network;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -41,27 +46,22 @@ public class CasesOverviewController implements MainChildrenController
 	@Override
 	public void handleMainAction()
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void handleMenuAction(String action)
 	{
-
 	}
 
 	@Override
 	public String getMainAction()
 	{
-
 		return null;
 	}
 
 	@Override
 	public List<String> getMenuActions()
 	{
-
 		return null;
 	}
 
@@ -72,12 +72,129 @@ public class CasesOverviewController implements MainChildrenController
 		return null;
 	}
 
+	@Override
+	public ObservableValue<? extends Boolean> disableBackground()
+	{
+		return new SimpleBooleanProperty(false);
+	}
+
+	@Override
+	public Button getDefaultEnterButton()
+	{
+		return null;
+	}
+
+	public void showCaseSummary(Point point, Case c, Network n)
+	{
+		gridPane.getChildren().removeAll(gridPane.getChildren());
+
+		// Name
+		Label label = new Label("Name");
+		label.setStyle("-fx-font-weight: bold");
+		gridPane.add(label, 0, 0);
+		Label text = new Label(c.getName());
+		text.setWrapText(true);
+		gridPane.add(text, 1, 0);
+		RowConstraints constraints = new RowConstraints();
+		constraints.setMinHeight(30);
+		constraints.setPrefHeight(30);
+		gridPane.getRowConstraints().add(constraints);
+
+		// Description
+		label = new Label("Description");
+		label.setStyle("-fx-font-weight: bold");
+		gridPane.add(label, 0, 1);
+		text = new Label(c.getDescription());
+		text.setWrapText(true);
+		gridPane.add(text, 1, 1);
+		constraints = new RowConstraints();
+		constraints.setMinHeight(30);
+		constraints.setPrefHeight(60);
+		gridPane.getRowConstraints().add(constraints);
+
+		// Substations
+		label = new Label("Substations");
+		label.setStyle("-fx-font-weight: bold");
+		gridPane.add(label, 0, 2);
+		text = new Label("" + n.getSubstationCount());
+		text.setWrapText(true);
+		gridPane.add(text, 1, 2);
+		constraints = new RowConstraints();
+		constraints.setMinHeight(30);
+		constraints.setPrefHeight(30);
+		gridPane.getRowConstraints().add(constraints);
+
+		// VoltageLevels
+		label = new Label("Voltage Levels");
+		label.setStyle("-fx-font-weight: bold");
+		gridPane.add(label, 0, 3);
+		text = new Label("" + n.getVoltageLevelCount());
+		text.setWrapText(true);
+		gridPane.add(text, 1, 3);
+		constraints = new RowConstraints();
+		constraints.setMinHeight(30);
+		constraints.setPrefHeight(30);
+		gridPane.getRowConstraints().add(constraints);
+
+		// Buses
+		label = new Label("Buses");
+		label.setStyle("-fx-font-weight: bold");
+		gridPane.add(label, 0, 4);
+		text = new Label("" + Iterables.size(n.getBusBreakerView().getBuses()));
+		text.setWrapText(true);
+		gridPane.add(text, 1, 4);
+		constraints = new RowConstraints();
+		constraints.setMinHeight(30);
+		constraints.setPrefHeight(30);
+		gridPane.getRowConstraints().add(constraints);
+
+		// Lines
+		label = new Label("Lines");
+		label.setStyle("-fx-font-weight: bold");
+		gridPane.add(label, 0, 5);
+		text = new Label("" + n.getLineCount());
+		text.setWrapText(true);
+		gridPane.add(text, 1, 5);
+		constraints = new RowConstraints();
+		constraints.setMinHeight(30);
+		constraints.setPrefHeight(30);
+		gridPane.getRowConstraints().add(constraints);
+
+		summaryPane.setLayoutX(point.x - 200);
+		summaryPane.setLayoutY(point.y - 400);
+		summaryPane.setVisible(true);
+	}
+
+	@Override
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+
+		catalogs.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
+		catalogs.getSelectionModel().selectFirst();
+	}
+
+	@Override
+	public void setFileChooser(GuiFileChooser fileChooser)
+	{
+	}
+
+	@Override
+	public void setDefaultInit()
+	{
+	}
+
+	@Override
+	public void setWorkflow(Workflow w, Object... objects)
+	{
+	}
+
 	@FXML
 	private void initialize()
 	{
 
 		summaryPane.setVisible(false);
-		Utils.setDragablePane(summaryPane);
+		UtilsFX.setDragablePane(summaryPane);
 
 		nameCatalogColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		descriptionCatalogColumn
@@ -98,7 +215,18 @@ public class CasesOverviewController implements MainChildrenController
 					{
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
-						cases.setItems(mainService.getCases(catalogName));
+						cases.setItems(FXCollections
+								.observableArrayList(CaseService.getCases(catalogName)));
+						cases.getItems().sort(new Comparator<Case>()
+						{
+
+							@Override
+							public int compare(Case c1, Case c2)
+							{
+								return c1.getName().compareToIgnoreCase(c2.getName());
+							}
+
+						});
 					}
 				});
 
@@ -117,7 +245,7 @@ public class CasesOverviewController implements MainChildrenController
 					{
 
 						Case c = row.getItem();
-						Network n = mainService.getCaseSummary(c);
+						Network n = CaseService.getCaseSummary(c);
 						showCaseSummary(MouseInfo.getPointerInfo().getLocation(), c, n);
 					}
 				});
@@ -207,111 +335,6 @@ public class CasesOverviewController implements MainChildrenController
 		summaryPane.setVisible(false);
 	}
 
-	public void showCaseSummary(Point point, Case c, Network n)
-	{
-		gridPane.getChildren().removeAll(gridPane.getChildren());
-
-		// Name
-		Label label = new Label("Name");
-		label.setStyle("-fx-font-weight: bold");
-		gridPane.add(label, 0, 0);
-		Label text = new Label(c.getName());
-		text.setWrapText(true);
-		gridPane.add(text, 1, 0);
-		RowConstraints constraints = new RowConstraints();
-		constraints.setMinHeight(30);
-		constraints.setPrefHeight(30);
-		gridPane.getRowConstraints().add(constraints);
-
-		// Description
-		label = new Label("Description");
-		label.setStyle("-fx-font-weight: bold");
-		gridPane.add(label, 0, 1);
-		text = new Label(c.getDescription());
-		text.setWrapText(true);
-		gridPane.add(text, 1, 1);
-		constraints = new RowConstraints();
-		constraints.setMinHeight(30);
-		constraints.setPrefHeight(60);
-		gridPane.getRowConstraints().add(constraints);
-
-		// Substations
-		label = new Label("Substations");
-		label.setStyle("-fx-font-weight: bold");
-		gridPane.add(label, 0, 2);
-		text = new Label("" + n.getSubstationCount());
-		text.setWrapText(true);
-		gridPane.add(text, 1, 2);
-		constraints = new RowConstraints();
-		constraints.setMinHeight(30);
-		constraints.setPrefHeight(30);
-		gridPane.getRowConstraints().add(constraints);
-
-		// VoltageLevels
-		label = new Label("Voltage Levels");
-		label.setStyle("-fx-font-weight: bold");
-		gridPane.add(label, 0, 3);
-		text = new Label("" + n.getVoltageLevelCount());
-		text.setWrapText(true);
-		gridPane.add(text, 1, 3);
-		constraints = new RowConstraints();
-		constraints.setMinHeight(30);
-		constraints.setPrefHeight(30);
-		gridPane.getRowConstraints().add(constraints);
-
-		// Buses
-		label = new Label("Buses");
-		label.setStyle("-fx-font-weight: bold");
-		gridPane.add(label, 0, 4);
-		text = new Label("" + Iterables.size(n.getBusBreakerView().getBuses()));
-		text.setWrapText(true);
-		gridPane.add(text, 1, 4);
-		constraints = new RowConstraints();
-		constraints.setMinHeight(30);
-		constraints.setPrefHeight(30);
-		gridPane.getRowConstraints().add(constraints);
-
-		// Lines
-		label = new Label("Lines");
-		label.setStyle("-fx-font-weight: bold");
-		gridPane.add(label, 0, 5);
-		text = new Label("" + n.getLineCount());
-		text.setWrapText(true);
-		gridPane.add(text, 1, 5);
-		constraints = new RowConstraints();
-		constraints.setMinHeight(30);
-		constraints.setPrefHeight(30);
-		gridPane.getRowConstraints().add(constraints);
-
-		summaryPane.setLayoutX(point.x - 200);
-		summaryPane.setLayoutY(point.y - 400);
-		summaryPane.setVisible(true);
-	}
-
-	@Override
-	public void setMainService(MainService mainService)
-	{
-		this.mainService = mainService;
-
-		catalogs.setItems(mainService.getCatalogs("cases"));
-		catalogs.getSelectionModel().selectFirst();
-	}
-
-	@Override
-	public void setFileChooser(GuiFileChooser fileChooser)
-	{
-	}
-
-	@Override
-	public void setDefaultInit()
-	{
-	}
-
-	@Override
-	public void setWorkflow(Workflow w, Object... objects)
-	{
-	}
-
 	@FXML
 	private TitledPane						summaryPane;
 	@FXML
@@ -340,4 +363,5 @@ public class CasesOverviewController implements MainChildrenController
 	private TableColumn<Case, Number>		sizeCaseColumn;
 
 	private MainService						mainService;
+
 }

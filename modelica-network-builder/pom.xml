@@ -31,6 +31,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-parser</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
@@ -40,7 +46,7 @@
         </dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>iidm-network-api</artifactId>
+			<artifactId>iidm-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
@@ -63,7 +69,7 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.itesla_project</groupId>
-			<artifactId>iidm-network-impl</artifactId>
+			<artifactId>iidm-impl</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -96,7 +102,7 @@
 		<!-- Temporal transitive dependencies -->
         <dependency>
             <groupId>eu.itesla_project</groupId>
-            <artifactId>graph</artifactId>
+            <artifactId>math</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.trove4j</groupId>

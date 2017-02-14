@@ -137,10 +137,11 @@ equation_stmt
    ;
 
 equation_connect_stmt
-locals [String ref1, String ref2]
+locals [String ref1, String ref2, Annotation eqa]
 @after
 {
 	ModelicaConnect eq = new ModelicaConnect($ref1,$ref2);
+	if ($eqa != null) eq.setAnnotation($eqa);
 	modelicaDocument.getSystemModel().addEquation(eq);
 }
    : 'connect' '(' ID
@@ -150,6 +151,8 @@ locals [String ref1, String ref2]
    ',' ID ')' annotation?
 {
 	$ref2 = $ID.text;
+	$eqa = null;
+	if ($annotation.ctx != null && !$annotation.a.isEmpty()) $eqa = $annotation.a;
 }
    ;
 
@@ -236,7 +239,7 @@ fragment DOT
 
 any_array : '{' any_array_content '}'
 {
-	//System.out.println("LUMA " + $any_array_content.text);
+	// System.out.println("any_array: " + $any_array_content.text);
 }
    ;
 

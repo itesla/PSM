@@ -1,10 +1,10 @@
-package org.power_systems_modelica.psm.gui.service;
+package org.power_systems_modelica.psm.gui.service.fx;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.power_systems_modelica.psm.gui.utils.ProgressData;
+import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskProgress;
 import org.power_systems_modelica.psm.workflow.TaskStatePair;
@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker.State;
 
 public class WorkflowService extends Task<Void>
 {
@@ -137,7 +138,7 @@ public class WorkflowService extends Task<Void>
 		w.cancel();
 		return super.cancel();
 	}
-
+	
 	@Override
 	protected Void call() throws Exception
 	{
@@ -171,8 +172,6 @@ public class WorkflowService extends Task<Void>
 			}
 		});
 		w.start();
-		updateProgress(0, w.getTaskStates().size());
-		updateWorkflowStates(w.getTaskStates());
 
 		return null;
 	}

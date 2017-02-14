@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -128,6 +127,19 @@ public class Mo2Dyd2MoTest
 	}
 
 	@Test
+	public void rebuildSmallCase4() throws Exception
+	{
+		rebuild(
+				"smallcase4",
+				"itesla/case4_no_lf.mo",
+				"itesla/init",
+				"case4_EQ.xml",
+				"smallcase4_ddr",
+				3,
+				2);
+	}
+
+	@Test
 	public void rebuild7buses() throws Exception
 	{
 		rebuild(
@@ -202,13 +214,8 @@ public class Mo2Dyd2MoTest
 		ModelicaDocument mo = builder.build();
 		assertNotNull(mo);
 
-		ModelicaTextPrinter printer = new ModelicaTextPrinter(mo);
 		boolean includePsmAnnotations = false;
-		printer.setIncludePsmAnnotations(includePsmAnnotations);
-		try (PrintWriter out = new PrintWriter(moOutput.toFile());)
-		{
-			printer.print(out);
-		}
+		ModelicaTextPrinter.print(mo, moOutput, includePsmAnnotations);
 
 		Path expected = moInput;
 		Path actual = moOutput;

@@ -12,9 +12,9 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.CodeEditor;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
 import org.power_systems_modelica.psm.gui.view.DdrsOverviewController;
 import org.testfx.framework.junit.ApplicationTest;
 

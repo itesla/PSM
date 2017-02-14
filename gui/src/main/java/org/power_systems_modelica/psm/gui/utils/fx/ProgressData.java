@@ -1,5 +1,6 @@
-package org.power_systems_modelica.psm.gui.utils;
+package org.power_systems_modelica.psm.gui.utils.fx;
 
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 
 import javafx.collections.FXCollections;
@@ -66,7 +67,7 @@ public class ProgressData implements HierarchyData<ProgressData> {
 	public String toString() {
 		
 		if (info != null)
-			return info;
+			return "\t" + info;
 		
 		return Utils.padString(taskId, 20) + Utils.padString(taskName, 60) + taskState.toString();
 	}

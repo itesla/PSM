@@ -1,15 +1,13 @@
 package org.power_systems_modelica.psm.gui.view;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
-import org.power_systems_modelica.psm.gui.service.MainService;
-import org.power_systems_modelica.psm.gui.utils.GuiFileChooser;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import javafx.beans.binding.Bindings;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,32 +19,17 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class MainLayoutController
 {
 
-	@FXML
-	private void initialize()
-	{
-
-		menuActions.graphicProperty().bind(
-				Bindings.when(menuActions.hoverProperty())
-						.then(new ImageView(whiteMenuImage))
-						.otherwise(new ImageView(menuImage)));
-	}
-
-	@FXML
-	protected void handleMainAction()
-	{
-
-		controller.handleMainAction();
-	}
-	
 	public void setController(MainChildrenController controller)
 	{
 		this.controller = controller;
-		
+
 		controller.setMainService(mainService);
 	}
 
@@ -62,6 +45,7 @@ public class MainLayoutController
 		List<SummaryLabel> summaryLabelsList = controller.getSummaryLabels();
 
 		double globalLayoutY = 0.0;
+		mainAction.disableProperty().bind(controller.disableBackground());
 		mainAction.setVisible(true);
 		if (mainActionText == null)
 			mainAction.setVisible(false);
@@ -71,6 +55,7 @@ public class MainLayoutController
 			globalLayoutY += 50.0;
 		}
 
+		menuActions.disableProperty().bind(controller.disableBackground());
 		menuActions.setVisible(true);
 		if (menuActionsList == null)
 			menuActions.setVisible(false);
@@ -158,6 +143,7 @@ public class MainLayoutController
 	public void setMainService(MainService mainService)
 	{
 		this.mainService = mainService;
+		setGlobalEventHandler();
 	}
 
 	public void setFileChooser(GuiFileChooser guiFileChooser)
@@ -170,9 +156,42 @@ public class MainLayoutController
 		controller.setDefaultInit();
 	}
 
-	public void setWorkflow(Workflow w, Object...objects)
+	public void setWorkflow(Workflow w, Object... objects)
 	{
-		controller.setWorkflow(w,objects);
+		controller.setWorkflow(w, objects);
+	}
+
+	@FXML
+	protected void handleMainAction()
+	{
+
+		controller.handleMainAction();
+	}
+
+	@FXML
+	private void initialize()
+	{
+
+		menuActions.graphicProperty().bind(
+				Bindings.when(menuActions.hoverProperty())
+						.then(new ImageView(whiteMenuImage))
+						.otherwise(new ImageView(menuImage)));
+	}
+
+	private void setGlobalEventHandler()
+	{
+		mainService.getPrimaryStage().addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
+			if (ev.getCode() == KeyCode.ENTER)
+			{
+				Button button = controller.getDefaultEnterButton();
+				if (button != null)
+					button.fire();
+				else
+					mainAction.fire();
+
+				ev.consume();
+			}
+		});
 	}
 
 	@FXML

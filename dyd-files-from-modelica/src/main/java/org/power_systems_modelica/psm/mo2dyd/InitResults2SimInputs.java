@@ -11,19 +11,11 @@ import java.util.Objects;
 
 public class InitResults2SimInputs
 {
-	public InitResults2SimInputs(Path refsCsv)
+	public InitResults2SimInputs()
 	{
 		initResultsFromSimInputs = new HashMap<>();
-		try
-		{
-			read(refsCsv);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
-
+	
 	public InitResult getInitResultFromSimInput(SimInput simInput)
 	{
 		InitResult r = initResultsFromSimInputs.get(simInput);
@@ -44,8 +36,8 @@ public class InitResults2SimInputs
 		return null;
 	}
 
-	// TODO use a csv reader
-	private void read(Path f) throws FileNotFoundException, IOException
+	// TODO use a CSV reader
+	public void read(Path f) throws FileNotFoundException, IOException
 	{
 		try (BufferedReader in = Files.newBufferedReader(f);)
 		{

@@ -142,44 +142,9 @@ public class ModelicaTricks
 		}
 	}
 
-	public static String getStaticTypeFromDynamicType(String dtype)
+	public static boolean isInfiniteBus(ModelicaModel m)
 	{
-		if (dtype.startsWith("iPSL.Electrical.Buses.")) return "Bus";
-		else if (dtype.startsWith("iPSL.Electrical.Branches"))
-		{
-			if (dtype.contains("Line")) return "Line";
-			else if (dtype.contains("Transformer")) return "Transformer";
-		}
-		else if (dtype.startsWith("iPSL.Electrical.Loads.")) return "Load";
-		else if (dtype.startsWith("iPSL.Electrical.Banks.")) return "Shunt";
-		else if (dtype.startsWith("iPSL.Electrical.Machines")) return "Generator";
-		return null;
-	}
-
-	public static String checkGeneratorModeledAsFixedInjection(String stype, ModelicaModel mo)
-	{
-		ModelicaDeclaration d = mo.getDeclarations().get(0);
-		if (d.getType().equals("iPSL.Electrical.Loads.Eurostag.PwLoadPQ") &&
-				d.getId().contains("fixinj") &&
-				d.getId().contains("_GEN_"))
-			return "Generator";
-		return stype;
-	}
-
-	public static String checkInfiniteBus(String stype, ModelicaModel mo)
-	{
-		if (stype.equals("Bus"))
-		{
-			boolean isInfiniteBus = mo.getDeclarations().stream()
-					.anyMatch(d -> d.getType().contains("InfiniteBus"));
-			if (isInfiniteBus) return "InfiniteBus";
-		}
-		return stype;
-	}
-
-	public static boolean isInfiniteBus(String staticType)
-	{
-		return staticType.equals("InfiniteBus");
+		return m.getDeclarations().stream().anyMatch(d -> d.getType().contains("InfiniteBus"));
 	}
 
 	public static boolean isSystemConnect(ModelicaConnect eq)
@@ -204,7 +169,7 @@ public class ModelicaTricks
 		return kind;
 	}
 
-	private static final List<String>	KINDS				= Arrays.asList(
+	private static final List<String>			KINDS						= Arrays.asList(
 			"system",
 			"bus",
 			"busInf",
@@ -222,13 +187,13 @@ public class ModelicaTricks
 			"Generator",
 			"reg",
 			"other");
-	
-	private static final List<String>	ALL_EQUATION_KINDS			= Arrays.asList(
+
+	private static final List<String>			ALL_EQUATION_KINDS			= Arrays.asList(
 			"system",
 			"gen-system",
 			"system-gen",
 			"load-system",
-			"system-load",			
+			"system-load",
 			"reg-gen",
 			"reg-reg",
 			// bus-bus correspond to switches
@@ -254,14 +219,13 @@ public class ModelicaTricks
 			"other-other",
 			"other-gen",
 			"gen-other",
-			"reg-other"
-			);
+			"reg-other");
 
+	private static final Set<String>			KINDS_SET					= new HashSet<>(KINDS);
+	private static final List<String>			ALL_KINDS					= new ArrayList<>(
+			KINDS);
 
-	private static final Set<String>	KINDS_SET			= new HashSet<>(KINDS);
-	private static final List<String>	ALL_KINDS			= new ArrayList<>(KINDS);
-
-	private static final Map<String, String> mappingDynamicId2StaticId = new HashMap<>();
+	private static final Map<String, String>	mappingDynamicId2StaticId	= new HashMap<>();
 	static
 	{
 		mappingDynamicId2StaticId.put("_N__E__16_TN", "_N._E__16_TN");
@@ -287,7 +251,7 @@ public class ModelicaTricks
 		mappingDynamicId2StaticId.put("_W_LA__46_ZANE__48_1_AC", "_W.LA__46_ZANE__48_1_AC");
 
 		mappingDynamicId2StaticId.put("_W_LA__46_SC", "_W.LA__46_SC");
-		
+
 		mappingDynamicId2StaticId.put("_FP_AND11_TN", "_FP.AND11_TN");
 		mappingDynamicId2StaticId.put("_FP_ANC12_EC", "_FP.ANC12_EC");
 		mappingDynamicId2StaticId.put("_FS_BIS12_TN", "_FS.BIS12_TN");
@@ -295,7 +259,7 @@ public class ModelicaTricks
 		mappingDynamicId2StaticId.put("_FS_BIC11_EC", "_FS.BIC11_EC");
 		mappingDynamicId2StaticId.put("_FSSV_O12_TN", "_FSSV.O12_TN");
 		mappingDynamicId2StaticId.put("_FSSV_O11_TN", "_FSSV.O11_TN");
-		
+
 		mappingDynamicId2StaticId.put("_FP_AND11_FVERGE11_1_AC", "_FP.AND11-FVERGE11-1_AC");
 		mappingDynamicId2StaticId.put("_FP_AND11_FVERGE11_2_AC", "_FP.AND11-FVERGE11-2_AC");
 		mappingDynamicId2StaticId.put("_FS_BIS11_FVALDI11_1_AC", "_FS.BIS11-FVALDI11-1_AC");
@@ -306,9 +270,9 @@ public class ModelicaTricks
 		mappingDynamicId2StaticId.put("_FSSV_O11_FTILL511_2_AC", "_FSSV.O11-FTILL511-2_AC");
 		mappingDynamicId2StaticId.put("_FTILL511_FS_BIS11_1_AC", "_FTILL511-FS.BIS11-1_AC");
 		mappingDynamicId2StaticId.put("_FTILL511_FS_BIS11_2_AC", "_FTILL511-FS.BIS11-2_AC");
-		
+
 		mappingDynamicId2StaticId.put("_FP_AND11_FTDPRA11_1_PT", "_FP.AND11-FTDPRA11-1_PT");
-		
-		mappingDynamicId2StaticId.put("_FSSV_T11_SM", "_FSSV.T11_SM");		
+
+		mappingDynamicId2StaticId.put("_FSSV_T11_SM", "_FSSV.T11_SM");
 	}
 }

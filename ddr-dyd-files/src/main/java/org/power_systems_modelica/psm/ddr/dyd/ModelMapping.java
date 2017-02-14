@@ -6,10 +6,14 @@ import java.util.stream.Collectors;
 
 public class ModelMapping
 {
-
 	public ModelMapping(String modelKey)
 	{
 		this.modelKey = modelKey;
+	}
+
+	public String getKey()
+	{
+		return modelKey;
 	}
 
 	public void add(Model model, ModelContainer mc)

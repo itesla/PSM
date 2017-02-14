@@ -98,15 +98,15 @@ public class ModelContainerXml
 
 	private static Collection<Model> sortedModels(Collection<Model> models)
 	{
-		Comparator<Model> byType, byId;
-		byType = Comparator.comparing(ModelContainerXml::getType);
+		Comparator<Model> byTypeName, byId;
+		byTypeName = Comparator.comparing(ModelContainerXml::getTypeName);
 		byId = Comparator.comparing(ModelContainerXml::getId);
-		return models.stream().sorted(byType.thenComparing(byId)).collect(Collectors.toList());
+		return models.stream().sorted(byTypeName.thenComparing(byId)).collect(Collectors.toList());
 	}
 
-	private static String getType(Model m)
+	private static String getTypeName(Model m)
 	{
-		if (m instanceof ModelForType) return ((ModelForType) m).getType();
+		if (m instanceof ModelForType) return ((ModelForType) m).getType().name();
 		// Ensure models that are not for a type go later in the sorting
 		return "~";
 	}

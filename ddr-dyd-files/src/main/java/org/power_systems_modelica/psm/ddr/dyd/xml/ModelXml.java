@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository.Injection;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
@@ -33,7 +34,7 @@ public class ModelXml
 
 		Model m = null;
 		if (event != null) m = new ModelForEvent(event, Injection.valueOf(eventInjection), id);
-		else if (type != null) m = new ModelForType(type, id);
+		else if (type != null) m = new ModelForType(StaticType.valueOf(type), id);
 		else if (association != null) m = new ModelForAssociation(association, id);
 		else m = new ModelForElement(staticId, id);
 
@@ -58,7 +59,7 @@ public class ModelXml
 		}
 		else if (m instanceof ModelForType)
 		{
-			w.writeAttribute("type", ((ModelForType) m).getType());
+			w.writeAttribute("type", ((ModelForType) m).getType().name());
 		}
 		else if (m instanceof ModelForEvent)
 		{

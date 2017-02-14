@@ -5,16 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
-import eu.itesla_project.iidm.network.Bus;
-import eu.itesla_project.iidm.network.Generator;
 import eu.itesla_project.iidm.network.Identifiable;
-import eu.itesla_project.iidm.network.Line;
-import eu.itesla_project.iidm.network.Load;
-import eu.itesla_project.iidm.network.ShuntCompensator;
-import eu.itesla_project.iidm.network.Switch;
-import eu.itesla_project.iidm.network.TwoWindingsTransformer;
 
 public class ModelProvider
 {
@@ -27,7 +21,7 @@ public class ModelProvider
 	{
 		return getDynamicModelForId(ModelicaUtil.normalizedIdentifier(e.getId()))
 				.orElse(getDynamicModelForAssociation(e)
-						.orElse(getDynamicModelForStaticType(getType(e)).orElse(null)));
+						.orElse(getDynamicModelForStaticType(StaticType.from(e)).orElse(null)));
 	}
 
 	public ModelForEvent getModelForEvent(String e)
@@ -45,7 +39,7 @@ public class ModelProvider
 		return Optional.ofNullable(dynamicModelsForElement.get(id));
 	}
 
-	public Optional<Model> getDynamicModelForStaticType(String type)
+	public Optional<Model> getDynamicModelForStaticType(StaticType type)
 	{
 		return Optional.ofNullable(dynamicModelsForType.get(type));
 	}
@@ -83,21 +77,9 @@ public class ModelProvider
 			dynamicModelsForEvent.put(((ModelForEvent) m).getEvent(), (ModelForEvent) m);
 	}
 
-	private String getType(Identifiable<?> e)
-	{
-		if (e instanceof Bus) return "Bus";
-		else if (e instanceof Line) return "Line";
-		else if (e instanceof TwoWindingsTransformer) return "Transformer";
-		else if (e instanceof Load) return "Load";
-		else if (e instanceof ShuntCompensator) return "Shunt";
-		else if (e instanceof Generator) return "Generator";
-		else if (e instanceof Switch) return "Switch";
-		return null;
-	}
-
 	private final AssociationProvider				associations;
 	private final Map<String, ModelForElement>		dynamicModelsForElement		= new HashMap<>();
 	private final Map<String, ModelForAssociation>	dynamicModelsForAssociation	= new HashMap<>();
-	private final Map<String, ModelForType>			dynamicModelsForType		= new HashMap<>();
+	private final Map<StaticType, ModelForType>		dynamicModelsForType		= new HashMap<>();
 	private final Map<String, ModelForEvent>		dynamicModelsForEvent		= new HashMap<>();
 }

@@ -29,6 +29,7 @@ import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.EventParameter;
 import org.power_systems_modelica.psm.ddr.Stage;
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Context;
 import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 import org.power_systems_modelica.psm.ddr.dyd.equations.Selector;
@@ -590,7 +591,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		return dynamicModels.getDynamicModelForAssociation(associationId);
 	}
 
-	public Model getDynamicModelForStaticType(String type, Stage stage)
+	public Model getDynamicModelForStaticType(StaticType type, Stage stage)
 	{
 		ModelProvider dynamicModels = modelsByStage.get(stage);
 		return dynamicModels.getDynamicModelForStaticType(type).orElse(null);
@@ -650,7 +651,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		else if (mdef instanceof ModelForAssociation)
 			id = ((ModelForAssociation) mdef).getAssociation();
 		else if (mdef instanceof ModelForType)
-			id = ((ModelForType) mdef).getType();
+			id = ((ModelForType) mdef).getType().name();
 		else if (mdef instanceof ModelForEvent)
 			id = ((ModelForEvent) mdef).getEvent();
 

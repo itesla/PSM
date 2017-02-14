@@ -49,15 +49,8 @@
 					<xs:element name="connection" type="dyd:Connection"
 						minOccurs="0" maxOccurs="unbounded" />
 
-					<!-- XXX omegaRef define only connector for bus (connector remains, 
-						but is only for specifying points of arrival) -->
-					<!-- Then specify interconnections (in addition to regular "connections") 
-						with attributes id1, var1, dataSource2="IIDM", ref2="", var2="" -->
-					<!-- Initialization models do not need connectors, thus we have to set 
-						minOccurs = 0 -->
-					<!-- The upper bound is realistic but somewhat arbitrary, only branches 
-						and generators have two connectors -->
-					<!-- Branches have (p,n), generators (sortie,omegaRef) -->
+					<!-- Initialization models do not need interconnections, thus we have 
+						to set minOccurs = 0 -->
 					<xs:element name="interconnection" type="dyd:Interconnection"
 						minOccurs="0" maxOccurs="unbounded" />
 
@@ -65,7 +58,8 @@
 						minOccurs="0" maxOccurs="unbounded" />
 				</xs:sequence>
 
-				<!-- The model applies either to a staticId, to a type or to an event -->
+				<!-- The model applies either to a staticId, an association, a type or 
+					an event -->
 
 				<xs:attribute name="staticId" use="optional" type="dyd:nonEmptyString" />
 				<xs:attribute name="id" use="optional" type="dyd:nonEmptyString" />
@@ -73,13 +67,25 @@
 				<xs:attribute name="association" use="optional"
 					type="dyd:nonEmptyString" />
 
-				<xs:attribute name="type" use="optional" type="dyd:nonEmptyString" />
+				<xs:attribute name="type" use="optional" type="dyd:StaticType" />
 
 				<xs:attribute name="event" use="optional" type="dyd:nonEmptyString" />
 				<xs:attribute name="injection" use="optional" type="dyd:EventInjection" />
+				<xs:attribute name="appliesTo" use="optional" type="dyd:StaticType" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="StaticType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Bus" />
+			<xs:enumeration value="Line" />
+			<xs:enumeration value="Transformer" />
+			<xs:enumeration value="Load" />
+			<xs:enumeration value="Shunt" />
+			<xs:enumeration value="Generator" />
+			<xs:enumeration value="Switch" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="Stage">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="INITIALIZATION" />

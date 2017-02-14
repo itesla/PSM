@@ -49,7 +49,6 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 
 public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
@@ -180,11 +179,16 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public Injection getEventInjection(String ev)
+	public Injection getEventInjection(String event)
 	{
 		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
-		ModelForEvent mdef = dynamicModels.getModelForEvent(ev);
-		return mdef.getInjection();
+		ModelForEvent m = dynamicModels.getModelForEvent(event);
+		if (m == null)
+		{
+			LOG.warn("Event definition not found looking for injection {}", event);
+			return null;
+		}
+		return m.getInjection();
 	}
 
 	@Override
@@ -194,7 +198,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 		ModelForEvent m = dynamicModels.getModelForEvent(event);
 		if (m == null)
 		{
-			LOG.warn("Event definition not found {}", event);
+			LOG.warn("Event definition not found looking for parameters {}", event);
 			return Collections.emptyList();
 		}
 
@@ -222,28 +226,17 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	}
 
 	@Override
-	public ConnectableType getEventAppliesToConnectableType(String event)
+	public StaticType getEventAppliesToStaticType(String event)
 	{
-		// FIXME move this to the xml files
-		switch (event)
+		ModelProvider dynamicModels = modelsByStage.get(Stage.SIMULATION);
+		ModelForEvent m = dynamicModels.getModelForEvent(event);
+		if (m == null)
 		{
-		case "BusFault":
-			return ConnectableType.BUSBAR_SECTION;
-		case "LineFault":
-			return ConnectableType.LINE;
-		case "LineOpenSendingSide":
-			return ConnectableType.LINE;
-		case "LineOpenReceiverSide":
-			return ConnectableType.LINE;
-		case "LineOpenBothSides":
-			return ConnectableType.LINE;
-		case "BankModification":
-			return ConnectableType.SHUNT_COMPENSATOR;
-		case "LoadVariation":
-			return ConnectableType.LOAD;
-		case "GeneratorVSetpointModification":
-			return ConnectableType.GENERATOR;
+			LOG.warn("Event definition not found looking for static type {}", event);
+			return null;
 		}
+		StaticType stype = m.getAppliesTo();
+		if (stype != null) return stype;
 		return null;
 	}
 

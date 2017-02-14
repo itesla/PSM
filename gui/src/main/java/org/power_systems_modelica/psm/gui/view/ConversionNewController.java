@@ -5,13 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.DdrService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
@@ -19,6 +25,7 @@ import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
@@ -29,6 +36,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -148,14 +156,14 @@ public class ConversionNewController implements MainChildrenController
 		this.mainService = mainService;
 
 		catalogCaseSource
-				.setItems(FXCollections.observableArrayList(mainService.getCatalogs("cases")));
+				.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
 		catalogDdrSource
-				.setItems(FXCollections.observableArrayList(mainService.getCatalogs("ddrs")));
+				.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("ddrs")));
 
 		loadflowEngine
-				.setItems(FXCollections.observableArrayList(mainService.getLoadflowEngines()));
+				.setItems(FXCollections.observableArrayList(WorkflowServiceConfiguration.getLoadflowEngines()));
 
-		dsEngine.setItems(FXCollections.observableArrayList(mainService.getDsEngines()));
+		dsEngine.setItems(FXCollections.observableArrayList(WorkflowServiceConfiguration.getDsEngines()));
 	}
 
 	@Override
@@ -197,7 +205,7 @@ public class ConversionNewController implements MainChildrenController
 					{
 						if (newValue != null)
 							caseSource.setItems(FXCollections
-									.observableArrayList(mainService.getCases(newValue.getName())));
+									.observableArrayList(CaseService.getCases(newValue.getName())));
 					}
 
 				});
@@ -224,7 +232,7 @@ public class ConversionNewController implements MainChildrenController
 					{
 						if (newValue != null)
 							ddrSource.setItems(FXCollections
-									.observableArrayList(mainService.getDdrs(newValue.getName())));
+									.observableArrayList(DdrService.getDdrs(newValue.getName())));
 					}
 
 				});
@@ -355,12 +363,35 @@ public class ConversionNewController implements MainChildrenController
 			return;
 		}
 
-		mainService.startConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
+		startConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
+	}
+
+	private void startConversion(Case cs, Ddr ddr, LoadflowEngine le,
+			boolean onlyMainConnectedComponent, DsEngine dse)
+	{
+
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le,
+					onlyMainConnectedComponent, dse);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showConversionDetailView(mainService, true, null));
+			mainService.setConversionTask(task);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w, WorkflowType.CONVERSION);
+			TaskService.startTask(task);
+			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.toString(),
+					onlyMainConnectedComponent, dse.toString());
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void setDdr(Case c)
 	{
-		String ddrLocation = mainService.getDefaultDdrLocation(c);
+		String ddrLocation = CaseService.getDefaultDdrLocation(c);
 		if (ddrLocation != null)
 		{
 			UtilsFX.resolveDdrPath(ddrLocation, catalogDdrSource, ddrSource);

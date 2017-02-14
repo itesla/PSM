@@ -6,14 +6,19 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox;
@@ -22,6 +27,7 @@ import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
@@ -32,6 +38,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -178,9 +185,10 @@ public class SimulationNewController implements MainChildrenController
 		this.mainService = mainService;
 
 		catalogCaseSource
-				.setItems(FXCollections.observableArrayList(mainService.getCatalogs("cases")));
+				.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
 
-		dsEngine.setItems(FXCollections.observableArrayList(mainService.getDsEngines()));
+		dsEngine.setItems(
+				FXCollections.observableArrayList(WorkflowServiceConfiguration.getDsEngines()));
 		dsEngine.getSelectionModel().select(DsEngine.OPENMODELICA);
 	}
 
@@ -234,7 +242,7 @@ public class SimulationNewController implements MainChildrenController
 					{
 						if (newValue != null)
 							caseSource.setItems(FXCollections.observableArrayList(
-									mainService.getConvertedCases(newValue.getName())));
+									CaseService.getConvertedCases(newValue.getName())));
 					}
 
 				});
@@ -249,7 +257,8 @@ public class SimulationNewController implements MainChildrenController
 					{
 						if (newValue != null)
 							actionEvent.setItems(FXCollections
-									.observableArrayList(mainService.getAvailableEvents(newValue)));
+									.observableArrayList(WorkflowServiceConfiguration
+											.getAvailableEvents(newValue)));
 						if (newValue != oldValue)
 							addedEvents.getItems().clear();
 					}
@@ -264,9 +273,11 @@ public class SimulationNewController implements MainChildrenController
 						if (newValue != null)
 						{
 							elementEvent.setData(FXCollections
-									.observableArrayList(mainService.getNetworkElements(
-											caseSource.getSelectionModel().getSelectedItem(),
-											newValue)));
+									.observableArrayList(
+											WorkflowServiceConfiguration.getNetworkElements(
+													caseSource.getSelectionModel()
+															.getSelectedItem(),
+													newValue)));
 						}
 					}
 				});
@@ -408,7 +419,8 @@ public class SimulationNewController implements MainChildrenController
 		String event = actionEvent.getSelectionModel().getSelectedItem();
 		if (event != null)
 			parametersView
-					.setItems(FXCollections.observableArrayList(mainService.getEventParams(event)));
+					.setItems(FXCollections.observableArrayList(
+							WorkflowServiceConfiguration.getEventParams(event)));
 	}
 
 	@FXML
@@ -621,8 +633,32 @@ public class SimulationNewController implements MainChildrenController
 		ObservableList<Event> events = addedEvents.getItems();
 
 		boolean createFilteredMat = createFilteredMatCheck.isSelected();
-		mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, onlyCheck, onlyVerify,
+		startSimulation(cs, events, dse, stopTime, stepBySecond, onlyCheck, onlyVerify,
 				createFilteredMat);
+	}
+
+	private void startSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse,
+			String stopTime, String stepBySecond, boolean onlyCheck, boolean onlyVerify,
+			boolean createFilteredMat)
+	{
+
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime,
+					stepBySecond, onlyCheck, onlyVerify, createFilteredMat);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showSimulationDetailView(mainService, onlyCheck,
+							onlyVerify));
+			mainService.setSimulationTask(task);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w,
+					WorkflowType.SIMULATION);
+			TaskService.startTask(task);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

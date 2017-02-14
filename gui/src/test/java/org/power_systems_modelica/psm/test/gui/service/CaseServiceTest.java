@@ -24,13 +24,20 @@ public class CaseServiceTest
 	public void loadCase() throws IOException
 	{
 
-		Catalog catalog = new Catalog();
-		catalog.setName("Reference cases");
-		catalog.setLocation(PathUtils.DATA_TEST.toString());
-
-		Case c = CaseService.getCase(catalog, PathUtils.DATA_TEST.resolve("ieee14"));
+		Case c = CaseService.getCase("Reference cases", PathUtils.DATA_TEST.resolve("ieee14"));
+		
+		String t = c.toString();
+		
 		assertNotNull(c);
-		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
+		assertNotNull(c.nameProperty());
+		assertEquals(PathUtils.DATA_TEST.resolve("ieee14").toString(), c.getLocation());
+		assertNotNull(c.locationProperty());
+		assertEquals("A portion of the American Electric Power System (in the Midwestern US) as of February, 1962.", c.getDescription());
+		assertNotNull(c.descriptionProperty());
+		assertEquals("CIM1", c.getFormat());
+		assertNotNull(c.formatProperty());
+		assertEquals(14, c.getSize());
+		assertNotNull(c.sizeProperty());
 
 		String ddrPath = CaseService.getDefaultDdrLocation(c);
 		assertNotNull(ddrPath);
@@ -40,18 +47,26 @@ public class CaseServiceTest
 	public void loadConvertedCase() throws IOException
 	{
 
-		Catalog catalog = new Catalog();
-		catalog.setName("Reference cases");
-		catalog.setLocation(PathUtils.DATA_TEST.toString());
-
 		new File(PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toString()).createNewFile();
 		CaseService.saveConvertedCaseProperties(PathUtils.DATA_TEST.resolve("ieee14").toString(),
 				PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString(), "loadflowHelmflow",
 				true, "OpenModelica");
-		ConvertedCase c = CaseService.getConvertedCase(catalog,
+		ConvertedCase c = CaseService.getConvertedCase("Reference cases",
 				PathUtils.DATA_TEST.resolve("ieee14"));
+		
+		String t = c.toString();
+		
 		assertNotNull(c);
-		assertEquals(c.getLocation(), PathUtils.DATA_TEST.resolve("ieee14").toString());
+		assertNotNull(c.nameProperty());
+		assertNotNull(c.ddrLocationProperty());
+		assertEquals(PathUtils.DATA_TEST.resolve("ieee14").toString(), c.getLocation());
+		assertNotNull(c.locationProperty());
+		assertEquals("loadflowHelmflow", c.getLoadflowEngine());
+		assertNotNull(c.loadflowEngineProperty());
+		assertEquals("Only main connected component", c.getOnlyMainConnectedComponent());
+		assertNotNull(c.onlyMainConnectedComponentProperty());
+		assertEquals("OpenModelica", c.getFullModelInitializationEgine());
+		assertNotNull(c.fullModelInitializationEgineProperty());
 		
 		PathUtils.DATA_TEST.resolve("ieee14").resolve("ieee14.mo").toFile().delete();
 		PathUtils.DATA_TEST.resolve("ieee14").resolve("convertedCase.properties").toFile().delete();
@@ -63,7 +78,7 @@ public class CaseServiceTest
 
 		Case c = new Case();
 		c.setLocation(PathUtils.DATA_TEST.resolve("ieee14").toString());
-		Network n = CaseService.importCase(c);
+		Network n = CaseService.getCaseSummary(c);
 		assertNotNull(n);
 		assertEquals(14, Iterables.size(n.getBusView().getBuses()));
 		assertEquals(5, n.getGeneratorCount());

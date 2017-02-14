@@ -29,6 +29,23 @@ import eu.itesla_project.iidm.network.Network;
 
 public class CaseService {
 
+	public static Network getCaseSummary(Case input)
+	{
+
+		Network n = null;
+		try
+		{
+			n = importCase(input);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return n;
+	}
+
 	public static Network importCase(Case input) throws WorkflowCreationException {
 
 		Network n = null;
@@ -47,6 +64,11 @@ public class CaseService {
 		return n;
 	}
 
+	public static Case getCase(String catalogName, Path path) throws IOException {
+		
+		return getCase(CatalogService.getCatalogByName("cases", catalogName), path);
+	}
+
 	public static Case getCase(Catalog catalog, Path path) throws IOException {
 
 		List<Case> cases = getCases(catalog);
@@ -57,6 +79,11 @@ public class CaseService {
 		}
 
 		return null;
+	}
+
+	public static List<Case> getCases(String catalogName) {
+		
+		return getCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
 
 	public static List<Case> getCases(Catalog catalog) {
@@ -73,6 +100,12 @@ public class CaseService {
 		return cases;
 	}
 
+	public static ConvertedCase getConvertedCase(String catalogName, Path path) throws IOException {
+		
+		return getConvertedCase(CatalogService.getCatalogByName("cases", catalogName),
+				path);
+	}
+
 	public static ConvertedCase getConvertedCase(Catalog catalog, Path path) throws IOException {
 
 		List<ConvertedCase> cases = getConvertedCases(catalog);
@@ -83,6 +116,11 @@ public class CaseService {
 		}
 
 		return null;
+	}
+	
+	public static List<ConvertedCase> getConvertedCases(String catalogName) {
+		
+		return getConvertedCases(CatalogService.getCatalogByName("cases", catalogName));
 	}
 	
 	public static List<ConvertedCase> getConvertedCases(Catalog catalog) {

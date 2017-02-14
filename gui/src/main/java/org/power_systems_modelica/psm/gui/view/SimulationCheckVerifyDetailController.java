@@ -10,13 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
@@ -26,6 +31,7 @@ import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
 import org.power_systems_modelica.psm.gui.utils.fx.ProgressData;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
@@ -37,6 +43,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -174,10 +181,10 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 
 				try
 				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
 					catalogName = catalog.getName();
 
-					Case c = mainService.getCase(catalog.getName(), casePath);
+					Case c = CaseService.getCase(catalog.getName(), casePath);
 					caseLabel = catalogName + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -255,7 +262,7 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 	private void handleNewWorkflow()
 	{
 
-		mainService.showSimulationNewView(mainService.getSimulation());
+		mainService.showSimulationNewView(WorkflowServiceConfiguration.getSimulation());
 	}
 
 	private void handleSimulateWorkflow(boolean isVerify)
@@ -263,11 +270,35 @@ public class SimulationCheckVerifyDetailController implements MainChildrenContro
 
 		try
 		{
-			ConvertedCase cs = mainService.getConvertedCase(catalogName, casePath);
-			mainService.startSimulation(cs, events, dse, stopTime, stepBySecond, false, isVerify,
+			ConvertedCase cs = CaseService.getConvertedCase(catalogName, casePath);
+			startSimulation(cs, events, dse, stopTime, stepBySecond, false, isVerify,
 					Boolean.parseBoolean(createFilteredMat));
 		}
 		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void startSimulation(ConvertedCase cs, ObservableList<Event> events, DsEngine dse,
+			String stopTime, String stepBySecond, boolean onlyCheck, boolean onlyVerify,
+			boolean createFilteredMat)
+	{
+
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime,
+					stepBySecond, onlyCheck, onlyVerify, createFilteredMat);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showSimulationDetailView(mainService, onlyCheck,
+							onlyVerify));
+			mainService.setSimulationTask(task);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w,
+					WorkflowType.SIMULATION);
+			TaskService.startTask(task);
+		}
+		catch (WorkflowCreationException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();

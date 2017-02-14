@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
+import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.service.DdrService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 
@@ -27,11 +28,17 @@ public class DdrServiceTest
 	public void loadDdrs() throws IOException
 	{
 
-		Catalog catalog = new Catalog();
-		catalog.setName("Reference cases");
-		catalog.setLocation(PathUtils.DATA_TEST.toString());
-		Ddr ddr = DdrService.getDdr(catalog, PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr"));
+		Ddr ddr = DdrService.getDdr("Reference cases", PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr"));
+		
+		String t = ddr.toString();
+		
 		assertNotNull(ddr);
+		assertNotNull(ddr.nameProperty());
+		assertNotNull(ddr.locationProperty());
+		assertEquals("A portion of the American Electric Power System (in the Midwestern US) as of February, 1962.", ddr.getDescription());
+		assertNotNull(ddr.descriptionProperty());
+		assertEquals(DdrType.DYD, ddr.getType());
+		assertNotNull(ddr.typeProperty());
 
 		Map<String, String> xml = DdrService.checkXml(ddr.getLocation());
 		assertFalse(xml.size() > 0);

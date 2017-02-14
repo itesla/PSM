@@ -14,6 +14,9 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.DdrService;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.fx.DynamicTreeView;
@@ -161,8 +164,8 @@ public class WorkflowStatusController implements MainChildrenController
 				Path catalogPath = casePath.getParent();
 				try
 				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					Case c = mainService.getCase(catalog.getName(), casePath);
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
+					Case c = CaseService.getCase(catalog.getName(), casePath);
 					firstLabelValue = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -179,8 +182,8 @@ public class WorkflowStatusController implements MainChildrenController
 				Path catalogPath = ddrPath.getParent().getParent();
 				try
 				{
-					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
-					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
+					Catalog catalog = CatalogService.getCatalog("ddrs", catalogPath);
+					Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
 					secondLabelValue = catalog.getName() + "\t" + ddr.getName();
 				}
 				catch (IOException e)
@@ -227,12 +230,23 @@ public class WorkflowStatusController implements MainChildrenController
 	private void handleStopWorkflow()
 	{
 		LOG.debug("handleStopWorkflow");
+		
+		WorkflowService ws;
 		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.stopConversion(w);
+			ws = (WorkflowService) mainService.getConversionTask();
 		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.stopSimulation(w);
+			ws = (WorkflowService) mainService.getSimulationTask();
 		else
-			mainService.stopCompareLoadflows();
+			ws = (WorkflowService) mainService.getCompareLoadflowTask();
+		
+		ws.cancelTask();
+		
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			mainService.showConversionNewView(w);
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			mainService.showSimulationNewView(w);
+		else
+			mainService.showCompareLoadflowsView(null);
 	}
 
 	@FXML

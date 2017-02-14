@@ -7,17 +7,21 @@ import java.util.Properties;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.Validation;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -107,7 +111,7 @@ public class SwtoswValidationController implements MainChildrenController
 			return;
 		}
 
-		mainService.startSwtoswValidation(expectedPath, casePath, stepSizeV);
+		startSwtoswValidation(expectedPath, casePath, stepSizeV);
 	}
 
 	public void handleCleanWorkflow()
@@ -154,7 +158,7 @@ public class SwtoswValidationController implements MainChildrenController
 
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
+			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId());
 			validationTable.setItems(result.getValidation());
 		}
 	}
@@ -175,6 +179,24 @@ public class SwtoswValidationController implements MainChildrenController
 	@Override
 	public void setDefaultInit()
 	{
+	}
+
+	private void startSwtoswValidation(String expectedPath, String casePath, String stepSize)
+	{
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(expectedPath, casePath,
+					stepSize);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showSwtoswValidationResults(w));
+			mainService.setSwtoswValidationTask(task);
+			TaskService.startTask(task);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -337,7 +359,7 @@ public class SwtoswValidationController implements MainChildrenController
 			backButton.setVisible(true);
 			backButton.setDisable(false);
 
-			WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId(),
+			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId(),
 					v.getName());
 			validationTable.getItems().clear();
 			validationTable.setItems(result.getValidation());
@@ -350,7 +372,7 @@ public class SwtoswValidationController implements MainChildrenController
 		backButton.setVisible(false);
 		backButton.setDisable(true);
 
-		WorkflowResult result = mainService.getSwtoswValidationResult("" + w.getId());
+		WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId());
 		validationTable.getItems().clear();
 		validationTable.setItems(result.getValidation());
 	}

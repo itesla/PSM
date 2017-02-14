@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.util.Properties;
 
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -88,7 +89,7 @@ public class MenuLayoutController
 		compareLoadflows.getStyleClass().remove("active");
 		swtoswValidation.getStyleClass().remove("active");
 
-		Workflow w = mainService.getConversion();
+		Workflow w = WorkflowServiceConfiguration.getConversion();
 		mainService.showConversionView(w);
 	}
 
@@ -102,7 +103,7 @@ public class MenuLayoutController
 		compareLoadflows.getStyleClass().remove("active");
 		swtoswValidation.getStyleClass().remove("active");
 
-		Workflow w = mainService.getSimulation();
+		Workflow w = WorkflowServiceConfiguration.getSimulation();
 		mainService.showSimulationView(w);
 	}
 
@@ -116,7 +117,7 @@ public class MenuLayoutController
 		compareLoadflows.getStyleClass().add("active");
 		swtoswValidation.getStyleClass().remove("active");
 
-		Workflow w = mainService.getCompareLoadflows();
+		Workflow w = WorkflowServiceConfiguration.getCompareLoadflow();
 		mainService.showCompareLoadflowsView(w);
 	}
 

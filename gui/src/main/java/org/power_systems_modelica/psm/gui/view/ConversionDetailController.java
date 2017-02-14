@@ -18,6 +18,10 @@ import org.power_systems_modelica.psm.gui.model.ConvertedCase;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.DdrService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
@@ -221,8 +225,8 @@ public class ConversionDetailController implements MainChildrenController
 
 				try
 				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					c = mainService.getCase(catalog.getName(), casePath);
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
+					c = CaseService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -240,8 +244,8 @@ public class ConversionDetailController implements MainChildrenController
 
 				try
 				{
-					Catalog catalog = mainService.getCatalog("ddrs", catalogPath);
-					Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
+					Catalog catalog = CatalogService.getCatalog("ddrs", catalogPath);
+					Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
 					ddrLabel = catalog.getName() + "\t" + ddr.getName();
 				}
 				catch (IOException e)
@@ -263,7 +267,7 @@ public class ConversionDetailController implements MainChildrenController
 			}
 		}
 
-		WorkflowResult r = mainService.getConversionResult("" + w.getId());
+		WorkflowResult r = WorkflowServiceConfiguration.getConversionResult("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
 			moTab.setDisable(false);
@@ -323,11 +327,11 @@ public class ConversionDetailController implements MainChildrenController
 		Catalog catalog;
 		try
 		{
-			catalog = mainService.getCatalog("cases", catalogPath);
-			ConvertedCase cc = mainService.getConvertedCase(catalog.getName(), casePath);
+			catalog = CatalogService.getCatalog("cases", catalogPath);
+			ConvertedCase cc = CaseService.getConvertedCase(catalog.getName(), casePath);
 
 			Path ddrPath = Paths.get(cc.getDdrLocation());
-			Ddr ddr = mainService.getDdr(catalog.getName(), ddrPath);
+			Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
 
 			pathLabel = convertedPath.toString();
 			try
@@ -461,7 +465,7 @@ public class ConversionDetailController implements MainChildrenController
 
 	private void handleNewConversionEvent()
 	{
-		mainService.showConversionNewView(mainService.getConversion());
+		mainService.showConversionNewView(WorkflowServiceConfiguration.getConversion());
 	}
 
 	@FXML

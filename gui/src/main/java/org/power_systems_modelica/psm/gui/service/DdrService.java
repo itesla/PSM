@@ -80,6 +80,12 @@ public class DdrService
 		return xmls;
 	}
 
+	public static Ddr getDdr(String catalogName, Path path) throws IOException
+	{
+		
+		return getDdr(CatalogService.getCatalogByName("ddrs", catalogName), path);
+	}
+
 	public static Ddr getDdr(Catalog catalog, Path path) throws IOException
 	{
 
@@ -92,6 +98,12 @@ public class DdrService
 		}
 
 		return null;
+	}
+
+	public static List<Ddr> getDdrs(String catalogName)
+	{
+		
+		return getDdrs(CatalogService.getCatalogByName("ddrs", catalogName));
 	}
 
 	public static List<Ddr> getDdrs(Catalog catalog)

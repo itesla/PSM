@@ -8,6 +8,8 @@ import java.util.List;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
@@ -168,7 +170,7 @@ public class CasesOverviewController implements MainChildrenController
 	{
 		this.mainService = mainService;
 
-		catalogs.setItems(FXCollections.observableArrayList(mainService.getCatalogs("cases")));
+		catalogs.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
 		catalogs.getSelectionModel().selectFirst();
 	}
 
@@ -214,7 +216,7 @@ public class CasesOverviewController implements MainChildrenController
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
 						cases.setItems(FXCollections
-								.observableArrayList(mainService.getCases(catalogName)));
+								.observableArrayList(CaseService.getCases(catalogName)));
 						cases.getItems().sort(new Comparator<Case>()
 						{
 
@@ -243,7 +245,7 @@ public class CasesOverviewController implements MainChildrenController
 					{
 
 						Case c = row.getItem();
-						Network n = mainService.getCaseSummary(c);
+						Network n = CaseService.getCaseSummary(c);
 						showCaseSummary(MouseInfo.getPointerInfo().getLocation(), c, n);
 					}
 				});

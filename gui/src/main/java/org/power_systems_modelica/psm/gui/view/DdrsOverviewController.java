@@ -16,6 +16,8 @@ import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
 import org.power_systems_modelica.psm.gui.model.Ddr.DdrType;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.DdrService;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
@@ -97,7 +99,7 @@ public class DdrsOverviewController implements MainChildrenController
 	{
 		this.mainService = mainService;
 
-		catalogs.setItems(FXCollections.observableArrayList(mainService.getCatalogs("ddrs")));
+		catalogs.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("ddrs")));
 		catalogs.getSelectionModel().selectFirst();
 	}
 
@@ -142,7 +144,7 @@ public class DdrsOverviewController implements MainChildrenController
 						String catalogName = (String) nameCatalogColumn
 								.getCellObservableValue((int) newSelection).getValue();
 						ddrs.setItems(FXCollections
-								.observableArrayList(mainService.getDdrs(catalogName)));
+								.observableArrayList(DdrService.getDdrs(catalogName)));
 						ddrs.getItems().sort(new Comparator<Ddr>()
 						{
 
@@ -307,8 +309,8 @@ public class DdrsOverviewController implements MainChildrenController
 
 	private void checkDdr(Ddr ddr)
 	{
-		Map<String, String> xmlMapping = mainService.checkXml(ddr.getLocation());
-		Map<String, ModelMapping> modelMapping = mainService.checkDuplicates(ddr.getLocation());
+		Map<String, String> xmlMapping = DdrService.checkXml(ddr.getLocation());
+		Map<String, ModelMapping> modelMapping = DdrService.checkDuplicates(ddr.getLocation());
 
 		StringBuilder ddrDuplicates = new StringBuilder();
 
@@ -378,11 +380,11 @@ public class DdrsOverviewController implements MainChildrenController
 
 		Ddr ddrOut = new Ddr();
 		ddrOut.setLocation(outputPath);
-		if (mainService.duplicateDdr(ddr, ddrOut))
+		if (DdrService.duplicateDdr(ddr, ddrOut))
 		{
 			Catalog catalog = catalogs.getSelectionModel().getSelectedItem();
 			ddrs.setItems(
-					FXCollections.observableArrayList(mainService.getDdrs(catalog.getName())));
+					FXCollections.observableArrayList(DdrService.getDdrs(catalog.getName())));
 		}
 	}
 

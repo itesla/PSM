@@ -3,14 +3,20 @@ package org.power_systems_modelica.psm.gui.view;
 import java.util.List;
 import java.util.Properties;
 
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +25,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -74,7 +81,7 @@ public class CompareLoadflowsNewController implements MainChildrenController
 
 	public void setCase(Case c)
 	{
-		List<Catalog> catalogs = mainService.getCatalogs("cases");
+		List<Catalog> catalogs = CatalogService.getCatalogs("cases");
 
 		FilteredList<Catalog> filteredCatalogs = new FilteredList<Catalog>(
 				FXCollections.observableArrayList(catalogs),
@@ -92,7 +99,7 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	{
 		this.mainService = mainService;
 
-		catalogSource.setItems(FXCollections.observableArrayList(mainService.getCatalogs("cases")));
+		catalogSource.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
 	}
 
 	@Override
@@ -128,7 +135,7 @@ public class CompareLoadflowsNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						caseSource.setItems(FXCollections
-								.observableArrayList(mainService.getCases(newValue.getName())));
+								.observableArrayList(CaseService.getCases(newValue.getName())));
 					}
 				});
 	}
@@ -144,8 +151,29 @@ public class CompareLoadflowsNewController implements MainChildrenController
 		}
 		boolean generatorsReactiveLimits = enforceGeneratorsReactiveLimits.isSelected();
 		boolean helmflowFromHadesResultsValue = helmflowFromHadesResults.isSelected();
-		mainService.startCompareLoadflows(cs, generatorsReactiveLimits,
+		startCompareLoadflows(cs, generatorsReactiveLimits,
 				helmflowFromHadesResultsValue);
+	}
+
+	private void startCompareLoadflows(Case cs, boolean generatorsReactiveLimits,
+			boolean helmflowFromHadesResults)
+	{
+
+		try
+		{
+			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs,
+					generatorsReactiveLimits, helmflowFromHadesResults);
+			Task<?> task = TaskService.createTask(w,
+					() -> mainService.getMainApp().showCompareLoadflowsDetailView(mainService));
+			mainService.setCompareLoadflowTask(task);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w, WorkflowType.COMPARELOADFLOW);
+			TaskService.startTask(task);
+		}
+		catch (WorkflowCreationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

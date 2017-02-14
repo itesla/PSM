@@ -13,6 +13,9 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
+import org.power_systems_modelica.psm.gui.service.CaseService;
+import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
@@ -259,8 +262,8 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 
 				try
 				{
-					Catalog catalog = mainService.getCatalog("cases", catalogPath);
-					Case c = mainService.getCase(catalog.getName(), casePath);
+					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
+					Case c = CaseService.getCase(catalog.getName(), casePath);
 					caseLabel = catalog.getName() + "\t" + c.getName();
 				}
 				catch (IOException e)
@@ -271,7 +274,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			}
 		}
 
-		WorkflowResult wr = mainService.getCompareLoadflowsResult("" + w.getId());
+		WorkflowResult wr = WorkflowServiceConfiguration.getCompareLoadflowsResult("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
 			voltageTab.setDisable(false);

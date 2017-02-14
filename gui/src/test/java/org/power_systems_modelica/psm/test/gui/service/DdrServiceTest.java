@@ -35,7 +35,7 @@ public class DdrServiceTest
 		assertNotNull(ddr);
 		assertNotNull(ddr.nameProperty());
 		assertNotNull(ddr.locationProperty());
-		assertEquals("A portion of the American Electric Power System (in the Midwestern US) as of February, 1962.", ddr.getDescription());
+		assertEquals(null, ddr.getDescription());
 		assertNotNull(ddr.descriptionProperty());
 		assertEquals(DdrType.DYD, ddr.getType());
 		assertNotNull(ddr.typeProperty());

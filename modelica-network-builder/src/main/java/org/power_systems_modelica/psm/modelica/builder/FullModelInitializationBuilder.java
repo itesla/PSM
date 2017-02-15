@@ -53,8 +53,8 @@ public class FullModelInitializationBuilder extends ModelicaNetworkBuilder
 					}
 				}
 			};
-			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
-			else b.visitConnectedOrConnectableEquipments(visitor);
+			// Only visit connected equipments, equipment that is out-of-service will not be visited
+			b.visitConnectedEquipments(visitor);
 		}
 		setAllDynamicModelsAdded(true);
 		return mos;

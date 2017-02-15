@@ -153,8 +153,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 					}
 				}
 			};
-			if (isOnlyMainConnectedComponent()) b.visitConnectedEquipments(visitor);
-			else b.visitConnectedOrConnectableEquipments(visitor);
+			b.visitConnectedEquipments(visitor);
 		}
 
 		// Because we have selected to export the bus breaker view, export all the switches

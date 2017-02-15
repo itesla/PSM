@@ -444,7 +444,8 @@ public class WorkflowServiceConfiguration
 								Boolean.toString(onlyMainConnectedComponent),
 								"modelicaEngine", simulationEngine,
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
-								"libraryDir", PathUtils.LIBRARY.toString())));
+								"libraryDir", PathUtils.LIBRARY.toString(),
+								"resultVariables", "")));
 			}
 			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 					TC("source", "mo",

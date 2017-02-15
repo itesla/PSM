@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -28,13 +27,13 @@ public class OpenModelicaIntegrationTest
 		if (!isOpenModelicaAvailable()) return;
 
 		String filterResVariables = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("singlegen").resolve("library").toString(), filterResVariables,
-				"0.0", "1.0", "0.000001", "500");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("singlegen").resolve("library").toString(), 
+				"false");
 		config.setParameter("simFlags", "-lv LOG_STATS");
+		config.setParameter("resultVariables", filterResVariables);
 		
-		config.setParameter("createFilteredMat", "false");
-
 		testBuild(config, "singlegen", "singlegen.mo", 6, false);
 	}
 
@@ -43,11 +42,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(), 
+				"false");
 
 		testBuild(config, "smallcase1", "case1_no_lf.mo", 8, false);
 	}
@@ -57,11 +55,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(), 
+				"false");
 
 		testBuild(config, "smallcase2", "case2_no_lf.mo", 8, true);
 	}
@@ -71,11 +68,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				"false");
 
 		testBuild(config, "smallcase3", "case3_no_lf.mo", 8, false);
 	}
@@ -85,11 +81,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				"false");
 
 		testBuild(config, "7buses", "M7buses_no_lf.mo", 16, false);	
 	}
@@ -99,11 +94,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "0.001",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				"false");
 
 		testBuild(config, "Nordic32", "Nordic32_no_lf.mo", 106, false);
 	}
@@ -121,11 +115,10 @@ public class OpenModelicaIntegrationTest
 		 moDocsList.add(ModelicaParser
 		 .parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus_no_lf.mo")));
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(), 
+				"false");
 
 		try(OpenModelicaEngine omEngine = new OpenModelicaEngine()) {
 			omEngine.configure(config);
@@ -149,12 +142,13 @@ public class OpenModelicaIntegrationTest
 		
 		//Regular expression for the software-to-software validation
 //		String filterResVariables = "[a-zA-Z0-9_]*((TN.(V|angle))|(EC.(P|Q))|(SM.(efd|cm|lambdad|lambdaf|lambdaq1|lambdaq2)))";
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				"true");
 
+		config.setParameter("stopTime", "1.5");
+		
 		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30, false);
 	}
 
@@ -163,11 +157,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(), 
+				"false");
 
 		testBuild(config, "ieee30", "ieee30bus_no_lf.mo", 62, false);
 	}
@@ -177,11 +170,10 @@ public class OpenModelicaIntegrationTest
 	{
 		if (!isOpenModelicaAvailable()) return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("library").toString(), filterResVariables, "0.0", "1.0",
-				"0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(), 
+				"false");
 
 		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116, false);
 	}
@@ -192,11 +184,10 @@ public class OpenModelicaIntegrationTest
 		if (!isOpenModelicaAvailable())
 			return;
 
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
-		Configuration config = setConfiguration(DATA_TMP.toString(),
-				DATA_TEST.resolve("ieee118").resolve("library").toString(), filterResVariables,
-				"0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "false");
+		Configuration config = setConfiguration(
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("ieee118").resolve("library").toString(),
+				"false");
 
 		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238, true);
 	}
@@ -244,20 +235,15 @@ public class OpenModelicaIntegrationTest
 		}
 	}
 
-	private Configuration setConfiguration(String modelicaEngineWorkingDir, String libraryDir,
-			String resultVariables,
-			String startTime, String stopTime, String tolerance, String numOfIntervalsPerSecond)
+	private Configuration setConfiguration(
+			String modelicaEngineWorkingDir, 
+			String libraryDir,
+			String createFilteredMat)
 	{
 		Configuration config = new Configuration();
 		config.setParameter("modelicaEngineWorkingDir", modelicaEngineWorkingDir);
 		config.setParameter("libraryDir", libraryDir);
-		config.setParameter("resultVariables", resultVariables);
-
-		config.setParameter("startTime", startTime);
-		config.setParameter("stopTime", stopTime);
-		config.setParameter("tolerance", tolerance);
-
-		config.setParameter("numOfIntervalsPerSecond", numOfIntervalsPerSecond);
+		config.setParameter("createFilteredMat", createFilteredMat);
 
 		return config;
 	}

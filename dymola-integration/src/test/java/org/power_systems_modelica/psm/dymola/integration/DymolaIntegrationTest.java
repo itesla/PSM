@@ -27,11 +27,10 @@ public class DymolaIntegrationTest
 
 		String varResults = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("singlegen").resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				"true");
+		config.setParameter("resultVariables", varResults);
 
 		testBuild(config, "singlegen", "singlegen.mo", 6);
 	}
@@ -41,13 +40,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				"true");
 
 		testBuild(config, "smallcase1", "case1_no_lf.mo", 8);
 	}
@@ -57,13 +53,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				"true");
 
 		testBuild(config, "smallcase2", "case2_no_lf.mo", 8);
 	}
@@ -73,13 +66,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				"true");
 
 		testBuild(config, "smallcase3", "case3.mo", 8);
 	}
@@ -89,13 +79,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				"true");
 
 		testBuild(config, "7buses", "M7buses_no_lf.mo", 8);
 	}
@@ -105,13 +92,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				"true");
 
 		testBuild(config, "Nordic32", "Nordic32_no_lf.mo", 8);
 	}
@@ -123,30 +107,25 @@ public class DymolaIntegrationTest
 
 		List<ModelicaDocument> moDocsList = new ArrayList<ModelicaDocument>();
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee14").resolve("itesla").resolve("ieee14bus_no_lf.mo")));
+				.parse(DATA_TEST.resolve("ieee14").resolve("itesla")
+						.resolve("ieee14bus_no_lf.mo")));
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee30").resolve("itesla").resolve("ieee30bus_no_lf.mo")));
+				.parse(DATA_TEST.resolve("ieee30").resolve("itesla")
+						.resolve("ieee30bus_no_lf.mo")));
 		moDocsList.add(ModelicaParser
-				.parse(DATA_TEST.resolve("ieee57").resolve("itesla").resolve("ieee57bus_no_lf.mo")));
-
-		String filterResVariables = "bus[a-zA-Z0-9_]*.(V|angle)";
+				.parse(DATA_TEST.resolve("ieee57").resolve("itesla")
+						.resolve("ieee57bus_no_lf.mo")));
 
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
 				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
-				filterResVariables,
-				"0.0",
-				"1.0",
-				"0.000001",
-				"500");
+				"false");
 
-		config.setParameter("createFilteredMat", "false");
-
-		try(DymolaEngine dymEngine = new DymolaEngine()) {
+		try (DymolaEngine dymEngine = new DymolaEngine())
+		{
 			dymEngine.configure(config);
 			dymEngine.simulate(moDocsList);
-	
+
 			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
 			assertTrue(results.getValue("ieee14bus", "simulation_path") != null);
 			System.out.println("IEEE14 simulation directory : "
@@ -161,7 +140,8 @@ public class DymolaIntegrationTest
 			System.out.println("IEEE14 simulation directory : "
 					+ results.getValue("ieee118bus", "simulation_path"));
 		}
-		catch(Exception exc) {
+		catch (Exception exc)
+		{
 			exc.printStackTrace();
 		}
 	}
@@ -171,12 +151,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
-				DATA_TMP.toString(), DATA_TEST.resolve("library").toString(), varResults, "0.0",
-				"1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
+				"true");
 
 		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30);
 	}
@@ -186,12 +164,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
-				DATA_TMP.toString(), DATA_TEST.resolve("library").toString(), varResults, "0.0",
-				"1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				DATA_TMP.toString(), 
+				DATA_TEST.resolve("library").toString(),
+				"true");
 
 		testBuild(config, "ieee30", "ieee30bus_no_lf.mo", 60);
 	}
@@ -201,12 +177,10 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
-				DATA_TMP.toString(), DATA_TEST.resolve("library").toString(), varResults, "0.0",
-				"1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				DATA_TMP.toString(), 
+				DATA_TEST.resolve("library").toString(), 
+				"true");
 
 		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116);
 	}
@@ -216,12 +190,11 @@ public class DymolaIntegrationTest
 	{
 		if (!isDymolaAvailable()) return;
 
-		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 		Configuration config = setConfiguration(
-				"http://localhost:8888/dymservice?wsdl",
-				DATA_TMP.toString(), DATA_TEST.resolve("ieee118bus").resolve("library").toString(),
-				varResults, "0.0", "1.0", "0.000001", "500");
-		config.setParameter("createFilteredMat", "true");
+				DATA_TMP.toString(), 
+				DATA_TEST.resolve("ieee118bus").resolve("library").toString(),
+				"true");
+		
 		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238);
 	}
 
@@ -235,17 +208,18 @@ public class DymolaIntegrationTest
 		ModelicaDocument mo = ModelicaParser
 				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
 
-		try(DymolaEngine dymEngine = new DymolaEngine()) {
+		try (DymolaEngine dymEngine = new DymolaEngine())
+		{
 			config.setParameter("depth", "0");
 			dymEngine.configure(config);
 			dymEngine.simulate(mo);
-	
+
 			ModelicaSimulationFinalResults results = dymEngine.getSimulationResults();
 			assertTrue(results.getEntries().size() > 1);
-	
+
 			assertEquals(moName, mo.getSystemModel().getId());
 			assertEquals("SNREF", mo.getSystemModel().getDeclarations().get(0).getId());
-	
+
 			Path dymSimPath = (Path) dymEngine.getSimulationResults()
 					.getValue(mo.getSystemModel().getId(), "simulation_path");
 			assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.csv")));
@@ -254,32 +228,21 @@ public class DymolaIntegrationTest
 			assertTrue(Files.exists(dymSimPath.resolve(moName + "_in.zip")));
 			assertTrue(Files.exists(dymSimPath.resolve(moName + "_out.zip")));
 		}
-		catch(Exception exc) {
+		catch (Exception exc)
+		{
 			exc.printStackTrace();
 		}
 	}
 
 	private Configuration setConfiguration(
-			String webService,
 			String modelicaEngineWorkingDir,
 			String libraryDir,
-			String resultVariables,
-			String startTime,
-			String stopTime,
-			String tolerance,
-			String numOfIntervalsPerSecond)
+			String createFilteredMath)
 	{
 		Configuration config = new Configuration();
-		config.setParameter("webService", webService);
 		config.setParameter("modelicaEngineWorkingDir", modelicaEngineWorkingDir);
 		config.setParameter("libraryDir", libraryDir);
-		config.setParameter("resultVariables", resultVariables);
-
-		config.setParameter("startTime", startTime);
-		config.setParameter("stopTime", stopTime);
-		config.setParameter("tolerance", tolerance);
-
-		config.setParameter("numOfIntervalsPerSecond", numOfIntervalsPerSecond);
+		config.setParameter("createFilteredMat", createFilteredMath);
 
 		return config;
 	}

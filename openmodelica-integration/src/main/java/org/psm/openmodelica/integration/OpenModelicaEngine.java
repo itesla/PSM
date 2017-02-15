@@ -2,6 +2,7 @@ package org.psm.openmodelica.integration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -32,28 +34,38 @@ import org.slf4j.LoggerFactory;
 
 public class OpenModelicaEngine implements ModelicaEngine
 {
-
 	@Override
 	public void configure(Configuration config)
 	{
 		System.setProperty("com.sun.CORBA.transport.ORBTCPReadTimeouts", "1:15000:30000:1");
-		this.workingDir = Paths.get(config.getParameter("modelicaEngineWorkingDir"));
-		this.libraryDir = Paths.get(config.getParameter("libraryDir"));
+
+		this.workingDir = Paths
+				.get(Optional.ofNullable(config.getParameter("modelicaEngineWorkingDir"))
+						.orElse(this.properties.getProperty("modelicaEngineWorkingDir")));
+		this.libraryDir = Paths.get(Optional.ofNullable(config.getParameter("libraryDir"))
+				.orElse(this.properties.getProperty("libraryDir")));
 		this.resultVariables = Optional.ofNullable(config.getParameter("resultVariables"))
-				.orElse("");
+				.orElse(this.properties.getProperty("resultVariables"));
 
-		this.startTime = Optional.ofNullable(config.getDouble("startTime")).orElse(0.0);
-		this.stopTime = Optional.ofNullable(config.getDouble("stopTime")).orElse(1.0);
-		this.tolerance = Optional.ofNullable(config.getDouble("tolerance")).orElse(0.0001);
+		this.startTime = Double.valueOf(Optional.ofNullable(config.getParameter("startTime"))
+				.orElse(this.properties.getProperty("startTime")));
+		this.stopTime = Double.valueOf(Optional.ofNullable(config.getParameter("stopTime"))
+				.orElse(this.properties.getProperty("stopTime")));
+		this.tolerance = Double.valueOf(Optional.ofNullable(config.getParameter("tolerance"))
+				.orElse(this.properties.getProperty("tolerance")));
 
-		this.numOfIntervalsPerSecond = Optional
-				.ofNullable(config.getInteger("numOfIntervalsPerSecond")).orElse(100);
+		this.numOfIntervalsPerSecond = Integer.valueOf(Optional
+				.ofNullable(config.getParameter("numOfIntervalsPerSecond"))
+				.orElse(this.properties.getProperty("numOfIntervalsPerSecond")));
 		this.numOfIntervals = (int) (this.stopTime * this.numOfIntervalsPerSecond);
 
-		this.createFilteredMat = Optional.ofNullable(config.getBoolean("createFilteredMat"))
-				.orElse(false);
-		this.simFlags = Optional.ofNullable(config.getParameter("simFlags")).orElse("");
-		this.depth = Optional.ofNullable(config.getInteger("depth")).orElse(0);
+		this.createFilteredMat = Boolean
+				.valueOf(Optional.ofNullable(config.getParameter("createFilteredMat"))
+						.orElse(this.properties.getProperty("createFilteredMat")));
+		this.simFlags = Optional.ofNullable(config.getParameter("simFlags"))
+				.orElse(this.properties.getProperty("simFlags"));
+		this.depth = Integer.valueOf(Optional.ofNullable(config.getParameter("depth"))
+				.orElse(this.properties.getProperty("depth")));
 	}
 
 	@Override
@@ -515,6 +527,48 @@ public class OpenModelicaEngine implements ModelicaEngine
 		return engineProgress;
 	}
 
+	@Override
+	public Properties loadDefaultProperties()
+	{
+		Properties properties = new Properties();
+		try (InputStream inputStream = Files.newInputStream(DEF_PROPERTIES))
+		{
+			properties.load(inputStream);
+
+			this.workingDir = Paths.get(properties.getProperty("modelicaEngineWorkingDir"));
+			this.libraryDir = Paths.get(properties.getProperty("libraryDir"));
+
+			this.resultVariables = Optional.ofNullable(properties.getProperty("resultVariables"))
+					.orElse("");
+
+			this.startTime = Double.valueOf(Optional
+					.ofNullable(properties.getProperty("startTime")).orElse("0.0"));
+			this.stopTime = Double
+					.valueOf(Optional.ofNullable(properties.getProperty("stopTime"))
+							.orElse("1.0"));
+			this.tolerance = Double.valueOf(Optional
+					.ofNullable(properties.getProperty("tolerance"))
+					.orElse("0.0001"));
+
+			this.numOfIntervalsPerSecond = Integer.valueOf(Optional
+					.ofNullable(properties.getProperty("numOfIntervalsPerSecond"))
+					.orElse("100"));
+			this.numOfIntervals = (int) (this.stopTime * this.numOfIntervalsPerSecond);
+
+			this.createFilteredMat = Boolean.valueOf(Optional
+					.ofNullable(properties.getProperty("createFilteredMat"))
+					.orElse("false"));
+			this.depth = Integer.valueOf(Optional.ofNullable(properties.getProperty("depth"))
+					.orElse("0"));
+		}
+		catch (IOException e)
+		{
+			LOG.error("", e.getMessage());
+		}
+		return properties;
+	}
+
+	private Properties						properties		= loadDefaultProperties();
 	private ModelicaEngineProgress			engineProgress	= new ModelicaEngineProgress();
 	private Path							workingDir;
 	private Path							omSimulationDir;
@@ -544,6 +598,8 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 	// For now only Dassl, in the future also DAE-IDA
 	private static final String[]			METHOD_LIST		= new String[] { "Dassl" };
+	private static final Path				DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
+			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");
 
 	private static final Logger				LOG				= LoggerFactory
 			.getLogger(OpenModelicaEngine.class);

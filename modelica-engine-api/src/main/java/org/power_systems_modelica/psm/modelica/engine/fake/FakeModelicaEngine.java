@@ -1,9 +1,14 @@
 package org.power_systems_modelica.psm.modelica.engine.fake;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Properties;
 
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
@@ -22,9 +27,12 @@ public class FakeModelicaEngine implements ModelicaEngine
 	{
 		try
 		{
-			Path fakef = Paths.get(config.getParameter("fakeModelicaEngineResults"));
+			Path fakef = Paths
+					.get(Optional.ofNullable(config.getParameter("fakeModelicaEngineResults"))
+							.orElse(this.properties.getProperty("fakeModelicaEngineResults")));
 			this.results = ModelicaSimulationResultsCsv.read(fakef);
-			workingDir = Paths.get(config.getParameter("modelicaEngineWorkingDir"));
+			workingDir = Paths.get(Optional.of(config.getParameter("modelicaEngineWorkingDir"))
+					.orElse(this.properties.getProperty("modelicaEngineWorkingDir")));
 		}
 		catch (Exception e)
 		{
@@ -78,9 +86,32 @@ public class FakeModelicaEngine implements ModelicaEngine
 		return engineProgress;
 	}
 
+	@Override
+	public Properties loadDefaultProperties()
+	{
+		Properties properties = new Properties();
+		try (InputStream inputStream = Files.newInputStream(DEF_PROPERTIES))
+		{
+			properties.load(inputStream);
+
+			Path fakef = Paths.get(properties.getProperty("fakeModelicaEngineResults"));
+			this.results = ModelicaSimulationResultsCsv.read(fakef);
+			this.workingDir = Paths.get(properties.getProperty("modelicaEngineWorkingDir"));
+		}
+		catch (IOException e)
+		{
+			LOG.error("", e.getMessage());
+		}
+		return properties;
+	}
+
+	private Properties				properties		= loadDefaultProperties();
 	private ModelicaEngineProgress	engineProgress;
 	ModelicaSimulationFinalResults	results;
 	Path							workingDir;
 
-	private static final Logger		LOG	= LoggerFactory.getLogger(FakeModelicaEngine.class);
+	private static final Path		DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
+			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");
+	private static final Logger		LOG				= LoggerFactory
+			.getLogger(FakeModelicaEngine.class);
 }

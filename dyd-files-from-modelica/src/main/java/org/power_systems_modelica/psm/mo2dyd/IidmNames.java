@@ -1,14 +1,15 @@
 package org.power_systems_modelica.psm.mo2dyd;
 
+import org.power_systems_modelica.psm.ddr.StaticType;
+
 public class IidmNames
 {
 	// FIXME This should go in a configuration file
-	public static String getIidmNameForModelicaArgument(String stype, String mname)
+	public static String getIidmNameForModelicaArgument(StaticType stype, String mname)
 	{
 		switch (stype)
 		{
-		case "Bus":
-		case "InfiniteBus":
+		case Bus:
 			switch (mname)
 			{
 			case "V_0":
@@ -18,7 +19,7 @@ public class IidmNames
 			default:
 				return null;
 			}
-		case "Line":
+		case Line:
 			switch (mname)
 			{
 			case "R":
@@ -32,7 +33,7 @@ public class IidmNames
 			default:
 				return null;
 			}
-		case "Load":
+		case Load:
 			switch (mname)
 			{
 			case "V_0":
@@ -46,7 +47,7 @@ public class IidmNames
 			default:
 				return null;
 			}
-		case "Shunt":
+		case Shunt:
 			switch (mname)
 			{
 			case "B":
@@ -56,7 +57,7 @@ public class IidmNames
 			default:
 				return null;
 			}
-		case "Transformer":
+		case Transformer:
 			switch (mname)
 			{
 			case "r":
@@ -76,7 +77,7 @@ public class IidmNames
 			default:
 				return null;
 			}
-		case "Generator":
+		case Generator:
 			switch (mname)
 			{
 			case "ur0":
@@ -92,7 +93,8 @@ public class IidmNames
 			default:
 				return null;
 			}
+		default:
+			return null;
 		}
-		return null;
 	}
 }

@@ -18,13 +18,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
 import org.power_systems_modelica.psm.ddr.EventParameter;
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.ConvertedCase;
@@ -60,13 +60,11 @@ import org.supercsv.io.ICsvListReader;
 
 import eu.itesla_project.iidm.network.Bus;
 import eu.itesla_project.iidm.network.Connectable;
-import eu.itesla_project.iidm.network.ConnectableType;
 import eu.itesla_project.iidm.network.Identifiable;
 import eu.itesla_project.iidm.network.Network;
 
 public class WorkflowServiceConfiguration
 {
-
 	public enum LoadflowEngine
 	{
 		HADES2(0), HELMFLOW(1), NONE(2);
@@ -187,17 +185,17 @@ public class WorkflowServiceConfiguration
 
 	// Elements of current case that can be used with current event
 
-	public static Map<String, ConnectableType> getConnectableTypesForEvents(ConvertedCase newValue)
+	public static Map<String, StaticType> getStaticTypesForEvents(ConvertedCase newValue)
 	{
 		// TODO do not connect to the DDR each time, store the connected DDR reference inside ConvertedCase ?
 		ddr = DynamicDataRepositoryMainFactory.create("DYD", newValue.getDdrLocation());
 		try
 		{
 			ddr.connect();
-			Map<String, ConnectableType> eventAppliesTo = ddr.getEvents().stream()
+			Map<String, StaticType> eventAppliesTo = ddr.getEvents().stream()
 					.collect(Collectors.toMap(
 							ev -> ev,
-							ev -> ddr.getEventAppliesToConnectableType(ev)));
+							ev -> ddr.getEventAppliesToStaticType(ev)));
 			return eventAppliesTo;
 		}
 		catch (ConnectionException e)
@@ -205,11 +203,6 @@ public class WorkflowServiceConfiguration
 			LOG.error(e.getMessage());
 			return Collections.emptyMap();
 		}
-	}
-
-	private static ConnectableType connectableType(Identifiable<?> e)
-	{
-		return ((Connectable<?>) e).getType();
 	}
 
 	private static Map<String, Collection<String>> groupElementsByEventType(ConvertedCase case_)
@@ -227,27 +220,27 @@ public class WorkflowServiceConfiguration
 		Network n = StaticNetworkImporter.import_(caseSource);
 		if (n == null) return null;
 
-		// Group elements by ConnectableType
-		Map<ConnectableType, List<String>> elementsByConnectableType = n.getIdentifiables().stream()
+		// Group elements by StaticType
+		Map<StaticType, List<String>> elementsByStaticType = n.getIdentifiables().stream()
 				.filter(e -> e instanceof Connectable)
-				.collect(Collectors.groupingBy(WorkflowServiceConfiguration::connectableType,
+				.collect(Collectors.groupingBy(StaticType::from,
 						Collectors.mapping(Identifiable::getId, Collectors.toList())));
-		// Expand the elements located under "Bus bar section" with buses resulting from bus breaker view
-		List<String> busIds = elementsByConnectableType.get(ConnectableType.BUSBAR_SECTION);
+		// Expand the elements located under "Bus" static type with buses resulting from bus breaker view
+		List<String> busIds = elementsByStaticType.get(StaticType.Bus);
 		if (busIds == null)
 		{
 			busIds = new ArrayList<>();
-			elementsByConnectableType.put(ConnectableType.BUSBAR_SECTION, busIds);
+			elementsByStaticType.put(StaticType.Bus, busIds);
 		}
 		for (Bus b : n.getBusBreakerView().getBuses())
 			busIds.add(b.getId());
 
-		// Now for each event type, set the list of applicable elements based on the connectable type defined for the event
+		// Now for each event type, set the list of applicable elements based on the static type defined for the event
 		Map<String, Collection<String>> elementsByEventType = new HashMap<>();
-		getConnectableTypesForEvents(case_).entrySet().stream()
+		getStaticTypesForEvents(case_).entrySet().stream()
 				.forEach(e -> elementsByEventType.put(
 						e.getKey(),
-						elementsByConnectableType.get(e.getValue())));
+						elementsByStaticType.get(e.getValue())));
 		return elementsByEventType;
 	}
 

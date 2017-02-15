@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository.Injection;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
@@ -30,10 +31,16 @@ public class ModelXml
 		String type = r.getAttributeValue(null, "type");
 		String event = r.getAttributeValue(null, "event");
 		String eventInjection = r.getAttributeValue(null, "injection");
+		String eventAppliesTo = r.getAttributeValue(null, "appliesTo");
 
 		Model m = null;
-		if (event != null) m = new ModelForEvent(event, Injection.valueOf(eventInjection), id);
-		else if (type != null) m = new ModelForType(type, id);
+		if (event != null)
+		{
+			ModelForEvent mev = new ModelForEvent(event, Injection.valueOf(eventInjection), id);
+			if (eventAppliesTo != null) mev.setAppliesTo(StaticType.valueOf(eventAppliesTo));
+			m = mev;
+		}
+		else if (type != null) m = new ModelForType(StaticType.valueOf(type), id);
 		else if (association != null) m = new ModelForAssociation(association, id);
 		else m = new ModelForElement(staticId, id);
 
@@ -58,12 +65,15 @@ public class ModelXml
 		}
 		else if (m instanceof ModelForType)
 		{
-			w.writeAttribute("type", ((ModelForType) m).getType());
+			w.writeAttribute("type", ((ModelForType) m).getType().name());
 		}
 		else if (m instanceof ModelForEvent)
 		{
-			w.writeAttribute("event", ((ModelForEvent) m).getEvent());
-			w.writeAttribute("injection", ((ModelForEvent) m).getInjection().toString());
+			ModelForEvent mev = (ModelForEvent) m;
+			w.writeAttribute("event", mev.getEvent());
+			w.writeAttribute("injection", mev.getInjection().name());
+			if (mev.getAppliesTo() != null)
+				w.writeAttribute("appliesTo", mev.getAppliesTo().name());
 		}
 
 		for (Component mc : m.getComponents())

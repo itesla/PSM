@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.mo2dyd;
 
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -23,6 +22,7 @@ import java.util.stream.Collectors;
 import javax.xml.stream.XMLStreamException;
 
 import org.power_systems_modelica.psm.ddr.Stage;
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.ddr.dyd.Association;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
@@ -191,7 +191,7 @@ public class DydFilesFromModelica
 	private void hardcodedModels2dyd(Stage stage)
 	{
 		String baseId = "DM{staticId}";
-		Model mdef = new ModelForType("Switch", baseId);
+		Model mdef = new ModelForType(StaticType.Switch, baseId);
 		Interconnection i = Interconnection.createDoubleTarget("{bus1}", "p", "{bus2}", "p");
 		mdef.addInterconnections(Arrays.asList(i));
 		ddr.addModel(MODELS_NAME, mdef);
@@ -244,11 +244,12 @@ public class DydFilesFromModelica
 
 	private Model findOrBuildModelDefinitionForType(ModelicaModel m, Stage stage)
 	{
-		String staticType = whichStaticType(m);
-		if (staticType == null) return null;
 		// Infinite buses will not receive a model based on their type,
 		// A model definition will be created for every infinite bus identifier
-		if (ModelicaTricks.isInfiniteBus(staticType)) return null;
+		if (ModelicaTricks.isInfiniteBus(m)) return null;
+
+		StaticType staticType = StaticType.from(m);
+		if (staticType == null) return null;
 
 		Model mdef = ddr.getDynamicModelForStaticType(staticType, stage);
 		if (mdef != null)
@@ -260,7 +261,7 @@ public class DydFilesFromModelica
 
 		// FIXME Default modeling for generators should be a fixed injection (or configurable)
 		// Currently we do not build generic model definition for static type Generator
-		if (staticType.equals("Generator")) return null;
+		if (staticType.equals(StaticType.Generator)) return null;
 
 		return buildModelDefinitionForStaticType(staticType, m, stage);
 	}
@@ -269,8 +270,7 @@ public class DydFilesFromModelica
 	{
 		// Infinite buses will not build an association,
 		// A model definition will be created for every infinite bus identifier
-		String staticType = whichStaticType(m);
-		if (staticType != null && ModelicaTricks.isInfiniteBus(staticType)) return null;
+		if (ModelicaTricks.isInfiniteBus(m)) return null;
 
 		Association a = associations.findCreateAssociation(m, stage);
 		if (a == null) return null;
@@ -291,25 +291,7 @@ public class DydFilesFromModelica
 		return mdef;
 	}
 
-	private String whichStaticType(ModelicaModel mo)
-	{
-		if (ModelicaUtil.isSystemModel(mo)) return "System";
-
-		ModelicaDeclaration d = mo.getDeclarations().get(0);
-		String dtype = d.getType();
-		String stype = ModelicaTricks.getStaticTypeFromDynamicType(dtype);
-		if (stype == null)
-		{
-			String message = "Can not identify static type from dynamic type '" + dtype + "'";
-			LOG.error(message);
-			throw new RuntimeException(message);
-		}
-		stype = ModelicaTricks.checkGeneratorModeledAsFixedInjection(stype, mo);
-		stype = ModelicaTricks.checkInfiniteBus(stype, mo);
-		return stype;
-	}
-
-	private Model buildModelDefinitionForStaticType(String stype, ModelicaModel mo, Stage stage)
+	private Model buildModelDefinitionForStaticType(StaticType stype, ModelicaModel mo, Stage stage)
 	{
 		boolean isGenericModel = true;
 		String baseId = "DM{staticId}";
@@ -406,7 +388,7 @@ public class DydFilesFromModelica
 			Model mdef,
 			boolean isGenericModel)
 	{
-		String staticType = whichStaticType(mo);
+		StaticType staticType = StaticType.from(mo);
 		String staticId = mo.getStaticId();
 		for (ModelicaDeclaration d : mo.getDeclarations())
 		{
@@ -497,7 +479,7 @@ public class DydFilesFromModelica
 			return;
 		}
 		ParameterSetContainer par = ddr.getParameterSetContainer(PARAMS_NAME);
-		String staticType = whichStaticType(mo);
+		StaticType staticType = StaticType.from(mo);
 		for (ModelicaDeclaration d : mo.getDeclarations())
 		{
 			if (d.getArguments() != null && !d.getArguments().isEmpty())
@@ -568,7 +550,7 @@ public class DydFilesFromModelica
 
 	private static List<Parameter> buildParameters(
 			String staticId,
-			String stype,
+			StaticType stype,
 			String declarationId,
 			List<ModelicaArgument> arguments)
 	{
@@ -593,13 +575,13 @@ public class DydFilesFromModelica
 	}
 
 	private static Parameter asGenericParameterValue(
-			String staticType,
+			StaticType staticType,
 			String declarationId,
 			ModelicaArgument a)
 	{
 		boolean isGeneric = false;
 
-		String kTypeArgname = String.format("%s::%s", staticType, a.getName());
+		String kTypeArgname = String.format("%s::%s", staticType.name(), a.getName());
 		if (GENERIC_PARAMETERS_TYPE.contains(kTypeArgname)) isGeneric = true;
 		if (declarationId.startsWith("zero_")) isGeneric = true;
 
@@ -642,7 +624,7 @@ public class DydFilesFromModelica
 		return null;
 	}
 
-	private static Parameter asIidmReference(String stype, ModelicaArgument a)
+	private static Parameter asIidmReference(StaticType stype, ModelicaArgument a)
 	{
 		String iidmAttribute = IidmNames.getIidmNameForModelicaArgument(stype, a.getName());
 		if (iidmAttribute != null)

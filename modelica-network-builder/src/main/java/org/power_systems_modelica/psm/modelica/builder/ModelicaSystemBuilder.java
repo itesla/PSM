@@ -82,6 +82,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		}
 
 		ModelicaSimulationFinalResults mor = modelicaEngine.getSimulationResults();
+		modelicaEngine.close();
 		InitializationResults results = new InitializationResults(mor);
 		InitializationReferenceResolver ir = new InitializationReferenceResolver(results);
 		registerResolver("INIT", ir);

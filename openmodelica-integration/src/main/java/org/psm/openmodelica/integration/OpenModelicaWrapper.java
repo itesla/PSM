@@ -1,14 +1,12 @@
 package org.psm.openmodelica.integration;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.openmodelica.corba.SmartProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.stringtemplate.v4.compiler.STParser.memberExpr_return;
 
 public class OpenModelicaWrapper extends SmartProxy
 {
@@ -194,7 +192,7 @@ public class OpenModelicaWrapper extends SmartProxy
 	@Override
 	public void logOMCReply(String reply)
 	{
-		//TODO Temp
+		//TODO For now nothing to display
 //		StringTokenizer tokenizer = new StringTokenizer(reply, "\n");
 //
 //		while (tokenizer.hasMoreTokens())
@@ -206,8 +204,7 @@ public class OpenModelicaWrapper extends SmartProxy
 	@Override
 	public void logOMCCall(String expression)
 	{
-		//TODO Temp
-//		System.out.println(">>>> " + expression);
+		//TODO For now nothing to display
 	}
 
 	@Override
@@ -216,7 +213,12 @@ public class OpenModelicaWrapper extends SmartProxy
 		LOG.debug(message);
 	}
 	
-	
+	@Override
+	public void logOMCCallError(String message)
+	{
+		LOG.error(message);
+	}
+	 
 	private static final Logger				LOG				= LoggerFactory
 			.getLogger(OpenModelicaWrapper.class);
 }

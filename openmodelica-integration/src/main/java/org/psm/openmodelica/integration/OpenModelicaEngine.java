@@ -303,7 +303,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 	@Override
 	public void close() throws Exception
 	{
-		System.out.println(this.results.toString());
 		LOG.info("Closing OpenModelica service.");
 		try
 		{

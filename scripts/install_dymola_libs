@@ -1,5 +1,5 @@
 export DYMOLAHOME_PATH=
-export DYMOLA_VERSION=2017
+export DYMOLA_VERSION=2016
 export DYMOLA_GROUP=com.dassault_systemes.dymola
 export DYMOLA_ARTIFACT=dymola_interface
 
@@ -13,3 +13,4 @@ echo "Using Dymola from ${DYMOLAHOME_PATH}"
 echo ""
 
 mvn install:install-file -Dfile="${DYMOLAHOME_PATH}" -DgroupId=${DYMOLA_GROUP} -DartifactId=${DYMOLA_ARTIFACT} -Dversion=${DYMOLA_VERSION} -Dpackaging=jar
+

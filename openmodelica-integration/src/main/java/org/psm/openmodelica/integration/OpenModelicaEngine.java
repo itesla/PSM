@@ -129,7 +129,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		if (depth != 0)
 		{
-			verified = simulateModel(modelName, startTime, 0.1, 10,
+			verified = simulateModel(modelName, startTime, 0.001, 10,
 					tolerance, simFlags, true);
 			if (!verified || depth == 2)
 			{

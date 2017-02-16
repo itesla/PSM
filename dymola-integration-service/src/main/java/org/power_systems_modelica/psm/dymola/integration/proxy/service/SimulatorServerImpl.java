@@ -378,6 +378,7 @@ public class SimulatorServerImpl implements SimulatorServer
 		}
 		String[] filterResultVariables = new String[count + 1];
 		filterResultVariables[0] = "Time";
+		boolean onlyTime = true;
 
 		int j = 1;
 		for (int i = 0; i < resultNames.length; i++)
@@ -386,12 +387,13 @@ public class SimulatorServerImpl implements SimulatorServer
 			if (matcher.matches())
 			{
 				filterResultVariables[j] = matcher.group();
+				onlyTime = false;
 				j++;
 			}
 		}
 
 		// Check if filterResultVariables only has the variable Time.
-		if (filterResultVariables[1] == null)
+		if (onlyTime)
 		{
 			filterResultVariables = resultNames;
 		}

@@ -24,6 +24,7 @@
 		<module>dymola-integration</module>
 		<module>dymola-integration-service</module>
 		<module>openmodelica-integration</module>
+		<module>case-validation</module>
 		<module>gui</module>
 	</modules>
 	<properties>

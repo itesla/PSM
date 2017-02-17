@@ -22,21 +22,24 @@
                     <content>
                       <AnchorPane>
                            <children>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Expected:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
-                              <TextField fx:id="expectedFile" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="4.0" />
-                              <Button fx:id="expectedFileSelector" mnemonicParsing="false" onAction="#handleSelectExpectedFileAction" prefHeight="25.0" prefWidth="30.0" styleClass="btn-default" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Case:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
-                              <TextField fx:id="caseFile" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="44.0" />
-                              <Button fx:id="caseFileSelector" mnemonicParsing="false" onAction="#handleSelectCaseFileAction" prefHeight="25.0" prefWidth="30.0" styleClass="btn-default" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Step size:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="84.0" />
-                              <TextField fx:id="stepSize" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="84.0" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Mapping:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+                              <TextField fx:id="mappingFile" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="4.0" />
+                              <Button fx:id="mappingFileSelector" mnemonicParsing="false" onAction="#handleSelectMappingFileAction" prefHeight="25.0" prefWidth="30.0" styleClass="btn-default" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Expected:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
+                              <TextField fx:id="expectedFile" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="44.0" />
+                              <Button fx:id="expectedFileSelector" mnemonicParsing="false" onAction="#handleSelectExpectedFileAction" prefHeight="25.0" prefWidth="30.0" styleClass="btn-default" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Case:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="84.0" />
+                              <TextField fx:id="caseFile" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="84.0" />
+                              <Button fx:id="caseFileSelector" mnemonicParsing="false" onAction="#handleSelectCaseFileAction" prefHeight="25.0" prefWidth="30.0" styleClass="btn-default" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="84.0" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="70.0" text="Step size:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="124.0" />
+                              <TextField fx:id="stepSize" prefWidth="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="124.0" />
                            </children></AnchorPane>
                     </content>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane animated="false" collapsible="false" layoutY="180.0" text="Validation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TitledPane animated="false" collapsible="false" layoutY="220.0" text="Validation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <content>
                       <AnchorPane>
                            <children>

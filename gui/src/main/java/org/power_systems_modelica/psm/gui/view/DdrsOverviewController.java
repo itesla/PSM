@@ -185,7 +185,36 @@ public class DdrsOverviewController implements MainChildrenController
 		contextMenu.getItems().clear();
 		if (ddr == null) return;
 
-		MenuItem menuItem = new MenuItem("Duplicate DDR");
+		MenuItem menuItem;
+		Path ddrPath = Paths.get(ddr.getLocation());
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(ddrPath))
+		{
+
+			for (Path entry : stream)
+			{
+				if (entry.toString().endsWith(".dyd") || entry.toString().endsWith(".par"))
+				{
+					menuItem = new MenuItem(entry.getFileName().toString());
+					menuItem.setOnAction(new EventHandler<ActionEvent>()
+					{
+						@Override
+						public void handle(ActionEvent event)
+						{
+
+							showDdrFileContent(ddr, entry.getFileName().toString());
+						}
+					});
+					contextMenu.getItems().add(menuItem);
+				}
+			}
+			
+			contextMenu.getItems().add(new SeparatorMenuItem());
+		}
+		catch (IOException e1)
+		{
+		}
+
+		menuItem = new MenuItem("Duplicate DDR");
 		menuItem.setOnAction(new EventHandler<ActionEvent>()
 		{
 			@Override
@@ -211,38 +240,6 @@ public class DdrsOverviewController implements MainChildrenController
 		});
 		contextMenu.getItems().add(menuItem);
 
-		Path ddrPath = Paths.get(ddr.getLocation());
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(ddrPath))
-		{
-
-			SeparatorMenuItem sMenuItem = new SeparatorMenuItem();
-
-			for (Path entry : stream)
-			{
-				if (entry.toString().endsWith(".dyd") || entry.toString().endsWith(".par"))
-				{
-					if (sMenuItem != null)
-					{
-						contextMenu.getItems().add(sMenuItem);
-						sMenuItem = null;
-					}
-					menuItem = new MenuItem(entry.getFileName().toString());
-					menuItem.setOnAction(new EventHandler<ActionEvent>()
-					{
-						@Override
-						public void handle(ActionEvent event)
-						{
-
-							showDdrFileContent(ddr, entry.getFileName().toString());
-						}
-					});
-					contextMenu.getItems().add(menuItem);
-				}
-			}
-		}
-		catch (IOException e1)
-		{
-		}
 	}
 
 	@FXML

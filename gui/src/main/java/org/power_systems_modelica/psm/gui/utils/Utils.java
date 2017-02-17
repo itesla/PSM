@@ -145,15 +145,6 @@ public class Utils
 		return properties;
 	}
 
-	public static String randomDouble(double rangeMin, double rangeMax)
-	{
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
-		symbols.setDecimalSeparator('.');
-		DecimalFormat df = new DecimalFormat("#.#####", symbols);
-		Random r = new Random();
-		return df.format(rangeMin + (rangeMax - rangeMin) * r.nextDouble());
-	}
-	
 	public static String getStackTrace(final Throwable throwable) {
 	     final StringWriter sw = new StringWriter();
 	     final PrintWriter pw = new PrintWriter(sw, true);

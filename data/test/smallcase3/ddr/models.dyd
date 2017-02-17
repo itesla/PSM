@@ -18,7 +18,7 @@
         <interconnection componentId="line_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Load">
-        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltFrecDependence" id="load_{staticId}" parFile="params.par" parId="load_{staticId}_SIMULATION"/>
+        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltFreqDependence" id="load_{staticId}" parFile="params.par" parId="load_{staticId}_SIMULATION"/>
         <interconnection componentId="load_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
 		<interconnection componentId="load_{staticId}" componentVar="omegaRef" targetModel="{system}" targetName="omegaRef"/>
     </model>

@@ -667,7 +667,7 @@ public class DydFilesFromModelica
 				|| firstDeclarationId.startsWith("Transformer");
 		boolean isGenerator = firstDeclarationId.startsWith("gen_");
 		boolean isLoadOmegaRef = firstDeclarationId.startsWith("load_")
-				&& firstDeclarationType.contains("FrecDependence");
+				&& firstDeclarationType.contains("FreqDependence");
 		boolean isBus = firstDeclarationId.startsWith("bus_")
 				|| firstDeclarationId.startsWith("Bus_");
 		boolean isSystem = ModelicaUtil.isSystemModel(m);

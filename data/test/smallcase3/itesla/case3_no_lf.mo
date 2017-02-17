@@ -27,7 +27,7 @@ model case3
      X = 0.0438
      ) annotation (Placement(transformation()));
 // LOADS
-  iPSL.Electrical.Loads.Eurostag.PwLoadVoltFrecDependence load__GRID_____EC (
+  iPSL.Electrical.Loads.Eurostag.PwLoadVoltFreqDependence load__GRID_____EC (
 	 V_0 = 1.0,
 	 P_0 = 475.0,
 	 Q_0 = 76.0,

@@ -98,10 +98,20 @@ See script ```install_openmodelica_libs```
 Open Modelica installation folder should be defined in the corresponding environment variable for the user:
 
 	export OPENMODELICAHOME=<Open Modelica installation>/bin
+	
+For version 1.11 of Open Modelica the environment variable:
+
+	export OPENMODELICAHOME=<Open Modelica installation>
 
 #### OpenModelica installation
 
 Follow instructions from https://openmodelica.org/download/download-linux (Choose "release" version)
+
+To update an installation on a Linux box sometimes it is required to uninstall previous one:
+
+	apt-get autoremove openmodelica
+	apt-get update
+	apt-get install openmodelica
 
 ### Eclipse
 

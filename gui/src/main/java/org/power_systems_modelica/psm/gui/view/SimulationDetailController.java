@@ -186,20 +186,22 @@ public class SimulationDetailController implements MainChildrenController
 	private boolean containsRelatedBuses(Network n, Event e, String key)
 	{
 		Identifiable<?> i = n.getIdentifiable(e.getElement());
+		System.out.println("ID: " + i.getId() + " key: " + key);
 		if (i instanceof Bus)
-			return i.getId().equals(key);
+		{
+			return key.contains(i.getId());
+		}
 		else if (i instanceof SingleTerminalConnectable)
 		{
-			return ((SingleTerminalConnectable<?>) i).getTerminal().getBusBreakerView().getBus()
-					.getId().equals(key);
+			return key.contains(((SingleTerminalConnectable<?>) i).getTerminal().getBusBreakerView().getBus()
+					.getId());
 		}
 		else if (i instanceof TwoTerminalsConnectable)
 		{
-			return ((TwoTerminalsConnectable<?>) i).getTerminal1().getBusBreakerView().getBus()
-					.getId()
-					.equals(key)
-					|| ((TwoTerminalsConnectable<?>) i).getTerminal2().getBusBreakerView().getBus()
-							.getId().equals(key);
+			return key.contains(((TwoTerminalsConnectable<?>) i).getTerminal1().getBusBreakerView().getBus()
+					.getId())
+					|| key.contains(((TwoTerminalsConnectable<?>) i).getTerminal2().getBusBreakerView().getBus()
+							.getId());
 		}
 
 		return false;

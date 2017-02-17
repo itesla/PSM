@@ -222,7 +222,7 @@ public class DymolaIntegrationTest
 
 			Path dymSimPath = (Path) dymEngine.getSimulationResults()
 					.getValue(mo.getSystemModel().getId(), "simulation_path");
-			assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.csv")));
+			assertTrue(Files.exists(dymSimPath.resolve(moName + "_res.csv")));
 			if (config.getBoolean("createFilteredMat"))
 				assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.mat")));
 			assertTrue(Files.exists(dymSimPath.resolve(moName + "_in.zip")));

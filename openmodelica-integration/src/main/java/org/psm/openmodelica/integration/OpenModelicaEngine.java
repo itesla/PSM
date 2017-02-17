@@ -116,7 +116,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 		}
 
 		// load to the engine all .mo files
-		loadModelsInDirectory(omSimulationDir);
+		loadModelsInDirectory(this.omSimulationDir);
 
 		boolean simulated = false, validated = false, verified = false;
 
@@ -160,8 +160,63 @@ public class OpenModelicaEngine implements ModelicaEngine
 		// FIXME Just as an exercise, do it in parallel
 		// Temporal files are overwritten if run in parallel (equations not
 		// written properly)
+		
+		
+//		modelName = mo.getSystemModel().getId();
+//		String modelFileName = modelName + MO_EXTENSION;
+//
+//		prepareWorkingDirectory(mo);
+//		// The first "result" in ModelicaSimulationResults is the simulation directory "simulation_path"
+//		this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
+//		this.results.addResult(modelName, "successful", true);
+//
+//		LOG.info(
+//				" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}.",
+//				omSimulationDir, modelFileName, modelName, startTime, stopTime,
+//				numOfIntervalsPerSecond, tolerance);
+//		Result result;
+//
+//		progress("Cleaning OpenModelica workspace.");
+//		result = omc.clear();
+//		if (!isSuccessful(result) || !result.res.contains("true"))
+//		{
+//
+//			LOG.error("Error clearing workspace: {}.", result.err.replace("\"", ""));
+//			throw new RuntimeException(
+//					"Error clearing workspace : " + result.err.replace("\"", ""));
+//		}
+//
+//		progress(String.format("Moving to working directory %s", this.omSimulationDir));
+//		Path wdabs = this.omSimulationDir.toAbsolutePath();
+//		result = omc.cd("\"" + wdabs.toString().replace("\\", "/") + "\"");
+//		if (!isSuccessful(result))
+//		{
+//			this.results.addResult(modelName, "successful", false);
+//			throw new RuntimeException(
+//					"Error setting the working directory " + this.omSimulationDir + ". "
+//							+ result.err.replace("\"", ""));
+//		}
+//
+//		progress(String.format("Loading Modelica standard library."));
+//		result = omc.loadStandardLibrary();
+//		if (!isSuccessful(result))
+//		{
+//			this.results.addResult(modelName, "successful", false);
+//			throw new RuntimeException(
+//					"Error loading the standard library. " + result.err.replace("\"", ""));
+//		}
+//
+//		// load to the engine all .mo files
+//		loadModelsInDirectory(omSimulationDir);
+
+		
+		
 		for (ModelicaDocument mo : mos)
 			simulate(mo);
+		
+		
+		
+		
 	}
 
 	private boolean validateModel(String modelName) throws ConnectException
@@ -188,8 +243,10 @@ public class OpenModelicaEngine implements ModelicaEngine
 		startms = Instant.now();
 		int i = 0;
 		boolean successful = false;
+		String method = null;
 		while ((successful == false) && (i < METHOD_LIST.length))
 		{
+			method = METHOD_LIST[i];
 			if (verifying)
 				text = "Verifying model %s with integration method %s - start time = %fs - stop time = %fs - number of intervals = %d - tolerance = %f - simulation flags = %s.";
 			else text = "Simulating model %s with integration method %s - start time = %fs - stop time = %fs - number of intervals = %d - tolerance = %f - simulation flags = %s.";
@@ -238,9 +295,9 @@ public class OpenModelicaEngine implements ModelicaEngine
 			progress(String.format(text, modelName));
 			return false;
 		}
-		if (verifying) text = "Model %s verified successfully.";
-		else text = "Model %s simulated successfully.";
-		progress(String.format(text, modelName));
+		if (verifying) text = "Model %s verified successfully with method %s.";
+		else text = "Model %s simulated successfully with method %s.";
+		progress(String.format(text, modelName, method));
 
 		endms = Instant.now();
 		long simulationTime = Duration.between(startms, endms).toMillis();
@@ -249,7 +306,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 				simulationTime);
 
 		String matResultsFile = modelName + "_res" + MAT_EXTENSION;
-		String csvResultsFile = modelName + "_res_filtered" + CSV_EXTENSION;
+		String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
 
 		Result result = omc.readSimulationResultVars(matResultsFile);
 		if (!isSuccessful(result))
@@ -501,7 +558,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 				Path mofile0 = mofile.getFileName();
 
 				Result result = omc.loadFile("\"" + mofile0 + "\"");
-				LOG.debug("omc.loadFile (" + mofile0 + ")");
 				if (isSuccessful(result))
 					progress(String.format("\tLoading Modelica file %s", mofile0));
 				else results.addResult(modelName, "successful", false);
@@ -596,7 +652,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 	private static final String				COMMA			= ",";
 
 	// For now only Dassl, in the future also DAE-IDA
-	private static final String[]			METHOD_LIST		= new String[] { "Dassl" };
+	private static final String[]			METHOD_LIST		= new String[] {"dassl" }; //new String[] {"ida", "dassl" };
 	private static final Path				DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");
 

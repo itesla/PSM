@@ -219,13 +219,13 @@ public class OpenModelicaIntegrationTest
   			{
  				assertTrue(results.getEntries().size() > 1);
   				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.mat")));
-  				assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
+  				assertTrue(Files.exists(omSimPath.resolve(moName + "_res.csv")));
   				if (config.getBoolean("createFilteredMat"))
   					assertTrue(Files.exists(omSimPath.resolve(moName + "_res_filtered.mat")));
   			}
   			else
   			{
- 				assertFalse(Files.exists(omSimPath.resolve(moName + "_res_filtered.csv")));
+ 				assertFalse(Files.exists(omSimPath.resolve(moName + "_res.csv")));
   			}
 			
 		}

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.power_systems_modelica.psm.case_validation.model.Element;
+import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
@@ -44,6 +46,7 @@ import org.power_systems_modelica.psm.workflow.TaskFactory;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowConfiguration;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
+import org.power_systems_modelica.psm.workflow.psm.CaseValidationTask;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
@@ -53,7 +56,6 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTaskResults;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
-import org.power_systems_modelica.psm.workflow.psm.SwtoswValidationTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.supercsv.io.ICsvListReader;
@@ -661,11 +663,14 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
-	public static Workflow createSwtoswValidation(String expectedPath, String casePath,
+	public static Workflow createSwtoswValidation(String mappingPath, String expectedPath, String casePath,
 			String stepSize) throws WorkflowCreationException
 	{
-		sts = WF(TD(SwtoswValidationTask.class, "validator0",
-				TC()));
+		sts = WF(TD(CaseValidationTask.class, "validator0",
+				TC("stepSize", stepSize,
+						"pathNamesMapping", mappingPath,
+						"pathRefData", expectedPath,
+						"pathModelicaData", casePath)));
 
 		return sts;
 	}
@@ -673,52 +678,45 @@ public class WorkflowServiceConfiguration
 	public static WorkflowResult getSwtoswValidationResult(String name, String... variables)
 	{
 		WorkflowResult results = new WorkflowResult();
-
+		
+		ValidationResult r = (ValidationResult) sts.getResults("casevalidation");
+		
 		List<Validation> list = new ArrayList<>();
-
-		Validation v;
-
 		if (variables.length == 0)
 		{
-			String[] summaries = { "V", "A", "P", "Q" };
-
-			for (String summary : summaries)
-			{
-				v = new Validation();
-				v.setName(summary);
-				v.setRmse(Utils.randomDouble(0, 0.0015));
-				v.setRd(Utils.randomDouble(0, 0.06));
-				v.setAd(Utils.randomDouble(0, 0.06));
-
-				list.add(v);
-			}
+			r.getVariables().forEach( v -> {
+				Validation val = new Validation();
+				val.setName(v.getName());
+				val.setRmse("" + v.getRmesAbove());
+				val.setAd("" + v.getAbsTotalOffset());
+				val.setRd("" + v.getRelTotalOffset());
+				
+				list.add(val);
+			});
 		}
 		else
 		{
-
+			List<String> elements = new ArrayList();
+			elements.addAll(r.getElements().keySet());
+			
 			for (String variable : variables)
 			{
-				String[] buses = { "bus_BUS____1_TN." + variable, "bus_BUS____2_TN." + variable,
-						"bus_BUS____3_TN." + variable, "bus_BUS____4_TN." + variable,
-						"bus_BUS____5_TN." + variable, "bus_BUS____6_TN." + variable,
-						"bus_BUS____7_TN." + variable, "bus_BUS____8_TN." + variable,
-						"bus_BUS____9_TN." + variable, "bus_BUS___10_TN." + variable,
-						"bus_BUS___11_TN." + variable, "bus_BUS___12_TN." + variable,
-						"bus_BUS___13_TN." + variable, "bus_BUS___14_TN.V" };
+				elements.forEach(ke -> {
 
-				for (String bus : buses)
-				{
-					v = new Validation();
-					v.setName(bus);
-					v.setRmse(Utils.randomDouble(0, 0.0015));
-					v.setRd(Utils.randomDouble(0, 0.06));
-					v.setAd(Utils.randomDouble(0, 0.06));
-
-					list.add(v);
-				}
+					Element e = r.getElements().get(ke);
+					if (e.getRefName().contains(variable))
+					{
+						Validation val = new Validation();
+						val.setName(e.getModelicaName());
+						val.setRmse("" + e.getAbsRmes());
+						val.setAd("" + e.getAbsOffset()/e.getValues().size());
+						val.setRd("" + e.getRelOffset()/e.getValues().size());
+						
+						list.add(val);
+					}
+				});
 			}
 		}
-
 		results.setValidation(list);
 		results.setExceptions(sts.getExceptions());
 

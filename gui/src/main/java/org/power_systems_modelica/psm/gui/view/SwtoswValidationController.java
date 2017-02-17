@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -23,6 +24,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -87,6 +89,12 @@ public class SwtoswValidationController implements MainChildrenController
 
 	public void handleValidateAction()
 	{
+		String mappingPath = mappingFile.getText();
+		if (mappingPath.equals(""))
+		{
+			UtilsFX.showWarning("Warning", "Select a name mapping");
+			return;
+		}
 		String expectedPath = expectedFile.getText();
 		if (expectedPath.equals(""))
 		{
@@ -111,11 +119,13 @@ public class SwtoswValidationController implements MainChildrenController
 			return;
 		}
 
-		startSwtoswValidation(expectedPath, casePath, stepSizeV);
+		startSwtoswValidation(mappingPath, expectedPath, casePath, stepSizeV);
+		mainService.getPrimaryStage().getScene().setCursor(Cursor.WAIT);
 	}
 
 	public void handleCleanWorkflow()
 	{
+		mappingFile.setText("");
 		expectedFile.setText("");
 		caseFile.setText("");
 
@@ -125,6 +135,18 @@ public class SwtoswValidationController implements MainChildrenController
 		thAd.setText(THAD);
 
 		validationTable.getItems().clear();
+	}
+	
+	@FXML
+	public void handleSelectMappingFileAction()
+	{
+		String file = PathUtilsFX.selectCsvFile(fileChooser, mainService.getPrimaryStage(),
+				PathUtils.DATA_TEST.toString());
+
+		if (file != null)
+		{
+			mappingFile.setText(file);
+		}
 	}
 
 	@FXML
@@ -155,6 +177,7 @@ public class SwtoswValidationController implements MainChildrenController
 	public void setWorkflow(Workflow w, Object... objects)
 	{
 		this.w = w;
+		mainService.getPrimaryStage().getScene().setCursor(Cursor.DEFAULT);
 
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
@@ -181,11 +204,11 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 	}
 
-	private void startSwtoswValidation(String expectedPath, String casePath, String stepSize)
+	private void startSwtoswValidation(String mappingPath, String expectedPath, String casePath, String stepSize)
 	{
 		try
 		{
-			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(expectedPath, casePath,
+			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(mappingPath, expectedPath, casePath,
 					stepSize);
 			Task<?> task = TaskService.createTask(w,
 					() -> mainService.getMainApp().showSwtoswValidationResults(w));
@@ -210,6 +233,11 @@ public class SwtoswValidationController implements MainChildrenController
 		THRMSE = p.getProperty("swtoswValidation.validation.thrmse");
 		THRD = p.getProperty("swtoswValidation.validation.thrd");
 		THAD = p.getProperty("swtoswValidation.validation.thad");
+
+		mappingFileSelector.graphicProperty().bind(
+				Bindings.when(expectedFileSelector.hoverProperty())
+						.then(new ImageView(whiteSelectImage))
+						.otherwise(new ImageView(selectImage)));
 
 		expectedFileSelector.graphicProperty().bind(
 				Bindings.when(expectedFileSelector.hoverProperty())
@@ -256,10 +284,11 @@ public class SwtoswValidationController implements MainChildrenController
 					}
 					else
 					{
-						setText(item.toString());
+						double pct = Double.parseDouble(item.toString())*100.0;
+						setText(new DecimalFormat("0.0###").format(pct) + " %");
 						try
 						{
-							if (Double.valueOf(item.toString()) <= Double.valueOf(thRmse.getText()))
+							if (Double.parseDouble(item.toString()) <= Double.parseDouble(thRmse.getText()))
 							{
 								setStyle("-fx-background-color: " + validValue);
 							}
@@ -291,10 +320,11 @@ public class SwtoswValidationController implements MainChildrenController
 					}
 					else
 					{
-						setText(item.toString());
+						double pct = Double.parseDouble(item.toString())*100.0;
+						setText(new DecimalFormat("0.0###").format(pct) + " %");
 						try
 						{
-							if (Double.valueOf(item.toString()) <= Double.valueOf(thRd.getText()))
+							if (Double.parseDouble(item.toString()) <= Double.parseDouble(thRd.getText()))
 							{
 								setStyle("-fx-background-color: " + validValue);
 							}
@@ -326,10 +356,11 @@ public class SwtoswValidationController implements MainChildrenController
 					}
 					else
 					{
-						setText(item.toString());
+						double pct = Double.parseDouble(item.toString())*100.0;
+						setText(new DecimalFormat("0.0###").format(pct) + " %");
 						try
 						{
-							if (Double.valueOf(item.toString()) <= Double.valueOf(thAd.getText()))
+							if (Double.parseDouble(item.toString()) <= Double.parseDouble(thAd.getText()))
 							{
 								setStyle("-fx-background-color: " + validValue);
 							}
@@ -377,6 +408,10 @@ public class SwtoswValidationController implements MainChildrenController
 		validationTable.setItems(result.getValidation());
 	}
 
+	@FXML
+	private TextField						mappingFile;
+	@FXML
+	private Button							mappingFileSelector;
 	@FXML
 	private TextField						expectedFile;
 	@FXML

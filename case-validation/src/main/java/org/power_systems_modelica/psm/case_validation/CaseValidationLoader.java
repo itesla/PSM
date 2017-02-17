@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,24 +22,19 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.case_validation.model.ComparisionData;
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CaseValidationLoader
 {
 
+	public static final Path	DATA_TMP		= Paths
+			.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
+
 	public CaseValidationLoader(ValidationResult result)
 	{
 		this.r = result;
-	}
-
-	public ValidationResult read(double stepSize, String pathRef, String pathModelData,
-			String pathNamesMapping) throws IOException
-	{
-		loadNamesMapping(stepSize, pathNamesMapping);
-		loadModelicaData(stepSize, pathModelData);
-		loadRefData(stepSize, pathRef);
-		calculateDiff();
-
-		return r;
 	}
 
 	public void loadNamesMapping(double stepSize, String pathNamesMapping) throws IOException
@@ -252,9 +249,9 @@ public class CaseValidationLoader
 				sbMod.append(modData.stream().collect(Collectors.joining(",")) + "\n");
 			});
 			
-			BufferedWriter br = new BufferedWriter(new FileWriter("DataDif.csv"));
-			BufferedWriter brRel = new BufferedWriter(new FileWriter("DataDifRel.csv"));
-			BufferedWriter brMod = new BufferedWriter(new FileWriter("DataModelica.csv"));
+			BufferedWriter br = new BufferedWriter(new FileWriter(DATA_TMP.resolve("DataDif.csv").toString()));
+			BufferedWriter brRel = new BufferedWriter(new FileWriter(DATA_TMP.resolve("DataDifRel.csv").toString()));
+			BufferedWriter brMod = new BufferedWriter(new FileWriter(DATA_TMP.resolve("DataModelica.csv").toString()));
 			br.write(sb.toString());
 			brRel.write(sbRel.toString());
 			brMod.write(sbMod.toString());
@@ -270,6 +267,8 @@ public class CaseValidationLoader
 	}
 
 	private ValidationResult	r ;
-	private boolean				writeFile	= true;
+	private boolean				writeFile	= false;
 	private List<String> 		outputNames;
+	private static final Logger		LOG				= LoggerFactory
+			.getLogger(CaseValidationLoader.class);
 }

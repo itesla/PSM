@@ -27,11 +27,7 @@ public class CaseValidationTask extends WorkflowTask
 	@Override
 	public void configure(Configuration config)
 	{
-		this.stepSize = Double
-				.valueOf(Optional.ofNullable(config.getParameter("stepSize")).orElse("0.0001"));
-		pathNamesMapping = config.getParameter("pathNamesMapping");
-		pathRefData = config.getParameter("pathRefData");
-		pathModelicaData = config.getParameter("pathModelicaData");
+		this.config = config;
 	}
 
 	@Override
@@ -41,8 +37,9 @@ public class CaseValidationTask extends WorkflowTask
 		try
 		{
 			CaseValidation compare = new CaseValidation();
-			compare.read(stepSize, pathRefData, pathModelicaData, pathNamesMapping);
-			compare.validation(0.001, 0.011, Arrays.asList(valuesTest));
+			compare.configure(config);
+			compare.calculate();
+			compare.validation();
 			publish(SCOPE_GLOBAL,
 					"casevalidation",
 					compare.getResult());
@@ -54,13 +51,5 @@ public class CaseValidationTask extends WorkflowTask
 		}
 	}
 
-	private double		stepSize		= 0.0001;
-	private double		threshold		= 0.001;
-	private double		relThreshold	= 0.011;
-	private String		pathNamesMapping;
-	private String		pathRefData;
-	private String		pathModelicaData;
-	private String[]	valuesTest		= { "V", "angle", "P", "Q", "efd", "cm", "lambdad",
-			"lambdaq1",
-			"lambdaf", "lambdaq2" };
+	private Configuration					config;
 }

@@ -36,11 +36,18 @@ then
 	if [[ -z "$(which omc)" ]];
 	then
 		echo "Missing Open Modelica"
-		exit
 	fi
 	export OPENMODELICAHOME="$(dirname $(which omc))"	
 fi
 echo "Using Open Modelica from ${OPENMODELICAHOME}"
+echo ""
+
+if [[ -z "${DYMOLAHOME}" ]];
+then
+	echo "Missing Dymola"
+else
+	echo "Using Dymola from ${DYMOLAHOME}"
+fi
 echo ""
 
 PSM_OPTIONS="-Ditesla.config.dir=${PSM_DATA}/test/cfg"
@@ -50,7 +57,7 @@ then
 	CPSEP=";"
 fi
 PSM_HELMFLOW_JAR=./lib/helmflow_core-2.2.5.201702061800.0.jar
-PSM_CLASSPATH="-cp ./lib/gui-0.1-SNAPSHOT-jar-with-dependencies.jar${CPSEP}./lib/psm-services.jar${CPSEP}./lib/dymola_interface-2016.jar${CPSEP}./lib/modelica_java.jar${CPSEP}${PSM_HELMFLOW_JAR}${CPSEP}${PSM_DATA}/test/cfg"
+PSM_CLASSPATH="-cp ./lib/gui-0.1-SNAPSHOT-jar-with-dependencies.jar${CPSEP}./lib/psm-services.jar${CPSEP}./lib/modelica_java.jar${CPSEP}${PSM_HELMFLOW_JAR}${CPSEP}${PSM_DATA}/test/cfg"
 PSM_MAIN=org.power_systems_modelica.psm.gui.MainApp
 echo "Java options    : ${PSM_OPTIONS}"
 echo "Java classpath  : ${PSM_CLASSPATH}"

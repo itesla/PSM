@@ -375,7 +375,6 @@ public class DymolaEngine implements ModelicaEngine
 	private static final String				DYM_SIM_PREFIX	= "dymsimulation_";
 	private static final String				MO_EXTENSION	= ".mo";
 	private static final String				CSV_EXTENSION	= ".csv";
-	private static final String				COMMA			= ",";
 	private static final String[]			METHOD_LIST		= new String[] { "Dassl" };
 	private static final Path				DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");

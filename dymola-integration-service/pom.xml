@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.dassault_systemes.dymola</groupId>
 			<artifactId>dymola_interface</artifactId>
-			<version>2017</version>
+			<version>2016</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

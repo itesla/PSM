@@ -121,7 +121,6 @@ public class SimulatorServerImpl implements SimulatorServer
 			String resultsFileName,
 			@XmlMimeType("application/octet-stream") DataHandler data)
 	{
-		Path workingDir = null;
 		String outputZipFile = null;
 		try
 		{
@@ -129,29 +128,26 @@ public class SimulatorServerImpl implements SimulatorServer
 			Path inputZipFile;
 			try (StreamingDataHandler inputDh = (StreamingDataHandler) data)
 			{
-				Files.createDirectories(Paths.get(serviceWorkDir));
-				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir),
-						DYMSERV_SIM_PREFIX);
-				Files.createDirectories(workingDir);
-				inputZipFile = workingDir.resolve(DYMOLASERVICE_INPUTFILENAME);
+				this.dymSimulationDir = Files.createTempDirectory(Paths.get(this.serviceWorkDir), DYMSERV_SIM_PREFIX);
+				inputZipFile = this.dymSimulationDir.resolve(DYMOLASERVICE_INPUTFILENAME);
 				inputDh.moveTo(inputZipFile.toFile());
 			}
 			try (ZipFile zipFile = new ZipFile(inputZipFile.toFile()))
 			{
-				ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
+				ZipFileUtil.unzipFileIntoDirectory(zipFile, this.dymSimulationDir.toFile());
 			}
 			LOGGER.info(
 					" {} - dymola checking started - inputFileName:{}, problem:{}, resultsFileName:{}.",
-					workingDir, inputFileName, problem, resultsFileName);
+					this.dymSimulationDir, inputFileName, problem, resultsFileName);
 
 			// Move to working directory, load all needed Modelica files.
-			prepareDymola(workingDir, inputFileName);
+			prepareDymola(this.dymSimulationDir, inputFileName);
 
-			checkDymola(workingDir, inputFileName, problem, resultsFileName);
+			checkDymola(this.dymSimulationDir, inputFileName, problem, resultsFileName);
 
 			boolean result = dymola.savelog(DYMOLA_LOG_FILENAME);
 
-			DataHandler outputFileDataHandler = prepareOutputData(workingDir, resultsFileName);
+			DataHandler outputFileDataHandler = prepareOutputData(this.dymSimulationDir, resultsFileName);
 
 			return outputFileDataHandler;
 		}
@@ -159,25 +155,25 @@ public class SimulatorServerImpl implements SimulatorServer
 		{
 			LOGGER.error(
 					" {} - dymola checking failed - inputFileName:{}, problem:{}, resultsFileName:{}",
-					workingDir, inputFileName, problem, resultsFileName, e);
+					this.dymSimulationDir, inputFileName, problem, resultsFileName, e);
 
 			String errMessg = e.getMessage();
 			errMessg = ((errMessg != null) && (errMessg.length() > MSGERRLEN))
 					? errMessg.substring(0, MSGERRLEN) + " ..." : errMessg;
 
 			throw new WebServiceException("dymola simulation failed - remote working directory "
-					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
+					+ this.dymSimulationDir + ", fileName: " + inputFileName + ", problem:" + problem
 					+ ", error message:" + errMessg, e);
 		}
 		finally
 		{
 			try
 			{
-				if (!debug) Utils.deleteDirectoryRecursively(workingDir);
+				if (!debug) Utils.deleteDirectoryRecursively(this.dymSimulationDir);
 			}
 			catch (IOException e)
 			{
-				LOGGER.error("Error deleting simulation files from {}", workingDir);
+				LOGGER.error("Error deleting simulation files from {}", this.dymSimulationDir);
 			}
 		}
 	}
@@ -195,7 +191,6 @@ public class SimulatorServerImpl implements SimulatorServer
 			boolean createFilteredMat,
 			@XmlMimeType("application/octet-stream") DataHandler data)
 	{
-		Path workingDir = null;
 		METHOD_LIST = methodList;
 		try
 		{
@@ -203,33 +198,35 @@ public class SimulatorServerImpl implements SimulatorServer
 			Path inputZipFile;
 			try (StreamingDataHandler inputDh = (StreamingDataHandler) data)
 			{
-				Files.createDirectories(Paths.get(serviceWorkDir));
-				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir),
-						DYMSERV_SIM_PREFIX);
-				Files.createDirectories(workingDir);
-				inputZipFile = workingDir.resolve(DYMOLASERVICE_INPUTFILENAME);
+//				Files.createDirectories(Paths.get(serviceWorkDir));
+//				workingDir = Files.createTempDirectory(Paths.get(serviceWorkDir),
+//						DYMSERV_SIM_PREFIX);
+//				Files.createDirectories(workingDir);
+				this.dymSimulationDir = Files.createTempDirectory(Paths.get(this.serviceWorkDir), DYMSERV_SIM_PREFIX);
+				
+				inputZipFile = this.dymSimulationDir.resolve(DYMOLASERVICE_INPUTFILENAME);
 				inputDh.moveTo(inputZipFile.toFile());
 			}
 			try (ZipFile zipFile = new ZipFile(inputZipFile.toFile()))
 			{
-				ZipFileUtil.unzipFileIntoDirectory(zipFile, workingDir.toFile());
+				ZipFileUtil.unzipFileIntoDirectory(zipFile, this.dymSimulationDir.toFile());
 			}
 			LOGGER.info(
 					" {} - dymola simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}.",
-					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
+					this.dymSimulationDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
 					outputInterval, tolerance, resultsFileName);
 
-			prepareDymola(workingDir, inputFileName);
+			prepareDymola(this.dymSimulationDir, inputFileName);
 
-			checkDymola(workingDir, inputFileName, problem, resultsFileName);
+			checkDymola(this.dymSimulationDir, inputFileName, problem, resultsFileName);
 
-			simulateDymola(workingDir, inputFileName, problem, startTime, stopTime,
+			simulateDymola(this.dymSimulationDir, inputFileName, problem, startTime, stopTime,
 					numberOfIntervals, outputInterval, tolerance, resultsFileName,
 					resultVariables, createFilteredMat);
 
 			boolean result = dymola.savelog(DYMOLA_LOG_FILENAME);
 
-			DataHandler outputFileDataHandler = prepareOutputData(workingDir, resultsFileName);
+			DataHandler outputFileDataHandler = prepareOutputData(this.dymSimulationDir, resultsFileName);
 
 			return outputFileDataHandler;
 		}
@@ -237,7 +234,7 @@ public class SimulatorServerImpl implements SimulatorServer
 		{
 			LOGGER.error(
 					" {} - dymola simulation failed - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, outputInterval:{}, tolerance:{}, resultsFileName:{}",
-					workingDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
+					this.dymSimulationDir, inputFileName, problem, startTime, stopTime, numberOfIntervals,
 					outputInterval, tolerance, resultsFileName, e);
 
 			String errMessg = e.getMessage();
@@ -245,18 +242,18 @@ public class SimulatorServerImpl implements SimulatorServer
 					? errMessg.substring(0, MSGERRLEN) + " ..." : errMessg;
 
 			throw new WebServiceException("dymola simulation failed - remote working directory "
-					+ workingDir + ", fileName: " + inputFileName + ", problem:" + problem
+					+ this.dymSimulationDir + ", fileName: " + inputFileName + ", problem:" + problem
 					+ ", error message:" + errMessg, e);
 		}
 		finally
 		{
 			try
 			{
-				if (!debug) Utils.deleteDirectoryRecursively(workingDir);
+				if (!debug) Utils.deleteDirectoryRecursively(this.dymSimulationDir);
 			}
 			catch (IOException e)
 			{
-				LOGGER.error("Error deleting simulation files from {}", workingDir);
+				LOGGER.error("Error deleting simulation files from {}", this.dymSimulationDir);
 			}
 		}
 	}
@@ -378,6 +375,7 @@ public class SimulatorServerImpl implements SimulatorServer
 		}
 		String[] filterResultVariables = new String[count + 1];
 		filterResultVariables[0] = "Time";
+		boolean onlyTime = true;
 
 		int j = 1;
 		for (int i = 0; i < resultNames.length; i++)
@@ -386,12 +384,13 @@ public class SimulatorServerImpl implements SimulatorServer
 			if (matcher.matches())
 			{
 				filterResultVariables[j] = matcher.group();
+				onlyTime = false;
 				j++;
 			}
 		}
 
 		// Check if filterResultVariables only has the variable Time.
-		if (filterResultVariables[1] == null)
+		if (onlyTime)
 		{
 			filterResultVariables = resultNames;
 		}
@@ -590,6 +589,7 @@ public class SimulatorServerImpl implements SimulatorServer
 
 	boolean						debug;
 
+	private Path				dymSimulationDir;
 	final String				serviceWorkDir;
 	private DymolaInterface		dymola						= null;
 	final Pool<Integer>			portPool;

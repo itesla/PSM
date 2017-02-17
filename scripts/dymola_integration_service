@@ -1,3 +1,0 @@
-#!/bin/bash
-export MAIN_CLASS="org.power_systems_modelica.psm.dymola.integration.proxy.service.ServiceMain"
-mvn exec:java --projects dymola-integration-service -Dexec.mainClass=$MAIN_CLASS -Dexec.args="$*" -Ditesla.config.dir=$PSM_DATA/test/cfg | tee dym_int_service.log

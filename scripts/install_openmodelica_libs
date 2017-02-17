@@ -1,5 +1,5 @@
 FILE_PATH=modelica_java.jar
 GROUP=org.openmodelica
 ARTIFACT=modelica_java
-VERSION=1.9.6
+VERSION=1.11.0
 mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar

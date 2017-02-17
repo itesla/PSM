@@ -7,13 +7,16 @@ import java.util.Map;
 import org.power_systems_modelica.psm.case_validation.model.ComparisionData;
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CompareData
 {
-	public CompareData(double thresold, double relThreshold, ValidationResult r)
+	public CompareData(double thresold, double relThreshold, double tol, ValidationResult r)
 	{
 		this.errorAbsTol = thresold;
 		this.errorRelTol = relThreshold;
+		this.tolerance = tol; 
 		this.result = r;
 	}
 
@@ -31,7 +34,7 @@ public class CompareData
 				ComparisionData v = values.get(k);
 				
 				double dif = v.getRelDif();
-				if ((Math.abs(v.getRefData()) < errorAbsTol * 1.5)
+				if ((Math.abs(v.getRefData()) < errorAbsTol * tolerance)
 						&& !e.getRefName().equalsIgnoreCase("time"))
 				{
 					dif = v.getAbsDif();
@@ -55,7 +58,10 @@ public class CompareData
 		});
 	}
 
+	private double				tolerance;
 	private double				errorAbsTol;
 	private double				errorRelTol;
 	private ValidationResult	result;
+	private static final Logger		LOG				= LoggerFactory
+			.getLogger(CompareData.class);
 }

@@ -50,7 +50,7 @@ public class OpenModelicaIntegrationTest
 		testBuild(config, "smallcase1", "case1_no_lf.mo", 8, false);
 	}
 
-//	@Test // TODO This system does not check
+	@Test
 	public void testSmallTestCase2() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
@@ -60,7 +60,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(), 
 				"false");
 
-		testBuild(config, "smallcase2", "case2_no_lf.mo", 8, true);
+		testBuild(config, "smallcase2", "case2_no_lf.mo", 8, false);
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class OpenModelicaIntegrationTest
 		testBuild(config, "smallcase3", "case3_no_lf.mo", 8, false);
 	}
 
-	@Test // FIXME This system does not simulate
+	@Test
 	public void test7buses() throws FileNotFoundException, IOException
 	{
 		if (!isOpenModelicaAvailable()) return;
@@ -147,7 +147,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		config.setParameter("stopTime", "1.5");
+		config.setParameter("stopTime", "1.0");
 		
 		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30, false);
 	}

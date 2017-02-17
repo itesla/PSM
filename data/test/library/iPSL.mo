@@ -179,2511 +179,8 @@ extends Modelica.Icons.Package;
 
       package PSAT
 
-        model Order2tesendTime
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={13.2834,10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            X=0.1,
-            R=0.01,
-            G=0,
-            B=0.001/2) annotation (Placement(visible=true, transformation(
-                origin={-70.0,-10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=10,
-            X=1,
-            startTime=25,
-            endTime=25.01) annotation (Placement(visible=true, transformation(
-                origin={20.0,-57.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.SecondOrder.Order2 order21(
-            Sn=20,
-            Q_0=0.11859436505981,
-            P_0=0.160352698692006,
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            Vn=400,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0) annotation (Placement(visible=true, transformation(
-                origin={-116.9458,10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=21,
-            endTime=21.02) annotation (Placement(visible=true, transformation(
-                origin={-25.0,-0.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-70.0,10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-25.0,-30.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-25.0,15.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={15.0,-30.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
-        equation
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={-7.25,-43.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={-1.5,-29.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={-42.75,-20.0},
-              points={{-15.5833,10},{4.75,10},{4.75,-10},{6.08333,-10}}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={-2.7875,13.0},
-              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={-18.0,7.5},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={-32.0,7.5},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={-42.75,12.5},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={-63.0,0.0},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={-77.0,0.0},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          connect(order21.p, pwLine2.p) annotation (Line(
-              visible=true,
-              origin={-98.2365,9.9248},
-              points={{-7.7093,0.12484},{-6.7635,0.12484},{-6.7635,0.0752},{16.5698,
-                0.0752}}));
-          connect(order21.vf, order21.vf0) annotation (Line(points={{-126.946,15},{
-                -130,15},{-130,25},{-124.946,25},{-124.946,21}},                                                                    color={0,0,127}));
-          connect(order21.pm, order21.pm0) annotation (Line(points={{-126.946,5},{
-                -130,5},{-130,-5},{-124.946,-5},{-124.946,-1}},                                                                   color={0,0,127}));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5}), graphics={Text(
-                  visible=true,
-                  origin={-70.0,29.1417},
-                  fillPattern=FillPattern.Solid,
-                  extent={{-35.0,-5.8583},{35.0,5.8583}},
-                  textString="SystemSbase=100 MVA",
-                  fontName="Arial")}), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order2tesendTime;
-
-        model Order2tesendTime_perturbation
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={121.0667,-11.5778},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            X=0.1,
-            R=0.01,
-            G=0,
-            B=0.001/2) annotation (Placement(visible=true, transformation(
-                origin={37.7833,-31.5778},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=10,
-            endTime=10.1) annotation (Placement(visible=true, transformation(
-                origin={127.7833,-70.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=14,
-            endTime=14.1) annotation (Placement(visible=true, transformation(
-                origin={82.7833,-21.5778},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={37.7833,-11.5778},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={82.7833,-42.7},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={82.7833,-6.5778},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={122.7833,-42.7},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add3 add31 annotation (Placement(visible=true, transformation(
-                origin={-62.2167,17.6329},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add1 annotation (Placement(visible=true, transformation(
-                origin={-96.3229,38.3121},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step1(height=0.0005, startTime=2)
-            annotation (Placement(visible=true, transformation(
-                origin={-125.0,44.635},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step2(height=-0.0005, startTime=2.1)
-            annotation (Placement(visible=true, transformation(
-                origin={-125.0,29.635},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
-            annotation (Placement(visible=true, transformation(
-                origin={-125.0,14.1152},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(visible=true, transformation(
-                origin={-96.3229,18.3121},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine2(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=5) annotation (Placement(visible=true, transformation(
-                origin={-124.599,-1.8698},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine3(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=10) annotation (Placement(visible=true, transformation(
-                origin={-124.599,-72.8548},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(visible=true, transformation(
-                origin={-96.3229,-52.6729},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine4(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=5) annotation (Placement(visible=true, transformation(
-                origin={-125.0,-56.8698},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step3(height=-0.0005, startTime=7.1)
-            annotation (Placement(visible=true, transformation(
-                origin={-125.0,-41.35},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step4(height=0.0005, startTime=7)
-            annotation (Placement(visible=true, transformation(
-                origin={-125.0,-26.35},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add4 annotation (Placement(visible=true, transformation(
-                origin={-96.3229,-32.6729},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add3 add32 annotation (Placement(visible=true, transformation(
-                origin={-62.2167,-53.3521},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.SecondOrder.Order2 order2_Inputs_Outputs1(
-            D=0,
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Sn=20,
-            Vn=400,
-            ra=0.001,
-            xd1=0.302,
-            M=10) annotation (Placement(visible=true, transformation(
-                origin={-7.2167,-18.6674},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
-        equation
-          connect(step3.y, add4.u2)
-            annotation (Line(
-              visible=true,
-              origin={-109.3078,-38.9083},
-              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
-              color={0,0,127}));
-          connect(add3.y, add32.u2) annotation (Line(
-              visible=true,
-              origin={-79.5045,-53.0125},
-              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
-              color={0,0,127}));
-          connect(step4.y, add4.u1)
-            annotation (Line(
-              visible=true,
-              origin={-109.3078,-27.6146},
-              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
-              color={0,0,127}));
-          connect(add4.y, add32.u1) annotation (Line(
-              visible=true,
-              origin={-79.5045,-39.0125},
-              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
-              color={0,0,127}));
-          connect(add3.u2, sine3.y)
-            annotation (Line(
-              visible=true,
-              origin={-112.8859,-65.5321},
-              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
-              color={0,0,127}));
-          connect(sine4.y, add3.u1)
-            annotation (Line(
-              visible=true,
-              origin={-110.7773,-51.8707},
-              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
-              color={0,0,127}));
-          connect(sine1.y, add2.u1)
-            annotation (Line(
-              visible=true,
-              origin={-110.7773,19.1143},
-              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
-              color={0,0,127}));
-          connect(add2.u2, sine2.y)
-            annotation (Line(
-              visible=true,
-              origin={-112.8859,5.4529},
-              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
-              color={0,0,127}));
-          connect(step2.y, add1.u2)
-            annotation (Line(
-              visible=true,
-              origin={-109.3078,32.0767},
-              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
-              color={0,0,127}));
-          connect(step1.y, add1.u1)
-            annotation (Line(
-              visible=true,
-              origin={-109.3078,43.3704},
-              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
-              color={0,0,127}));
-          connect(add1.y, add31.u1) annotation (Line(
-              visible=true,
-              origin={-79.5045,31.9725},
-              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
-              color={0,0,127}));
-          connect(add2.y, add31.u2) annotation (Line(
-              visible=true,
-              origin={-79.5045,17.9725},
-              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
-              color={0,0,127}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={100.5333,-55.85},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={106.2833,-42.2},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={104.9958,-8.5778},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={89.7833,-14.0778},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={75.7833,-14.0778},
-              points={{-4.66667,7.5},{-4.66667,0},{-0,0},{-0,-7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={65.0333,-9.0778},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={44.7833,-21.5778},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={30.7833,-21.5778},
-              points={{-4.66667,10},{-4.66667,5},{-7.10542e-015,5},{-7.10542e-015,
-                3.55271e-015},{-4.66667,3.55271e-015},{-4.66667,-10}}));
-          connect(order2_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
-              visible=true,
-              origin={21.0333,-15.1977},
-              points={{-17.25,-3.42006},{3.75,-3.42006},{3.75,3.6199},{5.08333,3.6199}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={65.0333,-37.1389},
-              points={{-15.5833,5.5611},{4.75,5.5611},{4.75,-5.5611},{6.08333,-5.5611}}));
-          connect(order2_Inputs_Outputs1.pm0, add32.u3)
-            annotation (Line(
-              visible=true,
-              origin={-23.8167,-45.8774},
-              points={{8.6,16.21},{36.6,16.21},{36.6,-25.4726},{-50.4,-25.4726},{-50.4,-15.4747}},
-              color={0,0,127}));
-          connect(order2_Inputs_Outputs1.vf0, add31.u3) annotation (Line(
-              visible=true,
-              origin={-34.4439,0.1797},
-              points={{19.2272,-7.8471},{41.2272,-7.8471},{41.2272,0.3938},{-40.4545,0.3938},{-40.4545,9.4532},{-39.7728,9.4532}},
-              color={0,0,127}));
-          connect(add31.y, order2_Inputs_Outputs1.vf)
-            annotation (Line(
-              visible=true,
-              origin={-34.8167,-1.2348},
-              points={{-16.4,18.8677},{-7.4,18.8677},{-7.4,-12.6515},{17.6,-12.6515},
-                {17.6,-12.4326}},
-              color={0,0,127}));
-          connect(add32.y, order2_Inputs_Outputs1.pm) annotation (Line(
-              visible=true,
-              origin={-44.2655,-33.481},
-              points={{-6.9512,-19.8711},{-3.9512,-19.8711},{-3.9512,10.0574},{-5.0975,10.0574},{-5.0975,9.8136},{27.0488,9.8136}},
-              color={0,0,127}));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order2tesendTime_perturbation;
-
-        model Order3tesendTime
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={13.2834,10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            X=0.1,
-            R=0.01,
-            G=0,
-            B=0.001/2) annotation (Placement(visible=true, transformation(
-                origin={-70.0,-10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=3,
-            endTime=3.1) annotation (Placement(visible=true, transformation(
-                origin={20.0,-57.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={-25.0,-0.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-70.0,10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-25.0,-30.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-25.0,15.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={15.0,-30.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order31(
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Sn=20,
-            Vn=400,
-            ra=0.01,
-            xd1=0.302,
-            M=10,
-            D=0,
-            xd=1.9,
-            Td10=8,
-            xq=1.7) annotation (Placement(visible=true, transformation(
-                origin={-110.0,10.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
-        equation
-          connect(order31.p, pwLine2.p) annotation (Line(
-              visible=true,
-              origin={-85.5,9.9248},
-              points={{-13.5,0.12484},{2.5,0.12484},{2.5,0.0752},{3.83333,0.0752}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={-7.25,-43.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={-1.5,-29.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={-42.75,-20.0},
-              points={{-15.5833,10},{4.75,10},{4.75,-10},{6.08333,-10}}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={-2.7875,13.0},
-              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={-18.0,7.5},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={-32.0,7.5},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={-42.75,12.5},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={-63.0,0.0},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={-77.0,0.0},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          connect(order31.vf, order31.vf0) annotation (Line(points={{-120,15},{-125,
-                15},{-125,25},{-118,25},{-118,21}},                                                                     color={0,0,127}));
-          connect(order31.pm, order31.pm0) annotation (Line(points={{-120,5},{-125,5},{-125,-5},{-118,-5},{-118,-1}}, color={0,0,127}));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order3tesendTime;
-
-        model Order3tesendTime_perturbation
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={123.1468,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            X=0.1,
-            R=0.01,
-            G=0,
-            B=0.001/2) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-35.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=10,
-            endTime=10.1) annotation (Placement(visible=true, transformation(
-                origin={132.5,-77.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=14,
-            endTime=14.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-25.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={87.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-10.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={127.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add3 add31 annotation (Placement(visible=true, transformation(
-                origin={-45.0,13.9829},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add1 annotation (Placement(visible=true, transformation(
-                origin={-79.1062,34.6621},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step1(height=0.0005, startTime=2)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,40.985},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step2(height=-0.0005, startTime=2.1)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,25.985},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,10.4652},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(visible=true, transformation(
-                origin={-79.1062,14.6621},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine2(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=5) annotation (Placement(visible=true, transformation(
-                origin={-107.3823,-5.5198},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine3(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=10) annotation (Placement(visible=true, transformation(
-                origin={-107.3823,-76.5048},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(visible=true, transformation(
-                origin={-79.1062,-56.3229},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine4(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=5) annotation (Placement(visible=true, transformation(
-                origin={-107.7833,-60.5198},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step3(height=-0.0005, startTime=7.1)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,-45.0},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step4(height=0.0005, startTime=7)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,-30.0},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add4 annotation (Placement(visible=true, transformation(
-                origin={-79.1062,-36.3229},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add3 add32 annotation (Placement(visible=true, transformation(
-                origin={-45.0,-57.0021},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Sn=20,
-            Vn=400,
-            ra=0.01,
-            xd1=0.302,
-            M=10,
-            D=0,
-            xd=1.9,
-            Td10=8,
-            xq=1.7) annotation (Placement(visible=true, transformation(
-                origin={3.3113,-20.7513},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
-        equation
-          connect(order3_Inputs_Outputs1.pm0, add32.u3) annotation (Line(
-              visible=true,
-              origin={-19.0108,-51.4898},
-              points={{14.3221,19.7385},{41.1619,19.7385},{41.1619,-23.5102},{-38.8284,-23.5102},{-38.8284,-13.5123},{-37.9892,-13.5123}},
-              color={0,0,127}));
-          connect(order3_Inputs_Outputs1.vf0, add31.u3) annotation (Line(
-              visible=true,
-              origin={-21.3443,-2.9483},
-              points={{16.6556,-6.803},{38.6557,-6.803},{38.6557,-0.1282},{-38.6557,-0.1282},{-38.6557,8.9312},{-35.6557,8.9312}},
-              color={0,0,127}));
-          connect(add31.y, order3_Inputs_Outputs1.vf) annotation (Line(
-              visible=true,
-              origin={-28.1135,-5.371},
-              points={{-5.8865,19.3539},{-2.8865,19.3539},{-2.8865,-9.629},{-3.8826,
-                -9.629},{-3.8826,-10.3803},{21.4248,-10.3803}},
-              color={0,0,127}));
-          connect(add32.y, order3_Inputs_Outputs1.pm) annotation (Line(
-              visible=true,
-              origin={-28.216,-45.5845},
-              points={{-5.784,-11.4176},{-2.784,-11.4176},{-2.784,-9.4155},{-4.0877,-9.4155},{-4.0877,19.8332},{21.5273,19.8332}},
-              color={0,0,127}));
-          connect(step3.y, add4.u2)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,-42.5583},
-              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
-              color={0,0,127}));
-          connect(add3.y, add32.u2) annotation (Line(
-              visible=true,
-              origin={-62.2878,-56.6625},
-              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
-              color={0,0,127}));
-          connect(step4.y, add4.u1)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,-31.2646},
-              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
-              color={0,0,127}));
-          connect(add4.y, add32.u1) annotation (Line(
-              visible=true,
-              origin={-62.2878,-42.6625},
-              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
-              color={0,0,127}));
-          connect(add3.u2, sine3.y)
-            annotation (Line(
-              visible=true,
-              origin={-95.6692,-69.1821},
-              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
-              color={0,0,127}));
-          connect(sine4.y, add3.u1)
-            annotation (Line(
-              visible=true,
-              origin={-93.5606,-55.5207},
-              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
-              color={0,0,127}));
-          connect(sine1.y, add2.u1)
-            annotation (Line(
-              visible=true,
-              origin={-93.5606,15.4643},
-              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
-              color={0,0,127}));
-          connect(add2.u2, sine2.y)
-            annotation (Line(
-              visible=true,
-              origin={-95.6692,1.8029},
-              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
-              color={0,0,127}));
-          connect(step2.y, add1.u2)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,28.4267},
-              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
-              color={0,0,127}));
-          connect(step1.y, add1.u1)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,39.7204},
-              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
-              color={0,0,127}));
-          connect(add1.y, add31.u1) annotation (Line(
-              visible=true,
-              origin={-62.2878,28.3225},
-              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
-              color={0,0,127}));
-          connect(add2.y, add31.u2) annotation (Line(
-              visible=true,
-              origin={-62.2878,14.3225},
-              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
-              color={0,0,127}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={69.0909,-42.8357},
-              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
-                -7.1643}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={111.0,-49.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
-              visible=true,
-              origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
-                2.6151}}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={107.0759,-12.6714},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={91.8634,-18.1714},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={77.8634,-18.1714},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={67.1134,-13.1714},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={46.8634,-25.6714},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={32.8634,-25.6714},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105.0},{148.5,105.0}},
-                preserveAspectRatio=true,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order3tesendTime_perturbation;
-
-        model Order3tesendTime_TG
-
-          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            Sn=20,
-            Vn=400,
-            ra=0.01,
-            xd1=0.302,
-            M=10,
-            D=0,
-            xd=1.9,
-            Td10=8,
-            xq=1.7,
-            P_0=0.200012000627281,
-            Q_0=0.0518626935184656) annotation (Placement(visible=true, transformation(
-                origin={3.3113,-20.7513},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={123.1468,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-35.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=3,
-            endTime=3.1) annotation (Placement(visible=true, transformation(
-                origin={132.5,-77.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-25.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={87.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-10.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={127.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Controls.PSAT.TG.TGtypeII TGtypeII1 annotation (Placement(visible=true, transformation(
-                origin={-50.0,-40.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
-        equation
-          connect(order3_Inputs_Outputs1.vf0, order3_Inputs_Outputs1.vf) annotation (Line(
-              visible=true,
-              origin={3.3742,-9.512},
-              points={{-8.0629,-0.2393},{13.9371,-0.2393},{13.9371,7.8232},{-13.3742,
-                7.8232},{-13.3742,-6.2393},{-10.0629,-6.2393}},
-              color={0,0,127}));
-          connect(order3_Inputs_Outputs1.pm, TGtypeII1.pm)
-            annotation (Line(
-              visible=true,
-              origin={-29.9222,-32.3757},
-              points={{23.2335,6.6244},{-6.0778,6.6244},{-6.0778,-7.6243},{-9.0778,-7.6243}},
-              color={0,0,127}));
-          connect(order3_Inputs_Outputs1.pm0, TGtypeII1.pm0) annotation (Line(
-              visible=true,
-              origin={-23.7162,-4.1558},
-              points={{19.0275,-27.5955},{45.412,-27.5955},{45.412,34.1558},{-51.2838,34.1558},{-51.2838,-23.8442},{-26.2838,-23.8442}},
-              color={0,0,127}));
-          connect(order3_Inputs_Outputs1.w, TGtypeII1.W) annotation (Line(
-              visible=true,
-              origin={-23.7171,-43.5838},
-              points={{38.0284,31.8325},{51.4102,31.8325},{51.4102,-21.4162},{-51.2829,-21.4162},{-51.2829,3.5838},{-38.2829,3.5838}},
-              color={0,0,127}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={107.0759,-12.6714},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={77.8634,-18.1714},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={111.0,-49.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={91.8634,-18.1714},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={67.1134,-13.1714},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={69.0909,-42.8357},
-              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
-                -7.1643}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={46.8634,-25.6714},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
-              visible=true,
-              origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
-                2.6151}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={32.8634,-25.6714},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105.0},{148.5,105.0}},
-                preserveAspectRatio=true,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order3tesendTime_TG;
-
-        model Order3tesendTime_AVR
-
-          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Sn=20,
-            Vn=400,
-            ra=0.01,
-            xd1=0.302,
-            M=10,
-            D=0,
-            xd=1.9,
-            Td10=8,
-            xq=1.7) annotation (Placement(visible=true, transformation(
-                origin={3.3113,-20.7513},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={123.1468,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-35.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=3,
-            endTime=3.1) annotation (Placement(visible=true, transformation(
-                origin={132.5,-77.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-25.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={87.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-10.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={127.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Controls.PSAT.AVR.AVRtypeIII AVRtypeIII1
-            annotation (Placement(visible=true, transformation(
-                origin={-51.6542,-7.4083},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
-        equation
-          connect(order3_Inputs_Outputs1.v, AVRtypeIII1.v)
-            annotation (Line(
-              visible=true,
-              origin={-13.9377,2.581},
-              points={{28.249,-20.3323},{38.9377,-20.3323},{38.9377,22.419},{-49.7165,22.419},{-49.7165,-4.9893}},
-              color={0,0,127}));
-          connect(order3_Inputs_Outputs1.vf, AVRtypeIII1.vf)
-            annotation (Line(
-              visible=true,
-              origin={-33.6722,-11.3844},
-              points={{26.9835,-4.3669},{-7.3278,-4.3669},{-7.3278,3.9761},{-6.982,
-                3.9761}},
-              color={0,0,127}));
-          connect(order3_Inputs_Outputs1.pm0, order3_Inputs_Outputs1.pm) annotation (Line(
-              visible=true,
-              origin={4.3767,-24.7396},
-              points={{-9.0654,-7.0117},{18.179,-7.0117},{18.179,-10.2604},{-16.6137,-10.2604},{-16.6137,-1.0117},{-11.0654,-1.0117}},
-              color={0,0,127}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={107.0759,-12.6714},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={77.8634,-18.1714},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={111.0,-49.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={91.8634,-18.1714},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={67.1134,-13.1714},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={69.0909,-42.8357},
-              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
-                -7.1643}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={46.8634,-25.6714},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
-              visible=true,
-              origin={25.2254,-18.2865},
-              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{2.97133,
-                2.6151}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={32.8634,-25.6714},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          connect(order3_Inputs_Outputs1.vf0, AVRtypeIII1.vs) annotation (Line(points={{-4.6887,-9.7513},{-4.6887,45},{-63.6542,45},{-63.6542,-11.4083}}, color={0,0,127}));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order3tesendTime_AVR;
-
-        model Order4tesendTime
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={-22.5,67.5},
-                extent={{-12.5,-12.5},{12.5,12.5}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={-45,55},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-45,70},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-45,35},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={-22.5,42.5},
-                extent={{-12.5,-12.5},{12.5,12.5}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-70,60},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-70,45},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault(
-            X=0.001,
-            startTime=3,
-            endTime=3.1,
-            R=10) annotation (Placement(transformation(extent={{-25,-15},{0,10}})));
-          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 Generator(
-            Sn=100,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Vn=20,
-            V_b=400,
-            V_0=1,
-            angle_0=0,
-            ra=0.001,
-            M=10,
-            D=0,
-            xd1=0.302) annotation (Placement(transformation(extent={{-120,40},{-90,70}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
-        equation
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={-38,62.5},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={-52,62.5},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              points={{-58.3333,45},{-58.3333,50},{-60,50},{-53.6666,50},{-58.3333,50},
-                {-58.3333,60}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-58.3333,60},{-60,60},{-60,70},{-56.6667,70}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-58.3333,45},{-60,45},{-60,35},{-56.6667,35}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(Generator.p, pwLine2.p) annotation (Line(
-              points={{-88.5,55.0745},{-80,55.0745},{-80,60},{-81.6667,60}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(Generator.p, pwLine1.p) annotation (Line(
-              points={{-88.5,55.0745},{-80,55.0745},{-80,45},{-81.6667,45}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
-              points={{-33.3333,35},{-22.5,35},{-22.5,56.25}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
-              points={{-33.3333,70},{-32.125,70},{-32.125,81.25},{-22.5,81.25}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine3.n, pwFault.p) annotation (Line(
-              points={{-33.3333,35},{-35,35},{-35,-2.5},{-27.0833,-2.5}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(Generator.vf0, Generator.vf) annotation (Line(points={{-117,71.5},{
-                -117,75},{-130,75},{-130,62.5},{-120,62.5}},                                                                      color={0,0,127}));
-          connect(Generator.pm, Generator.pm0) annotation (Line(points={{-120,47.5},{-125,47.5},{-125,50},{-125,38.5},{-117,38.5}}, color={0,0,127}));
-          annotation (
-            Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5}), graphics={Text(
-                  extent={{-120,85},{-20,80}},
-                  lineColor={0,0,255},
-                  textString="GenOrder4: LineOpening and Line-to-Ground Fault")}),
-            experiment(StopTime=20),
-            __Dymola_experimentSetupOutput,
-            Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order4tesendTime;
-
-        model Order4tesendTime_perturbation
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={123.1468,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            X=0.1,
-            R=0.01,
-            G=0,
-            B=0.001/2) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-35.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=10,
-            endTime=10.1) annotation (Placement(visible=true, transformation(
-                origin={132.5,-77.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=14,
-            endTime=14.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-25.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={87.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-10.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={127.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add3 add31 annotation (Placement(visible=true, transformation(
-                origin={-45.0,13.9829},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add1 annotation (Placement(visible=true, transformation(
-                origin={-79.1062,34.6621},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step1(height=0.0005, startTime=2)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,40.985},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step2(height=-0.0005, startTime=2.1)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,25.985},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,10.4652},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(visible=true, transformation(
-                origin={-79.1062,14.6621},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine2(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=5) annotation (Placement(visible=true, transformation(
-                origin={-107.3823,-5.5198},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine3(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=10) annotation (Placement(visible=true, transformation(
-                origin={-107.3823,-76.5048},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(visible=true, transformation(
-                origin={-79.1062,-56.3229},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Sine sine4(
-            amplitude=0.001,
-            freqHz=0.2,
-            startTime=5) annotation (Placement(visible=true, transformation(
-                origin={-107.7833,-60.5198},
-                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step3(height=-0.0005, startTime=7.1)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,-45.0},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Sources.Step step4(height=0.0005, startTime=7)
-            annotation (Placement(visible=true, transformation(
-                origin={-107.7833,-30.0},
-                extent={{-5.0,-5.0},{5.0,5.0}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add add4 annotation (Placement(visible=true, transformation(
-                origin={-79.1062,-36.3229},
-                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
-                rotation=0)));
-          Modelica.Blocks.Math.Add3 add32 annotation (Placement(visible=true, transformation(
-                origin={-45.0,-57.0021},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 order4_Inputs_Outputs(
-            V_b=200,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0,
-            Sn=370,
-            Vn=200) annotation (Placement(transformation(extent={{-15,-25},{5,-5}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
-        equation
-          connect(step3.y, add4.u2)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,-42.5583},
-              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
-              color={0,0,127}));
-          connect(add3.y, add32.u2) annotation (Line(
-              visible=true,
-              origin={-62.2878,-56.6625},
-              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
-              color={0,0,127}));
-          connect(step4.y, add4.u1)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,-31.2646},
-              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
-              color={0,0,127}));
-          connect(add4.y, add32.u1) annotation (Line(
-              visible=true,
-              origin={-62.2878,-42.6625},
-              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
-              color={0,0,127}));
-          connect(add3.u2, sine3.y)
-            annotation (Line(
-              visible=true,
-              origin={-95.6692,-69.1821},
-              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
-              color={0,0,127}));
-          connect(sine4.y, add3.u1)
-            annotation (Line(
-              visible=true,
-              origin={-93.5606,-55.5207},
-              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
-              color={0,0,127}));
-          connect(sine1.y, add2.u1)
-            annotation (Line(
-              visible=true,
-              origin={-93.5606,15.4643},
-              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
-              color={0,0,127}));
-          connect(add2.u2, sine2.y)
-            annotation (Line(
-              visible=true,
-              origin={-95.6692,1.8029},
-              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
-              color={0,0,127}));
-          connect(step2.y, add1.u2)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,28.4267},
-              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
-              color={0,0,127}));
-          connect(step1.y, add1.u1)
-            annotation (Line(
-              visible=true,
-              origin={-92.0911,39.7204},
-              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
-              color={0,0,127}));
-          connect(add1.y, add31.u1) annotation (Line(
-              visible=true,
-              origin={-62.2878,28.3225},
-              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
-              color={0,0,127}));
-          connect(add2.y, add31.u2) annotation (Line(
-              visible=true,
-              origin={-62.2878,14.3225},
-              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
-              color={0,0,127}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={69.0909,-42.8357},
-              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
-                -7.1643}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={111.0,-49.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={107.0759,-12.6714},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={91.8634,-18.1714},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={77.8634,-18.1714},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={67.1134,-13.1714},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={46.8634,-25.6714},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={32.8634,-25.6714},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          connect(order4_Inputs_Outputs.p, pwLine2.p) annotation (Line(
-              points={{6,-14.9504},{20.5,-14.9504},{20.5,-15.6714},{28.1967,-15.6714}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(order4_Inputs_Outputs.vf0, add31.u3) annotation (Line(
-              points={{-13,-4},{10,-4},{10,0},{-65,0},{-65,5.9829},{-57,5.9829}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(order4_Inputs_Outputs.pm0, add32.u3) annotation (Line(
-              points={{-13,-26},{10,-26},{10,-75},{-65,-75},{-65,-65.0021},{-57,-65.0021}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(add32.y, order4_Inputs_Outputs.pm) annotation (Line(
-              points={{-34,-57.0021},{-30,-57.0021},{-30,-20},{-15,-20}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(add31.y, order4_Inputs_Outputs.vf) annotation (Line(
-              points={{-34,13.9829},{-30,13.9829},{-30,-10},{-15,-10}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order4tesendTime_perturbation;
-
-        model Order4tesendTime_TG
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={123.1468,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-35.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=3,
-            endTime=3.1) annotation (Placement(visible=true, transformation(
-                origin={132.5,-77.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-25.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={87.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-10.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={127.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Controls.PSAT.TG.TGtypeII TGtypeII1 annotation (Placement(visible=true, transformation(
-                origin={-67.5,-27.5},
-                extent={{-17.5,-12.5},{17.5,12.5}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 Generator(
-            V_b=200,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0,
-            Sn=370,
-            Vn=200) annotation (Placement(transformation(extent={{-55,30},{-25,60}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
-        equation
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={107.0759,-12.6714},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={77.8634,-18.1714},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={111.0,-49.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={91.8634,-18.1714},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={67.1134,-13.1714},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={69.0909,-42.8357},
-              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
-                -7.1643}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={46.8634,-25.6714},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={32.8634,-25.6714},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          connect(Generator.vf0, Generator.vf) annotation (Line(
-              points={{-52,61.5},{-15,61.5},{-15,70},{-60,70},{-60,52.5},{-55,52.5}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(Generator.pm0, TGtypeII1.pm0) annotation (Line(
-              points={{-52,28.5},{-5,28.5},{-5,85},{-85,85},{-85,-12.5},{-67.5,-12.5}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(TGtypeII1.pm, Generator.pm) annotation (Line(
-              points={{-48.25,-27.5},{-35,-27.5},{-35,25},{-65,25},{-65,37.5},{-55,37.5}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(Generator.w, TGtypeII1.W) annotation (Line(
-              points={{-23.5,58.5},{-15,58.5},{-15,-65},{-90,-65},{-90,-27.5},{-88.5,-27.5}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(Generator.p, pwLine2.p) annotation (Line(
-              points={{-23.5,45.0745},{10,45.0745},{10,-15.6714},{28.1967,-15.6714}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order4tesendTime_TG;
-
-        model Order4tesendTime_AVR
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={123.1468,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-35.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFaulstartTime(
-            R=20,
-            X=1,
-            startTime=3,
-            endTime=3.1) annotation (Placement(visible=true, transformation(
-                origin={132.5,-77.3},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-25.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={39.8634,-15.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={87.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={84.8634,-10.6714},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={127.5,-50.0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Controls.PSAT.AVR.AVRtypeIII AVRtypeIII1
-            annotation (Placement(visible=true, transformation(
-                origin={-56.6542,-7.4083},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 order4_Inputs_Outputs(
-            V_b=200,
-            V_0=1,
-            angle_0=0,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Sn=370,
-            Vn=200,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0) annotation (Placement(transformation(extent={{-10,-5},{10,15}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,50},{75,70}})));
-        equation
-          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={107.0759,-12.6714},
-              points={{-10.5458,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={77.8634,-18.1714},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwFaulstartTime.p, pwLine3.n) annotation (Line(
-              visible=true,
-              origin={105.25,-63.15},
-              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-6.08333,13.15}}));
-          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={111.0,-49.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={91.8634,-18.1714},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              visible=true,
-              origin={67.1134,-13.1714},
-              points={{-15.5833,-2.5},{4.75,-2.5},{4.75,2.5},{6.08333,2.5}}));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              visible=true,
-              origin={69.0909,-42.8357},
-              points={{-17.5608,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{6.74243,
-                -7.1643}}));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              visible=true,
-              origin={46.8634,-25.6714},
-              points={{4.66667,-10},{4.66667,-5},{5,-5},{5,0},{4.66667,0},{4.66667,10}}));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              visible=true,
-              origin={32.8634,-25.6714},
-              points={{-4.66667,10},{-4.66667,5},{-5,5},{-5,0},{-4.66667,0},{-4.66667,
-                -10}}));
-          connect(AVRtypeIII1.vf, order4_Inputs_Outputs.vf) annotation (Line(
-              points={{-45.6542,-7.4083},{-40,-7.4083},{-40,10},{-10,10}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(order4_Inputs_Outputs.vf0, AVRtypeIII1.vf0) annotation (Line(
-              points={{-8,16},{20,16},{20,35},{-80,35},{-80,-10.4083},{-68.6542,-10.4083}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(order4_Inputs_Outputs.v, AVRtypeIII1.v) annotation (Line(
-              points={{11,8},{25,8},{25,25},{-75,25},{-75,-2.4083},{-68.6542,-2.4083}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(order4_Inputs_Outputs.pm0, order4_Inputs_Outputs.pm) annotation (Line(
-              points={{-8,-6},{30,-6},{30,-10},{-20,-10},{-20,0},{-10,0}},
-              color={0,0,127},
-              smooth=Smooth.None));
-          connect(order4_Inputs_Outputs.p, pwLine2.p) annotation (Line(
-              points={{11,5.04964},{20,5.04964},{20,-15.6714},{28.1967,-15.6714}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          annotation (Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order4tesendTime_AVR;
-
-        model Order5_1tesendTime
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={53.2834,20},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={15,10},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={15,25},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={20,-25},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={60,-25},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-20,20},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-20,5},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault(
-            X=0.001,
-            startTime=3,
-            endTime=3.1,
-            R=10) annotation (Placement(transformation(extent={{40,-55},{60,-35}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
-          iPSL.Electrical.Machines.PSAT.FifthOrder.Order5_Type1 order5Type1_Inputs_Outputs(
-            Sn=370,
-            Vn=200,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0) annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
-        equation
-          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={37.2125,23},
-              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={22,17.5},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={8,17.5},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={43.5,-24.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine1.p, pwLine2.p) annotation (Line(
-              points={{-31.6667,5},{-31.6667,10},{-30,10},{-36.3334,10},{-31.6667,10},
-                {-31.6667,20}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              points={{-8.33333,5},{-8.33333,10},{-10,10},{-3.66666,10},{-8.33333,10},
-                {-8.33333,20}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-8.33333,20},{0,20},{0,25},{3.33333,25}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-8.33333,5},{0,5},{0,-25},{8.33333,-25}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwFault.p, pwLine3.n) annotation (Line(
-              points={{38.3333,-45},{38.3333,-34.5},{31.6667,-34.5},{31.6667,-25}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(order5Type1_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-79,
-                10.0496},{-40,10.0496},{-40,20},{-31.6667,20}},                                                                     color={0,0,255}));
-          connect(order5Type1_Inputs_Outputs.vf, order5Type1_Inputs_Outputs.vf0) annotation (Line(points={{-100,15},
-                {-105,15},{-105,25},{-98,25},{-98,21}},                                                                                                     color={0,0,127}));
-          connect(order5Type1_Inputs_Outputs.pm, order5Type1_Inputs_Outputs.pm0) annotation (Line(points={{-100,5},{-105,5},{-105,-5},{-98,-5},{-98,-1}}, color={0,0,127}));
-          annotation (
-            Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5}), graphics={Text(
-                  visible=true,
-                  origin={-60,54.1417},
-                  fillPattern=FillPattern.Solid,
-                  extent={{-35.0,-5.8583},{35.0,5.8583}},
-                  textString="SystemSbase=100 MVA",
-                  fontName="Arial")}),
-            experiment(StopTime=20),
-            __Dymola_experimentSetupOutput,
-            Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order5_1tesendTime;
-
-        model Order5_2tesendTime
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={13.2834,10},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=8,
-            endTime=8.1) annotation (Placement(visible=true, transformation(
-                origin={-25,0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-25,15},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-20,-35},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={20,-35},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-60,10},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-60,-5},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault(
-            X=0.001,
-            startTime=3,
-            endTime=3.1,
-            R=10) annotation (Placement(transformation(extent={{0,-65},{20,-45}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{0,80},{25,100}})));
-          iPSL.Electrical.Machines.PSAT.FifthOrder.Order5_Type2 order5Type2_Inputs_Outputs(
-            V_b=200,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Sn=370,
-            Vn=200,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0) annotation (Placement(transformation(extent={{-115,-5},{-95,15}})));
-        equation
-          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={-2.7875,13},
-              points={{-10.5458,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={-18,7.5},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={-32,7.5},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={3.5,-34.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine1.p, pwLine2.p) annotation (Line(
-              points={{-71.6667,-5},{-71.6667,0},{-70,0},{-76.3334,0},{-71.6667,0},{
-                -71.6667,10}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine1.n, pwLine2.n) annotation (Line(
-              points={{-48.3333,-5},{-48.3333,0},{-50,0},{-43.6666,0},{-48.3333,0},{
-                -48.3333,10}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-48.3333,10},{-40,10},{-40,15},{-36.6667,15}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-48.3333,-5},{-40,-5},{-40,-35},{-31.6667,-35}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwFault.p, pwLine3.n) annotation (Line(
-              points={{-1.66667,-55},{-1.66667,-44.5},{-8.33333,-44.5},{-8.33333,-35}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(order5Type2_Inputs_Outputs.pm, order5Type2_Inputs_Outputs.pm0) annotation (Line(points={{-115,0},{-120,0},{-120,-10},{-113,-10},{-113,-6}}, color={0,0,127}));
-          connect(order5Type2_Inputs_Outputs.vf, order5Type2_Inputs_Outputs.vf0) annotation (Line(points={{-115,10},
-                {-120,10},{-120,20},{-113,20},{-113,16}},                                                                                                     color={0,0,127}));
-          connect(order5Type2_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-94,
-                5.04964},{-80,5.04964},{-80,10},{-71.6667,10}},                                                                     color={0,0,255}));
-          annotation (
-            Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5}), graphics={Text(
-                  visible=true,
-                  origin={-60,54.1417},
-                  fillPattern=FillPattern.Solid,
-                  extent={{-35.0,-5.8583},{35.0,5.8583}},
-                  textString="SystemSbase=100 MVA",
-                  fontName="Arial")}),
-            experiment(StopTime=20),
-            __Dymola_experimentSetupOutput,
-            Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order5_2tesendTime;
-
-        model Order6tesendTime
-
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={18.2834,10},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1,
-            startTime=12,
-            endTime=12.1) annotation (Placement(visible=true, transformation(
-                origin={-25,0},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine4(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-25,15},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine3(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-20,-35},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
-            P_0=0.08,
-            Q_0=0.06,
-            V_0=1,
-            angle_0=0) annotation (Placement(visible=true, transformation(
-                origin={20,-35},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine2(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-60,10},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Branches.PwLine pwLine1(
-            B=0.001/2,
-            G=0,
-            R=0.01,
-            X=0.1) annotation (Placement(visible=true, transformation(
-                origin={-60,-20},
-                extent={{-10.0,-10.0},{10.0,10.0}},
-                rotation=0)));
-          iPSL.Electrical.Events.PwFault pwFault(
-            X=0.001,
-            startTime=3,
-            endTime=3.1,
-            R=10) annotation (Placement(transformation(extent={{25,-70},{45,-50}})));
-          iPSL.Electrical.Machines.PSAT.SixthOrder.Order6 order6Type2_1(
-            Sn=100,
-            P_0=0.160352698692006,
-            Q_0=0.11859436505981,
-            Vn=20000,
-            V_b=400000,
-            V_0=1,
-            angle_0=0,
-            ra=0.001,
-            xd1=0.302,
-            M=10,
-            D=0) annotation (Placement(transformation(extent={{-140,-10},{-100,30}})));
-          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,50},{75,70}})));
-        equation
-          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
-              visible=true,
-              origin={-2.7875,13},
-              points={{-10.5458,2},{3.0708,2},{3.0708,8},{21.0709,8}}));
-          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
-              visible=true,
-              origin={-18,7.5},
-              points={{0,-7.5},{0,0},{0,7.5},{4.66667,7.5}}));
-          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
-              visible=true,
-              origin={-32,7.5},
-              points={{-4.66667,7.5},{-4.66667,0},{0,0},{0,-7.5}}));
-          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
-              visible=true,
-              origin={3.5,-34.5},
-              points={{-11.8333,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
-          connect(pwLine2.n, pwLine4.p) annotation (Line(
-              points={{-48.3333,10},{-40,10},{-40,15},{-36.6667,15}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine1.n, pwLine3.p) annotation (Line(
-              points={{-48.3333,-20},{-40,-20},{-40,-35},{-31.6667,-35}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwFault.p, pwLine3.n) annotation (Line(
-              points={{23.3333,-60},{23.3333,-44.5},{-8.33333,-44.5},{-8.33333,-35}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(order6Type2_1.p, pwLine2.p) annotation (Line(
-              points={{-98,10.0993},{-94.5,10.0993},{-94.5,10},{-71.6667,10}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine2.p, pwLine1.p) annotation (Line(
-              points={{-71.6667,10},{-71.6667,-20},{-71.6667,-20}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(pwLine2.n, pwLine1.n) annotation (Line(
-              points={{-48.3333,10},{-48.3333,-20},{-48.3333,-20}},
-              color={0,0,255},
-              smooth=Smooth.None));
-          connect(order6Type2_1.vf0, order6Type2_1.vf) annotation (Line(points={{-136,32},
-                {-136,35},{-150,35},{-150,20},{-140,20}},                                                                           color={0,0,127}));
-          connect(order6Type2_1.pm, order6Type2_1.pm0) annotation (Line(points={{-140,0},{-150,0},{-150,-15},{-136,-15},{-136,-12}}, color={0,0,127}));
-          annotation (
-            Diagram(coordinateSystem(
-                extent={{-148.5,-105},{148.5,105}},
-                preserveAspectRatio=false,
-                initialScale=0.1,
-                grid={5,5}), graphics={Text(
-                  visible=true,
-                  origin={-60,54.1417},
-                  fillPattern=FillPattern.Solid,
-                  extent={{-35.0,-5.8583},{35.0,5.8583}},
-                  textString="SystemSbase=100 MVA",
-                  fontName="Arial")}),
-            experiment(StopTime=20),
-            __Dymola_experimentSetupOutput,
-            Documentation(revisions="<html>
-<!--DISCLAIMER-->
-<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
-<ul>
-<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
-<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
-<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
-<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
-</ul>
-<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
-<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
-        end Order6tesendTime;
-
-        model InductiveMotorI_SIMBOpenline_Test "Order 1 inductive machine from PSAT, line opened at 2 s for 1 s"
+        model InductiveMotorI_SIMBOpenline_Test
+          "Order 1 inductive machine from PSAT, line opened at 2 s for 1 s"
 
           iPSL.Electrical.Machines.PSAT.InductionMachine.MotorTypeI motorTypeI(
             Sup=0,
@@ -2883,7 +380,2478 @@ extends Modelica.Icons.Package;
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
         end InductiveMotorV_SIMBOpenline_Test;
-      annotation (Documentation(revisions="<html>
+
+        model Order2test2
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={13.2834,10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            X=0.1,
+            R=0.01,
+            G=0,
+            B=0.001/2) annotation (Placement(visible=true, transformation(
+                origin={-70.0,-10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=10,
+            X=1,
+            t1=25,
+            t2=25.01) annotation (Placement(visible=true, transformation(
+                origin={20.0,-57.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.SecondOrder.Order2 order21(
+            Sn=20,
+            Q_0=0.11859436505981,
+            P_0=0.160352698692006,
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            Vn=400,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0) annotation (Placement(visible=true, transformation(
+                origin={-116.9458,10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=21,
+            t2=21.02) annotation (Placement(visible=true, transformation(
+                origin={-25.0,-0.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-70.0,10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-25.0,-30.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-25.0,15.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={15.0,-30.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
+        equation
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={-7.25,-43.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={-1.5,-29.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={-42.75,-20.0},
+              points={{-20.25,10.0},{4.75,10.0},{4.75,-10.0},{10.75,-10.0}}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={-2.7875,13.0},
+              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={-18.0,7.5},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={-32.0,7.5},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={-42.75,12.5},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={-63.0,0.0},
+              points={{0.0,-10.0},{0.0,10.0}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={-77.0,0.0},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          connect(order21.p, pwLine2.p) annotation (Line(
+              visible=true,
+              origin={-98.2365,9.9248},
+              points={{-7.7093,0.12484},{-6.7635,0.12484},{-6.7635,0.0752},{21.2365,0.0752}}));
+          connect(order21.vf, order21.vf0) annotation (Line(points={{-126.946,15},{-130,15},{-130,25},{-124.946,25},{-124.946,21}}, color={0,0,127}));
+          connect(order21.pm, order21.pm0) annotation (Line(points={{-126.946,5},{-130,5},{-130,-5},{-124.946,-5},{-124.946,-1}}, color={0,0,127}));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5}), graphics={Text(
+                  visible=true,
+                  origin={-70.0,29.1417},
+                  fillPattern=FillPattern.Solid,
+                  extent={{-35.0,-5.8583},{35.0,5.8583}},
+                  textString="SystemSbase=100 MVA",
+                  fontName="Arial")}), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order2test2;
+
+        model Order2test2_perturbation
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={121.0667,-11.5778},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            X=0.1,
+            R=0.01,
+            G=0,
+            B=0.001/2) annotation (Placement(visible=true, transformation(
+                origin={37.7833,-31.5778},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=10,
+            t2=10.1) annotation (Placement(visible=true, transformation(
+                origin={127.7833,-70.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=14,
+            t2=14.1) annotation (Placement(visible=true, transformation(
+                origin={82.7833,-21.5778},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={37.7833,-11.5778},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={82.7833,-42.7},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={82.7833,-6.5778},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={122.7833,-42.7},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add3 add31 annotation (Placement(visible=true, transformation(
+                origin={-62.2167,17.6329},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add1 annotation (Placement(visible=true, transformation(
+                origin={-96.3229,38.3121},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step1(height=0.0005, startTime=2)
+            annotation (Placement(visible=true, transformation(
+                origin={-125.0,44.635},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step2(height=-0.0005, startTime=2.1)
+            annotation (Placement(visible=true, transformation(
+                origin={-125.0,29.635},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
+            annotation (Placement(visible=true, transformation(
+                origin={-125.0,14.1152},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(visible=true, transformation(
+                origin={-96.3229,18.3121},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine2(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=5) annotation (Placement(visible=true, transformation(
+                origin={-124.599,-1.8698},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine3(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=10) annotation (Placement(visible=true, transformation(
+                origin={-124.599,-72.8548},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(visible=true, transformation(
+                origin={-96.3229,-52.6729},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine4(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=5) annotation (Placement(visible=true, transformation(
+                origin={-125.0,-56.8698},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step3(height=-0.0005, startTime=7.1)
+            annotation (Placement(visible=true, transformation(
+                origin={-125.0,-41.35},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step4(height=0.0005, startTime=7)
+            annotation (Placement(visible=true, transformation(
+                origin={-125.0,-26.35},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add4 annotation (Placement(visible=true, transformation(
+                origin={-96.3229,-32.6729},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add3 add32 annotation (Placement(visible=true, transformation(
+                origin={-62.2167,-53.3521},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.SecondOrder.Order2 order2_Inputs_Outputs1(
+            D=0,
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Sn=20,
+            Vn=400,
+            ra=0.001,
+            xd1=0.302,
+            M=10) annotation (Placement(visible=true, transformation(
+                origin={-7.2167,-18.6674},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
+        equation
+          connect(step3.y, add4.u2)
+            annotation (Line(
+              visible=true,
+              origin={-109.3078,-38.9083},
+              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
+              color={0,0,127}));
+          connect(add3.y, add32.u2) annotation (Line(
+              visible=true,
+              origin={-79.5045,-53.0125},
+              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
+              color={0,0,127}));
+          connect(step4.y, add4.u1)
+            annotation (Line(
+              visible=true,
+              origin={-109.3078,-27.6146},
+              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
+              color={0,0,127}));
+          connect(add4.y, add32.u1) annotation (Line(
+              visible=true,
+              origin={-79.5045,-39.0125},
+              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
+              color={0,0,127}));
+          connect(add3.u2, sine3.y)
+            annotation (Line(
+              visible=true,
+              origin={-112.8859,-65.5321},
+              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
+              color={0,0,127}));
+          connect(sine4.y, add3.u1)
+            annotation (Line(
+              visible=true,
+              origin={-110.7773,-51.8707},
+              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
+              color={0,0,127}));
+          connect(sine1.y, add2.u1)
+            annotation (Line(
+              visible=true,
+              origin={-110.7773,19.1143},
+              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
+              color={0,0,127}));
+          connect(add2.u2, sine2.y)
+            annotation (Line(
+              visible=true,
+              origin={-112.8859,5.4529},
+              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
+              color={0,0,127}));
+          connect(step2.y, add1.u2)
+            annotation (Line(
+              visible=true,
+              origin={-109.3078,32.0767},
+              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
+              color={0,0,127}));
+          connect(step1.y, add1.u1)
+            annotation (Line(
+              visible=true,
+              origin={-109.3078,43.3704},
+              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
+              color={0,0,127}));
+          connect(add1.y, add31.u1) annotation (Line(
+              visible=true,
+              origin={-79.5045,31.9725},
+              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
+              color={0,0,127}));
+          connect(add2.y, add31.u2) annotation (Line(
+              visible=true,
+              origin={-79.5045,17.9725},
+              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
+              color={0,0,127}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={100.5333,-55.85},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={106.2833,-42.2},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={104.9958,-8.5778},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={89.7833,-14.0778},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={75.7833,-14.0778},
+              points={{-0.0,7.5},{-0.0,-7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={65.0333,-9.0778},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={44.7833,-21.5778},
+              points={{0,-10},{0,10}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={30.7833,-21.5778},
+              points={{-0.00000000000000355271,10},{-0.00000000000000355271,5},{-0.00000000000000710542,5},{-0.00000000000000710542,0.00000000000000355271},{-0.00000000000000355271,0.00000000000000355271},{-0.00000000000000355271,
+                  -10}}));
+          connect(order2_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
+              visible=true,
+              origin={21.0333,-15.1977},
+              points={{-17.25,-3.42006},{3.75,-3.42006},{3.75,3.6199},{9.75,3.6199}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={65.0333,-37.1389},
+              points={{-20.25,5.5611},{4.75,5.5611},{4.75,-5.5611},{10.75,-5.5611}}));
+          connect(order2_Inputs_Outputs1.pm0, add32.u3)
+            annotation (Line(
+              visible=true,
+              origin={-23.8167,-45.8774},
+              points={{8.6,16.21},{36.6,16.21},{36.6,-25.4726},{-50.4,-25.4726},{-50.4,-15.4747}},
+              color={0,0,127}));
+          connect(order2_Inputs_Outputs1.vf0, add31.u3) annotation (Line(
+              visible=true,
+              origin={-34.4439,0.1797},
+              points={{19.2272,-7.8471},{41.2272,-7.8471},{41.2272,0.3938},{-40.4545,0.3938},{-40.4545,9.4532},{-39.7728,9.4532}},
+              color={0,0,127}));
+          connect(add31.y, order2_Inputs_Outputs1.vf)
+            annotation (Line(
+              visible=true,
+              origin={-34.8167,-1.2348},
+              points={{-16.4,18.8677},{-7.4,18.8677},{-7.4,-12.6515},{17.6,-12.6515},{17.6,-12.4326}},
+              color={0,0,127}));
+          connect(add32.y, order2_Inputs_Outputs1.pm) annotation (Line(
+              visible=true,
+              origin={-44.2655,-33.481},
+              points={{-6.9512,-19.8711},{-3.9512,-19.8711},{-3.9512,10.0574},{-5.0975,10.0574},{-5.0975,9.8136},{27.0488,9.8136}},
+              color={0,0,127}));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order2test2_perturbation;
+
+        model Order3test2
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={13.2834,10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            X=0.1,
+            R=0.01,
+            G=0,
+            B=0.001/2) annotation (Placement(visible=true, transformation(
+                origin={-70.0,-10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=3,
+            t2=3.1) annotation (Placement(visible=true, transformation(
+                origin={20.0,-57.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={-25.0,-0.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-70.0,10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-25.0,-30.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-25.0,15.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={15.0,-30.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order31(
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Sn=20,
+            Vn=400,
+            ra=0.01,
+            xd1=0.302,
+            M=10,
+            D=0,
+            xd=1.9,
+            Td10=8,
+            xq=1.7) annotation (Placement(visible=true, transformation(
+                origin={-110.0,10.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
+        equation
+          connect(order31.p, pwLine2.p) annotation (Line(
+              visible=true,
+              origin={-85.5,9.9248},
+              points={{-13.5,0.12484},{2.5,0.12484},{2.5,0.0752},{8.5,0.0752}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={-7.25,-43.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={-1.5,-29.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={-42.75,-20.0},
+              points={{-20.25,10.0},{4.75,10.0},{4.75,-10.0},{10.75,-10.0}}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={-2.7875,13.0},
+              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={-18.0,7.5},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={-32.0,7.5},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={-42.75,12.5},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={-63.0,0.0},
+              points={{0.0,-10.0},{0.0,10.0}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={-77.0,0.0},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          connect(order31.vf, order31.vf0) annotation (Line(points={{-120,15},{-125,15},{-125,25},{-118,25},{-118,21}}, color={0,0,127}));
+          connect(order31.pm, order31.pm0) annotation (Line(points={{-120,5},{-125,5},{-125,-5},{-118,-5},{-118,-1}}, color={0,0,127}));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order3test2;
+
+        model Order3test2_AVR
+          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Sn=20,
+            Vn=400,
+            ra=0.01,
+            xd1=0.302,
+            M=10,
+            D=0,
+            xd=1.9,
+            Td10=8,
+            xq=1.7) annotation (Placement(visible=true, transformation(
+                origin={3.3113,-20.7513},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={123.1468,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-35.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=3,
+            t2=3.1) annotation (Placement(visible=true, transformation(
+                origin={132.5,-77.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-25.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={87.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-10.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={127.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Controls.PSAT.AVR.AVRtypeIII AVRtypeIII1
+            annotation (Placement(visible=true, transformation(
+                origin={-51.6542,-7.4083},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
+        equation
+          connect(order3_Inputs_Outputs1.v, AVRtypeIII1.v)
+            annotation (Line(
+              visible=true,
+              origin={-13.9377,2.581},
+              points={{28.249,-20.3323},{38.9377,-20.3323},{38.9377,22.419},{-49.7165,22.419},{-49.7165,-4.9893}},
+              color={0,0,127}));
+          connect(order3_Inputs_Outputs1.vf, AVRtypeIII1.vf)
+            annotation (Line(
+              visible=true,
+              origin={-33.6722,-11.3844},
+              points={{26.9835,-4.3669},{-7.3278,-4.3669},{-7.3278,3.9761},{-6.982,3.9761}},
+              color={0,0,127}));
+          connect(order3_Inputs_Outputs1.pm0, order3_Inputs_Outputs1.pm) annotation (Line(
+              visible=true,
+              origin={4.3767,-24.7396},
+              points={{-9.0654,-7.0117},{18.179,-7.0117},{18.179,-10.2604},{-16.6137,-10.2604},{-16.6137,-1.0117},{-11.0654,-1.0117}},
+              color={0,0,127}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={107.0759,-12.6714},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={77.8634,-18.1714},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={105.25,-63.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={111.0,-49.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={91.8634,-18.1714},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={67.1134,-13.1714},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={69.0909,-42.8357},
+              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={46.8634,-25.6714},
+              points={{0.0,-10.0},{0.0,10.0}}));
+          connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
+              visible=true,
+              origin={25.2254,-18.2865},
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={32.8634,-25.6714},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          connect(order3_Inputs_Outputs1.vf0, AVRtypeIII1.vs) annotation (Line(points={{-4.6887,-9.7513},{-4.6887,45},{-63.6542,45},{-63.6542,-11.4083}}, color={0,0,127}));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order3test2_AVR;
+
+        model Order3test2_perturbation
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={123.1468,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            X=0.1,
+            R=0.01,
+            G=0,
+            B=0.001/2) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-35.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=10,
+            t2=10.1) annotation (Placement(visible=true, transformation(
+                origin={132.5,-77.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=14,
+            t2=14.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-25.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={87.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-10.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={127.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add3 add31 annotation (Placement(visible=true, transformation(
+                origin={-45.0,13.9829},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add1 annotation (Placement(visible=true, transformation(
+                origin={-79.1062,34.6621},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step1(height=0.0005, startTime=2)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,40.985},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step2(height=-0.0005, startTime=2.1)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,25.985},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,10.4652},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(visible=true, transformation(
+                origin={-79.1062,14.6621},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine2(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=5) annotation (Placement(visible=true, transformation(
+                origin={-107.3823,-5.5198},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine3(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=10) annotation (Placement(visible=true, transformation(
+                origin={-107.3823,-76.5048},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(visible=true, transformation(
+                origin={-79.1062,-56.3229},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine4(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=5) annotation (Placement(visible=true, transformation(
+                origin={-107.7833,-60.5198},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step3(height=-0.0005, startTime=7.1)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,-45.0},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step4(height=0.0005, startTime=7)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,-30.0},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add4 annotation (Placement(visible=true, transformation(
+                origin={-79.1062,-36.3229},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add3 add32 annotation (Placement(visible=true, transformation(
+                origin={-45.0,-57.0021},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Sn=20,
+            Vn=400,
+            ra=0.01,
+            xd1=0.302,
+            M=10,
+            D=0,
+            xd=1.9,
+            Td10=8,
+            xq=1.7) annotation (Placement(visible=true, transformation(
+                origin={3.3113,-20.7513},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
+        equation
+          connect(order3_Inputs_Outputs1.pm0, add32.u3) annotation (Line(
+              visible=true,
+              origin={-19.0108,-51.4898},
+              points={{14.3221,19.7385},{41.1619,19.7385},{41.1619,-23.5102},{-38.8284,-23.5102},{-38.8284,-13.5123},{-37.9892,-13.5123}},
+              color={0,0,127}));
+          connect(order3_Inputs_Outputs1.vf0, add31.u3) annotation (Line(
+              visible=true,
+              origin={-21.3443,-2.9483},
+              points={{16.6556,-6.803},{38.6557,-6.803},{38.6557,-0.1282},{-38.6557,-0.1282},{-38.6557,8.9312},{-35.6557,8.9312}},
+              color={0,0,127}));
+          connect(add31.y, order3_Inputs_Outputs1.vf) annotation (Line(
+              visible=true,
+              origin={-28.1135,-5.371},
+              points={{-5.8865,19.3539},{-2.8865,19.3539},{-2.8865,-9.629},{-3.8826,-9.629},{-3.8826,-10.3803},{21.4248,-10.3803}},
+              color={0,0,127}));
+          connect(add32.y, order3_Inputs_Outputs1.pm) annotation (Line(
+              visible=true,
+              origin={-28.216,-45.5845},
+              points={{-5.784,-11.4176},{-2.784,-11.4176},{-2.784,-9.4155},{-4.0877,-9.4155},{-4.0877,19.8332},{21.5273,19.8332}},
+              color={0,0,127}));
+          connect(step3.y, add4.u2)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,-42.5583},
+              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
+              color={0,0,127}));
+          connect(add3.y, add32.u2) annotation (Line(
+              visible=true,
+              origin={-62.2878,-56.6625},
+              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
+              color={0,0,127}));
+          connect(step4.y, add4.u1)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,-31.2646},
+              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
+              color={0,0,127}));
+          connect(add4.y, add32.u1) annotation (Line(
+              visible=true,
+              origin={-62.2878,-42.6625},
+              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
+              color={0,0,127}));
+          connect(add3.u2, sine3.y)
+            annotation (Line(
+              visible=true,
+              origin={-95.6692,-69.1821},
+              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
+              color={0,0,127}));
+          connect(sine4.y, add3.u1)
+            annotation (Line(
+              visible=true,
+              origin={-93.5606,-55.5207},
+              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
+              color={0,0,127}));
+          connect(sine1.y, add2.u1)
+            annotation (Line(
+              visible=true,
+              origin={-93.5606,15.4643},
+              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
+              color={0,0,127}));
+          connect(add2.u2, sine2.y)
+            annotation (Line(
+              visible=true,
+              origin={-95.6692,1.8029},
+              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
+              color={0,0,127}));
+          connect(step2.y, add1.u2)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,28.4267},
+              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
+              color={0,0,127}));
+          connect(step1.y, add1.u1)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,39.7204},
+              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
+              color={0,0,127}));
+          connect(add1.y, add31.u1) annotation (Line(
+              visible=true,
+              origin={-62.2878,28.3225},
+              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
+              color={0,0,127}));
+          connect(add2.y, add31.u2) annotation (Line(
+              visible=true,
+              origin={-62.2878,14.3225},
+              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
+              color={0,0,127}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={69.0909,-42.8357},
+              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={105.25,-63.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={111.0,-49.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
+              visible=true,
+              origin={25.2254,-18.2865},
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={107.0759,-12.6714},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={91.8634,-18.1714},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={77.8634,-18.1714},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={67.1134,-13.1714},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={46.8634,-25.6714},
+              points={{-0.0,-10.0},{-0.0,10.0}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={32.8634,-25.6714},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105.0},{148.5,105.0}},
+                preserveAspectRatio=true,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order3test2_perturbation;
+
+        model Order3test2_TG
+          iPSL.Electrical.Machines.PSAT.ThirdOrder.Order3 order3_Inputs_Outputs1(
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            Sn=20,
+            Vn=400,
+            ra=0.01,
+            xd1=0.302,
+            M=10,
+            D=0,
+            xd=1.9,
+            Td10=8,
+            xq=1.7,
+            P_0=0.200012000627281,
+            Q_0=0.0518626935184656) annotation (Placement(visible=true, transformation(
+                origin={3.3113,-20.7513},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={123.1468,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-35.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=3,
+            t2=3.1) annotation (Placement(visible=true, transformation(
+                origin={132.5,-77.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-25.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={87.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-10.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={127.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Controls.PSAT.TG.TGtypeII TGtypeII1 annotation (Placement(visible=true, transformation(
+                origin={-50.0,-40.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{100,80},{135,100}})));
+        equation
+          connect(order3_Inputs_Outputs1.vf0, order3_Inputs_Outputs1.vf) annotation (Line(
+              visible=true,
+              origin={3.3742,-9.512},
+              points={{-8.0629,-0.2393},{13.9371,-0.2393},{13.9371,7.8232},{-13.3742,7.8232},{-13.3742,-6.2393},{-10.0629,-6.2393}},
+              color={0,0,127}));
+          connect(order3_Inputs_Outputs1.pm, TGtypeII1.pm)
+            annotation (Line(
+              visible=true,
+              origin={-29.9222,-32.3757},
+              points={{23.2335,6.6244},{-6.0778,6.6244},{-6.0778,-7.6243},{-9.0778,-7.6243}},
+              color={0,0,127}));
+          connect(order3_Inputs_Outputs1.pm0, TGtypeII1.pm0) annotation (Line(
+              visible=true,
+              origin={-23.7162,-4.1558},
+              points={{19.0275,-27.5955},{45.412,-27.5955},{45.412,34.1558},{-51.2838,34.1558},{-51.2838,-23.8442},{-26.2838,-23.8442}},
+              color={0,0,127}));
+          connect(order3_Inputs_Outputs1.w, TGtypeII1.W) annotation (Line(
+              visible=true,
+              origin={-23.7171,-43.5838},
+              points={{38.0284,31.8325},{51.4102,31.8325},{51.4102,-21.4162},{-51.2829,-21.4162},{-51.2829,3.5838},{-38.2829,3.5838}},
+              color={0,0,127}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={107.0759,-12.6714},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={77.8634,-18.1714},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={105.25,-63.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={111.0,-49.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={91.8634,-18.1714},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={67.1134,-13.1714},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={69.0909,-42.8357},
+              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={46.8634,-25.6714},
+              points={{0.0,-10.0},{0.0,10.0}}));
+          connect(order3_Inputs_Outputs1.p, pwLine2.p) annotation (Line(
+              visible=true,
+              origin={25.2254,-18.2865},
+              points={{-10.9141,-2.41516},{1.638,-2.41516},{1.638,2.6151},{7.638,2.6151}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={32.8634,-25.6714},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105.0},{148.5,105.0}},
+                preserveAspectRatio=true,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order3test2_TG;
+
+        model Order4test2
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={-22.5,67.5},
+                extent={{-12.5,-12.5},{12.5,12.5}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={-45,55},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-45,70},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-45,35},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={-22.5,42.5},
+                extent={{-12.5,-12.5},{12.5,12.5}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-70,60},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-70,45},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault(
+            X=0.001,
+            t1=3,
+            t2=3.1,
+            R=10) annotation (Placement(transformation(extent={{-25,-15},{0,10}})));
+          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 Generator(
+            Sn=100,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Vn=20,
+            V_b=400,
+            V_0=1,
+            angle_0=0,
+            ra=0.001,
+            M=10,
+            D=0,
+            xd1=0.302) annotation (Placement(transformation(extent={{-120,40},{-90,70}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
+        equation
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={-38,62.5},
+              points={{0,-7.5},{0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={-52,62.5},
+              points={{0,7.5},{0,-7.5}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              points={{-63,45},{-63,60}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              points={{-63,60},{-60,60},{-60,70},{-52,70}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              points={{-63,45},{-60,45},{-60,35},{-52,35}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(Generator.p, pwLine2.p) annotation (Line(
+              points={{-88.5,55.0745},{-80,55.0745},{-80,60},{-77,60}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(Generator.p, pwLine1.p) annotation (Line(
+              points={{-88.5,55.0745},{-80,55.0745},{-80,45},{-77,45}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
+              points={{-38,35},{-22.5,35},{-22.5,56.25}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
+              points={{-38,70},{-32.125,70},{-32.125,81.25},{-22.5,81.25}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine3.n, pwFault.p) annotation (Line(
+              points={{-38,35},{-35,35},{-35,-2.5},{-27.0833,-2.5}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(Generator.vf0, Generator.vf) annotation (Line(points={{-117,71.5},{-117,75},{-130,75},{-130,62.5},{-120,62.5}}, color={0,0,127}));
+          connect(Generator.pm, Generator.pm0) annotation (Line(points={{-120,47.5},{-125,47.5},{-125,50},{-125,38.5},{-117,38.5}}, color={0,0,127}));
+          annotation (
+            Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5}), graphics={Text(
+                  extent={{-120,85},{-20,80}},
+                  lineColor={0,0,255},
+                  textString="GenOrder4: LineOpening and Line-to-Ground Fault")}),
+            experiment(StopTime=20),
+            __Dymola_experimentSetupOutput,
+            Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order4test2;
+
+        model Order4test2_AVR
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={123.1468,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-35.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=3,
+            t2=3.1) annotation (Placement(visible=true, transformation(
+                origin={132.5,-77.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-25.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={87.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-10.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={127.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Controls.PSAT.AVR.AVRtypeIII AVRtypeIII1
+            annotation (Placement(visible=true, transformation(
+                origin={-56.6542,-7.4083},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 order4_Inputs_Outputs(
+            V_b=200,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Sn=370,
+            Vn=200,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0) annotation (Placement(transformation(extent={{-10,-5},{10,15}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,50},{75,70}})));
+        equation
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={107.0759,-12.6714},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={77.8634,-18.1714},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={105.25,-63.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={111.0,-49.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={91.8634,-18.1714},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={67.1134,-13.1714},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={69.0909,-42.8357},
+              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={46.8634,-25.6714},
+              points={{0.0,-10.0},{0.0,10.0}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={32.8634,-25.6714},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          connect(AVRtypeIII1.vf, order4_Inputs_Outputs.vf) annotation (Line(
+              points={{-45.6542,-7.4083},{-40,-7.4083},{-40,10},{-10,10}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(order4_Inputs_Outputs.vf0, AVRtypeIII1.vf0) annotation (Line(
+              points={{-8,16},{20,16},{20,35},{-80,35},{-80,-10.4083},{-68.6542,-10.4083}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(order4_Inputs_Outputs.v, AVRtypeIII1.v) annotation (Line(
+              points={{11,8},{25,8},{25,25},{-75,25},{-75,-2.4083},{-68.6542,-2.4083}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(order4_Inputs_Outputs.pm0, order4_Inputs_Outputs.pm) annotation (Line(
+              points={{-8,-6},{30,-6},{30,-10},{-20,-10},{-20,0},{-10,0}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(order4_Inputs_Outputs.p, pwLine2.p) annotation (Line(
+              points={{11,5.04964},{20,5.04964},{20,-15.6714},{32.8634,-15.6714}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order4test2_AVR;
+
+        model Order4test2_perturbation
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={123.1468,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            X=0.1,
+            R=0.01,
+            G=0,
+            B=0.001/2) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-35.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=10,
+            t2=10.1) annotation (Placement(visible=true, transformation(
+                origin={132.5,-77.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=14,
+            t2=14.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-25.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={87.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-10.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={127.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add3 add31 annotation (Placement(visible=true, transformation(
+                origin={-45.0,13.9829},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add1 annotation (Placement(visible=true, transformation(
+                origin={-79.1062,34.6621},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step1(height=0.0005, startTime=2)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,40.985},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step2(height=-0.0005, startTime=2.1)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,25.985},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine1(amplitude=0.001, freqHz=0.2)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,10.4652},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(visible=true, transformation(
+                origin={-79.1062,14.6621},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine2(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=5) annotation (Placement(visible=true, transformation(
+                origin={-107.3823,-5.5198},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine3(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=10) annotation (Placement(visible=true, transformation(
+                origin={-107.3823,-76.5048},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(visible=true, transformation(
+                origin={-79.1062,-56.3229},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Sine sine4(
+            amplitude=0.001,
+            freqHz=0.2,
+            startTime=5) annotation (Placement(visible=true, transformation(
+                origin={-107.7833,-60.5198},
+                extent={{-4.4802,-4.4802},{4.4802,4.4802}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step3(height=-0.0005, startTime=7.1)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,-45.0},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Sources.Step step4(height=0.0005, startTime=7)
+            annotation (Placement(visible=true, transformation(
+                origin={-107.7833,-30.0},
+                extent={{-5.0,-5.0},{5.0,5.0}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add add4 annotation (Placement(visible=true, transformation(
+                origin={-79.1062,-36.3229},
+                extent={{-6.3229,-6.3229},{6.3229,6.3229}},
+                rotation=0)));
+          Modelica.Blocks.Math.Add3 add32 annotation (Placement(visible=true, transformation(
+                origin={-45.0,-57.0021},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 order4_Inputs_Outputs(
+            V_b=200,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0,
+            Sn=370,
+            Vn=200) annotation (Placement(transformation(extent={{-15,-25},{5,-5}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
+        equation
+          connect(step3.y, add4.u2)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,-42.5583},
+              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
+              color={0,0,127}));
+          connect(add3.y, add32.u2) annotation (Line(
+              visible=true,
+              origin={-62.2878,-56.6625},
+              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
+              color={0,0,127}));
+          connect(step4.y, add4.u1)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,-31.2646},
+              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
+              color={0,0,127}));
+          connect(add4.y, add32.u1) annotation (Line(
+              visible=true,
+              origin={-62.2878,-42.6625},
+              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
+              color={0,0,127}));
+          connect(add3.u2, sine3.y)
+            annotation (Line(
+              visible=true,
+              origin={-95.6692,-69.1821},
+              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
+              color={0,0,127}));
+          connect(sine4.y, add3.u1)
+            annotation (Line(
+              visible=true,
+              origin={-93.5606,-55.5207},
+              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
+              color={0,0,127}));
+          connect(sine1.y, add2.u1)
+            annotation (Line(
+              visible=true,
+              origin={-93.5606,15.4643},
+              points={{-9.29448,-4.9991},{-1.4394,-0.9841},{3.8669,2.9916},{6.86692,2.99154}},
+              color={0,0,127}));
+          connect(add2.u2, sine2.y)
+            annotation (Line(
+              visible=true,
+              origin={-95.6692,1.8029},
+              points={{8.97552,9.06546},{2.2971,9.06546},{2.2971,-5.4041},{-6.78488,-5.4041},{-6.78488,-7.3227}},
+              color={0,0,127}));
+          connect(step2.y, add1.u2)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,28.4267},
+              points={{-10.1922,-2.4417},{2.3974,-2.4417},{2.3974,2.44166},{5.39742,2.44166}},
+              color={0,0,127}));
+          connect(step1.y, add1.u1)
+            annotation (Line(
+              visible=true,
+              origin={-92.0911,39.7204},
+              points={{-10.1922,1.2646},{2.3974,1.2646},{2.3974,-1.26456},{5.39742,-1.26456}},
+              color={0,0,127}));
+          connect(add1.y, add31.u1) annotation (Line(
+              visible=true,
+              origin={-62.2878,28.3225},
+              points={{-9.86321,6.3396},{2.2878,6.3396},{2.2878,-6.3396},{5.2878,-6.3396}},
+              color={0,0,127}));
+          connect(add2.y, add31.u2) annotation (Line(
+              visible=true,
+              origin={-62.2878,14.3225},
+              points={{-9.86321,0.3396},{2.2878,0.3396},{2.2878,-0.3396},{5.2878,-0.3396}},
+              color={0,0,127}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={69.0909,-42.8357},
+              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={105.25,-63.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={111.0,-49.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={107.0759,-12.6714},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={91.8634,-18.1714},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={77.8634,-18.1714},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={67.1134,-13.1714},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={46.8634,-25.6714},
+              points={{-0.0,-10.0},{-0.0,10.0}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={32.8634,-25.6714},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          connect(order4_Inputs_Outputs.p, pwLine2.p) annotation (Line(
+              points={{6,-14.9504},{20.5,-14.9504},{20.5,-15.6714},{32.8634,-15.6714}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(order4_Inputs_Outputs.vf0, add31.u3) annotation (Line(
+              points={{-13,-4},{10,-4},{10,0},{-65,0},{-65,5.9829},{-57,5.9829}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(order4_Inputs_Outputs.pm0, add32.u3) annotation (Line(
+              points={{-13,-26},{10,-26},{10,-75},{-65,-75},{-65,-65.0021},{-57,-65.0021}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(add32.y, order4_Inputs_Outputs.pm) annotation (Line(
+              points={{-34,-57.0021},{-30,-57.0021},{-30,-20},{-15,-20}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(add31.y, order4_Inputs_Outputs.vf) annotation (Line(
+              points={{-34,13.9829},{-30,13.9829},{-30,-10},{-15,-10}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order4test2_perturbation;
+
+        model Order4test2_TG
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={123.1468,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-35.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault1(
+            R=20,
+            X=1,
+            t1=3,
+            t2=3.1) annotation (Placement(visible=true, transformation(
+                origin={132.5,-77.3},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-25.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={39.8634,-15.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={87.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={84.8634,-10.6714},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={127.5,-50.0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Controls.PSAT.TG.TGtypeII TGtypeII1 annotation (Placement(visible=true, transformation(
+                origin={-67.5,-27.5},
+                extent={{-17.5,-12.5},{17.5,12.5}},
+                rotation=0)));
+          iPSL.Electrical.Machines.PSAT.FourthOrder.Order4 Generator(
+            V_b=200,
+            V_0=1,
+            angle_0=0,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0,
+            Sn=370,
+            Vn=200) annotation (Placement(transformation(extent={{-55,30},{-25,60}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
+        equation
+          connect(pwLine4.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={107.0759,-12.6714},
+              points={{-15.2125,2},{3.0709,2},{3.0709,8},{16.0709,8}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={77.8634,-18.1714},
+              points={{0.0,7.5},{0.0,-7.5}}));
+          connect(pwFault1.p, pwLine3.n) annotation (Line(
+              visible=true,
+              origin={105.25,-63.15},
+              points={{15.5833,-14.15},{-4.75,-14.15},{-4.75,13.15},{-10.75,13.15}}));
+          connect(pwLine3.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={111.0,-49.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={91.8634,-18.1714},
+              points={{0.0,-7.5},{0.0,7.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              visible=true,
+              origin={67.1134,-13.1714},
+              points={{-20.25,-2.5},{4.75,-2.5},{4.75,2.5},{10.75,2.5}}));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              visible=true,
+              origin={69.0909,-42.8357},
+              points={{-22.2275,7.1643},{5.4091,7.1643},{5.4091,-7.1643},{11.4091,-7.1643}}));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              visible=true,
+              origin={46.8634,-25.6714},
+              points={{0.0,-10.0},{0.0,10.0}}));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              visible=true,
+              origin={32.8634,-25.6714},
+              points={{0.0,10.0},{0.0,-10.0}}));
+          connect(Generator.vf0, Generator.vf) annotation (Line(
+              points={{-52,61.5},{-15,61.5},{-15,70},{-60,70},{-60,52.5},{-55,52.5}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(Generator.pm0, TGtypeII1.pm0) annotation (Line(
+              points={{-52,28.5},{-5,28.5},{-5,85},{-85,85},{-85,-12.5},{-67.5,-12.5}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(TGtypeII1.pm, Generator.pm) annotation (Line(
+              points={{-48.25,-27.5},{-35,-27.5},{-35,25},{-65,25},{-65,37.5},{-55,37.5}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(Generator.w, TGtypeII1.W) annotation (Line(
+              points={{-23.5,58.5},{-15,58.5},{-15,-65},{-90,-65},{-90,-27.5},{-88.5,-27.5}},
+              color={0,0,127},
+              smooth=Smooth.None));
+          connect(Generator.p, pwLine2.p) annotation (Line(
+              points={{-23.5,45.0745},{10,45.0745},{10,-15.6714},{32.8634,-15.6714}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          annotation (Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5})), Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order4test2_TG;
+
+        model Order5_1test2
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={53.2834,20},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={15,10},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={15,25},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={20,-25},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={60,-25},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-20,20},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-20,5},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault(
+            X=0.001,
+            t1=3,
+            t2=3.1,
+            R=10) annotation (Placement(transformation(extent={{40,-55},{60,-35}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,80},{75,100}})));
+          iPSL.Electrical.Machines.PSAT.FifthOrder.Order5_Type1 order5Type1_Inputs_Outputs(
+            Sn=370,
+            Vn=200,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0) annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
+        equation
+          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={37.2125,23},
+              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={22,17.5},
+              points={{0,-7.5},{0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={8,17.5},
+              points={{0,7.5},{0,-7.5}}));
+          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={43.5,-24.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine1.p, pwLine2.p) annotation (Line(
+              points={{-27,5},{-27,20}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              points={{-13,5},{-13,20}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              points={{-13,20},{0,20},{0,25},{8,25}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              points={{-13,5},{0,5},{0,-25},{13,-25}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwFault.p, pwLine3.n) annotation (Line(
+              points={{38.3333,-45},{38.3333,-34.5},{27,-34.5},{27,-25}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(order5Type1_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-79,10.0496},{-40,10.0496},{-40,20},{-27,20}}, color={0,0,255}));
+          connect(order5Type1_Inputs_Outputs.vf, order5Type1_Inputs_Outputs.vf0) annotation (Line(points={{-100,15},{-105,15},{-105,25},{-98,25},{-98,21}}, color={0,0,127}));
+          connect(order5Type1_Inputs_Outputs.pm, order5Type1_Inputs_Outputs.pm0) annotation (Line(points={{-100,5},{-105,5},{-105,-5},{-98,-5},{-98,-1}}, color={0,0,127}));
+          annotation (
+            Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5}), graphics={Text(
+                  visible=true,
+                  origin={-60,54.1417},
+                  fillPattern=FillPattern.Solid,
+                  extent={{-35.0,-5.8583},{35.0,5.8583}},
+                  textString="SystemSbase=100 MVA",
+                  fontName="Arial")}),
+            experiment(StopTime=20),
+            __Dymola_experimentSetupOutput,
+            Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order5_1test2;
+
+        model Order5_2test2
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={13.2834,10},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=8,
+            t2=8.1) annotation (Placement(visible=true, transformation(
+                origin={-25,0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-25,15},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-20,-35},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={20,-35},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-60,10},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-60,-5},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault(
+            X=0.001,
+            t1=3,
+            t2=3.1,
+            R=10) annotation (Placement(transformation(extent={{0,-65},{20,-45}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{0,80},{25,100}})));
+          iPSL.Electrical.Machines.PSAT.FifthOrder.Order5_Type2 order5Type2_Inputs_Outputs(
+            V_b=200,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Sn=370,
+            Vn=200,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0) annotation (Placement(transformation(extent={{-115,-5},{-95,15}})));
+        equation
+          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={-2.7875,13},
+              points={{-15.2125,2},{3.0708,2},{3.0708,8},{16.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={-18,7.5},
+              points={{0,-7.5},{0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={-32,7.5},
+              points={{0,7.5},{0,-7.5}}));
+          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={3.5,-34.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine1.p, pwLine2.p) annotation (Line(
+              points={{-67,-5},{-67,10}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine1.n, pwLine2.n) annotation (Line(
+              points={{-53,-5},{-53,10}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              points={{-53,10},{-40,10},{-40,15},{-32,15}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              points={{-53,-5},{-40,-5},{-40,-35},{-27,-35}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwFault.p, pwLine3.n) annotation (Line(
+              points={{-1.66667,-55},{-1.66667,-44.5},{-13,-44.5},{-13,-35}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(order5Type2_Inputs_Outputs.pm, order5Type2_Inputs_Outputs.pm0) annotation (Line(points={{-115,0},{-120,0},{-120,-10},{-113,-10},{-113,-6}}, color={0,0,127}));
+          connect(order5Type2_Inputs_Outputs.vf, order5Type2_Inputs_Outputs.vf0) annotation (Line(points={{-115,10},{-120,10},{-120,20},{-113,20},{-113,16}}, color={0,0,127}));
+          connect(order5Type2_Inputs_Outputs.p, pwLine2.p) annotation (Line(points={{-94,5.04964},{-80,5.04964},{-80,10},{-67,10}}, color={0,0,255}));
+          annotation (
+            Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5}), graphics={Text(
+                  visible=true,
+                  origin={-60,54.1417},
+                  fillPattern=FillPattern.Solid,
+                  extent={{-35.0,-5.8583},{35.0,5.8583}},
+                  textString="SystemSbase=100 MVA",
+                  fontName="Arial")}),
+            experiment(StopTime=20),
+            __Dymola_experimentSetupOutput,
+            Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order5_2test2;
+
+        model Order6test2
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ2(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={18.2834,10},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLinewithOpeningReceiving pwLinewithOpening1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1,
+            t1=12,
+            t2=12.1) annotation (Placement(visible=true, transformation(
+                origin={-25,0},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine4(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-25,15},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine3(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-20,-35},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Loads.PSAT.LOADPQ pwLoadPQ1(
+            P_0=0.08,
+            Q_0=0.06,
+            V_0=1,
+            angle_0=0) annotation (Placement(visible=true, transformation(
+                origin={20,-35},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine2(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-60,10},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Branches.PwLine pwLine1(
+            B=0.001/2,
+            G=0,
+            R=0.01,
+            X=0.1) annotation (Placement(visible=true, transformation(
+                origin={-60,-20},
+                extent={{-10.0,-10.0},{10.0,10.0}},
+                rotation=0)));
+          iPSL.Electrical.Events.PwFault pwFault(
+            X=0.001,
+            t1=3,
+            t2=3.1,
+            R=10) annotation (Placement(transformation(extent={{25,-70},{45,-50}})));
+          iPSL.Electrical.Machines.PSAT.SixthOrder.Order6 order6Type2_1(
+            Sn=100,
+            P_0=0.160352698692006,
+            Q_0=0.11859436505981,
+            Vn=20000,
+            V_b=400000,
+            V_0=1,
+            angle_0=0,
+            ra=0.001,
+            xd1=0.302,
+            M=10,
+            D=0) annotation (Placement(transformation(extent={{-140,-10},{-100,30}})));
+          inner iPSL.Electrical.SystemBase SysData annotation (Placement(transformation(extent={{50,50},{75,70}})));
+        equation
+          connect(pwLine4.n, pwLoadPQ2.p) annotation (Line(
+              visible=true,
+              origin={-2.7875,13},
+              points={{-15.2125,2},{3.0708,2},{3.0708,8},{21.0709,8}}));
+          connect(pwLinewithOpening1.n, pwLine4.n) annotation (Line(
+              visible=true,
+              origin={-18,7.5},
+              points={{0,-7.5},{0,7.5}}));
+          connect(pwLine4.p, pwLinewithOpening1.p) annotation (Line(
+              visible=true,
+              origin={-32,7.5},
+              points={{0,7.5},{0,-7.5}}));
+          connect(pwLine3.n, pwLoadPQ1.p) annotation (Line(
+              visible=true,
+              origin={3.5,-34.5},
+              points={{-16.5,-0.5},{3.5,-0.5},{3.5,10.5},{16.5,10.5}}));
+          connect(pwLine2.n, pwLine4.p) annotation (Line(
+              points={{-53,10},{-40,10},{-40,15},{-32,15}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine1.n, pwLine3.p) annotation (Line(
+              points={{-53,-20},{-40,-20},{-40,-35},{-27,-35}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwFault.p, pwLine3.n) annotation (Line(
+              points={{23.3333,-60},{23.3333,-44.5},{-13,-44.5},{-13,-35}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(order6Type2_1.p, pwLine2.p) annotation (Line(
+              points={{-98,10.0993},{-94.5,10.0993},{-94.5,10},{-67,10}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine2.p, pwLine1.p) annotation (Line(
+              points={{-67,10},{-67,10},{-67,-20}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(pwLine2.n, pwLine1.n) annotation (Line(
+              points={{-53,10},{-53,10},{-53,-20}},
+              color={0,0,255},
+              smooth=Smooth.None));
+          connect(order6Type2_1.vf0, order6Type2_1.vf) annotation (Line(points={{-136,32},{-136,35},{-150,35},{-150,20},{-140,20}}, color={0,0,127}));
+          connect(order6Type2_1.pm, order6Type2_1.pm0) annotation (Line(points={{-140,0},{-150,0},{-150,-15},{-136,-15},{-136,-12}}, color={0,0,127}));
+          annotation (
+            Diagram(coordinateSystem(
+                extent={{-148.5,-105},{148.5,105}},
+                preserveAspectRatio=false,
+                initialScale=0.1,
+                grid={5,5}), graphics={Text(
+                  visible=true,
+                  origin={-60,54.1417},
+                  fillPattern=FillPattern.Solid,
+                  extent={{-35.0,-5.8583},{35.0,5.8583}},
+                  textString="SystemSbase=100 MVA",
+                  fontName="Arial")}),
+            experiment(StopTime=20),
+            __Dymola_experimentSetupOutput,
+            Documentation(revisions="<html>
+<!--DISCLAIMER-->
+<p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
+<ul>
+<li>RTE: <a href=\"http://www.rte-france.com\">http://www.rte-france.com</a></li>
+<li>SmarTS Lab, research group at KTH: <a href=\"https://www.kth.se/en\">https://www.kth.se/en</a></li>
+<li>AIA: <a href=\"http://www.aia.es/en/energy\"> http://www.aia.es/en/energy</a></li>
+<li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
+</ul>
+<p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
+
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
+</html>"));
+        end Order6test2;
+      annotation (Icon(graphics={
+            Rectangle(
+              extent={{-80,100},{100,-80}},
+              lineColor={0,0,0},
+              fillColor={215,230,240},
+              fillPattern=FillPattern.Solid),
+            Rectangle(
+              extent={{-100,80},{80,-100}},
+              lineColor={0,0,0},
+              fillColor={240,240,240},
+              fillPattern=FillPattern.Solid),
+            Polygon(
+              points={{-48,50},{52,-10},{-48,-70},{-48,50}},
+              lineColor={0,0,255},
+              pattern=LinePattern.None,
+              fillColor={95,95,95},
+              fillPattern=FillPattern.Solid)}), Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -2998,7 +2966,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end EXAC2;
 
-          model ESAC2A "SMIB model example of GENROU with Excitation System ESAC2A"
+          model ESAC2A
+            "SMIB model example of GENROU with Excitation System ESAC2A"
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENROU.GENROU generator(
               Xppd=0.2,
@@ -3083,7 +3052,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end ESAC2A;
 
-          model ESST4B "SMIB model example of GENROU with Excitation System ESST4B"
+          model ESST4B
+            "SMIB model example of GENROU with Excitation System ESST4B"
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENROU.GENROU generator(
               Xppd=0.2,
@@ -3177,7 +3147,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end ESST4B;
 
-          model URST5T "SMIB model example of GENROU with Excitation System URST5T"
+          model URST5T
+            "SMIB model example of GENROU with Excitation System URST5T"
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENROU.GENROU generator(
               Xppd=0.2,
@@ -3274,7 +3245,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end URST5T;
 
-          model SEXS "SMIB model example of GENROU with Excitation System EXST1"
+          model SEXS
+            "SMIB model example of GENROU with Excitation System EXST1"
             import iPSL;
             extends iPSL.Examples.SMIBpartial;
             Modelica.Blocks.Sources.Constant const2(k=0) annotation (Placement(transformation(extent={{-110,166},{-94,182}})));
@@ -3340,7 +3312,8 @@ extends Modelica.Icons.Package;
 </html>"),    Icon(coordinateSystem(extent={{-120,-100},{120,100}})));
           end SEXS;
 
-          model SCRX "SMIB model example of GENROU with Excitation System EXST1"
+          model SCRX
+            "SMIB model example of GENROU with Excitation System EXST1"
             import iPSL;
             extends iPSL.Examples.SMIBpartial;
             Modelica.Blocks.Sources.Constant const2(k=0) annotation (Placement(transformation(extent={{-110,166},{-94,182}})));
@@ -4052,7 +4025,8 @@ extends Modelica.Icons.Package;
 
         package TG
 
-          model IEESGO "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
+          model IEESGO
+            "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
             import iPSL;
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENSAL.GENSAL generator(
@@ -4148,7 +4122,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end IEESGO;
 
-          model HYGOV "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
+          model HYGOV
+            "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENSAL.GENSAL generator(
               Xppd=0.2,
@@ -4409,7 +4384,8 @@ extends Modelica.Icons.Package;
 
         package PSS
 
-          model STAB3 "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
+          model STAB3
+            "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENSAL.GENSAL generator(
               Xppd=0.2,
@@ -4493,7 +4469,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end STAB3;
 
-          model STABNI "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
+          model STABNI
+            "Simple Machine Infinite Bus with Machine, Governor and Excitation system"
             extends iPSL.Examples.SMIBpartial;
             iPSL.Electrical.Machines.PSSE.GENSAL.GENSAL generator(
               Xppd=0.2,
@@ -4908,6 +4885,7 @@ extends Modelica.Icons.Package;
       package PSAT
 
         package AVR
+
 
           model AVRTypeI_Test
             iPSL.Electrical.Machines.PSAT.SixthOrder.Order6 Syn1(
@@ -5507,8 +5485,10 @@ extends Modelica.Icons.Package;
               xq=xq,
               iflim=2.7,
               T0=5) annotation (Placement(transformation(extent={{84,72},{40,112}})));
-            parameter Real xd=order6Type2_Inputs_Outputs.xd "d-axis reactance, p.u.";
-            parameter Real xq=order6Type2_Inputs_Outputs.xq "q-axis reactance, p.u.";
+            parameter Real xd=order6Type2_Inputs_Outputs.xd
+              "d-axis reactance, p.u.";
+            parameter Real xq=order6Type2_Inputs_Outputs.xq
+              "q-axis reactance, p.u.";
             parameter Real Sn=370 "Power rating, MVA";
             parameter Real SystemBase=100;
             parameter Real Vn=400000 "Nominal voltage";
@@ -9461,6 +9441,7 @@ extends Modelica.Icons.Package;
 
         package WT4G
 
+
           model WT4G1_WT4E1
             import iPSL;
             constant Real pi=Modelica.Constants.pi;
@@ -10339,7 +10320,8 @@ extends Modelica.Icons.Package;
             dQ1=0,
             dP2=0,
             dQ2=0) annotation (Placement(transformation(extent={{115,-20},{135,0}})));
-          iPSL.Electrical.Branches.PSAT.ThreeWindingTransformer.ThreeWindingTransformer threeWindingTransformer annotation (Placement(transformation(extent={{70,0},{90,20}})));
+          iPSL.Electrical.Branches.PSAT.ThreeWindingTransformer.ThreeWindingTransformer
+                                                                                        threeWindingTransformer annotation (Placement(transformation(extent={{70,0},{90,20}})));
           iPSL.Electrical.Buses.Bus Bus1 annotation (Placement(transformation(extent={{10,0},{30,20}})));
           iPSL.Electrical.Buses.Bus Bus2 annotation (Placement(transformation(extent={{50,0},{70,20}})));
           iPSL.Electrical.Buses.Bus Bus3 annotation (Placement(transformation(extent={{95,15},{115,35}})));
@@ -11331,9 +11313,7 @@ extends Modelica.Icons.Package;
 
     package Buses
 
-      model Bus "Bus model
-              2014/03/10"
-
+      model Bus "Bus model 2014/03/10"
         iPSL.Connectors.PwPin p(vr(start=V_0*cos(angle_0*Modelica.Constants.pi/180)), vi(start=V_0*sin(angle_0*Modelica.Constants.pi/180))) annotation (Placement(
             visible=true,
             transformation(
@@ -11352,9 +11332,15 @@ extends Modelica.Icons.Package;
           "Initial voltage at node in p.u. (Real part)";
         parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
           "Initial voltage at node in p.u. (Imaginary part)";
+
       equation
-        V = sqrt(p.vr^2 + p.vi^2);
+       if abs(p.vi) > Modelica.Constants.eps then
         angle = atan2(p.vi, p.vr)*180/Modelica.Constants.pi;
+        V = sqrt(p.vr^2 + p.vi^2);
+       else
+        angle = 0.0;
+        V = sqrt(p.vr^2 + p.vi^2);
+       end if;
         p.ir = 0;
         p.ii = 0;
         annotation (
@@ -11564,8 +11550,7 @@ extends Modelica.Icons.Package;
 </html>"));
       end InfiniteBus2;
 
-      model InfiniteBusEuro  "Bus model
-              2014/03/10"
+      model InfiniteBusEuro "Infinite bus model 2016/05/12"
 
         iPSL.Connectors.PwPin p(vr(start=V_0*cos(angle_0*Modelica.Constants.pi/180)), vi(start=V_0*sin(angle_0*Modelica.Constants.pi/180)));
         parameter Real R;
@@ -11581,12 +11566,11 @@ extends Modelica.Icons.Package;
         parameter Real Irn =  Y1*Vo_real + Y2*Vo_img;
         parameter Real Iin = Y1*Vo_img - Y2*Vo_real;
         Real V(start=V_0) "Bus voltage magnitude (pu)";
-        parameter Real angle =  atan2(R, X) "Bus voltage angle (deg)";
 
       equation
            V = sqrt(p.vr^2 + p.vi^2);
-           p.ii + Iin= (R*p.vi - X*p.vr)/(X*X + R*R);
-           p.ir + Irn =(R*p.vr + X*p.vi)/(R*R + X*X);
+           p.ii + Iin = (R*p.vi - X*p.vr)/(X*X + R*R);
+           p.ir + Irn = (R*p.vr + X*p.vi)/(R*R + X*X);
         annotation (
           Icon(coordinateSystem(
               extent={{-100,-100},{100,100}},
@@ -11696,7 +11680,8 @@ extends Modelica.Icons.Package;
 
       model BusExt
         iPSL.Connectors.PwPinExt Ext(p(vr(start=vr0), vi(start=vi0)));
-        outer iPSL.Electrical.SystemBase SysData "Must add this line in all models";
+        outer iPSL.Electrical.SystemBase SysData
+          "Must add this line in all models";
         parameter Integer nu(min=0) = 0 "Number of left connection" annotation (Dialog(connectorSizing=true), HideResult=true);
         parameter Integer no(min=0) = 0 "Number of right connections" annotation (Dialog(connectorSizing=true), HideResult=true);
         iPSL.Connectors.PwPin u[nu] annotation (Placement(
@@ -11799,7 +11784,8 @@ extends Modelica.Icons.Package;
 
     package Branches
 
-      model PwLine "Model for a transmission Line based on the pi-equivalent circuit"
+      model PwLine
+        "Model for a transmission Line based on the pi-equivalent circuit"
         outer iPSL.Electrical.SystemBase SysData;
         import Modelica.ComplexMath.conj;
         import Modelica.ComplexMath.real;
@@ -11813,8 +11799,8 @@ extends Modelica.Icons.Package;
         parameter Real B "Shunt half susceptance (pu)" annotation (Dialog(group="Line parameters"));
         parameter Real S_b=SysData.S_b "System base power (MVA)" annotation (Dialog(group="Line parameters",enable=false));
 
-        parameter Real t1=Modelica.Constants.inf annotation (Dialog(group="Perturbation parameters"));
-        parameter Real t2=Modelica.Constants.inf annotation (Dialog(group="Perturbation parameters"));
+        parameter Real startTime=Modelica.Constants.inf annotation (Dialog(group="Perturbation parameters"));
+        parameter Real endTime=Modelica.Constants.inf annotation (Dialog(group="Perturbation parameters"));
         parameter Integer opening=1
           annotation (Dialog(group="Perturbation parameters"), choices(
             choice=1 "Line opening at both ends",
@@ -11845,7 +11831,7 @@ extends Modelica.Icons.Package;
         Q21 = -imag(vr*conj(ir))*S_b;
 
         //PI model with different line openings
-        if (time >= t1) and (time < t2) then
+        if (time >= startTime) and (time < endTime) then
           if (opening == 1) then
             is = 0 + j*0;
             ir = 0 + j*0;
@@ -12086,7 +12072,8 @@ extends Modelica.Icons.Package;
         parameter Real X "Reactance p.u.";
         parameter Real G "Shunt half conductance p.u.";
         parameter Real B "Shunt half susceptance p.u.";
-        parameter Boolean OpenR_end "Open at Receiving end (true), Open at Sending end (false)";
+        parameter Boolean OpenR_end
+          "Open at Receiving end (true), Open at Sending end (false)";
         Real Zr;
         Real Zi;
       equation
@@ -12210,12 +12197,11 @@ extends Modelica.Icons.Package;
         parameter Real B "Shunt half susceptance p.u.";
         parameter Real startTime "Start time of the opening";
         parameter Real endTime "End time of the opening";
-        Real Zr;
-        Real Zi;
+        parameter Real Zr =   R*G + X*B;
+        parameter Real Zi =   R*B + X*G;
+
       equation
-        Zr = R*G + X*B;
-        Zi = R*B + X*G;
-        if time > startTime then
+         if time > startTime then
           if time < endTime then
             n.vr*(2.0*G + G*Zr - B*Zi) - n.vi*(2.0*B + Zr*B + Zi*G) = n.ir*(1.0 + Zr) - n.ii*Zi;
             n.vr*(2.0*B + Zr*B + Zi*G) + n.vi*(2.0*G + G*Zr - B*Zi) = n.ir*Zi + n.ii*(1.0 + Zr);
@@ -12233,6 +12219,7 @@ extends Modelica.Icons.Package;
           R*(p.ir - G*p.vr + B*p.vi) - X*(p.ii - B*p.vr - G*p.vi) = p.vr - n.vr;
           R*(p.ii - B*p.vr - G*p.vi) + X*(p.ir - G*p.vr + B*p.vi) = p.vi - n.vi;
         end if;
+
         annotation (
           Icon(graphics={Rectangle(extent={{-60,40},{60,-42}}, lineColor={0,0,255}),Rectangle(
                 extent={{-40,10},{40,-10}},
@@ -12262,7 +12249,8 @@ extends Modelica.Icons.Package;
 </html>"));
       end PwLinewithOpeningSending;
 
-      model PwLine2Openings "Transmission Line based on the pi-equivalent circuit with an opening event on both sending and receiving end nodes"
+      model PwLine2Openings
+        "Transmission Line based on the pi-equivalent circuit with an opening event on both sending and receiving end nodes"
 
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-76,-10},{-56,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
         iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{56,-10},{76,10}}), iconTransformation(extent={{60,-10},{80,10}})));
@@ -12358,17 +12346,20 @@ extends Modelica.Icons.Package;
           parameter Real SNREF "network base power";
           parameter Real Pcu "rated copper losses (% base tfo)";
           parameter Real Pfe "rated iron losses (% base tfo)";
-          parameter Real IM "magnetizing current (noload current) (% base (Snom,V(Nnom)))";
+          parameter Real IM
+            "magnetizing current (noload current) (% base (Snom,V(Nnom)))";
           parameter Real ESAT=0 "exponent expressing saturation";
           parameter Real Nnom "nominal tap number";
-          parameter Real Ntap "initial tap number (here tap N because taps are considered fixed)";
+          parameter Real Ntap
+            "initial tap number (here tap N because taps are considered fixed)";
           //  parameter Real V1tnom "Sending side voltage for nominal tap";
           //  parameter Real V2tnom "Receiving side voltage for nominal tap";
           parameter Real V1 "Sending side voltage for tap N";
           parameter Real V2 "Receiving side voltage for tap N";
           parameter Real U1nom "Sending side Nominal Voltage";
           parameter Real U2nom "Receiving side Nominal Voltage";
-          parameter Real Ucc "Leakeage impedance (% base tfo) (short-circuit voltage)";
+          parameter Real Ucc
+            "Leakeage impedance (% base tfo) (short-circuit voltage)";
           parameter Real theta "Phase shift angle";
           parameter Real CIM=sqrt(IM*IM - Pfe*Pfe);
           Real kr "real part of complex ratio";
@@ -12401,7 +12392,8 @@ extends Modelica.Icons.Package;
           end if;
           Go = Pfe*Snom/(SNREF*100);
           //B = Snom/SNREF*(CIM/100)*(U1nom/V1)^(ESAT+1)*1^(-ESAT)*(sqrt(p.vr*p.vr+p.vi*p.vi))^(ESAT-1); "If ESAT>1 use this equation"
-          B = Snom/SNREF*CIM/100*(U1nom/V1)^(ESAT + 1)*1^(-ESAT) "If ESAT=1 use this equation";
+          B = Snom/SNREF*CIM/100*(U1nom/V1)^(ESAT + 1)*1^(-ESAT)
+            "If ESAT=1 use this equation";
           p.ir*R - p.ii*X = (-n.vi*ki) - n.vr*kr + p.vr*(kr*kr + ki*ki + k*k*Go*R + B*X) - p.vi*(k*k*Go*X - B*R);
           p.ir*X + p.ii*R = n.vr*ki - n.vi*kr + p.vr*(k*k*Go*X - B*R) + p.vi*(kr*kr + ki*ki + k*k*Go*R + B*X);
           n.ir*R - n.ii*X = n.vr - kr*p.vr + ki*p.vi;
@@ -12502,8 +12494,8 @@ extends Modelica.Icons.Package;
         equation
           p.ir = 1/(R*R + X*X)*(R*(r*r*p.vr - r*n.vr) + X*(r*r*p.vi - r*n.vi));
           p.ii = 1/(R*R + X*X)*(R*(r*r*p.vi - r*n.vi) - X*(r*r*p.vr - r*n.vr));
-          n.ir = (-1/r*p.ir) + G*n.vr - B*n.vi;
-          n.ii = (-1/r*p.ii) + G*n.vi + B*n.vr;
+          n.ir = (-1/r)*(1/(R*R + X*X))*(R*(r*r*p.vr - r*n.vr) + X*(r*r*p.vi - r*n.vi)) + G*n.vr - B*n.vi;
+          n.ii = (-1/r)*(1/(R*R + X*X))*(R*(r*r*p.vi - r*n.vi) - X*(r*r*p.vr - r*n.vr)) + G*n.vi + B*n.vr;
           annotation (
             Icon(graphics={Rectangle(extent={{-60,40},{60,-40}}, lineColor={0,0,255}),Ellipse(
                   extent={{-26,16},{6,-16}},
@@ -13051,7 +13043,8 @@ extends Modelica.Icons.Package;
 
       package PSSE
 
-        model TwoWindingTransformer "Static Two-winding transformer according to PSS/E, without phase shift"
+        model TwoWindingTransformer
+          "Static Two-winding transformer according to PSS/E, without phase shift"
           outer iPSL.Electrical.SystemBase SysData;
           import Modelica.Constants.pi;
           import Modelica.ComplexMath.j;
@@ -13144,18 +13137,24 @@ extends Modelica.Icons.Package;
         package Old_transformer
 
           model ThreeWinding
-            parameter Real C1[1, 6]=[1.1, 0.9, 1.1, 0.9, 33, 0] "Primary winding: Vmax Vmin Rmax Rmin Ntap angle  ";
+            parameter Real C1[1, 6]=[1.1, 0.9, 1.1, 0.9, 33, 0]
+              "Primary winding: Vmax Vmin Rmax Rmin Ntap angle  ";
             parameter Real D1[1, 3]=[17, 5, 0] "Delay TD TC TSD";
-            parameter Real C2[1, 6]=[1.1, 0.9, 1.1, 0.9, 33, 0] "Secondary winding: Vmax Vmin Rmax Rmin Ntap angle  ";
+            parameter Real C2[1, 6]=[1.1, 0.9, 1.1, 0.9, 33, 0]
+              "Secondary winding: Vmax Vmin Rmax Rmin Ntap angle  ";
             parameter Real D2[1, 3]=[17, 5, 0] "Delay TD TC TSD";
-            parameter Real C3[1, 6]=[1.1, 0.9, 1.1, 0.9, 33, 0] "Tertiary winding: Vmax Vmin Rmax Rmin Ntap angle  ";
+            parameter Real C3[1, 6]=[1.1, 0.9, 1.1, 0.9, 33, 0]
+              "Tertiary winding: Vmax Vmin Rmax Rmin Ntap angle  ";
             parameter Real D3[1, 3]=[17, 5, 0] "Delay TD TC TSD";
             // parameter Complex Z12"short circuit test impedance";
             // parameter Complex Z23 "short circuit test impedance";
             // parameter Complex Z31 "short circuit test impedance";
-            parameter Real COD1=1 "enable control for winding 1 primary side voltage";
-            parameter Real COD2=0 "enable control for winding 2 primary side voltage";
-            parameter Real COD3=0 "enable control for winding 3 primary side voltage";
+            parameter Real COD1=1
+              "enable control for winding 1 primary side voltage";
+            parameter Real COD2=0
+              "enable control for winding 2 primary side voltage";
+            parameter Real COD3=0
+              "enable control for winding 3 primary side voltage";
             // parameter Complex Z1 = 0.5 * (Z12 + Z31 - Z23)
             //  "equivalent impedance of winding 1";
             //  parameter Complex Z2 = 0.5 * (Z12 + Z23 - Z31)
@@ -13473,9 +13472,11 @@ extends Modelica.Icons.Package;
 </html>"));
           end Zeq;
 
-          package update "The package contain the new transformer models should be used for futher development of large power system"
+          package update
+            "The package contain the new transformer models should be used for futher development of large power system"
 
-            model OLTC "Original developed by Mengjia and has been improved by Jan from KTH"
+            model OLTC
+              "Original developed by Mengjia and has been improved by Jan from KTH"
               //outer parameter Boolean ControlledOnFromSide;
               outer parameter Real initialtapratio=1;
               parameter Real Vmax=1.1;
@@ -13489,11 +13490,16 @@ extends Modelica.Icons.Package;
               parameter Real dtap=(rmax - rmin)/(Ntap - 1);
               parameter Real Rmax=1 + (rmax - rmin)/2;
               parameter Real Rmin=1 - (rmax - rmin)/2;
-              Modelica.Blocks.Interfaces.RealInput u "Measured input, typically Voltage" annotation (Placement(transformation(extent={{-124,-6},{-84,34}})));
-              Modelica.Blocks.Interfaces.RealOutput y(start=initialtapratio, fixed=true) "Tap-ratio output" annotation (Placement(transformation(extent={{84,4},{104,24}})));
-              Real RegulatorTimer(start=0, fixed=true) "Timer for the regulator";
-              Integer voltageDiff(start=0, fixed=true) "Direction of the voltage difference";
-              Integer tapMoved(start=0, fixed=true) "Number of steps the taps has moved.";
+              Modelica.Blocks.Interfaces.RealInput u
+                "Measured input, typically Voltage"                                      annotation (Placement(transformation(extent={{-124,-6},{-84,34}})));
+              Modelica.Blocks.Interfaces.RealOutput y(start=initialtapratio, fixed=true)
+                "Tap-ratio output"                                                                          annotation (Placement(transformation(extent={{84,4},{104,24}})));
+              Real RegulatorTimer(start=0, fixed=true)
+                "Timer for the regulator";
+              Integer voltageDiff(start=0, fixed=true)
+                "Direction of the voltage difference";
+              Integer tapMoved(start=0, fixed=true)
+                "Number of steps the taps has moved.";
               Integer tapDirection(start=0, fixed=true);
               discrete Real m(start=initialtapratio, fixed=true);
               Boolean MotorEnabled(start=false, fixed=true);
@@ -13618,10 +13624,12 @@ extends Modelica.Icons.Package;
 </html>"));
             end ImRelay;
 
-            model PhaseshiftTwoWindingTransformer_withOLTC "Two Winding Transformer with Phaseshift and OLTC"
+            model PhaseshiftTwoWindingTransformer_withOLTC
+              "Two Winding Transformer with Phaseshift and OLTC"
               extends TransformerParameter;
               inner parameter Real initialtapratio=1;
-              parameter Real phase " From side and To side phase shift in degree";
+              parameter Real phase
+                " From side and To side phase shift in degree";
               parameter Real Vmax=1.1 annotation (Dialog(group=" OLTC control"));
               parameter Real Vmin=0.9 annotation (Dialog(group=" OLTC control"));
               parameter Real rmax=1.1 annotation (Dialog(group=" OLTC control"));
@@ -13716,7 +13724,8 @@ extends Modelica.Icons.Package;
               constant Real pi=Modelica.Constants.pi;
               iPSL.Connectors.PwPin T annotation (Placement(transformation(extent={{76,-2},{96,18}}), iconTransformation(extent={{76,-2},{96,18}})));
               iPSL.Connectors.PwPin F annotation (Placement(transformation(extent={{-102,-2},{-82,18}}), iconTransformation(extent={{-102,-2},{-82,18}})));
-              parameter Real phase " From side and To side phase shift in degree";
+              parameter Real phase
+                " From side and To side phase shift in degree";
             protected
               parameter Real A=(-phase*pi/180) + 0.5*pi;
             equation
@@ -13780,7 +13789,8 @@ extends Modelica.Icons.Package;
 </html>"));
             end phaseshift;
 
-            model Transformer_Tap "Basic Two Winding Transformer equation with tap changer"
+            model Transformer_Tap
+              "Basic Two Winding Transformer equation with tap changer"
               iPSL.Connectors.PwPin T "To side" annotation (Placement(transformation(extent={{86,-2},{106,18}}), iconTransformation(extent={{86,-2},{106,18}})));
               iPSL.Connectors.PwPin F "From side" annotation (Placement(transformation(extent={{-92,0},{-72,20}}), iconTransformation(extent={{-92,0},{-72,20}})));
               extends TransformerParameter;
@@ -13890,8 +13900,10 @@ extends Modelica.Icons.Package;
               //parameter Real phase " From side and To side phase shift in degree";
               //protected
               // parameter Real A = (-phase * pi / 180) + 0.5 * pi;
-              parameter Real Req=tj^2*R "Equivalent impedance is always transfered to the 'To' side circuit";
-              parameter Real Xeq=tj^2*X "Equivalent impedance is always transfered to the 'To' side circuit";
+              parameter Real Req=tj^2*R
+                "Equivalent impedance is always transfered to the 'To' side circuit";
+              parameter Real Xeq=tj^2*X
+                "Equivalent impedance is always transfered to the 'To' side circuit";
               annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -13955,7 +13967,8 @@ extends Modelica.Icons.Package;
 
       package PSAT
 
-        model TwoWindingTransformer "Modeled as series reactances without iron losses"
+        model TwoWindingTransformer
+          "Modeled as series reactances without iron losses"
 
           outer iPSL.Electrical.SystemBase SysData;
           iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
@@ -13971,8 +13984,10 @@ extends Modelica.Icons.Package;
         protected
           parameter Real Vb2new=V_b^2;
           parameter Real Vb2old=Vn*Vn;
-          parameter Real xT=x*(Vb2old*Sb)/(Vb2new*Sn) "Reactance, p.u system base";
-          parameter Real rT=r*(Vb2old*Sb)/(Vb2new*Sn) "Resistance, p.u system base";
+          parameter Real xT=x*(Vb2old*Sb)/(Vb2new*Sn)
+            "Reactance, p.u system base";
+          parameter Real rT=r*(Vb2old*Sb)/(Vb2new*Sn)
+            "Resistance, p.u system base";
         equation
           rT*p.ir - xT*p.ii = p.vr - n.vr;
           rT*p.ii + xT*p.ir = p.vi - n.vi;
@@ -14166,8 +14181,10 @@ extends Modelica.Icons.Package;
             parameter Real Sb=100 "System base power (MVA)" annotation (Dialog(group="Power flow data"));
             parameter Real Sn=100 "Power rating (MVA)" annotation (Dialog(group="Power flow data"));
             parameter Real Vbus=400000 "Sending end bus voltage (V)" annotation (Dialog(group="Power flow data"));
-            parameter Real Vn1=400000 "Voltage rating of the first winding (V)" annotation (Dialog(group="Power flow data"));
-            parameter Real Vn2=100000 "Voltage rating of the second winding (V)" annotation (Dialog(group="Power flow data"));
+            parameter Real Vn1=400000 "Voltage rating of the first winding (V)"
+                                                                                annotation (Dialog(group="Power flow data"));
+            parameter Real Vn2=100000
+              "Voltage rating of the second winding (V)"                         annotation (Dialog(group="Power flow data"));
             parameter Real Vn3=40000 "Voltage rating of the third winding (V)" annotation (Dialog(group="Power flow data"));
             parameter Real fn=50 "Frequency rating (Hz)" annotation (Dialog(group="Power flow data"));
             parameter Real R12=0.01 "Resistance of the branch 1-2 (pu)" annotation (Dialog(group="Transformer data"));
@@ -14332,7 +14349,8 @@ extends Modelica.Icons.Package;
 </html>"));
         end ThreeWindingTransformer;
 
-        model ULTC_VoltageControl "Under Load Tap Changer, continous model, secondary voltage control"
+        model ULTC_VoltageControl
+          "Under Load Tap Changer, continous model, secondary voltage control"
           iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
           iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{100,-10},{120,10}})));
           parameter Real Sb=100 "System base power (MVA)" annotation (Dialog(group="Power flow data"));
@@ -14341,7 +14359,8 @@ extends Modelica.Icons.Package;
           parameter Real Sn=100 "Power rating (MVA)" annotation (Dialog(group="Power flow data"));
           parameter Real Vn=400000 "Voltage rating (V)" annotation (Dialog(group="Power flow data"));
           parameter Real fn=50 "Frequency rating (Hz)" annotation (Dialog(group="Power flow data"));
-          parameter Real V_0=1.008959700699460 "Voltage magnitude of the controlled bus (pu)" annotation (Dialog(group="Power flow data"));
+          parameter Real V_0=1.008959700699460
+            "Voltage magnitude of the controlled bus (pu)"                                    annotation (Dialog(group="Power flow data"));
           parameter Real m0=0.98 "Initial tap ratio" annotation (Dialog(group="Power flow data"));
           parameter Real kT=4 "Nominal tap ratio (V1/V2)" annotation (Dialog(group="ULTC data"));
           parameter Real H=0.001 "Integral deviation (pu)" annotation (Dialog(group="ULTC data"));
@@ -14362,8 +14381,10 @@ extends Modelica.Icons.Package;
           parameter Real V2=Vn/kT "Secondary voltage";
           parameter Real Vb2new=Vbus1*Vbus1;
           parameter Real Vb2old=Vn*Vn;
-          parameter Real R=rT*(Vb2old*Sb)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-          parameter Real X=xT*(Vb2old*Sb)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+          parameter Real R=rT*(Vb2old*Sb)/(Vb2new*Sn)
+            "Transformer Resistance, p.u.";
+          parameter Real X=xT*(Vb2old*Sb)/(Vb2new*Sn)
+            "Transformer Reactance, p.u.";
           parameter Real vref=v_ref*(V2/Vbus2);
         initial equation
           m = m0;
@@ -14452,8 +14473,10 @@ extends Modelica.Icons.Package;
           model pst2
             constant Real pi=Modelica.Constants.pi;
             parameter Real SystemBase=100;
-            parameter Real Vbus1=20000 "Sending end Bus nominal voltage, change of base";
-            parameter Real Vbus2=20000 "Receiving end Bus voltage, change of base";
+            parameter Real Vbus1=20000
+              "Sending end Bus nominal voltage, change of base";
+            parameter Real Vbus2=20000
+              "Receiving end Bus voltage, change of base";
             parameter Real Sn=100 "Power rating MVA";
             parameter Real Vn1=20000 "Primary Voltage rating,KV";
             parameter Real Vn2=20000 "Secondary voltage rating, KV";
@@ -14483,11 +14506,15 @@ extends Modelica.Icons.Package;
           protected
             parameter Real Vb2new=Vbus1*Vbus1;
             parameter Real Vb2old=Vn1*Vn1;
-            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Resistance, p.u.";
+            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Reactance, p.u.";
             parameter Real pref=p_ref*(Sn/SystemBase);
-            parameter Real gt=R/(R^2 + X^2) "Converting resistance to conductance p.u.";
-            parameter Real bt=-X/(R^2 + X^2) "Converting reactance to susceptance p.u.";
+            parameter Real gt=R/(R^2 + X^2)
+              "Converting resistance to conductance p.u.";
+            parameter Real bt=-X/(R^2 + X^2)
+              "Converting reactance to susceptance p.u.";
           initial equation
             alpha = alpha0;
             pmes = pmes0;
@@ -14544,8 +14571,10 @@ extends Modelica.Icons.Package;
           model pst1
             constant Real pi=Modelica.Constants.pi;
             parameter Real SystemBase=100;
-            parameter Real Vbus1=20000 "Sending end Bus nominal voltage, change of base";
-            parameter Real Vbus2=20000 "Receiving end Bus voltage, change of base";
+            parameter Real Vbus1=20000
+              "Sending end Bus nominal voltage, change of base";
+            parameter Real Vbus2=20000
+              "Receiving end Bus voltage, change of base";
             parameter Real Sn=100 "Power rating MVA";
             parameter Real Vn1=20000 "Primary Voltage rating,KV";
             parameter Real Vn2=20000 "Secondary voltage rating, KV";
@@ -14572,11 +14601,15 @@ extends Modelica.Icons.Package;
           protected
             parameter Real Vb2new=Vbus1*Vbus1;
             parameter Real Vb2old=Vn1*Vn1;
-            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Resistance, p.u.";
+            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Reactance, p.u.";
             parameter Real pref=p_ref*(Sn/SystemBase);
-            parameter Real gt=R/(R^2 + X^2) "Converting resistance to conductance p.u.";
-            parameter Real bt=-X/(R^2 + X^2) "Converting reactance to susceptance p.u.";
+            parameter Real gt=R/(R^2 + X^2)
+              "Converting resistance to conductance p.u.";
+            parameter Real bt=-X/(R^2 + X^2)
+              "Converting reactance to susceptance p.u.";
           equation
             vk = sqrt(p.vr^2 + p.vi^2);
             vm = sqrt(n.vr^2 + n.vi^2);
@@ -14609,8 +14642,10 @@ extends Modelica.Icons.Package;
           model PSTransformer
             constant Real pi=Modelica.Constants.pi;
             parameter Real SystemBase=100;
-            parameter Real Vbus1=20000 "Sending end Bus nominal voltage, change of base";
-            parameter Real Vbus2=20000 "Receiving end Bus voltage, change of base";
+            parameter Real Vbus1=20000
+              "Sending end Bus nominal voltage, change of base";
+            parameter Real Vbus2=20000
+              "Receiving end Bus voltage, change of base";
             parameter Real Sn=100 "Power rating MVA";
             parameter Real Vn1=20000 "Primary Voltage rating,KV";
             parameter Real Vn2=20000 "Secondary voltage rating, KV";
@@ -14683,11 +14718,15 @@ extends Modelica.Icons.Package;
           protected
             parameter Real Vb2new=Vbus1*Vbus1;
             parameter Real Vb2old=Vn1*Vn1;
-            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Resistance, p.u.";
+            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Reactance, p.u.";
             parameter Real pref=p_ref*(Sn/SystemBase);
-            parameter Real gt=R/(R^2 + X^2) "Converting resistance to conductance p.u.";
-            parameter Real bt=-X/(R^2 + X^2) "Converting reactance to susceptance p.u.";
+            parameter Real gt=R/(R^2 + X^2)
+              "Converting resistance to conductance p.u.";
+            parameter Real bt=-X/(R^2 + X^2)
+              "Converting reactance to susceptance p.u.";
           equation
             vk = sqrt(p.vr^2 + p.vi^2);
             vm = sqrt(n.vr^2 + n.vi^2);
@@ -14786,8 +14825,10 @@ extends Modelica.Icons.Package;
           model pst2 "Angle part of PST"
             constant Real pi=Modelica.Constants.pi;
             parameter Real SystemBase=100;
-            parameter Real Vbus1=20000 "Sending end Bus nominal voltage, change of base";
-            parameter Real Vbus2=20000 "Receiving end Bus voltage, change of base";
+            parameter Real Vbus1=20000
+              "Sending end Bus nominal voltage, change of base";
+            parameter Real Vbus2=20000
+              "Receiving end Bus voltage, change of base";
             parameter Real Sn=100 "Power rating MVA";
             parameter Real Vn1=20000 "Primary Voltage rating,KV";
             parameter Real Vn2=20000 "Secondary voltage rating, KV";
@@ -14801,10 +14842,13 @@ extends Modelica.Icons.Package;
             parameter Real xT=0.1 "Transformer Reactance, p.u.";
             parameter Real rT=0.01 "Transformer Resistance, p.u.";
             parameter Real m=0.98 "Transformer fixed tap  ratio, p.u./p.u.";
-            parameter Real alpha0=0.002062339234360 "Initial angle, from power flow";
+            parameter Real alpha0=0.002062339234360
+              "Initial angle, from power flow";
             parameter Real pmes0=0.01 "from power flow";
-            parameter Real vm0=1.007257703014177 "Receiving end bus voltage, from power flow";
-            parameter Real anglevm0=-0.009372077496959 "Receiving end bus angle, from power flow";
+            parameter Real vm0=1.007257703014177
+              "Receiving end bus voltage, from power flow";
+            parameter Real anglevm0=-0.009372077496959
+              "Receiving end bus angle, from power flow";
             Real vk;
             Real vm(start=vm0) "Voltage at secondary p.u.";
             Real anglevk "Angle at primary";
@@ -14817,11 +14861,15 @@ extends Modelica.Icons.Package;
           protected
             parameter Real Vb2new=Vbus1*Vbus1;
             parameter Real Vb2old=Vn1*Vn1;
-            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Resistance, p.u.";
+            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Reactance, p.u.";
             parameter Real pref=p_ref*(Sn/SystemBase);
-            parameter Real gt=R/(R^2 + X^2) "Converting resistance to conductance p.u.";
-            parameter Real bt=-X/(R^2 + X^2) "Converting reactance to susceptance p.u.";
+            parameter Real gt=R/(R^2 + X^2)
+              "Converting resistance to conductance p.u.";
+            parameter Real bt=-X/(R^2 + X^2)
+              "Converting reactance to susceptance p.u.";
           initial equation
             alpha = alpha0;
             pmes = pmes0;
@@ -14875,8 +14923,10 @@ extends Modelica.Icons.Package;
           model pst1 "Tap ratio part of the PST"
             constant Real pi=Modelica.Constants.pi;
             parameter Real SystemBase=100;
-            parameter Real Vbus1=20000 "Sending end Bus nominal voltage, change of base";
-            parameter Real Vbus2=20000 "Receiving end Bus voltage, change of base";
+            parameter Real Vbus1=20000
+              "Sending end Bus nominal voltage, change of base";
+            parameter Real Vbus2=20000
+              "Receiving end Bus voltage, change of base";
             parameter Real Sn=100 "Power rating MVA";
             parameter Real Vn1=20000 "Primary Voltage rating, V";
             parameter Real Vn2=20000 "Secondary voltage rating, V";
@@ -14890,10 +14940,13 @@ extends Modelica.Icons.Package;
             parameter Real xT=0.1 "Transformer Reactance, p.u.";
             parameter Real rT=0.01 "Transformer Resistance, p.u.";
             parameter Real m=0.98 "Transformer fixed tap  ratio, p.u./p.u.";
-            parameter Real alpha0=0.002062339234360 "Initial angle, from power flow";
+            parameter Real alpha0=0.002062339234360
+              "Initial angle, from power flow";
             parameter Real pmes0=0.01 "from power flow";
-            parameter Real vk0=0.997649085060455 "Sending end bus voltage, from power flow";
-            parameter Real anglevk0=-0.007392164704867 "Sending end bus angle, from power flow";
+            parameter Real vk0=0.997649085060455
+              "Sending end bus voltage, from power flow";
+            parameter Real anglevk0=-0.007392164704867
+              "Sending end bus angle, from power flow";
             Real vk(start=vk0) "Voltage at primary, p.u.";
             Real vm;
             Real anglevk(start=anglevk0);
@@ -14903,11 +14956,15 @@ extends Modelica.Icons.Package;
           protected
             parameter Real Vb2new=Vbus1*Vbus1;
             parameter Real Vb2old=Vn1*Vn1;
-            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Resistance, p.u.";
+            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Reactance, p.u.";
             parameter Real pref=p_ref*(Sn/SystemBase);
-            parameter Real gt=R/(R^2 + X^2) "Converting resistance to conductance p.u.";
-            parameter Real bt=-X/(R^2 + X^2) "Converting reactance to susceptance p.u.";
+            parameter Real gt=R/(R^2 + X^2)
+              "Converting resistance to conductance p.u.";
+            parameter Real bt=-X/(R^2 + X^2)
+              "Converting reactance to susceptance p.u.";
           equation
             vk = sqrt(p.vr^2 + p.vi^2);
             vm = sqrt(n.vr^2 + n.vi^2);
@@ -14940,8 +14997,10 @@ extends Modelica.Icons.Package;
           model PSTransformer
             constant Real pi=Modelica.Constants.pi;
             parameter Real SystemBase=100;
-            parameter Real Vbus1=20000 "Sending end Bus nominal voltage, change of base";
-            parameter Real Vbus2=20000 "Receiving end Bus voltage, change of base";
+            parameter Real Vbus1=20000
+              "Sending end Bus nominal voltage, change of base";
+            parameter Real Vbus2=20000
+              "Receiving end Bus voltage, change of base";
             parameter Real Sn=100 "Power rating MVA";
             parameter Real Vn1=20000 "Primary Voltage rating,KV";
             parameter Real Vn2=20000 "Secondary voltage rating, KV";
@@ -14955,12 +15014,17 @@ extends Modelica.Icons.Package;
             parameter Real xT=0.1 "Transformer Reactance, p.u.";
             parameter Real rT=0.01 "Transformer Resistance, p.u.";
             parameter Real m=0.98 "Transformer fixed tap  ratio, p.u./p.u.";
-            parameter Real alpha0=0.002062339234360 "Initial angle, from power flow";
+            parameter Real alpha0=0.002062339234360
+              "Initial angle, from power flow";
             parameter Real pmes0=0.01 "from power flow";
-            parameter Real vk0=0.997649085060455 "Sending end bus voltage, from power flow";
-            parameter Real vm0=1.007257703014177 "Receiving end bus voltage, from power flow";
-            parameter Real anglevk0=-0.007392164704867 "Sending end bus angle, from power flow";
-            parameter Real anglevm0=-0.009372077496959 "Receiving end bus angle, from power flow";
+            parameter Real vk0=0.997649085060455
+              "Sending end bus voltage, from power flow";
+            parameter Real vm0=1.007257703014177
+              "Receiving end bus voltage, from power flow";
+            parameter Real anglevk0=-0.007392164704867
+              "Sending end bus angle, from power flow";
+            parameter Real anglevm0=-0.009372077496959
+              "Receiving end bus angle, from power flow";
             Real vk(start=vk0);
             Real vm(start=vm0);
             Real anglevk(start=anglevk0);
@@ -15014,11 +15078,15 @@ extends Modelica.Icons.Package;
           protected
             parameter Real Vb2new=Vbus1*Vbus1;
             parameter Real Vb2old=Vn1*Vn1;
-            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Resistance, p.u.";
-            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn) "Transformer Reactance, p.u.";
+            parameter Real R=rT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Resistance, p.u.";
+            parameter Real X=xT*(Vb2old*SystemBase)/(Vb2new*Sn)
+              "Transformer Reactance, p.u.";
             parameter Real pref=p_ref*(Sn/SystemBase);
-            parameter Real gt=R/(R^2 + X^2) "Converting resistance to conductance p.u.";
-            parameter Real bt=-X/(R^2 + X^2) "Converting reactance to susceptance p.u.";
+            parameter Real gt=R/(R^2 + X^2)
+              "Converting resistance to conductance p.u.";
+            parameter Real bt=-X/(R^2 + X^2)
+              "Converting reactance to susceptance p.u.";
             parameter Real vr0=vk0*cos(anglevk0) "Initialitation";
             parameter Real vi0=vm0*sin(anglevk0) "Initialitation";
           equation
@@ -15114,7 +15182,8 @@ extends Modelica.Icons.Package;
 </html>"));
         end PhaseShiftingTransformer_1;
 
-        model TwoWindingTransformerFixedTapRatio "Modeled as series reactances without iron losses"
+        model TwoWindingTransformerFixedTapRatio
+          "Modeled as series reactances without iron losses"
           iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
           iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{100,-10},{120,10}})));
           parameter Real Sb=100 "System base power (MVA)" annotation (Dialog(group="Power flow data"));
@@ -15129,8 +15198,10 @@ extends Modelica.Icons.Package;
         protected
           parameter Real Vb2new=Vbus*Vbus;
           parameter Real Vb2old=Vn*Vn;
-          parameter Real xT=x*(Vb2old*Sb)/(Vb2new*Sn) "Reactance(inductive),p.u";
-          parameter Real rT=r*(Vb2old*Sb)/(Vb2new*Sn) "Reactance(capacitive),p.u";
+          parameter Real xT=x*(Vb2old*Sb)/(Vb2new*Sn)
+            "Reactance(inductive),p.u";
+          parameter Real rT=r*(Vb2old*Sb)/(Vb2new*Sn)
+            "Reactance(capacitive),p.u";
         equation
           rT*p.ir - xT*p.ii = 1/m^2*p.vr - 1/m*n.vr;
           rT*p.ii + xT*p.ir = 1/m^2*p.vi - 1/m*n.vi;
@@ -15180,7 +15251,8 @@ extends Modelica.Icons.Package;
                   {-22,12}}, color={28,108,200})}));
         end TwoWindingTransformerFixedTapRatio;
 
-        model TWTransformerWithFixedTapRatio "Modeled as series reactances without iron losses"
+        model TWTransformerWithFixedTapRatio
+          "Modeled as series reactances without iron losses"
           outer iPSL.Electrical.SystemBase SysData;
 
           iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
@@ -15197,7 +15269,8 @@ extends Modelica.Icons.Package;
         protected
           parameter Real Vb2new=Vbus*Vbus;
           parameter Real Vb2old=Vn1*Vn1;
-          parameter Real xT=X*(Vb2old*SystemBase)/(Vb2new*Sn) "Reactance(inductive),p.u";
+          parameter Real xT=X*(Vb2old*SystemBase)/(Vb2new*Sn)
+            "Reactance(inductive),p.u";
           parameter Real rT=R*(Vb2old*SystemBase)/(Vb2new*Sn) "Resistance,p.u";
         equation
           rT*p.ir - xT*p.ii = 1/m^2*p.vr - 1/m*n.vr;
@@ -15441,7 +15514,8 @@ extends Modelica.Icons.Package;
           Real Mi;
           Real LMD;
           Real LMQ;
-          parameter Real omega0=2*3.14159265*50 "Nominal network angular frequency";
+          parameter Real omega0=2*3.14159265*50
+            "Nominal network angular frequency";
           parameter Real SNREF=100 "MVA system base";
           parameter Real SN=1150 "Nominal apparent power (MVA)";
           parameter Real PN=1000 "Nominal turbine (active) power (MW)";
@@ -15455,11 +15529,14 @@ extends Modelica.Icons.Package;
           parameter Real lD=0.12825*yscale "d axis damper winding leakage";
           parameter Real rD=0.01723*yscale "d axis damper winding resistance";
           parameter Real rQ1=0.0193*yscale "q axis damper 1 winding resistance";
-          parameter Real rQ2=0.03923*yscale "q axis damper 2 winding resistance";
+          parameter Real rQ2=0.03923*yscale
+            "q axis damper 2 winding resistance";
           parameter Real lQ1=0.08921*yscale "q axis damper 1 winding leakeage";
           parameter Real lQ2=1.78484*yscale "q axis damper 2 winding leakeage";
-          parameter Real RT=0 "Machine transformer resistance (pu), enter value*SNREF/SNtfo";
-          parameter Real XT=0 "Machine transformer reactance (pu), enter value*SNREF/SNtfo";
+          parameter Real RT=0
+            "Machine transformer resistance (pu), enter value*SNREF/SNtfo";
+          parameter Real XT=0
+            "Machine transformer reactance (pu), enter value*SNREF/SNtfo";
           parameter Real Md0=2.351*yscale "d axis mutual inductance";
           parameter Real Mq0=2.351*yscale "q axis mutual inductance";
           parameter Real Mdv=0.7459*yscale;
@@ -15635,13 +15712,13 @@ extends Modelica.Icons.Package;
           parameter Real init_LMQ = 1.0/(1.0/init_Mq + Slq);
           //parameters coming from .lf
           parameter Real ur0 = 1
-          "Initial real voltage component p.u. in the SNREF base";
+            "Initial real voltage component p.u. in the SNREF base";
           parameter Real ui0 = 0
-          "Initial imaginary voltage component p.u. in the SNREF base";
+            "Initial imaginary voltage component p.u. in the SNREF base";
           //parameter Real ir0 = 1;
           //parameter Real ii0 = 0;
-          //parameter Real p0_0 = 0 "Initial active power";
-          //parameter Real q0_0 = 0 "Initial active power";
+          parameter Real P_0 = 0 "Initial active power (MW)";
+          parameter Real Q_0 = 0 "Initial active power (MVA)";
           //General parameters.
           parameter Real omega0 = 2 * 3.14159265 * 50
             "Nominal network angular frequency";
@@ -15652,19 +15729,22 @@ extends Modelica.Icons.Package;
           //per-unit in the machine SN base
           parameter Real rStatIn = 0.004
             "Stator resistance p.u. in the machine SN base";
-          parameter Real lStatIn = 0.219 "Stator leakage p.u. in the machine SN base";
+          parameter Real lStatIn = 0.219
+            "Stator leakage p.u. in the machine SN base";
           parameter Real mD0Pu = 2.351
             "d axis mutual inductance p.u. in the machine SN base";
           parameter Real WLMDVPu = 0.7459
             "d axis mutual inductance corresponding to magnetic condition taken for setting the voltage regulator";
-          parameter Real mCanPu = 0.0 "CANAY's inductance p.u. in the machine SN base";
+          parameter Real mCanPu = 0.0
+            "CANAY's inductance p.u. in the machine SN base";
           parameter Real rDPu = 0.01723
             "d axis damper winding resistance p.u. in the machine SN base";
           parameter Real lDPu = 0.12825
             "d axis damper winding leakage p.u. in the machine SN base";
           parameter Real rRotIn = 0.00113
             "Rotor resistance p.u. in the machine SN base";
-          parameter Real lRotIn = 0.24253 "Rotor leakage p.u. in the machine SN base";
+          parameter Real lRotIn = 0.24253
+            "Rotor leakage p.u. in the machine SN base";
           parameter Real mQ0Pu = 2.351
             "q axis mutual inductance p.u. in the machine SN base";
           parameter Real rQ1Pu = 0.0193
@@ -15703,10 +15783,14 @@ extends Modelica.Icons.Package;
           parameter Real mrc = mCanPu * yscale "CANAY's inductance";
           parameter Real lD = lDPu * yscale "d axis damper winding leakage";
           parameter Real rD = rDPu * yscale "d axis damper winding resistance";
-          parameter Real rQ1 = rQ1Pu * yscale "q axis damper 1 winding resistance";
-          parameter Real rQ2 = rQ2Pu * yscale "q axis damper 2 winding resistance";
-          parameter Real lQ1 = lQ1Pu * yscale "q axis damper 1 winding leakeage";
-          parameter Real lQ2 = lQ2Pu * yscale "q axis damper 2 winding leakeage";
+          parameter Real rQ1 = rQ1Pu * yscale
+            "q axis damper 1 winding resistance";
+          parameter Real rQ2 = rQ2Pu * yscale
+            "q axis damper 2 winding resistance";
+          parameter Real lQ1 = lQ1Pu * yscale
+            "q axis damper 1 winding leakeage";
+          parameter Real lQ2 = lQ2Pu * yscale
+            "q axis damper 2 winding leakeage";
           parameter Real RT = RTfoPu * SNREF / SNtfo * rtfo * rtfo
             "Machine transformer resistance (p.u.), enter value*SNREF/SNtfo";
           parameter Real XT = XTfoPu * SNREF / SNtfo * rtfo * rtfo
@@ -15969,7 +16053,7 @@ extends Modelica.Icons.Package;
           Real ur(start = ur0, fixed = true);
           Real ui(start = ui0, fixed = true);
           Real lambdaf(start = init_lambdaf, fixed = true);
-          Real lambdad(start = init_lambdad, fixed = false);
+          Real lambdad(start = init_lambdad);
           Real lambdaad(start = init_lambdaad);
           Real lambdaaq(start = init_lambdaaq);
           Real lambdaq1(start = init_lambdaq1, fixed = true);
@@ -16009,7 +16093,8 @@ extends Modelica.Icons.Package;
           parameter Real init_LMQ = 1.0/(1.0/init_Mq + Slq);
 
           // GENERAL PARAMETERS
-          parameter Real omega0=2*3.14159265*50 "Nominal network angular frequency";
+          parameter Real omega0=2*3.14159265*50
+            "Nominal network angular frequency";
           parameter Real SNREF=100 "MVA system base";
           parameter Real SN=1150 "Nominal apparent power (MVA)";
           parameter Real PN=1000 "Nominal turbine (active) power (MW)";
@@ -16019,15 +16104,16 @@ extends Modelica.Icons.Package;
           parameter Real IENR=3 "number of windings";
           // PARAMETERS COMING FROM LF
           parameter Real ur0 = 1
-          "Initial real voltage component p.u. in the SNREF base";
+            "Initial real voltage component p.u. in the SNREF base";
           parameter Real ui0 = 0
-          "Initial imaginary voltage component p.u. in the SNREF base";
+            "Initial imaginary voltage component p.u. in the SNREF base";
             //   parameter Real ir0 = 1;
             //   parameter Real ii0 = 0;
-         // parameter Real p0_0=0 "Initial active power";
-         // parameter Real q0_0=0 "Initial active power";
+          parameter Real P_0=0 "Initial active power (MW)";
+          parameter Real Q_0=0 "Initial active power (MVA)";
           // EXTERNAL PARAMETERS (GIVEN) per-unit in the machine SN base.
-          parameter Real rStatIn=0 "Stator resistance p.u. in the machine SN base";
+          parameter Real rStatIn=0
+            "Stator resistance p.u. in the machine SN base";
           parameter Real lStatIn=0 "Stator leakage p.u. in the machine SN base";
           parameter Real WLMDVPu=0
             "d axis mutual inductance corresponding to magnetic condition taken for setting the voltage regulator";
@@ -16058,7 +16144,8 @@ extends Modelica.Icons.Package;
             "d axis damper winding leakage p.u. in the machine SN base";
           parameter Real rRotIn=extern.rf
             "Rotor resistance p.u. in the machine SN base";
-          parameter Real lRotIn=extern.lf "Rotor leakage p.u. in the machine SN base";
+          parameter Real lRotIn=extern.lf
+            "Rotor leakage p.u. in the machine SN base";
           parameter Real mQ0Pu=extern.mQ0Pu_
             "q axis mutual inductance p.u. in the machine SN base";
           parameter Real mD0Pu=extern.mD0Pu_
@@ -17091,7 +17178,8 @@ extends Modelica.Icons.Package;
             "d axis damper winding leakage p.u. in the machine SN base";
           parameter Real rRotIn=extern.rf
             "Rotor resistance p.u. in the machine SN base";
-          parameter Real lRotIn=extern.lf "Rotor leakage p.u. in the machine SN base";
+          parameter Real lRotIn=extern.lf
+            "Rotor leakage p.u. in the machine SN base";
           parameter Real rQ1Pu=extern.rQ1
             "q axis damper 1 winding resistance p.u. in the machine SN base";
           parameter Real lQ1Pu=extern.lQ1
@@ -17544,7 +17632,8 @@ extends Modelica.Icons.Package;
 
         package SecondOrder
 
-          model Order2 "Second Order Synchronous Machine with Inputs and Outputs"
+          model Order2
+            "Second Order Synchronous Machine with Inputs and Outputs"
             import Modelica.Constants.pi;
             extends BaseClasses.baseMachine(
               delta(start=delta0),
@@ -17562,13 +17651,19 @@ extends Modelica.Icons.Package;
             parameter Real c2=x1d*K "CONSTANT";
             parameter Real c3=x1d*K " CONSTANT";
             parameter Real K=1/(Ra*Ra + x1d*x1d) "CONSTANT";
-            parameter Real delta0=atan2(vi0 + Ra*ii0 + x1d*ir0, vr0 + Ra*ir0 - x1d*ii0) "Initial rotor angle";
-            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0 "Initialitation";
+            parameter Real delta0=atan2(vi0 + Ra*ii0 + x1d*ir0, vr0 + Ra*ir0 - x1d*ii0)
+              "Initial rotor angle";
+            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0
+              "Initialitation";
             parameter Real vf00=vq0 + Ra*iq0 + x1d*id0 "Initialitation";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
           equation
             id = (-c1*vd) - c3*vq + vf*c3;
             iq = c2*vd - c1*vq + vf*c1;
@@ -17643,7 +17738,8 @@ extends Modelica.Icons.Package;
 
         package ThirdOrder
 
-          model Order3 "Third Order Synchronous Machine with Inputs and Outputs"
+          model Order3
+            "Third Order Synchronous Machine with Inputs and Outputs"
             import Modelica.Constants.pi;
             extends BaseClasses.baseMachine(
               delta(start=delta0),
@@ -17657,7 +17753,8 @@ extends Modelica.Icons.Package;
               iq(start=iq0),
               id(start=id0));
             parameter Real xd "d-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td10 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Td10
+              "d-axis open circuit transient time constant (s)"                   annotation (Dialog(group="Machine parameters"));
             parameter Real xq "q-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
             //Base changing
             Real e1q(start=e1q0) "q-axis transient voltage (pu)";
@@ -17670,12 +17767,18 @@ extends Modelica.Icons.Package;
             parameter Real c2=x1d*K "CONSTANT";
             parameter Real c3=Xq*K " CONSTANT";
             parameter Real K=1/(Ra*Ra + Xq*x1d) "CONSTANT";
-            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0) "Initialitation";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0 "Initialitation";
+            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0)
+              "Initialitation";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0
+              "Initialitation";
             parameter Real vf00=e1q0 + (Xd - x1d)*id0 "Initialitation";
             parameter Real e1q0=vq0 + Ra*iq0 + x1d*id0 "Initialitation";
           initial equation
@@ -17755,7 +17858,8 @@ extends Modelica.Icons.Package;
 
         package FourthOrder
 
-          model Order4 "Fourth Order Synchronous Machine with Inputs and Outputs"
+          model Order4
+            "Fourth Order Synchronous Machine with Inputs and Outputs"
             import Modelica.Constants.pi;
             extends BaseClasses.baseMachine(
               delta(start=delta0),
@@ -17771,20 +17875,29 @@ extends Modelica.Icons.Package;
             parameter Real xd=1.9 "d-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xq=1.7 "q-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xq1=0.5 "q-axis transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td10=8 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tq10=0.8 "q-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Td10=8
+              "d-axis open circuit transient time constant (s)"                     annotation (Dialog(group="Machine parameters"));
+            parameter Real Tq10=0.8
+              "q-axis open circuit transient time constant (s)"                       annotation (Dialog(group="Machine parameters"));
             Real e1q(start=e1q0) "q-axis transient voltage (pu)";
             Real e1d(start=e1d0) "d-axis transient voltage (pu)";
           protected
             parameter Real Xd=xd*CoB "d-axis reactance, p.u.";
             parameter Real Xq=xq*CoB "q-axis reactance, p.u.";
-            parameter Real x1q=xq1*CoB "q-axis transient reactance, p.u.(only for order IV,V.1,VI,VIII)*";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0) "Initialitation";
-            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0 "Initialitation";
+            parameter Real x1q=xq1*CoB
+              "q-axis transient reactance, p.u.(only for order IV,V.1,VI,VIII)*";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0)
+              "Initialitation";
+            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0
+              "Initialitation";
             parameter Real vf00=e1q0 + (Xd - x1d)*id0 "Initialitation";
             parameter Real e1q0=vq0 + Ra*iq0 + x1d*id0 "Initialitation";
             parameter Real e1d0=vd0 + Ra*id0 - x1q*iq0 "Initialitation *";
@@ -17792,7 +17905,8 @@ extends Modelica.Icons.Package;
             der(e1q) = ((-e1q) - (Xd - x1d)*id + vf)/Td10;
             der(e1d) = ((-e1d) + (Xq - x1q)*iq)/Tq10 "differential equations *";
             e1q = vq + Ra*iq + x1d*id;
-            e1d = vd + Ra*id - x1q*iq "relation between voltages and currents *";
+            e1d = vd + Ra*id - x1q*iq
+              "relation between voltages and currents *";
             pm0 = pm00;
             vf0 = vf00;
             annotation (
@@ -17880,30 +17994,42 @@ extends Modelica.Icons.Package;
             parameter Real xd=1.9 "d-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xq=1.7 "q-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xq1=0.5 "q-axis transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td10=8 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tq10=0.8 "q-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tq20=0.02 "q-axis open circuit sub-transient time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Td10=8
+              "d-axis open circuit transient time constant (s)"                     annotation (Dialog(group="Machine parameters"));
+            parameter Real Tq10=0.8
+              "q-axis open circuit transient time constant (s)"                       annotation (Dialog(group="Machine parameters"));
+            parameter Real Tq20=0.02
+              "q-axis open circuit sub-transient time constant (s)"                        annotation (Dialog(group="Machine parameters"));
             Real e1q(start=e1q0) "q-axis transient voltage";
             Real e1d(start=e1d0) "d-axis transient voltage";
             Real e2d(start=e2d0) "d-axis sub-transient voltage";
           protected
             parameter Real Xd=xd*CoB "d-axis reactance, p.u.";
             parameter Real Xq=xq*CoB "q-axis reactance, p.u.";
-            parameter Real x1q=xq1*CoB "q-axis transient reactance, p.u.(only for order IV,V.1,VI,VIII)*";
-            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0) "Initialitation";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0 "Initialitation";
+            parameter Real x1q=xq1*CoB
+              "q-axis transient reactance, p.u.(only for order IV,V.1,VI,VIII)*";
+            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0)
+              "Initialitation";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0
+              "Initialitation";
             parameter Real vf00=e1q0 + (Xd - x1d)*id0 "Initialitation";
             parameter Real e1q0=vq0 + Ra*iq0 + x1d*id0 "Initialitation";
             parameter Real e1d0=vd0 + Ra*id0 - x1q*iq0 "Initialitation*";
             parameter Real e2d0=vd0 + Ra*id0 - x1q*iq0 "Initialitation*/";
           equation
             der(e1q) = ((-e1q) - (Xd - x1d)*id + vf)/Td10;
-            der(e1d) = ((-e1d) + (Xq - x1q - Tq20/Tq10*x1d/x1q*(Xq - x1q))*iq)/Tq10 "differential equations/";
-            der(e2d) = ((-e2d) + e1d + (x1q - x1d + Tq20/Tq10*x1d/x1q*(Xq - x1q))*iq)/Tq20 "differential equations/";
+            der(e1d) = ((-e1d) + (Xq - x1q - Tq20/Tq10*x1d/x1q*(Xq - x1q))*iq)/Tq10
+              "differential equations/";
+            der(e2d) = ((-e2d) + e1d + (x1q - x1d + Tq20/Tq10*x1d/x1q*(Xq - x1q))*iq)/Tq20
+              "differential equations/";
             e1q = vq + Ra*iq + x1d*id;
             e2d = vd + Ra*id - x1q*iq "relation between voltages and currents/";
             pm0 = pm00;
@@ -17977,24 +18103,36 @@ extends Modelica.Icons.Package;
             parameter Real xq=1.7 "q-axis synchronous reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xd2=0.204 "d-axis sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xq2=0.3 "q-axis sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td10=8 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td20=0.8 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tq20=0.02 "q-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Taa=0.002 "d-axis aditional leakage time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Td10=8
+              "d-axis open circuit transient time constant (s)"                     annotation (Dialog(group="Machine parameters"));
+            parameter Real Td20=0.8
+              "d-axis open circuit transient time constant (s)"                       annotation (Dialog(group="Machine parameters"));
+            parameter Real Tq20=0.02
+              "q-axis open circuit transient time constant (s)"                        annotation (Dialog(group="Machine parameters"));
+            parameter Real Taa=0.002
+              "d-axis aditional leakage time constant (s)"                        annotation (Dialog(group="Machine parameters"));
             Real e1q(start=e1q0) "q-axis transient voltage";
             Real e2q(start=e2q0) "q-axis sub-transient voltage";
             Real e2d(start=e2d0) "d-axis sub-transient voltage";
           protected
             parameter Real Xd=xd*CoB "d-axis reactance, p.u.";
-            parameter Real x2d=xd2*CoB "d-axis sub-transient reactance, p.u.(only for V.2,VI,VIII)";
+            parameter Real x2d=xd2*CoB
+              "d-axis sub-transient reactance, p.u.(only for V.2,VI,VIII)";
             parameter Real Xq=xq*CoB "q-axis reactance, p.u.";
-            parameter Real x2q=xq2*CoB "q-axis sub-trasient reactance, p.u.(only for V.2,VI,VIII)";
-            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0) "Initialitation";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0 "Initialitation";
+            parameter Real x2q=xq2*CoB
+              "q-axis sub-trasient reactance, p.u.(only for V.2,VI,VIII)";
+            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0)
+              "Initialitation";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0
+              "Initialitation";
             parameter Real e2q0=vq0 + Ra*iq0 + x2d*id0 "Initialitation";
             parameter Real e2d0=vd0 + Ra*id0 - x2q*iq0 "Initialitation";
             parameter Real K1=Xd - x1d - Td20/Td10*x2d/x1d*(Xd - x1d);
@@ -18004,7 +18142,8 @@ extends Modelica.Icons.Package;
           equation
             der(e1q) = ((-e1q) - (Xd - x1d - Td20/Td10*x2d/x1d*(Xd - x1d))*id + (1 - Taa/Td10)*vf)/Td10;
             der(e2d) = ((-e2d) + (Xq - x2q)*iq)/Tq20;
-            der(e2q) = ((-e2q) + e1q - (x1d - x2d + Td20/Td10*x2d/x1d*(Xd - x1d))*id + Taa/Td10*vf)/Td20 "differential equations";
+            der(e2q) = ((-e2q) + e1q - (x1d - x2d + Td20/Td10*x2d/x1d*(Xd - x1d))*id + Taa/Td10*vf)/Td20
+              "differential equations";
             e2q = vq + Ra*iq + x2d*id;
             e2d = vd + Ra*id - x2q*iq "relation between voltages and currents";
             pm0 = pm00;
@@ -18099,27 +18238,40 @@ extends Modelica.Icons.Package;
             parameter Real xq1=0.5 "q-axis transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xd2=0.204 "d-axis sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
             parameter Real xq2=0.3 "q-axis sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td10=8 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tq10=0.8 "q-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Td20=0.04 "d-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tq20=0.02 "q-axis open circuit transient time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Taa=2e-3 "d-axis aditional leakage time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Td10=8
+              "d-axis open circuit transient time constant (s)"                     annotation (Dialog(group="Machine parameters"));
+            parameter Real Tq10=0.8
+              "q-axis open circuit transient time constant (s)"                       annotation (Dialog(group="Machine parameters"));
+            parameter Real Td20=0.04
+              "d-axis open circuit transient time constant (s)"                        annotation (Dialog(group="Machine parameters"));
+            parameter Real Tq20=0.02
+              "q-axis open circuit transient time constant (s)"                        annotation (Dialog(group="Machine parameters"));
+            parameter Real Taa=2e-3
+              "d-axis aditional leakage time constant (s)"                       annotation (Dialog(group="Machine parameters"));
             Real e1q(start=e1q0) "q-axis transient voltage";
             Real e1d(start=e1d0) "d-axis transient voltage";
             Real e2q(start=e2q0) "q-axis sub-transient voltage";
             Real e2d(start=e2d0) "d-axis sub-transient voltage";
           protected
             parameter Real Xd=xd*CoB "d-axis reactance, p.u.";
-            parameter Real x2d=xd2*CoB "d-axis sub-transient reactance, p.u.(only for V.2,VI,VIII)";
+            parameter Real x2d=xd2*CoB
+              "d-axis sub-transient reactance, p.u.(only for V.2,VI,VIII)";
             parameter Real Xq=xq*CoB "q-axis reactance, p.u.";
             parameter Real x1q=xq1*CoB "q-axis reactance, p.u.";
-            parameter Real x2q=xq2*CoB "q-axis sub-trasient reactance, p.u.(only for V.2,VI,VIII)";
-            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0) "Initialitation";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0 "Initialitation";
+            parameter Real x2q=xq2*CoB
+              "q-axis sub-trasient reactance, p.u.(only for V.2,VI,VIII)";
+            parameter Real delta0=atan2(vi0 + Ra*ii0 + Xq*ir0, vr0 + Ra*ir0 - Xq*ii0)
+              "Initialitation";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real pm00=(vq0 + Ra*iq0)*iq0 + (vd0 + Ra*id0)*id0
+              "Initialitation";
             parameter Real e2q0=vq0 + Ra*iq0 + x2d*id0 "Initialitation";
             parameter Real e2d0=vd0 + Ra*id0 - x2q*iq0 "Initialitation";
             parameter Real e1d0=(Xq - x1q - Tq20/Tq10*x2q/x1q*(Xq - x1q))*iq0;
@@ -18131,7 +18283,8 @@ extends Modelica.Icons.Package;
             der(e1q) = ((-e1q) - (Xd - x1d - Td20/Td10*x2d/x1d*(Xd - x1d))*id + (1 - Taa/Td10)*vf)/Td10;
             der(e1d) = ((-e1d) + (Xq - x1q - Tq20/Tq10*x2q/x1q*(Xq - x1q))*iq)/Tq10;
             der(e2d) = ((-e2d) + e1d + (x1q - x2q + Tq20/Tq10*x2q/x1q*(Xq - x1q))*iq)/Tq20;
-            der(e2q) = ((-e2q) + e1q - (x1d - x2d + Td20/Td10*x2d/x1d*(Xd - x1d))*id + Taa/Td10*vf)/Td20 "differential equations";
+            der(e2q) = ((-e2q) + e1q - (x1d - x2d + Td20/Td10*x2d/x1d*(Xd - x1d))*id + Taa/Td10*vf)/Td20
+              "differential equations";
             e2q = vq + Ra*iq + x2d*id;
             e2d = vd + Ra*id - x2q*iq;
             pm0 = pm00;
@@ -18594,6 +18747,7 @@ extends Modelica.Icons.Package;
 
         package BaseClasses
 
+
           partial model baseMachine
             extends iPSL.Electrical.Essentials.pfComponent;
             import Modelica.Constants.pi;
@@ -18718,8 +18872,10 @@ extends Modelica.Icons.Package;
           protected
             parameter Real vr0=V_0*cos(angle_0/180*pi) "Initialitation";
             parameter Real vi0=V_0*sin(angle_0/180*pi) "Initialitation";
-            parameter Real ir0=(P_0/S_b*vr0 + Q_0/S_b*vi0)/(vr0^2 + vi0^2) "Initialitation";
-            parameter Real ii0=(P_0/S_b*vi0 - Q_0/S_b*vr0)/(vr0^2 + vi0^2) "Initialitation";
+            parameter Real ir0=(P_0/S_b*vr0 + Q_0/S_b*vi0)/(vr0^2 + vi0^2)
+              "Initialitation";
+            parameter Real ii0=(P_0/S_b*vi0 - Q_0/S_b*vr0)/(vr0^2 + vi0^2)
+              "Initialitation";
             //Change of base constants
             parameter Real CoB=S_b*Vn/(Sn*V_b);
             parameter Real CoB2=S_b/Sn;
@@ -19058,7 +19214,8 @@ extends Modelica.Icons.Package;
 
         package GENSAL
 
-          model GENSAL "SALIENT POLE GENERATOR MODEL (QUADRATIC SATURATION ON D-AXIS)"
+          model GENSAL
+            "SALIENT POLE GENERATOR MODEL (QUADRATIC SATURATION ON D-AXIS)"
             // Import of Dependencies
             import iPSL.NonElectrical.Functions.SE;
             import Modelica.Constants.pi;
@@ -19082,7 +19239,8 @@ extends Modelica.Icons.Package;
               ud(start=ud0),
               uq(start=uq0),
               Te(start=pm0));
-            Real Epq(start=Epq0) "q-axis voltage behind transient reactance (pu)";
+            Real Epq(start=Epq0)
+              "q-axis voltage behind transient reactance (pu)";
             Real PSIkd(start=PSIkd0) "d-axis rotor flux linkage (pu)";
             Real PSIppq(start=PSIppq0) "q-axis subtransient flux linkage (pu)";
             Real PSIppd(start=PSIppd0) "d-axis subtransient flux linkage (pu)";
@@ -19096,20 +19254,30 @@ extends Modelica.Icons.Package;
             parameter Complex a(re=0, im=Xq - Xppd);
             parameter Complex Epqp=PSIpp0 + a*It;
             parameter Real delta0=arg(Epqp) "rotor angle in radians";
-            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad)) "Complex terminal voltage";
+            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad))
+              "Complex terminal voltage";
             parameter Complex S(re=p0, im=q0) "Complex power on machine base";
             parameter Complex It=conj(S/VT) "Terminal current";
-            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0)) "Parks transformation";
+            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0))
+              "Parks transformation";
             parameter Complex I_dq=conj(It*DQ_dq);
             //Initialization of current and voltage components in synchronous reference frame.
-            parameter Real iq0=real(I_dq) "q-axis component of intitial current";
-            parameter Real id0=imag(I_dq) "d-axis component of intitial current";
-            parameter Real ud0=V_0*cos(anglev_rad - delta0 + pi/2) "d-axis component of intitial voltage";
-            parameter Real uq0=V_0*sin(anglev_rad - delta0 + pi/2) "q-axis component of intitial voltage";
-            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq "Flux linkage in rotor reference frame";
-            parameter Real PSIppq0=-imag(PSIpp0_dq) "q-axis component of the sub-transient flux linkage";
-            parameter Real PSIppd0=real(PSIpp0_dq) "d-axis component of the sub-transient flux linkage";
-            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d) "d-axis initial rotor flux linkage";
+            parameter Real iq0=real(I_dq)
+              "q-axis component of intitial current";
+            parameter Real id0=imag(I_dq)
+              "d-axis component of intitial current";
+            parameter Real ud0=V_0*cos(anglev_rad - delta0 + pi/2)
+              "d-axis component of intitial voltage";
+            parameter Real uq0=V_0*sin(anglev_rad - delta0 + pi/2)
+              "q-axis component of intitial voltage";
+            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq
+              "Flux linkage in rotor reference frame";
+            parameter Real PSIppq0=-imag(PSIpp0_dq)
+              "q-axis component of the sub-transient flux linkage";
+            parameter Real PSIppd0=real(PSIpp0_dq)
+              "d-axis component of the sub-transient flux linkage";
+            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d)
+              "d-axis initial rotor flux linkage";
             parameter Real PSId0=PSIppd0 - Xppd*id0;
             parameter Real PSIq0=(-PSIppq0) - Xppq*iq0;
             //Initialization mechanical power and field voltage.
@@ -19120,8 +19288,10 @@ extends Modelica.Icons.Package;
                 S12,
                 1,
                 1.2);
-            parameter Real efd0=Epq0*(1 + dsat) + (Xd - Xpd)*id0 "Initial field voltage magnitude";
-            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0 "Initial mechanical power, machine base";
+            parameter Real efd0=Epq0*(1 + dsat) + (Xd - Xpd)*id0
+              "Initial field voltage magnitude";
+            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0
+              "Initial mechanical power, machine base";
             // Constants
             parameter Real K1d=(Xpd - Xppd)*(Xd - Xpd)/(Xpd - Xl)^2;
             parameter Real K2d=(Xpd - Xl)*(Xppd - Xl)/(Xpd - Xppd);
@@ -19240,9 +19410,11 @@ extends Modelica.Icons.Package;
               Te(start=pm0));
             //Machine parameters
             parameter Real Xpq "Sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tpq0 "q-axis transient open-circuit time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Tpq0
+              "q-axis transient open-circuit time constant (s)"                   annotation (Dialog(group="Machine parameters"));
             parameter Real Xpp=Xppd "Sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            Real Epd(start=Epd0) "d-axis voltage behind transient reactance (pu)";
+            Real Epd(start=Epd0)
+              "d-axis voltage behind transient reactance (pu)";
             Real Epq(start=Epq0) "q-axis voltage behind transient reactance ";
             Real PSIkd(start=PSIkd0) "d-axis rotor flux linkage (pu)";
             Real PSIkq(start=PSIkq0) "q-axis rotor flux linkage (pu)";
@@ -19256,15 +19428,20 @@ extends Modelica.Icons.Package;
             Real XaqIlq(start=0) "q-axis Machine field current (pu)";
           protected
             parameter Complex Zs(re=R_a, im=Xpp) "Equivalent impedance";
-            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad)) "Complex terminal voltage";
+            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad))
+              "Complex terminal voltage";
             parameter Complex S(re=p0, im=q0) "Complex power on machine base";
             parameter Complex It=conj(S/VT) "Complex current, machine base";
-            parameter Complex Is=It + VT/Zs "Equivalent internal current source";
-            parameter Complex PSIpp0=Zs*Is "Sub-transient flux linkage in stator reference frame";
+            parameter Complex Is=It + VT/Zs
+              "Equivalent internal current source";
+            parameter Complex PSIpp0=Zs*Is
+              "Sub-transient flux linkage in stator reference frame";
             parameter Real ang_PSIpp0=arg(PSIpp0) "flux angle";
             parameter Real ang_It=arg(It) "current angle";
-            parameter Real ang_PSIpp0andIt=ang_PSIpp0 - ang_It "angle difference";
-            parameter Real abs_PSIpp0='abs'(PSIpp0) "magnitude of sub-transient flux linkage";
+            parameter Real ang_PSIpp0andIt=ang_PSIpp0 - ang_It
+              "angle difference";
+            parameter Real abs_PSIpp0='abs'(PSIpp0)
+              "magnitude of sub-transient flux linkage";
             parameter Real dsat=SE(
                 abs_PSIpp0,
                 S10,
@@ -19274,32 +19451,49 @@ extends Modelica.Icons.Package;
             parameter Real a=abs_PSIpp0 + abs_PSIpp0*dsat*(Xq - Xl)/(Xd - Xl);
             parameter Real b=(It.re^2 + It.im^2)^0.5*(Xpp - Xq);
             //Initializion rotor angle position
-            parameter Real delta0=atan(b*cos(ang_PSIpp0andIt)/(b*sin(ang_PSIpp0andIt) - a)) + ang_PSIpp0 "intial rotor angle in radians";
-            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0)) "Parks transformation, from stator to rotor reference frame";
-            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq "Flux linkage in rotor reference frame";
+            parameter Real delta0=atan(b*cos(ang_PSIpp0andIt)/(b*sin(ang_PSIpp0andIt) - a)) + ang_PSIpp0
+              "intial rotor angle in radians";
+            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0))
+              "Parks transformation, from stator to rotor reference frame";
+            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq
+              "Flux linkage in rotor reference frame";
             parameter Complex I_dq=conj(It*DQ_dq);
             //"The terminal current in rotor reference frame"
-            parameter Real PSIppq0=imag(PSIpp0_dq) "q-axis component of the sub-transient flux linkage";
-            parameter Real PSIppd0=real(PSIpp0_dq) "d-axis component of the sub-transient flux linkage";
+            parameter Real PSIppq0=imag(PSIpp0_dq)
+              "q-axis component of the sub-transient flux linkage";
+            parameter Real PSIppd0=real(PSIpp0_dq)
+              "d-axis component of the sub-transient flux linkage";
             //Initialization of current and voltage components in rotor reference frame (dq-axes).
             parameter Real delta1=delta0*180/pi "rotor angle in degrees";
-            parameter Real iq0=real(I_dq) "q-axis component of intitial current";
-            parameter Real id0=imag(I_dq) "d-axis component of intitial current";
-            parameter Real ud0=(-(PSIppq0 - Xppq*iq0)) - R_a*id0 "d-axis component of intitial voltage";
-            parameter Real uq0=PSIppd0 - Xppd*id0 - R_a*iq0 "q-axis component of intitial voltage";
+            parameter Real iq0=real(I_dq)
+              "q-axis component of intitial current";
+            parameter Real id0=imag(I_dq)
+              "d-axis component of intitial current";
+            parameter Real ud0=(-(PSIppq0 - Xppq*iq0)) - R_a*id0
+              "d-axis component of intitial voltage";
+            parameter Real uq0=PSIppd0 - Xppd*id0 - R_a*iq0
+              "q-axis component of intitial voltage";
             //Initialization current and voltage components in synchronous reference frame.
-            parameter Real vr0=V_0*cos(anglev_rad) "Real component of initial terminal voltage";
-            parameter Real vi0=V_0*sin(anglev_rad) "Imaginary component of intitial terminal voltage";
-            parameter Real ir0=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, systembase";
-            parameter Real ii0=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, systembase";
+            parameter Real vr0=V_0*cos(anglev_rad)
+              "Real component of initial terminal voltage";
+            parameter Real vi0=V_0*sin(anglev_rad)
+              "Imaginary component of intitial terminal voltage";
+            parameter Real ir0=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, systembase";
+            parameter Real ii0=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, systembase";
             //Initialization mechanical power and field voltage.
-            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0 "Initial mechanical power, machine base";
-            parameter Real efd0=dsat*PSIppd0 + PSIppd0 + (Xpd - Xpp)*id0 + (Xd - Xpd)*id0 "Initial field voltage magnitude";
+            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0
+              "Initial mechanical power, machine base";
+            parameter Real efd0=dsat*PSIppd0 + PSIppd0 + (Xpd - Xpp)*id0 + (Xd - Xpd)*id0
+              "Initial field voltage magnitude";
             parameter Real Epq0=PSIkd0 + (Xpd - Xl)*id0;
             parameter Real Epd0=PSIkq0 - (Xpq - Xl)*iq0;
             //Initialize remaining states:
-            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d) "d-axis initial rotor flux linkage";
-            parameter Real PSIkq0=((-PSIppq0) + (Xpq - Xl)*K3q*iq0)/(K3q + K4q) "q-axis initial rotor flux linkage";
+            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d)
+              "d-axis initial rotor flux linkage";
+            parameter Real PSIkq0=((-PSIppq0) + (Xpq - Xl)*K3q*iq0)/(K3q + K4q)
+              "q-axis initial rotor flux linkage";
             parameter Real PSId0=PSIppd0 - Xppd*id0;
             parameter Real PSIq0=-PSIppq0 - Xppq*iq0;
             // Constants
@@ -19311,7 +19505,8 @@ extends Modelica.Icons.Package;
             parameter Real K4d=(Xpd - Xppd)/(Xpd - Xl);
             parameter Real K3q=(Xppq - Xl)/(Xpq - Xl);
             parameter Real K4q=(Xpq - Xppq)/(Xpq - Xl);
-            parameter Real CoB=M_b/S_b "Constant to change from system base to machine base";
+            parameter Real CoB=M_b/S_b
+              "Constant to change from system base to machine base";
           initial equation
             der(Epd) = 0;
             der(Epq) = 0;
@@ -19463,27 +19658,39 @@ extends Modelica.Icons.Package;
           protected
             constant Real pi=Modelica.Constants.pi;
             parameter Real w_b=2*pi*fn "System base speed (rad/s)";
-            parameter Real anglev_rad=angle_0*pi/180 "initial value of bus anglev in rad";
+            parameter Real anglev_rad=angle_0*pi/180
+              "initial value of bus anglev in rad";
             parameter Real c1=R_a*K "CONSTANT";
             parameter Real c2=X_d*K "CONSTANT";
             parameter Real c3=X_d*K " CONSTANT";
-            parameter Real p0=P_0/M_b "initial value of bus active power in p.u. machinebase";
-            parameter Real q0=Q_0/M_b "initial value of bus reactive power in p.u. machinebase";
+            parameter Real p0=P_0/M_b
+              "initial value of bus active power in p.u. machinebase";
+            parameter Real q0=Q_0/M_b
+              "initial value of bus reactive power in p.u. machinebase";
             parameter Real v0=V_0;
             parameter Real K=1/(R_a*R_a + X_d*X_d) "CONSTANT";
             parameter Real vr0=v0*cos(anglev_rad) "Initialitation";
             parameter Real vi0=v0*sin(anglev_rad) "Initialitation";
-            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Initialitation";
-            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Initialitation";
-            parameter Real delta0=atan2(vi0 + R_a*ii0 + X_d*ir0, vr0 + R_a*ir0 - X_d*ii0) "Initialitation";
-            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
+            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Initialitation";
+            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Initialitation";
+            parameter Real delta0=atan2(vi0 + R_a*ii0 + X_d*ir0, vr0 + R_a*ir0 - X_d*ii0)
+              "Initialitation";
+            parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+              "Initialitation";
+            parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+              "Initialitation";
+            parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+              "Initialitation";
             parameter Real vf0=vq0 + R_a*iq0 + X_d*id0 "Initialitation";
             //Real deltaminusanglev=delta - anglev;
-            parameter Real pm0=(vq0 + R_a*iq0)*iq0 + (vd0 + R_a*id0)*id0 "Initialitation";
-            parameter Real CoB=M_b/S_b "Constant to change from system base to machine base";
+            parameter Real pm0=(vq0 + R_a*iq0)*iq0 + (vd0 + R_a*id0)*id0
+              "Initialitation";
+            parameter Real CoB=M_b/S_b
+              "Constant to change from system base to machine base";
           equation
             v = sqrt(p.vr^2 + p.vi^2);
             anglev = atan2(p.vi, p.vr);
@@ -19636,9 +19843,11 @@ extends Modelica.Icons.Package;
               Te(start=pm0));
             //Machine parameters
             parameter Real Xpq "Sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tpq0 "q-axis transient open-circuit time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Tpq0
+              "q-axis transient open-circuit time constant (s)"                   annotation (Dialog(group="Machine parameters"));
             parameter Real Xpp=Xppd "Sub-transient reactance (pu)" annotation (Dialog(group="Machine parameters"));
-            Real Epd(start=Epd0) "d-axis voltage behind transient reactance (pu)";
+            Real Epd(start=Epd0)
+              "d-axis voltage behind transient reactance (pu)";
             Real Epq(start=Epq0) "q-axis voltage behind transient reactance ";
             Real PSIkd(start=PSIkd0) "d-axis rotor flux linkage (pu)";
             Real PSIkq(start=PSIkq0) "q-axis rotor flux linkage (pu)";
@@ -19652,15 +19861,20 @@ extends Modelica.Icons.Package;
             Real XaqIlq(start=0) "q-axis Machine field current (pu)";
           protected
             parameter Complex Zs(re=R_a, im=Xpp) "Equivalent impedance";
-            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad)) "Complex terminal voltage";
+            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad))
+              "Complex terminal voltage";
             parameter Complex S(re=p0, im=q0) "Complex power on machine base";
             parameter Complex It=conj(S/VT) "Complex current, machine base";
-            parameter Complex Is=It + VT/Zs "Equivalent internal current source";
-            parameter Complex PSIpp0=Zs*Is "Sub-transient flux linkage in stator reference frame";
+            parameter Complex Is=It + VT/Zs
+              "Equivalent internal current source";
+            parameter Complex PSIpp0=Zs*Is
+              "Sub-transient flux linkage in stator reference frame";
             parameter Real ang_PSIpp0=arg(PSIpp0) "flux angle";
             parameter Real ang_It=arg(It) "current angle";
-            parameter Real ang_PSIpp0andIt=ang_PSIpp0 - ang_It "angle difference";
-            parameter Real abs_PSIpp0='abs'(PSIpp0) "magnitude of sub-transient flux linkage";
+            parameter Real ang_PSIpp0andIt=ang_PSIpp0 - ang_It
+              "angle difference";
+            parameter Real abs_PSIpp0='abs'(PSIpp0)
+              "magnitude of sub-transient flux linkage";
             parameter Real dsat=SE_exp(
                 abs_PSIpp0,
                 S10,
@@ -19670,32 +19884,49 @@ extends Modelica.Icons.Package;
             parameter Real a=abs_PSIpp0 + abs_PSIpp0*dsat*(Xq - Xl)/(Xd - Xl);
             parameter Real b=(It.re^2 + It.im^2)^0.5*(Xpp - Xq);
             //Initializion rotor angle position
-            parameter Real delta0=atan(b*cos(ang_PSIpp0andIt)/(b*sin(ang_PSIpp0andIt) - a)) + ang_PSIpp0 "intial rotor angle in radians";
-            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0)) "Parks transformation, from stator to rotor reference frame";
-            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq "Flux linkage in rotor reference frame";
+            parameter Real delta0=atan(b*cos(ang_PSIpp0andIt)/(b*sin(ang_PSIpp0andIt) - a)) + ang_PSIpp0
+              "intial rotor angle in radians";
+            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0))
+              "Parks transformation, from stator to rotor reference frame";
+            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq
+              "Flux linkage in rotor reference frame";
             parameter Complex I_dq=conj(It*DQ_dq);
             //"The terminal current in rotor reference frame"
-            parameter Real PSIppq0=imag(PSIpp0_dq) "q-axis component of the sub-transient flux linkage";
-            parameter Real PSIppd0=real(PSIpp0_dq) "d-axis component of the sub-transient flux linkage";
+            parameter Real PSIppq0=imag(PSIpp0_dq)
+              "q-axis component of the sub-transient flux linkage";
+            parameter Real PSIppd0=real(PSIpp0_dq)
+              "d-axis component of the sub-transient flux linkage";
             //Initialization of current and voltage components in rotor reference frame (dq-axes).
             parameter Real delta1=delta0*180/pi "rotor angle in degrees";
-            parameter Real iq0=real(I_dq) "q-axis component of intitial current";
-            parameter Real id0=imag(I_dq) "d-axis component of intitial current";
-            parameter Real ud0=(-(PSIppq0 - Xppq*iq0)) - R_a*id0 "d-axis component of intitial voltage";
-            parameter Real uq0=PSIppd0 - Xppd*id0 - R_a*iq0 "q-axis component of intitial voltage";
+            parameter Real iq0=real(I_dq)
+              "q-axis component of intitial current";
+            parameter Real id0=imag(I_dq)
+              "d-axis component of intitial current";
+            parameter Real ud0=(-(PSIppq0 - Xppq*iq0)) - R_a*id0
+              "d-axis component of intitial voltage";
+            parameter Real uq0=PSIppd0 - Xppd*id0 - R_a*iq0
+              "q-axis component of intitial voltage";
             //Initialization current and voltage components in synchronous reference frame.
-            parameter Real vr0=V_0*cos(anglev_rad) "Real component of initial terminal voltage";
-            parameter Real vi0=V_0*sin(anglev_rad) "Imaginary component of intitial terminal voltage";
-            parameter Real ir0=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, systembase";
-            parameter Real ii0=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, systembase";
+            parameter Real vr0=V_0*cos(anglev_rad)
+              "Real component of initial terminal voltage";
+            parameter Real vi0=V_0*sin(anglev_rad)
+              "Imaginary component of intitial terminal voltage";
+            parameter Real ir0=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, systembase";
+            parameter Real ii0=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, systembase";
             //Initialization mechanical power and field voltage.
-            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0 "Initial mechanical power, machine base";
-            parameter Real efd0=dsat*PSIppd0 + PSIppd0 + (Xpd - Xpp)*id0 + (Xd - Xpd)*id0 "Initial field voltage magnitude";
+            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0
+              "Initial mechanical power, machine base";
+            parameter Real efd0=dsat*PSIppd0 + PSIppd0 + (Xpd - Xpp)*id0 + (Xd - Xpd)*id0
+              "Initial field voltage magnitude";
             parameter Real Epq0=PSIkd0 + (Xpd - Xl)*id0;
             parameter Real Epd0=PSIkq0 - (Xpd - Xl)*iq0;
             //Initialize remaining states:
-            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d) "d-axis initial rotor flux linkage";
-            parameter Real PSIkq0=((-PSIppq0) + (Xpq - Xl)*K3q*iq0)/(K3q + K4q) "q-axis initial rotor flux linkage";
+            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d)
+              "d-axis initial rotor flux linkage";
+            parameter Real PSIkq0=((-PSIppq0) + (Xpq - Xl)*K3q*iq0)/(K3q + K4q)
+              "q-axis initial rotor flux linkage";
             parameter Real PSId0=PSIppd0 - Xppd*id0;
             parameter Real PSIq0=PSIppq0 - Xppq*iq0;
             // Constants
@@ -19707,7 +19938,8 @@ extends Modelica.Icons.Package;
             parameter Real K4d=(Xpd - Xppd)/(Xpd - Xl);
             parameter Real K3q=(Xppq - Xl)/(Xpq - Xl);
             parameter Real K4q=(Xpq - Xppq)/(Xpq - Xl);
-            parameter Real CoB=M_b/S_b "Constant to change from system base to machine base";
+            parameter Real CoB=M_b/S_b
+              "Constant to change from system base to machine base";
           initial equation
             der(Epd) = 0;
             der(Epq) = 0;
@@ -19810,7 +20042,8 @@ extends Modelica.Icons.Package;
               ud(start=ud0),
               uq(start=uq0),
               Te(start=pm0));
-            Real Epq(start=Epq0) "q-axis voltage behind transient reactance (pu)";
+            Real Epq(start=Epq0)
+              "q-axis voltage behind transient reactance (pu)";
             Real PSIkd(start=PSIkd0) "d-axis rotor flux linkage (pu)";
             Real PSIppq(start=PSIppq0) "q-axis subtransient flux linkage (pu)";
             Real PSIppd(start=PSIppd0) "d-axis subtransient flux linkage (pu)";
@@ -19824,20 +20057,30 @@ extends Modelica.Icons.Package;
             parameter Complex a(re=0, im=Xq - Xppd);
             parameter Complex Epqp=PSIpp0 + a*It;
             parameter Real delta0=arg(Epqp) "rotor angle in radians";
-            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad)) "Complex terminal voltage";
+            parameter Complex VT(re=V_0*cos(anglev_rad), im=V_0*sin(anglev_rad))
+              "Complex terminal voltage";
             parameter Complex S(re=p0, im=q0) "Complex power on machine base";
             parameter Complex It=conj(S/VT) "Terminal current";
-            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0)) "Parks transformation";
+            parameter Complex DQ_dq(re=cos(delta0), im=-sin(delta0))
+              "Parks transformation";
             parameter Complex I_dq=conj(It*DQ_dq);
             //Initialization of current and voltage components in synchronous reference frame.
-            parameter Real iq0=real(I_dq) "q-axis component of intitial current";
-            parameter Real id0=imag(I_dq) "d-axis component of intitial current";
-            parameter Real ud0=V_0*cos(anglev_rad - delta0 + pi/2) "d-axis component of intitial voltage";
-            parameter Real uq0=V_0*sin(anglev_rad - delta0 + pi/2) "q-axis component of intitial voltage";
-            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq "Flux linkage in rotor reference frame";
-            parameter Real PSIppq0=-imag(PSIpp0_dq) "q-axis component of the sub-transient flux linkage";
-            parameter Real PSIppd0=real(PSIpp0_dq) "d-axis component of the sub-transient flux linkage";
-            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d) "d-axis initial rotor flux linkage";
+            parameter Real iq0=real(I_dq)
+              "q-axis component of intitial current";
+            parameter Real id0=imag(I_dq)
+              "d-axis component of intitial current";
+            parameter Real ud0=V_0*cos(anglev_rad - delta0 + pi/2)
+              "d-axis component of intitial voltage";
+            parameter Real uq0=V_0*sin(anglev_rad - delta0 + pi/2)
+              "q-axis component of intitial voltage";
+            parameter Complex PSIpp0_dq=PSIpp0*DQ_dq
+              "Flux linkage in rotor reference frame";
+            parameter Real PSIppq0=-imag(PSIpp0_dq)
+              "q-axis component of the sub-transient flux linkage";
+            parameter Real PSIppd0=real(PSIpp0_dq)
+              "d-axis component of the sub-transient flux linkage";
+            parameter Real PSIkd0=(PSIppd0 - (Xpd - Xl)*K3d*id0)/(K3d + K4d)
+              "d-axis initial rotor flux linkage";
             parameter Real PSId0=PSIppd0 - Xppd*id0;
             parameter Real PSIq0=(-PSIppq0) - Xppq*iq0;
             //Initialization mechanical power and field voltage.
@@ -19848,8 +20091,10 @@ extends Modelica.Icons.Package;
                 S12,
                 1,
                 1.2);
-            parameter Real efd0=Epq0*(1 + dsat) + (Xd - Xpd)*id0 "Initial field voltage magnitude";
-            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0 "Initial mechanical power, machine base";
+            parameter Real efd0=Epq0*(1 + dsat) + (Xd - Xpd)*id0
+              "Initial field voltage magnitude";
+            parameter Real pm0=p0 + R_a*iq0*iq0 + R_a*id0*id0
+              "Initial mechanical power, machine base";
             // Constants
             parameter Real K1d=(Xpd - Xppd)*(Xd - Xpd)/(Xpd - Xl)^2;
             parameter Real K2d=(Xpd - Xl)*(Xppd - Xl)/(Xpd - Xppd);
@@ -19942,6 +20187,7 @@ extends Modelica.Icons.Package;
 
         package BaseClasses
 
+
           partial model baseMachine
             import Modelica.Constants.pi;
             import Complex;
@@ -19954,9 +20200,12 @@ extends Modelica.Icons.Package;
             extends iPSL.Electrical.Essentials.pfComponent;
             //Machine parameters
             parameter Real M_b "Machine base power (MVA)" annotation (Dialog(group="Power flow data"));
-            parameter Real Tpd0 "d-axis transient open-circuit time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tppd0 "d-axis sub-transient open-circuit time constant (s)" annotation (Dialog(group="Machine parameters"));
-            parameter Real Tppq0 "q-axis transient open-circuit time constant (s)" annotation (Dialog(group="Machine parameters"));
+            parameter Real Tpd0
+              "d-axis transient open-circuit time constant (s)"                   annotation (Dialog(group="Machine parameters"));
+            parameter Real Tppd0
+              "d-axis sub-transient open-circuit time constant (s)"                    annotation (Dialog(group="Machine parameters"));
+            parameter Real Tppq0
+              "q-axis transient open-circuit time constant (s)"                    annotation (Dialog(group="Machine parameters"));
             parameter Real H "Inertia constant (s)" annotation (Dialog(group="Machine parameters"));
             parameter Real D "Speed damping" annotation (Dialog(group="Machine parameters"));
             parameter Real Xd "d-axis reactance" annotation (Dialog(group="Machine parameters"));
@@ -19974,9 +20223,11 @@ extends Modelica.Icons.Package;
               vi(start=vi0),
               ir(start=ir0),
               ii(start=ii0)) annotation (Placement(transformation(extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,10}})));
-            RealOutput SPEED(start=0) "Machine speed deviation from nominal (pu)" annotation (Placement(transformation(extent={{100,60},{120,80}}), iconTransformation(extent={{100,82},{116,98}})));
+            RealOutput SPEED(start=0)
+              "Machine speed deviation from nominal (pu)"                         annotation (Placement(transformation(extent={{100,60},{120,80}}), iconTransformation(extent={{100,82},{116,98}})));
             RealInput PMECH "Turbine mechanical power (pu on M_b)" annotation (Placement(transformation(extent={{-114,40},{-94,60}}), iconTransformation(extent={{-108,40},{-88,60}})));
-            RealOutput PMECH0 "Initial value of machine electrical power (pu on M_b)" annotation (Placement(transformation(extent={{100,40},{120,60}}), iconTransformation(extent={{100,-38},{116,-22}})));
+            RealOutput PMECH0
+              "Initial value of machine electrical power (pu on M_b)"                 annotation (Placement(transformation(extent={{100,40},{120,60}}), iconTransformation(extent={{100,-38},{116,-22}})));
             RealOutput ETERM(start=V_0) "Machine terminal voltage (pu)" annotation (Placement(transformation(extent={{100,-40},{120,-20}}), iconTransformation(extent={{100,42},{116,58}})));
             RealInput EFD "Generator main field voltage (pu)" annotation (Placement(transformation(extent={{-114,-62},{-94,-42}}), iconTransformation(extent={{-108,-60},{-88,-40}})));
             RealOutput EFD0 "Initial generator main field voltage (pu)" annotation (Placement(transformation(extent={{100,-60},{120,-40}}), iconTransformation(extent={{100,-78},{116,-62}})));
@@ -20005,14 +20256,21 @@ extends Modelica.Icons.Package;
             Real uq "q-axis terminal voltage (pu)";
           protected
             parameter Real w_b=2*pi*fn "System base speed (rad/s)";
-            parameter Real anglev_rad=angle_0*pi/180 "initial value of bus voltage angle in rad";
+            parameter Real anglev_rad=angle_0*pi/180
+              "initial value of bus voltage angle in rad";
             parameter Real CoB=M_b/S_b;
-            parameter Real vr0=V_0*cos(anglev_rad) "Real component of initial terminal voltage";
-            parameter Real vi0=V_0*sin(anglev_rad) "Imaginary component of intitial terminal voltage";
-            parameter Real ir0=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, systembase";
-            parameter Real ii0=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, systembase";
-            parameter Real p0=P_0/M_b "initial active power generation in pu machinebase";
-            parameter Real q0=Q_0/M_b "initial reactive power generation in pu machinebase";
+            parameter Real vr0=V_0*cos(anglev_rad)
+              "Real component of initial terminal voltage";
+            parameter Real vi0=V_0*sin(anglev_rad)
+              "Imaginary component of intitial terminal voltage";
+            parameter Real ir0=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, systembase";
+            parameter Real ii0=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, systembase";
+            parameter Real p0=P_0/M_b
+              "initial active power generation in pu machinebase";
+            parameter Real q0=Q_0/M_b
+              "initial reactive power generation in pu machinebase";
           equation
             //Interfacing outputs with the internal variables
             ANGLE = delta;
@@ -20760,6 +21018,7 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_At_IN;
           Modelica.Blocks.Interfaces.RealOutput pin_VS;//Start = 0
           Modelica.Blocks.Interfaces.RealOutput pin_At_OUT;
+
         equation
           connect(LeadLag_11.y, SimpleLag_12.u);
           connect(SimpleLag_2.y, MultiSum_20.u[1]);
@@ -21645,6 +21904,8 @@ extends Modelica.Icons.Package;
           connect(pin_OMREF, Gain_1.y);
         end govpsat1_Init;
 
+
+
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -21663,7 +21924,8 @@ extends Modelica.Icons.Package;
 
       package PSAT
 
-        package TG "Turbine and its governor (the mathematical models are taken from PSAT)"
+        package TG
+          "Turbine and its governor (the mathematical models are taken from PSAT)"
 
           model TGTypeI
             Modelica.Blocks.Interfaces.RealInput w "Rotor speed (pu)" annotation (Placement(transformation(extent={{-92,-10},{-72,10}}), iconTransformation(extent={{-94,-4},{-60,34}})));
@@ -21683,7 +21945,8 @@ extends Modelica.Icons.Package;
             parameter Real pin0=pref "Initialization";
             parameter Real xg10=pin0 "Initialization";
             parameter Real xg20=(1 - T3/Tc)*xg10 "Initialization";
-            parameter Real xg30=(1 - T4/T5)*(xg20 + T3*xg10/Tc) "Initialization";
+            parameter Real xg30=(1 - T4/T5)*(xg20 + T3*xg10/Tc)
+              "Initialization";
             Real pinstar;
             Real xg1(start=xg10, fixed=true);
             Real xg2(start=xg20, fixed=true);
@@ -21749,7 +22012,8 @@ extends Modelica.Icons.Package;
           end TGTypeI;
 
           model TGtypeII "TG Type II"
-            Modelica.Blocks.Interfaces.RealInput pm0 "Initial mechanical power (pu)" annotation (Placement(
+            Modelica.Blocks.Interfaces.RealInput pm0
+              "Initial mechanical power (pu)"                                        annotation (Placement(
                 visible=true,
                 transformation(
                   origin={5.0,75.0},
@@ -21932,7 +22196,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end TGtypeII;
 
-          model TGTypeIII "Hydro Turbine (Linear model) and Governor (Standard model)- control scheme Type 3"
+          model TGTypeIII
+            "Hydro Turbine (Linear model) and Governor (Standard model)- control scheme Type 3"
             parameter Real P_0 "Active power (pu)" annotation (Dialog(group="Power flow data"));
             parameter Real wref=1 "Reference speed (pu)";
             parameter Real Tg "Pilot valve droop (pu)";
@@ -22184,7 +22449,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end TGTypeIII;
 
-          model TGTypeIV "Hydro Turbine (Linear model) and Governor (Standard model with PI controller)- control scheme Type 4"
+          model TGTypeIV
+            "Hydro Turbine (Linear model) and Governor (Standard model with PI controller)- control scheme Type 4"
             parameter Real wref "Reference speed (pu)";
             parameter Real Tg "Pilot valve droop (pu)";
             parameter Real gmax "Maximum gate opening (pu)";
@@ -22463,7 +22729,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end TGTypeIV;
 
-          model TGTypeV "Hydro Turbine (Nonlinear model) and Governor (PI controller combined with servomotor)- control scheme Type 5"
+          model TGTypeV
+            "Hydro Turbine (Nonlinear model) and Governor (PI controller combined with servomotor)- control scheme Type 5"
             parameter Real Tg "Servomotor droop (pu)";
             parameter Real gmax "Maximum gate opening (pu)";
             parameter Real gmin "Minimum gate opening (pu)";
@@ -22518,7 +22785,8 @@ extends Modelica.Icons.Package;
             Modelica.Blocks.Math.Add add1 annotation (Placement(transformation(extent={{-20,56},{-10,66}})));
             Modelica.Blocks.Math.Add add2(k1=+1, k2=-1) annotation (Placement(transformation(extent={{6,54},{18,66}})));
             Modelica.Blocks.Math.Add add3(k1=+1, k2=-1) annotation (Placement(transformation(extent={{-114,58},{-104,68}})));
-            Modelica.Blocks.Interfaces.RealInput wref "Reference rotor speed (pu)" annotation (Placement(transformation(extent={{-54,6},{-44,16}}), iconTransformation(extent={{-134,-62},{-100,-28}})));
+            Modelica.Blocks.Interfaces.RealInput wref
+              "Reference rotor speed (pu)"                                         annotation (Placement(transformation(extent={{-54,6},{-44,16}}), iconTransformation(extent={{-134,-62},{-100,-28}})));
             Modelica.Blocks.Math.Add add4(k1=+1, k2=-1) annotation (Placement(transformation(extent={{-182,56},{-168,70}})));
           equation
             G = limiter3.y;
@@ -22726,7 +22994,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end TGTypeV;
 
-          model TGTypeVI "Hydro Turbine (Nonlinear model) and Governor (PID controller combined with servomotor)- control scheme Type 6"
+          model TGTypeVI
+            "Hydro Turbine (Nonlinear model) and Governor (PID controller combined with servomotor)- control scheme Type 6"
             parameter Real gmax "Maximum gate opening (pu)";
             parameter Real gmin "Minimum gate opening (pu)";
             parameter Real vmax "Maximum gate opening rate (pu)";
@@ -22806,8 +23075,10 @@ extends Modelica.Icons.Package;
                   extent={{-6,-6},{6,6}},
                   rotation=180,
                   origin={68,-32})));
-            Modelica.Blocks.Interfaces.RealInput Pref "Active power reference (pu)" annotation (Placement(transformation(extent={{-54,-36},{-44,-26}}), iconTransformation(extent={{-132,-60},{-100,-28}})));
-            Modelica.Blocks.Interfaces.RealInput wref "Rotor speed reference (pu)" annotation (Placement(transformation(extent={{-54,0},{-44,10}}), iconTransformation(extent={{-132,62},{-100,94}})));
+            Modelica.Blocks.Interfaces.RealInput Pref
+              "Active power reference (pu)"                                         annotation (Placement(transformation(extent={{-54,-36},{-44,-26}}), iconTransformation(extent={{-132,-60},{-100,-28}})));
+            Modelica.Blocks.Interfaces.RealInput wref
+              "Rotor speed reference (pu)"                                         annotation (Placement(transformation(extent={{-54,0},{-44,10}}), iconTransformation(extent={{-132,62},{-100,94}})));
             Modelica.Blocks.Interfaces.RealInput we "Rotor speed (pu)" annotation (Placement(transformation(extent={{-54,-12},{-44,-2}}), iconTransformation(extent={{-132,20},{-100,52}})));
           equation
             G = Gain10.y;
@@ -23078,7 +23349,8 @@ extends Modelica.Icons.Package;
             parameter Real vf0=1.046883400898693 "Initialization";
             parameter Real vm0=v0 "Initialization";
             parameter Real vr10=K0*(1 - T2/T1)*(vref0 - vm0) "Initialization";
-            parameter Real vr20=1/K0*(1 - T4/T3)*(vr10 + K0*(vref0 - vm0)*T2/T1) "Initialization";
+            parameter Real vr20=1/K0*(1 - T4/T3)*(vr10 + K0*(vref0 - vm0)*T2/T1)
+              "Initialization";
             parameter Real e=Modelica.Constants.e;
             Real Se;
             Real vm(start=vm0, fixed=true);
@@ -23154,9 +23426,11 @@ extends Modelica.Icons.Package;
 
           model AVRTypeII "PSAT AVR Type 2"
 
-            Modelica.Blocks.Interfaces.RealInput v "Generator termminal voltage (pu)" annotation (Placement(transformation(extent={{-98,-8},{-78,12}}), iconTransformation(extent={{-98,-28},{-62,8}})));
+            Modelica.Blocks.Interfaces.RealInput v
+              "Generator termminal voltage (pu)"                                      annotation (Placement(transformation(extent={{-98,-8},{-78,12}}), iconTransformation(extent={{-98,-28},{-62,8}})));
             Modelica.Blocks.Interfaces.RealOutput vf "Filed voltage (pu)" annotation (Placement(transformation(extent={{74,22},{94,42}}), iconTransformation(extent={{68,8},{102,44}})));
-            Modelica.Blocks.Interfaces.RealInput vref "Reference generator terminal voltage (pu)"
+            Modelica.Blocks.Interfaces.RealInput vref
+              "Reference generator terminal voltage (pu)"
               annotation (Placement(transformation(extent={{-96,40},{-76,60}}), iconTransformation(extent={{-98,36},{-62,72}})));
             parameter Real vrmin "Minimum regulator voltage (pu)";
             parameter Real vrmax "Maximum regulator voltage (p.u..)";
@@ -23176,7 +23450,8 @@ extends Modelica.Icons.Package;
             Real vm(start=vm0, fixed=true);
           protected
             parameter Real vm0=v0 "Initialization";
-            parameter Real vr10=Ka*(vref0 - vm0 - vr20 - vf0*Kf/Tf) "Initialization";
+            parameter Real vr10=Ka*(vref0 - vm0 - vr20 - vf0*Kf/Tf)
+              "Initialization";
             parameter Real vr20=-vf0*Kf/Tf "Initialization";
             parameter Real e=Modelica.Constants.e;
             Real u;
@@ -23253,7 +23528,7 @@ extends Modelica.Icons.Package;
             parameter Real T2=0.1 "regulator pole";
             parameter Real T1=0.45 "Regulator zero";
             parameter Real Te=0.1 "Field circuit time constant";
-            parameter Real vf0  "Initial field voltage";
+            parameter Real vf0 "Initial field voltage";
             parameter Real Tr=0.0015 "Measurement time constant";
             parameter Real s0;
             Real vm;
@@ -23380,7 +23655,8 @@ extends Modelica.Icons.Package;
         package OEL
 
           model OEL "PSAT Over Excitation Limiter"
-            Modelica.Blocks.Interfaces.RealInput v "Generator terminal voltage (pu)" annotation (Placement(transformation(extent={{-110,68},{-90,88}}), iconTransformation(extent={{-90,66},{-62,98}})));
+            Modelica.Blocks.Interfaces.RealInput v
+              "Generator terminal voltage (pu)"                                      annotation (Placement(transformation(extent={{-110,68},{-90,88}}), iconTransformation(extent={{-90,66},{-62,98}})));
             Modelica.Blocks.Interfaces.RealInput p "Active power (pu)" annotation (Placement(transformation(extent={{-110,36},{-90,56}}), iconTransformation(extent={{-90,32},{-62,62}})));
             Modelica.Blocks.Interfaces.RealInput q "Reactive power (pu)" annotation (Placement(transformation(extent={{-110,4},{-90,24}}), iconTransformation(extent={{-90,-6},{-62,24}})));
             FieldCurrent field_current(xd=xd, xq=xq) annotation (Placement(transformation(extent={{-82,38},{-46,72}})));
@@ -23489,7 +23765,8 @@ extends Modelica.Icons.Package;
           end OEL;
 
           model FieldCurrent
-            Modelica.Blocks.Interfaces.RealInput v "generator terminal voltage" annotation (Placement(transformation(extent={{-82,32},{-62,52}}), iconTransformation(extent={{-82,32},{-50,66}})));
+            Modelica.Blocks.Interfaces.RealInput v "generator terminal voltage"
+                                                                                annotation (Placement(transformation(extent={{-82,32},{-62,52}}), iconTransformation(extent={{-82,32},{-50,66}})));
             Modelica.Blocks.Interfaces.RealInput p "active power " annotation (Placement(transformation(extent={{-82,-4},{-62,16}}), iconTransformation(extent={{-82,-10},{-48,24}})));
             Modelica.Blocks.Interfaces.RealInput q "reactive power" annotation (Placement(transformation(extent={{-82,-38},{-62,-18}}), iconTransformation(extent={{-82,-54},{-48,-20}})));
             Modelica.Blocks.Interfaces.RealOutput ifield annotation (Placement(transformation(extent={{58,4},{78,24}}), iconTransformation(extent={{58,-10},{90,24}})));
@@ -23555,6 +23832,7 @@ extends Modelica.Icons.Package;
 
           package STATCOM
 
+
             model STATCOM "Static Synchronous Compensator model with equation"
 
               iPSL.Connectors.PwPin p(vr(start=vr0), vi(start=vi0)) annotation (Placement(transformation(extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,10}})));
@@ -23566,7 +23844,8 @@ extends Modelica.Icons.Package;
               parameter Real fn=50 "Frequency rating (Hz)" annotation (Dialog(group="Power flow data"));
               parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
               parameter Real angle_0=-0.000213067852480 "Voltage angle (deg.)" annotation (Dialog(group="Power flow data"));
-              parameter Real Qg=0.139557595258338 "Reactive power injection(p.u.)" annotation (Dialog(group="Power flow data"));
+              parameter Real Qg=0.139557595258338
+                "Reactive power injection(p.u.)"                                   annotation (Dialog(group="Power flow data"));
               //parameter Real v_ref=1.002791151905167 "Reference voltage of the STATCOM regulator (pu)" annotation(Dialog(group="Power flow data"));
               parameter Real Kr=50 "Regulator gain (p.u./p.u.)";
               parameter Real Tr=0.01 "Regulator time constant (s)";
@@ -23707,6 +23986,7 @@ extends Modelica.Icons.Package;
 
           package TCSC
 
+
             model TCSCReactance
               iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-119,-8},{-99,12}})));
               iPSL.Connectors.PwPin n annotation (Placement(transformation(extent={{100,-10},{120,10}})));
@@ -23723,7 +24003,8 @@ extends Modelica.Icons.Package;
               parameter Real Tr=0.5 "Regulator time constant (s)";
               parameter Real xTCSCmax=0.05 "Maximum reactance (pu)";
               parameter Real xTCSCmin=-0.05 "Minimum reactance (pu)";
-              parameter Real Kp=5 "Proportional gain of PI controller (p.u./p.u.)";
+              parameter Real Kp=5
+                "Proportional gain of PI controller (p.u./p.u.)";
               parameter Real Ki=1 "Integral gain of PI controller (p.u./p.u.)";
               parameter Real Vs_POD=0 "Power oscillation damper signal";
               parameter Real x_L=0.1 "Reactance (inductive) (pu)";
@@ -23837,15 +24118,18 @@ extends Modelica.Icons.Package;
               parameter Real Sn=100 "Power rating (MVA)" annotation (Dialog(group="Power flow data"));
               parameter Real Vn=400000 "Voltage rating (V)" annotation (Dialog(group="Power flow data"));
               parameter Real f=50 "Frequency rating (Hz)" annotation (Dialog(group="Power flow data"));
-              parameter Real alpha_TCSCO=0.826168365308219 "Value of state variable x1" annotation (Dialog(group="Power flow data"));
-              parameter Real x20=0.826168365308219 "Value of the state varible x2" annotation (Dialog(group="Power flow data"));
+              parameter Real alpha_TCSCO=0.826168365308219
+                "Value of state variable x1"                                            annotation (Dialog(group="Power flow data"));
+              parameter Real x20=0.826168365308219
+                "Value of the state varible x2"                                    annotation (Dialog(group="Power flow data"));
               parameter Real x0i=0.826168365308219 "Value of x0" annotation (Dialog(group="Power flow data"));
               parameter Real pref=0.080101913348342 "Reference power (pu)" annotation (Dialog(group="Power flow data"));
               parameter Real Cp=0.10 "Percentage of series compensation (%)";
               parameter Real Tr=0.5 "Regulator time constant (s)";
               parameter Real alpha_max=0.85 " Maximum firing angle (rad)";
               parameter Real alpha_min=0.72 "Minimum firing angle (rad)";
-              parameter Real Kp=5 "Proportional gain of PI controller (p.u./p.u.)";
+              parameter Real Kp=5
+                "Proportional gain of PI controller (p.u./p.u.)";
               parameter Real Ki=1 "Integral gain of PI controller (p.u./p.u.)";
               parameter Real Kr=10 "Gain of stabilizing signal (p.u./p.u.)";
               parameter Real Vs_POD=0 "Power oscillation damper signal";
@@ -23866,9 +24150,12 @@ extends Modelica.Icons.Package;
             protected
               parameter Real Vb2new=Vbus*Vbus;
               parameter Real Vb2old=Vn*Vn;
-              parameter Real xL=x_L*(Vb2old*SystemBase)/(Vb2new*Sn) "Reactance(inductive),p.u";
-              parameter Real xC=x_C*(Vb2old*SystemBase)/(Vb2new*Sn) "Reactance(capacitive),p.u";
-              parameter Real X=XL*(Vb2old*SystemBase)/(Vb2new*Sn) "Line Reactance,p.u";
+              parameter Real xL=x_L*(Vb2old*SystemBase)/(Vb2new*Sn)
+                "Reactance(inductive),p.u";
+              parameter Real xC=x_C*(Vb2old*SystemBase)/(Vb2new*Sn)
+                "Reactance(capacitive),p.u";
+              parameter Real X=XL*(Vb2old*SystemBase)/(Vb2new*Sn)
+                "Line Reactance,p.u";
               parameter Real kx=sqrt(xC/xL);
               parameter Real XL2=(1 - Cp)*XL;
               parameter Real y=1/X;
@@ -24138,7 +24425,8 @@ extends Modelica.Icons.Package;
             parameter Real f "OEL parameter";
             parameter Real L1 "OEL parameter";
             parameter Real init_OEL_Timer=L1 "Initial output value";
-            Modelica.Blocks.Sources.Constant ifd_lim_value(k=ifd_lim) "Limitation of filed current" annotation (Placement(transformation(extent={{-98,-28},{-80,-10}})));
+            Modelica.Blocks.Sources.Constant ifd_lim_value(k=ifd_lim)
+              "Limitation of filed current"                                                         annotation (Placement(transformation(extent={{-98,-28},{-80,-10}})));
             iPSL.NonElectrical.Nonlinear.SaturationBlockTan block_1_1(r=r, f=f) annotation (Placement(transformation(extent={{-42,-16},{18,38}})));
             Modelica.Blocks.Continuous.LimIntegrator Timer(
               k=1,
@@ -24148,7 +24436,8 @@ extends Modelica.Icons.Package;
               initType=Modelica.Blocks.Types.Init.InitialOutput) annotation (Placement(transformation(extent={{10,8},{24,22}})));
             Modelica.Blocks.Math.Gain imGain(k=-1) annotation (Placement(transformation(extent={{10,28},{22,40}})));
             Modelica.Blocks.Interfaces.RealInput ifd "Field current" annotation (Placement(transformation(extent={{-94,-4},{-76,16}}), iconTransformation(extent={{-94,-4},{-76,16}})));
-            Modelica.Blocks.Interfaces.RealInput VolContinput "Voltage control input" annotation (Placement(transformation(extent={{-94,-48},{-76,-28}}), iconTransformation(extent={{-94,-48},{-76,-28}})));
+            Modelica.Blocks.Interfaces.RealInput VolContinput
+              "Voltage control input"                                                 annotation (Placement(transformation(extent={{-94,-48},{-76,-28}}), iconTransformation(extent={{-94,-48},{-76,-28}})));
             Modelica.Blocks.Interfaces.RealOutput OEL_output annotation (Placement(transformation(extent={{74,-30},{94,-10}}), iconTransformation(extent={{74,-30},{94,-10}})));
             Modelica.Blocks.Math.Add add(k2=-1) annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
             Modelica.Blocks.Math.Min min annotation (Placement(transformation(extent={{68,6},{78,16}})));
@@ -24313,7 +24602,8 @@ extends Modelica.Icons.Package;
 
         package ES
 
-          model ExcitationSystem "This ES is composed by the OEL and PSS and exitation part"
+          model ExcitationSystem
+            "This ES is composed by the OEL and PSS and exitation part"
             parameter Real V0=1 "Reference value of terminal voltage";
             parameter Real L2=4 "Exciter parameter";
             parameter Real G=70 "Exciter parameter";
@@ -24335,7 +24625,8 @@ extends Modelica.Icons.Package;
               r=r,
               f=f,
               L1=L1) annotation (Placement(transformation(extent={{-28,40},{20,76}})));
-            Modelica.Blocks.Sources.Constant V_0(k=V0) "Reference terminal voltage " annotation (Placement(transformation(extent={{-88,34},{-70,52}})));
+            Modelica.Blocks.Sources.Constant V_0(k=V0)
+              "Reference terminal voltage "                                          annotation (Placement(transformation(extent={{-88,34},{-70,52}})));
             Modelica.Blocks.Interfaces.RealInput ifd "Field current" annotation (Placement(transformation(extent={{-96,62},{-84,74}})));
             Modelica.Blocks.Interfaces.RealInput V "Terminal voltage " annotation (Placement(transformation(extent={{-96,22},{-84,34}})));
             Modelica.Blocks.Interfaces.RealInput omega "Speed" annotation (Placement(transformation(extent={{-96,-10},{-84,2}})));
@@ -24430,7 +24721,8 @@ extends Modelica.Icons.Package;
               r=r,
               f=f,
               L1=L1) annotation (Placement(transformation(extent={{-28,40},{20,76}})));
-            Modelica.Blocks.Sources.Constant V_0(k=V0) "Reference terminal voltage " annotation (Placement(transformation(extent={{-88,34},{-70,52}})));
+            Modelica.Blocks.Sources.Constant V_0(k=V0)
+              "Reference terminal voltage "                                          annotation (Placement(transformation(extent={{-88,34},{-70,52}})));
             Modelica.Blocks.Interfaces.RealInput ifd "Field current" annotation (Placement(transformation(extent={{-96,62},{-84,74}})));
             Modelica.Blocks.Interfaces.RealInput V "Terminal voltage " annotation (Placement(transformation(extent={{-96,22},{-84,34}})));
             Modelica.Blocks.Interfaces.RealOutput vfd "Field voltage" annotation (Placement(transformation(extent={{128,22},{140,34}})));
@@ -24510,7 +24802,8 @@ extends Modelica.Icons.Package;
 
         package TG
 
-          model TurbineTm "Hydraulic turbine model. Mechanical torque as output"
+          model TurbineTm
+            "Hydraulic turbine model. Mechanical torque as output"
             Modelica.Blocks.Interfaces.RealInput z "Gate openning" annotation (Placement(transformation(extent={{-95,2},{-88,10}}), iconTransformation(extent={{-92,20},{-78,34}})));
             Modelica.Blocks.Sources.Constant Hs(k=1) annotation (Placement(transformation(extent={{-74,-12},{-58,4}})));
             Modelica.Blocks.Math.Gain Tw(k=1/1) "Water time constant" annotation (Placement(transformation(extent={{0,-8},{20,12}})));
@@ -24519,7 +24812,8 @@ extends Modelica.Icons.Package;
               y_start=init_Turbine_V1,
               initType=Modelica.Blocks.Types.Init.InitialOutput) annotation (Placement(transformation(extent={{28,-6},{44,10}})));
             Modelica.Blocks.Interfaces.RealInput Omega "Rotor speed in p.u" annotation (Placement(transformation(extent={{-96,-26},{-90,-18}}), iconTransformation(extent={{-92,-22},{-78,-8}})));
-            Modelica.Blocks.Interfaces.RealOutput Tm "Mechanical Torque Tm as output" annotation (Placement(transformation(extent={{106,-2},{112,6}}), iconTransformation(extent={{30,-4},{46,14}})));
+            Modelica.Blocks.Interfaces.RealOutput Tm
+              "Mechanical Torque Tm as output"                                        annotation (Placement(transformation(extent={{106,-2},{112,6}}), iconTransformation(extent={{30,-4},{46,14}})));
             parameter Real init_Turbine_V1;
             Modelica.Blocks.Math.Product product annotation (Placement(transformation(extent={{52,-6},{68,10}})));
             Modelica.Blocks.Math.Division division annotation (Placement(transformation(extent={{84,-6},{100,10}})));
@@ -24586,7 +24880,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end TurbineTm;
 
-          model TurbinePm "Hydraulic turbine model. Mechanical Power Pm as output"
+          model TurbinePm
+            "Hydraulic turbine model. Mechanical Power Pm as output"
             parameter Real p0 "Initialization, initial electrical power";
             Modelica.Blocks.Interfaces.RealInput z "Gate openning" annotation (Placement(transformation(extent={{-95,2},{-88,10}}), iconTransformation(extent={{-92,-6},{-78,8}})));
             Modelica.Blocks.Sources.Constant Hs(k=1) "set point" annotation (Placement(transformation(extent={{-78,-14},{-58,6}})));
@@ -24654,7 +24949,8 @@ extends Modelica.Icons.Package;
 
           model Governor "Speed governor model for hydro turbines"
             Modelica.Blocks.Interfaces.RealInput Omega "Rotor speed in p.u" annotation (Placement(transformation(extent={{-96,26},{-86,38}}), iconTransformation(extent={{-14,30},{-4,40}})));
-            Modelica.Blocks.Sources.Constant Omega_n(k=1) "Nominal rotor speed in p.u" annotation (Placement(transformation(extent={{-94,6},{-82,18}})));
+            Modelica.Blocks.Sources.Constant Omega_n(k=1)
+              "Nominal rotor speed in p.u"                                             annotation (Placement(transformation(extent={{-94,6},{-82,18}})));
             Modelica.Blocks.Math.Gain Gain1(k=2) annotation (Placement(transformation(extent={{10,18},{24,32}})));
             Modelica.Blocks.Math.Gain Gain2(k=0.4) annotation (Placement(transformation(extent={{10,0},{24,14}})));
             Modelica.Blocks.Continuous.Integrator Integrator(
@@ -24674,7 +24970,8 @@ extends Modelica.Icons.Package;
               y_start=p0,
               initType=Modelica.Blocks.Types.Init.InitialOutput) annotation (Placement(transformation(extent={{132,10},{146,24}})));
             Modelica.Blocks.Interfaces.RealOutput z "Gate opening" annotation (Placement(transformation(extent={{156,12},{166,22}}), iconTransformation(extent={{148,12},{158,22}})));
-            parameter Real D "Permanent speed droop, g19=g20=0.08, all others=0.04";
+            parameter Real D
+              "Permanent speed droop, g19=g20=0.08, all others=0.04";
             parameter Real p0 "Initialization, initial electrical power";
             Modelica.Blocks.Interfaces.RealInput Pm_set annotation (Placement(transformation(
                   extent={{5,-6},{-5,6}},
@@ -25185,16 +25482,19 @@ extends Modelica.Icons.Package;
                     extent={{-5,-6},{5,6}},
                     rotation=90,
                     origin={-0.5,-54.9})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Input, generator terminal voltage" annotation (Placement(transformation(extent={{-220,24},{-210,36}}), iconTransformation(extent={{-220,24},{-210,36}})));
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Input, generator terminal voltage"                                          annotation (Placement(transformation(extent={{-220,24},{-210,36}}), iconTransformation(extent={{-220,24},{-210,36}})));
               Modelica.Blocks.Interfaces.RealInput VOTHSG "Upss" annotation (Placement(transformation(extent={{-220,-36},{-210,-24}}), iconTransformation(extent={{-220,-36},{-210,-24}})));
-              Modelica.Blocks.Interfaces.RealInput VOEL "value from the Over Excitation Limiter" annotation (Placement(transformation(
+              Modelica.Blocks.Interfaces.RealInput VOEL
+                "value from the Over Excitation Limiter"                                         annotation (Placement(transformation(
                     extent={{-5,-6},{5,6}},
                     rotation=270,
                     origin={43,62}), iconTransformation(
                     extent={{-5,-6},{5,6}},
                     rotation=90,
                     origin={-60.2,-54.9})));
-              Modelica.Blocks.Interfaces.RealOutput EFD "Output,excitation voltage" annotation (Placement(transformation(extent={{240,-6},{250,6}}), iconTransformation(extent={{240,-6},{250,6}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD
+                "Output,excitation voltage"                                         annotation (Placement(transformation(extent={{240,-6},{250,6}}), iconTransformation(extent={{240,-6},{250,6}})));
               parameter Real T_R=0 "Voltage input time constant (s)";
               parameter Real T_B=0 "AVR lead-lag time constant (s)";
               parameter Real T_C=0 "AVR lead-lag time constant (s)";
@@ -25214,7 +25514,8 @@ extends Modelica.Icons.Package;
               parameter Real S_EE_2=0.1 "Saturation at E2";
               parameter Real V_RMAX "Maximum AVR output (pu)";
               parameter Real V_RMIN "Minimum AVR output (pu)";
-              Modelica.Blocks.Interfaces.RealInput VUEL "Under Excitation Limiter output" annotation (Placement(transformation(
+              Modelica.Blocks.Interfaces.RealInput VUEL
+                "Under Excitation Limiter output"                                         annotation (Placement(transformation(
                     extent={{-5,-6},{5,6}},
                     rotation=270,
                     origin={17,62}), iconTransformation(
@@ -25302,7 +25603,8 @@ extends Modelica.Icons.Package;
                 initType=Modelica.Blocks.Types.Init.InitialOutput,
                 y_start=0) annotation (Placement(transformation(extent={{0,-10},{-20,10}})));
             protected
-              parameter Real VREF(fixed=false) "Reference terminal voltage (pu)";
+              parameter Real VREF(fixed=false)
+                "Reference terminal voltage (pu)";
               parameter Real VR0(fixed=false);
               parameter Real Efd0(fixed=false);
               parameter Real Ifd0(fixed=false);
@@ -25778,10 +26080,12 @@ extends Modelica.Icons.Package;
 
             model ESDC1A
               import iPSL.NonElectrical.Functions.SE;
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Input, generator terminal voltage" annotation (Placement(transformation(extent={{-80,23},{-70,35}}), iconTransformation(extent={{-80,23},{-70,35}})));
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Input, generator terminal voltage"                                          annotation (Placement(transformation(extent={{-80,23},{-70,35}}), iconTransformation(extent={{-80,23},{-70,35}})));
               Modelica.Blocks.Interfaces.RealInput VOTHSG "Upss" annotation (Placement(transformation(extent={{-80,4},{-70,16}}), iconTransformation(extent={{-80,4},{-70,16}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-80,-16},{-70,-4}}), iconTransformation(extent={{-80,-16},{-70,-4}})));
-              Modelica.Blocks.Interfaces.RealOutput EFD "Output,excitation voltage" annotation (Placement(transformation(extent={{100,-6},{110,6}}), iconTransformation(extent={{100,-6},{110,6}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD
+                "Output,excitation voltage"                                         annotation (Placement(transformation(extent={{100,-6},{110,6}}), iconTransformation(extent={{100,-6},{110,6}})));
               parameter Real T_R=0 "Voltage input time constant (s)";
               parameter Real K_A=400 "AVR gain";
               parameter Real T_A=0.02 "AVR time constant (s)";
@@ -26041,10 +26345,12 @@ extends Modelica.Icons.Package;
             model ESDC2A
               import iPSL.NonElectrical.Functions.SE;
               Modelica.Blocks.Sources.Constant Vref(k=VREF) annotation (Placement(transformation(extent={{-92,12},{-80,24}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Input, generator terminal voltage" annotation (Placement(transformation(extent={{-100,24},{-90,36}}), iconTransformation(extent={{-100,24},{-90,36}})));
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Input, generator terminal voltage"                                          annotation (Placement(transformation(extent={{-100,24},{-90,36}}), iconTransformation(extent={{-100,24},{-90,36}})));
               Modelica.Blocks.Interfaces.RealInput VOTHSG "Upss" annotation (Placement(transformation(extent={{-100,2},{-90,14}}), iconTransformation(extent={{-100,2},{-90,14}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-100,-16},{-90,-4}}), iconTransformation(extent={{-100,-16},{-90,-4}})));
-              Modelica.Blocks.Interfaces.RealOutput EFD "Output,excitation voltage" annotation (Placement(transformation(extent={{100,-6},{110,6}}), iconTransformation(extent={{100,-6},{110,6}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD
+                "Output,excitation voltage"                                         annotation (Placement(transformation(extent={{100,-6},{110,6}}), iconTransformation(extent={{100,-6},{110,6}})));
               parameter Real T_R=0 "Voltage input time constant (s)";
               parameter Real K_A=400 "AVR gain";
               parameter Real T_A=0.02 "AVR time constant (s)";
@@ -26316,7 +26622,8 @@ extends Modelica.Icons.Package;
             model ESST1A "IEEE Type ST1A Excitation System"
 
               Modelica.Blocks.Sources.Constant Vref(k=VREF) annotation (Placement(transformation(extent={{-116.6,21.9},{-107,32}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Input, generator terminal voltage"
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Input, generator terminal voltage"
                 annotation (Placement(transformation(extent={{-141.3,0.4},{-131.3,12.4}}),iconTransformation(
                     extent={{-5,-5},{5,5}},
                     rotation=0,
@@ -26331,7 +26638,8 @@ extends Modelica.Icons.Package;
                     extent={{5,-5.15},{-5,5.15}},
                     rotation=270,
                     origin={-45.15,-75})));
-              Modelica.Blocks.Interfaces.RealOutput EFD "Output,excitation voltage" annotation (Placement(transformation(extent={{138.3,0.2},{148.3,12.2}}), iconTransformation(extent={{120,-5.4},{130,5}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD
+                "Output,excitation voltage"                                         annotation (Placement(transformation(extent={{138.3,0.2},{148.3,12.2}}), iconTransformation(extent={{120,-5.4},{130,5}})));
 
               parameter Real T_R=0 "Voltage input time constant (s)" annotation (Dialog(group="Excitation system parameters"));
               parameter Real V_IMAX annotation (Dialog(group="Excitation system parameters"));
@@ -26462,8 +26770,10 @@ extends Modelica.Icons.Package;
                     origin={124.15,-39.35})));
               Modelica.Blocks.Nonlinear.VariableLimiter variableLimiter annotation (Placement(transformation(extent={{117,0},{129,12}})));
             protected
-              parameter Real VREF(fixed=false) "Reference terminal voltage (pu)";
-              parameter Real Efd0(fixed=false) "Initial value of the excitation voltage as a parameter";
+              parameter Real VREF(fixed=false)
+                "Reference terminal voltage (pu)";
+              parameter Real Efd0(fixed=false)
+                "Initial value of the excitation voltage as a parameter";
               parameter Real IFD0(fixed=false);
               parameter Real VA0(fixed=false);
               parameter Real ECOMP0(fixed=false);
@@ -26658,7 +26968,8 @@ extends Modelica.Icons.Package;
 </html>"));
           end ESST1A;
 
-          package ESST4B "IEEE Type ST4B Potential or Compounded Source-Controlled Rectifier Exciter"
+          package ESST4B
+            "IEEE Type ST4B Potential or Compounded Source-Controlled Rectifier Exciter"
 
             model ESST4B " IEEE type ST4B potential or compounded
 source-controlled rectifier exciter "
@@ -27361,7 +27672,8 @@ source-controlled rectifier exciter "
               import iPSL.NonElectrical.Functions.SE;
               Modelica.Blocks.Sources.Constant Vref(k=VREF) annotation (Placement(transformation(extent={{-108,-86},{-94,-72}})));
               Modelica.Blocks.Interfaces.RealInput XADIFD "Field current" annotation (Placement(transformation(extent={{-108,38},{-94,52}}), iconTransformation(extent={{-100,54},{-90,66}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Compensated generator terminal voltage"
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Compensated generator terminal voltage"
                 annotation (Placement(transformation(extent={{-104,14},{-94,26}}), iconTransformation(extent={{-100,-6},{-90,6}})));
               Modelica.Blocks.Interfaces.RealInput VOTHSG "PSS output signal" annotation (Placement(transformation(extent={{-122,-26},{-112,-14}}), iconTransformation(extent={{-100,34},{-90,46}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-122,-46},{-112,-34}}), iconTransformation(extent={{-100,-56},{-90,-44}})));
@@ -27426,11 +27738,13 @@ source-controlled rectifier exciter "
               Modelica.Blocks.Math.Division division annotation (Placement(transformation(extent={{-56,64},{-44,76}})));
               Modelica.Blocks.Math.Gain gain1(k=K_C) annotation (Placement(transformation(extent={{-30,64},{-18,76}})));
               Modelica.Blocks.Math.Add3 add3_2(k1=+1, k2=+1) annotation (Placement(transformation(extent={{-102,-48},{-86,-32}})));
-              Modelica.Blocks.Interfaces.RealInput VUEL "Under-excitation limter input" annotation (Placement(transformation(extent={{-126,-66},{-112,-52}}), iconTransformation(extent={{-100,-36},{-88,-24}})));
+              Modelica.Blocks.Interfaces.RealInput VUEL
+                "Under-excitation limter input"                                         annotation (Placement(transformation(extent={{-126,-66},{-112,-52}}), iconTransformation(extent={{-100,-36},{-88,-24}})));
               Modelica.Blocks.Math.Add add3 annotation (Placement(transformation(extent={{-78,-56},{-64,-42}})));
               Modelica.Blocks.Interfaces.RealInput EFD0 annotation (Placement(transformation(extent={{-62,-82},{-40,-60}}), iconTransformation(extent={{-100,-74},{-90,-64}})));
             protected
-              parameter Real VREF(fixed=false) "Reference terminal voltage (pu)";
+              parameter Real VREF(fixed=false)
+                "Reference terminal voltage (pu)";
               parameter Real VR0(fixed=false);
               parameter Real Efd0(fixed=false);
               parameter Real Ifd0(fixed=false);
@@ -27585,14 +27899,19 @@ source-controlled rectifier exciter "
             model EXAC2 "IEEE Type AC2 Excitation System"
               import iPSL.NonElectrical.Functions.SE;
               Modelica.Blocks.Sources.Constant Vref(k=VREF) annotation (Placement(transformation(extent={{-130,-10},{-116,4}})));
-              Modelica.Blocks.Interfaces.RealInput XADIFD "Machine field current (pu)" annotation (Placement(transformation(extent={{-166,34},{-154,46}}), iconTransformation(extent={{-164,34},{-154,46}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Voltage regultor compensated voltage (pu)"
+              Modelica.Blocks.Interfaces.RealInput XADIFD
+                "Machine field current (pu)"                                           annotation (Placement(transformation(extent={{-166,34},{-154,46}}), iconTransformation(extent={{-164,34},{-154,46}})));
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Voltage regultor compensated voltage (pu)"
                 annotation (Placement(transformation(extent={{-164,14},{-152,26}}), iconTransformation(extent={{-164,14},{-152,26}})));
-              Modelica.Blocks.Interfaces.RealInput VOTHSG "Stabilizer signal (pu)" annotation (Placement(transformation(extent={{-164,-26},{-152,-14}}), iconTransformation(extent={{-164,-26},{-152,-14}})));
-              Modelica.Blocks.Interfaces.RealInput VOEL "Maximum excitation limiter signal (pu)"
+              Modelica.Blocks.Interfaces.RealInput VOTHSG
+                "Stabilizer signal (pu)"                                           annotation (Placement(transformation(extent={{-164,-26},{-152,-14}}), iconTransformation(extent={{-164,-26},{-152,-14}})));
+              Modelica.Blocks.Interfaces.RealInput VOEL
+                "Maximum excitation limiter signal (pu)"
                 annotation (Placement(transformation(extent={{-164,-66},{-152,-54}}), iconTransformation(extent={{-164,-66},{-152,-54}})));
               NonElectrical.Nonlinear.FEX fEX annotation (Placement(transformation(extent={{80,48},{64,64}})));
-              Modelica.Blocks.Interfaces.RealOutput EFD "Generator main field voltage (pu)" annotation (Placement(transformation(extent={{160,-6},{170,6}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD
+                "Generator main field voltage (pu)"                                         annotation (Placement(transformation(extent={{160,-6},{170,6}})));
               parameter Real VREF=1 "Reference terminal voltage (pu)";
               parameter Real T_R=0 "Voltage input time constant (s)";
               parameter Real T_B=0 "AVR lead-lag time constant (s)";
@@ -27629,7 +27948,8 @@ source-controlled rectifier exciter "
                 K=1,
                 T=T_R,
                 y_start=EC0) annotation (Placement(transformation(extent={{-132,-40},{-116,-24}})));
-              Modelica.Blocks.Interfaces.RealInput VUEL "Minimum excitation limiter signal (pu)"
+              Modelica.Blocks.Interfaces.RealInput VUEL
+                "Minimum excitation limiter signal (pu)"
                 annotation (Placement(transformation(extent={{-164,-46},{-152,-34}}), iconTransformation(extent={{-164,-46},{-152,-34}})));
               NonElectrical.Continuous.LeadLag imLeadLag(
                 K=1,
@@ -27653,7 +27973,8 @@ source-controlled rectifier exciter "
                     extent={{-9,-9},{9,9}},
                     rotation=270,
                     origin={-17,55})));
-              Modelica.Blocks.Interfaces.RealInput EFD0 "Initial value of generator main field voltage (pu)"
+              Modelica.Blocks.Interfaces.RealInput EFD0
+                "Initial value of generator main field voltage (pu)"
                 annotation (Placement(transformation(extent={{-164,54},{-152,66}}), iconTransformation(extent={{-164,54},{-152,66}})));
               Modelica.Blocks.Math.Add3 add3_1 annotation (Placement(transformation(extent={{-120,-62},{-108,-50}})));
               Modelica.Blocks.Math.Add3 add3_2(k2=-1) annotation (Placement(transformation(extent={{-94,-38},{-84,-28}})));
@@ -27916,9 +28237,11 @@ source-controlled rectifier exciter "
                     rotation=0,
                     origin={154,-20})));
               Modelica.Blocks.Interfaces.RealInput VOTHSG annotation (Placement(transformation(extent={{-138,-52},{-98,-12}}), iconTransformation(extent={{-132,-68},{-98,-34}})));
-              Modelica.Blocks.Interfaces.RealInput VOEL "Input from voltage over excitation limiter"
+              Modelica.Blocks.Interfaces.RealInput VOEL
+                "Input from voltage over excitation limiter"
                 annotation (Placement(transformation(extent={{-138,-110},{-98,-70}}), iconTransformation(extent={{-132,-104},{-98,-70}})));
-              Modelica.Blocks.Interfaces.RealInput VUEL "Input from voltage under excitation limiter"
+              Modelica.Blocks.Interfaces.RealInput VUEL
+                "Input from voltage under excitation limiter"
                 annotation (Placement(transformation(extent={{-140,-158},{-100,-118}}), iconTransformation(extent={{-132,-142},{-98,-108}})));
               Modelica.Blocks.Continuous.Derivative imDerivativeLag(
                 k=K_F,
@@ -28032,7 +28355,8 @@ source-controlled rectifier exciter "
 
           package EXNI
 
-            model EXNI "Bus or Solid Fed SCR Bridge Excitation System Model Type NI (NVE)"
+            model EXNI
+              "Bus or Solid Fed SCR Bridge Excitation System Model Type NI (NVE)"
               parameter Real T_R=0.60000E-01 "Voltage input time constant (s)";
               //0
               parameter Real K_A=150.00 "AVR gain";
@@ -28048,10 +28372,13 @@ source-controlled rectifier exciter "
               Modelica.Blocks.Interfaces.RealInput VOTHSG "PSS output Upss" annotation (Placement(transformation(extent={{-100,-10},{-94,-2}}), iconTransformation(extent={{-112,-22},{-102,-12}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-100,-18},{-94,-10}}), iconTransformation(extent={{-112,-34},{-102,-24}})));
               Modelica.Blocks.Interfaces.RealInput VUEL annotation (Placement(transformation(extent={{-100,-26},{-94,-18}}), iconTransformation(extent={{-112,-46},{-102,-36}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP(start=Ec0) "Input, generator terminal voltage"
+              Modelica.Blocks.Interfaces.RealInput ECOMP(start=Ec0)
+                "Input, generator terminal voltage"
                 annotation (Placement(transformation(extent={{-100,6},{-92,14}}), iconTransformation(extent={{-112,8},{-102,18}})));
-              Modelica.Blocks.Interfaces.RealInput EFD0 "Input, generator terminal voltage" annotation (Placement(transformation(extent={{-100,-36},{-94,-28}}), iconTransformation(extent={{-112,-8},{-102,2}})));
-              Modelica.Blocks.Interfaces.RealInput ETERM(start=Et0) "Ternimal voltage of generator bus"
+              Modelica.Blocks.Interfaces.RealInput EFD0
+                "Input, generator terminal voltage"                                         annotation (Placement(transformation(extent={{-100,-36},{-94,-28}}), iconTransformation(extent={{-112,-8},{-102,2}})));
+              Modelica.Blocks.Interfaces.RealInput ETERM(start=Et0)
+                "Ternimal voltage of generator bus"
                 annotation (Placement(transformation(extent={{-104,40},{-94,50}}), iconTransformation(extent={{-100,34},{-90,44}})));
               Modelica.Blocks.Interfaces.RealInput XADIFD annotation (Placement(transformation(extent={{-100,-56},{-90,-44}}), iconTransformation(extent={{-100,-72},{-90,-62}})));
               iPSL.NonElectrical.Logical.NegCurLogic negCurLogic(RC_rfd=r_cr_fd, nstartvalue=Efd0) annotation (Placement(transformation(extent={{70,-18},{110,20}})));
@@ -28207,7 +28534,8 @@ source-controlled rectifier exciter "
               Modelica.Blocks.Interfaces.RealInput VOTHSG "PSS output Upss" annotation (Placement(transformation(extent={{-110,-20},{-104,-12}}), iconTransformation(extent={{-126,30},{-106,50}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-110,-28},{-104,-20}}), iconTransformation(extent={{-126,-10},{-106,10}})));
               Modelica.Blocks.Sources.Constant Vref(k=VREF) annotation (Placement(transformation(extent={{-96,14},{-84,26}})));
-              Modelica.Blocks.Interfaces.RealOutput EFD(start=Efd0) "Output,excitation voltage" annotation (Placement(transformation(extent={{100,-6},{110,6}}), iconTransformation(extent={{120,-10},{138,10}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD(start=Efd0)
+                "Output,excitation voltage"                                                     annotation (Placement(transformation(extent={{100,-6},{110,6}}), iconTransformation(extent={{120,-10},{138,10}})));
               Modelica.Blocks.Interfaces.RealInput VUEL annotation (Placement(transformation(extent={{-112,-38},{-106,-30}}), iconTransformation(extent={{-126,-50},{-106,-30}})));
 
               function param_init
@@ -28252,7 +28580,8 @@ source-controlled rectifier exciter "
 </html>"));
               end param_init;
 
-              Modelica.Blocks.Interfaces.RealInput EFD0 "Input, generator terminal voltage"
+              Modelica.Blocks.Interfaces.RealInput EFD0
+                "Input, generator terminal voltage"
                 annotation (Placement(transformation(extent={{-110,-46},{-104,-38}}), iconTransformation(extent={{-126,-90},{-106,-70}})));
               NonElectrical.Functions.ImSE se1(
                 SE1=S_EE_1,
@@ -28262,7 +28591,8 @@ source-controlled rectifier exciter "
                     extent={{-8,-9},{8,9}},
                     rotation=180,
                     origin={78,41})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Input, generator terminal voltage" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Input, generator terminal voltage"                                          annotation (Placement(
                   visible=true,
                   transformation(
                     origin={-114,2},
@@ -28464,7 +28794,8 @@ source-controlled rectifier exciter "
 
             model IEEET1 "IEEE Type 1 excitation system"
               import iPSL.NonElectrical.Functions.SE;
-              parameter Real V_0 "Voltage magnitude at the generator terminal (pu)" annotation (Dialog(group="Power flow data"));
+              parameter Real V_0
+                "Voltage magnitude at the generator terminal (pu)"                  annotation (Dialog(group="Power flow data"));
               parameter Real T_R=1 "Voltage input time constant (s)";
               parameter Real K_A=40 "AVR gain";
               parameter Real T_A=0.04 "AVR time constant (s)";
@@ -28481,7 +28812,8 @@ source-controlled rectifier exciter "
               Modelica.Blocks.Interfaces.RealInput VOTHSG "PSS output Upss" annotation (Placement(transformation(extent={{-106,-14},{-100,-8}}), iconTransformation(extent={{-146,70},{-126,90}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-106,-22},{-100,-16}}), iconTransformation(extent={{-146,30},{-126,50}})));
               Modelica.Blocks.Sources.Constant Vref(k=VREF) annotation (Placement(transformation(extent={{-86,26},{-72,40}})));
-              Modelica.Blocks.Interfaces.RealOutput EFD "Output,excitation voltage" annotation (Placement(transformation(extent={{78,-28},{88,-16}}), iconTransformation(extent={{120,-6},{130,6}})));
+              Modelica.Blocks.Interfaces.RealOutput EFD
+                "Output,excitation voltage"                                         annotation (Placement(transformation(extent={{78,-28},{88,-16}}), iconTransformation(extent={{120,-6},{130,6}})));
               NonElectrical.Functions.ImSE se1(
                 SE1=S_EE_1,
                 SE2=S_EE_2,
@@ -28491,8 +28823,10 @@ source-controlled rectifier exciter "
                     rotation=180,
                     origin={54,38})));
               Modelica.Blocks.Interfaces.RealInput VUEL annotation (Placement(transformation(extent={{-106,-30},{-100,-24}}), iconTransformation(extent={{-146,-10},{-126,10}})));
-              Modelica.Blocks.Interfaces.RealInput EC "Input, generator terminal voltage" annotation (Placement(transformation(extent={{-106,0},{-100,6}}), iconTransformation(extent={{-146,-50},{-126,-30}})));
-              Modelica.Blocks.Interfaces.RealInput EFD0 "Input, generator terminal voltage" annotation (Placement(transformation(extent={{-108,20},{-102,26}}), iconTransformation(extent={{-146,-90},{-126,-70}})));
+              Modelica.Blocks.Interfaces.RealInput EC
+                "Input, generator terminal voltage"                                       annotation (Placement(transformation(extent={{-106,0},{-100,6}}), iconTransformation(extent={{-146,-50},{-126,-30}})));
+              Modelica.Blocks.Interfaces.RealInput EFD0
+                "Input, generator terminal voltage"                                         annotation (Placement(transformation(extent={{-108,20},{-102,26}}), iconTransformation(extent={{-146,-90},{-126,-70}})));
               Modelica.Blocks.Math.Add3 sum2(k2=-1) annotation (Placement(transformation(extent={{-48,-2},{-38,8}})));
               Modelica.Blocks.Math.Add sum3(k2=-1) annotation (Placement(transformation(extent={{-32,-8},{-22,2}})));
               Modelica.Blocks.Math.Gain KE_EFD(k=KE0) annotation (Placement(transformation(
@@ -28532,7 +28866,8 @@ source-controlled rectifier exciter "
               parameter Real VRMIN0(fixed=false) "Minimum AVR output (pu)";
               parameter Real KE0(fixed=false) "Exciter field gain, s";
               parameter Real VT0(fixed=false);
-              parameter Real VREF(fixed=false) "Reference terminal voltage (pu)";
+              parameter Real VREF(fixed=false)
+                "Reference terminal voltage (pu)";
               parameter Real Efd0(fixed=false);
               parameter Real SE_Efd0(fixed=false);
               parameter Real VR0(fixed=false);
@@ -28700,9 +29035,11 @@ source-controlled rectifier exciter "
                     rotation=180,
                     origin={70,37})));
               Modelica.Blocks.Interfaces.RealInput VUEL annotation (Placement(transformation(extent={{-133,22},{-127,28}}), iconTransformation(extent={{-130,40},{-120,50}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Compensated generator terminal voltage "
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Compensated generator terminal voltage "
                 annotation (Placement(transformation(extent={{-133,-11},{-127,-5}}), iconTransformation(extent={{-130,-5},{-120,5}})));
-              Modelica.Blocks.Interfaces.RealInput EFD0 "Input, generator terminal voltage"
+              Modelica.Blocks.Interfaces.RealInput EFD0
+                "Input, generator terminal voltage"
                 annotation (Placement(transformation(extent={{-133,-31},{-127,-25}}), iconTransformation(extent={{-130,-50},{-120,-40}})));
               Modelica.Blocks.Math.Add imSum2_2(k2=-1) annotation (Placement(transformation(extent={{-80,-10},{-70,0}})));
               Modelica.Blocks.Math.Gain KE_EFD(k=K_E0) annotation (Placement(transformation(
@@ -28930,7 +29267,8 @@ source-controlled rectifier exciter "
           package SCRX
 
             model SCRX "Bus Fed or Solid Fed Static Exciter"
-              parameter Real V_c0 "Magnitude of the compensated generator terminal voltage" annotation (Dialog(group="Power flow data"));
+              parameter Real V_c0
+                "Magnitude of the compensated generator terminal voltage"                   annotation (Dialog(group="Power flow data"));
               parameter Real V_0 "Magnitude of the generator terminal voltage" annotation (Dialog(group="Power flow data"));
               parameter Real T_AT_B;
               parameter Real T_B;
@@ -28946,7 +29284,8 @@ source-controlled rectifier exciter "
                 k3=1,
                 k1=1,
                 k2=-1) annotation (Placement(transformation(extent={{-52,-8},{-36,8}})));
-              Modelica.Blocks.Interfaces.RealInput VOTHSG(start=0) "PSS output Upss" annotation (Placement(transformation(extent={{-114,-14},{-104,-4}}), iconTransformation(extent={{-124,34},{-114,44}})));
+              Modelica.Blocks.Interfaces.RealInput VOTHSG(start=0)
+                "PSS output Upss"                                                    annotation (Placement(transformation(extent={{-114,-14},{-104,-4}}), iconTransformation(extent={{-124,34},{-114,44}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-114,-24},{-104,-14}}), iconTransformation(extent={{-124,10},{-114,20}})));
               Modelica.Blocks.Interfaces.RealInput VUEL "UEL output" annotation (Placement(transformation(extent={{-114,-34},{-104,-24}}), iconTransformation(extent={{-124,-16},{-114,-6}})));
               Modelica.Blocks.Interfaces.RealInput EFD0 annotation (Placement(transformation(extent={{-114,10},{-104,20}}), iconTransformation(extent={{-124,-108},{-114,-94}})));
@@ -28957,7 +29296,8 @@ source-controlled rectifier exciter "
                 T2=T_B) annotation (Placement(transformation(extent={{-28,-10},{-8,10}})));
               iPSL.NonElectrical.Logical.NegCurLogic negCurLogic(nstartvalue=efd0, RC_rfd=r_cr_fd) annotation (Placement(transformation(extent={{66,-22},{110,22}})));
               Modelica.Blocks.Interfaces.RealInput XADIFD annotation (Placement(transformation(extent={{-114,-48},{-104,-36}}), iconTransformation(extent={{-126,-38},{-116,-28}})));
-              Modelica.Blocks.Interfaces.RealInput ECOMP "Ternimal voltage of generator bus" annotation (Placement(transformation(extent={{-114,22},{-104,32}}), iconTransformation(extent={{-124,62},{-114,72}})));
+              Modelica.Blocks.Interfaces.RealInput ECOMP
+                "Ternimal voltage of generator bus"                                          annotation (Placement(transformation(extent={{-114,22},{-104,32}}), iconTransformation(extent={{-124,62},{-114,72}})));
               Modelica.Blocks.Sources.Constant const(k=VREF) annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
               Modelica.Blocks.Math.Add3 add3_1 annotation (Placement(transformation(extent={{-86,-30},{-66,-10}})));
               NonElectrical.Continuous.SimpleLagLim simpleLagLim(
@@ -29130,7 +29470,8 @@ source-controlled rectifier exciter "
                 k3=1,
                 k1=1,
                 k2=-1) annotation (Placement(transformation(extent={{-52,-6},{-36,10}})));
-              Modelica.Blocks.Interfaces.RealInput VOTHSG(start=0) "PSS output Upss" annotation (Placement(transformation(extent={{-102,-14},{-92,-4}}), iconTransformation(extent={{-100,24},{-88,36}})));
+              Modelica.Blocks.Interfaces.RealInput VOTHSG(start=0)
+                "PSS output Upss"                                                    annotation (Placement(transformation(extent={{-102,-14},{-92,-4}}), iconTransformation(extent={{-100,24},{-88,36}})));
               Modelica.Blocks.Interfaces.RealInput VOEL "OEL output" annotation (Placement(transformation(extent={{-102,-24},{-92,-14}}), iconTransformation(extent={{-100,-6},{-88,6}})));
               Modelica.Blocks.Interfaces.RealInput VUEL annotation (Placement(transformation(extent={{-102,-34},{-92,-24}}), iconTransformation(extent={{-100,-36},{-88,-24}})));
               Modelica.Blocks.Interfaces.RealInput EFD0 annotation (Placement(transformation(extent={{-102,10},{-92,24}}), iconTransformation(extent={{-100,-56},{-88,-44}})));
@@ -29264,24 +29605,37 @@ source-controlled rectifier exciter "
           package ST5B "IIEEE 421.5 2005 ST5B Excitation System"
 
             model ST5B "IEEE 421.5 2005 ST5B Excitation System"
-              parameter Real T_R=0.025 "Regulator input filter time constant (s)";
-              parameter Real T_C1=0.1 "Lead time constant of first lead-lag block (voltage regulator channel) (s)";
-              parameter Real T_B1=0.2 "Lag time constant of first lead-lag block (voltage regulator channel) (s)";
-              parameter Real T_C2=1 "Lead time constant of second lead-lag block (voltage regulator channel) (s)";
-              parameter Real T_B2=1 "Lag time constant of second lead-lag block (voltage regulator channel) (s)";
+              parameter Real T_R=0.025
+                "Regulator input filter time constant (s)";
+              parameter Real T_C1=0.1
+                "Lead time constant of first lead-lag block (voltage regulator channel) (s)";
+              parameter Real T_B1=0.2
+                "Lag time constant of first lead-lag block (voltage regulator channel) (s)";
+              parameter Real T_C2=1
+                "Lead time constant of second lead-lag block (voltage regulator channel) (s)";
+              parameter Real T_B2=1
+                "Lag time constant of second lead-lag block (voltage regulator channel) (s)";
               parameter Real K_R=1 "Voltage regulator gain (pu)";
               parameter Real V_RMAX=10 "Voltage regulator maximum limit (pu)";
               parameter Real V_RMIN=-10 "Voltage regulator minimum limit (pu)";
               parameter Real T_1=0.58 "voltage regulator time constant (s)";
               parameter Real K_C=0.3 "(pu)";
-              parameter Real T_UC1=1 "Lead time constant of first lead-lag block (under- excitation channel) (s)";
-              parameter Real T_UB1=1 "Lag time constant of first lead-lag block (under- excitation channel) (s)";
-              parameter Real T_UC2=1 "Lead time constant of second lead-lag block (under- excitation channel) (s)";
-              parameter Real T_UB2=1 "Lag time constant of second lead-lag block (under- excitation channel) (s)";
-              parameter Real T_OC1=1 "Lead time constant of first lead-lag block (over- excitation channel) (s)";
-              parameter Real T_OB1=1 "Lag time constant of first lead-lag block (over- excitation channel) (s)";
-              parameter Real T_OC2=1 "Lead time constant of second lead-lag block (over- excitation channel) (s)";
-              parameter Real T_OB2=1 "Lag time constant of second lead-lag block (over- excitation channel) (s)";
+              parameter Real T_UC1=1
+                "Lead time constant of first lead-lag block (under- excitation channel) (s)";
+              parameter Real T_UB1=1
+                "Lag time constant of first lead-lag block (under- excitation channel) (s)";
+              parameter Real T_UC2=1
+                "Lead time constant of second lead-lag block (under- excitation channel) (s)";
+              parameter Real T_UB2=1
+                "Lag time constant of second lead-lag block (under- excitation channel) (s)";
+              parameter Real T_OC1=1
+                "Lead time constant of first lead-lag block (over- excitation channel) (s)";
+              parameter Real T_OB1=1
+                "Lag time constant of first lead-lag block (over- excitation channel) (s)";
+              parameter Real T_OC2=1
+                "Lead time constant of second lead-lag block (over- excitation channel) (s)";
+              parameter Real T_OB2=1
+                "Lag time constant of second lead-lag block (over- excitation channel) (s)";
               Modelica.Blocks.Interfaces.RealInput ECOMP annotation (Placement(transformation(extent={{-316,-10},{-296,10}}), iconTransformation(extent={{-300,80},{-280,100}})));
               Modelica.Blocks.Interfaces.RealInput XADIFD
                 annotation (Placement(transformation(
@@ -29510,7 +29864,8 @@ source-controlled rectifier exciter "
 </html>"));
             end ST5B;
 
-            model SelectLogic "Selection of voltage signal depending on the Excitation limiters"
+            model SelectLogic
+              "Selection of voltage signal depending on the Excitation limiters"
               Modelica.Blocks.Interfaces.RealInput V1 annotation (Placement(transformation(extent={{-138,40},{-98,80}})));
               Modelica.Blocks.Interfaces.RealInput V2 annotation (Placement(transformation(extent={{-138,-20},{-98,20}})));
               Modelica.Blocks.Interfaces.RealInput V3 annotation (Placement(transformation(extent={{-138,-80},{-98,-40}})));
@@ -29823,7 +30178,8 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
         package TG
 
           model IEEEG1
-            Modelica.Blocks.Interfaces.RealInput SPEED_HP "Machine speed deviation from nominal (pu)"
+            Modelica.Blocks.Interfaces.RealInput SPEED_HP
+              "Machine speed deviation from nominal (pu)"
               annotation (Placement(transformation(extent={{-172,2},{-162,14}}), iconTransformation(extent={{-162,-16},{-132,16}})));
             iPSL.NonElectrical.Continuous.LeadLag imLeadLag(
               K=K,
@@ -29878,8 +30234,10 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
                   extent={{-6,-6},{6,6}},
                   rotation=-90,
                   origin={130,-16})));
-            Modelica.Blocks.Interfaces.RealOutput PMECH_HP "Turbine mechanical power (pu)" annotation (Placement(transformation(extent={{170,52},{180,64}}), iconTransformation(extent={{160,26},{188,54}})));
-            Modelica.Blocks.Interfaces.RealOutput PMECH_LP "Turbine mechanical power (pu)" annotation (Placement(transformation(extent={{170,-48},{180,-36}}), iconTransformation(extent={{160,-56},{188,-24}})));
+            Modelica.Blocks.Interfaces.RealOutput PMECH_HP
+              "Turbine mechanical power (pu)"                                              annotation (Placement(transformation(extent={{170,52},{180,64}}), iconTransformation(extent={{160,26},{188,54}})));
+            Modelica.Blocks.Interfaces.RealOutput PMECH_LP
+              "Turbine mechanical power (pu)"                                              annotation (Placement(transformation(extent={{170,-48},{180,-36}}), iconTransformation(extent={{160,-56},{188,-24}})));
             parameter Real P0 "Power reference of the governor";
             parameter Real K=20 "Governor gain, 1/R (pu)";
             parameter Real T_1=1e-8 "Control time constant (s)";
@@ -30006,16 +30364,21 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
           end IEEEG1;
 
           model IEESGO "IEEE Standard Model for Turbine-Governor"
-            input Modelica.Blocks.Interfaces.RealInput SPEED "Machine speed deviation from nominal (pu)"
+            input Modelica.Blocks.Interfaces.RealInput SPEED
+              "Machine speed deviation from nominal (pu)"
               annotation (Placement(transformation(extent={{-140,-2},{-128,10}}), iconTransformation(extent={{-160,22},{-144,38}})));
-            input Modelica.Blocks.Interfaces.RealInput PMECH0 "Initial value of turbine mechanical power (pu)"
+            input Modelica.Blocks.Interfaces.RealInput PMECH0
+              "Initial value of turbine mechanical power (pu)"
               annotation (Placement(transformation(extent={{-140,24},{-128,36}}), iconTransformation(extent={{-160,-48},{-144,-32}})));
             parameter Real T_1=0.2 "Controller lag (s)";
             parameter Real T_2=0 "Controller lead compensation (s)";
             parameter Real T_3=0.5 "Governor lag (s)";
-            parameter Real T_4=0.12 "Delay due to steam inlet volumes associated with steam chest and inlet piping (s)";
-            parameter Real T_5=5 "Reheater delay including hot and cold leads (s)";
-            parameter Real T_6=0.5 "Delay due to IP-LP turbine, crossover pipes, and LP end hoods (s)";
+            parameter Real T_4=0.12
+              "Delay due to steam inlet volumes associated with steam chest and inlet piping (s)";
+            parameter Real T_5=5
+              "Reheater delay including hot and cold leads (s)";
+            parameter Real T_6=0.5
+              "Delay due to IP-LP turbine, crossover pipes, and LP end hoods (s)";
             parameter Real K_1=20 "1/p.u. regulation ";
             parameter Real K_2=0.59 "Fraction ";
             parameter Real K_3=0.43 "Fraction ";
@@ -30042,7 +30405,8 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
               K=K_3,
               T=T_6,
               y_start=p0*K_2*K_3) annotation (Placement(transformation(extent={{46,-66},{66,-46}})));
-            output Modelica.Blocks.Interfaces.RealOutput PMECH "Turbine mechanical power (pu)"
+            output Modelica.Blocks.Interfaces.RealOutput PMECH
+              "Turbine mechanical power (pu)"
               annotation (Placement(transformation(extent={{146,-22},{156,-10}}), iconTransformation(extent={{160,-10},{180,10}})));
             Modelica.Blocks.Math.Add add(k2=-1) annotation (Placement(transformation(extent={{-44,14},{-24,34}})));
             Modelica.Blocks.Nonlinear.Limiter limiter(uMax=P_MAX, uMin=P_MIN) annotation (Placement(transformation(extent={{-14,14},{6,34}})));
@@ -30117,7 +30481,8 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
             parameter Real D_turb=0.2 "Turbine damping";
             parameter Real q_NL=0.08 "Water flow at no load";
             Modelica.Blocks.Sources.Constant n_ref(k=nref) annotation (Placement(transformation(extent={{-178,14},{-166,26}})));
-            Modelica.Blocks.Interfaces.RealInput SPEED "Machine speed deviation from nominal (pu)"
+            Modelica.Blocks.Interfaces.RealInput SPEED
+              "Machine speed deviation from nominal (pu)"
               annotation (Placement(transformation(extent={{-206,-10},{-192,4}}), iconTransformation(extent={{-84,24},{-72,36}})));
             iPSL.NonElectrical.Continuous.SimpleLag SimpleLag1(
               K=1,
@@ -30132,12 +30497,14 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
               k=1/T_w) annotation (Placement(transformation(extent={{62,-4},{74,8}})));
             Modelica.Blocks.Sources.Constant qNL(k=q_NL) annotation (Placement(transformation(extent={{92,-18},{84,-10}})));
             Modelica.Blocks.Math.Gain Gain6(k=A_t) annotation (Placement(transformation(extent={{132,-2},{144,10}})));
-            Modelica.Blocks.Interfaces.RealOutput PMECH "Turbine mechanical power (pu)" annotation (Placement(transformation(extent={{170,-6},{182,6}}), iconTransformation(extent={{80,-4},{88,4}})));
+            Modelica.Blocks.Interfaces.RealOutput PMECH
+              "Turbine mechanical power (pu)"                                           annotation (Placement(transformation(extent={{170,-6},{182,6}}), iconTransformation(extent={{80,-4},{88,4}})));
             iPSL.NonElectrical.Continuous.SimpleLag g(
               K=1,
               T=T_g,
               y_start=g0) "servo_motor" annotation (Placement(transformation(extent={{-40,0},{-28,12}})));
-            Modelica.Blocks.Interfaces.RealInput PMECH0 "Initial turbine mechanical power (pu)"
+            Modelica.Blocks.Interfaces.RealInput PMECH0
+              "Initial turbine mechanical power (pu)"
               annotation (Placement(transformation(extent={{-84,-62},{-76,-52}}), iconTransformation(extent={{-84,-36},{-72,-24}})));
             Modelica.Blocks.Nonlinear.Limiter Velocity_Limiter(uMin=-VELM, uMax=VELM) annotation (Placement(transformation(extent={{-86,0},{-74,12}})));
             Modelica.Blocks.Continuous.LimIntegrator Position_Limiter(
@@ -30271,14 +30638,16 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
 
           model TGOV1 "Steam Turbine-Governor"
 
-            Modelica.Blocks.Interfaces.RealInput SPEED "Machine speed deviation from nominal (pu)"
+            Modelica.Blocks.Interfaces.RealInput SPEED
+              "Machine speed deviation from nominal (pu)"
               annotation (Placement(transformation(extent={{-85,-20},{-75,-8}}), iconTransformation(extent={{-80,20},{-60,40}})));
             iPSL.NonElectrical.Continuous.LeadLag imLeadLag(
               T1=T_2,
               T2=T_3,
               K=1,
               y_start=P0) annotation (Placement(transformation(extent={{30,7},{40,17}})));
-            Modelica.Blocks.Interfaces.RealOutput PMECH "Turbine mechanical power (pu)" annotation (Placement(transformation(extent={{80,-6},{90,6}}), iconTransformation(extent={{80,-10},{100,10}})));
+            Modelica.Blocks.Interfaces.RealOutput PMECH
+              "Turbine mechanical power (pu)"                                           annotation (Placement(transformation(extent={{80,-6},{90,6}}), iconTransformation(extent={{80,-10},{100,10}})));
 
             parameter Real R "Governor gain, 1/R (pu)";
             parameter Real D_t "(pu)";
@@ -30360,7 +30729,8 @@ Logic"),            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255
 
           package GGOV1 "GE General Governor/Turbine Model"
 
-            block Min_select "Output the minimum and the maximum element of the input vector"
+            block Min_select
+              "Output the minimum and the maximum element of the input vector"
               parameter Integer nu(min=0) = 0 "Number of input connections" annotation (Dialog(connectorSizing=true), HideResult=true);
               Modelica.Blocks.Interfaces.RealVectorInput u[nu] annotation (Placement(transformation(extent={{-120,70},{-80,-70}})));
               Modelica.Blocks.Interfaces.RealOutput yMin(start=frs0) annotation (Placement(transformation(extent={{100,-94},{120,-74}}, rotation=0)));
@@ -30397,7 +30767,8 @@ provide both values as output.
 </html>"),      Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics));
             end Min_select;
 
-            block RSELECT "Output the minimum and the maximum element of the input vector"
+            block RSELECT
+              "Output the minimum and the maximum element of the input vector"
               // extends Modelica.Blocks.Icons.Block;
               parameter Real Rselect;
               Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(extent={{100,-12},{120,8}}, rotation=0)));
@@ -30449,7 +30820,8 @@ provide both values as output.
 </html>"),      Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics={Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255})}));
             end RSELECT;
 
-            block flag "Output the minimum and the maximum element of the input vector"
+            block flag
+              "Output the minimum and the maximum element of the input vector"
               parameter Real flag;
               Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(extent={{100,-12},{120,8}}, rotation=0)));
               Modelica.Blocks.Interfaces.RealInput speed
@@ -30491,7 +30863,8 @@ provide both values as output.
 </html>"),      Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics));
             end flag;
 
-            block Dm_select "Output the minimum and the maximum element of the input vector"
+            block Dm_select
+              "Output the minimum and the maximum element of the input vector"
               parameter Real Dm;
               Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(extent={{100,-12},{120,8}}, rotation=0)));
               Modelica.Blocks.Interfaces.RealInput speed
@@ -30541,15 +30914,19 @@ provide both values as output.
                   choice=-1 "Governor output (requested stroke)",
                   choice=-2 "Fuel valve stroke (true stoke)"));
               parameter Integer Flag=1 "Switch for fuel source
-      characteristic"             annotation (Evaluate=true, choices(choice=0 "Fuel flow independent of speed", choice=1 "Fuel flow proportional to speed"));
+      characteristic"             annotation (Evaluate=true, choices(choice=0
+                    "Fuel flow independent of speed",                                                           choice=1
+                    "Fuel flow proportional to speed"));
               parameter Real R "Permanent droop (pu)";
-              parameter Real T_pelec "Electrical power transducer time constant (s)";
+              parameter Real T_pelec
+                "Electrical power transducer time constant (s)";
               parameter Real maxerr "Maximum value for speed error signal";
               parameter Real minerr "Minimum value for speed error signal";
               parameter Real Kpgov "Governor proportional gain";
               parameter Real Kigov "Governor integral gain";
               parameter Real Kdgov "Governor derivative gain";
-              parameter Real Tdgov "Governor derivative controller time constant (s)";
+              parameter Real Tdgov
+                "Governor derivative controller time constant (s)";
               parameter Real Vmax "Maximum valve position limit";
               parameter Real Vmin "Minimum valve position limit";
               parameter Real Tact "Actuator time constant (s)";
@@ -30557,10 +30934,13 @@ provide both values as output.
               parameter Real Wfnl "No load fuel flow (pu)";
               parameter Real Tb "Turbine lag time constant (s)";
               parameter Real Tc "Turbine lead time constant (s)";
-              parameter Real Teng "Transport lag time constant for diesel engine (s)";
+              parameter Real Teng
+                "Transport lag time constant for diesel engine (s)";
               parameter Real Tfload "Load Limiter time constant (s)";
-              parameter Real Kpload "Load limiter proportional gain for PI controller";
-              parameter Real Kiload "Load limiter integral gain for PI controller";
+              parameter Real Kpload
+                "Load limiter proportional gain for PI controller";
+              parameter Real Kiload
+                "Load limiter integral gain for PI controller";
               parameter Real Ldref "Load limiter reference value (pu)";
               parameter Real Dm "Mechanical damping coefficient (pu)";
               parameter Real Ropen "Maximum valve opening rate (p.u./s)";
@@ -30604,9 +30984,11 @@ provide both values as output.
               Modelica.Blocks.Math.Add3 add3_2(k1=-1, k3=-1) annotation (Placement(transformation(extent={{-198,-80},{-186,-68}})));
               Modelica.Blocks.Math.Gain Acceleration(k=Ka*DELT) annotation (Placement(transformation(extent={{-116,0},{-92,24}})));
               Modelica.Blocks.Math.Add add annotation (Placement(transformation(extent={{-54,-2},{-36,16}})));
-              Modelica.Blocks.Interfaces.RealInput SPEED "Machine speed deviation from nominal (pu)"
+              Modelica.Blocks.Interfaces.RealInput SPEED
+                "Machine speed deviation from nominal (pu)"
                 annotation (Placement(transformation(extent={{-346,102},{-310,138}}), iconTransformation(extent={{-346,102},{-310,138}})));
-              Modelica.Blocks.Interfaces.RealInput PELEC "Machine electrical power (pu)"
+              Modelica.Blocks.Interfaces.RealInput PELEC
+                "Machine electrical power (pu)"
                 annotation (Placement(transformation(extent={{-348,-118},{-310,-80}}), iconTransformation(extent={{-348,-118},{-310,-80}})));
               Modelica.Blocks.Continuous.Derivative s8(
                 k=1,
@@ -30629,7 +31011,8 @@ provide both values as output.
                     extent={{-8,-8},{8,8}},
                     rotation=90,
                     origin={-246,-98})));
-              Modelica.Blocks.Sources.Constant Pmw_set(k=Pmwset) "Supervisory Load Controller Setpoint," annotation (Placement(transformation(extent={{-276,-148},{-260,-132}})));
+              Modelica.Blocks.Sources.Constant Pmw_set(k=Pmwset)
+                "Supervisory Load Controller Setpoint,"                                                  annotation (Placement(transformation(extent={{-276,-148},{-260,-132}})));
               Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(transformation(
                     extent={{-6,-6},{6,6}},
                     rotation=90,
@@ -30674,7 +31057,8 @@ provide both values as output.
                     extent={{-8,-8},{8,8}},
                     rotation=90,
                     origin={150,60})));
-              Modelica.Blocks.Nonlinear.FixedDelay delay(delayTime=Teng) "Transport lag time" annotation (Placement(transformation(
+              Modelica.Blocks.Nonlinear.FixedDelay delay(delayTime=Teng)
+                "Transport lag time"                                                          annotation (Placement(transformation(
                     extent={{-14,-14},{14,14}},
                     rotation=90,
                     origin={150,20})));
@@ -30699,7 +31083,8 @@ provide both values as output.
                     rotation=90,
                     origin={128,-152})));
               Dm_select dm_select(Dm=Dm) annotation (Placement(transformation(extent={{2,154},{22,174}})));
-              Modelica.Blocks.Interfaces.RealOutput PMECH "Turbine mechanical power (pu)" annotation (Placement(transformation(extent={{260,-10},{280,10}}), iconTransformation(extent={{260,-10},{280,10}})));
+              Modelica.Blocks.Interfaces.RealOutput PMECH
+                "Turbine mechanical power (pu)"                                           annotation (Placement(transformation(extent={{260,-10},{280,10}}), iconTransformation(extent={{260,-10},{280,10}})));
               Modelica.Blocks.Math.Product product1 annotation (Placement(transformation(
                     extent={{-10,-10},{10,10}},
                     rotation=180,
@@ -31143,8 +31528,10 @@ provide both values as output.
               parameter Real V_MAX "Upper limits of input signals";
               parameter Real V_MIN "Lower limits of input signals";
               parameter Real D_turb "Gain value multiplied with input signal";
-              Modelica.Blocks.Interfaces.RealInput SPEED "Machine electrical power (pu on M_b)" annotation (Placement(transformation(extent={{-120,30},{-80,70}}), iconTransformation(extent={{-120,30},{-80,70}})));
-              Modelica.Blocks.Interfaces.RealOutput PMECH "Turbine mechanical power (pu)" annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+              Modelica.Blocks.Interfaces.RealInput SPEED
+                "Machine electrical power (pu on M_b)"                                          annotation (Placement(transformation(extent={{-120,30},{-80,70}}), iconTransformation(extent={{-120,30},{-80,70}})));
+              Modelica.Blocks.Interfaces.RealOutput PMECH
+                "Turbine mechanical power (pu)"                                           annotation (Placement(transformation(extent={{100,-10},{120,10}})));
               Modelica.Blocks.Math.Add add(k1=-1) annotation (Placement(transformation(extent={{-78,-22},{-68,-12}})));
               Modelica.Blocks.Math.Add add1(k2=-1) annotation (Placement(transformation(
                     extent={{-5,-5},{5,5}},
@@ -31164,7 +31551,8 @@ provide both values as output.
                     extent={{-5,-5},{5,5}},
                     rotation=270,
                     origin={-85,33})));
-              Modelica.Blocks.Interfaces.RealInput Reference "Speed reference (pu)" annotation (Placement(transformation(extent={{-120,-70},{-80,-30}}), iconTransformation(extent={{-120,-70},{-80,-30}})));
+              Modelica.Blocks.Interfaces.RealInput Reference
+                "Speed reference (pu)"                                              annotation (Placement(transformation(extent={{-120,-70},{-80,-30}}), iconTransformation(extent={{-120,-70},{-80,-30}})));
               NonElectrical.Logical.LV_GATE lV_Gate annotation (Placement(transformation(extent={{-46,-10},{-26,10}})));
               Modelica.Blocks.Continuous.TransferFunction transferFunction1(a={T_2,1}) annotation (Placement(transformation(extent={{48,-6},{60,6}})));
               Modelica.Blocks.Continuous.TransferFunction transferFunction2(a={T_3,1}) annotation (Placement(transformation(
@@ -31300,6 +31688,7 @@ provide both values as output.
 
           package PSS2A
 
+
             model PSS2A "IEEE Dual-Input Stabilizer Model"
               parameter Real T_w1=10 "Washout 1 time constant";
               parameter Real T_w2=10 "Washout 2 time constant";
@@ -31312,7 +31701,8 @@ provide both values as output.
               parameter Real T_8=0.5 "Ramp-tracking filter time constant";
               parameter Real T_9=0.1 "Ramp-tracking filter time constant";
               parameter Real K_S1=20 "PSS gain";
-              parameter Real T_1=0.15 "Leadlag1 time constant (data from IEEE std, not representive, need to be tuned following system parameters)";
+              parameter Real T_1=0.15
+                "Leadlag1 time constant (data from IEEE std, not representive, need to be tuned following system parameters)";
               parameter Real T_2=0.025 "Leadlag1 time constant";
               parameter Real T_3=0.15 "Leadlag2 time constant";
               parameter Real T_4=0.025 "Leadlag2 time constant";
@@ -31451,6 +31841,7 @@ provide both values as output.
           end PSS2A;
 
           package PSS2B
+
 
             model PSS2B
               parameter Real T_w1=10 "Washout time constant 1";
@@ -31639,8 +32030,10 @@ provide both values as output.
               parameter Real K_5=1;
               parameter Real T_5=1;
               parameter Real H_LIM=5;
-              input Modelica.Blocks.Interfaces.RealInput PELEC "Machine electrical power (pu)" annotation (Placement(transformation(extent={{-109,-6},{-98,10}}), iconTransformation(extent={{-107,-10},{-87,10}})));
-              output Modelica.Blocks.Interfaces.RealOutput VOTHSG "PSS output signal" annotation (Placement(transformation(extent={{120,-10},{140,10}}), iconTransformation(extent={{120,-10},{140,10}})));
+              input Modelica.Blocks.Interfaces.RealInput PELEC
+                "Machine electrical power (pu)"                                                annotation (Placement(transformation(extent={{-109,-6},{-98,10}}), iconTransformation(extent={{-107,-10},{-87,10}})));
+              output Modelica.Blocks.Interfaces.RealOutput VOTHSG
+                "PSS output signal"                                                   annotation (Placement(transformation(extent={{120,-10},{140,10}}), iconTransformation(extent={{120,-10},{140,10}})));
               Modelica.Blocks.Continuous.TransferFunction transferFunction(
                 b={-K_2*T_2,0},
                 a={T_2,1},
@@ -31777,13 +32170,15 @@ provide both values as output.
 
           package STAB3
 
+
             model STAB3
               parameter Real T_t "(s)";
               parameter Real T_X1 ">0 (s)";
               parameter Real T_X2 ">0 (s)";
               parameter Real K_X;
               parameter Real V_LIM;
-              Modelica.Blocks.Interfaces.RealInput PELEC "Machine electrical power (pu)" annotation (Placement(transformation(extent={{-130,-20},{-90,20}}), iconTransformation(extent={{-130,-20},{-90,20}})));
+              Modelica.Blocks.Interfaces.RealInput PELEC
+                "Machine electrical power (pu)"                                          annotation (Placement(transformation(extent={{-130,-20},{-90,20}}), iconTransformation(extent={{-130,-20},{-90,20}})));
               Modelica.Blocks.Interfaces.RealOutput VOTHSG "PSS output signal" annotation (Placement(transformation(extent={{100,-10},{120,10}}), iconTransformation(extent={{100,-10},{120,10}})));
               Modelica.Blocks.Nonlinear.Limiter limiter(uMax=V_LIM, uMin=-V_LIM) annotation (Placement(transformation(extent={{70,-10},{90,10}})));
               Modelica.Blocks.Sources.Constant const(k=P_REF) annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
@@ -31878,6 +32273,7 @@ provide both values as output.
           end STAB3;
 
           package STABNI
+
 
             model STABNI
               parameter Real K ">= 0";
@@ -32024,12 +32420,15 @@ provide both values as output.
                 T2=T_4,
                 x_start=V_S0,
                 y_start=V_S0) annotation (Placement(transformation(extent={{60,-5},{70,5}})));
-              Modelica.Blocks.Interfaces.RealOutput VOTHSG(start=0) "PSS output signal"
+              Modelica.Blocks.Interfaces.RealOutput VOTHSG(start=0)
+                "PSS output signal"
                 annotation (Placement(transformation(extent={{120,-5},{130,5}}, rotation=0), iconTransformation(extent={{120,-10},{140,10}})));
-              Modelica.Blocks.Interfaces.RealInput V_S(start=0) "PSS input signal"
+              Modelica.Blocks.Interfaces.RealInput V_S(start=0)
+                "PSS input signal"
                 annotation (Placement(transformation(extent={{-125,-5},{-115,5}}, rotation=0), iconTransformation(extent={{-128,-30},{-108,-10}})));
               Modelica.Blocks.Nonlinear.Limiter VSS(uMax=L_SMAX, uMin=L_SMIN) annotation (Placement(transformation(extent={{100,-5},{110,5}})));
-              Modelica.Blocks.Interfaces.RealInput V_CT "Compensated machine terminal voltage (pu)"
+              Modelica.Blocks.Interfaces.RealInput V_CT
+                "Compensated machine terminal voltage (pu)"
                 annotation (Placement(transformation(extent={{-125,30},{-115,40}}, rotation=0), iconTransformation(extent={{-128,10},{-108,30}})));
               Modelica.Blocks.Continuous.Derivative imDerivativeLag(
                 T=T_6,
@@ -32038,7 +32437,8 @@ provide both values as output.
                 x_start=V_S0,
                 k=K_S*T_5) annotation (Placement(transformation(extent={{80,-5},{90,5}})));
             protected
-              Modelica.Blocks.Interfaces.RealOutput Vs "Connector of Real output signal" annotation (Placement(transformation(extent={{113,-5},{123,5}}, rotation=0), iconTransformation(extent={{32,-8},{36,-4}})));
+              Modelica.Blocks.Interfaces.RealOutput Vs
+                "Connector of Real output signal"                                        annotation (Placement(transformation(extent={{113,-5},{123,5}}, rotation=0), iconTransformation(extent={{32,-8},{36,-4}})));
 
               parameter Real V_S0(fixed=false);
               parameter Boolean bypass_filter2(fixed=false);
@@ -32273,7 +32673,8 @@ provide both values as output.
                 T1=T_9,
                 T2=T_10,
                 y_start=0) annotation (Placement(transformation(extent={{60,-10},{80,10}})));
-              Modelica.Blocks.Interfaces.RealInput VCT "Compensated machine terminal voltage (pu)"
+              Modelica.Blocks.Interfaces.RealInput VCT
+                "Compensated machine terminal voltage (pu)"
                 annotation (Placement(transformation(
                     extent={{-20,-20},{20,20}},
                     rotation=90,
@@ -32429,7 +32830,8 @@ IEE2ST, PSSE Manual
               Modelica.Blocks.Nonlinear.Limiter limiter(uMax=V_SCS, uMin=-V_SCS) annotation (Placement(transformation(extent={{74,-10},{94,10}})));
               Modelica.Blocks.Interfaces.RealInput V_S1 "PSS input signal 1" annotation (Placement(transformation(extent={{-150,30},{-110,70}})));
               Modelica.Blocks.Interfaces.RealInput V_S2 "PSS input signal 2" annotation (Placement(transformation(extent={{-150,-70},{-110,-30}})));
-              Modelica.Blocks.Interfaces.RealOutput VOTHSG "Stabilizer signal (pu)" annotation (Placement(transformation(extent={{120,-10},{140,10}})));
+              Modelica.Blocks.Interfaces.RealOutput VOTHSG
+                "Stabilizer signal (pu)"                                            annotation (Placement(transformation(extent={{120,-10},{140,10}})));
             protected
               parameter Real V_S10(fixed=false);
               parameter Real V_S20(fixed=false);
@@ -32692,13 +33094,18 @@ IEE2ST, PSSE Manual
         model Mixed_Load "Mixed Load"
           import Modelica.Constants.pi;
           extends BaseClasses.baseLoad;
-          parameter Real Kpf=0 "Frequency coefficient for the active power (pu)";
+          parameter Real Kpf=0
+            "Frequency coefficient for the active power (pu)";
           parameter Real alpha=0 "Voltage exponent for the active power";
-          parameter Real Tpv=0.12 "Time constant of dV/dt for the active power (s)";
-          parameter Real Kqf=0 "Frequency coefficient for the reactive power (pu)";
+          parameter Real Tpv=0.12
+            "Time constant of dV/dt for the active power (s)";
+          parameter Real Kqf=0
+            "Frequency coefficient for the reactive power (pu)";
           parameter Real beta=0 "Voltage exponent for the reactive power";
-          parameter Real Tqv=0.075 "Time constant of dV/dt for the reactive power (s)";
-          parameter Real Tfv=0.005 "Time constant of voltage magnitude filter (s)";
+          parameter Real Tqv=0.075
+            "Time constant of dV/dt for the reactive power (s)";
+          parameter Real Tfv=0.005
+            "Time constant of voltage magnitude filter (s)";
           parameter Real Tft=0.007 "Time constant of voltage angle filter (s)";
           Real deltaw "Frequency deviation (pu)";
         protected
@@ -32881,7 +33288,8 @@ IEE2ST, PSSE Manual
           parameter Real Qz=0.33 "Susceptance";
           parameter Real Qi=0.33 "Reactive current";
           parameter Real Qp=1 - Qz - Qi "Reactive power";
-          parameter Real Kv=100 "coefficient of the voltage time derivative (1/s)";
+          parameter Real Kv=100
+            "coefficient of the voltage time derivative (1/s)";
         protected
           Real a "Auxiliary variable, voltage division";
           Real b "Auxiliary variable, derivation";
@@ -32997,21 +33405,22 @@ IEE2ST, PSSE Manual
 </html>"));
         end LOADPQ;
 
-        model LOADPQ_variation "Equations come from the mathematical separation in between reals and imaginary of S=P+jQ=UI*"
+        model LOADPQ_variation
+          "Equations come from the mathematical separation in between reals and imaginary of S=P+jQ=UI*"
           extends BaseClasses.baseLoad;
-          parameter Real startTime_1 "Start time of first load variation (s)" annotation (Dialog(group="Variation 1"));
-          parameter Real endTime_1 "End time of first load variation (s)" annotation (Dialog(group="Variation 1"));
+          parameter Real t_start_1 "Start time of first load variation (s)" annotation (Dialog(group="Variation 1"));
+          parameter Real t_end_1 "End time of first load variation (s)" annotation (Dialog(group="Variation 1"));
           parameter Real dP1 "First active load variation  (pu)" annotation (Dialog(group="Variation 1"));
           parameter Real dQ1 "First reactive load variation (p)" annotation (Dialog(group="Variation 1"));
-          parameter Real startTime_2 "Start time of second Load variation (s)" annotation (Dialog(group="Variation 2"));
-          parameter Real endTime_2 "End time of second load variation (s)" annotation (Dialog(group="Variation 2"));
+          parameter Real t_start_2 "Start time of second Load variation (s)" annotation (Dialog(group="Variation 2"));
+          parameter Real t_end_2 "End time of second load variation (s)" annotation (Dialog(group="Variation 2"));
           parameter Real dP2 "Second active load variation  (pu)" annotation (Dialog(group="Variation 2"));
           parameter Real dQ2 "Second reactive load variation (pu)" annotation (Dialog(group="Variation 2"));
         equation
-          if time >= startTime_1 and time <= endTime_1 then
+          if time >= t_start_1 and time <= t_end_1 then
             P = (P_0 + dP1)/S_b;
             Q = (Q_0 + dQ1)/S_b;
-          elseif time >= startTime_2 and time <= endTime_2 then
+          elseif time >= t_start_2 and time <= t_end_2 then
             P = (P_0 + dP2)/S_b;
             Q = (Q_0 + dQ2)/S_b;
           else
@@ -33066,7 +33475,8 @@ IEE2ST, PSSE Manual
             Real P "Active power (pu)";
             Real Q "Reactive power (pu)";
           protected
-            parameter Real CoB=Sn/S_b "Change of base between Machine and System";
+            parameter Real CoB=Sn/S_b
+              "Change of base between Machine and System";
           equation
             P = p.vr*p.ir + p.vi*p.ii;
             Q = p.vi*p.ir - p.vr*p.ii;
@@ -33321,8 +33731,10 @@ IEE2ST, PSSE Manual
             parameter Real q0=(S_i.im*V_0 + S_y.im*V_0^2 + S_p.im)/S_b "pu";
             parameter Real vr0=V_0*cos(anglev_rad) "Initialitation";
             parameter Real vi0=V_0*sin(anglev_rad) "Initialitation";
-            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Initialitation";
-            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Initialitation";
+            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Initialitation";
+            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Initialitation";
             parameter Complex S_P=(Complex((1 - a.re - b.re)*S_p.re, (1 - a.im - b.im)*S_p.im))/S_b "pu";
             parameter Complex S_I=(S_i + Complex(a.re*S_p.re/V_0, a.im*S_p.im/V_0))/S_b "pu";
             parameter Complex S_Y=(S_y + Complex(b.re*S_p.re/V_0^2, b.im*S_p.im/V_0^2))/S_b "pu";
@@ -33428,13 +33840,13 @@ IEE2ST, PSSE Manual
         model PwLoadVoltageDependence
           "Load with voltage dependence.Developed by AIA. 2014/03/10"
          extends iPSL.Electrical.Essentials.pfComponent;
+         inner iPSL.Electrical.SystemBase SysData;
           iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img),  ir(start=1), ii(start=0)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
           parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Real part)";
           parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Imaginary part)";
           parameter Real vo = sqrt(Vo_real ^ 2 + Vo_img ^ 2);
-          parameter Real omega0 = 1;
           Real v(start = vo);
           Real a(start = 1) "auxiliary variable. Voltage division";
           parameter Real alpha = 0;
@@ -33478,12 +33890,13 @@ IEE2ST, PSSE Manual
         model PwLoadVDepwithVariation
           "Load with voltage dependence.Developed by AIA. 2014/03/10"
          extends iPSL.Electrical.Essentials.pfComponent;
+         inner iPSL.Electrical.SystemBase SysData;
           iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img),  ir(start=1), ii(start=0)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
           parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Real part)";
           parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Imaginary part)";
-          parameter Real startTime= Modelica.Constants.inf "Time of Load variation";
+          parameter Real startTime= 999 "Time of Load variation";
           parameter Real P_1 = 0 "New Active reference power";
           parameter Real Q_1 = 0 "New Reactive reference power";
           parameter Real vo = sqrt(Vo_real ^ 2 + Vo_img ^ 2);
@@ -33493,15 +33906,17 @@ IEE2ST, PSSE Manual
           parameter Real beta = 0;
           Real P(start = P_0/S_b);
           Real Q(start = Q_0/S_b);
+
         equation
           a = v / vo;
           if time > startTime then
-          (P_1/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
-          (Q_1/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
+         (P_1/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
+         (Q_1/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
           else
-          (P_0/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
-          (Q_0/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
+         (P_0/S_b) * a ^ alpha = p.vr * p.ir + p.vi * p.ii;
+         (Q_0/S_b)* a ^ beta = (-p.vr * p.ii) + p.vi * p.ir;
           end if;
+
           v = sqrt(p.vr ^ 2 + p.vi ^ 2);
           P = p.vr * p.ir + p.vi * p.ii;
           Q = (-p.vr * p.ii) + p.vi * p.ir;
@@ -33541,9 +33956,82 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
 </HTML>")));
         end PwLoadVDepwithVariation;
 
+        model PwLoadVWDepwithVariation
+          "Load with voltage and frequency dependence variation.Developed by AIA. 2016/12/10"
+         extends iPSL.Electrical.Essentials.pfComponent;
+         inner iPSL.Electrical.SystemBase SysData;
+          iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img),  ir(start=1), ii(start=0)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
+          Modelica.Blocks.Interfaces.RealInput omegaRef;
+          parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
+            "Initial voltage at node in p.u. (Real part)";
+          parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
+            "Initial voltage at node in p.u. (Imaginary part)";
+          parameter Real startTime= Modelica.Constants.inf
+            "Time of Load variation";
+          parameter Real P_1 = 0 "New Active reference power";
+          parameter Real Q_1 = 0 "New Reactive reference power";
+          parameter Real vo = sqrt(Vo_real ^ 2 + Vo_img ^ 2);
+          Real v(start = vo);
+          Real a(start = 1) "auxiliary variable. Voltage division";
+          Real b(start = 1) "auxiliary variable. Frequency division";
+          parameter Real omega_0 = 1;
+          parameter Real alpha = 0;
+          parameter Real beta = 0;
+          parameter Real delta = 0;
+          parameter Real gamma = 0;
+          Real P(start = P_0/S_b);
+          Real Q(start = Q_0/S_b);
+        equation
+          a = v / vo;
+          b = omegaRef/omega_0;
+          if time > startTime then
+          (P_1/S_b) * (a ^ alpha) * (b ^ gamma) = p.vr * p.ir + p.vi * p.ii;
+          (Q_1/S_b) * (a ^ beta)  * (b ^ delta)= (-p.vr * p.ii) + p.vi * p.ir;
+          else
+          (P_0/S_b) * (a ^ alpha) * (b ^ gamma) = p.vr * p.ir + p.vi * p.ii;
+          (Q_0/S_b) * (a ^ beta) * (b ^ delta) = (-p.vr * p.ii) + p.vi * p.ir;
+          end if;
+          v = sqrt(p.vr ^ 2 + p.vi ^ 2);
+          P = p.vr * p.ir + p.vi * p.ii;
+          Q = (-p.vr * p.ii) + p.vi * p.ir;
+          annotation (
+            Placement(transformation(extent={{-56,-10},{-36,10}}), iconTransformation(extent={{-80,0},{-60,20}})),
+            Diagram(graphics),
+            Icon(graphics={Rectangle(extent={{-60,60},{40,-40}}, lineColor={0,0,255}),Rectangle(extent={{-40,40},{20,-20}}, lineColor={0,0,255}),Line(
+                  points={{-40,40},{20,-20}},
+                  color={0,0,255},
+                  smooth=Smooth.None),Line(
+                  points={{-40,-20},{20,40}},
+                  color={0,0,255},
+                  smooth=Smooth.None)}),
+          Documentation(Documentation(info="<HTML>
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>")));
+        end PwLoadVWDepwithVariation;
+
         model PwLoadwithVariation "Load with a power variation event.
               2014/03/10"
          extends iPSL.Electrical.Essentials.pfComponent;
+         inner iPSL.Electrical.SystemBase SysData;
           iPSL.Connectors.PwPin p annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
           parameter Real Po = P_0/S_b "Initial Active Power in p.u.";
           parameter Real Qo = Q_0/S_b "Initial Reactive Power in p.u.";
@@ -33581,19 +34069,84 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
           parameter Real Q "Reactive Power in p.u.";
           parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
           parameter Real angle_0=0 "Voltage angle (deg)" annotation (Dialog(group="Power flow data"));
-         parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
+          parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Real part)";
           parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Imaginary part)";
-          Real angle(start = angle_0);
-          Real v(start = V_0);
+
         equation
           P = p.vr * p.ir + p.vi * p.ii;
           Q = (-p.vr * p.ii) + p.vi * p.ir;
-          angle = atan2(p.vi, p.vr);
-          v = sqrt(p.vr ^ 2 + p.vi ^ 2);
+
           annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent = {{-60, 60}, {40, -40}}, lineColor = {0, 0, 255}), Rectangle(extent = {{-40, 40}, {20, -20}}, lineColor = {0, 0, 255}), Line(points = {{-40, 40}, {20, -20}}, color = {0, 0, 255}, smooth = Smooth.None), Line(points = {{-40, -20}, {20, 40}}, color = {0, 0, 255}, smooth = Smooth.None)}));
         end PwLoadPQ;
+
+        model PwLoadVoltFreqDependence
+          "Load with voltage and frequency dependence.Developed by AIA. 2016/12/10"
+         extends iPSL.Electrical.Essentials.pfComponent;
+         inner iPSL.Electrical.SystemBase SysData;
+        iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img),  ir(start=1), ii(start=0)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
+          Modelica.Blocks.Interfaces.RealInput omegaRef;
+          parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
+            "Initial voltage at node in p.u. (Real part)";
+          parameter Real Vo_img = V_0*sin(angle_0*Modelica.Constants.pi/180)
+            "Initial voltage at node in p.u. (Imaginary part)";
+          parameter Real vo = sqrt(Vo_real ^ 2 + Vo_img ^ 2);
+          parameter Real omega0 = 1;
+          Real v(start = vo);
+          Real a(start = 1) "auxiliary variable. Voltage division";
+          Real b(start = 1) "auxiliary variable. Frequency division";
+          parameter Real omega_0 = 1;
+          parameter Real alpha = 0;
+          parameter Real beta = 0;
+          parameter Real delta = 0;
+          parameter Real gamma = 0;
+          Real P(start = P_0/S_b);
+          Real Q(start = Q_0/S_b);
+
+        equation
+          a = v / vo;
+          b = omegaRef/omega_0;
+          (P_0/S_b) * (a ^ alpha) * (b ^ gamma) = p.vr * p.ir + p.vi * p.ii;
+          (Q_0/S_b)* (a ^ beta) * (b ^ delta)  = (-p.vr * p.ii) + p.vi * p.ir;
+          v = sqrt(p.vr ^ 2 + p.vi ^ 2);
+        algorithm
+          P := p.vr * p.ir + p.vi * p.ii;
+          Q := (-p.vr * p.ii) + p.vi * p.ir;
+          annotation (
+            Placement(transformation(extent={{-56,-10},{-36,10}}), iconTransformation(extent={{-80,0},{-60,20}})),
+            Diagram(graphics),
+            Icon(graphics={Rectangle(extent={{-60,60},{40,-40}}, lineColor={0,0,255}),Rectangle(extent={{-40,40},{20,-20}}, lineColor={0,0,255}),Line(
+                  points={{-40,40},{20,-20}},
+                  color={0,0,255},
+                  smooth=Smooth.None),Line(
+                  points={{-40,-20},{20,40}},
+                  color={0,0,255},
+                  smooth=Smooth.None)}),
+          Documentation(Documentation(info="<HTML>
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+
+	</HTML>")));
+        end PwLoadVoltFreqDependence;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -33630,7 +34183,7 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
       model PwCapacitorBankWithModification "Capacitor Bank with Bank modification at time t1.
               2014/03/10"
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{0,60},{20,80}}), iconTransformation(extent={{0,60},{20,80}})));
-        parameter Real nsteps "Number of steps connected.";
+        parameter Real nsteps "Number of steps connected";
         parameter Real Go "active losses (pu) in each element";
         parameter Real Bo "reactive power (pu) in each element";
         parameter Real t1 "time for Bank Modification";
@@ -33711,7 +34264,7 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
 
       model PwCapacitorBank "Capacitor Bank with Bank.2013"
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{0,60},{20,80}}), iconTransformation(extent={{0,60},{20,80}})));
-        parameter Real nsteps "Number of steps connected.";
+        parameter Real nsteps "Number of steps connected";
         parameter Real G=0;
         parameter Real B=0;
       equation
@@ -33722,7 +34275,6 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
         p.vr = (p.ir*G + p.ii*B)/(G*G + B*B);
         p.vi = ((-p.ir*B) + p.ii*G)/(G*G + B*B);
       end if;
-
         annotation (Icon(graphics={Rectangle(extent={{-40,60},{60,-40}}, lineColor={0,0,255}),Line(
                 points={{10,50},{10,34}},
                 color={0,0,255},
@@ -33787,7 +34339,8 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
       model PwShuntC "Shunt capacitor"
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-8,44},{12,64}}), iconTransformation(extent={{-10,42},{10,62}})));
         constant Real pi=Modelica.Constants.pi;
-        parameter Real Qnom "Reactive power produced by the shunt capacitor under 1 p.u voltage, Mvar";
+        parameter Real Qnom
+          "Reactive power produced by the shunt capacitor under 1 p.u voltage, Mvar";
         parameter Real Vbase "Base voltage of the bus, kV";
         parameter Real fn=50 "Frequency rating, Hz";
         Real Zbase;
@@ -33839,7 +34392,8 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
       model PwShuntR "Shunt inductor"
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-10,40},{10,60}}), iconTransformation(extent={{-10,40},{10,60}})));
         constant Real pi=Modelica.Constants.pi;
-        parameter Real Qnom=75 "Reactive power produced by the shunt inductor under 1 p.u voltage, -Mvar";
+        parameter Real Qnom=75
+          "Reactive power produced by the shunt inductor under 1 p.u voltage, -Mvar";
         parameter Real Vbase=138 "Base volatage of the bus, kV";
         parameter Real fn=50 "Frequency rating, Hz";
         Real Zbase;
@@ -33903,7 +34457,8 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
 
       model PwShunt "Thyristor controlled Shunt reactor/capacitor"
         iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-8,44},{12,64}}), iconTransformation(extent={{-10,42},{10,62}})));
-        Modelica.Blocks.Interfaces.RealInput Q "Reactive power produced by the shunt (pu)" annotation (Placement(transformation(extent={{-62,-2},{-42,18}}), iconTransformation(extent={{-40,0},{-58,18}})));
+        Modelica.Blocks.Interfaces.RealInput Q
+          "Reactive power produced by the shunt (pu)"                                      annotation (Placement(transformation(extent={{-62,-2},{-42,18}}), iconTransformation(extent={{-40,0},{-58,18}})));
         constant Real pi=Modelica.Constants.pi;
         parameter Real fn=50 "Frequency rating, Hz";
         Real C "Capacitance in p.u";
@@ -34031,7 +34586,8 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
         package SVC
 
           model SVC "On bus 10106 & 10114"
-            iPSL.Connectors.PwPin VIB "Voltage signal connected to stepdown transformer (pu)" annotation (Placement(transformation(extent={{-98,-4},{-86,8}})));
+            iPSL.Connectors.PwPin VIB
+              "Voltage signal connected to stepdown transformer (pu)"                         annotation (Placement(transformation(extent={{-98,-4},{-86,8}})));
             Modelica.Blocks.Sources.Constant imSetPoint(k=Vref) annotation (Placement(transformation(extent={{-76,20},{-64,32}})));
             Modelica.Blocks.Sources.Constant imSetPoint1(k=Bref) annotation (Placement(transformation(extent={{-52,20},{-38,34}})));
             iPSL.NonElectrical.Continuous.LeadLag imLeadLag(
@@ -34053,8 +34609,10 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
               outMax=Mvar_R) annotation (Placement(transformation(extent={{66,0},{82,16}})));
             iPSL.Electrical.Banks.PwShunt shunt annotation (Placement(transformation(extent={{76,-72},{162,12}})));
             iPSL.NonElectrical.Logical.Relay3 imRelay annotation (Placement(transformation(extent={{52,-40},{68,-24}})));
-            Modelica.Blocks.Sources.Constant Q_capacitors(k=Mvar_C) "If Verr>Vov" annotation (Placement(transformation(extent={{6,-20},{22,-4}})));
-            Modelica.Blocks.Sources.Constant Q_Reactors(k=Mvar_R) "If Verr<-Vov" annotation (Placement(transformation(extent={{6,-42},{22,-26}})));
+            Modelica.Blocks.Sources.Constant Q_capacitors(k=Mvar_C)
+              "If Verr>Vov"                                                       annotation (Placement(transformation(extent={{6,-20},{22,-4}})));
+            Modelica.Blocks.Sources.Constant Q_Reactors(k=Mvar_R)
+              "If Verr<-Vov"                                                     annotation (Placement(transformation(extent={{6,-42},{22,-26}})));
             Modelica.Blocks.Math.Gain imGain(k=1/Sbase) annotation (Placement(transformation(extent={{80,-32},{92,-20}})));
             parameter Real Vref "Reference voltage (pu)";
             parameter Real Bref "Reference susceptance (pu)";
@@ -34071,8 +34629,10 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
             parameter Real init_SVC_Leadlag "Initial value";
             parameter Real init_SVC_Lag "Initial value";
             parameter Real OtherSignals;
-            parameter Real Mvar_C=100 "Total compensation capacity of shunt capacitor, 100(10106)/200(10114) MVar";
-            parameter Real Mvar_R=-50 "Total compensation capacity of shunt reactor, MVar";
+            parameter Real Mvar_C=100
+              "Total compensation capacity of shunt capacitor, 100(10106)/200(10114) MVar";
+            parameter Real Mvar_R=-50
+              "Total compensation capacity of shunt reactor, MVar";
             Modelica.Blocks.Sources.Constant imSetPoint2(k=OtherSignals) annotation (Placement(transformation(extent={{-52,-18},{-40,-6}})));
             iPSL.Electrical.Sensors.PwVoltage pwVoltage annotation (Placement(transformation(extent={{-90,-14},{-58,20}})));
             Modelica.Blocks.Math.Add add(k1=1, k2=-1) annotation (Placement(transformation(extent={{-58,0},{-46,12}})));
@@ -34216,7 +34776,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
           parameter Real MBASE=100 "MVAr range of SVC";
           parameter Real SBASE=100;
           parameter Real ra=0 "amature resistance";
-          parameter Real x1d=1 "d-axis transient reactance, p.u., should be set to 9999";
+          parameter Real x1d=1
+            "d-axis transient reactance, p.u., should be set to 9999";
           parameter Real v0 "init. voltage at terminal bus";
           parameter Real anglev0 "init voltage angle in degree";
           parameter Real Vc0 "init. voltage at controlled bus";
@@ -34264,11 +34825,16 @@ Shunt model from Nordic44 system developed by Giuseppe.
           parameter Real vi0=v0*sin(anglev_rad) "Initialitation";
           parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Initialitation";
           parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Initialitation";
-          parameter Real delta0=atan2(vi0 + ra*ii0 + x1d*ir0, vr0 + ra*ir0 - x1d*ii0) "Initialitation";
-          parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-          parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-          parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-          parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
+          parameter Real delta0=atan2(vi0 + ra*ii0 + x1d*ir0, vr0 + ra*ir0 - x1d*ii0)
+            "Initialitation";
+          parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+            "Initialitation";
+          parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+            "Initialitation";
+          parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+            "Initialitation";
+          parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+            "Initialitation";
           parameter Real k50(fixed=false);
           parameter Real k30(fixed=false);
           parameter Real k0(fixed=false);
@@ -34353,7 +34919,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
         model Shunt "Shunt Inductor or Capacitor"
           iPSL.Connectors.PwPin p annotation (Placement(transformation(extent={{-22,48},{-2,68}}), iconTransformation(extent={{-10,40},{10,60}})));
           constant Real pi=Modelica.Constants.pi;
-          parameter Real Qnom "Reactive power produced by the shunt under 1 p.u voltage, (negative for inductive charge, positive for capacitive charge) Mvar";
+          parameter Real Qnom
+            "Reactive power produced by the shunt under 1 p.u voltage, (negative for inductive charge, positive for capacitive charge) Mvar";
           parameter Real Sbase "Base power of the system, MVA";
           parameter Real X=Sbase/(-Qnom) "Reactance in p.u";
           Real Q "Consumed power";
@@ -34492,7 +35059,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
         parameter Real MBASE=100 "MVAr range of SVC";
         parameter Real SBASE=100;
         parameter Real ra=0 "amature resistance";
-        parameter Real x1d=1 "d-axis transient reactance, p.u., should be set to 9999";
+        parameter Real x1d=1
+          "d-axis transient reactance, p.u., should be set to 9999";
         parameter Real v0 "init. voltage at terminal bus";
         parameter Real anglev0 "init voltage angle in degree";
         parameter Real Vc0 "init. voltage at controlled bus";
@@ -34540,11 +35108,16 @@ Shunt model from Nordic44 system developed by Giuseppe.
         parameter Real vi0=v0*sin(anglev_rad) "Initialitation";
         parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Initialitation";
         parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Initialitation";
-        parameter Real delta0=atan2(vi0 + ra*ii0 + x1d*ir0, vr0 + ra*ir0 - x1d*ii0) "Initialitation";
-        parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0) "Initialitation";
-        parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0) "Initialitation";
-        parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0) "Initialitation";
-        parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0) "Initialitation";
+        parameter Real delta0=atan2(vi0 + ra*ii0 + x1d*ir0, vr0 + ra*ir0 - x1d*ii0)
+          "Initialitation";
+        parameter Real vd0=vr0*cos(pi/2 - delta0) - vi0*sin(pi/2 - delta0)
+          "Initialitation";
+        parameter Real vq0=vr0*sin(pi/2 - delta0) + vi0*cos(pi/2 - delta0)
+          "Initialitation";
+        parameter Real id0=ir0*cos(pi/2 - delta0) - ii0*sin(pi/2 - delta0)
+          "Initialitation";
+        parameter Real iq0=ir0*sin(pi/2 - delta0) + ii0*cos(pi/2 - delta0)
+          "Initialitation";
         parameter Real k50(fixed=false);
         parameter Real k30(fixed=false);
         parameter Real k0(fixed=false);
@@ -34648,7 +35221,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real S_b=100 "System base power (MVA)" annotation (Dialog(group="Power flow data"));
             parameter Real Sn=10 "Nominal power (MVA)";
             parameter Real V_0=1.00018548610126 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
-            parameter Real angle_0=-0.0000253046024029618 "Voltage angle (deg)" annotation (Dialog(group="Power flow data"));
+            parameter Real angle_0=-0.0000253046024029618 "Voltage angle (deg)"
+                                                                                annotation (Dialog(group="Power flow data"));
             parameter Real P_0=0.4 "Active power (pu)" annotation (Dialog(group="Power flow data"));
             parameter Real Q_0=0.3 "Reactive power (pu)" annotation (Dialog(group="Power flow data"));
             parameter Real Td=15 "d-axis inverter time constant (s)";
@@ -34659,8 +35233,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real Qref=Q_0*CoB "Initialitation";
             parameter Real vd0=-V_0*sin(angle_0) "Initialitation";
             parameter Real vq0=V_0*cos(angle_0) "Initialitation";
-            parameter Real idref=(vq0*Qref + Pref*vd0)/(vq0^2 + vd0^2) "Initialitation";
-            parameter Real iqref=((-vd0*Qref) + Pref*vq0)/(vq0^2 + vd0^2) "Initialitation";
+            parameter Real idref=(vq0*Qref + Pref*vd0)/(vq0^2 + vd0^2)
+              "Initialitation";
+            parameter Real iqref=((-vd0*Qref) + Pref*vq0)/(vq0^2 + vd0^2)
+              "Initialitation";
           public
             Real v "Bus voltage magnitude (pu)";
             Real anglev "Bus voltage angle (deg)";
@@ -34681,8 +35257,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
             der(iq) = (iqref1 - iq)/Tq;
             v = sqrt(p.vr^2 + p.vi^2);
             anglev = atan2(p.vi, p.vr);
-            p.ir = -iq "change of sign due to the fact than in modelica when entering is + and in this case is going out";
-            p.ii = id "change of sign due to the fact than in modelica when entering is + and in this case is going out";
+            p.ir = -iq
+              "change of sign due to the fact than in modelica when entering is + and in this case is going out";
+            p.ii = id
+              "change of sign due to the fact than in modelica when entering is + and in this case is going out";
             p.vr = vq;
             p.vi = -vd;
             annotation (
@@ -34754,21 +35332,25 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real S_b=100 "System base power (MVA)" annotation (Dialog(group="Power flow data"));
             parameter Real Sn=10 "Nominal power (MVA)";
             parameter Real V_0=1.00018548610126 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
-            parameter Real angle_0=-0.0000253046024029618 "Voltage angle (deg)" annotation (Dialog(group="Power flow data"));
+            parameter Real angle_0=-0.0000253046024029618 "Voltage angle (deg)"
+                                                                                annotation (Dialog(group="Power flow data"));
             parameter Real P_0=0.4 "Active power (pu)" annotation (Dialog(group="Power flow data"));
             parameter Real Q_0=0.3 "Reactive power (pu)" annotation (Dialog(group="Power flow data"));
             parameter Real vref=1.0002 "Voltage reference (pu)";
             parameter Real Td=0.15 "d-axis inverter time constant (s)";
             parameter Real Tq=0.15 "q-axis inverter time constant (s)";
             parameter Real Ki=50.9005 "Integral gain of the voltage controller";
-            parameter Real Kp=0.0868 "Proportional gain of the voltage controller";
+            parameter Real Kp=0.0868
+              "Proportional gain of the voltage controller";
           protected
             parameter Real CoB=Sn/S_b;
             parameter Real Pref=P_0*CoB;
             parameter Real vd0=-V_0*sin(angle_0) "Initialitation";
             parameter Real vq0=V_0*cos(angle_0) "Initialitation";
-            parameter Real idref=(vq0*Q_0*CoB + Pref*vd0)/(vq0^2 + vd0^2) "Initialitation";
-            parameter Real iqref=((-vd0*Q_0*CoB) + Pref*vq0)/(vq0^2 + vd0^2) "Initialitation";
+            parameter Real idref=(vq0*Q_0*CoB + Pref*vd0)/(vq0^2 + vd0^2)
+              "Initialitation";
+            parameter Real iqref=((-vd0*Q_0*CoB) + Pref*vq0)/(vq0^2 + vd0^2)
+              "Initialitation";
             Real x(start=Q_0*CoB);
             Real Qref(start=Q_0*CoB);
           public
@@ -34793,8 +35375,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
             der(iq) = (iqref1 - iq)/Tq;
             v = sqrt(p.vr^2 + p.vi^2);
             anglev = atan2(p.vi, p.vr);
-            p.ir = -iq "change of sign due to the fact than in modelica when entering is + and in this case is going out";
-            p.ii = id "change of sign due to the fact than in modelica when entering is + and in this case is going out";
+            p.ir = -iq
+              "change of sign due to the fact than in modelica when entering is + and in this case is going out";
+            p.ii = id
+              "change of sign due to the fact than in modelica when entering is + and in this case is going out";
             p.vr = vq;
             p.vi = -vd;
             annotation (
@@ -35700,12 +36284,18 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real Tdelay=0.05;
             parameter Real Imp=4.58 "Current at maximum power";
             parameter Real Vmp=35 "Voltage at maximum power";
-            parameter Real Iscref=5 "Module short-circuit current reference at reference temp and irradiance";
-            parameter Real Vocref=43.8 "Module open-circuit voltage reference at reference temp and irradiance";
-            parameter Real Kv=-0.0039 "temperature correction factor for the voltage";
-            parameter Real Ki=0.0004 "temperature correction factor for the current";
-            parameter Real Tstc=25 "Temperature at the standard test conditions";
-            parameter Real Estc=1000 "Irradiance at the standard test conditions";
+            parameter Real Iscref=5
+              "Module short-circuit current reference at reference temp and irradiance";
+            parameter Real Vocref=43.8
+              "Module open-circuit voltage reference at reference temp and irradiance";
+            parameter Real Kv=-0.0039
+              "temperature correction factor for the voltage";
+            parameter Real Ki=0.0004
+              "temperature correction factor for the current";
+            parameter Real Tstc=25
+              "Temperature at the standard test conditions";
+            parameter Real Estc=1000
+              "Irradiance at the standard test conditions";
           equation
             connect(Udc, gain1.u) annotation (Line(
                 visible=true,
@@ -36794,8 +37384,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real SystemBase=100;
             parameter Real Sn=10;
             parameter Real CoB=Sn/SystemBase;
-            parameter Real v0=1.00018548610126 "voltage magnitude after power flow, pu";
-            parameter Real anglev0=-0.0000253046024029618 "voltage angle after power flow";
+            parameter Real v0=1.00018548610126
+              "voltage magnitude after power flow, pu";
+            parameter Real anglev0=-0.0000253046024029618
+              "voltage angle after power flow";
             parameter Real P0=0.4 "active power,pu";
             parameter Real Q0=0.3 "reactive power,pu";
             parameter Real Pref=P0*CoB;
@@ -36804,8 +37396,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real vq0=v0*cos(anglev0) "Initialitation";
             parameter Real Td=15 "d-axis inverter time constant";
             parameter Real Tq=15 "q-axis inverter time constant";
-            parameter Real idref=(vq0*Qref + Pref*vd0)/(vq0^2 + vd0^2) "Initialitation";
-            parameter Real iqref=((-vd0*Qref) + Pref*vq0)/(vq0^2 + vd0^2) "Initialitation";
+            parameter Real idref=(vq0*Qref + Pref*vd0)/(vq0^2 + vd0^2)
+              "Initialitation";
+            parameter Real iqref=((-vd0*Qref) + Pref*vq0)/(vq0^2 + vd0^2)
+              "Initialitation";
             Real idref1(start=idref);
             Real iqref1(start=iqref);
             Real v;
@@ -36835,8 +37429,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
             der(iq) = (iqref1 - iq)/Tq;
             v = sqrt(p.vr^2 + p.vi^2);
             anglev = atan2(p.vi, p.vr);
-            p.ir = -iq "change of sign due to the fact than in modelica when entering is + and in this case is going out";
-            p.ii = id "change of sign due to the fact than in modelica when entering is + and in this case is going out";
+            p.ir = -iq
+              "change of sign due to the fact than in modelica when entering is + and in this case is going out";
+            p.ii = id
+              "change of sign due to the fact than in modelica when entering is + and in this case is going out";
             p.vr = vq;
             p.vi = -vd;
             annotation (
@@ -37009,8 +37605,10 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   rotation=0)));
             parameter Real Imp=1;
             parameter Real Vmp=1;
-            parameter Real Iscref=1 "Module short-circuit current reference at reference temp and irradiance";
-            parameter Real Vocref=1 "Module open-circuit voltage reference at reference temp and irradiance";
+            parameter Real Iscref=1
+              "Module short-circuit current reference at reference temp and irradiance";
+            parameter Real Vocref=1
+              "Module open-circuit voltage reference at reference temp and irradiance";
             parameter Real Kv=1 "temperature correction factor for the voltage";
             parameter Real Ki=1 "temperature correction factor for the current";
             parameter Real Tstc=1 "Temperature at the standard test conditions";
@@ -37743,7 +38341,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real Xs=Xs_machine*S_b/Pnom "stator Reactance (pu)";
             parameter Real Rr=Rr_machine*S_b/Pnom "Rotor Resitance (pu)";
             parameter Real Xr=Xr_machine*S_b/Pnom "rotor Reactance (pu)";
-            parameter Real Xm=Xm_machine*S_b/Pnom "magnetisation reactance (pu)";
+            parameter Real Xm=Xm_machine*S_b/Pnom
+              "magnetisation reactance (pu)";
             parameter Real Hm=Hm_machine*Pnom/S_b "inertia (pu)";
             parameter Real Pmax_machine=1 "Pmax (pu)";
             parameter Real Pmin_machine=0 "Pmin (pu)";
@@ -37943,11 +38542,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={-2.0,-124.0},
                   extent={{102.0,54.0},{62.0,94.0}},
                   rotation=0)));
-            parameter Real Sbase=100 "Power Rating [Normalization Factor] (MVA)";
+            parameter Real Sbase=100
+              "Power Rating [Normalization Factor] (MVA)";
             parameter Real Vbus0=1 "p.u. Input PowerFlow";
             parameter Real angle0=-0.00243 "Angle PowerFlow";
             parameter Real Pc=0.0160000000000082 "Active Power (pu), PowerFlow";
-            parameter Real Qc=0.030527374471207 "Reactive Power(pu), Power Flow";
+            parameter Real Qc=0.030527374471207
+              "Reactive Power(pu), Power Flow";
             parameter Real omega_m0=0.58;
             parameter Real Pnom=10 "Nominal Power (MVA)";
             parameter Real Vbase=400 "Voltage rating kV";
@@ -37961,7 +38562,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real x1=Xm + Xs "stator plus magnetisation impedances";
             parameter Real i2Hm=1.667 "inverse p.u.inertia";
             parameter Real wbase=2*pi*freq/poles "p.u. basis for angular speed";
-            parameter Real k=x1*Pnom/Vbus0/Xm/Sbase "gain for iqr_off computation";
+            parameter Real k=x1*Pnom/Vbus0/Xm/Sbase
+              "gain for iqr_off computation";
             parameter Real ids0=((-vds0^2) + vds0*Xm*iqr0 - x1*Qc)/(Rs*vds0 - x1*vqs0);
             parameter Real iqs0=((-vds0*vqs0) + vqs0*Xm*iqr0 - Rs*Qc)/(Rs*vds0 - x1*vqs0);
             parameter Real idr0=-(vqs0 + Rs*iqs0 + x1*ids0)/Xm;
@@ -38062,7 +38664,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={2.0,-24.0},
                   extent={{-102.0,54.0},{-62.0,94.0}},
                   rotation=0)));
-            Modelica.Blocks.Interfaces.RealOutput idr(start=idr0, fixed=false) "saturated idr" annotation (Placement(
+            Modelica.Blocks.Interfaces.RealOutput idr(start=idr0, fixed=false)
+              "saturated idr"                                                                  annotation (Placement(
                 transformation(
                   extent={{102.0,54.0},{62.0,94.0}},
                   origin={43.0,-29.0},
@@ -38072,7 +38675,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={-2.0,-24.0},
                   extent={{102.0,54.0},{62.0,94.0}},
                   rotation=0)));
-            Modelica.Blocks.Interfaces.RealOutput iqr(start=iqr0, fixed=false) "saturated iqr" annotation (Placement(
+            Modelica.Blocks.Interfaces.RealOutput iqr(start=iqr0, fixed=false)
+              "saturated iqr"                                                                  annotation (Placement(
                 transformation(
                   extent={{102.0,54.0},{62.0,94.0}},
                   origin={43.0,-94.0},
@@ -38083,11 +38687,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   extent={{102.0,54.0},{62.0,94.0}},
                   rotation=0)));
             constant Real pi=3.14159265358979;
-            parameter Real Sbase=100 "Power Rating [Normalization Factor] (MVA)";
+            parameter Real Sbase=100
+              "Power Rating [Normalization Factor] (MVA)";
             parameter Real Vbus0=1 "p.u. Input PowerFlow";
             parameter Real angle0=-0.00243 "Angle PowerFlow";
             parameter Real Pc=0.0160000000000082 "Active Power (pu), PowerFlow";
-            parameter Real Qc=0.030527374471207 "Reactive Power(pu), Power Flow";
+            parameter Real Qc=0.030527374471207
+              "Reactive Power(pu), Power Flow";
             parameter Real omega_m0=min(max(0.5*Pc*Sbase/Pnom + 0.5, 0.5), 1);
             parameter Real Pnom=10 "Nominal Power (MVA)";
             parameter Real Vbase=400 "Voltage rating kV";
@@ -38109,7 +38715,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real poles=2 "Number of poles-pair";
             parameter Real Kv=10 "Voltage control gain (kV)";
             parameter Real Te=0.01 "Power Control time constant (s)";
-            parameter Real k=x1*Pnom/Vbus0/Xm/Sbase "gain for iqr_off computation";
+            parameter Real k=x1*Pnom/Vbus0/Xm/Sbase
+              "gain for iqr_off computation";
             parameter Real ids0=((-vds0^2) + vds0*Xm*iqr0 - x1*Qc)/(Rs*vds0 - x1*vqs0);
             parameter Real iqs0=((-vds0*vqs0) + vqs0*Xm*iqr0 - Rs*Qc)/(Rs*vds0 - x1*vqs0);
             parameter Real idr0=-(vqs0 + Rs*iqs0 + x1*ids0)/Xm;
@@ -38192,7 +38799,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={2.0,-24.0},
                   extent={{-102.0,54.0},{-62.0,94.0}},
                   rotation=0)));
-            Modelica.Blocks.Interfaces.RealInput Tel "electromagnetical torque" annotation (Placement(
+            Modelica.Blocks.Interfaces.RealInput Tel "electromagnetical torque"
+                                                                                annotation (Placement(
                 transformation(
                   extent={{-102.0,54.0},{-62.0,94.0}},
                   origin={-43.0,-34.0},
@@ -38202,7 +38810,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={2.0,-124.0},
                   extent={{-102.0,54.0},{-62.0,94.0}},
                   rotation=0)));
-            Modelica.Blocks.Interfaces.RealOutput omega_m "engine shaft angular velocity" annotation (Placement(
+            Modelica.Blocks.Interfaces.RealOutput omega_m
+              "engine shaft angular velocity"                                             annotation (Placement(
                 transformation(
                   extent={{102.0,54.0},{62.0,94.0}},
                   origin={43.0,-74.0},
@@ -38212,7 +38821,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={-2.0,-74.0},
                   extent={{102.0,54.0},{62.0,94.0}},
                   rotation=0)));
-            parameter Real Sbase=100 "Power Rating [Normalization Factor] (MVA)";
+            parameter Real Sbase=100
+              "Power Rating [Normalization Factor] (MVA)";
             parameter Real Pnom=10 "Nominal Power (MVA)";
             parameter Real Hm=0.3 "inertia (pu)";
             parameter Real Pc=0.016 "p.u. Input, PowerFlow";
@@ -38274,7 +38884,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={2.0,-74.0},
                   extent={{-102.0,54.0},{-62.0,94.0}},
                   rotation=0)));
-            Modelica.Blocks.Interfaces.RealOutput theta_p(start=theta_p0) "saturated theta_p" annotation (Placement(
+            Modelica.Blocks.Interfaces.RealOutput theta_p(start=theta_p0)
+              "saturated theta_p"                                                             annotation (Placement(
                 transformation(
                   extent={{102.0,54.0},{62.0,94.0}},
                   origin={46.3073,-74.0},
@@ -38382,7 +38993,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   rotation=0)));
             parameter Real vw_base=15 "Vw Nominal (m/s)";
             parameter Real rho=1.225 "Air Density (kg/m^3)";
-            parameter Real Sbase=100 "Power Rating [Normalization Factor] (MVA)";
+            parameter Real Sbase=100
+              "Power Rating [Normalization Factor] (MVA)";
             parameter Real l=75 "Blade length (m)";
             parameter Real ngb=0.01123596 "gear box ratio";
             parameter Real Radapt=ngb*l "r_{gearbox}*r";
@@ -38491,18 +39103,21 @@ Shunt model from Nordic44 system developed by Giuseppe.
             parameter Real k0(fixed=false) "Shaft twist angle, rad";
             parameter Real k10(fixed=false) "Turbine rotor speed deviation, pu";
             parameter Real k20(fixed=false) "Generator speed deviation, pu";
-            parameter Real k30(fixed=false) "Generator rotor angle deviation, pu";
+            parameter Real k30(fixed=false)
+              "Generator rotor angle deviation, pu";
             parameter Real Ht=H*Htfrac;
             parameter Real Hg=H - Ht;
             parameter Real Kshaft(fixed=false);
-            parameter Real Paero(fixed=false) "power on the rotor blade side, pu";
+            parameter Real Paero(fixed=false)
+              "power on the rotor blade side, pu";
             parameter Real w0(fixed=false) "Initial rotor slip";
             parameter Real delta0(fixed=false) "Initial internal angle";
             Modelica.Blocks.Interfaces.RealOutput WTRBSP annotation (Placement(transformation(extent={{94,0},{114,20}}), iconTransformation(extent={{90,-64},{110,-44}})));
             Modelica.Blocks.Continuous.Integrator dwt(
               y_start=k10,
               k=1/(2*Ht),
-              initType=Modelica.Blocks.Types.Init.InitialOutput) "Turbine speed deviation, pu" annotation (Placement(transformation(extent={{0,14},{10,24}})));
+              initType=Modelica.Blocks.Types.Init.InitialOutput)
+              "Turbine speed deviation, pu"                                                    annotation (Placement(transformation(extent={{0,14},{10,24}})));
             Modelica.Blocks.Math.Add Tmech1 annotation (Placement(transformation(
                   extent={{-5,-5},{5,5}},
                   rotation=0,
@@ -38551,7 +39166,8 @@ Shunt model from Nordic44 system developed by Giuseppe.
               k=Kshaft,
               y_start=k0,
               initType=Modelica.Blocks.Types.Init.InitialOutput) annotation (Placement(transformation(extent={{56,-4},{66,6}})));
-            Modelica.Blocks.Interfaces.RealOutput RotorAD "Rotor angle deviation" annotation (Placement(transformation(extent={{94,-80},{112,-62}}), iconTransformation(extent={{90,-88},{108,-70}})));
+            Modelica.Blocks.Interfaces.RealOutput RotorAD
+              "Rotor angle deviation"                                             annotation (Placement(transformation(extent={{94,-80},{112,-62}}), iconTransformation(extent={{90,-88},{108,-70}})));
             Modelica.Blocks.Continuous.Integrator state4(k=1, y_start=k30) annotation (Placement(transformation(extent={{62,-76},{72,-66}})));
             Modelica.Blocks.Math.Add add2(k2=-1) annotation (Placement(transformation(
                   extent={{-5,-5},{5,5}},
@@ -38840,7 +39456,8 @@ The B in Pwline stands for half charging B in PSSE transmission line",
             parameter Real Sbase=100 "System base power rating MVA";
             // 'WT1G1' 1   0.84600       0.0000       3.9270      0.17730       0.0000
             //       0.10000       1.0000      0.30000E-01   1.2000      0.17900      /
-            parameter Real T=0.84600 "open circuit transient time constant, sec. ( >0)";
+            parameter Real T=0.84600
+              "open circuit transient time constant, sec. ( >0)";
             parameter Real X=3.9270 "synchronous reactance, pu";
             parameter Real Xp=0.17730 "transient reactance, pu";
             parameter Real Xl=0.10000 " leakage reactance";
@@ -38852,11 +39469,15 @@ The B in Pwline stands for half charging B in PSSE transmission line",
             parameter Real wo=wbase "Synchronous speed";
             parameter Real Xs=Xl "Stator linkage reactance";
             parameter Real Xm=X - Xl "Magneticzing reactance";
-            parameter Real Xr=-(Xp - Xl)*(X - Xl)/(Xp - X) "Rotor linkage reactance";
-            parameter Real rr=(2*Xp - Xl - X)*(X - Xl)/((Xp - X)*(T*wo)) "Rotor resistance";
+            parameter Real Xr=-(Xp - Xl)*(X - Xl)/(Xp - X)
+              "Rotor linkage reactance";
+            parameter Real rr=(2*Xp - Xl - X)*(X - Xl)/((Xp - X)*(T*wo))
+              "Rotor resistance";
             parameter Real rs=0 "Stator resistance";
-            parameter Real p0=pelec/Mbase "initial value of bus active power in p.u. machinebase";
-            parameter Real q0=qelec/Mbase "initial value of bus reactive power in p.u. machinebase";
+            parameter Real p0=pelec/Mbase
+              "initial value of bus active power in p.u. machinebase";
+            parameter Real q0=qelec/Mbase
+              "initial value of bus reactive power in p.u. machinebase";
             parameter Real K1=Xr + Xm;
             parameter Real K2=(-Xs*K1) - Xr*Xm;
             parameter Real K3=Xm + Xs;
@@ -38869,20 +39490,30 @@ The B in Pwline stands for half charging B in PSSE transmission line",
             parameter Real T1=root*rs + K2;
             parameter Real T2=root*K3 + K4;
             parameter Real T3=T1*T1 + T2*T2;
-            parameter Real Qtrue=v0*v0*(K1*T1 - root*T2)/T3 "True value of motor dynamic reactive power";
-            parameter Real Qe=qelec/Mbase " Total reactive power output from power flow solution";
+            parameter Real Qtrue=v0*v0*(K1*T1 - root*T2)/T3
+              "True value of motor dynamic reactive power";
+            parameter Real Qe=qelec/Mbase
+              " Total reactive power output from power flow solution";
             parameter Real Bsh_pu=(Qe - Qtrue)/(v0*v0);
-            parameter Real Qtrue_s=Qtrue*Mbase/Sbase "True value of motor dynamic reactive power";
-            parameter Real Qe_s=qelec/Sbase " Total reactive power output from power flow solution";
-            parameter Real Bsh_pu_s=(Qe_s - Qtrue_s)/(v0*v0) "Artificial shunt admittance corresponding to the pu mbase difference in the initial condition";
+            parameter Real Qtrue_s=Qtrue*Mbase/Sbase
+              "True value of motor dynamic reactive power";
+            parameter Real Qe_s=qelec/Sbase
+              " Total reactive power output from power flow solution";
+            parameter Real Bsh_pu_s=(Qe_s - Qtrue_s)/(v0*v0)
+              "Artificial shunt admittance corresponding to the pu mbase difference in the initial condition";
             //Initialization current and voltage components in synchronous reference frame.
-            parameter Real anglev_rad=anglev0*pi/180 "initial value of bus anglev in rad";
+            parameter Real anglev_rad=anglev0*pi/180
+              "initial value of bus anglev in rad";
             parameter Real v0=eterm;
-            parameter Real vr0=v0*cos(anglev_rad) "Real component of initial terminal voltage";
-            parameter Real vi0=v0*sin(anglev_rad) "Imaginary component of intitial terminal voltage";
+            parameter Real vr0=v0*cos(anglev_rad)
+              "Real component of initial terminal voltage";
+            parameter Real vi0=v0*sin(anglev_rad)
+              "Imaginary component of intitial terminal voltage";
             parameter Real CoB=Mbase/Sbase;
-            parameter Real ir0=CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, systembase";
-            parameter Real ii0=CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, systembase";
+            parameter Real ir0=CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, systembase";
+            parameter Real ii0=CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, systembase";
             iPSL.Electrical.Wind.PSSE.WT1G.IIIorderWind iIIorderWind(
               X=X,
               Xp=Xp,
@@ -39049,33 +39680,45 @@ The B in Pwline stands for half charging B in PSSE transmission line",
 
             constant Real pi=Modelica.Constants.pi;
 
-            parameter Real X_eq "Equivalent reactance for current injection (pu)";
+            parameter Real X_eq
+              "Equivalent reactance for current injection (pu)";
             parameter Real K_pll "PLL first integrator gain";
             parameter Real K_ipll "PLL second integrator gain";
             parameter Real P_llmax "PLL maximum limit";
-            parameter Real P_rated "Turbine MW rating, not used in the equation";
-            parameter Complex Zs(re=0, im=X_eq) "Equivalent impedance (ZSORCE)" annotation (Dialog(group="Power flow data"));
+            parameter Real P_rated
+              "Turbine MW rating, not used in the equation";
+            parameter Complex Zs(re=0, im=X_eq) "Equivalent impedance (ZSORCE)"
+                                                                                annotation (Dialog(group="Power flow data"));
             parameter Real M_b=100 "Machine base power (MVA)" annotation (Dialog(group="Power flow data"));
 
           protected
             parameter Real wbase=2*pi*fn "System base speed";
-            parameter Real p0=P_0/M_b "initial value of bus active power in p.u. machinebase";
-            parameter Real q0=Q_0/M_b "initial value of bus reactive power in p.u. machinebase";
+            parameter Real p0=P_0/M_b
+              "initial value of bus active power in p.u. machinebase";
+            parameter Real q0=Q_0/M_b
+              "initial value of bus reactive power in p.u. machinebase";
             parameter Real v0=V_0;
-            parameter Real vr0=v0*cos(anglev_rad) "Real component of initial terminal voltage";
-            parameter Real vi0=v0*sin(anglev_rad) "Imaginary component of intitial terminal voltage";
-            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, mbase";
-            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, mbase";
+            parameter Real vr0=v0*cos(anglev_rad)
+              "Real component of initial terminal voltage";
+            parameter Real vi0=v0*sin(anglev_rad)
+              "Imaginary component of intitial terminal voltage";
+            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, mbase";
+            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, mbase";
             parameter Real Isr0=ir0 + vi0/X_eq "Sorce current re mbase";
             parameter Real Isi0=ii0 - vr0/X_eq "Sorce current im mbase";
             parameter Real CoB=M_b/S_b;
-            parameter Real ir1=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, sbase";
-            parameter Real ii1=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, sbase";
+            parameter Real ir1=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, sbase";
+            parameter Real ii1=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, sbase";
             parameter Real Ix0=Isr0*cos(-anglev_rad) - Isi0*sin(-anglev_rad);
             parameter Real Iy0=Isr0*sin(-anglev_rad) + cos(-anglev_rad)*Isi0;
             parameter Real Eqcmd0=-Iy0*X_eq;
             parameter Real Ipcmd0=Ix0;
-            parameter Real anglev_rad=angle_0*pi/180 "initial value of bus anglev in rad";
+            parameter Real anglev_rad=angle_0*pi/180
+              "initial value of bus anglev in rad";
             parameter Real VX0=cos(anglev_rad)*vr0 + sin(anglev_rad)*vi0;
             parameter Real VY0=(-sin(anglev_rad)*vr0) + cos(anglev_rad)*vi0;
           public
@@ -39275,23 +39918,31 @@ The B in Pwline stands for half charging B in PSSE transmission line",
           end WT3G1;
 
           model WT3E1
-            parameter Integer VARFLG "0 constant Q; 1 Reactive control; -1 Constant PF control"
+            parameter Integer VARFLG
+              "0 constant Q; 1 Reactive control; -1 Constant PF control"
               annotation (choices(
                 choice=0 "Constant Q",
                 choice=1 "Reactive power control",
                 choice=-1 "Constant PF control"));
-            parameter Integer VLRFLG "0 Bypass V control; 1 WT3G1 Eqcmd limits;2 WT3G2 Eqcmd limits"
+            parameter Integer VLRFLG
+              "0 Bypass V control; 1 WT3G1 Eqcmd limits;2 WT3G2 Eqcmd limits"
               annotation (choices(
                 choice=0 "Disable terminal voltage control",
                 choice=1 "Enable terminal voltage control ",
                 choice=2 "Fixed limits for Eqcmd"));
-            parameter Real Tfv=0.15000 "Filter time constant in voltage regulator (sec)";
-            parameter Real Kpv=18.000 "  Proportional gain in voltage regulator (pu)";
-            parameter Real KIV=5.0000 "  Integrator gain in voltage regulator (pu)";
+            parameter Real Tfv=0.15000
+              "Filter time constant in voltage regulator (sec)";
+            parameter Real Kpv=18.000
+              "  Proportional gain in voltage regulator (pu)";
+            parameter Real KIV=5.0000
+              "  Integrator gain in voltage regulator (pu)";
             parameter Real Xc=0.0000 "  Line drop compensation reactance (pu)";
-            parameter Real TFP=0.50000E-01 "  Filter time constant in torque regulator";
-            parameter Real Kpp=3.0000 "  Proportional gain in torque regulator (pu) ";
-            parameter Real KIP=0.60000 " Integrator gain in torque regulator (pu)";
+            parameter Real TFP=0.50000E-01
+              "  Filter time constant in torque regulator";
+            parameter Real Kpp=3.0000
+              "  Proportional gain in torque regulator (pu) ";
+            parameter Real KIP=0.60000
+              " Integrator gain in torque regulator (pu)";
             parameter Real PMX=1.1200 "  Max limit in torque regulator (pu)";
             parameter Real PMN=0.10000 "  Min limit in torque regulator (pu)";
             parameter Real QMX=0.29600 "  Max limit in voltage regulator (pu)";
@@ -39307,20 +39958,26 @@ The B in Pwline stands for half charging B in PSSE transmission line",
             parameter Real Kqv=40.000 "  Voltage/MVAR gain";
             parameter Real XIQmin=-0.50000;
             parameter Real XIQmax=0.40000;
-            parameter Real Tv=0.50000E-01 "  Lag time constant in WindVar controller";
-            parameter Real Tp=0.50000E-01 "  Pelec filter in fast PF controller";
+            parameter Real Tv=0.50000E-01
+              "  Lag time constant in WindVar controller";
+            parameter Real Tp=0.50000E-01
+              "  Pelec filter in fast PF controller";
             parameter Real Fn=1.0000 "  A portion of online wind turbines";
             parameter Real wPmin=0.69000 "  Shaft speed at Pmin (pu)";
-            parameter Real wP20=0.78000 "  Shaft speed at 20% rated power (pu) ";
+            parameter Real wP20=0.78000
+              "  Shaft speed at 20% rated power (pu) ";
             parameter Real wP40=0.98000 "  Shaft speed at 40% rated power (pu)";
             parameter Real wP60=1.1200 "  Shaft speed at 60% rated power (pu)";
-            parameter Real Pmin=0.74000 "  Minimum power for operating at P100 speed (pu)";
-            parameter Real wP100=1.2000 "  Shaft speed at 100% rated power (pu)";
+            parameter Real Pmin=0.74000
+              "  Minimum power for operating at P100 speed (pu)";
+            parameter Real wP100=1.2000
+              "  Shaft speed at 100% rated power (pu)";
           protected
             parameter Real v0;
             parameter Real p0;
             parameter Real q0;
-            parameter Real PFA_ref(fixed=false) "PF angle reference if PFAFLG=1";
+            parameter Real PFA_ref(fixed=false)
+              "PF angle reference if PFAFLG=1";
             parameter Real Vref " Remote bus ref voltage";
             //parameter Real Qord "MVAR order from MVAR emulator";
             parameter Real Qref=q0 "Q reference if PFAFLG=0 & VARFLG";
@@ -39353,7 +40010,8 @@ The B in Pwline stands for half charging B in PSSE transmission line",
               input Real w40;
               input Real w60;
               input Real w100;
-              input Real Pmin " Minimum power for operating at wP100 speed (pu)";
+              input Real Pmin
+                " Minimum power for operating at wP100 speed (pu)";
               output Real y;
             protected
               parameter Real K1=(w20 - wmin)/(0.2 - PMN);
@@ -39428,7 +40086,8 @@ The B in Pwline stands for half charging B in PSSE transmission line",
               y_start=k70,
               outMax=1 + XIQmax,
               outMin=XIQmin - 1) annotation (Placement(transformation(extent={{138,30},{158,50}})));
-            Modelica.Blocks.Interfaces.RealInput ITERM "magenitute of terminal current"
+            Modelica.Blocks.Interfaces.RealInput ITERM
+              "magenitute of terminal current"
               annotation (Placement(transformation(extent={{-210,88},{-190,108}}),iconTransformation(
                   extent={{10,-10},{-10,10}},
                   rotation=180,
@@ -39535,8 +40194,10 @@ The B in Pwline stands for half charging B in PSSE transmission line",
                 K=1,
                 y_start=p0,
                 T=Tp) annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
-              parameter Real Tp=0.50000E-01 " Pelec filter in fast PF controller";
-              parameter Real PFA_ref=atan2(q0, p0) "PF angle reference if PFAFLG=1";
+              parameter Real Tp=0.50000E-01
+                " Pelec filter in fast PF controller";
+              parameter Real PFA_ref=atan2(q0, p0)
+                "PF angle reference if PFAFLG=1";
               parameter Real p0;
               Modelica.Blocks.Interfaces.RealInput u annotation (Placement(transformation(rotation=0, extent={{-214,-10},{-194,10}})));
               Modelica.Blocks.Interfaces.RealOutput Q_REF_PF annotation (Placement(transformation(extent={{0,-10},{20,10}})));
@@ -39606,9 +40267,12 @@ The B in Pwline stands for half charging B in PSSE transmission line",
             protected
               Modelica.Blocks.Interfaces.RealInput WNDSP_1 annotation (Placement(transformation(extent={{-210,-70},{-190,-50}})));
             public
-              parameter Real TFP=0.50000E-01 "  Filter time constant in torque regulator";
-              parameter Real Kpp=3.0000 "  Proportional gain in torque regulator (pu) ";
-              parameter Real KIP=0.60000 " Integrator gain in torque regulator (pu)";
+              parameter Real TFP=0.50000E-01
+                "  Filter time constant in torque regulator";
+              parameter Real Kpp=3.0000
+                "  Proportional gain in torque regulator (pu) ";
+              parameter Real KIP=0.60000
+                " Integrator gain in torque regulator (pu)";
               parameter Real PMX=1.1200 "  Max limit in torque regulator (pu)";
               parameter Real PMN=0.10000 "  Min limit in torque regulator (pu)";
               parameter Real IPMAX=1.1000 "  Max active current limit";
@@ -39616,11 +40280,16 @@ The B in Pwline stands for half charging B in PSSE transmission line",
               parameter Real RPMN=-0.45000 "  Min power order derivative";
               parameter Real T_Power=5.0000 "  Power filter time constant";
               parameter Real wPmin=0.69000 "  Shaft speed at Pmin (pu)";
-              parameter Real wP20=0.78000 "  Shaft speed at 20% rated power (pu) ";
-              parameter Real wP40=0.98000 "  Shaft speed at 40% rated power (pu)";
-              parameter Real wP60=1.1200 "  Shaft speed at 60% rated power (pu)";
-              parameter Real Pmin=0.74000 "  Minimum power for operating at P100 speed (pu)";
-              parameter Real wP100=1.2000 "  Shaft speed at 100% rated power (pu)";
+              parameter Real wP20=0.78000
+                "  Shaft speed at 20% rated power (pu) ";
+              parameter Real wP40=0.98000
+                "  Shaft speed at 40% rated power (pu)";
+              parameter Real wP60=1.1200
+                "  Shaft speed at 60% rated power (pu)";
+              parameter Real Pmin=0.74000
+                "  Minimum power for operating at P100 speed (pu)";
+              parameter Real wP100=1.2000
+                "  Shaft speed at 100% rated power (pu)";
               parameter Real k20;
               parameter Real k30;
               parameter Real k50;
@@ -39699,10 +40368,12 @@ PI")}));
                 K=1,
                 T=Tfv,
                 y_start=k0) annotation (Placement(transformation(extent={{160,-10},{180,10}})));
-              Modelica.Blocks.Math.Gain XC(k=Xc) "Line drop compensation reactance (pu)" annotation (Placement(transformation(extent={{-180,-30},{-160,-10}})));
+              Modelica.Blocks.Math.Gain XC(k=Xc)
+                "Line drop compensation reactance (pu)"                                  annotation (Placement(transformation(extent={{-180,-30},{-160,-10}})));
               Modelica.Blocks.Math.Add add3(k2=-1) annotation (Placement(transformation(extent={{-48,-10},{-28,10}})));
               Modelica.Blocks.Sources.Constant VARL(k=Vref) annotation (Placement(transformation(extent={{-98,40},{-78,60}})));
-              Modelica.Blocks.Math.Gain portion(k=1/Fn) "Line drop compensation reactance (pu)" annotation (Placement(transformation(extent={{-18,-10},{2,10}})));
+              Modelica.Blocks.Math.Gain portion(k=1/Fn)
+                "Line drop compensation reactance (pu)"                                         annotation (Placement(transformation(extent={{-18,-10},{2,10}})));
               NonElectrical.Continuous.SimpleLag K1(
                 y_start=k10,
                 K=KIV,
@@ -39714,14 +40385,21 @@ PI")}));
                 T=Tv,
                 y_start=k80,
                 K=1) annotation (Placement(transformation(extent={{22,20},{42,40}})));
-              parameter Real Tfv=0.15000 "Filter time constant in voltage regulator (sec)";
-              parameter Real Kpv=18.000 "  Proportional gain in voltage regulator (pu)";
-              parameter Real KIV=5.0000 "  Integrator gain in voltage regulator (pu)";
-              parameter Real Xc=0.0000 "  Line drop compensation reactance (pu)";
-              parameter Real QMX=0.29600 "  Max limit in voltage regulator (pu)";
-              parameter Real QMN=-0.43600 "  Min limit in voltage regulator (pu)";
+              parameter Real Tfv=0.15000
+                "Filter time constant in voltage regulator (sec)";
+              parameter Real Kpv=18.000
+                "  Proportional gain in voltage regulator (pu)";
+              parameter Real KIV=5.0000
+                "  Integrator gain in voltage regulator (pu)";
+              parameter Real Xc=0.0000
+                "  Line drop compensation reactance (pu)";
+              parameter Real QMX=0.29600
+                "  Max limit in voltage regulator (pu)";
+              parameter Real QMN=-0.43600
+                "  Min limit in voltage regulator (pu)";
               parameter Real TRV=0.50000E-01 " Voltage sensor time constant";
-              parameter Real Tv=0.50000E-01 "  Lag time constant in WindVar controller";
+              parameter Real Tv=0.50000E-01
+                "  Lag time constant in WindVar controller";
               parameter Real Fn=1.0000 "  A portion of online wind turbines";
               parameter Real Vref " Remote bus ref voltage";
               parameter Real k0;
@@ -39931,8 +40609,10 @@ PI")}));
             parameter Real V_LVPL1 "LVPL voltage 1 (Low voltage power logic)";
             parameter Real V_LVPL2 "LVPL voltage 2";
             parameter Real G_LVPL "LVPL gain";
-            parameter Real V_HVRCR "HVRCR voltage (High voltage reactive current limiter)";
-            parameter Real CUR_HVRCR "HVRCR current (Max. reactive current at VHVRCR)";
+            parameter Real V_HVRCR
+              "HVRCR voltage (High voltage reactive current limiter)";
+            parameter Real CUR_HVRCR
+              "HVRCR current (Max. reactive current at VHVRCR)";
             parameter Real RIp_LVPL "Rate of LVACR active current change";
             parameter Real T_LVPL "Voltage sensor for LVACR time constant";
 
@@ -39988,20 +40668,29 @@ PI")}));
 
             //Initialization parameters
           protected
-            parameter Real p0=P_0/M_b "initial value of bus active power in p.u. machinebase";
-            parameter Real q0=Q_0/M_b "initial value of bus reactive power in p.u. machinebase";
+            parameter Real p0=P_0/M_b
+              "initial value of bus active power in p.u. machinebase";
+            parameter Real q0=Q_0/M_b
+              "initial value of bus reactive power in p.u. machinebase";
             parameter Real v0=V_0;
-            parameter Real vr0=v0*cos(anglev_rad) "Real component of initial terminal voltage";
-            parameter Real vi0=v0*sin(anglev_rad) "Imaginary component of intitial terminal voltage";
-            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, M_b";
-            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, M_b";
+            parameter Real vr0=v0*cos(anglev_rad)
+              "Real component of initial terminal voltage";
+            parameter Real vi0=v0*sin(anglev_rad)
+              "Imaginary component of intitial terminal voltage";
+            parameter Real ir0=(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, M_b";
+            parameter Real ii0=(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, M_b";
             parameter Real Isr0=ir0 "Sorce current re M_b";
             parameter Real Isi0=ii0 "Sorce current im M_b";
             parameter Real CoB=M_b/S_b;
-            parameter Real ir1=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2) "Real component of initial armature current, S_b";
-            parameter Real ii1=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2) "Imaginary component of initial armature current, S_b";
+            parameter Real ir1=-CoB*(p0*vr0 + q0*vi0)/(vr0^2 + vi0^2)
+              "Real component of initial armature current, S_b";
+            parameter Real ii1=-CoB*(p0*vi0 - q0*vr0)/(vr0^2 + vi0^2)
+              "Imaginary component of initial armature current, S_b";
             parameter Real Ipcmd0=Ix0;
-            parameter Real anglev_rad=angle_0*pi/180 "initial value of bus anglev in rad";
+            parameter Real anglev_rad=angle_0*pi/180
+              "initial value of bus anglev in rad";
             parameter Real Ix0=Isr0*cos(-anglev_rad) - Isi0*sin(-anglev_rad);
             parameter Real Iy0=-(Isr0*sin(-anglev_rad) + cos(-anglev_rad)*Isi0);
           public
@@ -40175,10 +40864,15 @@ specified at PSSE model dialog")}),
             import iPSL;
 
             parameter Boolean PFAFLG "PF fast control" annotation (choices(choice=true "Enable",choice=false "Disable"));
-            parameter Boolean VARFLG annotation (choices(choice=false " Qord is not provided by WindVar", choice=true " Qord is provided by WindVar"));
-            parameter Boolean PQFLAG "P/Q priority flag" annotation (choices(choice=false "Q priority",choice=true "P priority"));
+            parameter Boolean VARFLG annotation (choices(choice=false
+                  " Qord is not provided by WindVar",                                                     choice=true
+                  " Qord is provided by WindVar"));
+            parameter Boolean PQFLAG "P/Q priority flag" annotation (choices(choice=false
+                  "Q priority",                                                                        choice=true
+                  "P priority"));
 
-            parameter Real Tfv "Filter time constant in voltage regulator (sec)";
+            parameter Real Tfv
+              "Filter time constant in voltage regulator (sec)";
             parameter Real Kpv " Proportional gain in voltage regulator (pu)";
             parameter Real KIV " Integrator gain in voltage regulator (pu)";
 
@@ -40202,7 +40896,8 @@ specified at PSSE model dialog")}),
 
             parameter Real KVI=120 " Voltage/MVAR gain";
 
-            parameter Real Tv=0.50000E-01 " Lag time constant in WindVar controller";
+            parameter Real Tv=0.50000E-01
+              " Lag time constant in WindVar controller";
             parameter Real Tp=0.50000E-01 " Pelec filter in fast PF controller";
             parameter Real ImaxTD=1.7 "Converter current limit";
             parameter Real Iphl=1.11 "Hard active current limit";
@@ -40214,7 +40909,8 @@ specified at PSSE model dialog")}),
             parameter Real Vref(fixed=false);
             parameter Real Pref=p0;
             parameter Real Qref=q0 "Q reference if PFAFLG=0 & VARFLG";
-            parameter Real PFA_ref=atan2(q0, p0) "PF angle reference if PFAFLG=1";
+            parameter Real PFA_ref=atan2(q0, p0)
+              "PF angle reference if PFAFLG=1";
 
             parameter Real p0(fixed=false);
             parameter Real q0(fixed=false);
@@ -40226,14 +40922,17 @@ specified at PSSE model dialog")}),
 
             parameter Real k0(fixed=false) "Filter in voltage regulator";
             parameter Real k10(fixed=false) "Integrator in voltage regulator";
-            parameter Real k20(fixed=false) "Integrator in active power regulator";
+            parameter Real k20(fixed=false)
+              "Integrator in active power regulator";
             parameter Real k30(fixed=false) "Active power regulator feedback";
             parameter Real k40(fixed=false) "Voltage sensor";
             parameter Real k50(fixed=false) "Power filter";
             parameter Real k60(fixed=false) "MVAR/Vref integrator";
-            parameter Real k70(fixed=false) "Verror/Internal machine voltage integrator";
+            parameter Real k70(fixed=false)
+              "Verror/Internal machine voltage integrator";
             parameter Real k80(fixed=false) "Lag of the WindVar controller";
-            parameter Real k90(fixed=false) "Input filter of Pelec for PF fast controller";
+            parameter Real k90(fixed=false)
+              "Input filter of Pelec for PF fast controller";
 
           public
             Modelica.Blocks.Interfaces.RealInput P(start=p0)
@@ -40507,8 +41206,10 @@ PI"),          Text(    extent={{-40,180},{40,140}},
                 K=1,
                 y_start=p0,
                 T=Tp) annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
-              parameter Real Tp=0.50000E-01 " Pelec filter in fast PF controller";
-              parameter Real PFA_ref=atan2(q0, p0) "PF angle reference if PFAFLG=1";
+              parameter Real Tp=0.50000E-01
+                " Pelec filter in fast PF controller";
+              parameter Real PFA_ref=atan2(q0, p0)
+                "PF angle reference if PFAFLG=1";
               parameter Real p0;
               Modelica.Blocks.Interfaces.RealInput u annotation (Placement(transformation(rotation=0, extent={{-214,-10},{-194,10}})));
               Modelica.Blocks.Interfaces.RealOutput Q_REF_PF annotation (Placement(transformation(extent={{0,-10},{20,10}})));
@@ -40574,12 +41275,14 @@ PI"),          Text(    extent={{-40,180},{40,140}},
                 K=1.5,
                 T1=0.025,
                 x_start=0) annotation (Placement(transformation(extent={{-22,10},{-2,30}})));
-              parameter Real Tfv "Filter time constant in voltage regulator (sec)";
+              parameter Real Tfv
+                "Filter time constant in voltage regulator (sec)";
               parameter Real Kpv " Proportional gain in voltage regulator (pu)";
               parameter Real KIV " Integrator gain in voltage regulator (pu)";
               parameter Real QMX " Max limit in voltage regulator (pu)";
               parameter Real QMN " Min limit in voltage regulator (pu)";
-              parameter Real Tv=0.50000E-01 " Lag time constant in WindVar controller";
+              parameter Real Tv=0.50000E-01
+                " Lag time constant in WindVar controller";
               parameter Real Vref;
               parameter Real k0 "Filter in voltage regulator";
               parameter Real k10 "Integrator in voltage regulator";
@@ -41113,14 +41816,16 @@ PI"),          Text(    extent={{-40,180},{40,140}},
                   extent={{-10,-10},{10,10}},
                   rotation=270,
                   origin={-50,-40})));
-            Modelica.Blocks.Interfaces.RealInput Available_remain1 "sqrt(ImaxTD^2 - IpCMD^2)" annotation (Placement(transformation(
+            Modelica.Blocks.Interfaces.RealInput Available_remain1
+              "sqrt(ImaxTD^2 - IpCMD^2)"                                                      annotation (Placement(transformation(
                   extent={{-16,-16},{16,16}},
                   rotation=180,
                   origin={76,-18}), iconTransformation(
                   extent={{-9,-9},{9,9}},
                   rotation=90,
                   origin={55,-35})));
-            Modelica.Blocks.Interfaces.RealInput Available_remain2 "sqrt(ImaxTD^2 - IqCMD^2)" annotation (Placement(transformation(
+            Modelica.Blocks.Interfaces.RealInput Available_remain2
+              "sqrt(ImaxTD^2 - IqCMD^2)"                                                      annotation (Placement(transformation(
                   extent={{-16,-16},{16,16}},
                   rotation=0,
                   origin={-90,-20}), iconTransformation(
@@ -41310,7 +42015,8 @@ PI"),          Text(    extent={{-40,180},{40,140}},
       model WindGenerator
         import Modelica.Constants.pi;
         import Modelica.Constants.e;
-        Modelica.Blocks.Interfaces.RealOutput Vw "Connector of Real output signal" annotation (Placement(
+        Modelica.Blocks.Interfaces.RealOutput Vw
+          "Connector of Real output signal"                                        annotation (Placement(
             transformation(
               extent={{100.0,-10.0},{120.0,10.0}},
               rotation=0,
@@ -41422,7 +42128,8 @@ PI"),          Text(    extent={{-40,180},{40,140}},
                     origin={2.0,-1.6523},
                     extent={{-102.0,54.0},{-62.0,94.0}},
                     rotation=0)));
-              Modelica.Blocks.Interfaces.RealOutput omega_gen "Engine shaft angular velocity" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealOutput omega_gen
+                "Engine shaft angular velocity"                                               annotation (Placement(
                   transformation(
                     extent={{102.0,54.0},{62.0,94.0}},
                     origin={-144.7168,-169.0},
@@ -41432,7 +42139,8 @@ PI"),          Text(    extent={{-40,180},{40,140}},
                     origin={-2.0,-4.0},
                     extent={{102.0,54.0},{62.0,94.0}},
                     rotation=0)));
-              Modelica.Blocks.Interfaces.RealOutput omega_turb "engine shaft angular velocity" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealOutput omega_turb
+                "engine shaft angular velocity"                                                annotation (Placement(
                   visible=true,
                   transformation(
                     origin={-142.0,21.0},
@@ -41969,7 +42677,8 @@ PI"),          Text(    extent={{-40,180},{40,140}},
             block Multi_Powers "Multiplexer block for four input connectors"
               extends Modelica.Blocks.Interfaces.BlockIcon;
               Modelica.Blocks.Interfaces.RealInput u1 "Input" annotation (Placement(transformation(extent={{-140,70},{-100,110}}, rotation=0)));
-              Modelica.Blocks.Interfaces.RealOutput y[5] "Multiple powers of the input" annotation (Placement(transformation(extent={{100,-10},{120,10}}, rotation=0)));
+              Modelica.Blocks.Interfaces.RealOutput y[5]
+                "Multiple powers of the input"                                          annotation (Placement(transformation(extent={{100,-10},{120,10}}, rotation=0)));
             protected
               Real u2;
               Real u3;
@@ -42178,7 +42887,8 @@ All vectors have the same number of elements.
                     origin={2.0,-7.5581},
                     extent={{-102.0,54.0},{-62.0,94.0}},
                     rotation=0)));
-              Modelica.Blocks.Interfaces.RealOutput Pord "Active power command" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealOutput Pord "Active power command"
+                                                                                annotation (Placement(
                   transformation(
                     extent={{102.0,54.0},{62.0,94.0}},
                     origin={128.0,-75.6493},
@@ -42588,7 +43298,8 @@ All vectors have the same number of elements.
               parameter Real KVi=1;
               parameter Real xiqmax=1;
               parameter Real xiqmin=1;
-              Modelica.Blocks.Interfaces.RealInput Qgen "Reactive Power produced by the Generator" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealInput Qgen
+                "Reactive Power produced by the Generator"                                         annotation (Placement(
                   transformation(
                     extent={{-102.0,54.0},{-62.0,94.0}},
                     origin={-148.0,42.372},
@@ -42598,7 +43309,8 @@ All vectors have the same number of elements.
                     origin={2.0,-154.0},
                     extent={{-102.0,54.0},{-62.0,94.0}},
                     rotation=0)));
-              Modelica.Blocks.Interfaces.RealInput Qord "Reactive power command" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealInput Qord
+                "Reactive power command"                                         annotation (Placement(
                   transformation(
                     extent={{-102.0,54.0},{-62.0,94.0}},
                     origin={-148.0,-25.5774},
@@ -42853,7 +43565,8 @@ All vectors have the same number of elements.
               parameter Real xiqmin=1;
               parameter Real xiqmax=1;
               parameter Real typpe=1;
-              Modelica.Blocks.Interfaces.RealInput Efd "Input: Excitation voltage" annotation (Placement(
+              Modelica.Blocks.Interfaces.RealInput Efd
+                "Input: Excitation voltage"                                        annotation (Placement(
                   transformation(
                     extent={{-140.0,40.0},{-100.0,80.0}},
                     rotation=0,
@@ -42873,7 +43586,8 @@ All vectors have the same number of elements.
                     origin={0.0,0.0},
                     extent={{-140.0,-80.0},{-100.0,-40.0}},
                     rotation=0)));
-              Modelica.Blocks.Interfaces.RealOutput y "Output: saturated excitation voltage" annotation (Placement(transformation(extent={{100,-10},{120,10}}, rotation=0)));
+              Modelica.Blocks.Interfaces.RealOutput y
+                "Output: saturated excitation voltage"                                       annotation (Placement(transformation(extent={{100,-10},{120,10}}, rotation=0)));
               Modelica.Blocks.Interfaces.RealInput Vref "Reference Voltage " annotation (Placement(
                   visible=true,
                   transformation(
@@ -43378,10 +44092,13 @@ All vectors have the same number of elements.
             import Modelica.Constants.pi;
             import Modelica.Constants.eps;
             parameter Real _V0=1.03 "Terminal Voltage from Power Flow";
-            parameter Real _Ang0=0.421202138172605 "Terminal Angle from Power Flow";
+            parameter Real _Ang0=0.421202138172605
+              "Terminal Angle from Power Flow";
             parameter Real _P0=1.62 "Active Power from Power Flow";
-            parameter Real _Q0=-0.370492231185345 "Reactive Power from Power Flow";
-            parameter Real GEN_base=180 "Base Power from the Electrical Generator";
+            parameter Real _Q0=-0.370492231185345
+              "Reactive Power from Power Flow";
+            parameter Real GEN_base=180
+              "Base Power from the Electrical Generator";
             parameter Real WT_base=162 "Base Power from the Turbine";
             parameter Real SYS_base=100 "Base Power from the power system";
             parameter Real freq=60 "Steady state Frequency of the power system";
@@ -43396,14 +44113,19 @@ All vectors have the same number of elements.
             parameter Real pirat=10.0 "maximum variation rate of pitch angle";
             parameter Real pwmax=1.12 "Maximal power taken from the wind";
             parameter Real pwmin=0.1 "Minimal power taken from the wind";
-            parameter Real pwrat=0.45 "maximum variation rate of power taken from the wind";
+            parameter Real pwrat=0.45
+              "maximum variation rate of power taken from the wind";
             parameter Real Kptrq=3.0 "Gain Torque Controller";
             parameter Real Kitrq=0.6 "Gain of integrator of Torque Controller";
             parameter Real Tpc=0.05 "Time Constant Torque controller";
-            parameter Real KQi=0.1 "Gain constant of first PI in DFIG electrical control model";
-            parameter Real KVi=40 "Gain constant of second PI in DFIG electrical control model";
-            parameter Real xiqmax=0.4 "Up saturation of second PI in DFIG electrical control model";
-            parameter Real xiqmin=-0.5 "Down saturation of second PI in DFIG electrical control model";
+            parameter Real KQi=0.1
+              "Gain constant of first PI in DFIG electrical control model";
+            parameter Real KVi=40
+              "Gain constant of second PI in DFIG electrical control model";
+            parameter Real xiqmax=0.4
+              "Up saturation of second PI in DFIG electrical control model";
+            parameter Real xiqmin=-0.5
+              "Down saturation of second PI in DFIG electrical control model";
             parameter Real Kpllp=30;
             parameter Real Xpp=0.8;
             parameter Real qmax=0.312;
@@ -43856,7 +44578,8 @@ All vectors have the same number of elements.
 
       package DTU
 
-        model VoltageDepCurrent "Part of the Q Control, to generate voltage dependent current. Developed by DTU"
+        model VoltageDepCurrent
+          "Part of the Q Control, to generate voltage dependent current. Developed by DTU"
           Modelica.Blocks.Interfaces.RealInput Uwtt annotation (Placement(transformation(extent={{-60,-6},{-48,6}}), iconTransformation(extent={{-60,-6},{-48,6}})));
           Modelica.Blocks.Interfaces.RealOutput iqv annotation (Placement(transformation(extent={{47,-6},{59,6}}), iconTransformation(extent={{47,-6},{59,6}})));
           parameter Real Udb1 "voltage dead band lower limit";
@@ -43904,18 +44627,24 @@ All vectors have the same number of elements.
 </html>"));
         end VoltageDepCurrent;
 
-        model CurrentLimiter "The current limitation model combines the physical limit. Developed by DTU"
-          parameter Real i_maxdip "Maximum current during voltage dip at the wind turbine terminals";
-          parameter Real i_max "Maximum continuous current at the wind turbine terminals";
-          parameter Real M_Qpri "Prioritisation of q control during LVRT (0: active power priority - 1: reactive power priority)";
+        model CurrentLimiter
+          "The current limitation model combines the physical limit. Developed by DTU"
+          parameter Real i_maxdip
+            "Maximum current during voltage dip at the wind turbine terminals";
+          parameter Real i_max
+            "Maximum continuous current at the wind turbine terminals";
+          parameter Real M_Qpri
+            "Prioritisation of q control during LVRT (0: active power priority - 1: reactive power priority)";
           parameter Real ini_Uwttfilt(fixed=false) "initial voltage magnitude";
-          parameter Real T_Ufilt "filter time constant of the voltage measurement";
+          parameter Real T_Ufilt
+            "filter time constant of the voltage measurement";
           Modelica.Blocks.Interfaces.RealInput iPcmdlmt annotation (Placement(transformation(extent={{-90,34},{-80,46}})));
           Modelica.Blocks.Interfaces.RealInput Uwtt annotation (Placement(transformation(extent={{-90,-6},{-80,6}})));
           Modelica.Blocks.Interfaces.RealInput iQcmdlmt annotation (Placement(transformation(extent={{-90,-46},{-80,-34}})));
           Modelica.Blocks.Interfaces.RealOutput iQmax annotation (Placement(transformation(extent={{80,24},{90,36}})));
           Modelica.Blocks.Interfaces.RealOutput iPmax annotation (Placement(transformation(extent={{80,-38},{90,-26}})));
-          Modelica.Blocks.Sources.Constant Imax(k=i_max) "Maximum continuous current at the wind turbine terminals" annotation (Placement(transformation(extent={{-96,48},{-86,58}})));
+          Modelica.Blocks.Sources.Constant Imax(k=i_max)
+            "Maximum continuous current at the wind turbine terminals"                                              annotation (Placement(transformation(extent={{-96,48},{-86,58}})));
           Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.5) annotation (Placement(transformation(extent={{-80,58},{-72,66}})));
           Modelica.Blocks.Logical.Switch switch1 annotation (Placement(transformation(extent={{-64,56},{-52,68}})));
           Modelica.Blocks.Math.Add add(k1=1, k2=1) annotation (Placement(transformation(extent={{-28,51},{-18,61}})));
@@ -43928,7 +44657,8 @@ All vectors have the same number of elements.
                 rotation=-90,
                 origin={0,65})));
           Modelica.Blocks.Math.Product product2 annotation (Placement(transformation(extent={{26,-3},{36,7}})));
-          Modelica.Blocks.Sources.Constant Imaxdip(k=i_maxdip) "Maximum current during voltage dip at the wind turbine terminals" annotation (Placement(transformation(extent={{-96,68},{-86,78}})));
+          Modelica.Blocks.Sources.Constant Imaxdip(k=i_maxdip)
+            "Maximum current during voltage dip at the wind turbine terminals"                                                    annotation (Placement(transformation(extent={{-96,68},{-86,78}})));
           Modelica.Blocks.Math.Product product3 annotation (Placement(transformation(extent={{-46,54},{-36,64}})));
           Modelica.Blocks.Logical.Switch switch2 annotation (Placement(transformation(extent={{54,52},{66,64}})));
           Modelica.Blocks.Math.Add add1(k1=1, k2=-1) annotation (Placement(transformation(extent={{-28,-45},{-18,-35}})));
@@ -43937,16 +44667,19 @@ All vectors have the same number of elements.
           Modelica.Blocks.Math.Min min2 annotation (Placement(transformation(extent={{24,-42},{34,-32}})));
           Modelica.Blocks.Logical.Switch switch3 annotation (Placement(transformation(extent={{60,-38},{72,-26}})));
           Modelica.Blocks.Math.Product product4 annotation (Placement(transformation(extent={{-44,-48},{-34,-38}})));
-          Modelica.Blocks.Tables.CombiTable1D iP_VDL(table=[0.1, 0; 0.15, 1; 0.9, 1; 0.925, 1; 1.075, 1; 1.1, 1]) "Lookup table for voltage dependency of active current limits"
+          Modelica.Blocks.Tables.CombiTable1D iP_VDL(table=[0.1, 0; 0.15, 1; 0.9, 1; 0.925, 1; 1.075, 1; 1.1, 1])
+            "Lookup table for voltage dependency of active current limits"
             annotation (Placement(transformation(extent={{-26,-18},{-14,-6}})));
-          Modelica.Blocks.Sources.Constant MQpri(k=M_Qpri) "Prioritisation of q control during LVRT (0: active power priority - 1: reactive power priority)"
+          Modelica.Blocks.Sources.Constant MQpri(k=M_Qpri)
+            "Prioritisation of q control during LVRT (0: active power priority - 1: reactive power priority)"
             annotation (Placement(transformation(extent={{4,0},{14,10}})));
           Modelica.Blocks.Logical.GreaterThreshold greaterThreshold1(threshold=0.5) annotation (Placement(transformation(extent={{40,-2},{48,6}})));
           iPSL.NonElectrical.Continuous.SimpleLag imSimpleLag(
             K=1,
             T=T_Ufilt,
             y_start=ini_Uwttfilt) annotation (Placement(transformation(extent={{-66,-6},{-54,6}})));
-          Modelica.Blocks.Tables.CombiTable1D iQ_VDL(table=[0.1, 0; 0.15, 1; 0.9, 1; 0.925, 0.33; 1.075, 0.33; 1.1, 1]) "Lookup table for voltage dependency of reactive current limits"
+          Modelica.Blocks.Tables.CombiTable1D iQ_VDL(table=[0.1, 0; 0.15, 1; 0.9, 1; 0.925, 0.33; 1.075, 0.33; 1.1, 1])
+            "Lookup table for voltage dependency of reactive current limits"
             annotation (Placement(transformation(extent={{-22,24},{-10,36}})));
           Modelica.Blocks.Math.Min min3 annotation (Placement(transformation(extent={{-62,32},{-52,42}})));
           Modelica.Blocks.Math.Min min4 annotation (Placement(transformation(extent={{-56,-26},{-50,-20}})));
@@ -44273,7 +45006,8 @@ Gen Set"),        Text(
 </html>"));
         end GenSet_Type4;
 
-        model IQLVRT "Selects the reactive current during fault and post fault. Developed by DTU"
+        model IQLVRT
+          "Selects the reactive current during fault and post fault. Developed by DTU"
           Modelica.Blocks.Interfaces.RealInput F_LVRT annotation (Placement(transformation(
                 extent={{-5,-6},{5,6}},
                 rotation=-90,
@@ -44331,9 +45065,12 @@ Mode")}),   Documentation(revisions="<html>
           Modelica.Blocks.Interfaces.RealInput Uwtt annotation (Placement(transformation(extent={{-51,-6},{-41,6}}), iconTransformation(extent={{-51,-6},{-41,6}})));
           Modelica.Blocks.Interfaces.RealOutput F_LVRT annotation (Placement(transformation(extent={{39,14},{49,26}}), iconTransformation(extent={{39,14},{49,26}})));
           Modelica.Blocks.Interfaces.RealOutput Fpost annotation (Placement(transformation(extent={{39,-26},{49,-14}}), iconTransformation(extent={{39,-26},{49,-14}})));
-          parameter Real Uqdip "Voltage threshold value for LVRT detection in Q control";
-          parameter Modelica.SIunits.Time Tpost=0 "Length of time period where post fault reactive power is injected";
-          discrete Modelica.SIunits.Time LVRTstop "Time instant when post fault period started";
+          parameter Real Uqdip
+            "Voltage threshold value for LVRT detection in Q control";
+          parameter Modelica.SIunits.Time Tpost=0
+            "Length of time period where post fault reactive power is injected";
+          discrete Modelica.SIunits.Time LVRTstop
+            "Time instant when post fault period started";
         initial equation
           F_LVRT = if Uwtt < Uqdip then 1 else 0;
           Fpost = 0;
@@ -44404,7 +45141,8 @@ Mode")}),   Documentation(revisions="<html>
           parameter Real Qmin "Minimum reactive power";
           parameter Real Tufilt "Voltage measurement filter time constant";
           parameter Real Uqdip "Voltage threshold value for LVRT detection";
-          parameter Real Tpost "Length of time period where post fault reactive power is injected";
+          parameter Real Tpost
+            "Length of time period where post fault reactive power is injected";
           parameter Real Udb1 "Voltage dead band lower limit";
           parameter Real Udb2 "Voltage dead band upper limit";
           parameter Real Kqv "Voltage scaling factor for LVRT current";
@@ -44412,18 +45150,24 @@ Mode")}),   Documentation(revisions="<html>
           parameter Real iqmin "Minimum reactive current injection";
           parameter Real iqmax "Maximum reactive current injection";
           parameter Real iq_post "Post fault reactive current injection";
-          parameter Real Umax "Maximum voltage in voltage PI controller integral term";
-          parameter Real Umin "Minimum voltage in voltage PI controller integral term";
+          parameter Real Umax
+            "Maximum voltage in voltage PI controller integral term";
+          parameter Real Umin
+            "Minimum voltage in voltage PI controller integral term";
           parameter Real KiQ "Reactive power PI controller integration gain";
           parameter Real KpQ "Reactive power PI controller proportional gain";
           parameter Real Tqord "Time constant in reactive power order lag";
           parameter Real KiU "Voltage PI controller integration gain";
           parameter Real KpU "Voltage PI controller proportional gain";
           parameter Real Tiq "Time constant in reactive current lag";
-          parameter Real ini_Pwtt(fixed=false) "Initial value of the state (Active power order lag)";
-          parameter Real ini_Uwtt(fixed=false) "Initial value of the state (Voltage order lag)";
-          parameter Real ini_Qpi(fixed=false) "Initial value of the state (Reactive power PI controller)";
-          parameter Real ini_Qwtt(fixed=false) "Initial value of the state (Reactive power order lag)";
+          parameter Real ini_Pwtt(fixed=false)
+            "Initial value of the state (Active power order lag)";
+          parameter Real ini_Uwtt(fixed=false)
+            "Initial value of the state (Voltage order lag)";
+          parameter Real ini_Qpi(fixed=false)
+            "Initial value of the state (Reactive power PI controller)";
+          parameter Real ini_Qwtt(fixed=false)
+            "Initial value of the state (Reactive power order lag)";
           parameter Real ini_Iqwtt(fixed=false) "Initial reactive current";
           parameter Real Rdroop "Resistive component of voltage drop impedance";
           parameter Real Xdroop "Inductive component of voltage drop impedance";
@@ -44836,13 +45580,15 @@ Q Control"),        Text(
 </html>"));
         end DriveTrain;
 
-        model PControl_Type4B_CDV "Active Power Control for IEC Type4B Model. Developed by DTU"
+        model PControl_Type4B_CDV
+          "Active Power Control for IEC Type4B Model. Developed by DTU"
           parameter Real w_init "Initial steady state generator speed";
           parameter Real T_Ufilt "Voltage measurement filter time constant";
           parameter Real dPmax "Wind turbine maximum power ramp rate";
           parameter Real ini_Pcmd(fixed=false) "Initial Active Power";
           parameter Real ini_Uwtt(fixed=false) "Initial Voltage Magnitude";
-          parameter Real ini_iPcmd(fixed=false) "Initial Active Current Magnitude";
+          parameter Real ini_iPcmd(fixed=false)
+            "Initial Active Current Magnitude";
           parameter Real Tpord "Time constant in power order lag";
           parameter Real Tpaero "Time constant in aerodynamic power response";
           Modelica.Blocks.Interfaces.RealInput iPmax annotation (Placement(transformation(extent={{-61,5},{-51,15}}), iconTransformation(extent={{-61,5},{-51,15}})));
@@ -44939,12 +45685,15 @@ P Control"),        Text(
 </html>"));
         end PControl_Type4B_CDV;
 
-        model Type4B_WT_CDV "IEC Type 4B Full-Scale Wind Turbine Model. Developed by DTU"
+        model Type4B_WT_CDV
+          "IEC Type 4B Full-Scale Wind Turbine Model. Developed by DTU"
           parameter Real w_init=1 "Initial steady state generator speed";
-          parameter Real T_Ufilt=0.01 "Voltage measurement filter time constant";
+          parameter Real T_Ufilt=0.01
+            "Voltage measurement filter time constant";
           parameter Real dPmax=99 "Wind turbine maximum power ramp rate";
           parameter Real Tpord=0.01 "Time constant in power order lag";
-          parameter Real Tpaero=0.01 "Time constant in aerodynamic power response";
+          parameter Real Tpaero=0.01
+            "Time constant in aerodynamic power response";
           parameter Real Tpfilt=0.01 "Power measurement filter time constant";
           parameter Real MwttPF=1 "Power factor control mode";
           parameter Real MwttU=0 "Voltage control mode";
@@ -44955,7 +45704,8 @@ P Control"),        Text(
           parameter Real Qmin=-0.33 "Minimum reactive power";
           parameter Real Tufilt=0.01 "Voltage measurement filter time constant";
           parameter Real Uqdip=0.8 "Voltage threshold value for LVRT detection";
-          parameter Real Tpost=1 "Length of time period where post fault reactive power is injected";
+          parameter Real Tpost=1
+            "Length of time period where post fault reactive power is injected";
           parameter Real Udb1=0.1 "Voltage dead band lower limit";
           parameter Real Udb2=0.1 "Voltage dead band upper limit";
           parameter Real Kqv=4 "Voltage scaling factor for LVRT current";
@@ -44963,9 +45713,12 @@ P Control"),        Text(
           parameter Real iqmin=-1.1 "Minimum reactive current injection";
           parameter Real iqmax=1.1 "Maximum reactive current injection";
           parameter Real iq_post=-0.2 "Post fault reactive current injection";
-          parameter Real Umax=1.05 "Maximum voltage in voltage PI controller integral term";
-          parameter Real Umin=0 "Minimum voltage in voltage PI controller integral term";
-          parameter Real KiQ=0.1 "Reactive power PI controller integration gain";
+          parameter Real Umax=1.05
+            "Maximum voltage in voltage PI controller integral term";
+          parameter Real Umin=0
+            "Minimum voltage in voltage PI controller integral term";
+          parameter Real KiQ=0.1
+            "Reactive power PI controller integration gain";
           parameter Real KpQ=1 "Reactive power PI controller proportional gain";
           parameter Real Tqord=0.01 "Time constant in reactive power order lag";
           parameter Real KiU=0.1 "Voltage PI controller integration gain";
@@ -44976,15 +45729,20 @@ P Control"),        Text(
           parameter Real k_sh=140 "Drive Train Stiffness";
           parameter Real c_sh=0.8 "Drive Train Damping";
           parameter Real T_init=0.9 "Initial Steady State Shaft Torque";
-          parameter Real i_maxdip=1.1 "Maximum current during voltage dip at the wind turbine terminals";
-          parameter Real i_max=1.23 "Maximum continuous current at the wind turbine terminals";
-          parameter Real M_Qpri=1 "Prioritisation of q control during LVRT (0: active power priority - 1: reactive power priority)";
+          parameter Real i_maxdip=1.1
+            "Maximum current during voltage dip at the wind turbine terminals";
+          parameter Real i_max=1.23
+            "Maximum continuous current at the wind turbine terminals";
+          parameter Real M_Qpri=1
+            "Prioritisation of q control during LVRT (0: active power priority - 1: reactive power priority)";
           parameter Real Tg=0.005 "Current generation time constant";
           parameter Real diPmax=99 "Maximum active current ramp rate ";
           parameter Real diQmin=-99 "Minimum reactive current ramp rate";
           parameter Real diQmax=99 "Maximum reactive current ramp rate";
-          parameter Real Rdroop=0 "Resistive component of voltage drop impedance";
-          parameter Real Xdroop=0 "Inductive component of voltage drop impedance";
+          parameter Real Rdroop=0
+            "Resistive component of voltage drop impedance";
+          parameter Real Xdroop=0
+            "Inductive component of voltage drop impedance";
           parameter Real ini_iPref(fixed=false);
           parameter Real ini_iQref(fixed=false);
           iPSL.Electrical.Wind.DTU.CurrentLimiter CurrentLimitationModel(
@@ -45425,7 +46183,8 @@ P Control"),        Text(
 </html>"));
       end Eurostag;
 
-      model Pw3PhaseVoltage "Voltage sensor for generator machine with internal transformer"
+      model Pw3PhaseVoltage
+        "Voltage sensor for generator machine with internal transformer"
         parameter Real RT "Step-up trafo Resistance in Machine (pu)";
         parameter Real XT "Step-up trafo Resistance in Machine (pu)";
         parameter Real r "Step-up trafo ratio in Machine";
@@ -45695,22 +46454,22 @@ P Control"),        Text(
         parameter Real startTime "Start time of the fault (s)";
         parameter Real endTime "End time of the fault (s)";
       protected
-        parameter Real ground=if R == 0 and X == 0 then 0 else 1;
+        parameter Boolean ground=if R == 0 and X == 0 then true else false;
       equation
-        if time < startTime then
-          p.ii = 0;
-          p.ir = 0;
-        elseif time < endTime and ground == 0 then
-          p.vr = 1E-10;
-          // This is to avoid numerical problems
-          p.vi = 0;
-        elseif time < endTime then
-          p.ii = (R*p.vi - X*p.vr)/(X*X + R*R);
-          p.ir = (R*p.vr + X*p.vi)/(R*R + X*X);
+
+       if  time > startTime and time < endTime then
+         if ground then
+           p.vr = 1E-7;
+           p.vi = 0;
+         else
+           p.ii*(X*X + R*R) = (R*p.vi -  X*p.vr);
+           p.ir*(R*R + X*X) = (R*p.vr + X*p.vi);
+         end if;
         else
-          p.ii = 0;
-          p.ir = 0;
+            p.ii = 0.0;
+            p.ir = 0.0;
         end if;
+
         annotation (
           Icon(coordinateSystem(
               preserveAspectRatio=true,
@@ -46076,8 +46835,10 @@ This model allow change the voltage set point in a iPSL.NonElectrical.Eurostag.M
 
     package Essentials
 
-      partial model pfComponent "Partial model containing all the Data for entering Power Flow data"
-        inner iPSL.Electrical.SystemBase SysData "Must add this line in all models";
+      partial model pfComponent
+        "Partial model containing all the Data for entering Power Flow data"
+        inner iPSL.Electrical.SystemBase SysData
+          "Must add this line in all models";
         parameter Real V_b=400 "Base voltage of the bus (kV)" annotation (Dialog(group="Power flow data"));
         parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
         parameter Real angle_0=0 "Voltage angle (deg)" annotation (Dialog(group="Power flow data"));
@@ -46469,7 +47230,8 @@ Gate")}), Documentation(revisions="<html>
 
     package Continuous
 
-      block IntegratorLimVar "Integrator with a non windup limiter and variable limits"
+      block IntegratorLimVar
+        "Integrator with a non windup limiter and variable limits"
         extends Modelica.Blocks.Interfaces.SISO;
         parameter Real K "Gain" annotation (Evaluate=false);
         parameter Real y_start "Output start value" annotation (Dialog(group="Initialization"));
@@ -46534,8 +47296,10 @@ Gate")}), Documentation(revisions="<html>
         parameter Real y_start "Output start value" annotation (Dialog(group="Initialization"));
         parameter Real x_start=0 "Start value of state variable" annotation (Dialog(group="Initialization"));
       protected
-        parameter Modelica.SIunits.Time T_dummy=if abs(T) < Modelica.Constants.eps then 1000 else T "Lead time constant";
-        parameter Modelica.SIunits.Time K_dummy=if abs(K) < Modelica.Constants.eps then 1 else K "Lead time constant";
+        parameter Modelica.SIunits.Time T_dummy=if abs(T) < Modelica.Constants.eps then 1000 else T
+          "Lead time constant";
+        parameter Modelica.SIunits.Time K_dummy=if abs(K) < Modelica.Constants.eps then 1 else K
+          "Lead time constant";
       public
         Modelica.Blocks.Sources.RealExpression par1(y=T) annotation (Placement(transformation(extent={{-80,54},{-60,74}})));
         Modelica.Blocks.Continuous.TransferFunction TF(
@@ -46652,7 +47416,8 @@ Gate")}), Documentation(revisions="<html>
 </html>"));
       end SimpleLag;
 
-      block SimpleLagLim "First order lag transfer function block with a non windup limiter"
+      block SimpleLagLim
+        "First order lag transfer function block with a non windup limiter"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
         parameter Real K "Gain";
         parameter Modelica.SIunits.Time T "Lag time constant";
@@ -46722,7 +47487,8 @@ Gate")}), Documentation(revisions="<html>
                 textString="1 + Ts"),Line(points={{-100,-140},{-60,-140},{-40,-100}}, color={0,0,0})}));
       end SimpleLagLim;
 
-      block SimpleLagLimVar "First order lag transfer function block with a non windup limiter and variable limits"
+      block SimpleLagLimVar
+        "First order lag transfer function block with a non windup limiter and variable limits"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
         Modelica.Blocks.Interfaces.RealInput outMax
           annotation (Placement(transformation(extent={{98,106},{138,146}}), iconTransformation(
@@ -46815,7 +47581,8 @@ Gate")}), Documentation(revisions="<html>
           Diagram);
       end SimpleLagLimVar;
 
-      block SimpleLagRateLimBlock "First order lag transfer function block with a non windup limiter, rate limits and blocking input"
+      block SimpleLagRateLimBlock
+        "First order lag transfer function block with a non windup limiter, rate limits and blocking input"
         extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
         parameter Real K "Gain" annotation (Evaluate=false);
         parameter Modelica.SIunits.Time T "Lag time constant" annotation (Evaluate=false);
@@ -46901,7 +47668,8 @@ Gate")}), Documentation(revisions="<html>
           Diagram);
       end SimpleLagRateLimBlock;
 
-      block SimpleLagRateLimVar "First order lag transfer function block with a non windup limiter, rate limits, variable output limits and blocking input"
+      block SimpleLagRateLimVar
+        "First order lag transfer function block with a non windup limiter, rate limits, variable output limits and blocking input"
         extends Modelica.Blocks.Interfaces.SISO;
         parameter Modelica.SIunits.Time T "Lag time constant" annotation (Evaluate=false);
         parameter Real y_start "Output start value" annotation (Dialog(group="Initialization"));
@@ -47018,8 +47786,7 @@ Gate")}), Documentation(revisions="<html>
           a={T2_dummy,1},
           y_start=y_start,
           initType= Modelica.Blocks.Types.Init.SteadyState,
-          x_start={x_start})
-           annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
+          x_start={x_start}) annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
       equation
         if (abs(par1.y - par2.y) < Modelica.Constants.eps) then
           y = K*u;
@@ -47423,7 +48190,8 @@ All of the transfer functions found in this package are also available in the Mo
 </html>"));
       end FEX;
 
-      model SaturationBlockTan "Block 1 in the OEL to decide the input signal of MIN Gate"
+      model SaturationBlockTan
+        "Block 1 in the OEL to decide the input signal of MIN Gate"
         parameter Real r "Exiciter parameter";
         parameter Real f "Exiciter parameter";
         Modelica.Blocks.Interfaces.RealInput p1 annotation (Placement(transformation(extent={{-86,-10},{-66,10}}), iconTransformation(extent={{-80,-10},{-60,10}})));
@@ -47689,7 +48457,9 @@ All of the transfer functions found in this package are also available in the Mo
 
     package Eurostag
 
+
       package Math "Mathematical blocks"
+
 
         block ImMult5 "Product. 2016/04/56"
           extends Modelica.Blocks.Interfaces.PartialRealMISO;
@@ -47841,16 +48611,16 @@ This Block is equivalent to spesific SET POINT Block from Eurostag.
                     lineColor={0,0,255},
                     fillColor={255,213,170},
                     fillPattern=FillPattern.Solid,
-                    textString = "X"),
-                    Line(points = {{-26, 34}, {-26, -28}, {-26, -28}},
-                    color = {0, 0, 255},
+                    textString=  "X"),
+                    Line(points=  {{-26, 34}, {-26, -28}, {-26, -28}},
+                    color=  {0, 0, 255},
                     thickness=0.5,
-                    smooth = Smooth.None),
+                    smooth=  Smooth.None),
                     Line(
                     points={{32,34},{32,-28},{32,-28}},
-                    color = {0, 0, 255},
+                    color=  {0, 0, 255},
                     thickness=0.5,
-                    smooth = Smooth.None)}),
+                    smooth=  Smooth.None)}),
                     Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -47884,9 +48654,9 @@ This Block is equivalent to spesific SET POINT Block from Eurostag.
                     fillPattern=FillPattern.Solid,
                   textString="u"),
                     Line(points={{-20,28},{-20,-16},{-20,-16}},
-                    color = {0, 0, 255},
+                    color=  {0, 0, 255},
                     thickness=0.5,
-                    smooth = Smooth.None),
+                    smooth=  Smooth.None),
                     Line(
                   points={{20,28},{20,-16},{20,-16}},
                   color={0,0,255},
@@ -48057,21 +48827,21 @@ This Block is equivalent to spesific ARC-TANGENT Block from Eurostag.
           end if;
           annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                     -100},{100,100}}),
-                          graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{8,
-                      66},{-15,15}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Text(extent={{
-                      11,-21},{-12,-68}},                                                                                                    lineColor = {0, 0, 255}, textString = "R"), Line(points={{
-                      -100,0},{100,0}},                                                                                                    color = {0, 0, 255}, smooth = Smooth.None), Rectangle(extent={{
-                      92,0},{100,-100}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid)}), Diagram(
+                          graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{8,
+                      66},{-15,15}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Text(extent={{
+                      11,-21},{-12,-68}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "R"), Line(points={{
+                      -100,0},{100,0}},                                                                                                    color=  {0, 0, 255}, smooth=  Smooth.None), Rectangle(extent={{
+                      92,0},{100,-100}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid)}), Diagram(
                 coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
                     100,100}}), graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),                                Text(extent={{6,
-                      46},{-7,15}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"),
+                      46},{-7,15}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"),
                 Line(points={{-60,0},{60,0}}, color={28,108,200}),                                                                                                    Text(extent={{8,
-                      -14},{-6,-48}},                                                                                                    lineColor = {0, 0, 255}, textString = "R"),
-                                                                                                        Rectangle(extent={{
-                      52,0},{60,-60}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid),
+                      -14},{-6,-48}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "R"),
+                                                                                                    Rectangle(extent={{
+                      52,0},{60,-60}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid),
                 Line(points={{60,0},{100,0}}, color={28,108,200}),
                 Line(points={{-100,40},{-60,40}}, color={28,108,200}),
                 Line(points={{-100,-40},{-60,-40}}, color={28,108,200})}),
@@ -48125,20 +48895,20 @@ This Block is equivalent to spesific SET RESET Block from Eurostag.
             y1 = 1;
           end if;
           annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-                    -100},{100,100}}),graphics={  Rectangle(extent={{-100,100},{100,-100}}, lineColor = {0, 0, 255}), Text(extent={{
-                      20,66},{-17,21}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Text(extent={{
-                      17,-21},{-12,-64}},                                                                                                    lineColor = {0, 0, 255}, textString = "R"), Line(points = {{-100, 0}, {100, 0}}, color = {0, 0, 255}, smooth = Smooth.None), Rectangle(extent={{
-                      92,100},{100,0}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid)}), Diagram(
+                    -100},{100,100}}),graphics={  Rectangle(extent={{-100,100},{100,-100}}, lineColor=  {0, 0, 255}), Text(extent={{
+                      20,66},{-17,21}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Text(extent={{
+                      17,-21},{-12,-64}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "R"), Line(points=  {{-100, 0}, {100, 0}}, color=  {0, 0, 255}, smooth=  Smooth.None), Rectangle(extent={{
+                      92,100},{100,0}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid)}), Diagram(
                 coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
                 graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{-100,40},{-60,40}}, color={28,108,200}),
                 Line(points={{-100,-40},{-60,-40}}, color={28,108,200}),                                              Text(extent={{
-                      14,46},{-16,14}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Text(extent={{8,
-                      -12},{-6,-48}},                                                                                                    lineColor = {0, 0, 255}, textString = "R"),                                                                                  Rectangle(extent={{
-                      54,60},{60,0}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid),
+                      14,46},{-16,14}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Text(extent={{8,
+                      -12},{-6,-48}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "R"),                                                                                  Rectangle(extent={{
+                      54,60},{60,0}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid),
                 Line(points={{-60,0},{60,0}}, color={28,108,200}),
                 Line(points={{100,0},{60,0}}, color={28,108,200})}),
                       Documentation(info="<html>
@@ -48258,12 +49028,12 @@ This package contains specifics mathematical blocks from Eurostag
 
         annotation(Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                     -100},{100,100}}),
-                        graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{
-                      -38,34},{42,-24}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "AND")}), Diagram(graphics={
+                        graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{
+                      -38,34},{42,-24}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "AND")}), Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{-90,0},{-60,0}}, color={28,108,200}),
                 Line(points={{60,0},{100,0}}, color={28,108,200}),                                       Text(extent={{
-                      -38,20},{38,-16}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "AND")}),
+                      -38,20},{38,-16}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "AND")}),
                           Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -48298,10 +49068,10 @@ This Block is equivalent to spesific AND Block from Eurostag.
            y = if (max(u) <= 0) then 0 else 1;
         equation
          y = if (max(u) <= 0) then 0 else 1;
-         annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{
-                      -40,34},{34,-16}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "OR")}), Diagram(graphics={
+         annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{
+                      -40,34},{34,-16}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "OR")}), Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),                               Text(extent={{
-                      -32,22},{30,-20}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "OR"),
+                      -32,22},{30,-20}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "OR"),
                 Line(points={{-90,0},{-60,0}}, color={28,108,200}),
                 Line(points={{60,0},{100,0}}, color={28,108,200})}),
                  Documentation(info="<html>
@@ -48336,21 +49106,21 @@ This Block is equivalent to spesific OR Block from Eurostag.
           parameter Real y_start;
         equation
          y = if (min(u) <= 0) and y_start <= 0 then 0 else 1;
-          annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{
-                      -28,50},{28,-14}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid, textString = "OR"),                                                                                                    Text(extent={{
-                      31,-13},{80,-44}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid, textString = "S"), Text(extent={{
-                      44,-64},{79,-93}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid, textString = "R"),
+          annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{
+                      -28,50},{28,-14}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid, textString=  "OR"),                                                                                                    Text(extent={{
+                      31,-13},{80,-44}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid, textString=  "S"), Text(extent={{
+                      44,-64},{79,-93}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid, textString=  "R"),
                 Line(points={{100,-52},{12,-52},{12,-100}}, color={28,108,200}),
                 Line(points={{100,-4},{12,-4},{12,-52}}, color={28,108,200})}),                                                                                             Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{60,-40},{0,-40},{0,-60}}, color={28,108,200}),
                 Line(points={{60,-20},{0,-20},{0,-40}}, color={28,108,200}),                               Text(extent={{
-                      -18,26},{14,-12}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid, textString = "OR"),
-                                                                                                          Text(extent={{
+                      -18,26},{14,-12}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid, textString=  "OR"),
+                                                                                                    Text(extent={{
                       22,-22},{36,-36}},                                                                                                    lineColor=
                       {0,0,255},                                                                                                    fillColor=
                       {0,0,255},
@@ -48443,20 +49213,20 @@ This package contains specifics logical blocks from Eurostag
             der(y) = 1 / T * (u3 - y);
           end if;
           //assert(T == 0, "T must be different of 0");
-          annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor = {0, 0, 255}), Text(extent={{
-                      64,82},{28,48}},                                                                                                    lineColor = {0, 0, 255}, textString = "K"), Text(extent={{
-                      66,48},{24,16}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Line(points={{
+          annotation(Icon(graphics={  Rectangle(extent={{-100,100},{100,-100}},  lineColor=  {0, 0, 255}), Text(extent={{
+                      64,82},{28,48}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "K"), Text(extent={{
+                      66,48},{24,16}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Line(points={{
                       24,48},{52,48},{66,48}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      62,-12},{26,-40}},                                                                                                    lineColor = {0, 0, 255}, textString = "1"), Text(extent={{
-                      66,-40},{26,-68}},                                                                                                    lineColor = {0, 0, 255}, textString = "1+Ts"), Line(points={{
+                      62,-12},{26,-40}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "1"), Text(extent={{
+                      66,-40},{26,-68}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "1+Ts"), Line(points={{
                       26,-40},{60,-40},{66,-40}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      -82,-8},{-44,-36}},                                                                                                    lineColor = {0, 0, 255}, textString = "K"), Text(extent={{
-                      -82,-48},{-44,-68}},                                                                                                    lineColor = {0, 0, 255}, textString = "T"), Text(extent={{
-                      -86,-76},{-48,-100}},                                                                                                    lineColor = {0, 0, 255}, textString = "-/0")}), Diagram(graphics={
+                      -82,-8},{-44,-36}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "K"), Text(extent={{
+                      -82,-48},{-44,-68}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "T"), Text(extent={{
+                      -86,-76},{-48,-100}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "-/0")}), Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{-100,70},{-80,70},{-80,40},{
                       -60,40}}, color={28,108,200}),
@@ -48464,19 +49234,19 @@ This package contains specifics logical blocks from Eurostag
                       108,200}),
                 Line(points={{-100,-70},{-80,-70},{-80,-40},
                       {-60,-40}}, color={28,108,200}),                                                     Text(extent={{
-                      52,44},{32,26}},                                                                                                    lineColor = {0, 0, 255}, textString = "K"), Text(extent={{
-                      56,26},{28,10}},                                                                                                    lineColor = {0, 0, 255}, textString = "S"), Line(points={{
+                      52,44},{32,26}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "K"), Text(extent={{
+                      56,26},{28,10}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "S"), Line(points={{
                       30,26},{42,26},{52,26}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      50,-14},{32,-32}},                                                                                                    lineColor = {0, 0, 255}, textString = "1"), Text(extent={{
-                      54,-32},{32,-44}},                                                                                                    lineColor = {0, 0, 255}, textString = "1+Ts"), Line(points={{
+                      50,-14},{32,-32}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "1"), Text(extent={{
+                      54,-32},{32,-44}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "1+Ts"), Line(points={{
                       30,-32},{48,-32},{54,-32}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      -46,8},{-34,-4}},                                                                                                    lineColor = {0, 0, 255}, textString = "K"), Text(extent={{
-                      -46,-10},{-34,-22}},                                                                                                    lineColor = {0, 0, 255}, textString = "T"), Text(extent={{
-                      -48,-34},{-36,-48}},                                                                                                    lineColor = {0, 0, 255}, textString = "-/0"),
+                      -46,8},{-34,-4}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "K"), Text(extent={{
+                      -46,-10},{-34,-22}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "T"), Text(extent={{
+                      -48,-34},{-36,-48}},                                                                                                    lineColor=  {0, 0, 255}, textString=  "-/0"),
                 Line(points={{60,0},{100,0}}, color={28,108,
                       200})}),
                        Documentation(info="<html>
@@ -48532,12 +49302,12 @@ This Block is equivalent to spesific INTEGRATOR FOLLOWER Block from Eurostag.
             y = 1000000;
           end if;
           annotation(Icon(graphics={  Rectangle(extent={{-100,
-                      100},{100,-100}},                                          lineColor = {0, 0, 255}), Line(points={{
-                      -34,0},{32,0}},                                                                                                    color = {0, 0, 255}, smooth = Smooth.None, thickness = 1), Ellipse(extent={{
-                      -4,26},{6,14}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid), Ellipse(extent={{
-                      -4,-18},{6,-28}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid)}),
+                      100},{100,-100}},                                          lineColor=  {0, 0, 255}), Line(points={{
+                      -34,0},{32,0}},                                                                                                    color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  1), Ellipse(extent={{
+                      -4,26},{6,14}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid), Ellipse(extent={{
+                      -4,-18},{6,-28}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid)}),
               Diagram(graphics={
                 Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
                 Line(points={{-100,48},{-60,48}}, color={0,0,
@@ -48545,11 +49315,11 @@ This Block is equivalent to spesific INTEGRATOR FOLLOWER Block from Eurostag.
                 Line(points={{-100,-50},{-60,-50}}, color={0,0,
                       255}),
                 Line(points={{60,0},{100,0}}, color={0,0,255}),                                            Line(points={{
-                      -20,0},{20,0}},                                                                                                    color = {0, 0, 255}, smooth = Smooth.None, thickness = 1), Ellipse(extent={{
-                      -2,14},{4,8}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid), Ellipse(extent={{
-                      -2,-8},{4,-14}},                                                                                                    lineColor = {0, 0, 255}, fillColor = {0, 0, 255},
-                    fillPattern =                                                                                                   FillPattern.Solid)}),
+                      -20,0},{20,0}},                                                                                                    color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  1), Ellipse(extent={{
+                      -2,14},{4,8}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid), Ellipse(extent={{
+                      -2,-8},{4,-14}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
+                    fillPattern=                                                                                                    FillPattern.Solid)}),
                      Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -48622,9 +49392,9 @@ This package contains specifics continuous blocks from Eurostag
                   {110,0}},                                                      color = {0, 0, 127}, smooth = Smooth.None));
 
           annotation(Icon(graphics={                                                                       Text(extent={{
-                      -46,64},{52,-12}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "Delay_2"), Text(extent={{
-                      -36,-2},{42,-40}},                                                                                                    lineColor = {0, 0, 255},
-                    horizontalAlignment =                                                                                                   TextAlignment.Left, textString = "e^(-Ts) ", textStyle = {TextStyle.Bold})}),
+                      -46,64},{52,-12}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "Delay_2"), Text(extent={{
+                      -36,-2},{42,-40}},                                                                                                    lineColor=  {0, 0, 255},
+                    horizontalAlignment=                                                                                                    TextAlignment.Left, textString=  "e^(-Ts) ", textStyle=  {TextStyle.Bold})}),
                     Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -48671,7 +49441,7 @@ This Block is equivalent to spesific DELAY_2 Block from Eurostag.
             y = 0;
           end if;
           annotation(Icon(graphics={                                                                       Text(extent={{
-                      -34,6},{26,-16}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "T"), Line(points={{
+                      -34,6},{26,-16}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T"), Line(points={{
                       -62,-18},{-34,-18},{-34,44},{26,44},{26,-18},{50,-18}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5)}),                                                                                                    Diagram(graphics={
@@ -48683,7 +49453,7 @@ This Block is equivalent to spesific DELAY_2 Block from Eurostag.
                       {20,-20},{40,-20}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                          Text(extent={{
-                      -20,-8},{22,-24}},                                                                                                   lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "T")}),
+                      -20,-8},{22,-24}},                                                                                                   lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T")}),
                         Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -48735,9 +49505,9 @@ This Block is equivalent to spesific PULSE Block from Eurostag.
             y = 0;
           end if;
           annotation(Icon(graphics={                                                                       Text(extent={{
-                      -82,-58},{-50,-86}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "T"),                                                                                                    Text(extent={{
-                      -78,-28},{-54,-54}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "S"),
-                                                                                                          Line(points={{
+                      -82,-58},{-50,-86}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T"),                                                                                                    Text(extent={{
+                      -78,-28},{-54,-54}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "S"),
+                                                                                                    Line(points={{
                       -58,-12},{-30,-12},{-30,50},{30,50},
                       {30,-12},{54,-12}},                                                                                                    color={0,0,
                       255},
@@ -48750,9 +49520,9 @@ This Block is equivalent to spesific PULSE Block from Eurostag.
                       {20,-20},{38,-20}},                                                                                                    color={0,0,
                       255},
                   thickness=0.5),                                                                                                    Text(extent={{
-                      -48,-24},{-40,-38}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "S"),
-                                                                                                          Text(extent={{
-                      -52,-40},{-36,-56}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "T")}),
+                      -48,-24},{-40,-38}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "S"),
+                                                                                                    Text(extent={{
+                      -52,-40},{-36,-56}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T")}),
                    Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
@@ -48861,8 +49631,8 @@ Trigger")}),                            Icon(graphics={                         
 </tr>
 </table>
 <p>
-In this Block, if y = 0, y remains equal to 0 as long as x <= xmax and becomes equal to 1 as soon as x > xmax
-if y = 1, y remains equal to 1 as long as x > xmin and becomes equal to 0 as soon as x <= xmin 
+In this Block, if y = 0, y remains equal to 0 as long as x � xmax and becomes equal to 1 as soon as x > xmax
+if y = 1, y remains equal to 1 as long as x > xmin and becomes equal to 0 as soon as x � xmin 
 </p>
 <p>
 This Block is equivalent to spesific SCHMIDT-TRIGGER Block from Eurostag.
@@ -48967,7 +49737,7 @@ This package contains specifics non linear blocks from Eurostag
       equation
         y = findValue(v, u, false);
         annotation(Diagram(graphics), Icon(graphics={                                                                       Text(extent={{
-                    -42,64},{52,-46}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "y = f(x)")}));
+                    -42,64},{52,-46}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "y = f(x)")}));
       end ImFunction;
 
       model ImInverseFunction "Inverse Piecewise function. It takes into account the case 
@@ -49043,7 +49813,7 @@ This package contains specifics non linear blocks from Eurostag
       equation
         y = findValue(v, u, true);
         annotation(Diagram(graphics), Icon(graphics={                                                                       Text(extent={{
-                    -46,66},{50,-52}},                                                                                                    lineColor = {0, 0, 255}, textStyle = {TextStyle.Bold}, textString = "y = f(x)")}));
+                    -46,66},{50,-52}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "y = f(x)")}));
       end ImInverseFunction;
     annotation (Documentation(info="<HTML>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
@@ -49087,7 +49857,8 @@ This Package contains specifics non electrical blocks from Eurostag. The blocks 
 
   package Connectors
 
-    connector PwPin "connector for electrical blocks treating voltage and current as complex variables"
+    connector PwPin
+      "connector for electrical blocks treating voltage and current as complex variables"
       Real vr;
       // real part of the voltage
       Real vi;
@@ -49116,7 +49887,8 @@ This Package contains specifics non electrical blocks from Eurostag. The blocks 
 </html>"));
     end PwPin;
 
-    expandable connector PwPinExt "connector for electrical blocks treating voltage and current as complex variables"
+    expandable connector PwPinExt
+      "connector for electrical blocks treating voltage and current as complex variables"
       iPSL.Connectors.PwPin p;
       annotation (
         defaultComponentName="u",
@@ -49160,7 +49932,8 @@ Connector of type V, I.
 </html>"));
     end PwPinExt;
 
-    model PwCoBPin "connector for change from machine power base to system power base "
+    model PwCoBPin
+      "connector for change from machine power base to system power base "
       parameter Real mbase "machine base power rating MVA";
       parameter Real Sbase "system base power rating MVA";
       parameter Real CoB=mbase/Sbase "change of base ratio";
@@ -49324,7 +50097,7 @@ Connector of type V, I.
 </html>"));
   end Interfaces;
 annotation (
-  uses(Modelica(version="3.2.2"), Complex(version="3.2.2")),
+  uses(Modelica(version="3.2.1"), Complex(version="3.2.1")),
   version="0.8.1",
   conversion(noneFromVersion="0.8"),
   Documentation(revisions="<html>

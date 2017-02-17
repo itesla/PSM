@@ -303,7 +303,6 @@ public class WorkflowServiceConfiguration
 
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
 			String simulationSource = "mo";
-			String resultVariables = "[a-zA-Z0-9_]*((TN.(V|angle))|(EC.(P|Q))|(SM.(efd|cm|lambdad|lambdaf|lambdaq1|lambdaq2)))";
 
 			List<TaskDefinition> tasks = new ArrayList<TaskDefinition>();
 			Path casePath = PathUtils.findCasePath(Paths.get(cs.getLocation()));
@@ -345,7 +344,6 @@ public class WorkflowServiceConfiguration
 							"stopTime", stopTime,
 							"numOfIntervalsPerSecond", stepBySecond,
 							"libraryDir", PathUtils.LIBRARY.toString(),
-							"resultVariables", resultVariables,
 							"depth", depth,
 							"createFilteredMat", Boolean.toString(createFilteredMat))));
 			tasks.add(TD(ModelicaSimulatorTaskResults.class, "results0",
@@ -473,7 +471,7 @@ public class WorkflowServiceConfiguration
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					sim.getResults("simres_output").toString(),
+					sim.getResults("simres").toString(),
 					new CsvReaderPopulator<DsData>()
 					{
 

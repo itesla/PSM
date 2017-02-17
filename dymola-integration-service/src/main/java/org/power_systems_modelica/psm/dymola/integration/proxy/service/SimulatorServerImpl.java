@@ -289,7 +289,7 @@ public class SimulatorServerImpl implements SimulatorServer
 				entry("log.txt", resultsFileName + "_log.txt"),
 				entry("dslog.txt", resultsFileName + "_dslog.txt"),
 				entry(resultsFileName + "_filtered.mat", resultsFileName + "_filtered.mat"),
-				entry(resultsFileName + "_filtered.csv", resultsFileName + "_filtered.csv"));
+				entry(resultsFileName + ".csv", resultsFileName + ".csv"));
 
 		prepareOutputFile(workingDir, fileNamesToInclude, Paths.get(outputZipFile));
 
@@ -361,7 +361,7 @@ public class SimulatorServerImpl implements SimulatorServer
 				resultsFileName);
 
 		String matResultsFile = resultsFileName + MAT_EXTENSION;
-		String csvResultsFile = resultsFileName + "_filtered" + CSV_EXTENSION;
+		String csvResultsFile = resultsFileName + CSV_EXTENSION;
 
 		int resultSize = dymola.readTrajectorySize(matResultsFile);
 		String[] resultNames = dymola.readTrajectoryNames(matResultsFile);

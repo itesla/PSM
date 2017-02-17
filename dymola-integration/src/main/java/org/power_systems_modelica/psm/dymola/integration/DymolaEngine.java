@@ -174,7 +174,7 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymSimulationDir.toFile());
 
-			String fileName = this.outputDymolaFileName + "_filtered" + CSV_EXTENSION;
+			String fileName = this.outputDymolaFileName + CSV_EXTENSION;
 			ModelicaEngineUtils.fillModelicaSimulationResults(
 					Paths.get(dymSimulationDir + File.separator + fileName), modelName, results);
 		}

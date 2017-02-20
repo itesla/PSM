@@ -450,7 +450,7 @@ public class SimulationNewController implements MainChildrenController
 				return i.getNameWithoutUnit().equals("X") && Double.parseDouble(i.getValue()) < 1e-3;
 			}).findAny().isPresent())
 			{
-				UtilsFX.showWarning("Warning", "Reactance parameter is too low");
+				UtilsFX.showWarning("Warning", "Reactance parameter is too low.\nPlease a different value for X.");
 				return;
 			}
 		}

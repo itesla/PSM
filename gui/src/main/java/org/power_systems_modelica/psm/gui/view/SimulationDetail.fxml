@@ -29,7 +29,7 @@
 				               <children>
 				                    <TabPane fx:id="tabPane" layoutY="14.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 				                         <tabs>
-				                          <Tab closable="false" fx:id="resultTab" text="Result" />
+				                          <Tab closable="false" fx:id="resultTab" text="Results" />
 			                              <Tab closable="false" fx:id="moTab" text="Modelica file">
 			                                   <content>
 												<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

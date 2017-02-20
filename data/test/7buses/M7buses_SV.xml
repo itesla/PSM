@@ -60,12 +60,12 @@
 	<cim:SvVoltage.v>406.45</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_12">
-	<cim:SvVoltage.angle>-0.01734</cim:SvVoltage.angle>
+	<cim:SvVoltage.angle>0.0</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_FVERGE11_TN"/>
 	<cim:SvVoltage.v>406.45</cim:SvVoltage.v>
 </cim:SvVoltage>
 <cim:SvVoltage rdf:ID="_SV_13">
-	<cim:SvVoltage.angle>-0.01734</cim:SvVoltage.angle>
+	<cim:SvVoltage.angle>0.0</cim:SvVoltage.angle>
 	<cim:SvVoltage.TopologicalNode rdf:resource="#_FVERGE12_TN"/>
 	<cim:SvVoltage.v>406.45</cim:SvVoltage.v>
 </cim:SvVoltage>

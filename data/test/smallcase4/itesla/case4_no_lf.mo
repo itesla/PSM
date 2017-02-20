@@ -62,7 +62,7 @@ model case4
 
 // FIXED INJECTIONS
   iPSL.Electrical.Loads.Eurostag.PwLoadPQ fixinj_pwLoadPQ_GEN__INF______SM (
-	 V_0 = 1.0, 
+	 V_0 = 1.05, 
 	 angle_0 = 0.0, 
 	 P = -0.0, 
 	 Q = -0.0

@@ -818,21 +818,21 @@
 </cim:VoltageLevel>
 <cim:GeneratingUnit rdf:ID="_FVERGT11_GU">
 	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
-	<cim:GeneratingUnit.minOperatingP>0</cim:GeneratingUnit.minOperatingP>
-	<cim:GeneratingUnit.maxOperatingP>600</cim:GeneratingUnit.maxOperatingP>
+	<cim:GeneratingUnit.minOperatingP>-9999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>9999</cim:GeneratingUnit.maxOperatingP>
 	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_FVERGE11_VL"/>
 	<cim:IdentifiedObject.name>FVERGT11</cim:IdentifiedObject.name>
 </cim:GeneratingUnit>
 <cim:SynchronousMachine rdf:ID="_FVERGT11_SM">
 	<cim:SynchronousMachine.ratedS>0</cim:SynchronousMachine.ratedS>
-	<cim:SynchronousMachine.minQ>-200</cim:SynchronousMachine.minQ>
+	<cim:SynchronousMachine.minQ>-9999</cim:SynchronousMachine.minQ>
 	<cim:SynchronousMachine.r>0</cim:SynchronousMachine.r>
 	<cim:SynchronousMachine.qPercent>1</cim:SynchronousMachine.qPercent>
 	<cim:SynchronousMachine.MemberOf_GeneratingUnit rdf:resource="#_FVERGT11_GU"/>
 	<cim:SynchronousMachine.operatingMode rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineOperatingMode.generator"/>
 	<cim:SynchronousMachine.x>0</cim:SynchronousMachine.x>
 	<cim:SynchronousMachine.type rdf:resource="http://iec.ch/TC57/2009/CIM-schema-cim14#SynchronousMachineType.generator"/>
-	<cim:SynchronousMachine.maxQ>200</cim:SynchronousMachine.maxQ>
+	<cim:SynchronousMachine.maxQ>9999</cim:SynchronousMachine.maxQ>
 	<cim:RegulatingCondEq.RegulatingControl rdf:resource="#_FVERGT11_SM_RC"/>
 	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_FVERGE11_VL"/>
 	<cim:IdentifiedObject.name>FVERGT11</cim:IdentifiedObject.name>

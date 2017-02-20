@@ -1,11 +1,5 @@
 <?xml version="1.0" ?>
 <parameters xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
-    <set id="fixinj_pwLoadPQ_GEN__INF______SM_SIMULATION">
-        <par name="V_0" value="1.0"/>
-        <par name="angle_0" value="0.0"/>
-        <par name="P" value="-0.0"/>
-        <par name="Q" value="-0.0"/>
-    </set>
     <set id="gen_pwGeneratorM2S__GEN______SM_INITIALIZATION">
         <par name="PNALT" value="475.0"/>
         <ref name="p0" dataSource="IIDM" sourceName="-P_pu"/>

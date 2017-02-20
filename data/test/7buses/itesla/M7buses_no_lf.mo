@@ -56,11 +56,11 @@ model M7buses
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__FVERGE11_TN (
 	 V_0 = 1.0696054,
-	 angle_0 = -0.01734
+	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Buses.Bus bus__FVERGE12_TN (
 	 V_0 = 1.0696054,
-	 angle_0 = -0.01734
+	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
 
 // LOADS
@@ -301,7 +301,7 @@ model M7buses
   iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S gen_pwGeneratorM2S__FVERGT11_SM (
 	 SNREF = SNREF, 
 	 ur0 = 1.069605301511254, 
-	 ui0 = -3.237054760117397E-4, 
+	 ui0 = 0.0, 
 	 transformerIncluded = true, 
 	 V2 = 380.0, 
 	 Saturated = true, 

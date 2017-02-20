@@ -57,7 +57,6 @@
         <connection id1="reg_tgov1_{staticId}" var1="pin_OMEGA" id2="reg_pss2ab_{staticId}" var2="pin_OMEGA"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="sortie" targetModel="{bus}" targetName="p"/>
         <interconnection componentId="gen_pwGeneratorM2S_{staticId}" componentVar="omegaRef" targetModel="{system}" targetName="omegaRef"/>
-        <interconnection name="Vset" componentId="reg_sexs_{staticId}" componentVar="setPointModification_12" />
     </model>
     <model stage="INITIALIZATION" id="DM_{staticId}" association="association0">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S_Init" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_INITIALIZATION"/>

@@ -199,9 +199,14 @@ public class DynamicDataRepositoryTest
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", location);
 		ddr.connect();
 		Collection<String> events = ddr.getEvents();
-		assertTrue(5 < events.size());
 		assertTrue(events.contains("BusFault"));
 		assertTrue(events.contains("LineFault"));
+		assertTrue(events.contains("LoadVariation"));
+		assertTrue(events.contains("BankModification"));
+		assertTrue(events.contains("LineOpenBothSides"));
+		assertTrue(events.contains("LineOpenSendingSide"));
+		assertTrue(events.contains("LineOpenReceiverSide"));
+		assertTrue(events.contains("GeneratorVSetpointModification"));
 		// Check that all parameters that are references to EVENT data source have units
 		events.forEach(
 				e -> ddr.getEventParameters(e)

@@ -236,13 +236,12 @@ public class MainApp extends Application
 		if (mainService.getSimulationTask() != null)
 			mainService.resetSimulationTask();
 
-		FXMLLoader loader = this.getFXMLLoader("view/SimulationDetail.fxml", null);
+		FXMLLoader loader = this.getFXMLLoader("view/SimulationDetail.fxml", WorkflowServiceConfiguration.getSimulation());
 		
 		SimulationDetailController controller = loader.getController();
 		controller.addController(subLoader.getController());
 		controller.addNode(subLoader.getRoot());
-		
-		mainLayoutController.setWorkflow(WorkflowServiceConfiguration.getSimulation(), onlyCheck);
+		controller.setWorkflow(WorkflowServiceConfiguration.getSimulation(), onlyCheck);
 		
 		return loader;
 	}

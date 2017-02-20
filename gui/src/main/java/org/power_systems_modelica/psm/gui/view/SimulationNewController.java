@@ -444,6 +444,16 @@ public class SimulationNewController implements MainChildrenController
 			UtilsFX.showWarning("Warning", "Complete all parameters");
 			return;
 		}
+		if (actionEvent.getSelectionModel().getSelectedItem().equals("BusFault"))
+		{
+			if (parametersView.getItems().stream().filter(i -> {
+				return i.getNameWithoutUnit().equals("X") && Double.parseDouble(i.getValue()) < 1e-3;
+			}).findAny().isPresent())
+			{
+				UtilsFX.showWarning("Warning", "Reactance parameter is too low");
+				return;
+			}
+		}
 
 		Event e = new Event();
 		if (editingEvent != null)

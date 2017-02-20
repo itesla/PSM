@@ -657,7 +657,7 @@ public class SimulationNewController implements MainChildrenController
 			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime,
 					stepBySecond, onlyCheck, onlyVerify, createFilteredMat);
 			Task<?> task = TaskService.createTask(w,
-					() -> mainService.getMainApp().showSimulationDetailView(mainService, onlyCheck,
+					() -> mainService.getMainApp().showSimulationDetailView(mainService, w, onlyCheck,
 							onlyVerify));
 			mainService.setSimulationTask(task);
 			mainService.getMainApp().showWorkflowStatusView(mainService, w,

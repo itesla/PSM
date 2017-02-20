@@ -144,8 +144,8 @@ public class SimulationDetailControllerTest extends ApplicationTest
 			{
 				LineChart<Number, Number> dsChart = lookup("#dsChart").query();
 
-				controller.addDefaultBuses(w, results);
-				controller.addSeries(results);
+				//controller.addDefaultBuses(w, results);
+				//controller.addSeries(results);
 				UtilsFX.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
 
 				assertEquals(5, dsChart.getData().size());

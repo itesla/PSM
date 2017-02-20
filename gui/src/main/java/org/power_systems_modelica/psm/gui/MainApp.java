@@ -11,6 +11,7 @@ import org.power_systems_modelica.psm.gui.view.ConversionDetailController;
 import org.power_systems_modelica.psm.gui.view.ConversionNewController;
 import org.power_systems_modelica.psm.gui.view.MainLayoutController;
 import org.power_systems_modelica.psm.gui.view.MenuLayoutController;
+import org.power_systems_modelica.psm.gui.view.SimulationDetailController;
 import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -198,7 +199,7 @@ public class MainApp extends Application
 					}
 
 				}
-				return showSimulationDetailView(mainService, onlyCheck, onlyVerify);
+				return showSimulationDetailView(mainService, w, onlyCheck, onlyVerify);
 			}
 		}
 	}
@@ -208,30 +209,42 @@ public class MainApp extends Application
 		return this.getFXMLLoader("view/SimulationNew.fxml", w);
 	}
 
-	public FXMLLoader showSimulationDetailView(MainService mainService, boolean onlyCheck,
+	public FXMLLoader showSimulationDetailView(MainService mainService, Workflow w, boolean onlyCheck,
 			boolean onlyVerify)
 	{
-		if (onlyCheck || onlyVerify)
-			return showSimulationCheckDetailView(mainService, onlyCheck);
+		FXMLLoader subLoader = null;
+		if (onlyCheck || onlyVerify || w.getState().equals(ProcessState.FAILED))
+			subLoader = showSimulationCheckDetailView(mainService);
+		else
+			subLoader = showSimulationCurveDetailView(mainService);
 
-		return showSimulationDetailView(mainService);
+		return showSimulationDetailView(mainService, subLoader, onlyCheck);
 	}
 
-	public FXMLLoader showSimulationCheckDetailView(MainService mainService, boolean isCheckDetail)
+	public FXMLLoader showSimulationCheckDetailView(MainService mainService)
+	{
+		return this.prepareFXMLLoader("view/SimulationCheckVerifyDetail.fxml",null);
+	}
+
+	public FXMLLoader showSimulationCurveDetailView(MainService mainService)
+	{
+		return this.prepareFXMLLoader("view/SimulationCurveDetail.fxml", null);
+	}
+
+	public FXMLLoader showSimulationDetailView(MainService mainService, FXMLLoader subLoader, boolean onlyCheck)
 	{
 		if (mainService.getSimulationTask() != null)
 			mainService.resetSimulationTask();
 
-		return this.getFXMLLoader("view/SimulationCheckVerifyDetail.fxml",
-				WorkflowServiceConfiguration.getSimulation(), isCheckDetail);
-	}
-
-	public FXMLLoader showSimulationDetailView(MainService mainService)
-	{
-		if (mainService.getSimulationTask() != null)
-			mainService.resetSimulationTask();
-
-		return this.getFXMLLoader("view/SimulationDetail.fxml", WorkflowServiceConfiguration.getSimulation());
+		FXMLLoader loader = this.getFXMLLoader("view/SimulationDetail.fxml", null);
+		
+		SimulationDetailController controller = loader.getController();
+		controller.addController(subLoader.getController());
+		controller.addNode(subLoader.getRoot());
+		
+		mainLayoutController.setWorkflow(WorkflowServiceConfiguration.getSimulation(), onlyCheck);
+		
+		return loader;
 	}
 
 	public FXMLLoader showWorkflowStatusView(MainService mainService, Workflow w,
@@ -314,6 +327,23 @@ public class MainApp extends Application
 		FXMLLoader loader = showCompareLoadflowsNewView();
 		CompareLoadflowsNewController controller = loader.getController();
 		controller.setCase(c);
+	}
+
+	public FXMLLoader prepareFXMLLoader(String viewResource, Workflow w, Object... objects)
+	{
+		FXMLLoader loader = null;
+		try
+		{
+			// Load cases overview.
+			loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource(viewResource));
+			AnchorPane view = (AnchorPane) loader.load();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return loader;
 	}
 
 	public FXMLLoader getFXMLLoader(String viewResource, Workflow w, Object... objects)

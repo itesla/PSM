@@ -3,6 +3,8 @@ package org.power_systems_modelica.psm.workflow.psm;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -112,6 +114,51 @@ public class LoadFlowTask extends WorkflowTask
 		{
 			failed(x);
 		}
+	}
+
+	// Helper function to be used from GUI and from Tests
+	static public Map<String, Map<String, float[]>> gatherBusesValues(
+			Network n,
+			String caseId0,
+			String caseId1)
+	{
+		Map<String, Map<String, float[]>> allBusesValues = new HashMap<>();
+		n.getBusBreakerView().getBuses().forEach(b -> {
+			Map<String, float[]> bvalues = new HashMap<>();
+			float[] Vs = new float[2];
+			float[] As = new float[2];
+			float[] Ps = new float[2];
+			float[] Qs = new float[2];
+			n.getStateManager().setWorkingState(caseId0);
+			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
+			As[0] = b.getAngle();
+			Ps[0] = zeroIfNaN(b.getP());
+			Qs[0] = zeroIfNaN(b.getQ());
+			n.getStateManager().setWorkingState(caseId1);
+			Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
+			As[1] = b.getAngle();
+			Ps[1] = zeroIfNaN(b.getP());
+			Qs[1] = zeroIfNaN(b.getQ());
+			bvalues.put("V", Vs);
+			bvalues.put("A", As);
+			bvalues.put("P", Ps);
+			bvalues.put("Q", Qs);
+			allBusesValues.put(b.getId(), bvalues);
+		});
+		return allBusesValues;
+	}
+
+	public static float calcRelativeError(float v0, float v1)
+	{
+		float absoluteError = Math.abs(v0 - v1);
+		if (v0 == 0.0f || v1 == 0.0f) return absoluteError;
+		float err = absoluteError / Math.abs(v0);
+		return err;
+	}
+
+	static private float zeroIfNaN(float value)
+	{
+		return Float.isNaN(value) ? 0.0f : value;
 	}
 
 	private LoadFlowParameters	loadFlowParams;

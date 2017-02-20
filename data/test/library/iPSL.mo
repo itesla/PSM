@@ -11334,13 +11334,9 @@ extends Modelica.Icons.Package;
           "Initial voltage at node in p.u. (Imaginary part)";
 
       equation
-       if abs(p.vi) > Modelica.Constants.eps then
-        angle = atan2(p.vi, p.vr)*180/Modelica.Constants.pi;
-        V = sqrt(p.vr^2 + p.vi^2);
-       else
-        angle = 0.0;
-        V = sqrt(p.vr^2 + p.vi^2);
-       end if;
+       
+        angle =if abs(p.vi) > Modelica.Constants.eps then atan2(p.vi, p.vr)*180/Modelica.Constants.pi else 0.0;
+		V = sqrt(p.vr^2 + p.vi^2);
         p.ir = 0;
         p.ii = 0;
         annotation (
@@ -11409,6 +11405,7 @@ extends Modelica.Icons.Package;
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
       end Bus;
+
 
       model InfiniteBus "PSAT Infinite Bus"
         extends iPSL.Electrical.Essentials.pfComponent;
@@ -12494,8 +12491,8 @@ extends Modelica.Icons.Package;
         equation
           p.ir = 1/(R*R + X*X)*(R*(r*r*p.vr - r*n.vr) + X*(r*r*p.vi - r*n.vi));
           p.ii = 1/(R*R + X*X)*(R*(r*r*p.vi - r*n.vi) - X*(r*r*p.vr - r*n.vr));
-          n.ir = (-1/r)*(1/(R*R + X*X))*(R*(r*r*p.vr - r*n.vr) + X*(r*r*p.vi - r*n.vi)) + G*n.vr - B*n.vi;
-          n.ii = (-1/r)*(1/(R*R + X*X))*(R*(r*r*p.vi - r*n.vi) - X*(r*r*p.vr - r*n.vr)) + G*n.vi + B*n.vr;
+          n.ir = (-1/r * p.ir) + G*n.vr - B*n.vi;
+          n.ii = (-1/r * p.ii) + G*n.vi + B*n.vr;
           annotation (
             Icon(graphics={Rectangle(extent={{-60,40},{60,-40}}, lineColor={0,0,255}),Ellipse(
                   extent={{-26,16},{6,-16}},
@@ -34085,7 +34082,7 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
           "Load with voltage and frequency dependence.Developed by AIA. 2016/12/10"
          extends iPSL.Electrical.Essentials.pfComponent;
          inner iPSL.Electrical.SystemBase SysData;
-        iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img),  ir(start=1), ii(start=0)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
+        iPSL.Connectors.PwPin p(vr(start=Vo_real),  vi(start=Vo_img)) annotation(Placement(transformation(extent = {{-80, 0}, {-60, 20}}), iconTransformation(extent = {{-80, 0}, {-60, 20}})));
           Modelica.Blocks.Interfaces.RealInput omegaRef;
           parameter Real Vo_real = V_0*cos(angle_0*Modelica.Constants.pi/180)
             "Initial voltage at node in p.u. (Real part)";
@@ -34103,16 +34100,17 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
           parameter Real gamma = 0;
           Real P(start = P_0/S_b);
           Real Q(start = Q_0/S_b);
-
+		initial equation
+			(P_0/S_b) = p.vr * p.ir + p.vi * p.ii;
+			(Q_0/S_b) = (-p.vr * p.ii) + p.vi * p.ir;
         equation
           a = v / vo;
           b = omegaRef/omega_0;
-          (P_0/S_b) * (a ^ alpha) * (b ^ gamma) = p.vr * p.ir + p.vi * p.ii;
-          (Q_0/S_b)* (a ^ beta) * (b ^ delta)  = (-p.vr * p.ii) + p.vi * p.ir;
+		  (P_0/S_b) * (a ^ alpha) * (b ^ gamma) = p.vr * p.ir + p.vi * p.ii;
+		  (Q_0/S_b)* (a ^ beta) * (b ^ delta)  = (-p.vr * p.ii) + p.vi * p.ir;
           v = sqrt(p.vr ^ 2 + p.vi ^ 2);
-        algorithm
-          P := p.vr * p.ir + p.vi * p.ii;
-          Q := (-p.vr * p.ii) + p.vi * p.ir;
+          P = p.vr * p.ir + p.vi * p.ii;
+          Q = (-p.vr * p.ii) + p.vi * p.ir;
           annotation (
             Placement(transformation(extent={{-56,-10},{-36,10}}), iconTransformation(extent={{-80,0},{-60,20}})),
             Diagram(graphics),
@@ -34268,13 +34266,8 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
         parameter Real G=0;
         parameter Real B=0;
       equation
-      if G==0 then
-        p.vr = p.ii*B/(B*B);
-        p.vi = -p.ir*B/(B*B);
-      else
-        p.vr = (p.ir*G + p.ii*B)/(G*G + B*B);
+		p.vr = (p.ir*G + p.ii*B)/(G*G + B*B);
         p.vi = ((-p.ir*B) + p.ii*G)/(G*G + B*B);
-      end if;
         annotation (Icon(graphics={Rectangle(extent={{-40,60},{60,-40}}, lineColor={0,0,255}),Line(
                 points={{10,50},{10,34}},
                 color={0,0,255},
@@ -49631,8 +49624,8 @@ Trigger")}),                            Icon(graphics={                         
 </tr>
 </table>
 <p>
-In this Block, if y = 0, y remains equal to 0 as long as x £ xmax and becomes equal to 1 as soon as x > xmax
-if y = 1, y remains equal to 1 as long as x > xmin and becomes equal to 0 as soon as x £ xmin 
+In this Block, if y = 0, y remains equal to 0 as long as x ï¿½ xmax and becomes equal to 1 as soon as x > xmax
+if y = 1, y remains equal to 1 as long as x > xmin and becomes equal to 0 as soon as x ï¿½ xmin 
 </p>
 <p>
 This Block is equivalent to spesific SCHMIDT-TRIGGER Block from Eurostag.

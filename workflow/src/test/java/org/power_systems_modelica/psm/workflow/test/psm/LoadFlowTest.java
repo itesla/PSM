@@ -3,19 +3,18 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.DoubleSummaryStatistics;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -200,7 +199,7 @@ public class LoadFlowTest
 	@Test
 	public void compareHelmflowHades27Buses() throws WorkflowCreationException, IOException
 	{
-		compareHelmflowHades2("7buses", "CIM_7buses_EQ.xml");
+		compareHelmflowHades2("7buses", "M7buses_EQ.xml");
 	}
 
 	@Test
@@ -274,7 +273,7 @@ public class LoadFlowTest
 		n.getStateManager().allowStateMultiThreadAccess(false);
 
 		// Compare HELM Flow results with inputs but do not assert
-		Map<String, Map<String, float[]>> allBusesValuesHF0 = gatherBusesValues(
+		Map<String, Map<String, float[]>> allBusesValuesHF0 = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHelmflow",
 				StateManager.INITIAL_STATE_ID);
@@ -284,7 +283,7 @@ public class LoadFlowTest
 		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "V");
 
 		// Compare Hades2 results with inputs but do not assert
-		Map<String, Map<String, float[]>> allBusesValuesHD20 = gatherBusesValues(
+		Map<String, Map<String, float[]>> allBusesValuesHD20 = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHades2",
 				StateManager.INITIAL_STATE_ID);
@@ -294,7 +293,7 @@ public class LoadFlowTest
 		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "V");
 
 		// Compare between HELM Flow and Hades2 and assert differences should be lower than ...
-		Map<String, Map<String, float[]>> allBusesValues = gatherBusesValues(
+		Map<String, Map<String, float[]>> allBusesValues = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHelmflow",
 				"resultsHades2");
@@ -307,37 +306,6 @@ public class LoadFlowTest
 			assertTrue(stats.getAverage() < getMaxRelativeErrorAverage("V"));
 			assertTrue(stats.getMax() < getMaxRelativeErrorMax("V"));
 		}
-	}
-
-	private Map<String, Map<String, float[]>> gatherBusesValues(
-			Network n,
-			String caseId0,
-			String caseId1)
-	{
-		Map<String, Map<String, float[]>> allBusesValues = new HashMap<>();
-		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
-			n.getStateManager().setWorkingState(caseId0);
-			Vs[0] = b.getV();
-			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
-			n.getStateManager().setWorkingState(caseId1);
-			Vs[1] = b.getV();
-			As[1] = b.getAngle();
-			Ps[1] = b.getP();
-			Qs[1] = b.getQ();
-			bvalues.put("V", Vs);
-			bvalues.put("A", As);
-			bvalues.put("P", Ps);
-			bvalues.put("Q", Qs);
-			allBusesValues.put(b.getId(), bvalues);
-		});
-		return allBusesValues;
 	}
 
 	private DoubleSummaryStatistics checkResults(
@@ -403,9 +371,7 @@ public class LoadFlowTest
 	{
 		return allBusesValues.values().stream().map(bv -> {
 			float[] values = bv.get(variable);
-			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			err = Math.abs(err);
-			return err;
+			return LoadFlowTask.calcRelativeError(values[0], values[1]);
 		}).collect(Collectors.toList());
 	}
 

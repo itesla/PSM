@@ -29,29 +29,7 @@
 				               <children>
 				                    <TabPane fx:id="tabPane" layoutY="14.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 				                         <tabs>
-				                          <Tab closable="false" fx:id="curvesTab" text="Curves">
-				                               <content>
-								                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="200.0">
-								                       <children>
-														<HBox layoutX="50.0" layoutY="19.600000381469727" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.bottomAnchor="0.0">
-															<children>
-								                                <Label prefHeight="30.0" text="Element:"/>
-								                                <AutoFillTextBox  fx:id="element" prefWidth="300.0" />
-								                                <Button fx:id="add" mnemonicParsing="false" onAction="#handleAddElement" styleClass="btn-default" text="Add"/>
-															</children>
-														</HBox>
-														<LineChart fx:id="dsChart" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
-															<xAxis>
-																<NumberAxis side="BOTTOM" fx:id="xDsAxis" />
-															</xAxis>
-															<yAxis>
-																<NumberAxis fx:id="yDsAxis" side="LEFT" />
-															</yAxis>
-														</LineChart>
-							                           </children>
-							                        </AnchorPane>
-			                                   </content>
-			                              </Tab>
+				                          <Tab closable="false" fx:id="resultTab" text="Results" />
 			                              <Tab closable="false" fx:id="moTab" text="Modelica file">
 			                                   <content>
 												<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

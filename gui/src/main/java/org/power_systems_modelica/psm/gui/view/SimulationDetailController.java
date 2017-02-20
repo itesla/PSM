@@ -122,91 +122,6 @@ public class SimulationDetailController implements MainChildrenController
 		return null;
 	}
 
-	public void addSeries(WorkflowResult results)
-	{
-		element.clear();
-		ObservableList<String> buses = FXCollections.observableArrayList();
-		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
-				.filter(k -> !selectedBuses.contains(k)).collect(Collectors.toList());
-		buses.addAll(keys);
-		element.setData(buses);
-
-		ObservableList<XYChart.Series<Number, Number>> displayedDsSeries = FXCollections
-				.observableArrayList();
-		for (String key : results.getDsValues().keySet())
-		{
-			if (!selectedBuses.contains(key))
-				continue;
-
-			XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
-			valuesDS.setName(key);
-
-			for (DsData xyValue : results.getDsValues().get(key))
-			{
-				valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
-			}
-			displayedDsSeries.add(valuesDS);
-		}
-
-		dsChart.getData().addAll(displayedDsSeries);
-		highlightSeriesOnHover(displayedDsSeries);
-	}
-
-	public void addDefaultBuses(Workflow w, WorkflowResult results)
-	{
-		List<String> keys = results.getDsValues().keySet().stream().filter(k -> k.endsWith(".V"))
-				.collect(Collectors.toList());
-
-		Network n = (Network) w.getResults("network");
-
-		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
-		{
-			if (td.getTaskClass().equals(ModelicaEventAdderTask.class))
-			{
-				String[] events = td.getTaskConfiguration().getParameter("events").split("\n");
-				for (String event : events)
-				{
-
-					Event e = new Event();
-					e.fromString(event);
-					keys.stream().filter(k -> containsRelatedBuses(n, e, k)).forEach(key -> {
-						selectedBuses.add(key);
-					});
-				}
-			}
-		}
-
-		if (selectedBuses.isEmpty())
-		{
-			int max = Math.min(5, keys.size());
-			selectedBuses.addAll(keys.subList(0, max));
-		}
-	}
-
-	private boolean containsRelatedBuses(Network n, Event e, String key)
-	{
-		Identifiable<?> i = n.getIdentifiable(e.getElement());
-		System.out.println("ID: " + i.getId() + " key: " + key);
-		if (i instanceof Bus)
-		{
-			return key.contains(i.getId());
-		}
-		else if (i instanceof SingleTerminalConnectable)
-		{
-			return key.contains(((SingleTerminalConnectable<?>) i).getTerminal().getBusBreakerView().getBus()
-					.getId());
-		}
-		else if (i instanceof TwoTerminalsConnectable)
-		{
-			return key.contains(((TwoTerminalsConnectable<?>) i).getTerminal1().getBusBreakerView().getBus()
-					.getId())
-					|| key.contains(((TwoTerminalsConnectable<?>) i).getTerminal2().getBusBreakerView().getBus()
-							.getId());
-		}
-
-		return false;
-	}
-
 	@Override
 	public void setMainService(MainService mainService)
 	{
@@ -217,7 +132,6 @@ public class SimulationDetailController implements MainChildrenController
 	public void setWorkflow(Workflow w, Object... objects)
 	{
 		String moInput = null;
-		curvesTab.setDisable(true);
 		moTab.setDisable(true);
 		moweTab.setDisable(true);
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
@@ -284,18 +198,6 @@ public class SimulationDetailController implements MainChildrenController
 		}
 
 		results = WorkflowServiceConfiguration.getSimulationResult("" + w.getId());
-		if (w.getState().equals(ProcessState.SUCCESS))
-		{
-			curvesTab.setDisable(false);
-			addDefaultBuses(w, results);
-			addSeries(results);
-			UtilsFX.addTooltipLineChartPosition(dsChart, "Time", "s", "Voltage", "pu");
-		}
-		else
-		{
-			tabPane.getSelectionModel().select(logTab);
-		}
-
 		StringBuilder sb = new StringBuilder();
 		for (Exception e : results.getExceptions())
 		{
@@ -304,6 +206,8 @@ public class SimulationDetailController implements MainChildrenController
 		}
 
 		logArea.setText(sb.toString());
+		
+		resultController.setWorkflow(w, objects);
 	}
 
 	@Override
@@ -317,52 +221,25 @@ public class SimulationDetailController implements MainChildrenController
 	{
 	}
 
+	public void addController(SimulationResultDetailController controller)
+	{
+		resultController = controller;
+	}
+
+	public void addNode(Node node)
+	{
+		resultTab.setContent(node);
+	}
+
 	@FXML
 	private void initialize()
 	{
-		element.setFilterMode(true);
-
-		dsChart.setCreateSymbols(false);
-		yDsAxis.setForceZeroInRange(false);
-		yDsAxis.setAutoRanging(true);
 	}
 
 	private void handleNewWorkflow()
 	{
 		LOG.debug("handleNewWorkflow");
 		mainService.showSimulationNewView(WorkflowServiceConfiguration.getSimulation());
-	}
-
-	@FXML
-	private void handleAddElement()
-	{
-		LOG.debug("handleAddElement");
-		String bus = element.getText();
-		element.removeData(bus);
-		element.resetTextbox();
-		selectedBuses.add(bus);
-
-		XYChart.Series<Number, Number> valuesDS = new XYChart.Series<>();
-		valuesDS.setName(bus);
-		for (DsData xyValue : results.getDsValues().get(bus))
-		{
-			valuesDS.getData().add(new XYChart.Data<>(xyValue.getX(), xyValue.getY()));
-		}
-
-		dsChart.getData().add(valuesDS);
-		highlightSeriesOnHover(dsChart.getData());
-	}
-
-	private void handleRemoveElement(String bus)
-	{
-		LOG.debug("handleRemoveElement");
-		element.addData(bus);
-		selectedBuses.remove(bus);
-		FilteredList<XYChart.Series<Number, Number>> series = dsChart.getData()
-				.filtered(s -> s.getName().equals(bus));
-		if (series.isEmpty()) return;
-
-		dsChart.getData().removeAll(series);
 	}
 
 	@FXML
@@ -464,139 +341,42 @@ public class SimulationDetailController implements MainChildrenController
 		codeEditor.setVisible(true);
 	}
 
-	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSeriesOnHover(
-			T seriesList)
-	{
-		for (XYChart.Series<S1, S2> series : seriesList)
-		{
-			Node seriesNode = series.getNode();
-			// seriesNode will be null if this method is called before the scene
-			// CSS has been applied
-			if (seriesNode != null && seriesNode instanceof Path)
-			{
-				Path seriesPath = (Path) seriesNode;
-
-				seriesPath.setOnMouseEntered(event -> {
-					highlightSerie(seriesList, seriesPath);
-				});
-				seriesPath.setOnMouseExited(event -> {
-					// Reset
-					highlightSerie(seriesList, null);
-				});
-
-				seriesPath.setOnMouseClicked(new EventHandler<MouseEvent>()
-				{
-
-					@Override
-					public void handle(MouseEvent event)
-					{
-
-						if (MouseButton.SECONDARY.equals(event.getButton()))
-						{
-							MenuItem removeItem = new MenuItem("Remove " + series.getName());
-							removeItem.setOnAction(new EventHandler<ActionEvent>()
-							{
-								@Override
-								public void handle(ActionEvent event)
-								{
-									handleRemoveElement(series.getName());
-								}
-							});
-							menu.getItems().clear();
-							menu.getItems().add(removeItem);
-							menu.show(mainService.getPrimaryStage(), event.getScreenX(),
-									event.getScreenY());
-						}
-					}
-				});
-			}
-		}
-	}
-
-	private <S1, S2, T extends List<XYChart.Series<S1, S2>>> void highlightSerie(T seriesList,
-			Path seriesPath)
-	{
-		for (XYChart.Series<?, ?> series : seriesList)
-		{
-			Node seriesNode = series.getNode();
-			// seriesNode will be null if this method is called before the scene
-			// CSS has been applied
-			if (seriesNode != null && seriesNode instanceof Path)
-			{
-				Path sPath = (Path) seriesNode;
-				Paint color = colors.get(series.getName());
-				if (color == null)
-				{
-					color = sPath.getStroke();
-					colors.put(series.getName(), color);
-				}
-				int strokeWidth = 2;
-				double opacity = 1;
-				if (seriesPath != null)
-				{
-					if (sPath == seriesPath)
-					{
-						color = ((Color) color).darker();
-						strokeWidth = 4;
-					}
-					else
-					{
-						color = Color.GRAY;
-						strokeWidth = 1;
-						opacity = 0.5;
-					}
-				}
-
-				sPath.setStroke(color);
-				sPath.setStrokeWidth(strokeWidth);
-				sPath.setOpacity(opacity);
-			}
-		}
-	}
+	@FXML
+	private TabPane								tabPane;
 
 	@FXML
-	private TabPane						tabPane;
+	private Tab									resultTab;
+	@FXML
+	private Tab									moTab;
+	@FXML
+	private Tab									moweTab;
+	@FXML
+	private Tab									logTab;
 
 	@FXML
-	private Tab							curvesTab;
+	private CodeEditor							moEditor;
 	@FXML
-	private Tab							moTab;
-	@FXML
-	private Tab							moweTab;
-	@FXML
-	private Tab							logTab;
+	private CodeEditor							moweEditor;
 
 	@FXML
-	private CodeEditor					moEditor;
-	@FXML
-	private CodeEditor					moweEditor;
+	private TextArea							logArea;
 
-	@FXML
-	private AutoFillTextBox<String>		element;
-	@FXML
-	private LineChart<Number, Number>	dsChart;
-	@FXML
-	private NumberAxis					xDsAxis;
-	@FXML
-	private NumberAxis					yDsAxis;
+	private String								caseLabel;
+	private DateTime							date;
+	private String								dsLabel;
 
-	@FXML
-	private TextArea					logArea;
+	private Map<String, Paint>					colors			= new HashMap<String, Paint>();
+	private GuiFileChooser						fileChooser;
 
-	private String						caseLabel;
-	private DateTime					date;
-	private String						dsLabel;
+	ObservableList<String>						selectedBuses	= FXCollections
+			.observableArrayList();
+	private ContextMenu							menu			= new ContextMenu();
 
-	private Map<String, Paint>			colors			= new HashMap<String, Paint>();
-	private GuiFileChooser				fileChooser;
+	private WorkflowResult						results;
+	private MainService							mainService;
 
-	ObservableList<String>				selectedBuses	= FXCollections.observableArrayList();
-	private ContextMenu					menu			= new ContextMenu();
+	private SimulationResultDetailController	resultController;
 
-	private WorkflowResult				results;
-	private MainService					mainService;
-
-	private static final Logger			LOG				= LoggerFactory
+	private static final Logger					LOG				= LoggerFactory
 			.getLogger(SimulationDetailController.class);
-
 }

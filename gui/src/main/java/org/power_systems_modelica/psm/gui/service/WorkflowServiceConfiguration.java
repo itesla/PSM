@@ -39,7 +39,6 @@ import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
@@ -603,36 +602,21 @@ public class WorkflowServiceConfiguration
 
 	public static WorkflowResult getCompareLoadflowsResult(String id)
 	{
-
 		WorkflowResult results = new WorkflowResult();
 		Network n = (Network) cl.getResults("network");
-
 		List<BusData> allBusesValues = new ArrayList<>();
 		try
 		{
+			Map<String, Map<String, float[]>> busValues = LoadFlowTask.gatherBusesValues(
+					n,
+					"resultsHelmflow",
+					"resultsHades2");
 			n.getBusBreakerView().getBuses().forEach(b -> {
-				Map<String, float[]> bvalues = new HashMap<>();
-				float[] Vs = new float[2];
-				float[] As = new float[2];
-				float[] Ps = new float[2];
-				float[] Qs = new float[2];
-
-				n.getStateManager().setWorkingState("resultsHelmflow");
-				Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
-				As[0] = b.getAngle();
-				Ps[0] = b.getP();
-				Qs[0] = b.getQ();
-				n.getStateManager().setWorkingState("resultsHades2");
-				Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
-				As[1] = b.getAngle();
-				Ps[1] = b.getP();
-				Qs[1] = b.getQ();
-				bvalues.put("V", Vs);
-				bvalues.put("A", As);
-				bvalues.put("P", Ps);
-				bvalues.put("Q", Qs);
-				allBusesValues.add(new BusData(b.getId(), b.getName(), bvalues));
-
+				allBusesValues.add(
+						new BusData(
+								b.getId(),
+								b.getName(),
+								busValues.get(b.getId())));
 			});
 		}
 		catch (Exception e)
@@ -642,17 +626,13 @@ public class WorkflowServiceConfiguration
 
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
-			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("V", err);
+			bv.setError("V", LoadFlowTask.calcRelativeError(values[0], values[1]));
 			values = bv.getData().get("A");
-			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("A", err);
+			bv.setError("A", LoadFlowTask.calcRelativeError(values[0], values[1]));
 			values = bv.getData().get("P");
-			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("P", err);
+			bv.setError("P", LoadFlowTask.calcRelativeError(values[0], values[1]));
 			values = bv.getData().get("Q");
-			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
-			bv.setError("Q", err);
+			bv.setError("Q", LoadFlowTask.calcRelativeError(values[0], values[1]));
 		});
 
 		results.setId(id);
@@ -663,7 +643,8 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
-	public static Workflow createSwtoswValidation(String mappingPath, String expectedPath, String casePath,
+	public static Workflow createSwtoswValidation(String mappingPath, String expectedPath,
+			String casePath,
 			String stepSize) throws WorkflowCreationException
 	{
 		sts = WF(TD(CaseValidationTask.class, "validator0",
@@ -678,27 +659,27 @@ public class WorkflowServiceConfiguration
 	public static WorkflowResult getSwtoswValidationResult(String name, String... variables)
 	{
 		WorkflowResult results = new WorkflowResult();
-		
+
 		ValidationResult r = (ValidationResult) sts.getResults("casevalidation");
-		
+
 		List<Validation> list = new ArrayList<>();
 		if (variables.length == 0)
 		{
-			r.getVariables().forEach( v -> {
+			r.getVariables().forEach(v -> {
 				Validation val = new Validation();
 				val.setName(v.getName());
 				val.setRmse("" + v.getRmesAbove());
 				val.setAd("" + v.getAbsTotalOffset());
 				val.setRd("" + v.getRelTotalOffset());
-				
+
 				list.add(val);
 			});
 		}
 		else
 		{
-			List<String> elements = new ArrayList();
+			List<String> elements = new ArrayList<>();
 			elements.addAll(r.getElements().keySet());
-			
+
 			for (String variable : variables)
 			{
 				elements.forEach(ke -> {
@@ -709,9 +690,9 @@ public class WorkflowServiceConfiguration
 						Validation val = new Validation();
 						val.setName(e.getModelicaName());
 						val.setRmse("" + e.getAbsRmes());
-						val.setAd("" + e.getAbsOffset()/e.getValues().size());
-						val.setRd("" + e.getRelOffset()/e.getValues().size());
-						
+						val.setAd("" + e.getAbsOffset() / e.getValues().size());
+						val.setRd("" + e.getRelOffset() / e.getValues().size());
+
 						list.add(val);
 					}
 				});

@@ -41,9 +41,9 @@ public class ModelMapping
 	public String toString()
 	{
 		return (models.get(0) != null
-				? models.get(0).toString() + " for " + models.get(0).getStage().name() : "") +
+				? models.get(0).toString() + " for " + models.get(0).getStage().name() : mcs.get(0).toString() + " for " + mcs.get(0).getStage().name()) +
 				" at " +
-				mcs.stream().map(mc -> mc.getName()).collect(Collectors.joining(", "));
+				mcs.stream().map(mc -> "'" + mc.getName() + "'").collect(Collectors.joining(", "));
 	}
 
 	private String					modelKey;

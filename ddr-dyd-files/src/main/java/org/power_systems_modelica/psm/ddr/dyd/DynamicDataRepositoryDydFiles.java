@@ -469,7 +469,14 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			ModelContainer mc = (ModelContainer) dyd;
 
 			// TODO Check also system definitions are not duplicated
-			if (mc.isForSystemDefinitions()) return;
+			if (mc.isForSystemDefinitions()) 
+			{
+				if (!modelMapping.containsKey(ModelicaUtil.getSystemStaticId()))
+					modelMapping.put(ModelicaUtil.getSystemStaticId(), new ModelMapping(ModelicaUtil.getSystemStaticId()));
+
+				modelMapping.get(ModelicaUtil.getSystemStaticId()).add(null, mc);
+				return;
+			}
 
 			// TODO Check also the associations (do not allow duplicated names)
 			// mc.getAssociations().forEach(a -> addAssociation(name, a));

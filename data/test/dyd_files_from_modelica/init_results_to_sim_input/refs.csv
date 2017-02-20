@@ -1,4 +1,5 @@
 sim_component,sim_var,init_component,init_var
+gen_pwGeneratorM2S,WLMDVPu,gen_pwGeneratorM2S,mDVPu
 gen_pwGeneratorM2S,init_cm,gen_pwGeneratorM2S,cm0
 gen_pwGeneratorM2S,init_efd,gen_pwGeneratorM2S,efd0
 gen_pwGeneratorM2S,init_id,gen_pwGeneratorM2S,iD0
@@ -11,7 +12,6 @@ gen_pwGeneratorM2S,init_lambdaq1,gen_pwGeneratorM2S,lambdaQ10
 gen_pwGeneratorM2S,init_lambdaq2,gen_pwGeneratorM2S,lambdaQ20
 gen_pwGeneratorM2S,init_omega,gen_pwGeneratorM2S,omega_0
 gen_pwGeneratorM2S,init_theta,gen_pwGeneratorM2S,teta0
-gen_pwGeneratorM2S,mDVPu,gen_pwGeneratorM2S,mDVPu
 reg_cmconst,init_CM,gen_pwGeneratorM2S,pin_CM
 reg_govpsat1,init_CM,gen_pwGeneratorM2S,pin_CM
 reg_govpsat1,init_OMREF,govpsat1,pin_OMREF

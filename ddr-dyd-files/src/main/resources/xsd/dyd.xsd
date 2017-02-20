@@ -162,6 +162,7 @@
 			<xs:enumeration value="INIT" />
 			<xs:enumeration value="EVENT" />
 			<xs:enumeration value="DYNN" />
+			<xs:enumeration value="PREVIOUS_DYNAMIC_MODEL" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="EventInjection">

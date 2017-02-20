@@ -44,4 +44,5 @@ public interface DynamicDataRepository
 	StaticType getEventAppliesToStaticType(String event);
 
 	public static final String EVENT_PARAMS_DATA_SOURCE = "EVENT";
+	public static final String PREVIOUS_DYNAMIC_MODEL = "PREVIOUS_DYNAMIC_MODEL";
 }

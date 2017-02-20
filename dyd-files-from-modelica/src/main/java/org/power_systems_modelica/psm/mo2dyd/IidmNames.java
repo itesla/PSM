@@ -90,6 +90,14 @@ public class IidmNames
 				return "-P_pu";
 			case "q0":
 				return "-Q_pu";
+			case "V_0":
+				return "V_pu";
+			case "angle_0":
+				return "A";
+			case "P":
+				return "P_pu";
+			case "Q":
+				return "Q_pu";
 			default:
 				return null;
 			}

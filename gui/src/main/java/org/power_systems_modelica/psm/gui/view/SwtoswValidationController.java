@@ -1,6 +1,8 @@
 package org.power_systems_modelica.psm.gui.view;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -30,9 +32,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.StringConverter;
 
 public class SwtoswValidationController implements MainChildrenController
 {
@@ -130,13 +134,13 @@ public class SwtoswValidationController implements MainChildrenController
 		caseFile.setText("");
 
 		stepSize.setText(STEPSIZE);
-		thRmse.setText(THRMSE);
-		thRd.setText(THRD);
-		thAd.setText(THAD);
+		thRmse.setText(Double.parseDouble(THRMSE) * 100.0 + " %");
+		thRd.setText(Double.parseDouble(THRD) * 100.0 + " %");
+		thAd.setText(Double.parseDouble(THAD) * 100.0 + " %");
 
 		validationTable.getItems().clear();
 	}
-	
+
 	@FXML
 	public void handleSelectMappingFileAction()
 	{
@@ -181,7 +185,8 @@ public class SwtoswValidationController implements MainChildrenController
 
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId());
+			WorkflowResult result = WorkflowServiceConfiguration
+					.getSwtoswValidationResult("" + w.getId());
 			validationTable.setItems(result.getValidation());
 		}
 	}
@@ -204,11 +209,13 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 	}
 
-	private void startSwtoswValidation(String mappingPath, String expectedPath, String casePath, String stepSize)
+	private void startSwtoswValidation(String mappingPath, String expectedPath, String casePath,
+			String stepSize)
 	{
 		try
 		{
-			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(mappingPath, expectedPath, casePath,
+			Workflow w = WorkflowServiceConfiguration.createSwtoswValidation(mappingPath,
+					expectedPath, casePath,
 					stepSize);
 			Task<?> task = TaskService.createTask(w,
 					() -> mainService.getMainApp().showSwtoswValidationResults(w));
@@ -249,24 +256,9 @@ public class SwtoswValidationController implements MainChildrenController
 						.then(new ImageView(whiteSelectImage))
 						.otherwise(new ImageView(selectImage)));
 
-		thRmse.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null && oldValue != newValue)
-			{
-				validationTable.refresh();
-			}
-		});
-		thRd.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null && oldValue != newValue)
-			{
-				validationTable.refresh();
-			}
-		});
-		thAd.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null && oldValue != newValue)
-			{
-				validationTable.refresh();
-			}
-		});
+		initializeTextField(thRmse);
+		initializeTextField(thRd);
+		initializeTextField(thAd);
 
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		rmseColumn.setCellValueFactory(cellData -> cellData.getValue().rmseProperty());
@@ -284,11 +276,11 @@ public class SwtoswValidationController implements MainChildrenController
 					}
 					else
 					{
-						double pct = Double.parseDouble(item.toString())*100.0;
+						double pct = Double.parseDouble(item.toString()) * 100.0;
 						setText(new DecimalFormat("0.0###").format(pct) + " %");
 						try
 						{
-							if (Double.parseDouble(item.toString()) <= Double.parseDouble(thRmse.getText()))
+							if (pct <= Double.parseDouble(thRmse.getText().replaceAll("%", "")))
 							{
 								setStyle("-fx-background-color: " + validValue);
 							}
@@ -320,11 +312,11 @@ public class SwtoswValidationController implements MainChildrenController
 					}
 					else
 					{
-						double pct = Double.parseDouble(item.toString())*100.0;
+						double pct = Double.parseDouble(item.toString()) * 100.0;
 						setText(new DecimalFormat("0.0###").format(pct) + " %");
 						try
 						{
-							if (Double.parseDouble(item.toString()) <= Double.parseDouble(thRd.getText()))
+							if (pct <= Double.parseDouble(thRd.getText().replaceAll("%", "")))
 							{
 								setStyle("-fx-background-color: " + validValue);
 							}
@@ -356,11 +348,11 @@ public class SwtoswValidationController implements MainChildrenController
 					}
 					else
 					{
-						double pct = Double.parseDouble(item.toString())*100.0;
+						double pct = Double.parseDouble(item.toString()) * 100.0;
 						setText(new DecimalFormat("0.0###").format(pct) + " %");
 						try
 						{
-							if (Double.parseDouble(item.toString()) <= Double.parseDouble(thAd.getText()))
+							if (pct <= Double.parseDouble(thAd.getText().replaceAll("%", "")))
 							{
 								setStyle("-fx-background-color: " + validValue);
 							}
@@ -379,6 +371,33 @@ public class SwtoswValidationController implements MainChildrenController
 		});
 	}
 
+	private void initializeTextField(TextField tf)
+	{
+		StringConverter<Double> sc = new StringConverter<Double>() {
+            @Override
+            public String toString(Double object) {
+                if (object != null)
+                    return Double.toString(object.doubleValue() * 100.0) + " %";
+                else
+                    return "";
+            }
+
+            @Override
+            public Double fromString(String string) {
+                Double d = Double.parseDouble(string.replaceAll("%", ""))/100.0;
+                return d;
+            }
+        };
+
+		tf.setTextFormatter(new TextFormatter<>(sc));
+		tf.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null && oldValue != newValue)
+			{
+				validationTable.refresh();
+			}
+		});
+	}
+
 	@FXML
 	private void handleSelectValidation(MouseEvent event)
 	{
@@ -390,7 +409,8 @@ public class SwtoswValidationController implements MainChildrenController
 			backButton.setVisible(true);
 			backButton.setDisable(false);
 
-			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId(),
+			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult(
+					"" + w.getId(),
 					v.getName());
 			validationTable.getItems().clear();
 			validationTable.setItems(result.getValidation());
@@ -403,7 +423,8 @@ public class SwtoswValidationController implements MainChildrenController
 		backButton.setVisible(false);
 		backButton.setDisable(true);
 
-		WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult("" + w.getId());
+		WorkflowResult result = WorkflowServiceConfiguration
+				.getSwtoswValidationResult("" + w.getId());
 		validationTable.getItems().clear();
 		validationTable.setItems(result.getValidation());
 	}

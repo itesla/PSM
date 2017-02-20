@@ -200,7 +200,7 @@ public class LoadFlowTest
 	@Test
 	public void compareHelmflowHades27Buses() throws WorkflowCreationException, IOException
 	{
-		compareHelmflowHades2("7buses", "CIM_7buses_EQ.xml");
+		compareHelmflowHades2("7buses", "M7buses_EQ.xml");
 	}
 
 	@Test

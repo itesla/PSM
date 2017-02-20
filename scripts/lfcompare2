@@ -1,20 +1,45 @@
 #!/bin/bash
+CASE=$1
 
-rm -rf $PSM_DATA/tmp/lfcompare*
-echo "HELM Flow and Hades2 computed from initial state ..."
-lfcompare -DloadFlowTest.targetCsvFolder=$PSM_DATA/tmp/lfcompare_helm-from-initial |& tee kkhh.log | grep LF_DIFF_STATS_AVG | grep "\bV\b"
-echo "HELM Flow computed from Hades2 results ..."
-lfcompare -DloadFlowTest.helmSourceStateId=resultsHades2 -DloadFlowTest.targetCsvFolder=$PSM_DATA/tmp/lfcompare_helm-after-hades |& tee kk0h.log | grep LF_DIFF_STATS_AVG | grep "\bV\b"
-for c in $(find $PSM_DATA/tmp/lfcompare_helm-from-initial/helmflow/??* -type d -exec basename {} \; ); do
-	echo $c
-	sort $PSM_DATA/tmp/lfcompare_helm-from-initial/helmflow/$c/generators.csv > $PSM_DATA/tmp/lfcompare_helm-from-initial/helmflow/$c/generators.sorted.csv
-done
-for c in $(find $PSM_DATA/tmp/lfcompare_helm-after-hades/helmflow/??* -type d -exec basename {} \; ); do
-	echo $c
-	sort $PSM_DATA/tmp/lfcompare_helm-after-hades/helmflow/$c/generators.csv > $PSM_DATA/tmp/lfcompare_helm-after-hades/helmflow/$c/generators.sorted.csv
-done
+if [ "$CASE" = "" ];
+then
+	echo ""
+	echo "Missing case"
+	echo ""
+	exit 1
+fi
 
+if [ "$PSM_DATA" = "" ];
+then
+    echo ""
+    echo "Missing PSM_DATA variable"
+    echo "will assume current data folder"
+    export PSM_DATA=data
+fi
+mkdir -p $PSM_DATA/tmp
 
-# Ejemplo peque
-mvn -Dtest=LoadFlowTest#compareHelmflowHades2Ieee30 -DloadFlowTest.helmSourceStateId=resultsHades2 -DloadFlowTest.targetCsvFolder=${PSM_DATA}/tmp/lfcomparehh -Ditesla.config.dir=${PSM_DATA}/test/cfg test --projects workflow |& grep LF_DIFF_STATS_MAX | grep "HF-HD"
-mvn -Dtest=LoadFlowTest#compareHelmflowHades2Ieee30 -DloadFlowTest.targetCsvFolder=${PSM_DATA}/tmp/lfcompare0h -Ditesla.config.dir=${PSM_DATA}/test/cfg test --projects workflow |& grep LF_DIFF_STATS_MAX | grep "HF-HD"
+function wftest {
+	mvn -DfailIfNoTests=false \
+	    -Ditesla.config.dir=${PSM_DATA}/test/cfg \
+		$* \
+	    test \
+		--projects workflow
+}
+
+echo ""
+echo "Running comparison HELM Flow after Hades2 results ..."
+echo ""
+wftest -Dtest=LoadFlowTest#compareHelmflowHades2${CASE} -DloadFlowTest.helmSourceStateId=resultsHades2 -DloadFlowTest.targetCsvFolder=${PSM_DATA}/tmp/lfcomparehh 2>&1 \
+	| tee kkhh.log \
+	| grep LF_DIFF_STATS \
+	| grep "HF-HD"
+echo ""
+echo "Running comparison both Loadflow engines from initial case ..."
+echo ""
+wftest -Dtest=LoadFlowTest#compareHelmflowHades2${CASE} -DloadFlowTest.targetCsvFolder=${PSM_DATA}/tmp/lfcompare0h 2>&1 \
+	| tee kk0h.log \
+	| grep LF_DIFF_STATS \
+	| grep "HF-HD"
+echo ""
+echo "Detailed results available at ${PSM_DATA}/tmp/lfcompare0h, ${PSM_DATA}/tmp/lfcomparehh"
+echo ""

@@ -130,12 +130,12 @@ public class LoadFlowTask extends WorkflowTask
 			float[] Ps = new float[2];
 			float[] Qs = new float[2];
 			n.getStateManager().setWorkingState(caseId0);
-			Vs[0] = b.getV();
+			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
 			As[0] = b.getAngle();
 			Ps[0] = zeroIfNaN(b.getP());
 			Qs[0] = zeroIfNaN(b.getQ());
 			n.getStateManager().setWorkingState(caseId1);
-			Vs[1] = b.getV();
+			Vs[1] = b.getV() / b.getVoltageLevel().getNominalV();
 			As[1] = b.getAngle();
 			Ps[1] = zeroIfNaN(b.getP());
 			Qs[1] = zeroIfNaN(b.getQ());
@@ -150,8 +150,8 @@ public class LoadFlowTask extends WorkflowTask
 
 	public static float calcRelativeError(float v0, float v1)
 	{
-		float absoluteError = Math.abs(v1 - v1);
-		if (v0 == 0.0f) return absoluteError;
+		float absoluteError = Math.abs(v0 - v1);
+		if (v0 == 0.0f || v1 == 0.0f) return absoluteError;
 		float err = absoluteError / Math.abs(v0);
 		return err;
 	}

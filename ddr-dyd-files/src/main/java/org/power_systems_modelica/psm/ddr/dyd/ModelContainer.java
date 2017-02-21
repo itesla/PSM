@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 public class ModelContainer implements DydContent
@@ -67,6 +68,35 @@ public class ModelContainer implements DydContent
 		}
 		return false;
 	}
+	
+	public Stage getStage()
+	{
+		if (models.size() > 0)
+		{
+			Model m = models.get(0);
+			if (m instanceof ModelForElement)
+				return m.getStage();
+		}
+		return null;
+	}
+
+	@Override
+	public String toString()
+	{
+		if (models.size() > 0)
+		{
+			Model m = models.get(0);
+			if (m instanceof ModelForElement)
+			{
+				ModelForElement ms = (ModelForElement) m;
+				if (ModelicaUtil.getSystemStaticId().equals(ms.getStaticId()))
+					return ms.toString();
+			}
+		}
+		
+		return "";
+	}
+	
 
 	private String					name;
 	private final List<Model>		models			= new ArrayList<>();

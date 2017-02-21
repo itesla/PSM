@@ -54,18 +54,20 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 			me.simulate(mo);
 
 			dinSimulationResults = me.getSimulationResults();
-			boolean hasResults = (boolean) dinSimulationResults.getValue(modelName, "successful");
+			boolean successfully = (boolean) dinSimulationResults.getValue(modelName, "successful");
 
-			if (!hasResults)
+			if (!successfully)
 			{
-				progress(String.format("Model %s has not been simulated.", modelName));
-				throw new Exception("No results obtained");
+				progress(String.format("Dynamic simulation task for model %s has not been completed successfully.", modelName));
+				failed();				
+			} 
+			else {
+				progress(String.format("Dynamic simulation task for model %s has been completed successfully.", modelName));
+				publish(SCOPE_GLOBAL,
+						"simres",
+						dinSimulationResults.getValue(modelName, "simulation_path"));
+				succeded();	
 			}
-			progress(String.format("Model %s has been simulated.", modelName));
-			publish(SCOPE_GLOBAL,
-					"simres",
-					dinSimulationResults.getValue(modelName, "simulation_path"));
-			succeded();
 		}
 		catch (Exception x)
 		{

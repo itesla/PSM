@@ -85,8 +85,8 @@
 </cim:Terminal>
 <cim:GeneratingUnit rdf:ID="_GEN______GU">
 	<cim:GeneratingUnit.nominalP>0</cim:GeneratingUnit.nominalP>
-	<cim:GeneratingUnit.minOperatingP>-999999</cim:GeneratingUnit.minOperatingP>
-	<cim:GeneratingUnit.maxOperatingP>999999</cim:GeneratingUnit.maxOperatingP>
+	<cim:GeneratingUnit.minOperatingP>-999</cim:GeneratingUnit.minOperatingP>
+	<cim:GeneratingUnit.maxOperatingP>999</cim:GeneratingUnit.maxOperatingP>
 	<cim:Equipment.MemberOf_EquipmentContainer rdf:resource="#_GEN______VL"/>
 	<cim:IdentifiedObject.name>GEN     </cim:IdentifiedObject.name>
 </cim:GeneratingUnit>

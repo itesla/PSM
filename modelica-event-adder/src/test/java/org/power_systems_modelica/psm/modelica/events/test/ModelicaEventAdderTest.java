@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +21,9 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
+import org.power_systems_modelica.psm.modelica.ModelicaArgument;
 import org.power_systems_modelica.psm.modelica.ModelicaConnect;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
@@ -184,6 +187,48 @@ public class ModelicaEventAdderTest
 		ModelicaTextPrinter.print(mo0, output0, printPsmAnnotations);
 		ModelicaTextPrinter.print(mo1, output1, printPsmAnnotations);
 		ModelicaTestUtil.assertEqualsNormalizedModelicaText(output0, output1);
+	}
+
+	@Test
+	public void addEventsIeee14LoadVariation() throws Exception
+	{
+		addEventsIeee14LoadVariation(false);
+	}
+
+	@Test
+	public void addEventsIeee14LoadVariationReread() throws Exception
+	{
+		addEventsIeee14LoadVariation(true);
+	}
+
+	private void addEventsIeee14LoadVariation(boolean reread) throws Exception
+	{
+		String events = new StringBuilder(100)
+				.append("LoadVariation")
+				.append(",")
+				.append("_LOAD__10_EC")
+				.append(",")
+				.append("P=9.0")
+				.append(",")
+				.append("Q=1.0")
+				.append(",")
+				.append("startTime=20.0")
+				.append("\n")
+				.toString();
+		ModelicaDocument mo = addEvents("ieee14", "ieee14bus_EQ.xml", "ddr", events, 14, 5, 0, 0,
+				reread);
+		Map<String, ModelicaModel> models = ModelicaUtil.groupByNormalizedStaticId(mo);
+		ModelicaModel mb = models.get("_LOAD__10_EC");
+		String loadVariationId = "pwLoadVDepwithVariation__LOAD__10_EC";
+		Optional<ModelicaDeclaration> dv = mb.getDeclarations().stream()
+				.filter(d -> d.getId().equals(loadVariationId))
+				.findFirst();
+		assertTrue(dv.isPresent());
+		Optional<ModelicaArgument> alpha = dv.get().getArguments().stream()
+				.filter(a -> a.getName().equals("alpha"))
+				.findFirst();
+		assertTrue(alpha.isPresent());
+		assertEquals("1.5", alpha.get().getValue());
 	}
 
 	public ModelicaDocument addEvents(

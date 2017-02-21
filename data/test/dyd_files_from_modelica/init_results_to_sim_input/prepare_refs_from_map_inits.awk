@@ -36,7 +36,7 @@ BEGIN {
 		print "ERROR num init vars != num sim vars: " n1 " != " n2;
 		exit;
 	}
-	for (k = 0; k < n1; k++) {
+	for (k = 1; k <= n1; k++) {
 		map_init_vars[init_vars[k]] = sim_vars[k];
 	}
 	print "DEBUG map_init_vars"

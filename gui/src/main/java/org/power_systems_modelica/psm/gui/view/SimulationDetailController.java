@@ -9,13 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
-import org.power_systems_modelica.psm.gui.model.DsData;
-import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.CaseService;
@@ -24,48 +21,28 @@ import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
-import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
-import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
-import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
-import org.power_systems_modelica.psm.workflow.psm.ModelicaEventAdderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.itesla_project.iidm.network.Bus;
-import eu.itesla_project.iidm.network.Identifiable;
-import eu.itesla_project.iidm.network.Network;
-import eu.itesla_project.iidm.network.SingleTerminalConnectable;
-import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Path;
 
 public class SimulationDetailController implements MainChildrenController
 {
@@ -206,8 +183,9 @@ public class SimulationDetailController implements MainChildrenController
 		}
 
 		logArea.setText(sb.toString());
-		
-		resultController.setWorkflow(w, objects);
+
+		if (resultController != null)
+			resultController.setWorkflow(w, objects);
 	}
 
 	@Override
@@ -365,18 +343,18 @@ public class SimulationDetailController implements MainChildrenController
 	private DateTime							date;
 	private String								dsLabel;
 
-	private Map<String, Paint>					colors			= new HashMap<String, Paint>();
+	private Map<String, Paint>					colors				= new HashMap<String, Paint>();
 	private GuiFileChooser						fileChooser;
 
-	ObservableList<String>						selectedBuses	= FXCollections
+	ObservableList<String>						selectedBuses		= FXCollections
 			.observableArrayList();
-	private ContextMenu							menu			= new ContextMenu();
+	private ContextMenu							menu				= new ContextMenu();
 
 	private WorkflowResult						results;
 	private MainService							mainService;
 
-	private SimulationResultDetailController	resultController;
+	private SimulationResultDetailController	resultController	= null;
 
-	private static final Logger					LOG				= LoggerFactory
+	private static final Logger					LOG					= LoggerFactory
 			.getLogger(SimulationDetailController.class);
 }

@@ -84,6 +84,7 @@
 			<ref name="Q_1" unit="MVAr" dataSource="EVENT" sourceName="Q"/>
 			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>
 		</component>
+		<interconnection componentId="pwLoadVDepwithVariation_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
 	</model>
 	<model event="GeneratorVSetpointModification" injection="ADD" id="EVT{staticId}" appliesTo="Generator">
 		<component type="iPSL.Electrical.Events.SetPointModification" id="vsetModification_{staticId}">

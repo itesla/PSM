@@ -235,9 +235,9 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		if (!successful)
 		{
-			if (verifying) text = "Model %s verified unsuccessfully.";
-			else text = "Model %s simulated unsuccessfully.";
-			progress(String.format(text, modelName));
+			if (verifying) text = "Model %s verified unsuccessfully with all integration methods : %s.";
+			else text = "Model %s simulated unsuccessfully with all integration methods : %s.";
+			progress(String.format(text, modelName, Arrays.toString(METHOD_LIST)));
 			return false;
 		}
 		if (verifying) text = "Model %s verified successfully with method %s.";

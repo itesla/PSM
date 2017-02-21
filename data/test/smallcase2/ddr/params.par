@@ -109,7 +109,7 @@
         <par name="T4" value="0.015"/>
         <par name="VSTMIN" value="-0.1"/>
         <par name="T7" value="2."/>
-        <par name="KS1" value="10."/>
+        <par name="KS1" value="0."/>
         <par name="KS3" value="1."/>
         <par name="KS2" value="0.1564"/>
         <par name="M" value="0."/>

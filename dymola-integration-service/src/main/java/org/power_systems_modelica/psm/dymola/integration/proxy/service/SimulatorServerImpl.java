@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.MTOM;
 
+import org.power_systems_modelica.psm.commons.FileUtils;
 import org.power_systems_modelica.psm.dymola.integration.proxy.service.utils.MapUtils;
 import org.power_systems_modelica.psm.dymola.integration.proxy.service.utils.Pool;
 import org.power_systems_modelica.psm.dymola.integration.proxy.service.utils.Utils;
@@ -51,6 +52,8 @@ import com.dassault_systemes.dymola.DymolaInterface;
 import com.dassault_systemes.dymola.DymolaWrapper;
 import com.sun.xml.internal.ws.developer.StreamingAttachment;
 import com.sun.xml.internal.ws.developer.StreamingDataHandler;
+
+import ch.qos.logback.core.rolling.helper.FileStoreUtil;
 
 /**
  *
@@ -169,7 +172,7 @@ public class SimulatorServerImpl implements SimulatorServer
 		{
 			try
 			{
-				if (!debug) Utils.deleteDirectoryRecursively(this.dymSimulationDir);
+				if (!debug) FileUtils.deleteDirectory(this.dymSimulationDir);
 			}
 			catch (IOException e)
 			{
@@ -249,7 +252,7 @@ public class SimulatorServerImpl implements SimulatorServer
 		{
 			try
 			{
-				if (!debug) Utils.deleteDirectoryRecursively(this.dymSimulationDir);
+				if (!debug) FileUtils.deleteDirectory(this.dymSimulationDir);
 			}
 			catch (IOException e)
 			{

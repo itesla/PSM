@@ -617,13 +617,13 @@ public class WorkflowServiceConfiguration
 
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
-			bv.setError("V", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("V", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("A");
-			bv.setError("A", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("A", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("P");
-			bv.setError("P", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("P", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("Q");
-			bv.setError("Q", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("Q", LoadFlowTask.calcDifference(values[0], values[1]));
 		});
 
 		results.setId(id);

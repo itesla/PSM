@@ -303,8 +303,8 @@ public class LoadFlowTest
 		DoubleSummaryStatistics stats = checkResults(caseFolder, "HF-HD", allBusesValues, "V");
 		if (stats != null)
 		{
-			assertTrue(stats.getAverage() < getMaxRelativeErrorAverage("V"));
-			assertTrue(stats.getMax() < getMaxRelativeErrorMax("V"));
+			assertTrue(stats.getAverage() < getMaxDiffAverage("V"));
+			assertTrue(stats.getMax() < getMaxDiffMax("V"));
 		}
 	}
 
@@ -314,28 +314,28 @@ public class LoadFlowTest
 			Map<String, Map<String, float[]>> allBusesValues,
 			String variable)
 	{
-		float maxRelativeErrorAverage = getMaxRelativeErrorAverage(variable);
-		float maxRelativeErrorMax = getMaxRelativeErrorMax(variable);
+		float maxDiffAverage = getMaxDiffAverage(variable);
+		float maxDiffMax = getMaxDiffMax(variable);
 
-		List<Float> relativeErrors = calcRelativeErrors(allBusesValues, variable);
-		DoubleSummaryStatistics stats = relativeErrors.stream()
+		List<Float> diffs = calcDifferences(allBusesValues, variable);
+		DoubleSummaryStatistics stats = diffs.stream()
 				.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-		debugValues(case_, allBusesValues, variable, relativeErrors);
+		debugValues(case_, allBusesValues, variable, diffs);
 		System.err.printf("LF_DIFF_STATS_AVG\t%s\t%s\t%s\t%f\t%f\t%s%n",
 				case_,
 				label,
 				variable,
 				stats.getAverage(),
-				maxRelativeErrorAverage,
-				stats.getAverage() < maxRelativeErrorAverage ? "PASS" : "FAIL");
+				maxDiffAverage,
+				stats.getAverage() < maxDiffAverage ? "PASS" : "FAIL");
 		System.err.printf("LF_DIFF_STATS_MAX\t%s\t%s\t%s\t%f\t%f\t%s%n",
 				case_,
 				label,
 				variable,
 				stats.getMax(),
-				maxRelativeErrorMax,
-				stats.getMax() < maxRelativeErrorMax ? "PASS" : "FAIL");
+				maxDiffMax,
+				stats.getMax() < maxDiffMax ? "PASS" : "FAIL");
 		return stats;
 	}
 
@@ -343,7 +343,7 @@ public class LoadFlowTest
 			String case_,
 			Map<String, Map<String, float[]>> allBusesValues,
 			String variable,
-			List<Float> relativeErrors)
+			List<Float> diffs)
 	{
 		List<Float> values0 = allBusesValues.values().stream()
 				.map(bv -> bv.get(variable)[0])
@@ -361,17 +361,17 @@ public class LoadFlowTest
 					variable,
 					values0.get(k),
 					values1.get(k),
-					relativeErrors.get(k));
+					diffs.get(k));
 		}
 	}
 
-	private List<Float> calcRelativeErrors(
+	private List<Float> calcDifferences(
 			Map<String, Map<String, float[]>> allBusesValues,
 			String variable)
 	{
 		return allBusesValues.values().stream().map(bv -> {
 			float[] values = bv.get(variable);
-			return LoadFlowTask.calcRelativeError(values[0], values[1]);
+			return LoadFlowTask.calcDifference(values[0], values[1]);
 		}).collect(Collectors.toList());
 	}
 
@@ -381,7 +381,7 @@ public class LoadFlowTest
 		return System.getProperty("os.name").startsWith("Linux");
 	}
 
-	private float getMaxRelativeErrorAverage(String variable)
+	private float getMaxDiffAverage(String variable)
 	{
 		switch (variable)
 		{
@@ -394,7 +394,7 @@ public class LoadFlowTest
 		}
 	}
 
-	private float getMaxRelativeErrorMax(String variable)
+	private float getMaxDiffMax(String variable)
 	{
 		switch (variable)
 		{

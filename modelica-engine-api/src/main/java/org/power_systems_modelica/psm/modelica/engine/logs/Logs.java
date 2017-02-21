@@ -79,7 +79,7 @@ public class Logs
 			System.out.printf("OMCLog %s%s%s%n",
 					sindent,
 					sindex,
-					line.substring(0, Math.min(80, line.length())));
+					line);
 		}
 	}
 

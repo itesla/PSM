@@ -5,6 +5,7 @@ import java.util.List;
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.openmodelica.corba.SmartProxy;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -191,6 +192,7 @@ public class OpenModelicaWrapper extends SmartProxy
 
 	/**
 	 * Unloads a file.
+	 * 
 	 * @param file
 	 * @return
 	 * @throws ConnectException
@@ -201,37 +203,40 @@ public class OpenModelicaWrapper extends SmartProxy
 				.append(file)
 				.append("\")").toString());
 	}
-	
-	@Override
-	public void logOMCReply(String reply)
-	{
-		//TODO For now nothing to display
-//		StringTokenizer tokenizer = new StringTokenizer(reply, "\n");
-//
-//		while (tokenizer.hasMoreTokens())
-//		{
-//			System.out.println("<<<< " + tokenizer.nextToken());
-//		}
-	}
 
 	@Override
 	public void logOMCCall(String expression)
 	{
-		//TODO For now nothing to display
+		logs.newCall(expression);
+	}
+
+	@Override
+	public void logOMCReply(String reply)
+	{
+		logs.reply(reply);
 	}
 
 	@Override
 	public void logOMCStatus(String message)
 	{
 		LOG.debug(message);
+		logs.status(message);
 	}
-	
+
 	@Override
 	public void logOMCCallError(String message)
 	{
 		LOG.error(message);
+		logs.callError(message);
 	}
-	 
-	private static final Logger				LOG				= LoggerFactory
+
+	public Logs getLogs()
+	{
+		return logs;
+	}
+
+	private final Logs			logs	= new Logs();
+
+	private static final Logger	LOG		= LoggerFactory
 			.getLogger(OpenModelicaWrapper.class);
 }

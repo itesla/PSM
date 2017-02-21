@@ -28,7 +28,7 @@
 		<interconnection componentId="pwLineFault_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
 		<interconnection componentId="pwLineFault_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
 	</model>
-	<model event="LineOpenReceiverSide" injection="REPLACE" id="EVT{staticId}">
+	<model event="LineOpenReceiverSide" injection="REPLACE" id="EVT{staticId}" appliesTo="Line">
 		<component type="iPSL.Electrical.Branches.PwLinewithOpeningReceiving" id="pwLineOpeningReceiving_{staticId}">
 			<ref name="R" dataSource="IIDM" sourceName="R_pu" />
 			<ref name="X" dataSource="IIDM" sourceName="X_pu" />

@@ -40,7 +40,7 @@
 		<interconnection componentId="pwLineOpeningReceiving_{staticId}" componentVar="p" targetModel="{bus1}" targetName="p"/>
 		<interconnection componentId="pwLineOpeningReceiving_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
 	</model>
-	<model event="LineOpenSendingSide" injection="REPLACE" id="EVT{staticId}">
+	<model event="LineOpenSendingSide" injection="REPLACE" id="EVT{staticId}" appliesTo="Line">
 		<component type="iPSL.Electrical.Branches.PwLinewithOpeningSending" id="pwLineOpeningSending_{staticId}">
 			<ref name="R" dataSource="IIDM" sourceName="R_pu" />
 			<ref name="X" dataSource="IIDM" sourceName="X_pu" />

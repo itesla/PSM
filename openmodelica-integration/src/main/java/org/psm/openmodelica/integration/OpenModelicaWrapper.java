@@ -60,9 +60,9 @@ public class OpenModelicaWrapper extends SmartProxy
 	 */
 	public Result loadFile(String fileName) throws ConnectException
 	{
-		return sendExpression(new StringBuilder().append("loadFile(")
+		return sendExpression(new StringBuilder().append("loadFile(\"")
 				.append(fileName)
-				.append(")")
+				.append("\")")
 				.toString());
 	}
 
@@ -189,6 +189,19 @@ public class OpenModelicaWrapper extends SmartProxy
 				.append(")").toString());
 	}
 
+	/**
+	 * Unloads a file.
+	 * @param file
+	 * @return
+	 * @throws ConnectException
+	 */
+	public Result unloadFile(String file) throws ConnectException
+	{
+		return sendExpression(new StringBuilder().append("deleteFile(\"")
+				.append(file)
+				.append("\")").toString());
+	}
+	
 	@Override
 	public void logOMCReply(String reply)
 	{

@@ -37,7 +37,7 @@ public class DdrServiceTest
 		assertNotNull(ddr);
 		assertNotNull(ddr.nameProperty());
 		assertNotNull(ddr.locationProperty());
-		assertEquals(null, ddr.getDescription());
+		assertNotNull(ddr.getDescription());
 		assertNotNull(ddr.descriptionProperty());
 		assertEquals(DdrType.DYD, ddr.getType());
 		assertNotNull(ddr.typeProperty());

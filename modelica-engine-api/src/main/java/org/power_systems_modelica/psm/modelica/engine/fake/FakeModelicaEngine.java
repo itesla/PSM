@@ -16,6 +16,7 @@ import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +106,12 @@ public class FakeModelicaEngine implements ModelicaEngine
 		return properties;
 	}
 
+	@Override
+	public Logs getLogs()
+	{
+		return new Logs();
+	}
+	
 	private Properties				properties		= loadDefaultProperties();
 	private ModelicaEngineProgress	engineProgress;
 	ModelicaSimulationFinalResults	results;

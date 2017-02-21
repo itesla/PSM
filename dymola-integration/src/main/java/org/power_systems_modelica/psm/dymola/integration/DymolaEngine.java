@@ -23,6 +23,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.modelica.engine.utils.ModelicaEngineUtils;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
@@ -347,6 +348,13 @@ public class DymolaEngine implements ModelicaEngine
 			LOG.error("", e.getMessage());
 		}
 		return properties;
+	}
+	
+	@Override
+	public Logs getLogs()
+	{
+		//FIXME Create structured logs for Dymola simulator.
+		return new Logs();
 	}
 
 	private Properties						properties		= loadDefaultProperties();

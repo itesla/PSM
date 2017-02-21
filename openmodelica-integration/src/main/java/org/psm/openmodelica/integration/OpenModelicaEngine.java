@@ -27,6 +27,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.modelica.engine.utils.ModelicaEngineUtils;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
@@ -333,6 +334,9 @@ public class OpenModelicaEngine implements ModelicaEngine
 				workingDir,
 				simulationTime);
 
+		//Simulation result will be read so save log is disabled. 
+		this.omc.getLogs().setSave(false);
+		
 		String matResultsFile = modelName + "_res" + MAT_EXTENSION;
 		String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
 
@@ -365,8 +369,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		int resultSize = Integer
 				.parseInt(omc.readSimulationResultSize(matResultsFile).res.replace("\n", ""));
-
-		omc.getLogs().setSave(false);
 
 		try (PrintStream printStream = new PrintStream(
 				Files.newOutputStream(
@@ -582,6 +584,12 @@ public class OpenModelicaEngine implements ModelicaEngine
 			LOG.error("", e.getMessage());
 		}
 		return properties;
+	}
+	
+	@Override
+	public Logs getLogs()
+	{
+		return this.omc.getLogs();
 	}
 
 	private Properties						properties		= loadDefaultProperties();

@@ -26,4 +26,10 @@ public class EmptyTask extends WorkflowTask
 	{
 		succeded();
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 }

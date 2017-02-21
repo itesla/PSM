@@ -96,6 +96,12 @@ public class ModelicaEventAdderTask extends WorkflowTask
 		}
 		return events;
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 
 	private String				ddrType;
 	private String				ddrLocation;

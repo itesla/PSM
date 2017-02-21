@@ -99,7 +99,12 @@ public class Workflow implements Process
 
 	public void cancel()
 	{
-		// TODO Auto-generated method stub
+		workflowTasks.forEach(wTask -> {
+			if(wTask.getState() != SUCCESS && wTask.getState() != FAILED)
+			{
+				wTask.cancel();
+			}
+		});
 	}
 
 	public List<WorkflowTask> getWorkflowTasks()

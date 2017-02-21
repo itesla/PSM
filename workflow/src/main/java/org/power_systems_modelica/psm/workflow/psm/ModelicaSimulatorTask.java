@@ -96,6 +96,19 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 	{
 		progress(arg1.toString());
 	}
+	
+	@Override
+	public void cancel() {
+		if(me != null)
+			try
+		{
+			me.close();
+		}
+		catch (Exception x)
+		{
+			failed(x);
+		}
+	}
 
 	protected ModelicaEngine				me	= null;
 	private String							modelicaEngine;

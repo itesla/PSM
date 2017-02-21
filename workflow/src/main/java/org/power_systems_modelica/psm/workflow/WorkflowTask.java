@@ -26,6 +26,7 @@ public abstract class WorkflowTask
 	public abstract String getName();
 
 	public abstract void configure(Configuration config);
+	public abstract void cancel();
 
 	public String getId()
 	{
@@ -71,7 +72,7 @@ public abstract class WorkflowTask
 		state = FAILED;
 		workflow.updateState(this.id, state, x);
 	}
-
+	
 	protected void progress(String info)
 	{
 		LOG.debug("Workflow task {} info", this.id, info);

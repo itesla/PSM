@@ -163,6 +163,12 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			this.dynamicId = dynamicId;
 		}
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 
 	// private List<ElementModel> staticIdDynamicTypeList;
 	private Configuration	config;

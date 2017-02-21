@@ -49,6 +49,12 @@ public class StaticNetworkImporterTask extends WorkflowTask
 	{
 		return network;
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 
 	private String	source;
 	private Network	network;

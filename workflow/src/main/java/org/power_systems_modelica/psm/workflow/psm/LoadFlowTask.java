@@ -185,6 +185,12 @@ public class LoadFlowTask extends WorkflowTask
 		return Float.isNaN(value) ? 0.0f : value;
 	}
 
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
+
 	private LoadFlowParameters		loadFlowParams;
 	private LoadFlowFactory			loadFlowFactory;
 	private String					sourceStateId;

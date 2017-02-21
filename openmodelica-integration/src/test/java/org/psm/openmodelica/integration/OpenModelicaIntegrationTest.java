@@ -73,7 +73,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "smallcase3", "case3_no_lf.mo", 8, false);
+		testBuild(config, "smallcase3", "case3_no_lf.mo", 8, true);
 	}
 	
 	@Test

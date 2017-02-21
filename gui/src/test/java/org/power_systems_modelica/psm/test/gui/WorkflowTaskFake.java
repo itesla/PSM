@@ -30,4 +30,10 @@ public class WorkflowTaskFake extends WorkflowTask {
 		succeded();
 		progress("End test workflow");
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 }

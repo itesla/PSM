@@ -50,6 +50,12 @@ public class DydFilesFromModelicaTask extends WorkflowTask
 			failed(x);
 		}
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 
 	private String	modelicaFile;
 	private String	modelicaInitPath;

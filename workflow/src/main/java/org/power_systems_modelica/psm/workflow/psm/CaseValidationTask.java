@@ -50,6 +50,12 @@ public class CaseValidationTask extends WorkflowTask
 			failed(x);
 		}
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 
 	private Configuration					config;
 }

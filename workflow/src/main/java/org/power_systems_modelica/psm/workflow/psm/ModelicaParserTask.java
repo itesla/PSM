@@ -47,6 +47,12 @@ public class ModelicaParserTask extends WorkflowTask
 			failed(x);
 		}
 	}
+	
+	@Override
+	public void cancel()
+	{
+		// TODO Auto-generated method stub
+	}
 
 	private String	source;
 	private String	modelicaDocument;

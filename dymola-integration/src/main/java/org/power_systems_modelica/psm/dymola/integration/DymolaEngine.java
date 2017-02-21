@@ -68,6 +68,16 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
+	public void simulate(Collection<ModelicaDocument> mos) throws Exception
+	{
+		// FIXME Just as an exercise, do it in parallel
+		// Temporal files are overwritten if run in parallel (equations not
+		// written properly)
+		for (ModelicaDocument mo : mos)
+			simulate(mo);
+	}
+	
+	@Override
 	public void simulate(ModelicaDocument mo) throws Exception
 	{
 		String modelName = mo.getSystemModel().getId();
@@ -146,16 +156,6 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			LOG.error("Error printing errors file. {}", e.getMessage());
 		}
-	}
-
-	@Override
-	public void simulate(Collection<ModelicaDocument> mos) throws Exception
-	{
-		// FIXME Just as an exercise, do it in parallel
-		// Temporal files are overwritten if run in parallel (equations not
-		// written properly)
-		for (ModelicaDocument mo : mos)
-			simulate(mo);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package org.power_systems_modelica.psm.modelica.builder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +53,20 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return buildModelicaSystem();
 	}
 
+	public Collection<Identifiable<?>> checkElementsMissingDynamicModel()
+	{
+		createModelicaDocument(getNetwork().getName());
+		try
+		{
+			addDynamicModels();
+		}
+		catch (MissingDynamicModelException x)
+		{
+			return x.getElements();
+		}
+		return null;
+	}
+
 	public Observable getProgress()
 	{
 		return progress;
@@ -73,12 +86,12 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		progress.report("Full Model Initialization");
 		if (mos != null)
 		{
-			for (ModelicaDocument mo : mos) 
+			for (ModelicaDocument mo : mos)
 			{
 				String modelName = mo.getSystemModel().getId();
 				progress.report("    " + modelName);
 				modelicaEngine.simulate(mo);
-			};
+			}
 		}
 
 		ModelicaSimulationFinalResults mor = modelicaEngine.getSimulationResults();
@@ -115,7 +128,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return getModelicaDocument();
 	}
 
-	private void addDynamicModels() throws Exception
+	private void addDynamicModels() throws MissingDynamicModelException
 	{
 		Network network = getNetwork();
 
@@ -125,7 +138,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		// obtain the list of model declarations and equations
 
 		final Set<Identifiable<?>> visited = new HashSet<>(network.getIdentifiables().size());
-		final List<Identifiable<?>> unmapped = new ArrayList<>();
+		final List<Identifiable<?>> elementsMissingDynamicModel = new ArrayList<>();
 		for (Bus b : network.getBusBreakerView().getBuses())
 		{
 			if (isOnlyMainConnectedComponent() && !b.isInMainConnectedComponent()) continue;
@@ -141,7 +154,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 					ModelicaModel de = getDdr().getModelicaModel(e, Stage.SIMULATION);
 					if (de == null)
 					{
-						unmapped.add(e);
+						elementsMissingDynamicModel.add(e);
 						LOG.warn("No Dynamic model found for element " + e);
 						return;
 					}
@@ -164,18 +177,16 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 				ModelicaModel d = getDdr().getModelicaModel(sw, Stage.SIMULATION);
 				if (d == null)
 				{
-					unmapped.add(sw);
+					elementsMissingDynamicModel.add(sw);
 					LOG.warn("No dynamic model found for switch " + sw);
 					continue;
 				}
 				addDynamicModel(d);
 			}
 		}
-		
-		if (!unmapped.isEmpty())
-		{
-			throw new Exception("No dynamic model found for elements: " + Arrays.toString(unmapped.toArray()));
-		}
+
+		if (!elementsMissingDynamicModel.isEmpty())
+			throw new MissingDynamicModelException(elementsMissingDynamicModel);
 	}
 
 	private void resolvePendingReferences()

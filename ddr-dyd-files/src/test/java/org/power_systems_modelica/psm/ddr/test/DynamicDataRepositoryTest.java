@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.power_systems_modelica.psm.commons.FileUtils;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
@@ -236,7 +236,8 @@ public class DynamicDataRepositoryTest
 		ddre.connect();
 
 		Path tmp = DATA_TMP.resolve("dyd-write");
-		if (Files.isDirectory(tmp)) FileUtils.deleteDirectory(tmp.toFile());
+		if (Files.isDirectory(tmp)) FileUtils.deleteDirectory(tmp);
+		
 		String location1 = tmp.toString();
 		assertTrue(ddre instanceof DynamicDataRepositoryDydFiles);
 		DynamicDataRepositoryDydFiles dydse = (DynamicDataRepositoryDydFiles) ddre;

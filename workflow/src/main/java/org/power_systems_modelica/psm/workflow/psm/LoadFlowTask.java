@@ -148,12 +148,36 @@ public class LoadFlowTask extends WorkflowTask
 		return allBusesValues;
 	}
 
-	public static float calcRelativeError(float v0, float v1)
+	static enum DiffMethod
+	{
+		ABS_ERROR, RELATIVE_ERROR_DIFF_SUM, RELATIVE_ERROR_ABS_IF_SMALL
+	}
+
+	public static float calcDifference(float v0, float v1)
+	{
+		switch (diffMethod)
+		{
+		case ABS_ERROR:
+			return Math.abs(v0 - v1);
+		case RELATIVE_ERROR_DIFF_SUM:
+			return Math.abs(2 * (v0 - v1) / (v0 + v1));
+		case RELATIVE_ERROR_ABS_IF_SMALL:
+		default:
+			return calcRelativeErrorOrAbsoluteIfSmallValues(v0, v1);
+		}
+	}
+
+	public static float calcRelativeErrorOrAbsoluteIfSmallValues(float v0, float v1)
 	{
 		float absoluteError = Math.abs(v0 - v1);
-		if (v0 == 0.0f || v1 == 0.0f) return absoluteError;
+		if (isAlmostZero(v0) || isAlmostZero(v1)) return absoluteError;
 		float err = absoluteError / Math.abs(v0);
 		return err;
+	}
+
+	static private boolean isAlmostZero(float value)
+	{
+		return Math.abs(value) < 1e-4f;
 	}
 
 	static private float zeroIfNaN(float value)
@@ -161,12 +185,21 @@ public class LoadFlowTask extends WorkflowTask
 		return Float.isNaN(value) ? 0.0f : value;
 	}
 
-	private LoadFlowParameters	loadFlowParams;
-	private LoadFlowFactory		loadFlowFactory;
-	private String				sourceStateId;
-	private String				targetStateId;
-	private Optional<String>	targetCsvFolder;
-	private String				loadFlowFactoryClassName;
+	private LoadFlowParameters		loadFlowParams;
+	private LoadFlowFactory			loadFlowFactory;
+	private String					sourceStateId;
+	private String					targetStateId;
+	private Optional<String>		targetCsvFolder;
+	private String					loadFlowFactoryClassName;
 
-	private static final Logger	LOG	= LoggerFactory.getLogger(LoadFlowTask.class);
+	private static final Logger		LOG	= LoggerFactory.getLogger(LoadFlowTask.class);
+
+	private static final DiffMethod	diffMethod;
+	static
+	{
+		String sdiffMethod = System.getProperty("loadFlow.diffMethod",
+				DiffMethod.RELATIVE_ERROR_ABS_IF_SMALL.name());
+		diffMethod = DiffMethod.valueOf(sdiffMethod);
+		LOG.info("LoadFlow diff method is [" + diffMethod + "]");
+	}
 }

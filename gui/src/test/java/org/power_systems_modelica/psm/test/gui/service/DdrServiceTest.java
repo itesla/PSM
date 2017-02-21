@@ -13,7 +13,9 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Map;
 
+import org.apache.commons.io.FileSystemUtils;
 import org.junit.Test;
+import org.power_systems_modelica.psm.commons.FileUtils;
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.Ddr;
@@ -54,11 +56,7 @@ public class DdrServiceTest
 				PathUtils.DATA_TEST.resolve("ieee14").resolve("ddrDuplicated").toString());
 		boolean duplicated = DdrService.duplicateDdr(ddr, ddrOut);
 		assertEquals(ddr.getName() + "Duplicated", ddrOut.getName());
-
-		Files.walk(Paths.get(ddrOut.getLocation()), FileVisitOption.FOLLOW_LINKS)
-				.sorted(Comparator.reverseOrder())
-				.map(Path::toFile)
-				.peek(System.out::println)
-				.forEach(File::delete);
+		
+		FileUtils.deleteDirectory(Paths.get(ddrOut.getLocation()));
 	}
 }

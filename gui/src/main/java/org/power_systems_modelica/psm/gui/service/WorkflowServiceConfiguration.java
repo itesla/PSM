@@ -4,9 +4,7 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -14,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +19,7 @@ import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
+import org.power_systems_modelica.psm.commons.FileUtils;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
@@ -375,14 +373,7 @@ public class WorkflowServiceConfiguration
 
 		try
 		{
-			if (Files.exists(modelicaEngineWorkingDir, LinkOption.NOFOLLOW_LINKS))
-			{
-				Files.walk(modelicaEngineWorkingDir, FileVisitOption.FOLLOW_LINKS)
-						.sorted(Comparator.reverseOrder())
-						.map(Path::toFile)
-						.peek(System.out::println)
-						.forEach(File::delete);
-			}
+			FileUtils.deleteDirectory(modelicaEngineWorkingDir);
 			Files.createDirectories(modelicaEngineWorkingDir);
 			Files.deleteIfExists(Paths.get(outname));
 
@@ -626,13 +617,13 @@ public class WorkflowServiceConfiguration
 
 		allBusesValues.forEach(bv -> {
 			float[] values = bv.getData().get("V");
-			bv.setError("V", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("V", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("A");
-			bv.setError("A", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("A", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("P");
-			bv.setError("P", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("P", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("Q");
-			bv.setError("Q", LoadFlowTask.calcRelativeError(values[0], values[1]));
+			bv.setError("Q", LoadFlowTask.calcDifference(values[0], values[1]));
 		});
 
 		results.setId(id);

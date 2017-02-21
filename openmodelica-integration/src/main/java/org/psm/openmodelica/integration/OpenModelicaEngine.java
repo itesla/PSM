@@ -67,57 +67,56 @@ public class OpenModelicaEngine implements ModelicaEngine
 		this.depth = Integer.valueOf(Optional.ofNullable(config.getParameter("depth"))
 				.orElse(this.properties.getProperty("depth")));
 	}
-
+	
 	@Override
 	public void simulate(ModelicaDocument mo) throws Exception
 	{
+		prepareDynamicEnvironment();
+
+		progress(String.format("Model %s", mo.getSystemModel().getId()));
+		simulateModelicaDocument(mo);
+	}
+
+	@Override
+	public void simulate(Collection<ModelicaDocument> mos) throws Exception
+	{
+		// FIXME Just as an exercise, do it in parallel
+		// Temporal files are overwritten if run in parallel (equations not
+		// written properly)
+
+		prepareDynamicEnvironment();
+		
+		for (ModelicaDocument mo : mos)
+		{
+			progress(String.format("Model %s", mo.getSystemModel().getId()));
+			simulateModelicaDocument(mo);
+		}
+	}
+	
+	private void simulateModelicaDocument(ModelicaDocument mo) throws Exception {
 		modelName = mo.getSystemModel().getId();
 		String modelFileName = modelName + MO_EXTENSION;
+		Path modelicaPath = Paths.get(modelFileName);
 
-		prepareWorkingDirectory(mo);
 		// The first "result" in ModelicaSimulationResults is the simulation directory "simulation_path"
 		this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
-		this.results.addResult(modelName, "successful", true);
+
+		if (Files.notExists(this.omSimulationDir.resolve(modelicaPath)))
+		{
+			printModelicaDocument(mo, this.omSimulationDir);
+		}
+		
+		Result result = this.omc.loadFile(modelFileName);
+		
+		if (isSuccessful(result))
+			progress(String.format("\tLoading Modelica file %s", modelFileName));
+		else results.addResult(modelName, "successful", false);
 
 		LOG.info(
 				" {} - OpenModelica simulation started - inputFileName:{}, problem:{}, startTime:{}, stopTime:{}, numberOfIntervals:{}, tolerance:{}.",
 				omSimulationDir, modelFileName, modelName, startTime, stopTime,
 				numOfIntervalsPerSecond, tolerance);
-		Result result;
-
-		progress("Cleaning OpenModelica workspace.");
-		result = omc.clear();
-		if (!isSuccessful(result) || !result.res.contains("true"))
-		{
-			this.results.addResult(modelName, "successful", false);
-			LOG.error("Error clearing workspace: {}.", result.err.replace("\"", ""));
-			throw new RuntimeException(
-					"Error clearing workspace : " + result.err.replace("\"", ""));
-		}
-
-		progress(String.format("Moving to working directory %s", this.omSimulationDir));
-		Path wdabs = omSimulationDir.toAbsolutePath();
-		result = omc.cd("\"" + wdabs.toString().replace("\\", "/") + "\"");
-		if (!isSuccessful(result))
-		{
-			this.results.addResult(modelName, "successful", false);
-			throw new RuntimeException(
-					"Error setting the working directory " + omSimulationDir + ". "
-							+ result.err.replace("\"", ""));
-		}
-
-		progress(String.format("Loading Modelica standard library."));
-		result = omc.loadStandardLibrary();
-		if (!isSuccessful(result))
-		{
-			this.results.addResult(modelName, "successful", false);
-			throw new RuntimeException(
-					"Error loading the standard library. " + result.err.replace("\"", ""));
-		}
-
-		// load to the engine all .mo files
-		loadModelsInDirectory(this.omSimulationDir);
-
+		
 		boolean simulated = false, validated = false, verified = false;
 
 		validated = validateModel(modelName);
@@ -152,17 +151,17 @@ public class OpenModelicaEngine implements ModelicaEngine
 			this.results.addResult(modelName, "successful", false);
 			return;
 		}
+		this.results.addResult(modelName, "successful", true);
+		
+		//If everything went well unload the model.
+		result = this.omc.unloadFile(modelFileName);
+		if(isSuccessful(result)) {
+			progress("Unloading model " + modelFileName);
+		}
+		else progress("Error unloading model " + modelFileName);
 	}
+	
 
-	@Override
-	public void simulate(Collection<ModelicaDocument> mos) throws Exception
-	{
-		// FIXME Just as an exercise, do it in parallel
-		// Temporal files are overwritten if run in parallel (equations not
-		// written properly)		
-		for (ModelicaDocument mo : mos)
-			simulate(mo);
-	}
 
 	private boolean validateModel(String modelName) throws ConnectException
 	{
@@ -179,6 +178,89 @@ public class OpenModelicaEngine implements ModelicaEngine
 		return true;
 	}
 
+	private void prepareDynamicEnvironment() throws Exception 
+	{
+		try
+		{
+			this.omSimulationDir = Files.createTempDirectory(this.workingDir, OM_SIM_PREFIX);
+			// Copy Modelica models needed to the simulation directory
+			try
+			{
+				Files.list(this.libraryDir).forEach(file -> {
+					try
+					{
+						FileUtils.copyFileToDirectory(file.toFile(), this.omSimulationDir.toFile(),
+								false);
+					}
+					catch (IOException exc)
+					{
+						LOG.error("Error copying file from {} to {}, reason is {}",
+								file.toFile(),
+								this.omSimulationDir, exc.getMessage());
+						throw new RuntimeException(exc);
+					}
+				});
+			}
+			catch (Exception e1)
+			{
+				LOG.error("Error copying files from {} to {}, reason is {}", this.libraryDir,
+						this.omSimulationDir,
+						e1.getMessage());
+			}
+		}
+		catch (IOException e)
+		{
+			LOG.error(
+					"Could not create OpenModelica simulation directory in {} with prefix {}, reason is {}",
+					this.workingDir, OM_SIM_PREFIX, e.getMessage());
+			throw new RuntimeException(e);
+		}
+		
+		progress("Cleaning OpenModelica workspace.");
+		Result result = omc.clear();
+		if (!isSuccessful(result) || !result.res.contains("true"))
+		{
+			LOG.error("Error clearing workspace: {}.", result.err.replace("\"", ""));
+			throw new RuntimeException(
+					"Error clearing workspace : " + result.err.replace("\"", ""));
+		}
+
+		progress(String.format("Moving to working directory %s", this.omSimulationDir));
+		Path wdabs = omSimulationDir.toAbsolutePath();
+		result = omc.cd("\"" + wdabs.toString().replace("\\", "/") + "\"");
+		if (!isSuccessful(result))
+		{
+			throw new RuntimeException(
+					"Error setting the working directory " + omSimulationDir + ". "
+							+ result.err.replace("\"", ""));
+		}
+		
+		progress(String.format("Loading Modelica standard library."));
+		result = omc.loadStandardLibrary();
+		if (!isSuccessful(result))
+		{
+			throw new RuntimeException(
+					"Error loading the standard library. " + result.err.replace("\"", ""));
+		}
+		
+		//load to the engine all .mo files
+		try (DirectoryStream<Path> mofiles = Files.newDirectoryStream(omSimulationDir, "*.mo"))
+		{
+			for (Path mofile : mofiles)
+			{
+				Path mofile0 = mofile.getFileName();
+				result = omc.loadFile(mofile0.toString());
+				if (isSuccessful(result))
+					progress(String.format("\tLoading Modelica file %s", mofile0));
+				else results.addResult(modelName, "successful", false);
+			}
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException("Error reading directory " + omSimulationDir, e);
+		}		
+	}
+	
 	private boolean simulateModel(String modelName, double startTime, double stopTime,
 			int numOfIntervals, double tolerance, String simFlags, boolean verifying)
 			throws ConnectException
@@ -395,54 +477,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 		}
 	}
 
-	private void prepareWorkingDirectory(ModelicaDocument mo)
-	{
-		modelName = mo.getSystemModel().getId();
-		String modelFileName = modelName + MO_EXTENSION;
-		Path modelicaPath = Paths.get(modelFileName);
-
-		try
-		{
-			this.omSimulationDir = Files.createTempDirectory(this.workingDir, OM_SIM_PREFIX);
-			if (Files.notExists(this.omSimulationDir.resolve(modelicaPath)))
-			{
-				printModelicaDocument(mo, this.omSimulationDir);
-			}
-
-			// Copy Modelica models needed to the simulation directory
-			try
-			{
-				Files.list(this.libraryDir).forEach(file -> {
-					try
-					{
-						FileUtils.copyFileToDirectory(file.toFile(), this.omSimulationDir.toFile(),
-								false);
-					}
-					catch (IOException exc)
-					{
-						LOG.error("Error copying file from {} to {}, reason is {}",
-								file.toFile(),
-								this.omSimulationDir, exc.getMessage());
-						throw new RuntimeException(exc);
-					}
-				});
-			}
-			catch (Exception e1)
-			{
-				LOG.error("Error copying files from {} to {}, reason is {}", this.libraryDir,
-						this.omSimulationDir,
-						e1.getMessage());
-			}
-		}
-		catch (IOException e)
-		{
-			LOG.error(
-					"Could not create OpenModelica simulation directory in {} with prefix {}, reason is {}",
-					this.workingDir, OM_SIM_PREFIX, e.getMessage());
-			throw new RuntimeException(e);
-		}
-	}
-
 	private void deleteSimulationFiles()
 	{
 		List<String> filterList = Arrays.asList(MO_EXTENSION, MAT_EXTENSION, CSV_EXTENSION,
@@ -460,9 +494,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 		{
 			for (Path p : dirStream)
 			{
-				boolean deleted = Files.deleteIfExists(p);
-				if (!deleted)
-					LOG.error("File {} has not been deleted.", p);
+				org.power_systems_modelica.psm.commons.FileUtils.deleteDirectory(p);
 			}
 		}
 		catch (Exception e)
@@ -490,28 +522,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 				LOG.warn("OpenModelica warn {}", result.err.replace("\"", ""));
 		}
 		return true;
-	}
-
-	private void loadModelsInDirectory(Path omSimulationDir) throws ConnectException
-	{
-		progress("Loading all needed Modelica files");
-		try (DirectoryStream<Path> mofiles = Files.newDirectoryStream(omSimulationDir, "*.mo"))
-		{
-			for (Path mofile : mofiles)
-			{
-				// Get only the file name (inside current folder)
-				Path mofile0 = mofile.getFileName();
-
-				Result result = omc.loadFile("\"" + mofile0 + "\"");
-				if (isSuccessful(result))
-					progress(String.format("\tLoading Modelica file %s", mofile0));
-				else results.addResult(modelName, "successful", false);
-			}
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException("Error reading directory " + omSimulationDir, e);
-		}
 	}
 
 	@Override
@@ -596,8 +606,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 	private static final String				LOG_EXTENSION	= ".log";
 	private static final String				COMMA			= ",";
 
-	// For now the first method is Dassl, when IDA has been tested in the PSM, IDA will be the first method.
-	private static final String[]			METHOD_LIST		= new String[] {"dassl", "ida"};
+	private static final String[]			METHOD_LIST		= new String[] {"ida", "dassl"};
 	private static final Path				DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");
 

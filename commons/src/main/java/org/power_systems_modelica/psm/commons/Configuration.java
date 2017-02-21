@@ -12,23 +12,31 @@ public final class Configuration
 
 	public Boolean getBoolean(String name)
 	{
-		return Boolean.valueOf(getParameter(name));
+		String parameter = getParameter(name);
+		if (parameter == null) return null;
+		return Boolean.valueOf(parameter);
 	}
-	
+
+	public boolean getBoolean(String name, boolean defaultValue)
+	{
+		String parameter = getParameter(name);
+		if (parameter == null) return defaultValue;
+		return Boolean.valueOf(parameter);
+	}
+
 	public Double getDouble(String name)
 	{
 		String parameter = getParameter(name);
-		if(parameter == null) return null;
+		if (parameter == null) return null;
 		return Double.valueOf(parameter);
 	}
-	
+
 	public Integer getInteger(String name)
 	{
 		String parameter = getParameter(name);
-		if(parameter == null) return null;
+		if (parameter == null) return null;
 		return Integer.valueOf(parameter);
 	}
-
 
 	public void setParameter(String name, String value)
 	{

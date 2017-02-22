@@ -18,6 +18,7 @@ import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.D
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.service.fx.TaskService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
@@ -404,8 +405,7 @@ public class ConversionNewController implements MainChildrenController
 			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le,
 					onlyMainConnectedComponent, dse, onlyCheck);
 			Task<?> task = TaskService.createTask(w,
-					() -> mainService.getMainApp().showConversionDetailView(mainService, true,
-							null, onlyCheck));
+					() -> conversionFinish(w, onlyCheck));
 			mainService.setConversionTask(task);
 			mainService.getMainApp().showWorkflowStatusView(mainService, w,
 					WorkflowType.CONVERSION);
@@ -419,6 +419,15 @@ public class ConversionNewController implements MainChildrenController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void conversionFinish(Workflow w, boolean onlyCheck)
+	{
+		if (((WorkflowService)mainService.getConversionTask()).isCancelled())
+			mainService.getMainApp().showConversionNewView(w);
+		else	
+			mainService.getMainApp().showConversionDetailView(mainService, true,
+					null, onlyCheck);
 	}
 
 	private void setDdr(Case c)

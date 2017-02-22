@@ -19,6 +19,7 @@ import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.service.fx.TaskService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox;
@@ -657,8 +658,7 @@ public class SimulationNewController implements MainChildrenController
 			Workflow w = WorkflowServiceConfiguration.createSimulation(cs, events, dse, stopTime,
 					stepBySecond, onlyCheck, onlyVerify, createFilteredMat);
 			Task<?> task = TaskService.createTask(w,
-					() -> mainService.getMainApp().showSimulationDetailView(mainService, w, onlyCheck,
-							onlyVerify));
+					() -> simulationFinish(w, onlyCheck, onlyVerify));
 			mainService.setSimulationTask(task);
 			mainService.getMainApp().showWorkflowStatusView(mainService, w,
 					WorkflowType.SIMULATION);
@@ -669,6 +669,15 @@ public class SimulationNewController implements MainChildrenController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void simulationFinish(Workflow w, boolean onlyCheck, boolean onlyVerify)
+	{
+		if (((WorkflowService)mainService.getSimulationTask()).isCancelled())
+			mainService.getMainApp().showSimulationNewView(w);
+		else	
+			mainService.getMainApp().showSimulationDetailView(mainService, w, onlyCheck,
+				onlyVerify);
 	}
 
 	@FXML

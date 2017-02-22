@@ -12,6 +12,7 @@ import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.service.fx.TaskService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
@@ -164,7 +165,7 @@ public class CompareLoadflowsNewController implements MainChildrenController
 			Workflow w = WorkflowServiceConfiguration.createCompareLoadflows(cs,
 					generatorsReactiveLimits, helmflowFromHadesResults);
 			Task<?> task = TaskService.createTask(w,
-					() -> mainService.getMainApp().showCompareLoadflowsDetailView(mainService));
+					() -> compareLoadflowsFinish());
 			mainService.setCompareLoadflowTask(task);
 			mainService.getMainApp().showWorkflowStatusView(mainService, w, WorkflowType.COMPARELOADFLOW);
 			TaskService.startTask(task);
@@ -174,6 +175,14 @@ public class CompareLoadflowsNewController implements MainChildrenController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void compareLoadflowsFinish()
+	{
+		if (((WorkflowService)mainService.getCompareLoadflowTask()).isCancelled())
+			mainService.getMainApp().showCompareLoadflowsView(mainService, null);
+		else	
+			mainService.getMainApp().showCompareLoadflowsDetailView(mainService);
 	}
 
 	@FXML

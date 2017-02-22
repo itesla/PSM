@@ -99,12 +99,18 @@ public class Workflow implements Process
 
 	public void cancel()
 	{
+		cancelled = true;
 		workflowTasks.forEach(wTask -> {
 			if(wTask.getState() != SUCCESS && wTask.getState() != FAILED)
 			{
 				wTask.cancel();
 			}
 		});
+	}
+
+	public boolean isCancelled()
+	{
+		return cancelled;
 	}
 
 	public List<WorkflowTask> getWorkflowTasks()
@@ -136,7 +142,7 @@ public class Workflow implements Process
 	{
 		updateState();
 		Iterator<WorkflowTask> k = WorkflowTasks.iterator();
-		while (k.hasNext())
+		while (k.hasNext() && !cancelled)
 		{
 			WorkflowTask t = k.next();
 			updateState(t.getId(), SCHEDULED);
@@ -152,6 +158,7 @@ public class Workflow implements Process
 			}
 			if (t.getState() == FAILED) break;
 		}
+		if (cancelled) updateWorkflowState();
 	}
 
 	static public enum ResultsScope
@@ -231,6 +238,8 @@ public class Workflow implements Process
 				.ifPresent(s -> this.state = FAILED);
 		if (currentTaskStates.stream().allMatch(s -> s.state == SUCCESS))
 			this.state = SUCCESS;
+		if (cancelled)
+			this.state = FAILED;
 	}
 
 	protected void updateProgress(String taskId, String info)
@@ -255,7 +264,7 @@ public class Workflow implements Process
 	private Map<String, Object>				results		= new HashMap<>();
 	private List<Exception>					exceptions	= new ArrayList<>();
 	private final List<WorkflowListener>	listeners	= new ArrayList<>();
+	private boolean 						cancelled = false;
 
 	private static final Logger				LOG			= LoggerFactory.getLogger(Workflow.class);
-
 }

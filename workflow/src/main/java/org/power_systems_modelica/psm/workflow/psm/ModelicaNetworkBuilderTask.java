@@ -126,12 +126,6 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 										d.getOrigin(),
 										d.getType()))));
 
-		// XXX LUMA
-		elementsModel.forEach(em -> System.out.printf("LUMA %-32s %-10s %-64s%n",
-				em.getStaticId(),
-				em.getOrigin(),
-				em.getDynamicType()));
-
 		publish(SCOPE_GLOBAL, "mo", mo);
 		publish(SCOPE_GLOBAL, "models", elementsModel);
 

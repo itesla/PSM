@@ -136,10 +136,20 @@ public class WorkflowService extends Task<Void>
 	public final boolean cancelTask()
 	{
 		w.cancel();
-		return super.cancel();
+		return true;
 	}
 	
 	@Override
+    public boolean isCancelled() {
+        return w.isCancelled(); 
+    }
+
+	private void finishTask()
+	{
+		super.cancel(false);
+	}
+
+    @Override
 	protected Void call() throws Exception
 	{
 		w.addListener(new WorkflowListener()
@@ -162,7 +172,11 @@ public class WorkflowService extends Task<Void>
 				}
 				updateMessage(states.get(currentTask).taskId + " is "
 						+ states.get(currentTask).state.toString());
+				
 				updateProgress(currentTask, totalTasks);
+				
+				if (w.getState().equals(ProcessState.FAILED))
+					finishTask();
 			}
 
 			@Override

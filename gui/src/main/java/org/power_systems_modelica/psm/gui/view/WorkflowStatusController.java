@@ -240,13 +240,6 @@ public class WorkflowStatusController implements MainChildrenController
 			ws = (WorkflowService) mainService.getCompareLoadflowTask();
 		
 		ws.cancelTask();
-		
-		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
-			mainService.showConversionNewView(w);
-		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
-			mainService.showSimulationNewView(w);
-		else
-			mainService.showCompareLoadflowsView(null);
 	}
 
 	@FXML

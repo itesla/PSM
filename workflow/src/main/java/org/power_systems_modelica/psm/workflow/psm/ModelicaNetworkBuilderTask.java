@@ -71,8 +71,11 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			publishResults(builder, mo);
 			succeded();
 			
-			Logs l = me.getLogs();
-			publish(SCOPE_GLOBAL,"logs", l);
+			if (!checkElementsMissingDynamicModel)
+			{
+				Logs l = me.getLogs();
+				publish(SCOPE_GLOBAL,"logs", l);
+			}
 		}
 		catch (Exception x)
 		{

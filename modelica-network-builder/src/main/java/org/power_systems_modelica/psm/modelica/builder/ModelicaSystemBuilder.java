@@ -141,7 +141,12 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		{
 			if (isOnlyMainConnectedComponent() && !b.isInMainConnectedComponent()) continue;
 			ModelicaModel db = getDdr().getModelicaModel(b, Stage.SIMULATION);
-			if (db == null) continue;
+			if (db == null)
+			{
+				elementsMissingDynamicModel.add(b);
+				LOG.warn("No Dynamic model found for element " + b);
+				continue;
+			}
 
 			addDynamicModel(db);
 			EquipmentTopologyVisitor visitor = new EquipmentTopologyVisitor()

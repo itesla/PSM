@@ -372,9 +372,12 @@ public class ConversionDetailController implements MainChildrenController
 			sb.append("\n\n");
 		}
 
-		Logs l = WorkflowServiceConfiguration.getConversionLogs("" + w.getId());
-		l.getLogsDump(sb);
-		sb.append("\n\n");
+		if (!isCheckDetail)
+		{
+			Logs l = WorkflowServiceConfiguration.getConversionLogs("" + w.getId());
+			l.getLogsDump(sb);
+			sb.append("\n\n");
+		}
 
 		logArea.setText(sb.toString());
 	}

@@ -334,9 +334,9 @@ public class OpenModelicaEngine implements ModelicaEngine
 				workingDir,
 				simulationTime);
 
-		//Simulation result will be read so save log is disabled. 
-		this.omc.getLogs().setSave(false);
-		
+		// Simulation result will be read so save log is disabled.
+		logs.setSave(false);
+
 		String matResultsFile = modelName + "_res" + MAT_EXTENSION;
 		String csvResultsFile = modelName + "_res" + CSV_EXTENSION;
 
@@ -386,8 +386,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		deleteSimulationFiles();
 
-		// XXX LUMA
-		omc.getLogs().dump();
+		logs.dump();
 
 		return true;
 	}
@@ -585,11 +584,11 @@ public class OpenModelicaEngine implements ModelicaEngine
 		}
 		return properties;
 	}
-	
+
 	@Override
 	public Logs getLogs()
 	{
-		return this.omc.getLogs();
+		return logs;
 	}
 
 	private Properties						properties		= loadDefaultProperties();
@@ -608,8 +607,11 @@ public class OpenModelicaEngine implements ModelicaEngine
 	private String							modelName;
 	public int								depth;
 
+	private Logs							logs;
+
 	private OpenModelicaWrapper				omc				= new OpenModelicaWrapper(
-			OMWRAPPER_NAME);
+			OMWRAPPER_NAME,
+			new Logs());
 	private ModelicaSimulationFinalResults	results			= new ModelicaSimulationFinalResults();
 
 	private static final String				OMWRAPPER_NAME	= "OpenModelica";

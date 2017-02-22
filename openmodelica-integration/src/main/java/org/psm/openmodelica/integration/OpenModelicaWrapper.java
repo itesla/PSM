@@ -11,9 +11,10 @@ import org.slf4j.LoggerFactory;
 
 public class OpenModelicaWrapper extends SmartProxy
 {
-	public OpenModelicaWrapper(String corbaSessionName)
+	public OpenModelicaWrapper(String corbaSessionName, Logs logs)
 	{
 		super(corbaSessionName);
+		this.logs = logs;
 	}
 
 	/**
@@ -235,8 +236,8 @@ public class OpenModelicaWrapper extends SmartProxy
 		return logs;
 	}
 
-	private final Logs			logs	= new Logs();
+	private final Logs			logs;
 
-	private static final Logger	LOG		= LoggerFactory
+	private static final Logger	LOG	= LoggerFactory
 			.getLogger(OpenModelicaWrapper.class);
 }

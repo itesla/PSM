@@ -83,7 +83,7 @@ public class ModelicaDeclaration implements Annotable
 	{
 		return arguments.stream().anyMatch(a -> a instanceof ModelicaArgumentReference);
 	}
-	
+
 	@Override
 	public Annotation getAnnotation()
 	{
@@ -96,6 +96,16 @@ public class ModelicaDeclaration implements Annotable
 		this.annotation = annotation;
 	}
 
+	public void setOrigin(String origin)
+	{
+		this.origin = origin;
+	}
+
+	public String getOrigin()
+	{
+		return origin;
+	}
+
 	private final String			type;
 	private final String			id;
 	private final boolean			isAssignment;
@@ -104,6 +114,8 @@ public class ModelicaDeclaration implements Annotable
 
 	private List<ModelicaArgument>	arguments;
 	private Annotation				annotation;
+
+	private String					origin;
 
 	private static final String		DEFAULT_ANNOTATION	= "Placement(transformation())";
 }

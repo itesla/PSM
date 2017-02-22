@@ -260,6 +260,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	{
 		ModelicaModel m = new ModelicaModel(dynamicId(mdef.getId(), staticId));
 		m.setStaticId(staticId);
+		m.setOrigin(mdef.getOrigin());
 
 		List<ModelicaDeclaration> ds = new ArrayList<>();
 		for (Component c : mdef.getComponents())
@@ -276,6 +277,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 				ds.add(new ModelicaDeclaration(type, did, c.getValue(), isParameter, annotation));
 		}
 		m.addDeclarations(ds);
+		ds.forEach(d -> d.setOrigin(mdef.getOrigin()));
 
 		m.setInterconnections(mdef.getInterconnections().stream()
 				.map(ic -> new ModelicaInterconnection(
@@ -469,10 +471,11 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 			ModelContainer mc = (ModelContainer) dyd;
 
 			// TODO Check also system definitions are not duplicated
-			if (mc.isForSystemDefinitions()) 
+			if (mc.isForSystemDefinitions())
 			{
 				if (!modelMapping.containsKey(ModelicaUtil.getSystemStaticId()))
-					modelMapping.put(ModelicaUtil.getSystemStaticId(), new ModelMapping(ModelicaUtil.getSystemStaticId()));
+					modelMapping.put(ModelicaUtil.getSystemStaticId(),
+							new ModelMapping(ModelicaUtil.getSystemStaticId()));
 
 				modelMapping.get(ModelicaUtil.getSystemStaticId()).add(null, mc);
 				return;

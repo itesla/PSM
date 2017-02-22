@@ -486,7 +486,7 @@ public class ConversionDetailController implements MainChildrenController
 		dynamicIdColumn.setPrefWidth(680.0);
 		dynamicIdColumn.setCellValueFactory(
 				(TreeTableColumn.CellDataFeatures<ElementModel, String> param) -> new ReadOnlyStringWrapper(
-						param.getValue().getValue().getDynamicId()));
+						param.getValue().getValue().getDynamicType()));
 
 		TreeItem<ElementModel> root = new TreeItem<>();
 		root.setExpanded(true);

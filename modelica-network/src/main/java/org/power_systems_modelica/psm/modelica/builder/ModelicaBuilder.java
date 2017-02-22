@@ -259,12 +259,15 @@ public abstract class ModelicaBuilder
 		List<ModelicaArgument> args = d.getArguments().stream()
 				.map(a -> resolveReference(a, m, d))
 				.collect(Collectors.toList());
-		return new ModelicaDeclaration(
+		ModelicaDeclaration d1 = new ModelicaDeclaration(
 				d.getType(),
 				d.getId(),
 				args,
 				d.isParameter(),
 				d.getAnnotation());
+		// Preserve origin
+		d1.setOrigin(d.getOrigin());
+		return d1;
 	}
 
 	protected ModelicaArgument resolveReference(

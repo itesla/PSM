@@ -21,7 +21,8 @@ public class ModelProvider
 	{
 		return getDynamicModelForId(ModelicaUtil.normalizedIdentifier(e.getId()))
 				.orElse(getDynamicModelForAssociation(e)
-						.orElse(getDynamicModelForStaticType(StaticType.from(e)).orElse(null)));
+						.orElse(getDynamicModelForStaticType(StaticType.from(e))
+								.orElse(null)));
 	}
 
 	public ModelForEvent getModelForEvent(String e)
@@ -36,18 +37,21 @@ public class ModelProvider
 
 	public Optional<Model> getDynamicModelForId(String id)
 	{
-		return Optional.ofNullable(dynamicModelsForElement.get(id));
+		return Optional.ofNullable(dynamicModelsForElement.get(id))
+				.map(m -> m.stampOrigin("id"));
 	}
 
 	public Optional<Model> getDynamicModelForStaticType(StaticType type)
 	{
-		return Optional.ofNullable(dynamicModelsForType.get(type));
+		return Optional.ofNullable(dynamicModelsForType.get(type))
+				.map(m -> m.stampOrigin("staticType"));
 	}
 
 	public Optional<Model> getDynamicModelForAssociation(Identifiable<?> e)
 	{
 		Optional<Association> association = associations.findAssociation(e);
-		return association.map(a -> dynamicModelsForAssociation.get(a.getId()));
+		return association.map(a -> dynamicModelsForAssociation.get(a.getId()))
+				.map(m -> m.stampOrigin("association"));
 	}
 
 	public Model getDynamicModelForAssociation(String associationId)

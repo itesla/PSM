@@ -136,6 +136,16 @@ public class ModelicaModel
 		if (s.interconnections != null) t.interconnections = s.interconnections.clone();
 	}
 
+	public void setOrigin(String origin)
+	{
+		this.origin = origin;
+	}
+
+	public String getOrigin()
+	{
+		return origin;
+	}
+
 	private final String				id;
 
 	private String						staticId;
@@ -143,4 +153,6 @@ public class ModelicaModel
 	private List<ModelicaEquation>		equations			= new ArrayList<>();
 	private Set<Annotation>				annotations			= new TreeSet<>();
 	private ModelicaInterconnection[]	interconnections	= new ModelicaInterconnection[0];
+
+	private String						origin;
 }

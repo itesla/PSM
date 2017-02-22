@@ -24,6 +24,7 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
@@ -179,9 +180,13 @@ public class SimulationDetailController implements MainChildrenController
 		for (Exception e : results.getExceptions())
 		{
 			sb.append(Utils.getStackTrace(e));
-			sb.append("\n\n");
+			sb.append("%n%n");
 		}
-
+		
+		Logs l = WorkflowServiceConfiguration.getSimulationLogs("" + w.getId());
+		l.getLogsDump(sb);
+		sb.append("%n%n");
+		
 		logArea.setText(sb.toString());
 
 		if (resultController != null)

@@ -19,6 +19,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
 
 import eu.itesla_project.iidm.network.Identifiable;
@@ -69,6 +70,9 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 				mo = builder.build();
 			publishResults(builder, mo);
 			succeded();
+			
+			Logs l = me.getLogs();
+			publish(SCOPE_GLOBAL,"logs", l);
 		}
 		catch (Exception x)
 		{

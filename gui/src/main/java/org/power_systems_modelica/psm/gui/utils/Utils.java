@@ -23,6 +23,7 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 
 /*import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -151,4 +152,5 @@ public class Utils
 	     throwable.printStackTrace(pw);
 	     return sw.getBuffer().toString();
 	}
+
 }

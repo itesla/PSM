@@ -37,6 +37,7 @@ import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
@@ -515,6 +516,11 @@ public class WorkflowServiceConfiguration
 		return results;
 	}
 
+	public static Logs getSimulationLogs(String id)
+	{
+		return (Logs) sim.getResults("logs");
+	}
+
 	public static Collection<Identifiable<?>> getElementsMissingDynamicModel(String string)
 	{
 		return (Collection<Identifiable<?>>) conv.getResults("elementsMissingDynamicModel");
@@ -534,6 +540,11 @@ public class WorkflowServiceConfiguration
 		results.setExceptions(conv.getExceptions());
 
 		return results;
+	}
+	
+	public static Logs getConversionLogs(String id)
+	{
+		return (Logs) conv.getResults("logs");
 	}
 
 	private static void fillLoadflowResults(String id, WorkflowResult results, Network n)

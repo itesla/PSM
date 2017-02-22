@@ -180,12 +180,12 @@ public class SimulationDetailController implements MainChildrenController
 		for (Exception e : results.getExceptions())
 		{
 			sb.append(Utils.getStackTrace(e));
-			sb.append("%n%n");
+			sb.append("\n\n");
 		}
 		
 		Logs l = WorkflowServiceConfiguration.getSimulationLogs("" + w.getId());
 		l.getLogsDump(sb);
-		sb.append("%n%n");
+		sb.append("\n\n");
 		
 		logArea.setText(sb.toString());
 

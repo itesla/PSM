@@ -126,7 +126,7 @@ public class Logs
 			sb.append(sindent);
 			sb.append(sindex);
 			sb.append(line);
-			sb.append("%n");
+			sb.append("\n");
 		}
 	}
 

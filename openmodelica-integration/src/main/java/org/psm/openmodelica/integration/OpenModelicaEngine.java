@@ -607,11 +607,11 @@ public class OpenModelicaEngine implements ModelicaEngine
 	private String							modelName;
 	public int								depth;
 
-	private Logs							logs;
+	private Logs							logs			= new Logs();
 
 	private OpenModelicaWrapper				omc				= new OpenModelicaWrapper(
 			OMWRAPPER_NAME,
-			new Logs());
+			logs);
 	private ModelicaSimulationFinalResults	results			= new ModelicaSimulationFinalResults();
 
 	private static final String				OMWRAPPER_NAME	= "OpenModelica";

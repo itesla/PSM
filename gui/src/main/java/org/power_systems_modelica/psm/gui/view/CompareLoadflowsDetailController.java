@@ -286,30 +286,30 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					.map(bus -> bus.getAbsError("V"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-			avgVoltageDiffLabel.setText(String.format("%,.4f%%", voltageStats.getAverage() * 100));
-			maxVoltageDiffLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));
+			avgVoltageDiffLabel.setText(String.format("%,.4f", voltageStats.getAverage() * 100));
+			maxVoltageDiffLabel.setText(String.format("%,.4f", voltageStats.getMax() * 100));
 
 			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("A"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-			avgPhaseDiffLabel.setText(String.format("%,.4f%%", phaseStats.getAverage() * 100));
-			maxPhaseDiffLabel.setText(String.format("%,.4f%%", phaseStats.getMax() * 100));
+			avgPhaseDiffLabel.setText(String.format("%,.4f", phaseStats.getAverage() * 100));
+			maxPhaseDiffLabel.setText(String.format("%,.4f", phaseStats.getMax() * 100));
 
 			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("P"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-			avgActiveDiffLabel.setText(String.format("%,.4f%%", activeStats.getAverage() * 100));
-			maxActiveDiffLabel.setText(String.format("%,.4f%%", activeStats.getMax() * 100));
+			avgActiveDiffLabel.setText(String.format("%,.4f", activeStats.getAverage() * 100));
+			maxActiveDiffLabel.setText(String.format("%,.4f", activeStats.getMax() * 100));
 
 			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("Q"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
 			avgReactiveDiffLabel
-					.setText(String.format("%,.4f%%", reactiveStats.getAverage() * 100));
-			maxReactiveDiffLabel.setText(String.format("%,.4f%%", reactiveStats.getMax() * 100));
+					.setText(String.format("%,.4f", reactiveStats.getAverage() * 100));
+			maxReactiveDiffLabel.setText(String.format("%,.4f", reactiveStats.getMax() * 100));
 
 			voltageTable.setItems(wr.getAllBusesValues());
 			phaseTable.setItems(wr.getAllBusesValues());
@@ -368,9 +368,9 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					public String toString(Number object)
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
+							return String.format("%,.0f", object.floatValue() * 100);
 
-						return String.format("%,.4f%%", object.floatValue() * 100);
+						return String.format("%,.4f", object.floatValue() * 100);
 					}
 				});
 
@@ -387,9 +387,9 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					public String toString(Number object)
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
+							return String.format("%,.0f", object.floatValue() * 100);
 
-						return String.format("%,.4f%%", object.floatValue() * 100);
+						return String.format("%,.4f", object.floatValue() * 100);
 					}
 				});
 
@@ -406,9 +406,9 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					public String toString(Number object)
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
+							return String.format("%,.0f", object.floatValue() * 100);
 
-						return String.format("%,.4f%%", object.floatValue() * 100);
+						return String.format("%,.4f", object.floatValue() * 100);
 					}
 				});
 
@@ -425,9 +425,9 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					public String toString(Number object)
 					{
 						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f%%", object.floatValue() * 100);
+							return String.format("%,.0f", object.floatValue() * 100);
 
-						return String.format("%,.4f%%", object.floatValue() * 100);
+						return String.format("%,.4f", object.floatValue() * 100);
 					}
 				});
 

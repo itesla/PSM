@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,7 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask.ElementModel;
 import org.power_systems_modelica.psm.workflow.psm.StaticNetworkImporterTask;
 
+import eu.itesla_project.iidm.network.Identifiable;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -49,12 +51,16 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class ConversionDetailController implements MainChildrenController
 {
@@ -102,15 +108,22 @@ public class ConversionDetailController implements MainChildrenController
 			dateLabel = date.toString("yyyy/MM/dd HH:mm:ss");
 
 		List<SummaryLabel> labels = new ArrayList();
-		labels.add(new SummaryLabel("Path:", pathLabel, false, false));
+		if (!isCheckDetail)
+			labels.add(new SummaryLabel("Path:", pathLabel, false, false));
 		labels.add(new SummaryLabel("Case:", caseLabel, false, true));
 		labels.add(new SummaryLabel("DDR:", ddrLabel, true, true));
-		labels.add(new SummaryLabel("Created:", dateLabel, false, true));
-		labels.add(new SummaryLabel("Loadflow:", loadflowLabel, true, true));
-		labels.add(new SummaryLabel("Modelica network:", onlyMainComponentLabel, false, true));
-		labels.add(
-				new SummaryLabel("Full model initialization:", fullModelInitializationLabel, true,
-						true));
+		if (!isCheckDetail)
+		{
+			labels.add(new SummaryLabel("Created:", dateLabel, false, true));
+			labels.add(new SummaryLabel("Loadflow:", loadflowLabel, true, true));
+			labels.add(new SummaryLabel("Modelica network:", onlyMainComponentLabel, false, true));
+			labels.add(
+					new SummaryLabel("Full model initialization:", fullModelInitializationLabel,
+							true,
+							true));
+		}
+		else
+			labels.add(new SummaryLabel("Modelica network:", onlyMainComponentLabel, false, false));
 		return labels;
 	}
 
@@ -177,10 +190,17 @@ public class ConversionDetailController implements MainChildrenController
 	public void setWorkflow(Workflow w, Object... objects)
 	{
 
+		if (objects.length > 0)
+		{
+			isCheckDetail = (boolean) objects[0];
+		}
+
 		loadflowLabel = "None";
 		moTab.setDisable(true);
 		curvesTab.setDisable(true);
 		modelsTab.setDisable(true);
+		logTab.setDisable(true);
+		staticTable.getItems().clear();
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
 
@@ -268,17 +288,49 @@ public class ConversionDetailController implements MainChildrenController
 		}
 
 		WorkflowResult r = WorkflowServiceConfiguration.getConversionResult("" + w.getId());
+		Collection<Identifiable<?>> elems = WorkflowServiceConfiguration
+				.getElementsMissingDynamicModel("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
-			moTab.setDisable(false);
-			curvesTab.setDisable(false);
-			modelsTab.setDisable(false);
+			if (!isCheckDetail)
+			{
+				moTab.setDisable(false);
+				if (elems.isEmpty())
+				{
+					resultIcon.setImage(okImage);
+					resultText.setText(caseLabel + " converted successfully");
+				}
+				else
+				{
+					staticTable.getItems().addAll(elems);
+					resultIcon.setImage(wnImage);
+					resultText.setText("Conversion model with errors.");
+				}
 
-			addSeries(r);
-			UtilsFX.addTooltipScatterChart(voltageChart, "pu");
-			UtilsFX.addTooltipScatterChart(phaseChart, "º");
-			UtilsFX.addTooltipScatterChart(activeChart, "MW");
-			UtilsFX.addTooltipScatterChart(reactiveChart, "MVar");
+				curvesTab.setDisable(false);
+				logTab.setDisable(false);
+
+				addSeries(r);
+				UtilsFX.addTooltipScatterChart(voltageChart, "pu");
+				UtilsFX.addTooltipScatterChart(phaseChart, "º");
+				UtilsFX.addTooltipScatterChart(activeChart, "MW");
+				UtilsFX.addTooltipScatterChart(reactiveChart, "MVar");
+			}
+			else
+			{
+				if (elems.isEmpty())
+				{
+					resultIcon.setImage(okImage);
+					resultText.setText("Check of " + caseLabel + " completed successfully");
+				}
+				else
+				{
+					staticTable.getItems().addAll(elems);
+					resultIcon.setImage(wnImage);
+					resultText.setText("Check of " + caseLabel + " with errors.");
+				}
+			}
+			modelsTab.setDisable(false);
 
 			TreeItem<ElementModel> root = modelsTable.getRoot();
 			List<ElementModel> models = r.getModels();
@@ -300,7 +352,16 @@ public class ConversionDetailController implements MainChildrenController
 		}
 		else
 		{
-			tabPane.getSelectionModel().select(logTab);
+			if (!isCheckDetail)
+			{
+				logTab.setDisable(false);
+				moTab.setDisable(false);
+
+				resultText.setText("Conversion model failed. See logs tab for more details.");
+			}
+			else
+				resultText.setText("Check model failed.");
+			resultIcon.setImage(koImage);
 		}
 
 		StringBuilder sb = new StringBuilder();
@@ -472,12 +533,21 @@ public class ConversionDetailController implements MainChildrenController
 	private TabPane									tabPane;
 
 	@FXML
+	private Tab										resultTab;
+	@FXML
+	private ImageView								resultIcon;
+	@FXML
+	private Label									resultText;
+
+	@FXML
 	private Tab										moTab;
 	@FXML
 	private CodeEditor								codeEditor;
 
 	@FXML
 	private Tab										modelsTab;
+	@FXML
+	private ListView<Identifiable<?>>				staticTable;
 	@FXML
 	private TreeTableView<ElementModel>				modelsTable;
 	@FXML
@@ -529,6 +599,14 @@ public class ConversionDetailController implements MainChildrenController
 	private String									loadflowLabel;
 	private String									onlyMainComponentLabel;
 	private String									fullModelInitializationLabel;
+	private boolean									isCheckDetail	= false;
+
+	private Image									okImage			= new Image(
+			getClass().getResourceAsStream("/img/hook.png"));
+	private Image									wnImage			= new Image(
+			getClass().getResourceAsStream("/img/warning.png"));
+	private Image									koImage			= new Image(
+			getClass().getResourceAsStream("/img/false.png"));
 
 	private MainService								mainService;
 

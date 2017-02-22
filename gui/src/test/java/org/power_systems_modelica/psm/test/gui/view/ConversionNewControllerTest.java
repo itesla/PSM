@@ -119,7 +119,7 @@ public class ConversionNewControllerTest extends ApplicationTest {
 		Ddr ddr = new Ddr();
 		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
 
-		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true, DsEngine.OPENMODELICA);
+		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW, true, DsEngine.OPENMODELICA, false);
 
 		interact(new Runnable() {
 

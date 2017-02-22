@@ -59,7 +59,7 @@ public class WorkflowConfigurationTest
 		ddr.setLocation(PathUtils.DATA_TEST.resolve("ieee14").resolve("ddr").toString());
 
 		Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, LoadflowEngine.HELMFLOW,
-				true, DsEngine.OPENMODELICA);
+				true, DsEngine.OPENMODELICA, false);
 
 		assertNotNull(w);
 		assertEquals(4, w.getWorkflowTasks().size());

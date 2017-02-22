@@ -53,19 +53,18 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return buildModelicaSystem();
 	}
 
-	public Collection<Identifiable<?>> checkElementsMissingDynamicModel()
+	public ModelicaDocument check() throws Exception
 	{
 		createModelicaDocument(getNetwork().getName());
-		try
-		{
-			addDynamicModels();
-		}
-		catch (MissingDynamicModelException x)
-		{
-			return x.getElements();
-		}
-		return null;
+		addDynamicModels();
+		return getModelicaDocument();
 	}
+
+	public Collection<Identifiable<?>> getElementsMissingDynamicModel()
+	{
+		return elementsMissingDynamicModel;
+	}
+
 
 	public Observable getProgress()
 	{
@@ -128,7 +127,7 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return getModelicaDocument();
 	}
 
-	private void addDynamicModels() throws MissingDynamicModelException
+	private void addDynamicModels()
 	{
 		Network network = getNetwork();
 
@@ -138,7 +137,6 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		// obtain the list of model declarations and equations
 
 		final Set<Identifiable<?>> visited = new HashSet<>(network.getIdentifiables().size());
-		final List<Identifiable<?>> elementsMissingDynamicModel = new ArrayList<>();
 		for (Bus b : network.getBusBreakerView().getBuses())
 		{
 			if (isOnlyMainConnectedComponent() && !b.isInMainConnectedComponent()) continue;
@@ -185,8 +183,6 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 			}
 		}
 
-		if (!elementsMissingDynamicModel.isEmpty())
-			throw new MissingDynamicModelException(elementsMissingDynamicModel);
 	}
 
 	private void resolvePendingReferences()
@@ -226,8 +222,9 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		});
 	}
 
-	private final ModelicaEngine	modelicaEngine;
-	private final Progress			progress;
+	private final ModelicaEngine		modelicaEngine;
+	private final Progress				progress;
+	private Collection<Identifiable<?>>	elementsMissingDynamicModel = new ArrayList<>();
 
-	private static final Logger		LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
+	private static final Logger			LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
 }

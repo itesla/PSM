@@ -66,6 +66,9 @@ public class ConversionNewController implements MainChildrenController
 		case "Clean":
 			handleCleanWorkflow();
 			break;
+		case "Check":
+			handleCheckWorkflow();
+			break;
 		}
 	}
 
@@ -84,6 +87,8 @@ public class ConversionNewController implements MainChildrenController
 		actions.add("Load");
 		actions.add("Save");
 		actions.add("Clean");
+		actions.add("separator");
+		actions.add("Check");
 		return actions;
 	}
 
@@ -161,9 +166,11 @@ public class ConversionNewController implements MainChildrenController
 				.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("ddrs")));
 
 		loadflowEngine
-				.setItems(FXCollections.observableArrayList(WorkflowServiceConfiguration.getLoadflowEngines()));
+				.setItems(FXCollections
+						.observableArrayList(WorkflowServiceConfiguration.getLoadflowEngines()));
 
-		dsEngine.setItems(FXCollections.observableArrayList(WorkflowServiceConfiguration.getDsEngines()));
+		dsEngine.setItems(
+				FXCollections.observableArrayList(WorkflowServiceConfiguration.getDsEngines()));
 	}
 
 	@Override
@@ -330,6 +337,28 @@ public class ConversionNewController implements MainChildrenController
 		dsEngine.getSelectionModel().select(Utils.getDsEngine(FMIE));
 	}
 
+	private void handleCheckWorkflow()
+	{
+
+		Case cs = caseSource.getSelectionModel().getSelectedItem();
+		if (cs == null)
+		{
+			UtilsFX.showWarning("Warning", "Select a case");
+			return;
+		}
+		Ddr ddr = ddrSource.getSelectionModel().getSelectedItem();
+		if (ddr == null)
+		{
+			UtilsFX.showWarning("Warning", "Select a DDR");
+			return;
+		}
+
+		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
+
+		startConversion(cs, ddr, LoadflowEngine.NONE, onlyMainConnectedComponent, DsEngine.FAKE,
+				true);
+	}
+
 	private void handleStartWorkflow()
 	{
 		LOG.debug("handleStartWorkflow");
@@ -363,23 +392,26 @@ public class ConversionNewController implements MainChildrenController
 			return;
 		}
 
-		startConversion(cs, ddr, le, onlyMainConnectedComponent, dse);
+		startConversion(cs, ddr, le, onlyMainConnectedComponent, dse, false);
 	}
 
 	private void startConversion(Case cs, Ddr ddr, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, DsEngine dse)
+			boolean onlyMainConnectedComponent, DsEngine dse, boolean onlyCheck)
 	{
 
 		try
 		{
 			Workflow w = WorkflowServiceConfiguration.createConversion(cs, ddr, le,
-					onlyMainConnectedComponent, dse);
+					onlyMainConnectedComponent, dse, onlyCheck);
 			Task<?> task = TaskService.createTask(w,
-					() -> mainService.getMainApp().showConversionDetailView(mainService, true, null));
+					() -> mainService.getMainApp().showConversionDetailView(mainService, true,
+							null, onlyCheck));
 			mainService.setConversionTask(task);
-			mainService.getMainApp().showWorkflowStatusView(mainService, w, WorkflowType.CONVERSION);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w,
+					WorkflowType.CONVERSION);
 			TaskService.startTask(task);
-			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(), le.toString(),
+			CaseService.saveConvertedCaseProperties(cs.getLocation(), ddr.getLocation(),
+					le.toString(),
 					onlyMainConnectedComponent, dse.toString());
 		}
 		catch (WorkflowCreationException e)

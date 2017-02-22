@@ -55,7 +55,7 @@
 			                                                   <TableColumn fx:id="elementVoltageColumn" prefWidth="75.0" text="Element" />
 			                                                   <TableColumn fx:id="hadesVoltageColumn" prefWidth="75.0" text="Hades2" />
 			                                                   <TableColumn fx:id="helmflowVoltageColumn" prefWidth="75.0" text="HELM Flow" />
-			                                                   <TableColumn fx:id="differenceVoltageColumn" prefWidth="75.0" text="Differences" />
+			                                                   <TableColumn fx:id="differenceVoltageColumn" prefWidth="75.0" text="Absolute Differences" />
 			                                                </columns>
 			                                                <columnResizePolicy>
 			                                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

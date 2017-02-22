@@ -100,7 +100,7 @@ public class ModelicaSimulatorTask extends WorkflowTask implements Observer
 	@Override
 	public void cancel() {
 		if(me != null)
-			try
+		try
 		{
 			me.close();
 		}

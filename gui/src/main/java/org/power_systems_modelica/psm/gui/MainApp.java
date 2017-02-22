@@ -16,6 +16,7 @@ import org.power_systems_modelica.psm.gui.view.SimulationNewController;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaSimulatorTask;
 
 import javafx.application.Application;
@@ -144,7 +145,20 @@ public class MainApp extends Application
 					&& !w.getState().equals(ProcessState.FAILED))
 				return showWorkflowStatusView(mainService, w, WorkflowType.CONVERSION);
 			else
-				return showConversionDetailView(mainService, true, null);
+			{
+				boolean onlyCheck = false;
+				for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
+				{
+
+					if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
+					{
+						onlyCheck = Boolean.getBoolean(td.getTaskConfiguration()
+								.getParameter("checkElementsMissingDynamicModel"));
+					}
+
+				}
+				return showConversionDetailView(mainService, true, null, onlyCheck);
+			}
 		}
 	}
 
@@ -154,7 +168,7 @@ public class MainApp extends Application
 	}
 
 	public FXMLLoader showConversionDetailView(MainService mainService, boolean loadWorkflow,
-			Case c)
+			Case c, boolean onlyCheck)
 	{
 		if (mainService.getConversionTask() != null)
 			mainService.resetConversionTask();
@@ -163,7 +177,7 @@ public class MainApp extends Application
 		if (loadWorkflow)
 			w = WorkflowServiceConfiguration.getConversion();
 
-		FXMLLoader loader = this.getFXMLLoader("view/ConversionDetail.fxml", w);
+		FXMLLoader loader = this.getFXMLLoader("view/ConversionDetail.fxml", w, onlyCheck);
 		if (c != null)
 		{
 			ConversionDetailController controller = loader.getController();
@@ -209,7 +223,8 @@ public class MainApp extends Application
 		return this.getFXMLLoader("view/SimulationNew.fxml", w);
 	}
 
-	public FXMLLoader showSimulationDetailView(MainService mainService, Workflow w, boolean onlyCheck,
+	public FXMLLoader showSimulationDetailView(MainService mainService, Workflow w,
+			boolean onlyCheck,
 			boolean onlyVerify)
 	{
 		FXMLLoader subLoader = null;
@@ -223,7 +238,7 @@ public class MainApp extends Application
 
 	public FXMLLoader showSimulationCheckDetailView(MainService mainService)
 	{
-		return this.prepareFXMLLoader("view/SimulationCheckVerifyDetail.fxml",null);
+		return this.prepareFXMLLoader("view/SimulationCheckVerifyDetail.fxml", null);
 	}
 
 	public FXMLLoader showSimulationCurveDetailView(MainService mainService)
@@ -231,18 +246,20 @@ public class MainApp extends Application
 		return this.prepareFXMLLoader("view/SimulationCurveDetail.fxml", null);
 	}
 
-	public FXMLLoader showSimulationDetailView(MainService mainService, FXMLLoader subLoader, boolean onlyCheck)
+	public FXMLLoader showSimulationDetailView(MainService mainService, FXMLLoader subLoader,
+			boolean onlyCheck)
 	{
 		if (mainService.getSimulationTask() != null)
 			mainService.resetSimulationTask();
 
-		FXMLLoader loader = this.getFXMLLoader("view/SimulationDetail.fxml", WorkflowServiceConfiguration.getSimulation());
-		
+		FXMLLoader loader = this.getFXMLLoader("view/SimulationDetail.fxml",
+				WorkflowServiceConfiguration.getSimulation());
+
 		SimulationDetailController controller = loader.getController();
 		controller.addController(subLoader.getController());
 		controller.addNode(subLoader.getRoot());
 		controller.setWorkflow(WorkflowServiceConfiguration.getSimulation(), onlyCheck);
-		
+
 		return loader;
 	}
 
@@ -305,7 +322,7 @@ public class MainApp extends Application
 		FXMLLoader menuLoader = showMenuLayout(mainService);
 		((MenuLayoutController) menuLoader.getController()).selectConversionOption();
 
-		showConversionDetailView(mainService, false, c);
+		showConversionDetailView(mainService, false, c, false);
 	}
 
 	public void showSimulationWithCase(MainService mainService, Case c)

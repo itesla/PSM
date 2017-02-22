@@ -363,7 +363,7 @@ public class WorkflowServiceConfiguration
 	}
 
 	public static Workflow createConversion(Case cs, Ddr ddr0, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, DsEngine dse)
+			boolean onlyMainConnectedComponent, DsEngine dse, boolean onlyCheck)
 			throws WorkflowCreationException
 	{
 
@@ -418,6 +418,8 @@ public class WorkflowServiceConfiguration
 								"ddrLocation", ddr0.getLocation(),
 								"onlyMainConnectedComponent",
 								Boolean.toString(onlyMainConnectedComponent),
+								"checkElementsMissingDynamicModel",
+								Boolean.toString(onlyCheck),
 								"modelicaEngine", simulationEngine,
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"fakeModelicaEngineResults", fakeInit)));
@@ -432,15 +434,20 @@ public class WorkflowServiceConfiguration
 								"ddrLocation", ddr0.getLocation(),
 								"onlyMainConnectedComponent",
 								Boolean.toString(onlyMainConnectedComponent),
+								"checkElementsMissingDynamicModel",
+								Boolean.toString(onlyCheck),
 								"modelicaEngine", simulationEngine,
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"libraryDir", PathUtils.LIBRARY.toString(),
 								"resultVariables", "")));
 			}
-			tasks.add(TD(ModelicaExporterTask.class, "exporter0",
-					TC("source", "mo",
-							"target", outname,
-							"includePsmAnnotations", "true")));
+			if (!onlyCheck)
+			{
+				tasks.add(TD(ModelicaExporterTask.class, "exporter0",
+						TC("source", "mo",
+								"target", outname,
+								"includePsmAnnotations", "true")));
+			}
 
 			WorkflowConfiguration config = new WorkflowConfiguration();
 			config.setTaskDefinitions(tasks);
@@ -506,6 +513,11 @@ public class WorkflowServiceConfiguration
 		results.setExceptions(sim.getExceptions());
 
 		return results;
+	}
+
+	public static Collection<Identifiable<?>> getElementsMissingDynamicModel(String string)
+	{
+		return (Collection<Identifiable<?>>) conv.getResults("elementsMissingDynamicModel");
 	}
 
 	public static WorkflowResult getConversionResult(String id)
@@ -703,5 +715,4 @@ public class WorkflowServiceConfiguration
 
 	private static final Logger				LOG		= LoggerFactory
 			.getLogger(WorkflowServiceConfiguration.class);
-
 }

@@ -62,16 +62,12 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			ModelicaEngine me = prepareModelicaEngine();
 			Network n = (Network) workflow.getResults("network");
 			ModelicaSystemBuilder builder = prepareModelicaBuilder(ddr, n, me);
+			ModelicaDocument mo = null;
 			if (checkElementsMissingDynamicModel)
-			{
-				Collection<Identifiable<?>> elems = builder.checkElementsMissingDynamicModel();
-				publish(SCOPE_GLOBAL, "elementsMissingDynamicModel", elems);
-			}
+				mo = builder.check();
 			else
-			{
-				ModelicaDocument mo = builder.build();
-				publishResults(mo);
-			}
+				mo = builder.build();
+			publishResults(builder, mo);
 			succeded();
 		}
 		catch (Exception x)
@@ -117,7 +113,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		return builder;
 	}
 
-	private void publishResults(ModelicaDocument mo)
+	private void publishResults(ModelicaSystemBuilder builder, ModelicaDocument mo)
 	{
 		List<ElementModel> elementsModel = new ArrayList<ElementModel>();
 		Map<String, ModelicaModel> dynamicModelsByStaticId = ModelicaUtil
@@ -130,6 +126,9 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 										d.getType()))));
 		publish(SCOPE_GLOBAL, "mo", mo);
 		publish(SCOPE_GLOBAL, "models", elementsModel);
+
+		Collection<Identifiable<?>> elems = builder.getElementsMissingDynamicModel();
+		publish(SCOPE_GLOBAL, "elementsMissingDynamicModel", elems);
 	}
 
 	static public class ElementModel

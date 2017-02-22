@@ -80,7 +80,7 @@ public class Model
 	}
 
 	// Equations that are not connects
-	
+
 	public List<Equation> getOtherEquations()
 	{
 		return otherEquations;
@@ -91,10 +91,25 @@ public class Model
 		otherEquations.add(eq);
 	}
 
+	// The origin of this model (where did it came from)
+
+	public Model stampOrigin(String origin)
+	{
+		this.origin = origin;
+		return this;
+	}
+
+	public String getOrigin()
+	{
+		return origin;
+	}
+
 	private final String				id;
 	private Stage						stage				= Stage.SIMULATION;
 	private final List<Component>		components			= new ArrayList<>();
 	private final List<Connection>		connections			= new ArrayList<>();
 	private final List<Interconnection>	interconnections	= new ArrayList<>();
 	private final List<Equation>		otherEquations		= new ArrayList<>();
+
+	private String						origin				= "unknown";
 }

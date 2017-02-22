@@ -123,7 +123,15 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 						d -> elementsModel
 								.add(new ElementModel(
 										e.getValue().getStaticId(),
+										d.getOrigin(),
 										d.getType()))));
+
+		// XXX LUMA
+		elementsModel.forEach(em -> System.out.printf("LUMA %-32s %-10s %-64s%n",
+				em.getStaticId(),
+				em.getOrigin(),
+				em.getDynamicType()));
+
 		publish(SCOPE_GLOBAL, "mo", mo);
 		publish(SCOPE_GLOBAL, "models", elementsModel);
 
@@ -134,12 +142,14 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 	static public class ElementModel
 	{
 		private String	staticId;
-		private String	dynamicId;
+		private String	dynamicType;
+		private String	origin;
 
-		public ElementModel(String staticId, String dynamicId)
+		public ElementModel(String staticId, String origin, String dynamicType)
 		{
 			this.staticId = staticId;
-			this.dynamicId = dynamicId;
+			this.origin = origin;
+			this.dynamicType = dynamicType;
 		}
 
 		public String getStaticId()
@@ -152,17 +162,22 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			this.staticId = staticId;
 		}
 
-		public String getDynamicId()
+		public String getOrigin()
 		{
-			return dynamicId;
+			return origin;
 		}
 
-		public void setDynamicId(String dynamicId)
+		public String getDynamicType()
 		{
-			this.dynamicId = dynamicId;
+			return dynamicType;
+		}
+
+		public void setDynamicType(String dynamicType)
+		{
+			this.dynamicType = dynamicType;
 		}
 	}
-	
+
 	@Override
 	public void cancel()
 	{

@@ -204,7 +204,7 @@ public class LoadFlowTask extends WorkflowTask
 	static
 	{
 		String sdiffMethod = System.getProperty("loadFlow.diffMethod",
-				DiffMethod.RELATIVE_ERROR_ABS_IF_SMALL.name());
+				DiffMethod.ABS_ERROR.name());
 		diffMethod = DiffMethod.valueOf(sdiffMethod);
 		LOG.info("LoadFlow diff method is [" + diffMethod + "]");
 	}

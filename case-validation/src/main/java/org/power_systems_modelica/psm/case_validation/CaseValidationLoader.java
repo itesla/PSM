@@ -105,6 +105,8 @@ public class CaseValidationLoader
 					elements.forEach(k -> {
 						
 						Element e = r.getElements().get(k);
+						if (e == null) return;
+						
 						double value = Double
 								.parseDouble(values.get(names.indexOf(e.getModelicaName())));
 
@@ -147,6 +149,8 @@ public class CaseValidationLoader
 				elements.forEach(k -> {
 					
 					Element e = r.getElements().get(k);
+					if (e == null) return;
+					
 					double value = Double.parseDouble(values.get(outputNames.indexOf(e.getRefName())));
 
 					e.addRefValue(time, value);

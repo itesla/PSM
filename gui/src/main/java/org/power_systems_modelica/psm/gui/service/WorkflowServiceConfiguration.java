@@ -566,8 +566,8 @@ public class WorkflowServiceConfiguration
 
 			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
 			As[0] = b.getAngle();
-			Ps[0] = b.getP();
-			Qs[0] = b.getQ();
+			Ps[0] = zeroIfNaN(b.getP());
+			Qs[0] = zeroIfNaN(b.getQ());
 			bvalues.put("V", Vs);
 			bvalues.put("A", As);
 			bvalues.put("P", Ps);
@@ -576,6 +576,11 @@ public class WorkflowServiceConfiguration
 		});
 		results.setId(id);
 		results.setAllBusesValues(allBusesValues);
+	}
+
+	private static float zeroIfNaN(float value)
+	{
+		return Float.isNaN(value) ? 0.0f : value;
 	}
 
 	public static Workflow createCompareLoadflows(Case cs, boolean generatorsReactiveLimits,
@@ -685,21 +690,21 @@ public class WorkflowServiceConfiguration
 			val.setRmse(thRmse);
 			val.setAd(thRd);
 			val.setRd(thAd);
-			
+
 			list.add(val);
 		}
 
 		if (sts != null && sts.getState().equals(ProcessState.SUCCESS))
 		{
 			ValidationResult r = (ValidationResult) sts.getResults("casevalidation");
-			
+
 			List<Validation> sublist = new ArrayList<>();
 			if (variables.length == 0)
 			{
 				double rmes = 0;
 				double rd = 0;
 				double ad = 0;
-				for (VariableValidation v: r.getVariables())
+				for (VariableValidation v : r.getVariables())
 				{
 					Validation val = new Validation();
 					val.setName(v.getName());
@@ -712,14 +717,14 @@ public class WorkflowServiceConfiguration
 
 					sublist.add(val);
 				}
-				
+
 				Validation total = new Validation();
 				total.setSelectable(false);
 				total.setName("Total");
 				total.setRmse("" + rmes);
 				total.setAd("" + rd);
 				total.setRd("" + ad);
-				
+
 				list.add(total);
 				Validation space = new Validation();
 				space.setName("");
@@ -750,7 +755,7 @@ public class WorkflowServiceConfiguration
 					});
 				}
 			}
-			
+
 		}
 		results.setValidation(list);
 		if (sts != null)

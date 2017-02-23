@@ -133,7 +133,7 @@ public class SimulationDetailController implements MainChildrenController
 				{
 					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
 					Case c = CaseService.getCase(catalog.getName(), casePath);
-					caseLabel = catalog.getName() + "\t" + c.getName();
+					caseLabel = catalog.getName() + " - " + c.getName();
 
 					BasicFileAttributes attr = Files.readAttributes(Paths.get(moInput),
 							BasicFileAttributes.class);

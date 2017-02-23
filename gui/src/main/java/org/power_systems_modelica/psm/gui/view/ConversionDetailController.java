@@ -248,7 +248,7 @@ public class ConversionDetailController implements MainChildrenController
 				{
 					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
 					c = CaseService.getCase(catalog.getName(), casePath);
-					caseLabel = catalog.getName() + "\t" + c.getName();
+					caseLabel = catalog.getName() + " - " + c.getName();
 				}
 				catch (IOException e)
 				{

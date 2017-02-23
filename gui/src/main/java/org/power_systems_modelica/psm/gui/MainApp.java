@@ -228,12 +228,13 @@ public class MainApp extends Application
 			boolean onlyVerify)
 	{
 		FXMLLoader subLoader = null;
+		System.out.println(w.getState().name());
 		if (onlyCheck || onlyVerify || w.getState().equals(ProcessState.FAILED))
 			subLoader = showSimulationCheckDetailView(mainService);
 		else
 			subLoader = showSimulationCurveDetailView(mainService);
 
-		return showSimulationDetailView(mainService, subLoader, onlyCheck);
+		return showSimulationDetailView(mainService, subLoader, onlyCheck, onlyVerify);
 	}
 
 	public FXMLLoader showSimulationCheckDetailView(MainService mainService)
@@ -247,7 +248,7 @@ public class MainApp extends Application
 	}
 
 	public FXMLLoader showSimulationDetailView(MainService mainService, FXMLLoader subLoader,
-			boolean onlyCheck)
+			boolean onlyCheck,	boolean onlyVerify)
 	{
 		if (mainService.getSimulationTask() != null)
 			mainService.resetSimulationTask();
@@ -258,7 +259,8 @@ public class MainApp extends Application
 		SimulationDetailController controller = loader.getController();
 		controller.addController(subLoader.getController());
 		controller.addNode(subLoader.getRoot());
-		controller.setWorkflow(WorkflowServiceConfiguration.getSimulation(), onlyCheck);
+		controller.setWorkflow(WorkflowServiceConfiguration.getSimulation(), onlyCheck,
+				onlyVerify);
 
 		return loader;
 	}

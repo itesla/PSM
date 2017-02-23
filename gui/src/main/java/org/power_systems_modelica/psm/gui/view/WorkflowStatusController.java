@@ -166,7 +166,7 @@ public class WorkflowStatusController implements MainChildrenController
 				{
 					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
 					Case c = CaseService.getCase(catalog.getName(), casePath);
-					firstLabelValue = catalog.getName() + "\t" + c.getName();
+					firstLabelValue = catalog.getName() + " - " + c.getName();
 				}
 				catch (IOException e)
 				{
@@ -184,7 +184,7 @@ public class WorkflowStatusController implements MainChildrenController
 				{
 					Catalog catalog = CatalogService.getCatalog("ddrs", catalogPath);
 					Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
-					secondLabelValue = catalog.getName() + "\t" + ddr.getName();
+					secondLabelValue = catalog.getName() + " - " + ddr.getName();
 				}
 				catch (IOException e)
 				{

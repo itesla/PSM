@@ -4,10 +4,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="resultView" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.SimulationCheckVerifyDetailController">
    <children>
-      <ImageView fx:id="resultIcon" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="10.0" />
-      <Label fx:id="resultText" layoutX="14.0" layoutY="163.0" text="Label" />
+      <ImageView fx:id="resultIcon" fitHeight="150.0" fitWidth="200.0" layoutX="7.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="60.0" />
+      <Label fx:id="resultText" layoutX="14.0" layoutY="21.0" text="Label" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="21.0" />
    </children>
 </AnchorPane>

@@ -264,7 +264,7 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 				{
 					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
 					Case c = CaseService.getCase(catalog.getName(), casePath);
-					caseLabel = catalog.getName() + "\t" + c.getName();
+					caseLabel = catalog.getName() + " - " + c.getName();
 				}
 				catch (IOException e)
 				{

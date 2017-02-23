@@ -30,11 +30,11 @@ public class SimulationCheckVerifyDetailController implements SimulationResultDe
 	public void setWorkflow(Workflow w, Object... objects)
 	{
 		boolean isCheckDetail = false;
-		boolean isSimulationDetail = true;
+		boolean isVerifyDetail = false;
 		if (objects.length > 0)
 		{
-			isSimulationDetail = false;
 			isCheckDetail = (boolean)objects[0];
+			isVerifyDetail = (boolean)objects[1];
 		}
 		
 		String caseLabel = "";
@@ -59,7 +59,7 @@ public class SimulationCheckVerifyDetailController implements SimulationResultDe
 				{
 					Catalog catalog = CatalogService.getCatalog("cases", catalogPath);
 					Case c = CaseService.getCase(catalog.getName(), casePath);
-					caseLabel = catalog.getName() + "\t" + c.getName();
+					caseLabel = catalog.getName() + " - " + c.getName();
 				}
 				catch (IOException e)
 				{
@@ -70,12 +70,12 @@ public class SimulationCheckVerifyDetailController implements SimulationResultDe
 		if (w.getState().equals(ProcessState.FAILED))
 		{
 			resultIcon.setImage(koImage);
-			if (isSimulationDetail)
-				resultText.setText("Simulation failed. See logs tab for more details.");
+			if (isVerifyDetail)
+				resultText.setText("Simulation verification failed. See logs tab for more details.");
 			else if (isCheckDetail)
 				resultText.setText("Check model failed. See logs tab for more details.");
 			else
-				resultText.setText("Simulation verification failed. See logs tab for more details.");
+				resultText.setText("Simulation failed. See logs tab for more details.");
 		}
 		else
 		{

@@ -5,6 +5,7 @@ import static org.power_systems_modelica.psm.workflow.Workflow.TD;
 import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
@@ -304,6 +306,13 @@ public class WorkflowServiceConfiguration
 		try
 		{
 			Files.deleteIfExists(output_with_events);
+			Optional<Path> path = Files
+					.walk(output_simulation, 1, FileVisitOption.FOLLOW_LINKS)
+					.filter((p) -> !p.toFile().isDirectory()
+							&& p.toFile().getAbsolutePath().endsWith(".csv"))
+					.findFirst();
+			if (path.isPresent())
+				Files.deleteIfExists(path.get());
 			Files.createDirectories(modelicaEngineWorkingDir);
 
 			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica" : "Dymola";
@@ -476,7 +485,7 @@ public class WorkflowServiceConfiguration
 		try
 		{
 			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					sim.getResults("simres").toString(),
+					sim.getResults("simres_output").toString(),
 					new CsvReaderPopulator<DsData>()
 					{
 

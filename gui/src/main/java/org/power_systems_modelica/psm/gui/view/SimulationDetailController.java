@@ -184,8 +184,11 @@ public class SimulationDetailController implements MainChildrenController
 		}
 		
 		Logs l = WorkflowServiceConfiguration.getSimulationLogs("" + w.getId());
-		l.getLogsDump(sb);
-		sb.append("\n\n");
+		if (l != null)
+		{
+			l.getLogsDump(sb);
+			sb.append("\n\n");
+		}
 		
 		logArea.setText(sb.toString());
 

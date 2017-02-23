@@ -1,13 +1,5 @@
 package org.power_systems_modelica.psm.tools;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
-
-import eu.itesla_project.commons.tools.Command;
-import eu.itesla_project.commons.tools.Tool;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,11 +12,27 @@ import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
+
+import eu.itesla_project.commons.tools.Command;
+import eu.itesla_project.commons.tools.Tool;
 
 /**
  *
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * 
+ *         Adapted to PSM: apply filter to show only tools for this app
  */
 public class Main
 {
@@ -32,6 +40,19 @@ public class Main
 
 	private Main()
 	{
+	}
+
+	static final String psmPackage = getPackage3(Main.class);
+
+	private static String getPackage3(Class<?> c)
+	{
+		String[] packages = c.getName().split("\\.");
+		return String.format("%s.%s.%s", packages[0], packages[1], packages[2]);
+	}
+
+	private static boolean isPsm(Tool t)
+	{
+		return getPackage3(t.getClass()).equals(psmPackage);
 	}
 
 	private static void printUsage()
@@ -43,6 +64,7 @@ public class Main
 				.stream()
 				.filter(t -> !t.getCommand().isHidden())
 				.collect(Collectors.toList());
+		allTools = allTools.stream().filter(Main::isPsm).collect(Collectors.toList());
 
 		// group commands by theme
 		Multimap<String, Tool> toolsByTheme = Multimaps.index(allTools, new Function<Tool, String>()
@@ -106,7 +128,7 @@ public class Main
 	{
 		for (Tool tool : ServiceLoader.load(Tool.class))
 		{
-			if (tool.getCommand().getName().equals(commandName))
+			if (isPsm(tool) && tool.getCommand().getName().equals(commandName))
 			{
 				return tool;
 			}

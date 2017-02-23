@@ -2,7 +2,6 @@
 <model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
     <model id="DM__SYSTEM_" staticId="_SYSTEM_">
         <component type="Real" id="SNREF" value="100.0" isParameter="true"/>
-		<!--
         <component type="iPSL.Electrical.Machines.Eurostag.omegaRef" id="omegaRef">
             <ref name="nGenerators" dataSource="DYNN" sourceName="numModelsConnectToTarget({system},omegaRef)"/>
         </component>
@@ -10,6 +9,5 @@
         <interconnection name="omegaRef_HIn[]" componentId="omegaRef" componentVar="pin_HIn[]"/>
         <interconnection name="omegaRef_SN[]" componentId="omegaRef" componentVar="pin_SN[]"/>
         <interconnection name="omegaRef_omega[]" componentId="omegaRef" componentVar="pin_omega[]"/>
-		-->
     </model>
 </model_container>

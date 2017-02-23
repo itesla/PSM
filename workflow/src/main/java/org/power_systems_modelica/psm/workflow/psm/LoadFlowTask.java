@@ -14,8 +14,21 @@ import org.slf4j.LoggerFactory;
 
 import eu.itesla_project.computation.ComputationManager;
 import eu.itesla_project.computation.local.LocalComputationManager;
+import eu.itesla_project.iidm.network.Bus;
+import eu.itesla_project.iidm.network.Connectable;
+import eu.itesla_project.iidm.network.DanglingLine;
+import eu.itesla_project.iidm.network.EquipmentTopologyVisitor;
+import eu.itesla_project.iidm.network.Generator;
+import eu.itesla_project.iidm.network.Line;
+import eu.itesla_project.iidm.network.Load;
 import eu.itesla_project.iidm.network.Network;
+import eu.itesla_project.iidm.network.ShuntCompensator;
 import eu.itesla_project.iidm.network.StateManager;
+import eu.itesla_project.iidm.network.Terminal;
+import eu.itesla_project.iidm.network.ThreeWindingsTransformer;
+import eu.itesla_project.iidm.network.TwoTerminalsConnectable;
+import eu.itesla_project.iidm.network.TwoWindingsTransformer;
+import eu.itesla_project.iidm.network.util.Networks;
 import eu.itesla_project.loadflow.api.LoadFlow;
 import eu.itesla_project.loadflow.api.LoadFlowFactory;
 import eu.itesla_project.loadflow.api.LoadFlowParameters;
@@ -50,15 +63,21 @@ public class LoadFlowTask extends WorkflowTask
 				.orElse(sourceStateId);
 		targetCsvFolder = Optional.ofNullable(config.getParameter("targetCsvFolder"));
 		loadFlowFactoryClassName = config.getParameter("loadFlowFactoryClass");
+		checkResult = config.getBoolean("checkResult", false);
+		checkResultDeltaMaxThreshold = Optional
+				.ofNullable(config.getParameter("checkResultDeltaMaxThreshold"))
+				.map(Float::valueOf);
 
 		// TODO obtain LoadFlowParameters from task configuration
 		loadFlowParams = new LoadFlowParameters();
 		// TODO obtain computationManager parameters and priority from task configuration ?
 
-		LOG.info("loadFlowFactoryClass = " + config.getParameter("loadFlowFactoryClass"));
-		LOG.info("    sourceStateId    = " + sourceStateId);
-		LOG.info("    targetStateId    = " + targetStateId);
-		LOG.info("    targetCsvFolder  = " + targetCsvFolder);
+		LOG.info("loadFlowFactoryClass : " + config.getParameter("loadFlowFactoryClass"));
+		LOG.info("    sourceStateId                = " + sourceStateId);
+		LOG.info("    targetStateId                = " + targetStateId);
+		LOG.info("    targetCsvFolder              = " + targetCsvFolder);
+		LOG.info("    checkResult                  = " + checkResult);
+		LOG.info("    checkResultDeltaMaxThreshold = " + checkResultDeltaMaxThreshold);
 	}
 
 	@Override
@@ -105,6 +124,14 @@ public class LoadFlowTask extends WorkflowTask
 				NetworkData d = NetworkDataExtractor.extract(network);
 				NetworkDataExporter.export(d, folder);
 			}
+			if (checkResult)
+			{
+				boolean flowsOk = Networks.checkFlows(network);
+				LOG.info("checkFlows = " + flowsOk);
+				boolean busBalancesOk = checkBusBalances(network,
+						checkResultDeltaMaxThreshold.get());
+				LOG.info("checkBusBalances = " + busBalancesOk);
+			}
 
 			if (!r.isOk()) throw new Exception("Loadflow is not Ok");
 
@@ -114,6 +141,91 @@ public class LoadFlowTask extends WorkflowTask
 		{
 			failed(x);
 		}
+	}
+
+	static public boolean checkBusBalances(Network n, float deltaMaxThreshold)
+	{
+		float deltaMax[] = { 0.0f, 0.0f };
+		for (Bus b : n.getBusBreakerView().getBuses())
+		{
+			if (!b.isInMainConnectedComponent()) continue;
+			float delta[] = { 0.0f, 0.0f };
+			LOG.info(String.format("LFBB Bus %-5s %12.5f %12.5f   %-5s %12.5f %12.5f %-64s",
+					"V,A",
+					b.getV() / b.getVoltageLevel().getNominalV(),
+					b.getAngle(),
+					"P,Q",
+					b.getP(),
+					b.getQ(),
+					b.getId()));
+			b.visitConnectedEquipments(new EquipmentTopologyVisitor()
+			{
+				void updateBalance(String type, String id, Terminal t)
+				{
+					float p = t.getP();
+					float q = t.getQ();
+					LOG.info(String.format("LFBB     %-5s %12.5f %12.5f %-64s", type, p, q, id));
+					delta[0] += Float.isNaN(p) ? 0.0f : p;
+					delta[1] += Float.isNaN(q) ? 0.0f : q;
+				}
+
+				@Override
+				public void visitLine(Line line, TwoTerminalsConnectable.Side side)
+				{
+					updateBalance("Line", line.getId(), line.getTerminal(side));
+				}
+
+				@Override
+				public void visitTwoWindingsTransformer(TwoWindingsTransformer transformer,
+						TwoTerminalsConnectable.Side side)
+				{
+					updateBalance("2W", transformer.getId(), transformer.getTerminal(side));
+				}
+
+				@Override
+				public void visitThreeWindingsTransformer(ThreeWindingsTransformer transformer,
+						ThreeWindingsTransformer.Side side)
+				{
+					updateBalance("3W", transformer.getId(), transformer.getTerminal(side));
+				}
+
+				@Override
+				public void visitGenerator(Generator generator)
+				{
+					updateBalance("Gen", generator.getId(), generator.getTerminal());
+				}
+
+				@Override
+				public void visitLoad(Load load)
+				{
+					updateBalance("Load", load.getId(), load.getTerminal());
+				}
+
+				@Override
+				public void visitShuntCompensator(ShuntCompensator sc)
+				{
+					updateBalance("Shunt", sc.getId(), sc.getTerminal());
+				}
+
+				@Override
+				public void visitDanglingLine(DanglingLine danglingLine)
+				{
+					updateBalance("Line", danglingLine.getId(), danglingLine.getTerminal());
+				}
+
+				@Override
+				public <I extends Connectable<I>> void visitEquipment(Connectable<I> eq)
+				{
+				}
+			});
+			LOG.info(String.format("LFBB     %-5s %12.5f %12.5f", "Sum", delta[0], delta[1]));
+			if (Math.abs(delta[0]) > Math.abs(deltaMax[0])) deltaMax[0] = delta[0];
+			if (Math.abs(delta[1]) > Math.abs(deltaMax[1])) deltaMax[1] = delta[1];
+		}
+		LOG.info("checkBusBalances");
+		LOG.info(String.format("LFBB     %-5s %12.5f %12.5f", "Max", deltaMax[0], deltaMax[1]));
+		return Math.abs(deltaMax[0]) <= deltaMaxThreshold
+				&& Math.abs(deltaMax[1]) <= deltaMaxThreshold;
 	}
 
 	// Helper function to be used from GUI and from Tests
@@ -197,6 +309,8 @@ public class LoadFlowTask extends WorkflowTask
 	private String					targetStateId;
 	private Optional<String>		targetCsvFolder;
 	private String					loadFlowFactoryClassName;
+	private boolean					checkResult;
+	private Optional<Float>			checkResultDeltaMaxThreshold;
 
 	private static final Logger		LOG	= LoggerFactory.getLogger(LoadFlowTask.class);
 

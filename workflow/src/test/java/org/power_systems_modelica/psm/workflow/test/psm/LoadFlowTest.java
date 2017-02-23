@@ -149,7 +149,9 @@ public class LoadFlowTest
 						TC("source", case_)),
 				TD(LoadFlowTask.class, "loadflow0",
 						TC("loadFlowFactoryClass", HELMFLOW_FACTORY,
-								"targetCsvFolder", targetCsvFolder)));
+								"targetCsvFolder", targetCsvFolder,
+								"checkResult", "true",
+								"checkResultDeltaMaxThreshold", "2.0f")));
 		wf.start();
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
 		assertEquals(SUCCESS, wf.getTaskStates().get(1).state);
@@ -166,7 +168,9 @@ public class LoadFlowTest
 						TC("source", case_)),
 				TD(LoadFlowTask.class, "loadflow0",
 						TC("loadFlowFactoryClass", HADES2_FACTORY,
-								"targetCsvFolder", targetCsvFolder)));
+								"targetCsvFolder", targetCsvFolder,
+								"checkResult", "true",
+								"checkResultDeltaMaxTreshold", "2.0f")));
 		wf.start();
 		assertEquals(SUCCESS, wf.getTaskStates().get(0).state);
 		assertEquals(SUCCESS, wf.getTaskStates().get(1).state);

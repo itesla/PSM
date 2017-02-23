@@ -35,7 +35,9 @@ then
 fi
 
 echo "    Preparing data files"
-rsync -avP --exclude='tmp/*' --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
+rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
+echo "    Override configuration files with distribution-specific ones"
+rsync -avP scripts/dist/cfg/* $DIST_TMP_FOLDER/data/test/cfg/. &> ${DIST_TMP_FOLDER}/data.log
 
 echo "    Copying Hades2"
 rsync -avP ../hades/hades2LF/* $DIST_TMP_FOLDER/hades2LF/. &> ${DIST_TMP_FOLDER}/hades.log

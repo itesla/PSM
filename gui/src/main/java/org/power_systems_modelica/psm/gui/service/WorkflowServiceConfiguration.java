@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
@@ -158,9 +159,12 @@ public class WorkflowServiceConfiguration
 
 	public static List<DsEngine> getDsEngines()
 	{
+		Properties p = PathUtils.getGUIProperties();
+		String senableFake = p.getProperty("enableFakeModelicaEngine");
+		boolean enableFake = senableFake != null && Boolean.getBoolean(senableFake) == true;
 
 		List<DsEngine> engines = new ArrayList<>();
-		engines.add(DsEngine.FAKE);
+		if (enableFake) engines.add(DsEngine.FAKE);
 		engines.add(DsEngine.DYMOLA);
 		engines.add(DsEngine.OPENMODELICA);
 

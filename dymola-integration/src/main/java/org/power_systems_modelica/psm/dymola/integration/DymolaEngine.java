@@ -17,13 +17,13 @@ import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
 import org.power_systems_modelica.psm.commons.Configuration;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.dymola.integration.utils.ZipFileUtil;
 import org.power_systems_modelica.psm.dymola.integration.utils.ZipWriter;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.modelica.engine.utils.ModelicaEngineUtils;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class DymolaEngine implements ModelicaEngine
 		for (ModelicaDocument mo : mos)
 			simulate(mo);
 	}
-	
+
 	@Override
 	public void simulate(ModelicaDocument mo) throws Exception
 	{
@@ -349,12 +349,12 @@ public class DymolaEngine implements ModelicaEngine
 		}
 		return properties;
 	}
-	
+
 	@Override
 	public Logs getLogs()
 	{
-		//FIXME Create structured logs for Dymola simulator.
-		return new Logs();
+		// FIXME Create structured logs for Dymola simulator.
+		return new Logs("Dymola engine interaction");
 	}
 
 	private Properties						properties		= loadDefaultProperties();
@@ -387,6 +387,6 @@ public class DymolaEngine implements ModelicaEngine
 	private static final Path				DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");
 
-	private static final Logger				LOG			= LoggerFactory
+	private static final Logger				LOG				= LoggerFactory
 			.getLogger(DymolaEngine.class);
 }

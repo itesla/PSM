@@ -5,7 +5,7 @@ import java.util.List;
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.openmodelica.corba.SmartProxy;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -208,27 +208,27 @@ public class OpenModelicaWrapper extends SmartProxy
 	@Override
 	public void logOMCCall(String expression)
 	{
-		logs.newCall(expression);
+		logs.newActivity(expression);
 	}
 
 	@Override
 	public void logOMCReply(String reply)
 	{
-		logs.reply(reply);
+		logs.result(reply);
 	}
 
 	@Override
 	public void logOMCStatus(String message)
 	{
 		LOG.debug(message);
-		logs.status(message);
+		logs.detail(message);
 	}
 
 	@Override
 	public void logOMCCallError(String message)
 	{
 		LOG.error(message);
-		logs.callError(message);
+		logs.activityError(message);
 	}
 
 	public Logs getLogs()

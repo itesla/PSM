@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
@@ -24,7 +25,6 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
@@ -186,7 +186,7 @@ public class SimulationDetailController implements MainChildrenController
 		Logs l = WorkflowServiceConfiguration.getSimulationLogs("" + w.getId());
 		if (l != null)
 		{
-			l.getLogsDump(sb);
+			l.dump(sb);
 			sb.append("\n\n");
 		}
 		

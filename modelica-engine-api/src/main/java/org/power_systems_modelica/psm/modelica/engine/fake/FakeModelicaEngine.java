@@ -5,18 +5,17 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.commons.Configuration;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
 import org.power_systems_modelica.psm.modelica.engine.io.ModelicaSimulationResultsCsv;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,9 +108,9 @@ public class FakeModelicaEngine implements ModelicaEngine
 	@Override
 	public Logs getLogs()
 	{
-		return new Logs();
+		return new Logs("Fake Modelica engine interaction");
 	}
-	
+
 	private Properties				properties		= loadDefaultProperties();
 	private ModelicaEngineProgress	engineProgress;
 	ModelicaSimulationFinalResults	results;

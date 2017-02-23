@@ -65,7 +65,6 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		return elementsMissingDynamicModel;
 	}
 
-
 	public Observable getProgress()
 	{
 		return progress;
@@ -105,9 +104,8 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		progress.report("Building Modelica System Document");
 		createModelicaDocument(getNetwork().getName());
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
-
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
 		ModelicaSystemModel sys = getModelicaDocument().getSystemModel();
-
 		Optional<ModelicaModel> ds = getDdr().getSystemModel(Stage.SIMULATION);
 		if (ds.isPresent()) addDynamicModel(ds.get());
 		progress.report("    Adding dynamic models");
@@ -117,12 +115,14 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		resolvePendingReferences();
 		// Add connections between models only after all models have been created
 		progress.report("    Adding interconnections between dynamic models");
-		addInterconnections();
+		addInterconnections(unresolved);
 
 		// TODO This is temporary while we allow omegaRef equations to be specified directly in DYD files
 		List<ModelicaEquation> otherSystemEquations;
 		otherSystemEquations = getDdr().getSystemOtherEquationsInContext(sys, Stage.SIMULATION);
 		if (otherSystemEquations != null) sys.addEquations(otherSystemEquations);
+
+		if (!unresolved.isEmpty()) throw new UnresolvedRefsException(unresolved);
 
 		return getModelicaDocument();
 	}
@@ -229,7 +229,8 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 
 	private final ModelicaEngine		modelicaEngine;
 	private final Progress				progress;
-	private Collection<Identifiable<?>>	elementsMissingDynamicModel = new ArrayList<>();
+	private Collection<Identifiable<?>>	elementsMissingDynamicModel	= new ArrayList<>();
 
-	private static final Logger			LOG	= LoggerFactory.getLogger(ModelicaSystemBuilder.class);
+	private static final Logger			LOG							= LoggerFactory
+			.getLogger(ModelicaSystemBuilder.class);
 }

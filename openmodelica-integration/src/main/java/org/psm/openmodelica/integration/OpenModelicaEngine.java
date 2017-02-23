@@ -23,11 +23,11 @@ import org.apache.commons.io.FileUtils;
 import org.openmodelica.corba.ConnectException;
 import org.openmodelica.corba.Result;
 import org.power_systems_modelica.psm.commons.Configuration;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineProgress;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaSimulationFinalResults;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.modelica.engine.utils.ModelicaEngineUtils;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 import org.slf4j.Logger;
@@ -127,7 +127,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 		{
 			this.results.addResult(modelName, "successful", false);
 		}
-		if(depth == 1) return;
+		if (depth == 1) return;
 
 		if (depth != 0)
 		{
@@ -137,7 +137,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 			{
 				this.results.addResult(modelName, "successful", false);
 			}
-			if(depth == 2) return;
+			if (depth == 2) return;
 		}
 
 		// Simulate the model
@@ -607,7 +607,8 @@ public class OpenModelicaEngine implements ModelicaEngine
 	private String							modelName;
 	public int								depth;
 
-	private Logs							logs			= new Logs();
+	private Logs							logs			= new Logs(
+			"OpenModelica engine interaction");
 
 	private OpenModelicaWrapper				omc				= new OpenModelicaWrapper(
 			OMWRAPPER_NAME,

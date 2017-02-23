@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.commons.Configuration;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 
 public interface ModelicaEngine extends AutoCloseable
 {

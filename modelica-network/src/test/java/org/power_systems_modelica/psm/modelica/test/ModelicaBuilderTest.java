@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaBuilder;
 import org.power_systems_modelica.psm.modelica.builder.ReferenceResolver;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
 public class ModelicaBuilderTest
@@ -285,7 +287,8 @@ public class ModelicaBuilderTest
 
 		public void addInterconnections()
 		{
-			super.addInterconnections();
+			Collection<UnresolvedRef> unresolved = new ArrayList<>();
+			super.addInterconnections(unresolved);
 		}
 
 		public void print(Path path) throws Exception

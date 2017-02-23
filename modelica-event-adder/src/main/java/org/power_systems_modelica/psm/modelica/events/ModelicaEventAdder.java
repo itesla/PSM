@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.modelica.events;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
@@ -9,6 +10,8 @@ import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.builder.DynamicNetworkReferenceResolver;
 import org.power_systems_modelica.psm.modelica.builder.MapReferenceResolver;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRefsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,19 +27,27 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		this.events = events;
 	}
 
-	public ModelicaDocument addEvents()
+	public ModelicaDocument addEvents() throws UnresolvedRefsException
 	{
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
+
 		String systemIdWithEvents = original.getSystemModel().getId() + "_withEvents";
 		ModelicaDocument moWithEvents = original.copy(systemIdWithEvents);
 		setModelicaDocument(moWithEvents);
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
-		events.forEach(ev -> addEvent(ev, moWithEvents));
+		events.forEach(ev -> addEvent(ev, moWithEvents, unresolved));
 		setAllDynamicModelsAdded(true);
 		removeResolver("DYNN");
+
+		if (!unresolved.isEmpty()) throw new UnresolvedRefsException(unresolved);
+
 		return moWithEvents;
 	}
 
-	private void addEvent(Event ev, ModelicaDocument mo)
+	private void addEvent(
+			Event ev,
+			ModelicaDocument mo,
+			Collection<UnresolvedRef> unresolved)
 	{
 		// Adding an event on an element of the network model means:
 		// - First obtain a dynamic model for the event type from the dynamic data repository
@@ -62,12 +73,12 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		{
 		case ADD:
 			addDynamicModel(m);
-			addInterconnections(m);
+			addInterconnections(m, unresolved);
 			break;
 		case REPLACE:
 			removeDynamicModel(mp);
 			addDynamicModel(m);
-			addInterconnections(m);
+			addInterconnections(m, unresolved);
 			break;
 		}
 

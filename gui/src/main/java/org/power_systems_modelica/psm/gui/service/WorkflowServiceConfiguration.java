@@ -15,14 +15,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
 import org.power_systems_modelica.psm.case_validation.model.VariableValidation;
 import org.power_systems_modelica.psm.commons.FileUtils;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
@@ -40,7 +41,6 @@ import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -150,7 +150,6 @@ public class WorkflowServiceConfiguration
 
 	public static List<LoadflowEngine> getLoadflowEngines()
 	{
-
 		List<LoadflowEngine> engines = new ArrayList<>();
 		engines.add(LoadflowEngine.HADES2);
 		engines.add(LoadflowEngine.HELMFLOW);
@@ -163,7 +162,7 @@ public class WorkflowServiceConfiguration
 	{
 		Properties p = PathUtils.getGUIProperties();
 		String senableFake = p.getProperty("enableFakeModelicaEngine");
-		boolean enableFake = senableFake != null && Boolean.getBoolean(senableFake) == true;
+		boolean enableFake = senableFake != null && Boolean.valueOf(senableFake) == true;
 
 		List<DsEngine> engines = new ArrayList<>();
 		if (enableFake) engines.add(DsEngine.FAKE);

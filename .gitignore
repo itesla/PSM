@@ -5,4 +5,6 @@ psm.log
 **kk*
 .metadata/
 **coveralls.json
-gui-0.1-SNAPSHOT.jar
+**convertedCase.properties
+gui-*-SNAPSHOT.jar
+psm-*-*.zip

@@ -138,7 +138,7 @@ public abstract class ModelicaBuilder
 		dynamicModelsByStaticId.remove(m.getStaticId());
 	}
 
-	protected void addInterconnections()
+	protected void addInterconnections(Collection<UnresolvedRef> unresolved)
 	{
 		// We process all models sorted by id to ensure we assign items in arrays of connections
 		// in the same order we have seen in original Modelica files (omegaRef)
@@ -147,24 +147,36 @@ public abstract class ModelicaBuilder
 		// We do:
 		List<ModelicaModel> models = new ArrayList<>(getModels());
 		Collections.sort(models, Comparator.comparing(ModelicaModel::getId));
-		models.stream().forEach(m -> addInterconnections(m));
+		models.stream().forEach(m -> addInterconnections(m, unresolved));
 	}
 
-	protected void addInterconnections(ModelicaModel m)
+	protected void addInterconnections(
+			ModelicaModel m,
+			Collection<UnresolvedRef> unresolved)
 	{
-		mo.getSystemModel().addEquations(buildInterconnections(m));
+		mo.getSystemModel().addEquations(buildInterconnections(m, unresolved));
 	}
 
-	protected List<ModelicaEquation> buildInterconnections(ModelicaModel m)
+	protected List<ModelicaEquation> buildInterconnections(
+			ModelicaModel m,
+			Collection<UnresolvedRef> unresolved)
 	{
 		List<ModelicaEquation> connections = new ArrayList<>();
 		for (ModelicaInterconnection c : m.getInterconnections())
 		{
 			if (c.isLocal2Target())
 			{
-				ModelicaInterconnection tc = resolveTarget(
-						c.getTargetModel(), c.getTargetName(), m, mo);
-				if (tc == null) continue;
+				ModelicaInterconnection tc;
+				tc = resolveTarget(c.getTargetModel(), c.getTargetName(), m, mo);
+				if (tc == null)
+				{
+					unresolved.add(new UnresolvedRef(
+							"interconnection",
+							m.getId(),
+							c.getTargetModel(),
+							c.getTargetName()));
+					continue;
+				}
 
 				ModelicaConnect eqc = buildConnection(tc, c);
 				// For resolved targets we have stored the proper static identifier in target connector
@@ -173,16 +185,24 @@ public abstract class ModelicaBuilder
 			}
 			else if (c.isDoubleTarget())
 			{
-				ModelicaInterconnection tc1 = resolveTarget(
-						c.getTargetModel(), c.getTargetName(), m, mo);
-				ModelicaInterconnection tc2 = resolveTarget(
-						c.getTargetModel2(), c.getTargetName2(), m, mo);
-				if (tc1 != null && tc2 != null)
-				{
-					ModelicaConnect eqc = buildConnection(tc1, tc2);
-					annotateStaticIdsInConnection(eqc, tc1.getStaticId(), tc2.getStaticId());
-					connections.add(eqc);
-				}
+				ModelicaInterconnection tc1, tc2;
+				tc1 = resolveTarget(c.getTargetModel(), c.getTargetName(), m, mo);
+				tc2 = resolveTarget(c.getTargetModel2(), c.getTargetName2(), m, mo);
+				if (tc1 == null) unresolved.add(new UnresolvedRef(
+						"interconnection",
+						m.getId(),
+						c.getTargetModel(),
+						c.getTargetName()));
+				if (tc2 == null) unresolved.add(new UnresolvedRef(
+						"interconnection",
+						m.getId(),
+						c.getTargetModel2(),
+						c.getTargetName2()));
+				if (tc1 == null || tc2 == null) continue;
+
+				ModelicaConnect eqc = buildConnection(tc1, tc2);
+				annotateStaticIdsInConnection(eqc, tc1.getStaticId(), tc2.getStaticId());
+				connections.add(eqc);
 			}
 		}
 		return connections;

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.joda.time.DateTime;
+import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -29,7 +30,6 @@ import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
-import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -377,7 +377,7 @@ public class ConversionDetailController implements MainChildrenController
 			Logs l = WorkflowServiceConfiguration.getConversionLogs("" + w.getId());
 			if (l != null)
 			{
-				l.getLogsDump(sb);
+				l.dump(sb);
 				sb.append("\n\n");
 			}
 		}

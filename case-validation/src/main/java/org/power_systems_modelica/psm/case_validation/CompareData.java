@@ -50,10 +50,10 @@ public class CompareData
 			});
 
 			double steps = e.getValues().size();
-			double rmes = Math.sqrt(e.getRelRmes() / steps);
+			double rmes = Math.sqrt(e.getRelRmes() / (double)steps);
 			e.setRelRmes(rmes);
 
-			rmes = Math.sqrt(e.getAbsRmes() / steps);
+			rmes = Math.sqrt(e.getAbsRmes() / (double)steps);
 			e.setAbsRmes(rmes);
 		});
 	}

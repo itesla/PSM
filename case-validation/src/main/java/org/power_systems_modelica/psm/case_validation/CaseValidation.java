@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
@@ -68,7 +69,8 @@ public class CaseValidation
 			result.addVariable(vv);
 		});
 
-		int nElements = result.getElements().size();
+		int nElements = result.getElements().keySet().stream()
+				.filter(k -> !k.equalsIgnoreCase("Time")).collect(Collectors.toList()).size();
 		int nValuesElement = ((Element) result.getElements().values().iterator().next()).getValues()
 				.size();
 		int totalValues = nElements * nValuesElement;
@@ -78,6 +80,7 @@ public class CaseValidation
 
 		result.getVariables().forEach(vv -> {
 
+			int rmesElements = 0;
 			elements.forEach(ke -> {
 
 				Element e = result.getElements().get(ke);
@@ -87,20 +90,19 @@ public class CaseValidation
 					vv.addAbsOffset(e.getAbsOffset());
 					vv.addRelOffset(e.getRelOffset());
 
+					vv.incRmesElements();
 					if (e.getAbsRmes() > absThreshold)
 						vv.incRmesKo();
 				}
 			});
 
 			double offset = vv.getAbsOffset();
-			vv.setAbsOffset(offset / nValuesElement);
-			vv.incAbsTotalOffset(offset / totalValues);
+			vv.incAbsTotalOffset(offset / (double) totalValues);
 
 			offset = vv.getRelOffset();
-			vv.setRelOffset(offset / nValuesElement);
-			vv.incRelTotalOffset(offset / totalValues);
+			vv.incRelTotalOffset(offset / (double) totalValues);
 
-			vv.setRmesAbove(vv.getRmesKo() / totalValues);
+			vv.setRmesAbove(vv.getRmesKo() / (double) nElements);
 		});
 
 		rr.getOutputNames().forEach(ke -> {

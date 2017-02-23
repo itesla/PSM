@@ -103,6 +103,16 @@ public class VariableValidation
 		this.rmesKo++;
 	}
 	
+	public int getRmesElements()
+	{
+		return rmesElements;
+	}
+
+	public void incRmesElements()
+	{
+		this.rmesElements++;
+	}
+	
 	public double getRmesAbove()
 	{
 		return rmesAbove;
@@ -121,5 +131,6 @@ public class VariableValidation
 	private double	relTotalOffset	= 0;
 
 	private int		rmesKo			= 0;
+	private int		rmesElements	= 0;
 	private double	rmesAbove		= 0;
 }

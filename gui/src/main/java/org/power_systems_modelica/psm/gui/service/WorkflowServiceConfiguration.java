@@ -6,7 +6,6 @@ import static org.power_systems_modelica.psm.workflow.Workflow.WF;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
+import org.power_systems_modelica.psm.case_validation.model.VariableValidation;
 import org.power_systems_modelica.psm.commons.FileUtils;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
@@ -39,6 +39,7 @@ import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.modelica.engine.logs.Logs;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
+import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.TaskFactory;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -541,7 +542,7 @@ public class WorkflowServiceConfiguration
 
 		return results;
 	}
-	
+
 	public static Logs getConversionLogs(String id)
 	{
 		return (Logs) conv.getResults("logs");
@@ -670,50 +671,90 @@ public class WorkflowServiceConfiguration
 		return sts;
 	}
 
-	public static WorkflowResult getSwtoswValidationResult(String name, String... variables)
+	public static WorkflowResult getSwtoswValidationResult(String thRmse, String thRd,
+			String thAd, String... variables)
 	{
 		WorkflowResult results = new WorkflowResult();
-
-		ValidationResult r = (ValidationResult) sts.getResults("casevalidation");
 
 		List<Validation> list = new ArrayList<>();
 		if (variables.length == 0)
 		{
-			r.getVariables().forEach(v -> {
-				Validation val = new Validation();
-				val.setName(v.getName());
-				val.setRmse("" + v.getRmesAbove());
-				val.setAd("" + v.getAbsTotalOffset());
-				val.setRd("" + v.getRelTotalOffset());
-
-				list.add(val);
-			});
+			Validation val = new Validation();
+			val.setSelectable(false);
+			val.setName("Tolerance");
+			val.setRmse(thRmse);
+			val.setAd(thRd);
+			val.setRd(thAd);
+			
+			list.add(val);
 		}
-		else
+
+		if (sts != null && sts.getState().equals(ProcessState.SUCCESS))
 		{
-			List<String> elements = new ArrayList<>();
-			elements.addAll(r.getElements().keySet());
-
-			for (String variable : variables)
+			ValidationResult r = (ValidationResult) sts.getResults("casevalidation");
+			
+			List<Validation> sublist = new ArrayList<>();
+			if (variables.length == 0)
 			{
-				elements.forEach(ke -> {
+				double rmes = 0;
+				double rd = 0;
+				double ad = 0;
+				for (VariableValidation v: r.getVariables())
+				{
+					Validation val = new Validation();
+					val.setName(v.getName());
+					val.setRmse("" + v.getRmesAbove());
+					rmes += v.getRmesAbove();
+					val.setAd("" + v.getAbsTotalOffset());
+					ad += v.getAbsTotalOffset();
+					val.setRd("" + v.getRelTotalOffset());
+					rd += v.getRelTotalOffset();
 
-					Element e = r.getElements().get(ke);
-					if (e.getRefName().contains(variable))
-					{
-						Validation val = new Validation();
-						val.setName(e.getModelicaName());
-						val.setRmse("" + e.getAbsRmes());
-						val.setAd("" + e.getAbsOffset() / e.getValues().size());
-						val.setRd("" + e.getRelOffset() / e.getValues().size());
-
-						list.add(val);
-					}
-				});
+					sublist.add(val);
+				}
+				
+				Validation total = new Validation();
+				total.setSelectable(false);
+				total.setName("Total");
+				total.setRmse("" + rmes);
+				total.setAd("" + rd);
+				total.setRd("" + ad);
+				
+				list.add(total);
+				Validation space = new Validation();
+				space.setName("");
+				space.setSelectable(false);
+				list.add(space);
+				list.addAll(sublist);
 			}
+			else
+			{
+				List<String> elements = new ArrayList<>();
+				elements.addAll(r.getElements().keySet());
+
+				for (String variable : variables)
+				{
+					elements.forEach(ke -> {
+
+						Element e = r.getElements().get(ke);
+						if (e.getRefName().contains(variable))
+						{
+							Validation val = new Validation();
+							val.setName(e.getModelicaName());
+							val.setRmse("" + e.getAbsRmes());
+							val.setAd("" + e.getAbsOffset() / e.getValues().size());
+							val.setRd("" + e.getRelOffset() / e.getValues().size());
+
+							list.add(val);
+						}
+					});
+				}
+			}
+			
 		}
 		results.setValidation(list);
-		results.setExceptions(sts.getExceptions());
+		if (sts != null)
+			results.setExceptions(sts.getExceptions());
 
 		return results;
 	}

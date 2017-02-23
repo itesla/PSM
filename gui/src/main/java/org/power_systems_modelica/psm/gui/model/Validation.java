@@ -2,20 +2,20 @@ package org.power_systems_modelica.psm.gui.model;
 
 import java.io.Serializable;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Validation implements Serializable
 {
 
-	public Validation() {
+	public Validation()
+	{
 		this.name = new SimpleStringProperty();
 		this.rmse = new SimpleStringProperty();
 		this.rd = new SimpleStringProperty();
 		this.ad = new SimpleStringProperty();
 	}
-	
+
 	public String getName()
 	{
 		return name.get();
@@ -76,8 +76,19 @@ public class Validation implements Serializable
 		this.ad.set(ad);
 	}
 
+	public boolean isSelectable()
+	{
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable)
+	{
+		this.selectable = selectable;
+	}
+
 	private StringProperty	name;
 	private StringProperty	rmse;
 	private StringProperty	rd;
 	private StringProperty	ad;
+	private boolean			selectable	= true;
 }

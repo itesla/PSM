@@ -1,10 +1,13 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.model.SummaryLabel;
@@ -17,7 +20,6 @@ import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.PathUtilsFX;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
-import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.Workflow;
 import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 
@@ -25,14 +27,15 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -134,9 +137,6 @@ public class SwtoswValidationController implements MainChildrenController
 		caseFile.setText("");
 
 		stepSize.setText(STEPSIZE);
-		thRmse.setText(Double.parseDouble(THRMSE) * 100.0 + " %");
-		thRd.setText(Double.parseDouble(THRD) * 100.0 + " %");
-		thAd.setText(Double.parseDouble(THAD) * 100.0 + " %");
 
 		validationTable.getItems().clear();
 	}
@@ -182,13 +182,10 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 		this.w = w;
 		mainService.getPrimaryStage().getScene().setCursor(Cursor.DEFAULT);
+		WorkflowResult result = WorkflowServiceConfiguration
+				.getSwtoswValidationResult(THRMSE, THRD, THAD);
 
-		if (w.getState().equals(ProcessState.SUCCESS))
-		{
-			WorkflowResult result = WorkflowServiceConfiguration
-					.getSwtoswValidationResult("" + w.getId());
-			validationTable.setItems(result.getValidation());
-		}
+		validationTable.setItems(result.getValidation());
 	}
 
 	@Override
@@ -241,6 +238,31 @@ public class SwtoswValidationController implements MainChildrenController
 		THRD = p.getProperty("swtoswValidation.validation.thrd");
 		THAD = p.getProperty("swtoswValidation.validation.thad");
 
+		try
+		{
+			Path defaultFile = PathUtils.DATA_TEST.resolve("cfg")
+					.resolve("case-validation.properties");
+
+			p = new Properties();
+			InputStream is = Files.newInputStream(defaultFile);
+			p.load(is);
+			is.close();
+			toleranceTh = Double
+					.parseDouble(Optional.ofNullable(p.getProperty("toleranceTh"))
+							.orElse("1.5"));
+			absThreshold = Double
+					.parseDouble(Optional.ofNullable(p.getProperty("absThreshold"))
+							.orElse("0.001"));
+			relThreshold = Double
+					.parseDouble(Optional.ofNullable(p.getProperty("relThreshold"))
+							.orElse("0.011"));
+		}
+		catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		mappingFileSelector.graphicProperty().bind(
 				Bindings.when(expectedFileSelector.hoverProperty())
 						.then(new ImageView(whiteSelectImage))
@@ -256,145 +278,277 @@ public class SwtoswValidationController implements MainChildrenController
 						.then(new ImageView(whiteSelectImage))
 						.otherwise(new ImageView(selectImage)));
 
-		initializeTextField(thRmse);
-		initializeTextField(thRd);
-		initializeTextField(thAd);
+		validationTable.setEditable(true);
 
+		StringConverter<String> sc = new StringConverter<String>()
+		{
+			@Override
+			public String toString(String object)
+			{
+				if (object != null)
+				{
+					Double d = Double.parseDouble(object);
+					return new DecimalFormat("0.0###").format(d * 100.0) + " %";
+				}
+				else
+					return "";
+			}
+
+			@Override
+			public String fromString(String string)
+			{
+				Double d = Double.parseDouble(string.replaceAll("%", ""));
+				return "" + d / 100.0;
+			}
+		};
+
+		nameColumn.setText("");
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		rmseColumn.setCellValueFactory(cellData -> cellData.getValue().rmseProperty());
 		rmseColumn.setCellFactory(column -> {
-			return new TableCell<Validation, String>()
+			return new TextFieldTableCell<Validation, String>(new StringConverter<String>()
 			{
-				protected void updateItem(String item, boolean empty)
+				@Override
+				public String toString(String object)
+				{
+					if (object != null)
+					{
+						Double d = Double.parseDouble(object);
+						if (backButton.isVisible())
+							return new DecimalFormat("0.0###E0").format(d);
+						else
+							return new DecimalFormat("0.0###").format(d * 100.0) + " %";
+					}
+					else
+						return "";
+				}
+
+				@Override
+				public String fromString(String string)
+				{
+					Double d = Double.parseDouble(string.replaceAll("%", ""));
+					if (backButton.isVisible())
+						return "" + d;
+					else
+						return "" + d / 100.0;
+				}
+			})
+			{
+				@Override
+				public void startEdit()
+				{
+					Validation v = getTableView().getItems().get(getIndex());
+					if (!v.getName().equals("Tolerance")) return;
+
+					super.startEdit();
+				}
+
+				@Override
+				public void updateItem(String item, boolean empty)
 				{
 					super.updateItem(item, empty);
 
 					if (item == null || empty)
 					{
-						setText(null);
 						setStyle("");
 					}
 					else
 					{
-						double pct = Double.parseDouble(item.toString()) * 100.0;
-						setText(new DecimalFormat("0.0###").format(pct) + " %");
-						try
+						Validation v = getTableView().getItems().get(getIndex());
+						if (v.getName().equals("Total"))
 						{
-							if (pct <= Double.parseDouble(thRmse.getText().replaceAll("%", "")))
+							Validation th = getTableView().getItems().get(0);
+							try
 							{
-								setStyle("-fx-background-color: " + validValue);
+								if (Double.parseDouble(item.toString()) <= Double
+										.parseDouble(th.getRmse()))
+								{
+									setStyle("-fx-background-color: " + validValue);
+								}
+								else
+								{
+									setStyle("-fx-background-color: " + notValidValue);
+								}
 							}
-							else
+							catch (NumberFormatException e)
 							{
-								setStyle("-fx-background-color: " + notValidValue);
+								setStyle("");
 							}
 						}
-						catch (NumberFormatException e)
+						if (backButton.isVisible())
 						{
-							setStyle("");
+							Validation th = getTableView().getItems().get(0);
+							try
+							{
+								if (Double.parseDouble(item.toString()) <= absThreshold)
+								{
+									setStyle("-fx-background-color: " + validValue);
+								}
+								else
+								{
+									setStyle("-fx-background-color: " + notValidValue);
+								}
+							}
+							catch (NumberFormatException e)
+							{
+								setStyle("");
+							}
 						}
 					}
 				}
 			};
+		});
+		rmseColumn.setOnEditCommit(new EventHandler<CellEditEvent<Validation, String>>()
+		{
+
+			@Override
+			public void handle(CellEditEvent<Validation, String> t)
+			{
+				Validation v = validationTable.getSelectionModel().getSelectedItem();
+				if (!v.getName().equals("Tolerance")) return;
+
+				// update value
+				((Validation) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setRmse(t.getNewValue());
+
+				THRMSE = t.getNewValue();
+				validationTable.refresh();
+			}
+
 		});
 		rdColumn.setCellValueFactory(cellData -> cellData.getValue().rdProperty());
 		rdColumn.setCellFactory(column -> {
-			return new TableCell<Validation, String>()
+			return new TextFieldTableCell<Validation, String>(sc)
 			{
-				protected void updateItem(String item, boolean empty)
+				@Override
+				public void startEdit()
+				{
+					Validation v = getTableView().getItems().get(getIndex());
+					if (!v.getName().equals("Tolerance")) return;
+
+					super.startEdit();
+				}
+
+				@Override
+				public void updateItem(String item, boolean empty)
 				{
 					super.updateItem(item, empty);
 
 					if (item == null || empty)
 					{
-						setText(null);
 						setStyle("");
 					}
 					else
 					{
-						double pct = Double.parseDouble(item.toString()) * 100.0;
-						setText(new DecimalFormat("0.0###").format(pct) + " %");
-						try
+						Validation v = getTableView().getItems().get(getIndex());
+						if (v.getName().equals("Total"))
 						{
-							if (pct <= Double.parseDouble(thRd.getText().replaceAll("%", "")))
+							Validation th = getTableView().getItems().get(0);
+							try
 							{
-								setStyle("-fx-background-color: " + validValue);
+								if (Double.parseDouble(item.toString()) <= Double
+										.parseDouble(th.getRd()))
+								{
+									setStyle("-fx-background-color: " + validValue);
+								}
+								else
+								{
+									setStyle("-fx-background-color: " + notValidValue);
+								}
 							}
-							else
+							catch (NumberFormatException e)
 							{
-								setStyle("-fx-background-color: " + notValidValue);
+								setStyle("");
 							}
-						}
-						catch (NumberFormatException e)
-						{
-							setStyle("");
 						}
 					}
 				}
 			};
+		});
+		rdColumn.setOnEditCommit(new EventHandler<CellEditEvent<Validation, String>>()
+		{
+
+			@Override
+			public void handle(CellEditEvent<Validation, String> t)
+			{
+				Validation v = validationTable.getSelectionModel().getSelectedItem();
+				if (!v.getName().equals("Tolerance")) return;
+
+				// update value
+				((Validation) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setRd(t.getNewValue());
+
+				THRD = t.getNewValue();
+				validationTable.refresh();
+			}
+
 		});
 		adColumn.setCellValueFactory(cellData -> cellData.getValue().adProperty());
 		adColumn.setCellFactory(column -> {
-			return new TableCell<Validation, String>()
+			return new TextFieldTableCell<Validation, String>(sc)
 			{
-				protected void updateItem(String item, boolean empty)
+				@Override
+				public void startEdit()
+				{
+					Validation v = getTableView().getItems().get(getIndex());
+					if (!v.getName().equals("Tolerance")) return;
+
+					super.startEdit();
+				}
+
+				@Override
+				public void updateItem(String item, boolean empty)
 				{
 					super.updateItem(item, empty);
 
 					if (item == null || empty)
 					{
-						setText(null);
 						setStyle("");
 					}
 					else
 					{
-						double pct = Double.parseDouble(item.toString()) * 100.0;
-						setText(new DecimalFormat("0.0###").format(pct) + " %");
-						try
+						Validation v = getTableView().getItems().get(getIndex());
+						if (v.getName().equals("Total"))
 						{
-							if (pct <= Double.parseDouble(thAd.getText().replaceAll("%", "")))
+							Validation th = getTableView().getItems().get(0);
+							try
 							{
-								setStyle("-fx-background-color: " + validValue);
+								if (Double.parseDouble(item.toString()) <= Double
+										.parseDouble(th.getAd()))
+								{
+									setStyle("-fx-background-color: " + validValue);
+								}
+								else
+								{
+									setStyle("-fx-background-color: " + notValidValue);
+								}
 							}
-							else
+							catch (NumberFormatException e)
 							{
-								setStyle("-fx-background-color: " + notValidValue);
+								setStyle("");
 							}
-						}
-						catch (NumberFormatException e)
-						{
-							setStyle("");
 						}
 					}
 				}
 			};
 		});
-	}
+		adColumn.setOnEditCommit(new EventHandler<CellEditEvent<Validation, String>>()
+		{
 
-	private void initializeTextField(TextField tf)
-	{
-		StringConverter<Double> sc = new StringConverter<Double>() {
-            @Override
-            public String toString(Double object) {
-                if (object != null)
-                    return Double.toString(object.doubleValue() * 100.0) + " %";
-                else
-                    return "";
-            }
-
-            @Override
-            public Double fromString(String string) {
-                Double d = Double.parseDouble(string.replaceAll("%", ""))/100.0;
-                return d;
-            }
-        };
-
-		tf.setTextFormatter(new TextFormatter<>(sc));
-		tf.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null && oldValue != newValue)
+			@Override
+			public void handle(CellEditEvent<Validation, String> t)
 			{
+				Validation v = validationTable.getSelectionModel().getSelectedItem();
+				if (!v.getName().equals("Tolerance")) return;
+
+				// update value
+				((Validation) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setAd(t.getNewValue());
+
+				THAD = t.getNewValue();
 				validationTable.refresh();
 			}
+
 		});
 	}
 
@@ -405,12 +559,17 @@ public class SwtoswValidationController implements MainChildrenController
 		if (event.getClickCount() == 2 && backButton.isDisabled())
 		{
 			Validation v = validationTable.getSelectionModel().getSelectedItem();
+			if (!v.isSelectable()) return;
 
 			backButton.setVisible(true);
 			backButton.setDisable(false);
+			DecimalFormat df = new DecimalFormat("0.0###E0");
+			rmseColumn.setText("RMSE (" + df.format(absThreshold) + ")");
+			rdColumn.setText("% of points > th (" + df.format(relThreshold) + ")");
+			adColumn.setText("% of points > th (" + df.format(absThreshold) + ")");
 
 			WorkflowResult result = WorkflowServiceConfiguration.getSwtoswValidationResult(
-					"" + w.getId(),
+					THRMSE, THRD, THAD,
 					v.getName());
 			validationTable.getItems().clear();
 			validationTable.setItems(result.getValidation());
@@ -422,9 +581,12 @@ public class SwtoswValidationController implements MainChildrenController
 	{
 		backButton.setVisible(false);
 		backButton.setDisable(true);
+		rmseColumn.setText("RMSE");
+		rdColumn.setText("RD");
+		adColumn.setText("AD");
 
 		WorkflowResult result = WorkflowServiceConfiguration
-				.getSwtoswValidationResult("" + w.getId());
+				.getSwtoswValidationResult(THRMSE, THRD, THAD);
 		validationTable.getItems().clear();
 		validationTable.setItems(result.getValidation());
 	}
@@ -446,12 +608,6 @@ public class SwtoswValidationController implements MainChildrenController
 
 	@FXML
 	private Button							backButton;
-	@FXML
-	private TextField						thRmse;
-	@FXML
-	private TextField						thRd;
-	@FXML
-	private TextField						thAd;
 
 	@FXML
 	private TableView<Validation>			validationTable;
@@ -478,6 +634,13 @@ public class SwtoswValidationController implements MainChildrenController
 	private String							THRMSE				= "0.001";
 	private String							THRD				= "0.05";
 	private String							THAD				= "0.05";
+	private Double							thRmseV;
+	private Double							thRdV;
+	private Double							thAdV;
+
+	private double							toleranceTh;
+	private double							absThreshold;
+	private double							relThreshold;
 
 	private final String					validValue			= "#AAEEA7";
 	private final String					notValidValue		= "#FAA98E";

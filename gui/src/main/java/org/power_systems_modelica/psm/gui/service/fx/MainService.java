@@ -78,7 +78,7 @@ public class MainService
 
 	public void showSwtoswValidationView()
 	{
-		getMainApp().showSwtoswValidationView();
+		getMainApp().showSwtoswValidationView(this);
 	}
 
 	public void setConversionTask(Task<?> task)

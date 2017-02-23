@@ -297,9 +297,16 @@ public class MainApp extends Application
 		return this.getFXMLLoader("view/CompareLoadflowsNew.fxml", null);
 	}
 
-	public FXMLLoader showSwtoswValidationView()
+	public FXMLLoader showSwtoswValidationView(MainService mainService)
 	{
-		return this.getFXMLLoader("view/SwtoswValidation.fxml", null);
+		if (mainService.getSwtoswValidationTask() != null)
+			mainService.resetSwtoswValidationTask();;
+		
+		FXMLLoader loader = this.getFXMLLoader("view/SwtoswValidation.fxml", null);
+		
+		mainLayoutController.setWorkflow(null);
+		
+		return loader;
 	}
 
 	public void showSwtoswValidationResults(Workflow w)

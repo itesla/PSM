@@ -102,6 +102,7 @@ public class OpenModelicaEngine implements ModelicaEngine
 
 		// The first "result" in ModelicaSimulationResults is the simulation directory "simulation_path"
 		this.results.addResult(modelName, "simulation_path", this.omSimulationDir);
+		this.results.addResult(modelName, "successful", true);
 
 		if (Files.notExists(this.omSimulationDir.resolve(modelicaPath)))
 		{
@@ -122,21 +123,21 @@ public class OpenModelicaEngine implements ModelicaEngine
 		boolean simulated = false, validated = false, verified = false;
 
 		validated = validateModel(modelName);
-		if (!validated || depth == 1)
+		if (!validated)
 		{
 			this.results.addResult(modelName, "successful", false);
-			return;
 		}
+		if(depth == 1) return;
 
 		if (depth != 0)
 		{
 			verified = simulateModel(modelName, startTime, 0.001, 10,
 					tolerance, simFlags, true);
-			if (!verified || depth == 2)
+			if (!verified)
 			{
 				this.results.addResult(modelName, "successful", false);
-				return;
 			}
+			if(depth == 2) return;
 		}
 
 		// Simulate the model
@@ -153,7 +154,6 @@ public class OpenModelicaEngine implements ModelicaEngine
 			this.results.addResult(modelName, "successful", false);
 			return;
 		}
-		this.results.addResult(modelName, "successful", true);
 
 		// If everything went well unload the model.
 		result = this.omc.unloadFile(modelFileName);

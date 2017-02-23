@@ -375,8 +375,11 @@ public class ConversionDetailController implements MainChildrenController
 		if (!isCheckDetail)
 		{
 			Logs l = WorkflowServiceConfiguration.getConversionLogs("" + w.getId());
-			l.getLogsDump(sb);
-			sb.append("\n\n");
+			if (l != null)
+			{
+				l.getLogsDump(sb);
+				sb.append("\n\n");
+			}
 		}
 
 		logArea.setText(sb.toString());
@@ -491,6 +494,14 @@ public class ConversionDetailController implements MainChildrenController
 			}
 
 		});
+		originColumn.setPrefWidth(220.0);
+		originColumn.setCellValueFactory((param) -> {
+			TreeItem<ElementModel> root = param.getTreeTableView().getRoot();
+			if (param.getValue().getParent().equals(root))
+				return new ReadOnlyStringWrapper(param.getValue().getValue().getOrigin());
+			else
+				return new ReadOnlyStringWrapper("");
+		});
 		dynamicIdColumn.setPrefWidth(680.0);
 		dynamicIdColumn.setCellValueFactory(
 				(TreeTableColumn.CellDataFeatures<ElementModel, String> param) -> new ReadOnlyStringWrapper(
@@ -560,6 +571,8 @@ public class ConversionDetailController implements MainChildrenController
 	private TreeTableView<ElementModel>				modelsTable;
 	@FXML
 	private TreeTableColumn<ElementModel, String>	staticIdColumn;
+	@FXML
+	private TreeTableColumn<ElementModel, String>	originColumn;
 	@FXML
 	private TreeTableColumn<ElementModel, String>	dynamicIdColumn;
 

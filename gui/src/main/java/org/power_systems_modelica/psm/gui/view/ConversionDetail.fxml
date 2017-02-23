@@ -31,7 +31,7 @@
 			        <content>
 			          <AnchorPane minHeight="0.0" minWidth="0.0">
 			               <children>
-			                    <TabPane fx:id="tabPane" layoutY="14.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			                    <TabPane fx:id="tabPane" layoutY="14.0" minHeight="420.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			                         <tabs>
 			                              <Tab fx:id="resultTab" closable="false" text="Results">
 			                                   <content>
@@ -66,7 +66,8 @@
 		                                                <TreeTableView fx:id="modelsTable" layoutX="14.0" showRoot="false" styleClass="table table-bordered table-hover" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="220.0">
 		                                                  <columns>
 		                                                    <TreeTableColumn fx:id="staticIdColumn" prefWidth="75.0" text="Static Id" />
-		                                                    <TreeTableColumn fx:id="dynamicIdColumn" prefWidth="105.0" text="Dynamic Id" />
+		                                                    <TreeTableColumn fx:id="originColumn" prefWidth="75.0" text="Origin" />
+		                                                    <TreeTableColumn fx:id="dynamicIdColumn" prefWidth="105.0" text="Dynamic Type" />
 		                                                  </columns>
 		                                                </TreeTableView>
 		                                             </children>

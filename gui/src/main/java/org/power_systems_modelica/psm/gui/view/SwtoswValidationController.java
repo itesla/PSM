@@ -35,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -304,6 +305,29 @@ public class SwtoswValidationController implements MainChildrenController
 
 		nameColumn.setText("");
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		nameColumn.setCellFactory(column -> {
+ 			return new TableCell<Validation, String>()
+ 			{
+ 				protected void updateItem(String item, boolean empty)
+ 				{
+ 					super.updateItem(item, empty);
+ 
+ 					if (item == null || empty)
+ 						setText(null);
+ 					else
+ 					{
+ 						setText(item.toString());
+						if (item.toString().equals(""))
+						{
+							setStyle("-fx-border-color: transparent");
+							setStyle("-fx-table-cell-border-color: transparent");
+						}
+						else
+							setStyle("");
+ 					}
+ 				}
+ 			};
+ 		});
 		rmseColumn.setCellValueFactory(cellData -> cellData.getValue().rmseProperty());
 		rmseColumn.setCellFactory(column -> {
 			return new TextFieldTableCell<Validation, String>(new StringConverter<String>()
@@ -350,7 +374,21 @@ public class SwtoswValidationController implements MainChildrenController
 
 					if (item == null || empty)
 					{
-						setStyle("");
+						Validation v = null;
+						try
+						{
+							v = getTableView().getItems().get(getIndex());
+						}
+						catch (IndexOutOfBoundsException e)
+						{
+						}
+						if (v != null && v.getName().equals(""))
+						{
+							setStyle("-fx-border-color: transparent");
+							setStyle("-fx-table-cell-border-color: transparent");
+						}
+						else
+							setStyle("");
 					}
 					else
 					{
@@ -436,7 +474,21 @@ public class SwtoswValidationController implements MainChildrenController
 
 					if (item == null || empty)
 					{
-						setStyle("");
+						Validation v = null;
+						try
+						{
+							v = getTableView().getItems().get(getIndex());
+						}
+						catch (IndexOutOfBoundsException e)
+						{
+						}
+						if (v != null && v.getName().equals(""))
+						{
+							setStyle("-fx-border-color: transparent");
+							setStyle("-fx-table-cell-border-color: transparent");
+						}
+						else
+							setStyle("");
 					}
 					else
 					{
@@ -503,7 +555,21 @@ public class SwtoswValidationController implements MainChildrenController
 
 					if (item == null || empty)
 					{
-						setStyle("");
+						Validation v = null;
+						try
+						{
+							v = getTableView().getItems().get(getIndex());
+						}
+						catch (IndexOutOfBoundsException e)
+						{
+						}
+						if (v != null && v.getName().equals(""))
+						{
+							setStyle("-fx-border-color: transparent");
+							setStyle("-fx-table-cell-border-color: transparent");
+						}
+						else
+							setStyle("");
 					}
 					else
 					{

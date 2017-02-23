@@ -272,7 +272,7 @@ public class CaseValidationLoader
 	}
 
 	private ValidationResult	r ;
-	private boolean				writeFile	= false;
+	private boolean				writeFile;
 	private List<String> 		outputNames;
 	private static final Logger		LOG				= LoggerFactory
 			.getLogger(CaseValidationLoader.class);

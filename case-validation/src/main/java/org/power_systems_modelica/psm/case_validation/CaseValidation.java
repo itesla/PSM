@@ -165,7 +165,7 @@ public class CaseValidation
 		{
 			properties.load(inputStream);
 
-			this.writeFile = Boolean.getBoolean(Optional.ofNullable(properties.getProperty("writeFile"))
+			this.writeFile = Boolean.parseBoolean(Optional.ofNullable(properties.getProperty("writeFile"))
 					.orElse("false"));
 			
 			this.stepSize = Double
@@ -215,7 +215,7 @@ public class CaseValidation
 	private double					absThreshold;
 	private double					relThreshold;
 	private List<String>			valuesTest;
-	private boolean					writeFile		= false;
+	private boolean					writeFile;
 
 	private CaseValidationLoader	rr;
 	private ValidationResult		result			= new ValidationResult();

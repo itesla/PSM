@@ -32,9 +32,10 @@ public class CaseValidationLoader
 			.get(System.getenv("PSM_DATA"))
 			.resolve("tmp");
 
-	public CaseValidationLoader(ValidationResult result)
+	public CaseValidationLoader(ValidationResult result, boolean writeFile)
 	{
 		this.r = result;
+		this.writeFile = writeFile;
 	}
 
 	public void loadNamesMapping(double stepSize, String pathNamesMapping) throws IOException

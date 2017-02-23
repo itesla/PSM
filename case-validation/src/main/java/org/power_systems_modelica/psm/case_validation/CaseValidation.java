@@ -30,7 +30,7 @@ public class CaseValidation
 
 	public CaseValidation()
 	{
-		rr = new CaseValidationLoader(result);
+		rr = new CaseValidationLoader(result, writeFile);
 	}
 
 	public void configure(Configuration config)
@@ -165,6 +165,9 @@ public class CaseValidation
 		{
 			properties.load(inputStream);
 
+			this.writeFile = Boolean.getBoolean(Optional.ofNullable(properties.getProperty("writeFile"))
+					.orElse("false"));
+			
 			this.stepSize = Double
 					.parseDouble(Optional.ofNullable(properties.getProperty("stepSize"))
 							.orElse("0.0001"));
@@ -212,10 +215,10 @@ public class CaseValidation
 	private double					absThreshold;
 	private double					relThreshold;
 	private List<String>			valuesTest;
+	private boolean					writeFile		= false;
 
 	private CaseValidationLoader	rr;
 	private ValidationResult		result			= new ValidationResult();
-	private boolean					writeFile		= false;
 
 	private static final Path		DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test").resolve("cfg").resolve("case-validation.properties");

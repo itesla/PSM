@@ -122,7 +122,6 @@ public class Logs
 		for (int k = 0; k < lines.length; k++)
 		{
 			String line = lines[k];
-			sb.append("OMCLog ");
 			sb.append(sindent);
 			sb.append(sindex);
 			sb.append(line);

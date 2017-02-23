@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
@@ -137,6 +138,16 @@ public class CompareLoadflowsNewController implements MainChildrenController
 					{
 						caseSource.setItems(FXCollections
 								.observableArrayList(CaseService.getCases(newValue.getName())));
+						caseSource.getItems().sort(new Comparator<Case>()
+						{
+
+							@Override
+							public int compare(Case d1, Case d2)
+							{
+								return d1.getName().compareToIgnoreCase(d2.getName());
+							}
+
+						});
 					}
 				});
 	}

@@ -242,8 +242,20 @@ public class SimulationNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						if (newValue != null)
+						{
 							caseSource.setItems(FXCollections.observableArrayList(
 									CaseService.getConvertedCases(newValue.getName())));
+							caseSource.getItems().sort(new Comparator<ConvertedCase>()
+							{
+
+								@Override
+								public int compare(ConvertedCase d1, ConvertedCase d2)
+								{
+									return d1.getName().compareToIgnoreCase(d2.getName());
+								}
+
+							});
+						}
 					}
 
 				});

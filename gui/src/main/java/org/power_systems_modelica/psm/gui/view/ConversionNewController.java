@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
@@ -212,8 +213,20 @@ public class ConversionNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						if (newValue != null)
+						{
 							caseSource.setItems(FXCollections
 									.observableArrayList(CaseService.getCases(newValue.getName())));
+							caseSource.getItems().sort(new Comparator<Case>()
+							{
+
+								@Override
+								public int compare(Case d1, Case d2)
+								{
+									return d1.getName().compareToIgnoreCase(d2.getName());
+								}
+
+							});
+						}
 					}
 
 				});
@@ -239,8 +252,20 @@ public class ConversionNewController implements MainChildrenController
 							Catalog oldValue, Catalog newValue)
 					{
 						if (newValue != null)
+						{
 							ddrSource.setItems(FXCollections
 									.observableArrayList(DdrService.getDdrs(newValue.getName())));
+							ddrSource.getItems().sort(new Comparator<Ddr>()
+							{
+
+								@Override
+								public int compare(Ddr d1, Ddr d2)
+								{
+									return d1.getName().compareToIgnoreCase(d2.getName());
+								}
+
+							});						
+						}
 					}
 
 				});

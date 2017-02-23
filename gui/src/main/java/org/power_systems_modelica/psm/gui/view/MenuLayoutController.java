@@ -7,8 +7,10 @@ import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
+import eu.itesla_project.commons.Version;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
@@ -43,6 +45,8 @@ public class MenuLayoutController
 	@FXML
 	private void initialize()
 	{
+		versionLabel.setText(Version.VERSION.toString());
+		
 		Properties p = PathUtils.getGUIProperties();
 		DISABLECOMPARELOADFLOWS = Boolean.valueOf(p.getProperty("menu.disableCompareLoadflows"));
 		DISABLESWTOSWVALIDATION = Boolean.valueOf(p.getProperty("menu.disableSwtoswValidation"));
@@ -145,6 +149,9 @@ public class MenuLayoutController
 
 		b.getStyleClass().add("active");
 	}
+
+	@FXML
+	private Label		versionLabel;
 
 	@FXML
 	private HBox		buttonBar;

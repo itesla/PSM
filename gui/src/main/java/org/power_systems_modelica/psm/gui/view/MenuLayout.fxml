@@ -12,11 +12,12 @@
 
 <AnchorPane prefHeight="127.0" prefWidth="600.0" style="-fx-background-color: #f8f8f8;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.MenuLayoutController">
    <children>
-      <Label layoutX="120.0" layoutY="47.0" prefHeight="77.0" text="Power Systems on Modelica" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label layoutX="120.0" layoutY="47.0" prefHeight="50.0" text="Power Systems on Modelica" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
+      <Label fx:id="versionLabel" layoutX="85.0" layoutY="55.0" prefHeight="27.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0" />
       <HBox fx:id="buttonBar" layoutY="102.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <AnchorPane HBox.hgrow="ALWAYS">

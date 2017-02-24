@@ -173,7 +173,7 @@ public class CaseValidationLoader
 		while (it.hasNext())
 		{
 			double candidate = it.next();
-			if (Math.abs(candidate - time) < stepSize/10)
+			if (Math.abs(candidate - time) < stepSize/2)
 				return candidate;
 		}
 		return -1.0;

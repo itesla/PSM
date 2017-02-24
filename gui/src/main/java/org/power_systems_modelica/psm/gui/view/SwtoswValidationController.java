@@ -234,10 +234,14 @@ public class SwtoswValidationController implements MainChildrenController
 		backButton.setDisable(true);
 
 		Properties p = PathUtils.getGUIProperties();
-		STEPSIZE = p.getProperty("swtoswValidation.source.stepSize");
-		THRMSE = p.getProperty("swtoswValidation.validation.thrmse");
-		THRD = p.getProperty("swtoswValidation.validation.thrd");
-		THAD = p.getProperty("swtoswValidation.validation.thad");
+		STEPSIZE = Optional.ofNullable(p.getProperty("swtoswValidation.source.stepSize"))
+				.orElse("0.0001");
+		THRMSE = Optional.ofNullable(p.getProperty("swtoswValidation.validation.thrmse"))
+				.orElse("0.001");
+		THRD = Optional.ofNullable(p.getProperty("swtoswValidation.validation.thrd"))
+				.orElse("0.05");
+		THAD = Optional.ofNullable(p.getProperty("swtoswValidation.validation.thad"))
+				.orElse("0.05");
 
 		try
 		{
@@ -306,17 +310,17 @@ public class SwtoswValidationController implements MainChildrenController
 		nameColumn.setText("");
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		nameColumn.setCellFactory(column -> {
- 			return new TableCell<Validation, String>()
- 			{
- 				protected void updateItem(String item, boolean empty)
- 				{
- 					super.updateItem(item, empty);
- 
- 					if (item == null || empty)
- 						setText(null);
- 					else
- 					{
- 						setText(item.toString());
+			return new TableCell<Validation, String>()
+			{
+				protected void updateItem(String item, boolean empty)
+				{
+					super.updateItem(item, empty);
+
+					if (item == null || empty)
+						setText(null);
+					else
+					{
+						setText(item.toString());
 						if (item.toString().equals(""))
 						{
 							setStyle("-fx-border-color: transparent");
@@ -324,10 +328,10 @@ public class SwtoswValidationController implements MainChildrenController
 						}
 						else
 							setStyle("");
- 					}
- 				}
- 			};
- 		});
+					}
+				}
+			};
+		});
 		rmseColumn.setCellValueFactory(cellData -> cellData.getValue().rmseProperty());
 		rmseColumn.setCellFactory(column -> {
 			return new TextFieldTableCell<Validation, String>(new StringConverter<String>()
@@ -695,11 +699,10 @@ public class SwtoswValidationController implements MainChildrenController
 	private GuiFileChooser					fileChooser;
 	private MainService						mainService;
 
-	private String							STEPSIZE			= "0.0001";
-	private String							TOLERANCE			= "0.05";
-	private String							THRMSE				= "0.001";
-	private String							THRD				= "0.05";
-	private String							THAD				= "0.05";
+	private String							STEPSIZE;
+	private String							THRMSE;
+	private String							THRD;
+	private String							THAD;
 	private Double							thRmseV;
 	private Double							thRdV;
 	private Double							thAdV;

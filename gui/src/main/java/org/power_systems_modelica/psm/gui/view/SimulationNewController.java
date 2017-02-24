@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
@@ -218,10 +219,16 @@ public class SimulationNewController implements MainChildrenController
 	{
 
 		Properties p = PathUtils.getGUIProperties();
-		DSE = p.getProperty("simulation.dynamicSimulation.engine");
-		STOPTIME = p.getProperty("simulation.dynamicSimulation.stopTime");
-		STEPSECOND = p.getProperty("simulation.dynamicSimulation.stepsPerSecond");
-		FILTMAT = p.getProperty("simulation.dynamicSimulation.createFilteredMAT");
+		DSE = Optional.ofNullable(p.getProperty("simulation.dynamicSimulation.engine"))
+				.orElse("OpenModelica");
+		STOPTIME = Optional.ofNullable(p.getProperty("simulation.dynamicSimulation.stopTime"))
+				.orElse("1.0");
+		STEPSECOND = Optional
+				.ofNullable(p.getProperty("simulation.dynamicSimulation.stepsPerSecond"))
+				.orElse("100");
+		FILTMAT = Optional
+				.ofNullable(p.getProperty("simulation.dynamicSimulation.createFilteredMAT"))
+				.orElse("false");
 
 		editingEvent = null;
 
@@ -460,10 +467,12 @@ public class SimulationNewController implements MainChildrenController
 		if (actionEvent.getSelectionModel().getSelectedItem().equals("BusFault"))
 		{
 			if (parametersView.getItems().stream().filter(i -> {
-				return i.getNameWithoutUnit().equals("X") && Double.parseDouble(i.getValue()) < 1e-3;
+				return i.getNameWithoutUnit().equals("X")
+						&& Double.parseDouble(i.getValue()) < 1e-3;
 			}).findAny().isPresent())
 			{
-				UtilsFX.showWarning("Warning", "Reactance parameter is too low.\nPlease a different value for X.");
+				UtilsFX.showWarning("Warning",
+						"Reactance parameter is too low.\nPlease a different value for X.");
 				return;
 			}
 		}
@@ -682,14 +691,14 @@ public class SimulationNewController implements MainChildrenController
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void simulationFinish(Workflow w, boolean onlyCheck, boolean onlyVerify)
 	{
-		if (((WorkflowService)mainService.getSimulationTask()).isCancelled())
+		if (((WorkflowService) mainService.getSimulationTask()).isCancelled())
 			mainService.getMainApp().showSimulationNewView(w);
-		else	
+		else
 			mainService.getMainApp().showSimulationDetailView(mainService, w, onlyCheck,
-				onlyVerify);
+					onlyVerify);
 	}
 
 	@FXML
@@ -743,10 +752,10 @@ public class SimulationNewController implements MainChildrenController
 	private GuiFileChooser						fileChooser;
 	private MainService							mainService;
 
-	private String								DSE			= "OpenModelica";
-	private String								STOPTIME	= "1.0";
-	private String								STEPSECOND	= "100";
-	private String								FILTMAT		= "false";
+	private String								DSE;
+	private String								STOPTIME;
+	private String								STEPSECOND;
+	private String								FILTMAT;
 
 	private static final Logger					LOG			= LoggerFactory
 			.getLogger(SimulationNewController.class);

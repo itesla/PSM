@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
@@ -200,9 +201,13 @@ public class ConversionNewController implements MainChildrenController
 	{
 
 		Properties p = PathUtils.getGUIProperties();
-		LE = p.getProperty("conversion.loadflow.engine");
-		OMCC = p.getProperty("conversion.modelicaNetwork.onlyMainConnectedComponent");
-		FMIE = p.getProperty("conversion.fullModelInitialization.engine");
+		LE = Optional.ofNullable(p.getProperty("conversion.loadflow.engine"))
+				.orElse("loadflowHelmflow");
+		OMCC = Optional
+				.ofNullable(p.getProperty("conversion.modelicaNetwork.onlyMainConnectedComponent"))
+				.orElse("true");
+		FMIE = Optional.ofNullable(p.getProperty("conversion.fullModelInitialization.engine"))
+				.orElse("OpenModelica");
 
 		catalogCaseSource.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<Catalog>()
@@ -264,7 +269,7 @@ public class ConversionNewController implements MainChildrenController
 									return d1.getName().compareToIgnoreCase(d2.getName());
 								}
 
-							});						
+							});
 						}
 					}
 
@@ -448,9 +453,9 @@ public class ConversionNewController implements MainChildrenController
 
 	private void conversionFinish(Workflow w, boolean onlyCheck)
 	{
-		if (((WorkflowService)mainService.getConversionTask()).isCancelled())
+		if (((WorkflowService) mainService.getConversionTask()).isCancelled())
 			mainService.getMainApp().showConversionNewView(w);
-		else	
+		else
 			mainService.getMainApp().showConversionDetailView(mainService, true,
 					null, onlyCheck);
 	}
@@ -485,9 +490,9 @@ public class ConversionNewController implements MainChildrenController
 	private GuiFileChooser				fileChooser;
 	private MainService					mainService;
 
-	private String						LE		= "loadflowHelmflow";
-	private String						OMCC	= "true";
-	private String						FMIE	= "OpenModelica";
+	private String						LE;
+	private String						OMCC;
+	private String						FMIE;
 
 	private static final Logger			LOG		= LoggerFactory
 			.getLogger(ConversionNewController.class);

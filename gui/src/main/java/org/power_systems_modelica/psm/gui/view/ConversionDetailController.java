@@ -200,7 +200,6 @@ public class ConversionDetailController implements MainChildrenController
 		moTab.setDisable(true);
 		curvesTab.setDisable(true);
 		modelsTab.setDisable(true);
-		logTab.setDisable(true);
 		staticTable.getItems().clear();
 		for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 		{
@@ -303,13 +302,11 @@ public class ConversionDetailController implements MainChildrenController
 				}
 				else
 				{
-					staticTable.getItems().addAll(elems);
 					resultIcon.setImage(wnImage);
 					resultText.setText("Conversion model with errors.");
 				}
 
 				curvesTab.setDisable(false);
-				logTab.setDisable(false);
 
 				addSeries(r);
 				UtilsFX.addTooltipScatterChart(voltageChart, "pu");
@@ -326,36 +323,16 @@ public class ConversionDetailController implements MainChildrenController
 				}
 				else
 				{
-					staticTable.getItems().addAll(elems);
 					resultIcon.setImage(wnImage);
 					resultText.setText("Check of " + caseLabel + " with errors.");
 				}
 			}
-			modelsTab.setDisable(false);
 
-			TreeItem<ElementModel> root = modelsTable.getRoot();
-			List<ElementModel> models = r.getModels();
-			models.stream().forEach((model) -> {
-				Optional<TreeItem<ElementModel>> item = root.getChildren().stream().filter(t -> {
-					return ((ElementModel) ((TreeItem<ElementModel>) t).getValue()).getStaticId()
-							.equals(((ElementModel) model).getStaticId());
-				}).findFirst();
-
-				TreeItem<ElementModel> treeItem = root;
-				if (item.isPresent())
-					treeItem = item.get();
-
-				treeItem.getChildren().add(new TreeItem<ElementModel>((ElementModel) model));
-				treeItem.setExpanded(true);
-			});
-			root.getChildren().sort(Comparator
-					.comparing(t -> ((TreeItem<ElementModel>) t).getValue().getStaticId()));
 		}
 		else
 		{
 			if (!isCheckDetail)
 			{
-				logTab.setDisable(false);
 				moTab.setDisable(false);
 
 				resultText.setText("Conversion model failed. See logs tab for more details.");
@@ -365,6 +342,33 @@ public class ConversionDetailController implements MainChildrenController
 			resultIcon.setImage(koImage);
 		}
 
+
+		TreeItem<ElementModel> root = modelsTable.getRoot();
+		List<ElementModel> models = r.getModels();
+
+		if (!elems.isEmpty() || models != null)
+			modelsTab.setDisable(false);
+		
+		if (!elems.isEmpty()) staticTable.getItems().addAll(elems);
+		if (models != null) 
+		{
+			models.stream().forEach((model) -> {
+				Optional<TreeItem<ElementModel>> item = root.getChildren().stream().filter(t -> {
+					return ((ElementModel) ((TreeItem<ElementModel>) t).getValue()).getStaticId()
+							.equals(((ElementModel) model).getStaticId());
+				}).findFirst();
+	
+				TreeItem<ElementModel> treeItem = root;
+				if (item.isPresent())
+					treeItem = item.get();
+	
+				treeItem.getChildren().add(new TreeItem<ElementModel>((ElementModel) model));
+				treeItem.setExpanded(true);
+			});
+			root.getChildren().sort(Comparator
+					.comparing(t -> ((TreeItem<ElementModel>) t).getValue().getStaticId()));
+		}
+
 		StringBuilder sb = new StringBuilder();
 		for (Exception e : r.getExceptions())
 		{
@@ -372,14 +376,11 @@ public class ConversionDetailController implements MainChildrenController
 			sb.append("\n\n");
 		}
 
-		if (!isCheckDetail)
+		Logs l = WorkflowServiceConfiguration.getConversionLogs("" + w.getId());
+		if (l != null)
 		{
-			Logs l = WorkflowServiceConfiguration.getConversionLogs("" + w.getId());
-			if (l != null)
-			{
-				l.dump(sb);
-				sb.append("\n\n");
-			}
+			l.dump(sb);
+			sb.append("\n\n");
 		}
 
 		logArea.setText(sb.toString());

@@ -61,7 +61,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		try
 		{
 			DynamicDataRepository ddr = prepareDdr();
-			ModelicaEngine me = prepareModelicaEngine();
+			me = prepareModelicaEngine();
 			Network n = (Network) workflow.getResults("network");
 			ModelicaSystemBuilder builder = prepareModelicaBuilder(ddr, n, me);
 			ModelicaDocument mo = null;
@@ -190,10 +190,20 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 	@Override
 	public void cancel()
 	{
-		// TODO Auto-generated method stub
+		if(me != null)
+		try
+		{
+			me.close();
+		}
+		catch (Exception x)
+		{
+			failed(x);
+		}
 	}
 
 	// private List<ElementModel> staticIdDynamicTypeList;
+	protected ModelicaEngine				me	= null;
+	
 	private Configuration	config;
 	private String			ddrType;
 	private String			ddrLocation;

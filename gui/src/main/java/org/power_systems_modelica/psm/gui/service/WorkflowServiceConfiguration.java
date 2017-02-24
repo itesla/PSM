@@ -138,14 +138,29 @@ public class WorkflowServiceConfiguration
 		return conv;
 	}
 
+	public static void resetConversion()
+	{
+		conv = null;
+	}
+
 	public static Workflow getSimulation()
 	{
 		return sim;
 	}
 
+	public static void resetSimulation()
+	{
+		sim = null;
+	}
+
 	public static Workflow getCompareLoadflow()
 	{
 		return cl;
+	}
+
+	public static void resetCompareLoadflow()
+	{
+		cl = null;
 	}
 
 	public static List<LoadflowEngine> getLoadflowEngines()

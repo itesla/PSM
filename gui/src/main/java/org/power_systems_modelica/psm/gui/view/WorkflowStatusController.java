@@ -17,6 +17,7 @@ import org.power_systems_modelica.psm.gui.model.SummaryLabel;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.fx.DynamicTreeView;
@@ -240,6 +241,13 @@ public class WorkflowStatusController implements MainChildrenController
 			ws = (WorkflowService) mainService.getCompareLoadflowTask();
 		
 		ws.cancelTask();
+		
+		if (isWorkflowDetail.equals(WorkflowType.CONVERSION))
+			WorkflowServiceConfiguration.resetConversion();
+		else if (isWorkflowDetail.equals(WorkflowType.SIMULATION))
+			WorkflowServiceConfiguration.resetSimulation();
+		else
+			WorkflowServiceConfiguration.resetCompareLoadflow();
 	}
 
 	@FXML

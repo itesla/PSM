@@ -1,7 +1,9 @@
 package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
@@ -38,6 +40,7 @@ public class ModelicaNetworkBuilderReferenceCasesAsWorkflow
 
 	@Override
 	public void build(
+			String catalog,
 			String foldername,
 			String casename,
 			String ddrname,
@@ -47,7 +50,7 @@ public class ModelicaNetworkBuilderReferenceCasesAsWorkflow
 			throws Exception
 	{
 		// TODO Use ShrinkWrap file system for temporal files used in tests
-		Path folder = TEST_SAMPLES.resolve(foldername);
+		Path folder = DATA.resolve(catalog).resolve(foldername);
 		String cim = folder.resolve(casename).toString();
 		String ddr = TEST_SAMPLES.resolve(ddrname).toString();
 		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();

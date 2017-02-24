@@ -1,8 +1,8 @@
 package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
@@ -20,9 +20,9 @@ import org.power_systems_modelica.psm.workflow.psm.ModelicaParserTask;
 public class ModelicaParserReferenceCasesAsWorkflow extends ModelicaParserReferenceCases
 {
 	@Override
-	protected void parse(String foldername, String moname) throws Exception
+	protected void parse(String catalog, String foldername, String moname) throws Exception
 	{
-		Path folder = TEST_SAMPLES.resolve(foldername);
+		Path folder = DATA.resolve(catalog).resolve(foldername);
 		String moInput = folder.resolve(moname).toString();
 		String moOutput = DATA_TMP.resolve("parsed_" + moname).toString();
 

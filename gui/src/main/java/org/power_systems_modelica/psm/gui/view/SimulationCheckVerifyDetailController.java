@@ -10,6 +10,7 @@ import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
+import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -87,6 +88,10 @@ public class SimulationCheckVerifyDetailController implements SimulationResultDe
 		}
 	}
 
+	public void setMainService(MainService mainService)
+	{
+	}
+	
 	@FXML
 	private void initialize()
 	{

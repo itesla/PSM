@@ -193,7 +193,10 @@ public class SimulationDetailController implements MainChildrenController
 		logArea.setText(sb.toString());
 
 		if (resultController != null)
+		{
+			resultController.setMainService(mainService);
 			resultController.setWorkflow(w, objects);
+		}
 	}
 
 	@Override

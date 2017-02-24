@@ -168,6 +168,11 @@ public class SimulationCurveDetailController implements SimulationResultDetailCo
 		}
 	}
 
+	public void setMainService(MainService mainService)
+	{
+		this.mainService = mainService;
+	}
+
 	@FXML
 	private void initialize()
 	{

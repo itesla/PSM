@@ -47,13 +47,19 @@ public class MenuLayoutController
 	@FXML
 	private void initialize()
 	{
-		System.out.println(Version.VERSION.toString());
-		String projectVersion = Version.VERSION.getProjectVersion();
-		long buildTimeStamp = Version.VERSION.getBuildTimestamp();
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-		
-		versionLabel.setText("Version " + projectVersion + " build " + formatter.print(buildTimeStamp));
-		
+		try
+		{
+			String projectVersion = Version.VERSION.getProjectVersion();
+			long buildTimeStamp = Version.VERSION.getBuildTimestamp();
+			DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+
+			versionLabel.setText(
+					"Version " + projectVersion + " build " + formatter.print(buildTimeStamp));
+		}
+		catch (Throwable e)
+		{
+		}
+
 		Properties p = PathUtils.getGUIProperties();
 		DISABLECOMPARELOADFLOWS = Boolean.valueOf(p.getProperty("menu.disableCompareLoadflows"));
 		DISABLESWTOSWVALIDATION = Boolean.valueOf(p.getProperty("menu.disableSwtoswValidation"));

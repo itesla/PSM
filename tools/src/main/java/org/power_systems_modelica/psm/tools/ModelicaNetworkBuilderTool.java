@@ -153,7 +153,8 @@ public class ModelicaNetworkBuilderTool implements Tool
 				data.resolve("test/ieee14/ddr/fake_init.csv").toString());
 		config.setParameter("modelicaEngineWorkingDir", data.resolve("tmp").toString());
 		config.setParameter("libraryDir", data.resolve("test/library").toString());
-
+        config.setParameter("stopTime", "0.01");
+        config.setParameter("numOfIntervalsPerSecond", "1000");
 		me.configure(config);
 
 		ModelicaSystemBuilder b = new ModelicaSystemBuilder(ddr, n, me);

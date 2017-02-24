@@ -92,6 +92,8 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 
 		ModelicaEngine me;
 		me = ModelicaEngineMainFactory.create(modelicaEngine);
+        config.setParameter("stopTime", "0.01");
+        config.setParameter("numOfIntervalsPerSecond", "1000");
 		me.configure(config);
 		return me;
 	}

@@ -288,14 +288,15 @@ public class ConversionDetailController implements MainChildrenController
 		}
 
 		WorkflowResult r = WorkflowServiceConfiguration.getConversionResult("" + w.getId());
-		Collection<Identifiable<?>> elems = WorkflowServiceConfiguration
+		Collection<Identifiable<?>> unmapped = WorkflowServiceConfiguration
 				.getElementsMissingDynamicModel("" + w.getId());
 		if (w.getState().equals(ProcessState.SUCCESS))
 		{
+			boolean successful = unmapped == null || unmapped.isEmpty();
 			if (!isCheckDetail)
 			{
 				moTab.setDisable(false);
-				if (elems.isEmpty())
+				if (successful)
 				{
 					resultIcon.setImage(okImage);
 					resultText.setText(caseLabel + " converted successfully");
@@ -305,9 +306,7 @@ public class ConversionDetailController implements MainChildrenController
 					resultIcon.setImage(wnImage);
 					resultText.setText("Conversion model with errors.");
 				}
-
 				curvesTab.setDisable(false);
-
 				addSeries(r);
 				UtilsFX.addTooltipScatterChart(voltageChart, "pu");
 				UtilsFX.addTooltipScatterChart(phaseChart, "º");
@@ -316,7 +315,7 @@ public class ConversionDetailController implements MainChildrenController
 			}
 			else
 			{
-				if (elems.isEmpty())
+				if (successful)
 				{
 					resultIcon.setImage(okImage);
 					resultText.setText("Check of " + caseLabel + " completed successfully");
@@ -327,14 +326,12 @@ public class ConversionDetailController implements MainChildrenController
 					resultText.setText("Check of " + caseLabel + " with errors.");
 				}
 			}
-
 		}
 		else
 		{
 			if (!isCheckDetail)
 			{
 				moTab.setDisable(false);
-
 				resultText.setText("Conversion model failed. See logs tab for more details.");
 			}
 			else
@@ -342,14 +339,13 @@ public class ConversionDetailController implements MainChildrenController
 			resultIcon.setImage(koImage);
 		}
 
-
 		TreeItem<ElementModel> root = modelsTable.getRoot();
 		List<ElementModel> models = r.getModels();
 
-		if (!elems.isEmpty() || models != null)
+		if (models != null || (unmapped != null && !unmapped.isEmpty()))
 			modelsTab.setDisable(false);
 		
-		if (!elems.isEmpty()) staticTable.getItems().addAll(elems);
+		if (unmapped != null && !unmapped.isEmpty()) staticTable.getItems().addAll(unmapped);
 		if (models != null) 
 		{
 			models.stream().forEach((model) -> {

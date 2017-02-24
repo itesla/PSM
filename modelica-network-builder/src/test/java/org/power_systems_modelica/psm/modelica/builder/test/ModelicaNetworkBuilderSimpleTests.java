@@ -1,11 +1,14 @@
 package org.power_systems_modelica.psm.modelica.builder.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.NEW_LINE;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -18,6 +21,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
 
@@ -46,7 +50,9 @@ public class ModelicaNetworkBuilderSimpleTests
 		Mockito.when(ddr.getSystemModel(Mockito.any(Stage.class))).thenReturn(Optional.empty());
 		ModelicaEngine me = Mockito.mock(ModelicaEngine.class);
 		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
-		ModelicaDocument mo = moc.build();
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
+		ModelicaDocument mo = moc.build(unresolved);
+		assertTrue(unresolved.isEmpty());
 
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
@@ -145,7 +151,8 @@ public class ModelicaNetworkBuilderSimpleTests
 			throws Exception
 	{
 		ModelicaSystemBuilder moc = new ModelicaSystemBuilder(ddr, n, me);
-		ModelicaDocument mo = moc.build();
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
+		ModelicaDocument mo = moc.build(unresolved);
 		StringWriter sout = new StringWriter();
 		PrintWriter out = new PrintWriter(sout);
 		ModelicaTextPrinter.print(mo, out, false);

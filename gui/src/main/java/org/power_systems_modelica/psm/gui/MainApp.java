@@ -146,18 +146,18 @@ public class MainApp extends Application
 				return showWorkflowStatusView(mainService, w, WorkflowType.CONVERSION);
 			else
 			{
-				boolean onlyCheck = false;
+				boolean checkOnly = false;
 				for (TaskDefinition td : w.getConfiguration().getTaskDefinitions())
 				{
 
 					if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
 					{
-						onlyCheck = Boolean.getBoolean(td.getTaskConfiguration()
-								.getParameter("checkElementsMissingDynamicModel"));
+						checkOnly = Boolean.getBoolean(td.getTaskConfiguration()
+								.getParameter("checkOnly"));
 					}
 
 				}
-				return showConversionDetailView(mainService, true, null, onlyCheck);
+				return showConversionDetailView(mainService, true, null, checkOnly);
 			}
 		}
 	}
@@ -248,7 +248,7 @@ public class MainApp extends Application
 	}
 
 	public FXMLLoader showSimulationDetailView(MainService mainService, FXMLLoader subLoader,
-			boolean onlyCheck,	boolean onlyVerify)
+			boolean onlyCheck, boolean onlyVerify)
 	{
 		if (mainService.getSimulationTask() != null)
 			mainService.resetSimulationTask();
@@ -302,12 +302,13 @@ public class MainApp extends Application
 	public FXMLLoader showSwtoswValidationView(MainService mainService)
 	{
 		if (mainService.getSwtoswValidationTask() != null)
-			mainService.resetSwtoswValidationTask();;
-		
+			mainService.resetSwtoswValidationTask();
+		;
+
 		FXMLLoader loader = this.getFXMLLoader("view/SwtoswValidation.fxml", null);
-		
+
 		mainLayoutController.setWorkflow(null);
-		
+
 		return loader;
 	}
 

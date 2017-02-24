@@ -4,6 +4,7 @@ import static org.power_systems_modelica.psm.workflow.Workflow.ResultsScope.SCOP
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepositoryMainFactory;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.events.Event;
 import org.power_systems_modelica.psm.modelica.events.ModelicaEventAdder;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
@@ -61,7 +63,8 @@ public class ModelicaEventAdderTask extends WorkflowTask
 			List<Event> events = eventsFrom(eventData, n);
 
 			ModelicaEventAdder adder = new ModelicaEventAdder(mo, ddr, n, events);
-			ModelicaDocument moe = adder.addEvents();
+			Collection<UnresolvedRef> unresolved = new ArrayList<>();
+			ModelicaDocument moe = adder.addEvents(unresolved);
 			publish(SCOPE_GLOBAL, "moWithEvents", moe);
 			succeded();
 		}
@@ -96,7 +99,7 @@ public class ModelicaEventAdderTask extends WorkflowTask
 		}
 		return events;
 	}
-	
+
 	@Override
 	public void cancel()
 	{

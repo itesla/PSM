@@ -1,12 +1,15 @@
 package org.power_systems_modelica.psm.mo2dyd.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +20,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 import org.power_systems_modelica.psm.mo2dyd.DydFilesFromModelica;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
@@ -211,8 +215,10 @@ public class Mo2Dyd2MoTest
 		ModelicaSystemBuilder builder = new ModelicaSystemBuilder(ddr, n, me);
 		boolean onlyMainConnectedComponent = true;
 		builder.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
-		ModelicaDocument mo = builder.build();
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
+		ModelicaDocument mo = builder.build(unresolved);
 		assertNotNull(mo);
+		assertTrue(unresolved.isEmpty());
 
 		boolean includePsmAnnotations = false;
 		ModelicaTextPrinter.print(mo, moOutput, includePsmAnnotations);

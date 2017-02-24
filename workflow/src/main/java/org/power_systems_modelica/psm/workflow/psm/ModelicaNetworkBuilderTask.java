@@ -18,7 +18,7 @@ import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
-import org.power_systems_modelica.psm.modelica.builder.UnresolvedRefsException;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;
@@ -49,9 +49,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		onlyMainConnectedComponent = config.getBoolean(
 				"onlyMainConnectedComponent",
 				true);
-		checkElementsMissingDynamicModel = config.getBoolean(
-				"checkElementsMissingDynamicModel",
-				false);
+		checkOnly = config.getBoolean("checkOnly", false);
 	}
 
 	@Override
@@ -65,25 +63,13 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 			Network n = (Network) workflow.getResults("network");
 			ModelicaSystemBuilder builder = prepareModelicaBuilder(ddr, n, me);
 			ModelicaDocument mo = null;
-			if (checkElementsMissingDynamicModel)
-				mo = builder.check();
-			else
-				mo = builder.build();
-			publishResults(builder, mo);
-			succeded();
+			Collection<UnresolvedRef> unresolved = new ArrayList<>();
+			if (checkOnly) mo = builder.check(unresolved);
+			else mo = builder.build(unresolved);
+			publishResults(builder, mo, unresolved, me);
 
-			if (!checkElementsMissingDynamicModel)
-			{
-				Logs l = me.getLogs();
-				publish(SCOPE_GLOBAL, "logs", l);
-			}
-		}
-		catch (UnresolvedRefsException x)
-		{
-			Logs logs = new Logs("Modelica network builder");
-			logs.newActivity("Unresolved references");
-			x.getUnresolved().forEach(u -> logs.result(u.toString()));
-			publish(SCOPE_GLOBAL, "logs", logs);
+			if (unresolved.isEmpty()) succeded();
+			else failed();
 		}
 		catch (Exception x)
 		{
@@ -102,7 +88,7 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 	private ModelicaEngine prepareModelicaEngine()
 	{
 		// If we are only checking we do not need a modelica engine
-		if (checkElementsMissingDynamicModel) return null;
+		if (checkOnly) return null;
 
 		ModelicaEngine me;
 		me = ModelicaEngineMainFactory.create(modelicaEngine);
@@ -128,8 +114,29 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 		return builder;
 	}
 
-	private void publishResults(ModelicaSystemBuilder builder, ModelicaDocument mo)
+	private void publishResults(
+			ModelicaSystemBuilder builder,
+			ModelicaDocument mo,
+			Collection<UnresolvedRef> unresolved,
+			ModelicaEngine me)
 	{
+		// TODO We could have logs from conversion process and from modelica engine (full model initialization),
+		// they should be combined together instead of selecting only one of them
+		Logs logs = null;
+		if (!unresolved.isEmpty())
+		{
+			Logs logsu = new Logs("Modelica network builder");
+			logsu.newActivity("Unresolved references");
+			unresolved.forEach(u -> logsu.result(u.toString()));
+			logs = logsu;
+		}
+		else if (me != null)
+		{
+			logs = me.getLogs();
+		}
+		publish(SCOPE_GLOBAL, "logs", logs);
+		publish(SCOPE_GLOBAL, "mo", mo);
+
 		List<ElementModel> elementsModel = new ArrayList<ElementModel>();
 		Map<String, ModelicaModel> dynamicModelsByStaticId = ModelicaUtil
 				.groupByNormalizedStaticId(mo);
@@ -141,11 +148,10 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 										d.getOrigin(),
 										d.getType()))));
 
-		publish(SCOPE_GLOBAL, "mo", mo);
 		publish(SCOPE_GLOBAL, "models", elementsModel);
 
-		Collection<Identifiable<?>> elems = builder.getElementsMissingDynamicModel();
-		publish(SCOPE_GLOBAL, "elementsMissingDynamicModel", elems);
+		Collection<Identifiable<?>> unmapped = builder.getElementsMissingDynamicModel();
+		publish(SCOPE_GLOBAL, "elementsMissingDynamicModel", unmapped);
 	}
 
 	static public class ElementModel
@@ -190,24 +196,23 @@ public class ModelicaNetworkBuilderTask extends WorkflowTask
 	@Override
 	public void cancel()
 	{
-		if(me != null)
-		try
-		{
+		if (me != null)
+			try
+			{
 			me.close();
-		}
-		catch (Exception x)
-		{
+			}
+			catch (Exception x)
+			{
 			failed(x);
-		}
+			}
 	}
 
-	// private List<ElementModel> staticIdDynamicTypeList;
-	protected ModelicaEngine				me	= null;
-	
-	private Configuration	config;
-	private String			ddrType;
-	private String			ddrLocation;
-	private String			modelicaEngine;
-	private boolean			onlyMainConnectedComponent;
-	private boolean			checkElementsMissingDynamicModel;
+	protected ModelicaEngine	me	= null;
+
+	private Configuration		config;
+	private String				ddrType;
+	private String				ddrLocation;
+	private String				modelicaEngine;
+	private boolean				onlyMainConnectedComponent;
+	private boolean				checkOnly;
 }

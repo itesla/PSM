@@ -1,6 +1,5 @@
 package org.power_systems_modelica.psm.modelica.events;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
@@ -11,7 +10,6 @@ import org.power_systems_modelica.psm.modelica.builder.DynamicNetworkReferenceRe
 import org.power_systems_modelica.psm.modelica.builder.MapReferenceResolver;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaNetworkBuilder;
 import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
-import org.power_systems_modelica.psm.modelica.builder.UnresolvedRefsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +25,8 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		this.events = events;
 	}
 
-	public ModelicaDocument addEvents() throws UnresolvedRefsException
+	public ModelicaDocument addEvents(Collection<UnresolvedRef> unresolved)
 	{
-		Collection<UnresolvedRef> unresolved = new ArrayList<>();
-
 		String systemIdWithEvents = original.getSystemModel().getId() + "_withEvents";
 		ModelicaDocument moWithEvents = original.copy(systemIdWithEvents);
 		setModelicaDocument(moWithEvents);
@@ -38,9 +34,6 @@ public class ModelicaEventAdder extends ModelicaNetworkBuilder
 		events.forEach(ev -> addEvent(ev, moWithEvents, unresolved));
 		setAllDynamicModelsAdded(true);
 		removeResolver("DYNN");
-
-		if (!unresolved.isEmpty()) throw new UnresolvedRefsException(unresolved);
-
 		return moWithEvents;
 	}
 

@@ -2,6 +2,8 @@ package org.power_systems_modelica.psm.tools;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -11,6 +13,7 @@ import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
@@ -156,7 +159,8 @@ public class ModelicaNetworkBuilderTool implements Tool
 		ModelicaSystemBuilder b = new ModelicaSystemBuilder(ddr, n, me);
 		boolean onlyMainConnectedComponent = false;
 		b.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
-		ModelicaDocument mo = b.build();
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
+		ModelicaDocument mo = b.build(unresolved);
 
 		Path mof = Paths.get(moFilename);
 		ModelicaTextPrinter.print(mo, mof, includePsmAnnotations);

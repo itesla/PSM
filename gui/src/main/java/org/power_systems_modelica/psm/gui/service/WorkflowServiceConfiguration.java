@@ -392,7 +392,7 @@ public class WorkflowServiceConfiguration
 	}
 
 	public static Workflow createConversion(Case cs, Ddr ddr0, LoadflowEngine le,
-			boolean onlyMainConnectedComponent, DsEngine dse, boolean onlyCheck)
+			boolean onlyMainConnectedComponent, DsEngine dse, boolean checkOnly)
 			throws WorkflowCreationException
 	{
 
@@ -447,8 +447,8 @@ public class WorkflowServiceConfiguration
 								"ddrLocation", ddr0.getLocation(),
 								"onlyMainConnectedComponent",
 								Boolean.toString(onlyMainConnectedComponent),
-								"checkElementsMissingDynamicModel",
-								Boolean.toString(onlyCheck),
+								"checkOnly",
+								Boolean.toString(checkOnly),
 								"modelicaEngine", simulationEngine,
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"fakeModelicaEngineResults", fakeInit)));
@@ -463,14 +463,14 @@ public class WorkflowServiceConfiguration
 								"ddrLocation", ddr0.getLocation(),
 								"onlyMainConnectedComponent",
 								Boolean.toString(onlyMainConnectedComponent),
-								"checkElementsMissingDynamicModel",
-								Boolean.toString(onlyCheck),
+								"checkOnly",
+								Boolean.toString(checkOnly),
 								"modelicaEngine", simulationEngine,
 								"modelicaEngineWorkingDir", modelicaEngineWorkingDir.toString(),
 								"libraryDir", PathUtils.LIBRARY.toString(),
 								"resultVariables", "")));
 			}
-			if (!onlyCheck)
+			if (!checkOnly)
 			{
 				tasks.add(TD(ModelicaExporterTask.class, "exporter0",
 						TC("source", "mo",

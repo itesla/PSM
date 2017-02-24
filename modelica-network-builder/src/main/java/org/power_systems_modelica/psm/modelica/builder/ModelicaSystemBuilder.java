@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository;
 import org.power_systems_modelica.psm.ddr.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaArgument;
+import org.power_systems_modelica.psm.modelica.ModelicaArgumentReference;
+import org.power_systems_modelica.psm.modelica.ModelicaDeclaration;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.ModelicaEquation;
 import org.power_systems_modelica.psm.modelica.ModelicaModel;
@@ -47,17 +49,31 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		this.progress = new Progress();
 	}
 
-	public ModelicaDocument build() throws Exception
+	public ModelicaDocument build(Collection<UnresolvedRef> unresolved) throws Exception
 	{
 		performFullModelInitialization();
-		return buildModelicaSystem();
+		return buildModelicaSystem(unresolved);
 	}
 
-	public ModelicaDocument check() throws Exception
+	public ModelicaDocument check(Collection<UnresolvedRef> unresolved) throws Exception
 	{
-		createModelicaDocument(getNetwork().getName());
-		addDynamicModels();
-		return getModelicaDocument();
+		// Try to build the dynamic system but without performing full model initialization,
+		// so we will consider valid all references to initialization data
+		// We will see if all the other references are valid and can be solved,
+		// and if we have dynamic model mapping for every static element
+		registerResolver("INIT", new ReferenceResolver()
+		{
+			@Override
+			public Object resolveReference(
+					ModelicaArgumentReference a,
+					ModelicaModel m,
+					ModelicaDeclaration d)
+					throws ModelicaArgumentReferenceException
+			{
+				return 1969.0814f;
+			}
+		});
+		return buildModelicaSystem(unresolved);
 	}
 
 	public Collection<Identifiable<?>> getElementsMissingDynamicModel()
@@ -99,12 +115,11 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		registerResolver("INIT", ir);
 	}
 
-	private ModelicaDocument buildModelicaSystem() throws Exception
+	private ModelicaDocument buildModelicaSystem(Collection<UnresolvedRef> unresolved)
 	{
 		progress.report("Building Modelica System Document");
 		createModelicaDocument(getNetwork().getName());
 		registerResolver("DYNN", new DynamicNetworkReferenceResolver(getNetwork(), this));
-		Collection<UnresolvedRef> unresolved = new ArrayList<>();
 		ModelicaSystemModel sys = getModelicaDocument().getSystemModel();
 		Optional<ModelicaModel> ds = getDdr().getSystemModel(Stage.SIMULATION);
 		if (ds.isPresent()) addDynamicModel(ds.get());
@@ -121,8 +136,6 @@ public class ModelicaSystemBuilder extends ModelicaNetworkBuilder
 		List<ModelicaEquation> otherSystemEquations;
 		otherSystemEquations = getDdr().getSystemOtherEquationsInContext(sys, Stage.SIMULATION);
 		if (otherSystemEquations != null) sys.addEquations(otherSystemEquations);
-
-		if (!unresolved.isEmpty()) throw new UnresolvedRefsException(unresolved);
 
 		return getModelicaDocument();
 	}

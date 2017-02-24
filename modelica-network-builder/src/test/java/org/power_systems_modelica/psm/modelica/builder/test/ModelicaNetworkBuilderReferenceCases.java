@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.modelica.builder.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
@@ -9,6 +10,8 @@ import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import org.junit.Test;
@@ -19,6 +22,7 @@ import org.power_systems_modelica.psm.ddr.dyd.DynamicDataRepositoryDydFiles;
 import org.power_systems_modelica.psm.ddr.dyd.ModelMapping;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
 import org.power_systems_modelica.psm.modelica.builder.ModelicaSystemBuilder;
+import org.power_systems_modelica.psm.modelica.builder.UnresolvedRef;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngine;
 import org.power_systems_modelica.psm.modelica.engine.ModelicaEngineMainFactory;
 import org.power_systems_modelica.psm.modelica.io.ModelicaTextPrinter;
@@ -130,8 +134,10 @@ public class ModelicaNetworkBuilderReferenceCases
 		ModelicaSystemBuilder builder = new ModelicaSystemBuilder(ddr, n, me);
 		boolean onlyMainConnectedComponent = true;
 		builder.setOnlyMainConnectedComponent(onlyMainConnectedComponent);
-		ModelicaDocument mo = builder.build();
+		Collection<UnresolvedRef> unresolved = new ArrayList<>();
+		ModelicaDocument mo = builder.build(unresolved);
 		assertNotNull(mo);
+		assertTrue(unresolved.isEmpty());
 
 		// Check that the Modelica document built is equal to the reference
 		boolean includePsmAnnotations = false;
@@ -152,7 +158,7 @@ public class ModelicaNetworkBuilderReferenceCases
 		Path outputa1 = DATA_TMP.resolve("modelica_builder_output_" + name + "_annotations1.mo");
 		ModelicaTextPrinter.print(mo, outputa, includePsmAnnotations);
 		ModelicaDocument mo1 = ModelicaParser.parse(outputa);
-		
+
 		ModelicaTextPrinter.print(mo1, outputa1, includePsmAnnotations);
 		Path expected = outputa;
 		Path actual = outputa1;

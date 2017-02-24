@@ -172,31 +172,35 @@ public class DynamicDataRepositoryTest
 	@Test
 	public void testIeee14() throws ConnectionException
 	{
-		testIeee("ieee14");
+		String case_ = "ieee14";
+		
+		testIeee(TEST_SAMPLES.resolve(case_).resolve("ddr").toString(),case_);
 	}
 
 	@Test
 	public void testIeee30() throws ConnectionException
 	{
-		testIeee("ieee30");
+		String case_ ="ieee30";
+		testIeee(TEST_SAMPLES.resolve(case_).resolve("ddr").toString(),case_);
 	}
 
 	@Test
 	public void testIeee57() throws ConnectionException
 	{
-		testIeee("ieee57");
+		String case_ = "ieee57"; 
+		testIeee(TEST_SAMPLES.resolve(case_).resolve("ddr").toString(),case_);
 	}
 
 	@Test
 	public void testIeee118() throws ConnectionException
 	{
-		testIeee("ieee118");
+		String case_ = "ieee118";
+		testIeee(TEST_PRIVATE.resolve(case_).resolve("ddr").toString(), case_);
 	}
 
-	private void testIeee(String case_) throws ConnectionException
+	private void testIeee(String ddrLocation, String case_) throws ConnectionException
 	{
-		String location = TEST_SAMPLES.resolve(case_).resolve("ddr").toString();
-		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", location);
+		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", ddrLocation);
 		ddr.connect();
 		Collection<String> events = ddr.getEvents();
 		assertTrue(events.contains("BusFault"));
@@ -260,5 +264,6 @@ public class DynamicDataRepositoryTest
 
 	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));
 	private static final Path	TEST_SAMPLES	= DATA.resolve("test");
+	private static final Path	TEST_PRIVATE	= DATA.resolve("test_private");
 	private static final Path	DATA_TMP		= DATA.resolve("tmp");
 }

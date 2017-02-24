@@ -111,8 +111,8 @@ public class ModelicaNetworkBuilderReferenceCases
 		// TODO Use ShrinkWrap file system for temporal files used in tests
 		Path folder = DATA.resolve(catalog).resolve(foldername);
 		Path cim = folder.resolve(casename);
-		String ddrLocation = TEST_SAMPLES.resolve(ddrname).toString();
-		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();
+		String ddrLocation = DATA.resolve(catalog).resolve(ddrname).toString();
+		String fakeInit = DATA.resolve(catalog).resolve(ddrname).resolve("fake_init.csv").toString();
 		String name = foldername;
 		Path output = DATA_TMP.resolve("modelica_builder_output_" + name + ".mo");
 		Path modelicaEngineWorkingDir = DATA_TMP.resolve("modelica_builder_init" + name);

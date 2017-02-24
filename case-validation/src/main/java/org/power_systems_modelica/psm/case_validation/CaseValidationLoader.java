@@ -101,7 +101,7 @@ public class CaseValidationLoader
 				List<String> values = Arrays.asList(dataRow.split(","));
 				final double time = Double.parseDouble(values.get(timeCol)); 
 
-				if (Math.abs(Math.rint(10*time/stepSize) - Math.rint(10*lastTime/stepSize)) >= 9)
+				if (Math.abs(Math.floor(10*time/stepSize) - Math.floor(10*lastTime/stepSize)) >= 9)
 				{
 					elements.forEach(k -> {
 						

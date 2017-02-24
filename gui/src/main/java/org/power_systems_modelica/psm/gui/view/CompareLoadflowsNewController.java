@@ -2,6 +2,7 @@ package org.power_systems_modelica.psm.gui.view;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
@@ -101,7 +102,8 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	{
 		this.mainService = mainService;
 
-		catalogSource.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
+		catalogSource
+				.setItems(FXCollections.observableArrayList(CatalogService.getCatalogs("cases")));
 	}
 
 	@Override
@@ -123,8 +125,18 @@ public class CompareLoadflowsNewController implements MainChildrenController
 	private void initialize()
 	{
 		Properties p = PathUtils.getGUIProperties();
-		EGRL = p.getProperty("compareLoadflows.loadflow.enforceGeneratorsReactiveLimits");
-		UHRAIS = p.getProperty("compareLoadflows.HELMflow.useHadesResultsAsInputState");
+		EGRL = Optional.ofNullable(
+				p.getProperty("compareLoadflows.loadflow.enforceGeneratorsReactiveLimits"))
+				.orElse("true");
+		UHRAIS = Optional
+				.ofNullable(p.getProperty("compareLoadflows.HELMflow.useHadesResultsAsInputState"))
+				.orElse("true");
+		DISABLEHELMFLOWFROMHADESRESULT = Boolean.valueOf(Optional
+				.ofNullable(p.getProperty("compareLoadflows.disableHelmflowFromHadesResults"))
+				.orElse("true"));
+
+		if (DISABLEHELMFLOWFROMHADESRESULT)
+			helmflowFromHadesResults.setVisible(false);
 
 		enforceGeneratorsReactiveLimits.setSelected(Boolean.parseBoolean(EGRL));
 		helmflowFromHadesResults.setSelected(Boolean.parseBoolean(UHRAIS));
@@ -178,7 +190,8 @@ public class CompareLoadflowsNewController implements MainChildrenController
 			Task<?> task = TaskService.createTask(w,
 					() -> compareLoadflowsFinish());
 			mainService.setCompareLoadflowTask(task);
-			mainService.getMainApp().showWorkflowStatusView(mainService, w, WorkflowType.COMPARELOADFLOW);
+			mainService.getMainApp().showWorkflowStatusView(mainService, w,
+					WorkflowType.COMPARELOADFLOW);
 			TaskService.startTask(task);
 		}
 		catch (WorkflowCreationException e)
@@ -190,9 +203,9 @@ public class CompareLoadflowsNewController implements MainChildrenController
 
 	private void compareLoadflowsFinish()
 	{
-		if (((WorkflowService)mainService.getCompareLoadflowTask()).isCancelled())
+		if (((WorkflowService) mainService.getCompareLoadflowTask()).isCancelled())
 			mainService.getMainApp().showCompareLoadflowsView(mainService, null);
-		else	
+		else
 			mainService.getMainApp().showCompareLoadflowsDetailView(mainService);
 	}
 
@@ -207,10 +220,11 @@ public class CompareLoadflowsNewController implements MainChildrenController
 
 	private MainService			mainService;
 
-	private String				EGRL	= "true";
-	private String				UHRAIS	= "true";
+	private String				EGRL;
+	private String				UHRAIS;
 
 	private static final Logger	LOG		= LoggerFactory
 			.getLogger(CompareLoadflowsNewController.class);
 
+	private Boolean				DISABLEHELMFLOWFROMHADESRESULT;
 }

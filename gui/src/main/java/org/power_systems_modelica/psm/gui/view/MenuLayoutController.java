@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.util.Optional;
 import java.util.Properties;
 
 import org.joda.time.format.DateTimeFormat;
@@ -61,13 +62,21 @@ public class MenuLayoutController
 		}
 
 		Properties p = PathUtils.getGUIProperties();
-		DISABLECOMPARELOADFLOWS = Boolean.valueOf(p.getProperty("menu.disableCompareLoadflows"));
-		DISABLESWTOSWVALIDATION = Boolean.valueOf(p.getProperty("menu.disableSwtoswValidation"));
+		DISABLECOMPARELOADFLOWS = Boolean.valueOf(Optional.ofNullable(p.getProperty("menu.disableCompareLoadflows")).orElse("false"));
+		DISABLESWTOSWVALIDATION = Boolean.valueOf(Optional.ofNullable(p.getProperty("menu.disableSwtoswValidation")).orElse("false"));
+		
+		if (!isHades2Available())
+			DISABLECOMPARELOADFLOWS = true;
 
 		if (DISABLECOMPARELOADFLOWS)
 			buttonBar.getChildren().remove(compareLoadflowsBox);
 		if (DISABLESWTOSWVALIDATION)
 			buttonBar.getChildren().remove(swtoswValidationBox);
+	}
+
+	private boolean isHades2Available()
+	{
+		return System.getProperty("os.name").startsWith("Linux");
 	}
 
 	@FXML
@@ -188,6 +197,6 @@ public class MenuLayoutController
 
 	private MainService	mainService;
 
-	private Boolean		DISABLECOMPARELOADFLOWS	= new Boolean(false);
-	private Boolean		DISABLESWTOSWVALIDATION	= new Boolean(false);
+	private Boolean		DISABLECOMPARELOADFLOWS;
+	private Boolean		DISABLESWTOSWVALIDATION;
 }

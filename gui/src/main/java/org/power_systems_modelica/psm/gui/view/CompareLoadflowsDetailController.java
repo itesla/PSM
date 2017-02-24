@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.gui.view;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
@@ -285,31 +286,47 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 			DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("V"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
+			
+			DecimalFormat df = new DecimalFormat("0.0###");
+			if (voltageStats.getAverage() < 0.0001)
+				df = new DecimalFormat("0.0###E0");
 
-			avgVoltageDiffLabel.setText(String.format("%,.4f", voltageStats.getAverage() * 100));
-			maxVoltageDiffLabel.setText(String.format("%,.4f", voltageStats.getMax() * 100));
+			avgVoltageDiffLabel.setText(df.format(voltageStats.getAverage()));
+			maxVoltageDiffLabel.setText(df.format(voltageStats.getMax()));
 
 			DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("A"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-			avgPhaseDiffLabel.setText(String.format("%,.4f", phaseStats.getAverage() * 100));
-			maxPhaseDiffLabel.setText(String.format("%,.4f", phaseStats.getMax() * 100));
+			df = new DecimalFormat("0.0###");
+			if (phaseStats.getAverage() < 0.0001)
+				df = new DecimalFormat("0.0###E0");
+			
+			avgPhaseDiffLabel.setText(df.format(phaseStats.getAverage()));
+			maxPhaseDiffLabel.setText(df.format(phaseStats.getMax()));
 
 			DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("P"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
-			avgActiveDiffLabel.setText(String.format("%,.4f", activeStats.getAverage() * 100));
-			maxActiveDiffLabel.setText(String.format("%,.4f", activeStats.getMax() * 100));
+			df = new DecimalFormat("0.0###");
+			if (activeStats.getAverage() < 0.0001)
+				df = new DecimalFormat("0.0###E0");
+			
+			avgActiveDiffLabel.setText(df.format(activeStats.getAverage()));
+			maxActiveDiffLabel.setText(df.format(activeStats.getMax()));
 
 			DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream()
 					.map(bus -> bus.getAbsError("Q"))
 					.collect(Collectors.summarizingDouble(Float::doubleValue));
 
+			df = new DecimalFormat("0.0###");
+			if (reactiveStats.getAverage() < 0.0001)
+				df = new DecimalFormat("0.0###E0");
+			
 			avgReactiveDiffLabel
-					.setText(String.format("%,.4f", reactiveStats.getAverage() * 100));
-			maxReactiveDiffLabel.setText(String.format("%,.4f", reactiveStats.getMax() * 100));
+					.setText(df.format(reactiveStats.getAverage()));
+			maxReactiveDiffLabel.setText(df.format(reactiveStats.getMax()));
 
 			voltageTable.setItems(wr.getAllBusesValues());
 			phaseTable.setItems(wr.getAllBusesValues());
@@ -367,10 +384,11 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					@Override
 					public String toString(Number object)
 					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f", object.floatValue() * 100);
-
-						return String.format("%,.4f", object.floatValue() * 100);
+						DecimalFormat df = new DecimalFormat("0.0###");
+						if (object.floatValue() < 0.0001 && object.floatValue() != 0.0)
+							df = new DecimalFormat("0.0###E0");
+						
+						return df.format(object.floatValue());
 					}
 				});
 
@@ -386,10 +404,11 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					@Override
 					public String toString(Number object)
 					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f", object.floatValue() * 100);
-
-						return String.format("%,.4f", object.floatValue() * 100);
+						DecimalFormat df = new DecimalFormat("0.0###");
+						if (object.floatValue() < 0.0001 && object.floatValue() != 0.0)
+							df = new DecimalFormat("0.0###E0");
+						
+						return df.format(object.floatValue());
 					}
 				});
 
@@ -405,10 +424,11 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					@Override
 					public String toString(Number object)
 					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f", object.floatValue() * 100);
-
-						return String.format("%,.4f", object.floatValue() * 100);
+						DecimalFormat df = new DecimalFormat("0.0###");
+						if (object.floatValue() < 0.0001 && object.floatValue() != 0.0)
+							df = new DecimalFormat("0.0###E0");
+						
+						return df.format(object.floatValue());
 					}
 				});
 
@@ -424,10 +444,11 @@ public class CompareLoadflowsDetailController implements MainChildrenController
 					@Override
 					public String toString(Number object)
 					{
-						if (Math.abs(object.floatValue() * 100) > 1000)
-							return String.format("%,.0f", object.floatValue() * 100);
-
-						return String.format("%,.4f", object.floatValue() * 100);
+						DecimalFormat df = new DecimalFormat("0.0###");
+						if (object.floatValue() < 0.0001 && object.floatValue() != 0.0)
+							df = new DecimalFormat("0.0###E0");
+						
+						return df.format(object.floatValue());
 					}
 				});
 

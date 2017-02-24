@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.power_systems_modelica.psm.gui.model.BusData;
@@ -212,8 +213,13 @@ public class UtilsFX
 					String comparisonString = "\nHelmflow: " + b.getData().get(variable)[0] + " "
 							+ unit + "\n"
 							+ "Hades2: " + b.getData().get(variable)[1] + " " + unit;
+					
+					DecimalFormat df = new DecimalFormat("0.0###");
+					if (d.getYValue().doubleValue() < 0.0001  && d.getYValue().doubleValue() != 0.0)
+						df = new DecimalFormat("0.0###E0");
+					
 					Tooltip.install(d.getNode(), new Tooltip(d.getXValue() + ": "
-							+ String.format("%,.4f%%", d.getYValue().doubleValue() * 100)
+							+ df.format(d.getYValue().doubleValue())
 							+ comparisonString));
 				});
 			}

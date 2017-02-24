@@ -23,6 +23,7 @@
 	</types>
 	<message name="simulate">
 		<part name="arg0" type="xsd:string"></part>
+		<part name="arg0" type="xsd:string"></part>
 		<part name="arg1" type="xsd:string"></part>
 		<part name="arg2" type="xsd:double"></part>
 		<part name="arg3" type="xsd:double"></part>
@@ -33,7 +34,6 @@
 		<part name="arg8" type="xsd:string"></part>
 		<part name="arg9" type="xsd:string"></part>
 		<part name="arg10" type="xsd:boolean"></part>
-		<part name="arg11" type="xsd:int"></part>
 		<part name="arg12" type="xsd:base64Binary"></part>
 	</message>
 	<message name="simulateResponse">
@@ -42,9 +42,18 @@
 	<message name="check">		<part name="arg0" type="xsd:string"></part>
 		<part name="arg1" type="xsd:string"></part>
 		<part name="arg2" type="xsd:string"></part>
-		<part name="arg3" type="xsd:base64Binary"></part>
+		<part name="arg3" type="xsd:string"></part>
+		<part name="arg4" type="xsd:base64Binary"></part>
 	</message>
 	<message name="checkResponse">
+		<part name="return" type="xsd:base64Binary"></part>
+	</message>
+	<message name="prepareDynamicEnvironment">
+		<part name="arg0" type="xsd:string"></part>
+		<part name="arg1" type="xsd:string"></part>
+		<part name="arg2" type="xsd:base64Binary"></part>
+	</message>
+	<message name="prepareDynamicEnvironmentResponse">
 		<part name="return" type="xsd:base64Binary"></part>
 	</message>
 	<portType name="SimulatorServer">
@@ -57,8 +66,7 @@
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/simulateResponse"
 				message="tns:simulateResponse"></output>
 		</operation>
-		<operation name="check"
-			parameterOrder="arg0 arg1 arg2 arg3">
+		<operation name="check" parameterOrder="arg0 arg1 arg2 arg3 arg4">
 			<input
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/checkRequest"
 				message="tns:check"></input>
@@ -66,12 +74,20 @@
 				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/checkResponse"
 				message="tns:checkResponse"></output>
 		</operation>
+		<operation name="prepareDynamicEnvironment" parameterOrder="arg0 arg1 arg2">
+			<input
+				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/prepareDynamicEnvironmentRequest"
+				message="tns:prepareDynamicEnvironment"></input>
+			<output
+				wsam:Action="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/SimulatorServer/prepareDynamicEnvironmentResponse"
+				message="tns:prepareDynamicEnvironmentResponse"></output>
+		</operation>
 	</portType>
 	<binding name="SimulatorServerImplPortBinding" type="tns:SimulatorServer">
 		<wsp:PolicyReference URI="#SimulatorServerImplPortBinding_MTOM_Policy"></wsp:PolicyReference>
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
 			style="rpc"></soap:binding>
-		<operation name="simulate">
+		<operation name="prepareDynamicEnvironment">
 			<soap:operation soapAction=""></soap:operation>
 			<input>
 				<soap:body use="literal"
@@ -83,6 +99,16 @@
 			</output>
 		</operation>
 		<operation name="check">
+			<soap:operation soapAction=""></soap:operation>
+			<input>
+				<soap:body use="literal"
+					namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
+			</input>
+			<output>
+				<soap:body use="literal"
+					namespace="http://proxy_service.integration.dymola.psm.power_systems_modelica.org/"></soap:body>
+			</output>
+		<operation name="simulate">
 			<soap:operation soapAction=""></soap:operation>
 			<input>
 				<soap:body use="literal"

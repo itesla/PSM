@@ -23,7 +23,15 @@ public interface SimulatorServer
 {
 	@WebMethod
 	@XmlMimeType("application/octet-stream")
+	DataHandler prepareDynamicEnvironment(
+			String workingDirectory,
+			String resultsFileName,
+			@XmlMimeType("application/octet-stream") DataHandler data);
+
+	@WebMethod
+	@XmlMimeType("application/octet-stream")
 	DataHandler check(
+			String workingDirectory,
 			 String inputFileName,
 			 String problem,
 			 String resultsFileName,
@@ -31,7 +39,9 @@ public interface SimulatorServer
 
 	@WebMethod
 	@XmlMimeType("application/octet-stream")
-	DataHandler simulate(String inputFileName,
+	DataHandler simulate(
+			String workingDirectory,
+			String inputFileName,
 			String problem,
 			double startTime,
 			double stopTime,

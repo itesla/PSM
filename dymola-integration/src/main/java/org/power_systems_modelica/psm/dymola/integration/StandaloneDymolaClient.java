@@ -6,7 +6,9 @@
  */
 package org.power_systems_modelica.psm.dymola.integration;
 
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import javax.activation.DataHandler;
@@ -41,12 +43,87 @@ public class StandaloneDymolaClient
 		this.resultVariables = resultVariables;
 		this.methodList = methodList;
 	}
+	
+	protected String prepareDynamicEnvironment(Path workingDirectory) {
+		Path finalWorkingDir = workingDirectory.resolve("library"); 
+		if(Files.notExists(finalWorkingDir)) {
+			try
+			{
+				Files.createDirectory(finalWorkingDir);
+			}
+			catch (IOException e)
+			{
+				LOGGER.error(String.format("Error creating working directory %s.", finalWorkingDir));
+				return e.toString();
+			}
+		}
+		
+		Path pathIn = finalWorkingDir.resolve(this.inputFileName);
+		Path pathOut = finalWorkingDir.resolve(this.outputFileName + ".zip");
+		String retCode = "";
+		RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES, 2000);
+		LOGGER.info(" - invoking remote dymola proxy service");
+		while (retry.shouldRetry())
+		{
+			try
+			{
+				SimulatorServerImplService service = new SimulatorServerImplService(
+						new URL(wsdlService));
+				SimulatorServer sport = service.getSimulatorServerImplPort(new MTOMFeature());
+				((BindingProvider) sport).getRequestContext().put(JAXWSProperties.CONNECT_TIMEOUT,
+						CONNECTION_TIMEOUT);
+				((BindingProvider) sport).getRequestContext()
+						.put("javax.xml.ws.client.connectionTimeout", CONNECTION_TIMEOUT);
+				((BindingProvider) sport).getRequestContext().put(JAXWSProperties.REQUEST_TIMEOUT,
+						REQUEST_TIMEOUT);
+				((BindingProvider) sport).getRequestContext()
+						.put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
+				DataHandler dhin = new DataHandler(new FileDataSource(pathIn.toFile()));
+				DataHandler dhout = sport.prepareDynamicEnvironment(
+						workingDirectory.getFileName().toString(),
+						outputFileName,
+						dhin);
+				StreamingDataHandler sdh = (StreamingDataHandler) dhout;
+				LOGGER.info(
+						" - remote dymola proxy service ended successfully, retrieving validation output");
+				sdh.moveTo(pathOut.toFile());
+				sdh.close();
+				LOGGER.info(" - validation output retrieved");
+				break;
+			}
+			catch (Exception e)
+			{
+				try
+				{
+					LOGGER.warn(" - retry ... ({})", e.getMessage());
+					retry.errorOccured(e);
+				}
+				catch (RuntimeException e1)
+				{
+					LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
+					retCode = e.toString();
+				}
+				catch (Exception e1)
+				{
+					LOGGER.error(" - remote dymola proxy service ended unsuccessfully", e);
+					// retCode= Throwables.getRootCause(e).toString();
+					retCode = e1.toString();
+				}
+			}
+		}
 
-	protected String check(String modelName, String modelFileName)
-			throws InterruptedException
+		return retCode;
+	}
+
+	protected String check(Path workingDirectory, String modelName, String modelFileName, String outputDymolaFileName)
+			throws Exception
 	{
-		Path pathIn = workingDirectory.resolve(this.inputFileName);
-		Path pathOut = workingDirectory.resolve(outputFileName);
+		if(Files.notExists(workingDirectory.resolve(modelName))) {
+			Files.createDirectory(workingDirectory.resolve(modelName));
+		}
+		Path finalWorkingDir = workingDirectory.resolve(modelName); 
+		Path pathIn = finalWorkingDir.resolve(modelFileName);
+		Path pathOut = finalWorkingDir.resolve(modelName + "_check.zip");
 		String retCode = "";
 		RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES, 2000);
 		LOGGER.info(" - invoking remote dymola proxy service");
@@ -67,6 +144,7 @@ public class StandaloneDymolaClient
 						.put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
 				DataHandler dhin = new DataHandler(new FileDataSource(pathIn.toFile()));
 				DataHandler dhout = sport.check(
+						workingDirectory.getFileName().toString(),
 						modelFileName,
 						modelName,
 						outputDymolaFileName,
@@ -103,22 +181,29 @@ public class StandaloneDymolaClient
 		return retCode;
 	}
 
-	protected String verify(String modelName, String modelFileName, double startTime,
+	protected String verify(Path workingDirectory, String modelName, String modelFileName, double startTime,
 			double stopTime,
-			int numOfIntervals, double intervalSize, double tolerance) throws Exception
+			int numOfIntervals, double intervalSize, double tolerance, String outputDymolaFileName) throws Exception
 	{
-		String retCode = simulate(modelName, modelFileName, startTime, stopTime, numOfIntervals,
-				intervalSize, tolerance);
+		String retCode = simulate(workingDirectory, modelName, modelFileName, startTime, stopTime, numOfIntervals,
+				intervalSize, tolerance, outputDymolaFileName);
 
 		return retCode;
 	}
 
-	protected String simulate(String modelName, String modelFileName, double startTime,
-			double stopTime, int numOfIntervals, double intervalSize, double tolerance)
+	protected String simulate(Path workingDirectory, String modelName, String modelFileName, double startTime,
+			double stopTime, int numOfIntervals, double intervalSize, double tolerance, String outputDymolaFileName)
 			throws Exception
 	{
-		Path pathIn = workingDirectory.resolve(inputFileName);
-		Path pathOut = workingDirectory.resolve(outputFileName);
+		if(Files.notExists(workingDirectory.resolve(modelName))) {
+			Files.createDirectory(workingDirectory.resolve(modelName));
+		}
+		Path finalWorkingDir = workingDirectory.resolve(modelName); 
+		Path pathIn = finalWorkingDir.resolve(modelFileName);
+		Path pathOut = finalWorkingDir.resolve(modelName + ".zip");
+		
+//		Path pathIn = workingDirectory.resolve(inputFileName);
+//		Path pathOut = workingDirectory.resolve(modelName);
 		String retCode = "";
 		RetryOnExceptionStrategy retry = new RetryOnExceptionStrategy(TRIES, 2000);
 		LOGGER.info(" - invoking remote dymola proxy service");
@@ -138,7 +223,9 @@ public class StandaloneDymolaClient
 				((BindingProvider) sport).getRequestContext()
 						.put("javax.xml.ws.client.receiveTimeout", REQUEST_TIMEOUT);
 				DataHandler dhin = new DataHandler(new FileDataSource(pathIn.toFile()));
-				DataHandler dhout = sport.simulate(modelFileName,
+				DataHandler dhout = sport.simulate(
+						workingDirectory.getFileName().toString(),
+						modelFileName,
 						modelName,
 						startTime,
 						stopTime,

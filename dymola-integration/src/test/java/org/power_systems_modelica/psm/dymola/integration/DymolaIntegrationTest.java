@@ -210,7 +210,7 @@ public class DymolaIntegrationTest
 
 		try (DymolaEngine dymEngine = new DymolaEngine())
 		{
-			config.setParameter("depth", "0");
+            config.setParameter("depth", "0");
 			dymEngine.configure(config);
 			dymEngine.simulate(mo);
 
@@ -225,8 +225,7 @@ public class DymolaIntegrationTest
 			assertTrue(Files.exists(dymSimPath.resolve(moName + "_res.csv")));
 			if (config.getBoolean("createFilteredMat"))
 				assertTrue(Files.exists(dymSimPath.resolve(moName + "_res_filtered.mat")));
-			assertTrue(Files.exists(dymSimPath.resolve(moName + "_in.zip")));
-			assertTrue(Files.exists(dymSimPath.resolve(moName + "_out.zip")));
+			assertTrue(Files.exists(dymSimPath.resolve(moName + ".zip")));
 		}
 		catch (Exception exc)
 		{

@@ -1,5 +1,6 @@
 package org.power_systems_modelica.psm.dymola.integration;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,53 +70,76 @@ public class DymolaEngine implements ModelicaEngine
 	}
 
 	@Override
+	public void simulate(ModelicaDocument mo) throws Exception
+	{
+		prepareDynamicEnvironment();
+
+		progress(String.format("Model %s", mo.getSystemModel().getId()));
+		simulateModelicaDocument(mo);
+	}
+
+	@Override
 	public void simulate(Collection<ModelicaDocument> mos) throws Exception
 	{
 		// FIXME Just as an exercise, do it in parallel
 		// Temporal files are overwritten if run in parallel (equations not
 		// written properly)
+		prepareDynamicEnvironment();
+
 		for (ModelicaDocument mo : mos)
-			simulate(mo);
+		{
+			progress(String.format("Model %s", mo.getSystemModel().getId()));
+			simulateModelicaDocument(mo);
+		}
+
 	}
 
-	@Override
-	public void simulate(ModelicaDocument mo) throws Exception
+	private void simulateModelicaDocument(ModelicaDocument mo) throws Exception
 	{
 		String modelName = mo.getSystemModel().getId();
 		String moFileName = modelName + MO_EXTENSION;
 		Path modelDirectory = Paths.get(moFileName);
 		String simResults = "";
 
-		if (Files.notExists(this.workingDir.resolve(modelDirectory)))
-		{
-			printModelicaDocument(mo, this.workingDir);
-		}
-
-		prepareWorkingDirectory(this.workingDir.resolve(modelDirectory), moFileName, modelName);
 		// The first "result" in ModelicaSimulationResults is the simulation directory with var="simulation_path"
-		this.results.addResult(modelName, "simulation_path", this.dymSimulationDir);
+		this.results.addResult(modelName, "simulation_path",
+				this.dymSimulationDir.resolve(modelName));
 		this.results.addResult(modelName, "successful", true);
-
-		dymolaClient = new StandaloneDymolaClient(dymSimulationDir, inputZipFileName,
-				outputZipFileName, outputDymolaFileName,
-				createFilteredMat, METHOD_LIST, wsdlService, resultVariables);
-		LOG.info("Running Dymola client: {}", dymolaClient.toString());
-
-		progress(String.format("Checking model %s.", modelName));
-		simResults = dymolaClient.check(modelName, moFileName);
-		if (!simResults.isEmpty())
+		Files.createDirectory(this.dymSimulationDir.resolve(modelName));
+		if (Files.notExists(this.dymSimulationDir.resolve(modelName).resolve(modelDirectory)))
 		{
-			this.results.addResult(modelName, "successful", false);
-			progress(String.format("Model %s checked unsuccessfully.", modelName));
+			printModelicaDocument(mo, this.dymSimulationDir.resolve(modelName));
 		}
-		else progress(String.format("Model %s checked successfully.", modelName));
-		if (depth == 1) return;
+
+		this.outputZipFileName = modelName + ".zip";
+		this.outputDymolaFileName = modelName + "_res";
+		this.outputErrorsFileName = modelName + "_errors.log";
+
+		// Option 1 : Check
+		// Option 2 : Verify
+		// Option 0 : Simulate
+		if (depth == 1)
+		{
+			progress(String.format("Checking model %s.", modelName));
+			simResults = dymolaClient.check(this.dymSimulationDir, modelName, moFileName,
+					outputDymolaFileName);
+			if (!simResults.isEmpty())
+			{
+				this.results.addResult(modelName, "successful", false);
+				progress(String.format("Model %s checked unsuccessfully.", modelName));
+			}
+			else progress(String.format("Model %s checked successfully.", modelName));
+
+			fillLogs(this.dymSimulationDir.resolve(modelName).resolve(modelName + "_res_log.txt"));
+			return;
+		}
 
 		if (depth != 0)
 		{
 			progress(String.format("Verifying model %s.", modelName));
-			simResults = dymolaClient.verify(modelName, moFileName, startTime,
-					0.1, 10, 0.001, tolerance);
+			simResults = dymolaClient.verify(this.dymSimulationDir, modelName, moFileName,
+					startTime,
+					0.1, 10, 0.001, tolerance, outputDymolaFileName);
 			if (!simResults.isEmpty())
 			{
 				this.results.addResult(modelName, "successful", false);
@@ -124,15 +148,21 @@ public class DymolaEngine implements ModelicaEngine
 			else
 			{
 				progress(String.format("Model %s verified successfully.", modelName));
-				writeResults(outputZipFileName, modelName);
+				Path modelPath = this.dymSimulationDir.resolve(modelName);
+				writeResults(outputZipFileName, modelName, modelPath);
 			}
 		}
 
-		if (depth == 2) return;
+		if (depth == 2)
+		{
+			fillLogs(this.dymSimulationDir.resolve(modelName).resolve(modelName + "_res_log.txt"));
+			return;
+		}
 
 		progress(String.format("Simulating model %s.", modelName));
-		simResults = dymolaClient.simulate(modelName, moFileName, startTime, stopTime,
-				numOfIntervals, intervalSize, tolerance);
+		simResults = dymolaClient.simulate(this.dymSimulationDir, modelName, moFileName, startTime,
+				stopTime,
+				numOfIntervals, intervalSize, tolerance, outputDymolaFileName);
 		if (!simResults.isEmpty())
 		{
 			this.results.addResult(modelName, "successful", false);
@@ -142,7 +172,74 @@ public class DymolaEngine implements ModelicaEngine
 		else
 		{
 			progress(String.format("Model %s simulated successfully.", modelName));
-			writeResults(outputZipFileName, modelName);
+			Path modelPath = this.dymSimulationDir.resolve(modelName);
+			writeResults(outputZipFileName, modelName, modelPath);
+		}
+		fillLogs(this.dymSimulationDir.resolve(modelName).resolve(modelName + "_res_log.txt"));
+	}
+
+	private void prepareDynamicEnvironment()
+	{
+		try
+		{
+			this.dymSimulationDir = Files.createTempDirectory(this.workingDir, DYM_SIM_PREFIX);
+			// Copy models needed to the simulation directory
+			try
+			{
+				Path libraryPath = Paths.get(this.dymSimulationDir.resolve("library").toString());
+				Files.createDirectory(libraryPath);
+
+				Files.list(this.libraryDir).forEach(file -> {
+					try
+					{
+
+						FileUtils.copyFileToDirectory(file.toFile(), libraryPath.toFile(),
+								false);
+					}
+					catch (IOException exc)
+					{
+						LOG.error("Error copying file from {} to {}.", file.toFile(),
+								this.dymSimulationDir.toFile());
+					}
+				});
+			}
+			catch (Exception e1)
+			{
+				LOG.error("Error copying files from {} to {}.", this.libraryDir,
+						this.dymSimulationDir);
+			}
+		}
+		catch (IOException e)
+		{
+			LOG.error(
+					"Could not create Dymola simulation directory in {} with prefix {}, reason is {}",
+					this.workingDir, DYM_SIM_PREFIX, e.getMessage());
+			throw new RuntimeException(e);
+		}
+
+		this.inputZipFileName = "dymola_input.zip";
+		this.outputZipFileName = "dymola_output";
+
+		DirectoryStream.Filter<Path> filesFilter = (entry) -> {
+			File f = entry.toFile();
+			return f.getName().endsWith(MO_EXTENSION);
+		};
+
+		ZipWriter zipper = new ZipWriter(this.inputZipFileName,
+				this.dymSimulationDir.resolve("library"),
+				this.dymSimulationDir.resolve("library"), filesFilter);
+		zipper.createZip();
+
+		dymolaClient = new StandaloneDymolaClient(this.dymSimulationDir, inputZipFileName,
+				outputZipFileName, outputDymolaFileName,
+				createFilteredMat, METHOD_LIST, wsdlService, resultVariables);
+		LOG.info("Running Dymola client: {}", dymolaClient.toString());
+
+		progress("Preparing dynamic environment.");
+		String result = dymolaClient.prepareDynamicEnvironment(this.dymSimulationDir);
+		if (!result.isEmpty())
+		{
+			progress("Error preparing dynamic environment.");
 		}
 	}
 
@@ -168,16 +265,15 @@ public class DymolaEngine implements ModelicaEngine
 	/**
 	 * Read the filtered csv file written by row and save simulation results in the ModelicaSimulationResults object and in a csv by column.
 	 */
-	private void writeResults(String outputZipFileName, String modelName)
+	private void writeResults(String outputZipFileName, String modelName, Path modelPath)
 	{
-		try (ZipFile zipFile = new ZipFile(
-				Paths.get(dymSimulationDir + File.separator + outputZipFileName).toFile()))
+		try (ZipFile zipFile = new ZipFile(modelPath.resolve(outputZipFileName).toFile()))
 		{
-			ZipFileUtil.unzipFileIntoDirectory(zipFile, dymSimulationDir.toFile());
+			ZipFileUtil.unzipFileIntoDirectory(zipFile, modelPath.toFile());
 
 			String fileName = this.outputDymolaFileName + CSV_EXTENSION;
-			ModelicaEngineUtils.fillModelicaSimulationResults(
-					Paths.get(dymSimulationDir + File.separator + fileName), modelName, results);
+			ModelicaEngineUtils.fillModelicaSimulationResults(modelPath.resolve(fileName),
+					modelName, results);
 		}
 		catch (ZipException e)
 		{
@@ -214,70 +310,6 @@ public class DymolaEngine implements ModelicaEngine
 		{
 			LOG.error("Error printing Modelica File. {}", x);
 		}
-	}
-
-	private void prepareWorkingDirectory(Path modelicaPath, String moFileName, String modelName)
-	{
-		this.inputZipFileName = modelName + "_in.zip";
-		this.outputZipFileName = modelName + "_out.zip";
-		this.outputDymolaFileName = modelName + "_res";
-		this.outputErrorsFileName = modelName + "_errors.log";
-
-		try
-		{
-			this.dymSimulationDir = Files.createTempDirectory(this.workingDir, DYM_SIM_PREFIX);
-
-			// Copy the Modelica model to the simulation directory
-			try
-			{
-				FileUtils.copyFileToDirectory(modelicaPath.toFile(), this.dymSimulationDir.toFile(),
-						false);
-			}
-			catch (IOException e1)
-			{
-				LOG.error("Error copying file from {} to {}, reason is {}", modelicaPath,
-						this.dymSimulationDir, e1.getMessage());
-				throw new RuntimeException(e1);
-			}
-
-			// Copy models needed to the simulation directory
-			try
-			{
-				Files.list(this.libraryDir).forEach(file -> {
-					try
-					{
-						FileUtils.copyFileToDirectory(file.toFile(), this.dymSimulationDir.toFile(),
-								false);
-					}
-					catch (IOException exc)
-					{
-						LOG.error("Error copying file from {} to {}.", file.toFile(),
-								this.dymSimulationDir.toFile());
-					}
-				});
-			}
-			catch (Exception e1)
-			{
-				LOG.error("Error copying files from {} to {}.", this.libraryDir,
-						this.dymSimulationDir);
-			}
-		}
-		catch (IOException e)
-		{
-			LOG.error(
-					"Could not create Dymola simulation directory in {} with prefix {}, reason is {}",
-					this.workingDir, DYM_SIM_PREFIX, e.getMessage());
-			throw new RuntimeException(e);
-		}
-
-		DirectoryStream.Filter<Path> filesFilter = (entry) -> {
-			File f = entry.toFile();
-			return f.getName().endsWith(MO_EXTENSION);
-		};
-
-		ZipWriter zipper = new ZipWriter(this.inputZipFileName, this.dymSimulationDir,
-				this.dymSimulationDir, filesFilter);
-		zipper.createZip();
 	}
 
 	@Override
@@ -317,10 +349,6 @@ public class DymolaEngine implements ModelicaEngine
 					.orElse("http://0.0.0.0:8888/dymservice?wsdl");
 			this.workingDir = Paths.get(properties.getProperty("modelicaEngineWorkingDir"));
 			this.libraryDir = Paths.get(properties.getProperty("libraryDir"));
-			this.dymSimulationDir = Optional
-					.ofNullable(
-							Paths.get(this.workingDir.toString() + File.separator + DYM_SIM_PREFIX))
-					.orElse(Paths.get(""));
 			this.resultVariables = Optional.ofNullable(properties.getProperty("resultVariables"))
 					.orElse("");
 
@@ -350,15 +378,54 @@ public class DymolaEngine implements ModelicaEngine
 		return properties;
 	}
 
+	private void fillLogs(Path logPath)
+	{
+		try
+		{
+			if (Files.exists(logPath))
+			{
+				BufferedReader logReader = new BufferedReader(Files.newBufferedReader(logPath));
+				String line;
+				while ((line = logReader.readLine()) != null)
+				{
+					if (line.trim().matches(SKIP_NEXT_LINE))
+					{
+						logReader.readLine();
+					}
+					else if (line.trim().matches(SKIP_LINES))
+					{
+						continue;
+					}
+					else if (line.trim().matches(RESULT_EXPRESSION))
+					{
+						logs.result(line);
+					}
+					else if (line.trim().matches(ACTIVITY_EXPRESSION))
+					{
+						logs.newActivity(line);
+					}
+					else System.out.println("\t\t NOT ACTIVITY : " + line);
+				}
+				logReader.close();
+			}
+			else LOG.error(
+					String.format("Error reading log file %s. File does not exist.", logPath));
+		}
+		catch (IOException e)
+		{
+			LOG.error(String.format("Error reading log file %s. \n\t %s", logPath.toString(),
+					e.getMessage()));
+		}
+	}
+
 	@Override
 	public Logs getLogs()
 	{
-		// FIXME Create structured logs for Dymola simulator.
-		return new Logs("Dymola engine interaction");
+		return logs;
 	}
 
-	private Properties						properties		= loadDefaultProperties();
-	private ModelicaEngineProgress			engineProgress	= new ModelicaEngineProgress();
+	private Properties						properties			= loadDefaultProperties();
+	private ModelicaEngineProgress			engineProgress		= new ModelicaEngineProgress();
 	private Path							workingDir;
 	private Path							dymSimulationDir;
 	private int								numOfIntervalsPerSecond;
@@ -377,16 +444,30 @@ public class DymolaEngine implements ModelicaEngine
 	private boolean							createFilteredMat;
 	private int								depth;
 
-	private ModelicaSimulationFinalResults	results			= new ModelicaSimulationFinalResults();
-	private StandaloneDymolaClient			dymolaClient	= null;
+	private Logs							logs				= new Logs(
+			"Dymola engine interaction");
 
-	private static final String				DYM_SIM_PREFIX	= "dymsimulation_";
-	private static final String				MO_EXTENSION	= ".mo";
-	private static final String				CSV_EXTENSION	= ".csv";
-	private static final String[]			METHOD_LIST		= new String[] { "Dassl" };
-	private static final Path				DEF_PROPERTIES	= Paths.get(System.getenv("PSM_DATA"))
+	private ModelicaSimulationFinalResults	results				= new ModelicaSimulationFinalResults();
+	private StandaloneDymolaClient			dymolaClient		= null;
+
+	private static final String				DYM_SIM_PREFIX		= "dymsimulation_";
+	private static final String				MO_EXTENSION		= ".mo";
+	private static final String				CSV_EXTENSION		= ".csv";
+	private static final String[]			METHOD_LIST			= new String[] { "Dassl" };
+	private static final Path				DEF_PROPERTIES		= Paths
+			.get(System.getenv("PSM_DATA"))
 			.resolve("test").resolve("cfg").resolve("modelicaengine.properties");
 
-	private static final Logger				LOG				= LoggerFactory
+	private static final String				ACTIVITY_EXPRESSION	= new StringBuilder()
+			.append("((.*?)\\((.*?)\\);?)").append("|")
+			.append("(^HTTP.*)").toString();
+	private static final String				RESULT_EXPRESSION	= "^=.*";
+	private static final String				SKIP_LINES			= new StringBuilder()
+			.append("(^((writeTrajectory|\\[|\").*)|(=$))").append("|")
+			.append("(([-+]?[0-9]*\\.?[0-9E\\-]*)(,|;|\\])\\s*?)*")
+			.toString();
+	private static final String				SKIP_NEXT_LINE		= "^readTrajectory.*";
+
+	private static final Logger				LOG					= LoggerFactory
 			.getLogger(DymolaEngine.class);
 }

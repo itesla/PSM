@@ -57,12 +57,6 @@ public class ModelicaNetworkBuilderReferenceCases
 	}
 
 	@Test
-	public void buildIeee118() throws Exception
-	{
-		build("test_private", "ieee118", "ieee118bus_EQ.xml", "ieee118/ddr", "itesla/ieee118bus_no_lf.mo", 118, 54);
-	}
-
-	@Test
 	public void buildSmallCase1() throws Exception
 	{
 		build("test", "smallcase1", "case1_EQ.xml", "smallcase1/ddr", "itesla/case1_no_lf.mo", 3, 2);

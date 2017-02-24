@@ -1380,9 +1380,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="EMAX" value="4."/>
@@ -1395,9 +1393,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1710.0"/>
         <par name="PN" value="1539.0"/>
         <par name="EMAX" value="4."/>
@@ -1410,9 +1406,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1650.0"/>
         <par name="PN" value="1485.0"/>
         <par name="EMAX" value="4."/>
@@ -1425,9 +1419,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="EMAX" value="4."/>
@@ -1440,9 +1432,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1120.0"/>
         <par name="PN" value="1008.0"/>
         <par name="EMAX" value="4."/>
@@ -1455,9 +1445,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1211.0"/>
         <par name="PN" value="1090.0"/>
         <par name="EMAX" value="4."/>
@@ -1470,9 +1458,7 @@
         <par name="TB" value="10."/>
         <par name="SNREF" value="100.0"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="SN" value="1650.0"/>
         <par name="PN" value="1485.0"/>
         <par name="EMAX" value="4."/>

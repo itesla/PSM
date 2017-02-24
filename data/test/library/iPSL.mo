@@ -504,8 +504,6 @@ extends Modelica.Icons.Package;
         end Order4test2_perturbation;
 
         model Order4test2_AVR
-                               extends Modelica.Icons.Example;
-
           extends iPSL.Examples.BaseTest;
           iPSL.Electrical.Controls.PSAT.AVR.AVRtypeIII AVRtypeIII1 annotation (Placement(visible=true, transformation(
                 origin={-67, 5},
@@ -1273,7 +1271,6 @@ extends Modelica.Icons.Package;
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
         end InductiveMotorI_SIMBOpenline_Test;
-
 
 
 
@@ -9449,6 +9446,12 @@ extends Modelica.Icons.Package;
           uses(Modelica(version="3.2.1")),
           Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>None</p></td>
 </tr>
@@ -9496,11 +9499,14 @@ extends Modelica.Icons.Package;
               rotation=0)));
         Real P "Active Power absorbed by the Infinite bus (MW)";
         Real Q "Reactive Power absorbed by the Infinite bus (MVAr)";
+        parameter Complex v = V_0 * ComplexMath.exp( ComplexMath.j  * angle_0 * Modelica.Constants.pi / 180);
+        Complex i;
       equation
-        p.vr = V_0*cos(angle_0*Modelica.Constants.pi/180);
-        p.vi = V_0*sin(angle_0*Modelica.Constants.pi/180);
-        P = (p.vr*p.ir - p.vi*p.ii)*S_b;
-        Q = (p.vr*p.ii - p.vi*p.ir)*S_b;
+        v = Complex( p.vr, p.vi);
+        i = Complex( p.ir, p.ii);
+
+        Complex( P, Q) = v * ComplexMath.conj( i) * S_b;
+
         annotation (
           Icon(coordinateSystem(
               extent={{-100,-100},{100,100}},
@@ -9524,6 +9530,12 @@ extends Modelica.Icons.Package;
               initialScale=0.1,
               grid={5,5})),
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>      
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>None</p></td>
@@ -9588,6 +9600,12 @@ extends Modelica.Icons.Package;
               initialScale=0.1,
               grid={5,5}), graphics),
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>None</p></td>
@@ -9677,20 +9695,27 @@ extends Modelica.Icons.Package;
           uses(Modelica(version="3.2.1")),
           Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
 <td><p>Reference</p></td>
-<td><p>None</p></td>
+<td>Eurostag/Model Editor User's Manual</td>
 </tr>
 <tr>
 <td><p>Last update</p></td>
-<td><p>2015-12-14</p></td>
+<td>2016/12/20 by AIA </td>
 </tr>
 <tr>
 <td><p>Author</p></td>
-<td><p>SmarTS Lab, KTH Royal Institute of Technology</p></td>
+<td><p>RTE-AIA</p></td>
 </tr>
 <tr>
 <td><p>Contact</p></td>
-<td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
 </tr>
 </table>
 </html>",       revisions="<html>
@@ -9733,7 +9758,13 @@ extends Modelica.Icons.Package;
                 lineColor={0,0,255},
                 textString="*")}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -9806,6 +9837,12 @@ extends Modelica.Icons.Package;
                 fillColor={85,170,255},
                 fillPattern=FillPattern.Solid)}),
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=orange><p> 1 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>None</p></td>
@@ -9997,7 +10034,13 @@ extends Modelica.Icons.Package;
               preserveAspectRatio=true,
               initialScale=0.1)),
           uses(Modelica(version="3.2.1")),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10044,7 +10087,13 @@ extends Modelica.Icons.Package;
                 fillColor={95,95,95},
                 fillPattern=FillPattern.Solid)}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10118,7 +10167,13 @@ extends Modelica.Icons.Package;
                 fillColor={95,95,95},
                 fillPattern=FillPattern.Solid)}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10175,7 +10230,13 @@ extends Modelica.Icons.Package;
                 color={0,0,255},
                 smooth=Smooth.None),Ellipse(extent={{28,22},{34,16}}, lineColor={0,0,255})}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10239,7 +10300,13 @@ extends Modelica.Icons.Package;
                 color={0,0,255},
                 smooth=Smooth.None),Ellipse(extent={{28,22},{34,16}}, lineColor={0,0,255})}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10295,7 +10362,13 @@ extends Modelica.Icons.Package;
                 color={0,0,255},
                 smooth=Smooth.None),Ellipse(extent={{28,22},{34,16}}, lineColor={0,0,255})}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10382,7 +10455,13 @@ extends Modelica.Icons.Package;
                  {0,0,0}),Line(points={{88,-54},{80,-60}}, color={0,0,0}),Line(points={{48,-48},{48,-60}}, color={0,0,0}),Line(points={{40,86},{88,86},{80,92}}, color={0,0,0}),Line(points={{88,86},{80,80}},
                 color={0,0,0})}),
           uses(PowerSystems(version="0.6"), Modelica(version="3.2.1")),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",      revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10480,7 +10559,13 @@ extends Modelica.Icons.Package;
                   lineColor={0,0,255},
                   textString="Detailed Transformer")}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10527,7 +10612,13 @@ extends Modelica.Icons.Package;
                   thickness=1,
                   smooth=Smooth.None)}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10575,7 +10666,13 @@ extends Modelica.Icons.Package;
                   thickness=1,
                   smooth=Smooth.None)}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10643,7 +10740,13 @@ extends Modelica.Icons.Package;
                   thickness=1,
                   smooth=Smooth.None)}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -10738,6 +10841,12 @@ extends Modelica.Icons.Package;
                     fillPattern=FillPattern.Solid,
                     textString="LTC
 ")}),         Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -10796,6 +10905,12 @@ extends Modelica.Icons.Package;
                     textString="deadband")}),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -10857,6 +10972,12 @@ extends Modelica.Icons.Package;
                     smooth=Smooth.None,
                     thickness=1)}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -10971,6 +11092,12 @@ extends Modelica.Icons.Package;
                     color={0,0,255},
                     smooth=Smooth.None)}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -11039,6 +11166,12 @@ extends Modelica.Icons.Package;
                     color={0,0,255},
                     smooth=Smooth.None)}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -11180,7 +11313,13 @@ extends Modelica.Icons.Package;
                   fillColor={28,108,200},
                   fillPattern=FillPattern.Solid)}),
             Diagram(coordinateSystem(extent={{-60,-40},{60,40}}, preserveAspectRatio=false)),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11311,6 +11450,12 @@ extends Modelica.Icons.Package;
                 color={0,0,255},
                 smooth=Smooth.None));
             annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table>
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -11460,6 +11605,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,255},
                     lineThickness=0.5)}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -11518,7 +11669,13 @@ extends Modelica.Icons.Package;
                     fillColor={95,95,95},
                     fillPattern=FillPattern.Solid)}),
               Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",          revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11629,7 +11786,13 @@ extends Modelica.Icons.Package;
                       extent={{-50,34},{54,-50}},
                       lineColor={0,0,255},
                       textString="OLTC")}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",            revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11670,7 +11833,13 @@ extends Modelica.Icons.Package;
                     Ellipse(extent={{-14,26},{-8,20}}, lineColor={0,0,255}),
                     Ellipse(extent={{-14,-16},{-8,-22}}, lineColor={0,0,255})}),
                 Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",            revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11766,7 +11935,13 @@ extends Modelica.Icons.Package;
                       origin={-29,4},
                       rotation=180,
                       thickness=0.5)}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",            revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11835,7 +12010,13 @@ extends Modelica.Icons.Package;
                       color={0,0,255},
                       thickness=0.5,
                       smooth=Smooth.None)}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",            revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11935,7 +12116,13 @@ extends Modelica.Icons.Package;
                       fillColor={0,0,255},
                       fillPattern=FillPattern.Solid,
                       textString="X")}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",            revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -11966,7 +12153,13 @@ extends Modelica.Icons.Package;
                 "Equivalent impedance is always transfered to the 'To' side circuit";
               parameter Real Xeq=tj^2*X
                 "Equivalent impedance is always transfered to the 'To' side circuit";
-              annotation (Documentation(revisions="<html>
+              annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",            revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -12072,6 +12265,12 @@ extends Modelica.Icons.Package;
                   textString="2")}),
             Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
 </tr>
@@ -12136,7 +12335,13 @@ extends Modelica.Icons.Package;
             r1*p.ii + x1*p.ir = 1/m^2*p.vi - 1/m*n1.vi;
             r1*n1.ir - x1*n1.ii = n1.vr - 1/m*p.vr;
             x1*n1.ir + r1*n1.ii = n1.vi - 1/m*p.vi;
-            annotation (Documentation(revisions="<html>
+            annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -12178,7 +12383,13 @@ extends Modelica.Icons.Package;
             r2*p2.ii + x2*p2.ir = p2.vi - n2.vi;
             r2*n2.ir - x2*n2.ii = n2.vr - p2.vr;
             x2*n2.ir + r2*n2.ii = n2.vi - p2.vi;
-            annotation (Documentation(revisions="<html>
+            annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -12220,7 +12431,13 @@ extends Modelica.Icons.Package;
             r3*p3.ii + x3*p3.ir = p3.vi - n3.vi;
             r3*n3.ir - x3*n3.ii = n3.vr - p3.vr;
             x3*n3.ir + r3*n3.ii = n3.vi - p3.vi;
-            annotation (Documentation(revisions="<html>
+            annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -12364,6 +12581,12 @@ extends Modelica.Icons.Package;
                     textString="%TWT%")}),
               Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
 </tr>
@@ -12499,6 +12722,12 @@ extends Modelica.Icons.Package;
                   textString="%ULTC%")}),
             Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
 </tr>
@@ -12615,7 +12844,13 @@ extends Modelica.Icons.Package;
               Placement(transformation(extent={{-120,-10},{-100,10}})),
               Placement(transformation(extent={{100,-10},{120,10}})),
               Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",          revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -12686,7 +12921,13 @@ extends Modelica.Icons.Package;
               Placement(transformation(extent={{-120,-10},{-100,10}})),
               Placement(transformation(extent={{100,-10},{120,10}})),
               Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",          revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -12836,6 +13077,12 @@ extends Modelica.Icons.Package;
                     textString="%PST%")}),
               Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
 </tr>
@@ -12967,7 +13214,13 @@ extends Modelica.Icons.Package;
               Placement(transformation(extent={{-120,-10},{-100,10}})),
               Placement(transformation(extent={{100,-10},{120,10}})),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",          revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -13041,7 +13294,13 @@ extends Modelica.Icons.Package;
               Placement(transformation(extent={{-120,-10},{-100,10}})),
               Placement(transformation(extent={{100,-10},{120,10}})),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",          revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -13198,6 +13457,12 @@ extends Modelica.Icons.Package;
                     textString="%PST%")}),
               Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
 </tr>
@@ -13273,6 +13538,12 @@ extends Modelica.Icons.Package;
           annotation (
             Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -13351,6 +13622,12 @@ extends Modelica.Icons.Package;
                   color={0,0,255},
                   smooth=Smooth.None),Line(points={{-52,-28},{-24,20}}, color={28,108,200}),Line(points={{-34,12},{-24,20}}, color={28,108,200}),Line(points={{-26,8},{-24,20}}, color={28,108,200})}),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -13531,7 +13808,32 @@ extends Modelica.Icons.Package;
           parameter Real lQ1=if IENR == 4 then lQ1Four else lQ1Other;
           parameter Real lq=lStatIn_;
           parameter Real Y=mQ0Pu_*lq/xQPu_;
-          annotation (Documentation(revisions="<html>
+          annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag/Model Editor User's Manual</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td> </td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>RTE-AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+</html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -14054,6 +14356,12 @@ extends Modelica.Icons.Package;
             Diagram(graphics),
              Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>       
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>None</p></td>
 </tr>
@@ -14438,6 +14746,12 @@ extends Modelica.Icons.Package;
             Diagram(graphics),
            Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>     
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>None</p></td>
 </tr>
@@ -14638,7 +14952,13 @@ extends Modelica.Icons.Package;
                   extent={{-12,-7},{12,7}},
                   lineColor={0,0,255},
                   textString="M10")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -15115,7 +15435,13 @@ extends Modelica.Icons.Package;
           else
             pin_FieldCurrent = -mDV/rrTfo*((lD + mrc)*pin_LAMBDAF - mrc*pin_LAMBDAD - lD*pin_LAMBDAAD)/(mrc*(lRot + lD) + lRot*lD);
           end if;
-          annotation (Documentation(revisions="<html>
+          annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -15623,7 +15949,13 @@ extends Modelica.Icons.Package;
           else
             pin_FieldCurrent = -mDV/rrTfo*((lD + mrc)*pin_LAMBDAF - mrc*pin_LAMBDAD - lD*pin_LAMBDAAD)/(mrc*(lRot + lD) + lRot*lD);
           end if;
-          annotation (Documentation(revisions="<html>
+          annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",        revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -15656,7 +15988,33 @@ extends Modelica.Icons.Package;
           omegaRefDen.u = denom;
           omegaRef = omegaRefNum.y / omegaRefDen.y;
           annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-                coordinateSystem(preserveAspectRatio=false)));
+                coordinateSystem(preserveAspectRatio=false)),
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag/Model Editor User's Manual</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td>2016/12/20 by AIA </td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>RTE-AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+</html>"));
         end omegaRef;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
@@ -15703,6 +16061,12 @@ extends Modelica.Icons.Package;
           pm0 = pm00;
           vf0 = vf00;
           annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Text(origin=  {4, 61.9022}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", lineColor=  {28, 108, 200}, textString=  "Order II")}), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = false, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -15780,6 +16144,12 @@ extends Modelica.Icons.Package;
           vf0 = vf00;
           pm0 = pm00;
           annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Text(origin=  {4, 61.9022}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", lineColor=  {28, 108, 200}, textString=  "Order III")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -15868,6 +16238,12 @@ extends Modelica.Icons.Package;
           pm0 = pm00;
           vf0 = vf00;
           annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Text(origin=  {4, 61.9022}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", lineColor=  {28, 108, 200}, textString=  "Order IV")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -15952,6 +16328,12 @@ extends Modelica.Icons.Package;
           pm0 = pm00;
           vf0 = vf00;
           annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Text(origin=  {-6, 61.9022}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", lineColor=  {28, 108, 200}, textString=  "Order IV - Typ 1")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -16042,6 +16424,12 @@ extends Modelica.Icons.Package;
           pm0 = pm00;
           vf0 = vf00;
           annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-100.0, -100.0}, {100.0, 100.0}}), Text(origin=  {-6, 61.9022}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", lineColor=  {28, 108, 200}, textString=  "Order IV - Typ 2")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -16138,6 +16526,12 @@ extends Modelica.Icons.Package;
           pm0 = pm00;
           vf0 = vf00;
           annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-100.0, -100.0}, {100.0, 100.0}}), Text(origin=  {4, 61.9022}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", lineColor=  {28, 108, 200}, textString=  "Order VI")}), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = false, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -16234,6 +16628,12 @@ extends Modelica.Icons.Package;
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>
 ",         info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -16252,9 +16652,6 @@ extends Modelica.Icons.Package;
 <td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
 </tr>
 </table>
-</html>
-
-<html>
 <pre><span style=\"font-family: Courier New,courier; color: #006400;\">&nbsp;with&nbsp;the&nbsp;problem&nbsp;of&nbsp;a&nbsp;constant&nbsp;offset&nbsp;mismatch&nbsp;-0.00012</span></pre>
 </html>"));
         end MotorTypeI;
@@ -16336,6 +16733,12 @@ extends Modelica.Icons.Package;
           Im = (-a23 * ((-Vr) - epr)) + a13 * (Vm - epm);
           Ir = a13 * ((-Vr) - epr) + a23 * (Vm - epm);
           annotation(Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-100, -100}, {100, 100}}), Ellipse(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-56, -58}, {55.9318, 54}}), Text(extent=  {{-50, 48}, {50, -52}}, lineColor=  {0, 0, 0}, textString=  "M"), Text(origin=  {0, -76.0978}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", textString=  "%name", lineColor=  {0, 0, 0})}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -16368,8 +16771,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end MotorTypeIII;
 
         model MotorTypeV "Induction Machine - Order V"
@@ -16456,6 +16858,12 @@ extends Modelica.Icons.Package;
           der(e2m) = Omegab * s * (e1r - e2r) + der(e1m) + (e1m - e2m + a45 * Ir) / T20;
           Tm = A + B * s + C * s * s;
           annotation(Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-100, -100}, {100, 100}}), Ellipse(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-56, -58}, {55.9318, 54}}), Text(extent=  {{-50, 48}, {50, -52}}, lineColor=  {0, 0, 0}, textString=  "M"), Text(origin=  {0, -76.0978}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15.0}, {57.2101, 15.0}}, fontName=  "Arial", textString=  "%name", lineColor=  {0, 0, 0})}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -16488,8 +16896,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end MotorTypeV;
 
         package BaseClasses
@@ -16577,7 +16984,13 @@ extends Modelica.Icons.Package;
             annotation (
               Icon(coordinateSystem(preserveAspectRatio = false, grid = {1, 1}, initialScale = 0.1), graphics = {Text(origin=  {-69, 50.5}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-10, -10.5}, {10, 10.5}}, textString=  "vf", fontName=  "Arial"), Text(origin=  {-66.3761, -32}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-9.6086, -11.4189}, {9.6086, 11.4189}}, textString=  "pm", fontName=  "Arial"), Text(origin=  {-80, 90}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-10, -10}, {10, 10}}, textString=  "vf0", fontName=  "Arial"), Text(origin=  {-80.6294, -89.5811}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-15.3706, -13.4189}, {15.3706, 13.4189}}, textString=  "pm0", fontName=  "Arial"), Text(origin=  {80.5, 60.6367}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-23.5, -8.6367}, {23.5, 8.6367}}, textString=  "delta", fontName=  "Arial"), Text(origin=  {90, 90.5}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-10, -10.5}, {10, 10.5}}, textString=  "w", fontName=  "Arial"), Text(origin=  {90, 30}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-10, -10}, {10, 10}}, textString=  "v", fontName=  "Arial"), Rectangle(lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, extent=  {{-100, -100}, {100, 100}}), Ellipse(lineColor=  {28, 108, 200}, extent=  {{-40, 40}, {40, -40}}, endAngle=  360), Line(points=  {{-20, 0}, {-9, 15}, {9, -15}, {20, 0}}, color=  {28, 108, 200}, smooth=  Smooth.Bezier), Text(origin=  {4, -58.0978}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-57.2101, -15}, {57.2101, 15}}, textString=  "%name", fontName=  "Arial"), Text(origin=  {90, -31}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-10, -10}, {10, 10}}, textString=  "P", fontName=  "Arial"), Text(origin=  {90, -60}, lineColor=  {28, 108, 200}, fillPattern=  FillPattern.Solid, extent=  {{-10, -10}, {10, 10}}, textString=  "Q", fontName=  "Arial")}),
               Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}, grid = {1, 1})),
-              Documentation(revisions = "<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -16670,7 +17083,13 @@ extends Modelica.Icons.Package;
                   fillColor={0,0,255},
                   fillPattern=FillPattern.Solid,
                   textString="Iq_ref")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -16733,7 +17152,13 @@ extends Modelica.Icons.Package;
                   smooth=Smooth.None,
                   thickness=0.5)}),
             Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -16784,7 +17209,13 @@ extends Modelica.Icons.Package;
                   fillColor={0,0,255},
                   fillPattern=FillPattern.Solid,
                   textString="Iim_ref")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -16912,7 +17343,13 @@ extends Modelica.Icons.Package;
             annotation (
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
               Icon(graphics = {Rectangle(lineColor=  {0, 0, 255}, extent=  {{-100, 100}, {100, -100}}), Text(origin=  {-8, -4},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{66, 98}, {90, 86}}, textString=  "SPEED"), Text(origin=  {-8, 0},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{64, 78}, {96, 62}}, textString=  "ISORCE"), Text(origin=  {-8, -2},lineColor=  {0, 0, 255}, extent=  {{66, 56}, {92, 44}}, textString=  "ETERM"), Text(origin=  {-6, -4},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{66, 38}, {92, 28}}, textString=  "ANGLE"), Text(origin=  {-8, -2},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{62, -24}, {92, -34}}, textString=  "PMECH0"), Text(origin=  {-12, 0},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{66, -46}, {96, -56}}, textString=  "PELEC"), Text(origin=  {-12, 0},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{66, -66}, {100, -76}}, textString=  "EFD0"), Text(origin=  {-14, 0},lineColor=  {0, 0, 255}, lineThickness=  0.5, extent=  {{62, -86}, {98, -94}}, textString=  "XADIFD0"), Text(origin=  {-46, 64}, lineColor=  {85, 0, 255}, extent=  {{-32, 10}, {8, 0}}, textString=  "PMECH"), Text(origin=  {-52, -70}, lineColor=  {85, 0, 255}, extent=  {{-32, 10}, {12, 0}}, textString=  "EFD")}, coordinateSystem(initialScale = 0.1)),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -17005,6 +17442,12 @@ extends Modelica.Icons.Package;
           V = sqrt(p.vr ^ 2 + p.vi ^ 2);
           anglev = atan2(p.vi, p.vr);
           annotation(Icon(coordinateSystem(extent = {{0, -100}, {100, 100}}, preserveAspectRatio = false, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(extent=  {{80, 100}, {100, -100}}, lineColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, fillColor=  {0, 0, 255}), Line(points=  {{40, 110}, {80, 90}, {90, 90}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, -70}, {80, -90}, {90, -90}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, 70}, {80, 50}, {90, 50}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, 50}, {80, 30}, {90, 30}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, 30}, {80, 10}, {90, 10}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, 10}, {80, -10}, {90, -10}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, -10}, {80, -30}, {90, -30}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, 90}, {80, 70}, {90, 70}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, -30}, {80, -50}, {90, -50}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Line(points=  {{40, -50}, {80, -70}, {90, -70}}, color=  {0, 0, 255}, smooth=  Smooth.None, thickness=  0.5), Text(extent=  {{50, 150}, {100, 110}}, lineColor=  {0, 0, 255}, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textStyle=  {TextStyle.Bold}, textString=  "INF")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+  <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> 
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -17037,8 +17480,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end GENCLS;
 
         model GENSAL
@@ -17134,6 +17576,12 @@ extends Modelica.Icons.Package;
           uq = PSId - R_a * iq;
           //flow, changed from machine base to system bas
           annotation(Placement(transformation(extent = {{74, 6}, {94, 26}}), iconTransformation(extent = {{58, -90}, {74, -74}})), Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent=  {{-58, 62}, {52, -64}}, lineColor=  {0, 0, 255}, textString=  "GENSAL")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -17166,8 +17614,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end GENSAL;
 
         model GENSAE "SALIENT POLE GENERATOR MODEL (EXPONENTIAL SATURATION)"
@@ -17262,6 +17709,12 @@ extends Modelica.Icons.Package;
           uq = PSId - R_a * iq;
           //flow, changed from machine base to system bas
           annotation(Placement(transformation(extent = {{74, 6}, {94, 26}}), iconTransformation(extent = {{58, -90}, {74, -74}})), Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent=  {{-58, 62}, {52, -64}}, lineColor=  {0, 0, 255}, textString=  "GENSAE")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -17294,8 +17747,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end GENSAE;
 
         model GENROU "ROUND ROTOR GENERATOR MODEL (QUADRATIC SATURATION)"
@@ -17437,6 +17889,12 @@ extends Modelica.Icons.Package;
           uq = PSId - R_a * iq;
           //flow
           annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent=  {{-54, 24}, {54, -26}}, lineColor=  {0, 0, 255}, textString=  "GENROU")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -17469,8 +17927,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end GENROU;
 
         model GENROE "ROUND ROTOR GENERATOR MODEL (EXPONENTIAL SATURATION)"
@@ -17611,7 +18068,13 @@ extends Modelica.Icons.Package;
           ud = (-PSIq) - R_a * id;
           uq = PSId - R_a * iq;
           //flow
-          annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent=  {{-54, 24}, {54, -26}}, lineColor=  {0, 0, 255}, textString=  "GENROE")}), Documentation(revisions = "<html>
+          annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent=  {{-54, 24}, {54, -26}}, lineColor=  {0, 0, 255}, textString=  "GENROE")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>iPSL:</p>
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -17625,8 +18088,7 @@ extends Modelica.Icons.Package;
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end GENROE;
 
 
@@ -18648,8 +19110,6 @@ extends Modelica.Icons.Package;
         //SEXS SEXS_3(EFDMAX=5.,EFDMIN=-5.,EMAX=4.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
         //SEXS SEXS_4(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
         //SEXS SEXS_5(EFDMAX=5.,EFDMIN=-5.,EMAX=4.5,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
-          parameter Real EFDMAX;
-          parameter Real EFDMIN;
           parameter Real EMAX;
           parameter Real EMIN;
           parameter Real K;
@@ -19099,8 +19559,6 @@ extends Modelica.Icons.Package;
           parameter Real VFMAX;
           parameter Real VFMIN;
           parameter Real VOELMAX;
-          parameter Real XD;
-          parameter Real XQ;
           parameter Real SNREF;
           parameter Real SN;
           parameter Real PN;
@@ -19257,6 +19715,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,255},
                     textString="TG1")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>       
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -19442,6 +19906,12 @@ extends Modelica.Icons.Package;
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -19692,6 +20162,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,0})}),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>       
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -19969,6 +20445,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,0})}),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>      
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -20234,6 +20716,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,0})}),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{100,120}})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>      
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -20551,6 +21039,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,0})}),
               Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{100,120}}), graphics),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>      
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -20756,6 +21250,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,255},
                     textString="AVR2")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -20856,7 +21356,13 @@ extends Modelica.Icons.Package;
             annotation (
               Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},{120,
                       120}}, initialScale = 0.1),                                                                   graphics={Rectangle(lineColor=  {0, 0, 255}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid, extent=  {{-120, 120}, {120, -120}}), Text(lineColor=  {0, 0, 255}, extent=  {{-104, 72}, {-72, 50}}, textString=  "v"), Text(lineColor=  {0, 0, 255}, extent=  {{-100, -48}, {-68, -70}}, textString=  "vs"), Text(lineColor=  {0, 0, 255}, extent=  {{88, 10}, {120, -12}}, textString=  "vf"), Text(lineColor=  {0, 0, 255}, extent=  {{-34, 36}, {42, -24}}, textString=  "AVRTypeIII"), Text(lineColor=  {0, 0, 255}, extent=  {{-16, 100}, {16, 78}}, textString=  "vf0")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -20984,6 +21490,12 @@ extends Modelica.Icons.Package;
                     fillPattern=FillPattern.Solid,
                     textString="OXL")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -21051,7 +21563,13 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,255},
                     fillPattern=FillPattern.Solid,
                     textString="if")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -21190,6 +21708,12 @@ extends Modelica.Icons.Package;
                       textString="%Name")}),
                 Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -21330,6 +21854,12 @@ extends Modelica.Icons.Package;
                       fillPattern=FillPattern.Solid,
                       textString="%TCSC_XC%")}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -21505,6 +22035,12 @@ extends Modelica.Icons.Package;
                       fillPattern=FillPattern.Solid,
                       textString="%TCSC_Alpha%")}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -21604,6 +22140,12 @@ extends Modelica.Icons.Package;
             connect(vSI, derivativeLag.u) annotation (Line(points={{-110,0},{-62,0},{-62,0}}, color={0,0,127}));
             connect(derivativeLag.y, imLeadLag.u) annotation (Line(points={{-39,0},{-12,0},{-12,0}}, color={0,0,127}));
             annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -21724,6 +22266,12 @@ extends Modelica.Icons.Package;
                     fillPattern=FillPattern.Solid,
                     textString="OEL")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -21812,7 +22360,13 @@ extends Modelica.Icons.Package;
                     extent={{34,20},{54,0}},
                     lineColor={0,0,255},
                     textString="Upss")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -21931,7 +22485,13 @@ extends Modelica.Icons.Package;
                     extent={{-34,58},{88,0}},
                     lineColor={0,0,255},
                     textString="Exciter AVR OEL PSS")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22012,7 +22572,13 @@ extends Modelica.Icons.Package;
                     extent={{-34,58},{88,0}},
                     lineColor={0,0,255},
                     textString="Exciter AVR OEL PSS")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22104,7 +22670,13 @@ extends Modelica.Icons.Package;
                     extent={{-8,-6},{22,-8}},
                     lineColor={0,0,127},
                     textString="1/Tw (water time constant)")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22168,7 +22740,13 @@ extends Modelica.Icons.Package;
                     extent={{-98,-4},{-82,4}},
                     lineColor={0,0,127},
                     textString="z (gate opening)")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22263,7 +22841,13 @@ extends Modelica.Icons.Package;
                     extent={{0,-2},{20,-18}},
                     lineColor={0,0,255},
                     textString="Pe")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22335,7 +22919,13 @@ extends Modelica.Icons.Package;
                   fillPattern=FillPattern.Solid,
                   textString="PLL")}),
             Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22428,7 +23018,13 @@ extends Modelica.Icons.Package;
                   fillPattern=FillPattern.Solid,
                   textString="PLL")}),
             Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -22537,6 +23133,12 @@ extends Modelica.Icons.Package;
                     lineColor={0,0,255},
                     textString="VOEL")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -22637,7 +23239,13 @@ extends Modelica.Icons.Package;
                     points={{-12,-46},{22,-46}},
                     color={0,0,255},
                     smooth=Smooth.None),Ellipse(extent={{-16,-44},{-12,-48}}, lineColor={0,0,255})}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -23177,6 +23785,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(add3_2.y, add3_1.u1) annotation(Line(points = {{-100, -79}, {-98, -79}, {-98, -20}, {-90, -20}, {-90, 8}, {-62, 8}}, color = {0, 0, 127}));
             connect(imDerivativeLag.y, add3_1.u3) annotation(Line(points = {{-1, -50}, {-26, -50}, {-70, -50}, {-70, -8}, {-62, -8}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(extent=  {{-184, -62}, {-114, -82}}, lineColor=  {28, 108, 200}, textString=  "XADIFD"), Text(extent=  {{-120, 158}, {140, 98}}, lineColor=  {28, 108, 200}, textString=  "EXAC1")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -23324,7 +23938,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                     extent={{-178,-62},{-114,-82}},
                     lineColor={28,108,200},
                     textString="XADIFD")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -23436,7 +24056,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
               Line(points = {{-200, 90}, {-26, 90}, {-26, -6}, {-22, -6}}, color = {0, 0, 127}));
             connect(XADIFD, K_c.u) annotation (
               Line(points = {{130, -140}, {130, -104}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-200, -200}, {200, 160}}, grid = {2, 2})), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, preserveAspectRatio = true, grid = {2, 2}), graphics = {Text(extent=  {{-60, 154}, {62, 110}}, lineColor=  {28, 108, 200}, textString=  "ST5B"), Text(extent=  {{-184, -52}, {-114, -72}}, lineColor=  {28, 108, 200}, textString=  "XADIFD")}), Documentation(revisions = "<html>
+            annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-200, -200}, {200, 160}}, grid = {2, 2})), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, preserveAspectRatio = true, grid = {2, 2}), graphics = {Text(extent=  {{-60, 154}, {62, 110}}, lineColor=  {28, 108, 200}, textString=  "ST5B"), Text(extent=  {{-184, -52}, {-114, -72}}, lineColor=  {28, 108, 200}, textString=  "XADIFD")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions = "<html>
 <!--DISCLAIMER-->
 
 <p>iPSL:</p>
@@ -23499,6 +24125,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(leadLag.y, simpleLagLim.u) annotation(Line(points = {{61, 0}, {118, 0}}, color = {0, 0, 127}));
             connect(leadLag.u, V_erro.y) annotation(Line(points = {{38, 0}, {-19, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(extent=  {{-100, 160}, {100, 100}}, lineColor=  {28, 108, 200}, textString=  "SEXS")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -23532,8 +24164,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end SEXS;
 
           model SCRX "Bus Fed or Solid Fed Static Exciter"
@@ -23583,6 +24214,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(switch1.y, negCurLogic.Vd) annotation(Line(points = {{84.6, 24}, {120, 24}, {120, 5}, {147.5, 5}}, color = {0, 0, 127}));
             connect(XADIFD, negCurLogic.XadIfd) annotation(Line(points = {{-200, -70}, {-32, -70}, {140, -70}, {140, -5}, {147.5, -5}}, color = {0, 0, 127}));
             annotation(Placement(transformation(extent = {{-114, 44}, {-102, 58}}), iconTransformation(extent = {{-100, -50}, {-90, -40}})), Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1)), Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(extent=  {{-186, -62}, {-116, -82}}, lineColor=  {28, 108, 200}, textString=  "XADIFD"), Text(extent=  {{-100, 156}, {100, 96}}, lineColor=  {28, 108, 200}, textString=  "SCRX")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -23616,8 +24253,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end SCRX;
 
           model IEEEX1
@@ -23672,7 +24308,6 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(TransducerDelay.u, ECOMP) annotation(Line(points = {{-172, 0}, {-200, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1), graphics = {Text(extent=  {{-130, 160}, {130, 100}}, lineColor=  {28, 108, 200}, textString=  "IEEEX1")}), Documentation(revisions = "<html>
 <!--DISCLAIMER-->
-
 <p>iPSL:</p>
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -23685,8 +24320,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-",           info = "<html>
+</html>",           info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -23775,8 +24415,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-",           info = "<html>
+</html>",           info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -23863,8 +24508,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-",           info = "<html>
+</html>",           info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p> 
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -23882,8 +24532,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 <td><p>Contact</p></td>
 <td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
 </tr>
-</table>
-</html>"));
+</table></html>"));
           end IEEET1;
 
           model EXST1 "IEEE Type AC2A Excitation System"
@@ -23978,8 +24627,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-    ",           info = "<html>
+</html>",           info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24061,7 +24715,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(switch1.y, negCurLogic.Vd) annotation(Line(points = {{115, -4}, {120, -4}, {120, 7}, {136.5, 7}}, color = {0, 0, 127}));
             connect(switch1.u1, limiter.y) annotation(Line(points = {{92, 4}, {64, 4}, {64, 0}, {37, 0}}, color = {0, 0, 127}));
             connect(product.u1, TransducerDelay.u) annotation(Line(points = {{48, 46}, {-140, 46}, {-140, 24}, {-178, 24}, {-178, 0}, {-172, 0}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-200, -200}, {200, 160}})), Documentation(revisions = "<html>
+            annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-200, -200}, {200, 160}})), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions = "<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -24164,6 +24824,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(gain3.y, lV_GATE.n2) annotation(Line(points = {{51, -30}, {44.625, -30}, {44.625, -3}}, color = {0, 0, 127}));
             connect(DiffV1.y, lV_GATE.n1) annotation(Line(points = {{41, 0}, {44.625, 0}, {44.625, 3}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(extent=  {{-184, -62}, {-114, -82}}, lineColor=  {28, 108, 200}, textString=  "XADIFD"), Text(extent=  {{-120, 158}, {140, 98}}, lineColor=  {28, 108, 200}, textString=  "EXAC2")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24352,6 +25018,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                     lineColor={28,108,200},
                     textString="XADIFD")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24478,6 +25150,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(hV_GATE.p, imLeadLag.u) annotation(Line(points = {{-15.4187, 0.25}, {-12.7094, 0.25}, {-12.7094, 0}, {-10, 0}}, color = {0, 0, 127}));
             connect(VUEL3, hV_GATE1.n2) annotation(Line(points = {{50, -200}, {50, -200}, {50, -174}, {110, -174}, {110, -20}, {104.006, -20}, {104.006, -0.025}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1), graphics = {Text(extent=  {{-162, 112}, {-134, 95}}, lineColor=  {0, 128, 0}, textString=  "(VOS=1)"), Text(extent=  {{-23, -160}, {5, -174}}, lineColor=  {0, 128, 0}, textString=  "(UEL=2)"), Text(extent=  {{-144, -160}, {-116, -174}}, lineColor=  {0, 128, 0}, textString=  "(UEL=1)"), Text(extent=  {{33, -160}, {61, -174}}, lineColor=  {0, 128, 0}, textString=  "(UEL=3)"), Text(extent=  {{-190, 140}, {-108, 120}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG2"), Text(extent=  {{-162, 152}, {-134, 135}}, lineColor=  {0, 128, 0}, textString=  "(VOS=2)"), Text(extent=  {{-184, 60}, {-156, 40}}, lineColor=  {28, 108, 200}, textString=  "VT"), Text(extent=  {{-184, -62}, {-114, -82}}, lineColor=  {28, 108, 200}, textString=  "XADIFD"), Text(extent=  {{-36, -170}, {16, -190}}, lineColor=  {28, 108, 200}, textString=  "VUEL"), Text(extent=  {{24, -170}, {76, -190}}, lineColor=  {28, 108, 200}, textString=  "VUEL")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24576,6 +25254,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(gain1.y, simpleLagLimVar.outMax) annotation(Line(points = {{110, -59}, {110, -59}, {110, 20}, {98, 20}, {98, 14}}, color = {0, 0, 127}));
             connect(gain1.u, gain.u) annotation(Line(points = {{110, -82}, {110, -92}, {82, -92}, {82, -82}}, color = {0, 0, 127}));
             annotation(Placement(transformation(extent = {{50, -5}, {60, 5}})), Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(lineColor=  {28, 108, 200}, extent=  {{-120, 154}, {140, 94}}, textString=  "ESDC2A"), Text(lineColor=  {28, 108, 200}, extent=  {{-186, -60}, {-150, -80}}, textString=  "VT")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24609,8 +25293,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end ESDC2A;
 
           model ESDC1A
@@ -24667,6 +25350,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(VOEL, DiffV1.u2) annotation(Line(points = {{-70, -200}, {-70, -200}, {-70, -60}, {-96, -60}, {-96, 34}, {-92, 34}}, color = {0, 0, 127}));
             connect(DiffV1.y, add3_1.u1) annotation(Line(points = {{-69, 40}, {-66, 40}, {-66, 8}, {-62, 8}}, color = {0, 0, 127}));
             annotation(Placement(transformation(extent = {{50, -5}, {60, 5}})), Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, grid = {2, 2}, initialScale = 0.1), graphics = {Text(extent=  {{-120, 154}, {140, 94}}, lineColor=  {28, 108, 200}, textString=  "ESDC1A")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24700,8 +25389,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end ESDC1A;
 
           model ESAC2A
@@ -24789,6 +25477,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(DiffV2.y, division.u2) annotation(Line(points = {{129, 118}, {104, 118}, {104, 92}}, color = {0, 0, 127}));
             connect(division.y, rotatingExciterWithDemagnetization.outMax) annotation(Line(points = {{110, 69}, {110, 60}, {118, 60}, {118, 47.5}, {122.75, 47.5}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(lineColor=  {28, 108, 200}, extent=  {{-186, -60}, {-116, -80}}, textString=  "XADIFD"), Text(lineColor=  {28, 108, 200}, extent=  {{-100, 152}, {100, 92}}, textString=  "ESAC2A")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24822,8 +25516,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end ESAC2A;
 
           model ESAC1A
@@ -24892,6 +25585,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
             connect(VOEL, lV_GATE.n1) annotation(Line(points = {{-70, -200}, {-70, -200}, {-70, -60}, {50, -60}, {50, 37}, {56.5, 37}}, color = {0, 0, 127}));
             connect(lV_GATE.p, limiter1.u) annotation(Line(points = {{80.5, 40}, {92, 40}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1)), Icon(coordinateSystem(extent = {{-200, -200}, {200, 160}}, initialScale = 0.1), graphics = {Text(extent=  {{-186, -60}, {-116, -80}}, lineColor=  {28, 108, 200}, textString=  "XADIFD"), Text(extent=  {{-100, 152}, {100, 92}}, lineColor=  {28, 108, 200}, textString=  "ESAC1A")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -24925,8 +25624,7 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end ESAC1A;
 
 
@@ -25116,6 +25814,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                     fillPattern=FillPattern.Solid,
                     textString="IEEEG1")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -25238,7 +25942,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                     extent={{134,6},{156,-6}},
                     lineColor={0,0,255},
                     textString="PMECH")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -25393,7 +26103,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                     extent={{52,6},{78,-8}},
                     lineColor={0,0,255},
                     textString="PMECH")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html> 
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -25477,7 +26193,13 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                     lineColor={0,0,255},
                     fillPattern=FillPattern.Solid,
                     textString="PMECH0")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -25513,6 +26235,12 @@ Voltage Drop"),             Text(extent=  {{-99, 4}, {-70, -6}}, lineColor=  {28
                       textString="Low value
 select"),            Rectangle(extent={{-100,98},{100,-98}}, lineColor={0,0,255})}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <p>
 Determines the minimum and maximum element of the input vector and
 provide both values as output.
@@ -25566,6 +26294,12 @@ provide both values as output.
                       origin={-11,-1},
                       rotation=270),Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,255})}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <p>
 Determines the minimum and maximum element of the input vector and
 provide both values as output.
@@ -25609,6 +26343,12 @@ provide both values as output.
                       rotation=360,
                       textString="Flag"),Rectangle(extent={{-98,90},{96,-92}}, lineColor={0,0,255})}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> 
 <p>
 Determines the minimum and maximum element of the input vector and
 provide both values as output.
@@ -25652,6 +26392,12 @@ provide both values as output.
                       rotation=360,
                       textString="Dm_select"),Rectangle(extent={{-98,90},{96,-92}}, lineColor={0,0,255})}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <p>
 Determines the minimum and maximum element of the input vector and
 provide both values as output.
@@ -26251,7 +26997,13 @@ provide both values as output.
                       extent={{172,24},{256,-28}},
                       lineColor={0,0,255},
                       textString="PMECH")}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",             revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -26328,7 +27080,13 @@ provide both values as output.
             connect(add1.u1, add2.u1) annotation(Line(points = {{31, -50}, {38, -50}, {38, -84}, {-8, -84}, {-8, -50}, {-31, -50}}, color = {0, 0, 127}));
             connect(simpleLagLim.u, lV_Gate.p) annotation(Line(points = {{-5, 1}, {-17.5, 1}, {-17.5, 0}, {-27.25, 0}}, color = {0, 0, 127}));
             connect(simpleLagLim.y, transferFunction1.u) annotation(Line(points = {{6.5, 1}, {26.25, 1}, {26.25, 0}, {46.8, 0}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(extent=  {{-100, 100}, {100, -100}}, lineColor=  {0, 0, 255}), Text(extent=  {{-90, 56}, {-30, 44}}, lineColor=  {0, 0, 255}, textString=  "SPEED"), Text(extent=  {{-90, -44}, {-32, -56}}, lineColor=  {0, 0, 255}, textString=  "VAR(L)"), Text(extent=  {{48, 6}, {108, -6}}, lineColor=  {0, 0, 255}, textString=  "PMECH"), Text(extent=  {{-40, 18}, {36, -18}}, lineColor=  {0, 0, 255}, textString=  "GAST")}), Documentation(revisions = "<html>
+            annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(extent=  {{-100, 100}, {100, -100}}, lineColor=  {0, 0, 255}), Text(extent=  {{-90, 56}, {-30, 44}}, lineColor=  {0, 0, 255}, textString=  "SPEED"), Text(extent=  {{-90, -44}, {-32, -56}}, lineColor=  {0, 0, 255}, textString=  "VAR(L)"), Text(extent=  {{48, 6}, {108, -6}}, lineColor=  {0, 0, 255}, textString=  "PMECH"), Text(extent=  {{-40, 18}, {36, -18}}, lineColor=  {0, 0, 255}, textString=  "GAST")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions = "<html>
 <!--DISCLAIMER-->
 <p>iPSL:</p>
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -26420,6 +27178,12 @@ provide both values as output.
             connect(derivativeLag3.y, SimpleLag2.u) annotation(Line(points = {{-99, -20}, {-82, -20}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-180, -40}, {200, 40}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-180, -40}, {200, 40}}), graphics = {Rectangle(extent=  {{-180, 40}, {200, -40}}, lineColor=  {0, 0, 255}), Text(extent=  {{-34, 16}, {32, -14}}, lineColor=  {0, 0, 255}, textString=  "PSS2A"), Text(extent=  {{-170, 30}, {-142, 10}}, lineColor=  {0, 0, 255}, textString=  "V_S1"), Text(extent=  {{-170, -10}, {-142, -30}}, lineColor=  {0, 0, 255}, textString=  "V_S2"), Text(extent=  {{140, 10}, {196, -10}}, lineColor=  {0, 0, 255}, textString=  "VOTHSG")}), Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSS2A, PSS/E Manual </p></td>
 </tr>
@@ -26450,8 +27214,7 @@ provide both values as output.
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end PSS2A;
 
           model PSS2B
@@ -26526,6 +27289,12 @@ provide both values as output.
             connect(rampTrackingFilter.y, add1.u1) annotation(Line(points = {{15, 14}, {20, 14}, {20, 6}, {28, 6}}, color = {0, 0, 127}));
             connect(add1.u2, add.u2) annotation(Line(points = {{28, -6}, {20, -6}, {20, -20}, {-44, -20}, {-44, 8}, {-38, 8}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-180, -40}, {180, 40}})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-180, -40}, {180, 40}}), graphics = {Rectangle(extent=  {{-180, 40}, {180, -40}}, lineColor=  {0, 0, 255}), Text(extent=  {{-34, 14}, {32, -16}}, lineColor=  {0, 0, 255}, textString=  "PSS2B"), Text(extent=  {{-172, 26}, {-132, 12}}, lineColor=  {0, 0, 255}, textString=  "V_S1"), Text(extent=  {{130, 14}, {176, -16}}, lineColor=  {0, 0, 255}, textString=  "VOTHSG"), Text(extent=  {{-174, -14}, {-134, -28}}, lineColor=  {0, 0, 255}, textString=  "V_S2")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -26558,8 +27327,7 @@ provide both values as output.
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end PSS2B;
 
           model STAB2A "Models STAB2A, STAB3, and STAB4 are special representations of specific types of supplementary
@@ -26600,6 +27368,12 @@ provide both values as output.
             connect(transferFunction5.y, limiter.u) annotation(Line(points = {{91, 0}, {96, 0}}, color = {0, 0, 127}));
             connect(VOTHSG, limiter.y) annotation(Line(points = {{130, 0}, {119, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -40}, {120, 40}}, grid = {2, 2})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -40}, {120, 40}}, grid = {2, 2}), graphics = {Rectangle(extent=  {{-100, 40}, {120, -40}}, lineColor=  {0, 0, 255}), Text(extent=  {{-34, 24}, {34, -24}}, lineColor=  {0, 0, 255}, textString=  "STAB2A"), Text(extent=  {{72, 16}, {116, -18}}, lineColor=  {0, 0, 255}, textString=  "VOTHSG"), Text(extent=  {{-86, 16}, {-48, -16}}, lineColor=  {0, 0, 255}, textString=  "PELEC")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -26632,8 +27406,7 @@ provide both values as output.
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end STAB2A;
 
           model STAB3
@@ -26666,7 +27439,13 @@ provide both values as output.
             connect(imDerivativeLag.y, limiter.u) annotation(Line(points = {{55, 0}, {68, 0}}, color = {0, 0, 127}));
             connect(limiter.y, VOTHSG) annotation(Line(points = {{91, 0}, {110, 0}}, color = {0, 0, 127}));
             connect(const.y, feedback.u2) annotation(Line(points = {{-39, -30}, {-30, -30}, {-30, -8}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -40}, {100, 40}})), Icon(coordinateSystem(extent = {{-100, -40}, {100, 40}}, preserveAspectRatio = false), graphics = {Rectangle(extent=  {{-100, 40}, {100, -40}}, lineColor=  {28, 108, 200}), Text(extent=  {{-70, 20}, {70, -20}}, lineColor=  {28, 108, 200}, textString=  "STAB3"), Text(extent=  {{-88, 10}, {-58, -10}}, lineColor=  {28, 108, 200}, textString=  "PELEC"), Text(extent=  {{64, 14}, {98, -12}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG")}), Documentation(info = "<html>
+            annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-100, -40}, {100, 40}})), Icon(coordinateSystem(extent = {{-100, -40}, {100, 40}}, preserveAspectRatio = false), graphics = {Rectangle(extent=  {{-100, 40}, {100, -40}}, lineColor=  {28, 108, 200}), Text(extent=  {{-70, 20}, {70, -20}}, lineColor=  {28, 108, 200}, textString=  "STAB3"), Text(extent=  {{-88, 10}, {-58, -10}}, lineColor=  {28, 108, 200}, textString=  "PELEC"), Text(extent=  {{64, 14}, {98, -12}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG")}), Documentation(info = "<html>  
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>STAB3, PSSE Manual</p></td>
@@ -26698,8 +27477,7 @@ provide both values as output.
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end STAB3;
 
           model STABNI
@@ -26733,6 +27511,12 @@ provide both values as output.
             connect(limiter.u, imSimpleLag1.y) annotation(Line(points = {{58, 0}, {41, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -40}, {120, 40}})), Icon(coordinateSystem(extent = {{-120, -40}, {120, 40}}, preserveAspectRatio = false), graphics = {Rectangle(extent=  {{-120, 40}, {120, -40}}, lineColor=  {28, 108, 200}), Text(extent=  {{-64, 20}, {56, -20}}, lineColor=  {28, 108, 200}, textString=  "STABNI"), Text(extent=  {{-108, 8}, {-72, -10}}, lineColor=  {28, 108, 200}, textString=  "PELEC"), Text(extent=  {{82, 10}, {118, -8}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG")}), Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>STABNI, PSSE Manual</p></td>
 </tr>
@@ -26763,8 +27547,7 @@ provide both values as output.
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end STABNI;
 
           model IEEEST "IEEE Stabilizing Model with single Input"
@@ -26891,6 +27674,12 @@ provide both values as output.
             connect(swith_filter3.y, T_1_T_2.u) annotation(Line(points = {{30.5, 0}, {39, 0}}, color = {0, 0, 127}));
             connect(VSS.y, Vs) annotation(Line(points = {{110.5, 0}, {118, 0}, {118, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -40}, {120, 40}}, grid = {1, 1})), Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -40}, {120, 40}}, grid = {1, 1}), graphics = {Rectangle(extent=  {{-120, 40}, {120, -40}}, lineColor=  {0, 0, 255}), Text(extent=  {{-46, 40}, {54, -44}}, lineColor=  {0, 0, 255}, textString=  "IEEEST"), Text(extent=  {{-106, -10}, {-84, -30}}, lineColor=  {0, 0, 255}, textString=  "V_S"), Text(extent=  {{84, 14}, {118, -16}}, lineColor=  {0, 0, 255}, textString=  "VOTHSG"), Text(extent=  {{-106, 32}, {-78, 8}}, lineColor=  {0, 0, 255}, textString=  "V_CT")}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -26923,8 +27712,7 @@ provide both values as output.
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end IEEEST;
 
           model IEE2ST "IEEE Stabilizing Model With Dual-Input Signals"
@@ -26996,6 +27784,12 @@ provide both values as output.
             connect(imLeadLag.u, imDerivativeLag.y) annotation(Line(points = {{-22, 0}, {-39, 0}}, color = {0, 0, 127}));
             connect(add.y, imDerivativeLag.u) annotation(Line(points = {{-79, 0}, {-62, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-180, -60}, {180, 60}})), Icon(coordinateSystem(extent = {{-180, -60}, {180, 60}}, preserveAspectRatio = false), graphics = {Text(extent=  {{-156, 52}, {-114, 28}}, lineColor=  {28, 108, 200}, textString=  "ICS1"), Text(extent=  {{-158, -28}, {-114, -54}}, lineColor=  {28, 108, 200}, textString=  "ICS2"), Text(extent=  {{-20, -20}, {22, -42}}, lineColor=  {28, 108, 200}, textString=  "VCT"), Text(extent=  {{106, 12}, {178, -14}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG"), Text(extent=  {{-50, 32}, {58, -32}}, lineColor=  {28, 108, 200}, textString=  "IEE2ST"), Rectangle(extent=  {{-180, 60}, {180, -60}}, lineColor=  {28, 108, 200})}), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27030,8 +27824,7 @@ IEE2ST, PSSE Manual
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end IEE2ST;
 
 
@@ -27082,7 +27875,13 @@ IEE2ST, PSSE Manual
             connect(imLeadLag1.y, add.u2) annotation(Line(points = {{-39, -50}, {-30, -50}, {-30, -6}, {-14, -6}}, color = {0, 0, 127}));
             connect(imDerivativeLag.y, gain.u) annotation(Line(points = {{39, 0}, {41.5, 0}, {44, 0}}, color = {0, 0, 127}));
             connect(add.y, imDerivativeLag.u) annotation(Line(points = {{9, 0}, {12.5, 0}, {16, 0}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -100}, {120, 100}})), Icon(coordinateSystem(extent = {{-120, -100}, {120, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-120, 100}, {120, -100}}, lineColor=  {28, 108, 200}), Text(extent=  {{-112, 58}, {-66, 44}}, lineColor=  {28, 108, 200}, textString=  "V_S1"), Text(extent=  {{-120, -42}, {-58, -56}}, lineColor=  {28, 108, 200}, textString=  "V_S2"), Text(extent=  {{70, 10}, {118, -6}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG"), Text(extent=  {{-62, 30}, {66, -32}}, lineColor=  {28, 108, 200}, textString=  "STBSVC")}), Documentation(revisions = "<html>
+            annotation(Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -100}, {120, 100}})), Icon(coordinateSystem(extent = {{-120, -100}, {120, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-120, 100}, {120, -100}}, lineColor=  {28, 108, 200}), Text(extent=  {{-112, 58}, {-66, 44}}, lineColor=  {28, 108, 200}, textString=  "V_S1"), Text(extent=  {{-120, -42}, {-58, -56}}, lineColor=  {28, 108, 200}, textString=  "V_S2"), Text(extent=  {{70, 10}, {118, -6}}, lineColor=  {28, 108, 200}, textString=  "VOTHSG"), Text(extent=  {{-62, 30}, {66, -32}}, lineColor=  {28, 108, 200}, textString=  "STBSVC")}), Documentation(info = "<html> 
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions = "<html>
 <!--DISCLAIMER-->
 <p>iPSL:</p>
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
@@ -27096,8 +27895,7 @@ IEE2ST, PSSE Manual
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
           end STBSVC;
         annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
@@ -27205,6 +28003,12 @@ IEE2ST, PSSE Manual
                     lineColor={28,108,200},
                     textString="ExcSEXS")}),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27332,6 +28136,12 @@ IEE2ST, PSSE Manual
                   fillColor={255,255,255},
                   extent={{-90.0,-82.5},{90.0,82.5}})}),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27403,6 +28213,12 @@ IEE2ST, PSSE Manual
                   fillColor={255,255,255},
                   extent={{-90.0,-82.5},{90.0,82.5}})}),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27479,6 +28295,12 @@ IEE2ST, PSSE Manual
                 initialScale=0.1,
                 grid={5,5})),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27497,8 +28319,6 @@ IEE2ST, PSSE Manual
 <td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
 </tr>
 </table>
-</html>
-<html>
 <pre><span style=\"font-family: Courier New,courier; color: #006400;\">Remember:&nbsp;Pz+Pi+Pp=1&nbsp;and&nbsp;Qz+Qi+Qp=1;</span></pre>
 </html>",         revisions="<html>
 <!--DISCLAIMER-->
@@ -27512,8 +28332,7 @@ IEE2ST, PSSE Manual
 <p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p></html>"));
         end Mixed_Load;
 
         model VoltDependant "Voltage Dependent Load"
@@ -27531,6 +28350,12 @@ IEE2ST, PSSE Manual
                 preserveAspectRatio=true,
                 initialScale=0.1,
                 grid={10,10})), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>        
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27591,6 +28416,12 @@ IEE2ST, PSSE Manual
                 initialScale=0.1,
                 grid={5,5})),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27660,6 +28491,12 @@ IEE2ST, PSSE Manual
                 initialScale=0.1,
                 grid={5,5})),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27678,8 +28515,6 @@ IEE2ST, PSSE Manual
 <td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
 </tr>
 </table>
-</html>
-<html>
 <pre><span style=\"font-family: Courier New,courier; color: #006400;\">Remember:&nbsp;Pz+Pi+Pp=1&nbsp;and&nbsp;Qz+Qi+Qp=1</span></pre>
 </html>",         revisions="<html>
 <!--DISCLAIMER-->
@@ -27693,8 +28528,7 @@ IEE2ST, PSSE Manual
 <p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p></html>"));
         end ZIP_Jimma;
 
         model LOADPQ "Constant PQ Load"
@@ -27714,6 +28548,12 @@ IEE2ST, PSSE Manual
                 initialScale=0.1,
                 grid={5,5})),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27732,8 +28572,6 @@ IEE2ST, PSSE Manual
 <td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
 </tr>
 </table>
-</html>
-<html>
 <pre><span style=\"font-family: Courier New,courier; color: #006400;\">Equations&nbsp;come&nbsp;from&nbsp;the&nbsp;mathematical&nbsp;separation&nbsp;in&nbsp;between&nbsp;reals&nbsp;and&nbsp;imaginary&nbsp;of&nbsp;S=P+jQ=UI*</span></pre>
 </html>",         revisions="<html>
 <!--DISCLAIMER-->
@@ -27747,8 +28585,7 @@ IEE2ST, PSSE Manual
 <p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
-<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>"));
+<p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p></html>"));
         end LOADPQ;
 
         model LOADPQ_variation
@@ -27784,7 +28621,13 @@ IEE2ST, PSSE Manual
                 preserveAspectRatio=true,
                 initialScale=0.1,
                 grid={5,5})),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -27831,7 +28674,13 @@ IEE2ST, PSSE Manual
             annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={Line(points={{-100,100},{100,100},{0,-100},{-100,100}}, color={28,108,200}),Text(
                     extent={{-62,66},{66,34}},
                     lineColor={28,108,200},
-                    textString="%P_0+j%Q_0")}), Documentation(revisions="<html>
+                    textString="%P_0+j%Q_0")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -27894,6 +28743,12 @@ IEE2ST, PSSE Manual
                 preserveAspectRatio=false,
                 initialScale=0.05)),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -27950,6 +28805,12 @@ IEE2ST, PSSE Manual
                 preserveAspectRatio=false,
                 initialScale=0.05)),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -28006,6 +28867,12 @@ IEE2ST, PSSE Manual
                 extent={{-100,-100},{100,100}},
                 initialScale=0.05), graphics),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -28131,7 +28998,13 @@ IEE2ST, PSSE Manual
                   preserveAspectRatio=false,
                   extent={{-100,-100},{100,100}},
                   initialScale=0.1)),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -28211,7 +29084,32 @@ IEE2ST, PSSE Manual
                   points={{-40,-20},{20,40}},
                   color={0,0,255},
                   smooth=Smooth.None)}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag/User's Manual</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td></td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>RTE-AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+</html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -28269,19 +29167,25 @@ IEE2ST, PSSE Manual
                   points={{-40,-20},{20,40}},
                   color={0,0,255},
                   smooth=Smooth.None)}),
-            Documentation( Documentation(info="<HTML>
+             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
-<td>Eurostag</td>
+<td>Eurostag/User's Manual</td>
 </tr>
 <tr>
 <td><p>Last update</p></td>
-<td>Unknown</td>
+<td>2016/12/20 by AIA </td>
 </tr>
 <tr>
 <td><p>Author</p></td>
-<td><p>AIA</p></td>
+<td><p>RTE-AIA</p></td>
 </tr>
 <tr>
 <td><p>Contact</p></td>
@@ -28292,7 +29196,7 @@ IEE2ST, PSSE Manual
 This model is a load voltage dependence in witch it allow a variation of the Load P,Q.
 </p>
 
-</HTML>")));
+</HTML>"));
         end PwLoadVDepwithVariation;
 
         model PwLoadVWDepwithVariation
@@ -28342,28 +29246,35 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                   points={{-40,-20},{20,40}},
                   color={0,0,255},
                   smooth=Smooth.None)}),
-          Documentation(Documentation(info="<HTML>
-	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
-	<tr>
-	<td><p>Reference</p></td>
-	<td></td>
-	</tr>
-	<tr>
-	<td><p>Last update</p></td>
-	<td>Unknown</td>
-	</tr>
-	<tr>
-	<td><p>Author</p></td>
-	<td><p>AIA</p></td>
-	</tr>
-	<tr>
-	<td><p>Contact</p></td>
-	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
-	</tr>
-	</table>
-	<p> 
-	</p>
-	</HTML>")));
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag/User's Manual</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td>2016/12/20 by AIA </td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>RTE-AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+<p>
+This model is a load voltage frequency dependence in witch it allow a variation of the Load P,Q.
+</p>
+</HTML>"));
         end PwLoadVWDepwithVariation;
 
         model PwLoadwithVariation "Load with a power variation event.
@@ -28395,7 +29306,32 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
           X = R / a;
           p.vr = R * p.ir - X * p.ii;
           p.vi = X * p.ir + R * p.ii;
-          annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent=  {{-60, 60}, {40, -40}}, lineColor=  {0, 0, 255}), Rectangle(extent=  {{-40, 40}, {20, -20}}, lineColor=  {0, 0, 255}), Line(points=  {{-40, 40}, {20, -20}}, color=  {0, 0, 255}, smooth=  Smooth.None), Line(points=  {{-40, -20}, {20, 40}}, color=  {0, 0, 255}, smooth=  Smooth.None)}));
+          annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent=  {{-60, 60}, {40, -40}}, lineColor=  {0, 0, 255}), Rectangle(extent=  {{-40, 40}, {20, -20}}, lineColor=  {0, 0, 255}), Line(points=  {{-40, 40}, {20, -20}}, color=  {0, 0, 255}, smooth=  Smooth.None), Line(points=  {{-40, -20}, {20, 40}}, color=  {0, 0, 255}, smooth=  Smooth.None)}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag/User's Manual</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td></td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>RTE-AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+</HTML>"));
         end PwLoadwithVariation;
 
         class PwLoadPQ "Constant Power load defined by active power P and reactive power Q.
@@ -28414,7 +29350,32 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
           P = p.vr * p.ir + p.vi * p.ii;
           Q = (-p.vr * p.ii) + p.vi * p.ir;
 
-          annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent=  {{-60, 60}, {40, -40}}, lineColor=  {0, 0, 255}), Rectangle(extent=  {{-40, 40}, {20, -20}}, lineColor=  {0, 0, 255}), Line(points=  {{-40, 40}, {20, -20}}, color=  {0, 0, 255}, smooth=  Smooth.None), Line(points=  {{-40, -20}, {20, 40}}, color=  {0, 0, 255}, smooth=  Smooth.None)}));
+          annotation(Diagram(graphics), Icon(graphics={  Rectangle(extent=  {{-60, 60}, {40, -40}}, lineColor=  {0, 0, 255}), Rectangle(extent=  {{-40, 40}, {20, -20}}, lineColor=  {0, 0, 255}), Line(points=  {{-40, 40}, {20, -20}}, color=  {0, 0, 255}, smooth=  Smooth.None), Line(points=  {{-40, -20}, {20, 40}}, color=  {0, 0, 255}, smooth=  Smooth.None)}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+<tr>
+<td><p>Reference</p></td>
+<td>Eurostag/Model Editor User's Manual</td>
+</tr>
+<tr>
+<td><p>Last update</p></td>
+<td></td>
+</tr>
+<tr>
+<td><p>Author</p></td>
+<td><p>RTE-AIA</p></td>
+</tr>
+<tr>
+<td><p>Contact</p></td>
+<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+</tr>
+</table>
+</HTML>"));
         end PwLoadPQ;
 
         model PwLoadVoltFreqDependence
@@ -28438,9 +29399,6 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
           parameter Real gamma = 0;
           Real P(start = P_0/S_b);
           Real Q(start = Q_0/S_b);
-        initial equation
-           (P_0/S_b) = p.vr * p.ir + p.vi * p.ii;
-           (Q_0/S_b)  = (-p.vr * p.ii) + p.vi * p.ir;
         equation
           a = v / vo;
           b = omegaRef/omega_0;
@@ -28458,12 +29416,17 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                   smooth=Smooth.None),Line(
                   points={{-40,-20},{20,40}},
                   color={0,0,255},
-                  smooth=Smooth.None)}),
-          Documentation(Documentation(info="<HTML>
+                  smooth=Smooth.None)}), Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= yellow><p> 2 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
 	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 	<tr>
 	<td><p>Reference</p></td>
-	<td></td>
+	<td>Eurostag/User's Manual</td>
 	</tr>
 	<tr>
 	<td><p>Last update</p></td>
@@ -28480,8 +29443,7 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
 	</table>
 	<p> 
 	</p>
-
-	</HTML>")));
+	</HTML>"));
         end PwLoadVoltFreqDependence;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
@@ -28582,7 +29544,13 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                 smooth=Smooth.None),Line(
                 points={{30,-30},{38,-22}},
                 color={0,0,255},
-                smooth=Smooth.None)}), Documentation(revisions="<html>
+                smooth=Smooth.None)}), Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -28651,7 +29619,13 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                 smooth=Smooth.None),Line(
                 points={{30,-30},{38,-22}},
                 color={0,0,255},
-                smooth=Smooth.None)}), Documentation(revisions="<html>
+                smooth=Smooth.None)}), Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -28704,7 +29678,13 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                 color={0,0,255},
                 smooth=Smooth.None,
                 thickness=0.5),Rectangle(extent={{-40,42},{42,-24}}, lineColor={0,0,255})}),
-          Documentation(revisions="<html>
+          Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -28770,7 +29750,13 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                 lineThickness=1,
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid,
-                pattern=LinePattern.None),Rectangle(extent={{-40,40},{40,-46}}, lineColor={0,0,255})}), Documentation(revisions="<html>
+                pattern=LinePattern.None),Rectangle(extent={{-40,40},{40,-46}}, lineColor={0,0,255})}), Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -28896,7 +29882,13 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid,
                 textString="Q")}),
-          Documentation(revisions="<html>
+          Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -29024,7 +30016,13 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                     fillColor={0,0,255},
                     fillPattern=FillPattern.Solid,
                     textString="SVC")}),
-              Documentation(revisions="<html>
+              Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </HTML>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -29075,6 +30073,12 @@ This model is a load voltage dependence in witch it allow a variation of the Loa
                   textStyle={TextStyle.Bold},
                   textString="Y")}));
           annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 Shunt model from Nordic44 system developed by Giuseppe.
 </html>",         revisions="<html>
 <!--DISCLAIMER-->
@@ -29216,7 +30220,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   extent={{-46,20},{40,-26}},
                   lineColor={0,0,255},
                   textString="CSVGN1")}),
-            Documentation(revisions="<html>
+            Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </HTML>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -29294,6 +30304,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   origin={-6,-31},
                   rotation=-90,
                   thickness=0.5)}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>         
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -29361,7 +30377,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                 lineColor={0,0,255},
                 textStyle={TextStyle.Bold},
                 textString="jB")}));
-        annotation (Documentation(revisions="<html>
+        annotation (Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -29507,7 +30529,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                 extent={{-46,20},{40,-26}},
                 lineColor={0,0,255},
                 textString="CSVGN1")}),
-          Documentation(revisions="<html>
+          Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></HTML>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -29774,7 +30802,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                 extent={{-148.5,-105.0},{148.5,105.0}},
                 preserveAspectRatio=true,
                 initialScale=0.1,
-                grid={5,5})), Documentation(revisions="<html>
+                grid={5,5})), Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </HTML>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -29844,6 +30878,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
           p.vr = vq;
           p.vi = -vd;
           annotation(Icon(coordinateSystem(extent = {{-100.0, -100.0}, {100.0, 100.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-100.0, -100.0}, {100.0, 100.0}}), Text(visible=  true, origin=  {0.0, 15.3102}, fillPattern=  FillPattern.Solid, extent=  {{-31.415, -20.0667}, {31.415, 20.0667}}, textString=  "%name", fontName=  "Arial")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -29925,6 +30965,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
           p.vr = vq;
           p.vi = -vd;
           annotation(Icon(coordinateSystem(extent = {{-100.0, -100.0}, {100.0, 100.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible=  true, fillColor=  {255, 255, 255}, extent=  {{-100.0, -100.0}, {100.0, 100.0}}), Text(visible=  true, origin=  {0.0, 15.3102}, fillPattern=  FillPattern.Solid, extent=  {{-31.415, -20.0667}, {31.415, 20.0667}}, textString=  "%name", fontName=  "Arial")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -30234,6 +31280,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -30419,6 +31471,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -30661,6 +31719,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -30924,6 +31988,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31083,6 +32153,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31184,6 +32260,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31296,6 +32378,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31379,6 +32467,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31545,6 +32639,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   preserveAspectRatio=true,
                   initialScale=0.1,
                   grid={5,5})), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>         
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31683,6 +32783,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31744,7 +32850,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                 end if;
               end if;
             end if;
-            annotation(Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(revisions = "<html>
+            annotation(Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",           revisions = "<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -31826,6 +32938,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>         
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -31946,6 +33064,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -32026,6 +33150,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -32198,6 +33328,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -32287,6 +33423,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -32366,6 +33508,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   initialScale=0.1,
                   grid={5,5})),
               Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -32607,6 +33755,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                 initialScale=0.1,
                 grid={5,5})),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -32948,6 +34102,12 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   grid={5,5})),
               Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>       
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>WT Doubly Fed Induction Generator, PSAT Manual 2.1.8</p></td>
 </tr>
@@ -33117,7 +34277,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   preserveAspectRatio=true,
                   initialScale=0.1,
                   grid={5,5})),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -33262,7 +34428,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   preserveAspectRatio=true,
                   initialScale=0.1,
                   grid={5,5})),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -33347,7 +34519,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   preserveAspectRatio=true,
                   initialScale=0.1,
                   grid={5,5})),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -33423,7 +34601,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   preserveAspectRatio=true,
                   initialScale=0.1,
                   grid={5,5})),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -33522,7 +34706,13 @@ Shunt model from Nordic44 system developed by Giuseppe.
                   preserveAspectRatio=true,
                   initialScale=0.1,
                   grid={5,5})),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -33796,7 +34986,13 @@ Initial Rotor Slip"),          Text(
                     lineColor={0,0,255},
                     textString="Wind Turbine
 Model (WT3T1)")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -33891,7 +35087,13 @@ Model (WT3T1)")}),
                     textString="100 60HZ
 
 The B in Pwline stands for half charging B in PSSE transmission line",
-                    fontSize=10)}), Documentation(revisions="<html>
+                    fontSize=10)}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -34007,7 +35209,13 @@ The B in Pwline stands for half charging B in PSSE transmission line",
                 points={{11.6,-26.4},{11.6,2},{94,2}},
                 color={0,0,255},
                 smooth=Smooth.None));
-            annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics), Documentation(revisions="<html>
+            annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -34110,7 +35318,13 @@ The B in Pwline stands for half charging B in PSSE transmission line",
                     extent={{-57.2101,-15.0},{57.2101,15.0}},
                     fontName="Arial",
                     textString="%name",
-                    lineColor={0,0,0})}), Documentation(revisions="<html>
+                    lineColor={0,0,0})}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -34318,7 +35532,13 @@ The B in Pwline stands for half charging B in PSSE transmission line",
                     fillColor={255,255,255},
                     fillPattern=FillPattern.Solid,
                     textString="Ipcmd0")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -34829,7 +36049,13 @@ PI")}));
                     extent={{-80,60},{80,-60}},
                     lineColor={28,108,200},
                     textString="WT3E1")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",          revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -34948,7 +36174,13 @@ PI")}));
             connect(K.y, Q_ord) annotation(Line(points = {{181, 0}, {210, 0}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -80}, {200, 80}}, preserveAspectRatio = true), graphics = {Text(extent=  {{136, 8}, {156, 4}}, lineColor=  {255, 0, 0}, textString=  "K
 "),           Text(extent=  {{-60, 80}, {60, 60}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Reactive Power Control"), Text(extent=  {{18, 26}, {38, 22}}, lineColor=  {255, 0, 0}, textString=  "K+1
-")}),           Icon(coordinateSystem(extent = {{-200, -80}, {200, 80}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 80}, {200, -80}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-120, 80}, {122, 50}}, lineColor=  {180, 56, 148}, textString=  "Reactive Power Control"), Text(extent=  {{-176, 50}, {-116, 30}}, lineColor=  {28, 108, 200}, textString=  "ITERM"), Text(extent=  {{130, 10}, {194, -10}}, lineColor=  {28, 108, 200}, textString=  "Q_ORD"), Text(extent=  {{-176, -32}, {-116, -52}}, lineColor=  {28, 108, 200}, textString=  "VTERM")}));
+")}),           Icon(coordinateSystem(extent = {{-200, -80}, {200, 80}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 80}, {200, -80}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-120, 80}, {122, 50}}, lineColor=  {180, 56, 148}, textString=  "Reactive Power Control"), Text(extent=  {{-176, 50}, {-116, 30}}, lineColor=  {28, 108, 200}, textString=  "ITERM"), Text(extent=  {{130, 10}, {194, -10}}, lineColor=  {28, 108, 200}, textString=  "Q_ORD"), Text(extent=  {{-176, -32}, {-116, -52}}, lineColor=  {28, 108, 200}, textString=  "VTERM")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>"));
           end ReactivePowerControl;
 
           model pf_Controller
@@ -34969,7 +36201,13 @@ PI")}));
             connect(VAR2.y, tan1.u) annotation(Line(points = {{-139, 50}, {-139, 50}, {-122, 50}}, color = {0, 0, 127}));
             connect(u, K0.u) annotation(Line(points = {{-204, 0}, {-158, 0}, {-122, 0}}, color = {0, 0, 127}));
             connect(Qcmdn1.y, Q_REF_PF) annotation(Line(points = {{-39, 0}, {10, 0}, {10, 0}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Text(extent=  {{-160, 100}, {-40, 80}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Power Factor Regulator")}), Icon(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 100}, {0, -100}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-188, 6}, {-148, -6}}, lineColor=  {28, 108, 200}, textString=  "P_FAREF"), Text(extent=  {{-60, 6}, {-2, -6}}, lineColor=  {28, 108, 200}, textString=  "Q_REF_PF"), Text(extent=  {{-160, 80}, {-40, 40}}, lineColor=  {238, 46, 47}, textString=  "PF Controller")}));
+            annotation(Diagram(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Text(extent=  {{-160, 100}, {-40, 80}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Power Factor Regulator")}), Icon(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 100}, {0, -100}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-188, 6}, {-148, -6}}, lineColor=  {28, 108, 200}, textString=  "P_FAREF"), Text(extent=  {{-60, 6}, {-2, -6}}, lineColor=  {28, 108, 200}, textString=  "Q_REF_PF"), Text(extent=  {{-160, 80}, {-40, 40}}, lineColor=  {238, 46, 47}, textString=  "PF Controller")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>"));
           end pf_Controller;
 
           model ActivePowerControl
@@ -35044,7 +36282,13 @@ PI")}));
             connect(WPCMND, division.u1) annotation(Line(points = {{210, -90}, {210, -90}, {108, -90}, {108, -60}, {114, -60}, {114, -54}, {118, -54}}, color = {0, 0, 127}));
             connect(imLimited_max.y, WIPCMD) annotation(Line(points = {{181, -60}, {210, -60}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -100}, {200, 100}}, preserveAspectRatio = true), graphics = {Text(extent=  {{-60, 100}, {60, 80}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Active Power Control")}), Icon(coordinateSystem(extent = {{-200, -100}, {200, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 100}, {200, -100}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-64, 72}, {76, 32}}, lineColor=  {0, 140, 72}, textString=  "Active Power
-PI")}));
+PI")}),           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>"));
           end ActivePowerControl;
 
 
@@ -35260,7 +36504,13 @@ specified at PSSE model dialog")}),
                     fillColor={255,255,255},
                     fillPattern=FillPattern.Solid,
                     textString="I_y")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -35677,7 +36927,13 @@ PI"),          Text(    extent={{-40,180},{40,140}},
                     fillColor={255,255,255},
                     fillPattern=FillPattern.Solid,
                     textString="WIQCMD")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -35729,7 +36985,13 @@ PI"),          Text(    extent={{-40,180},{40,140}},
             connect(add4.u1, K1.y) annotation(Line(points = {{36, 6}, {32, 6}, {32, 20}, {29, 20}}, color = {0, 0, 127}));
             connect(V_REG, add3.u2) annotation(Line(points = {{-204, 0}, {-80, 0}, {-80, -6}, {-62, -6}}, color = {0, 0, 127}));
             connect(K.y, Q_ord) annotation(Line(points = {{119, 0}, {210, 0}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-94, 48}, {124, -42}}, lineColor=  {255, 0, 0}, lineThickness=  0.5, pattern=  LinePattern.Dash), Text(extent=  {{-16, 46}, {46, 40}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "WindControl Emulator")}), Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 200}, {200, -200}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-196, 14}, {-76, -16}}, lineColor=  {28, 108, 200}, textString=  "V_REG"), Text(extent=  {{80, 14}, {200, -16}}, lineColor=  {28, 108, 200}, textString=  "Q_ORD"), Text(extent=  {{-172, 162}, {180, 72}}, lineColor=  {180, 56, 148}, textString=  "WindCONTROL Emulator")}));
+            annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-94, 48}, {124, -42}}, lineColor=  {255, 0, 0}, lineThickness=  0.5, pattern=  LinePattern.Dash), Text(extent=  {{-16, 46}, {46, 40}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "WindControl Emulator")}), Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 200}, {200, -200}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-196, 14}, {-76, -16}}, lineColor=  {28, 108, 200}, textString=  "V_REG"), Text(extent=  {{80, 14}, {200, -16}}, lineColor=  {28, 108, 200}, textString=  "Q_ORD"), Text(extent=  {{-172, 162}, {180, 72}}, lineColor=  {180, 56, 148}, textString=  "WindCONTROL Emulator")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>"));
           end windControlEmulator;
 
           model pf_Controller
@@ -35751,7 +37013,13 @@ PI"),          Text(    extent={{-40,180},{40,140}},
             connect(VAR2.y, tan1.u) annotation(Line(points = {{-139, 50}, {-139, 50}, {-122, 50}}, color = {0, 0, 127}));
             connect(u, K0.u) annotation(Line(points = {{-204, 0}, {-158, 0}, {-122, 0}}, color = {0, 0, 127}));
             connect(Qcmdn1.y, Q_REF_PF) annotation(Line(points = {{-39, 0}, {10, 0}, {10, 0}}, color = {0, 0, 127}));
-            annotation(Diagram(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Text(extent=  {{-160, 100}, {-40, 80}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Power Factor Regulator")}), Icon(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 100}, {0, -100}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-188, 6}, {-148, -6}}, lineColor=  {28, 108, 200}, textString=  "P_FAREF"), Text(extent=  {{-60, 6}, {-2, -6}}, lineColor=  {28, 108, 200}, textString=  "Q_REF_PF"), Text(extent=  {{-160, 80}, {-40, 40}}, lineColor=  {238, 46, 47}, textString=  "PF Controller")}));
+            annotation(Diagram(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Text(extent=  {{-160, 100}, {-40, 80}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Power Factor Regulator")}), Icon(coordinateSystem(extent = {{-200, -100}, {0, 100}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 100}, {0, -100}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-188, 6}, {-148, -6}}, lineColor=  {28, 108, 200}, textString=  "P_FAREF"), Text(extent=  {{-60, 6}, {-2, -6}}, lineColor=  {28, 108, 200}, textString=  "Q_REF_PF"), Text(extent=  {{-160, 80}, {-40, 40}}, lineColor=  {238, 46, 47}, textString=  "PF Controller")}),  Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>"));
           end pf_Controller;
 
           model ActivePowerController
@@ -35803,7 +37071,13 @@ PI"),          Text(    extent={{-40,180},{40,140}},
             connect(VTERM, imLimited_min.u) annotation(Line(points = {{0, -200}, {0, -60}, {34, -60}}, color = {0, 0, 127}));
             connect(I_PMAX, imLimited_max.limit1) annotation(Line(points = {{170, 204}, {168, 204}, {168, 86}, {122, 86}, {122, 18}, {128, 18}}, color = {0, 0, 127}));
             annotation(Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}, preserveAspectRatio = false), graphics = {Text(extent=  {{-88, 16}, {-84, 14}}, lineColor=  {0, 0, 255}, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Speed"), Text(extent=  {{-80, 200}, {80, 180}}, lineColor=  {255, 0, 0}, pattern=  LinePattern.Dash, lineThickness=  0.5, fillColor=  {0, 0, 255}, fillPattern=  FillPattern.Solid, textString=  "Active Power Control")}), Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}, preserveAspectRatio = true), graphics = {Rectangle(extent=  {{-200, 200}, {200, -200}}, lineColor=  {28, 108, 200}, fillColor=  {255, 255, 255}, fillPattern=  FillPattern.Solid), Text(extent=  {{-100, 160}, {100, 0}}, lineColor=  {0, 140, 72}, textString=  "Active Power
-PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200}, textString=  "I_PMAX"), Text(extent=  {{112, 20}, {192, -20}}, lineColor=  {28, 108, 200}, textString=  "I_PCMD"), Text(extent=  {{-40, -140}, {40, -180}}, lineColor=  {28, 108, 200}, textString=  "VTERM"), Text(extent=  {{-174, 20}, {-94, -20}}, lineColor=  {28, 108, 200}, textString=  "PELEC")}));
+PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200}, textString=  "I_PMAX"), Text(extent=  {{112, 20}, {192, -20}}, lineColor=  {28, 108, 200}, textString=  "I_PCMD"), Text(extent=  {{-40, -140}, {40, -180}}, lineColor=  {28, 108, 200}, textString=  "VTERM"), Text(extent=  {{-174, 20}, {-94, -20}}, lineColor=  {28, 108, 200}, textString=  "PELEC")}),  Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>"));
           end ActivePowerController;
 
 
@@ -35884,7 +37158,13 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
                     extent={{4,-78},{22,-92}},
                     lineColor={0,0,255},
                     textString="V")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -35951,7 +37231,13 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
                     extent={{19,4},{38,-4}},
                     lineColor={0,0,255},
                     textString="I_sorc")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -36027,7 +37313,13 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
                     fillColor={0,0,255},
                     fillPattern=FillPattern.Solid,
                     textString="LVLP")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -36322,7 +37614,13 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
                     extent={{-112,-42},{-58,-58}},
                     lineColor={0,0,255},
                     textString="sqrt(ImaxTD^2 - IqCMD^2)")}),
-              Documentation(revisions="<html>
+              Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",           revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -36429,6 +37727,12 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
               initialScale=0.1,
               grid={5,5})),
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>Mexican Hat, PSAT Manual 2.1.8</p></td>
@@ -36815,7 +38119,13 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
                     preserveAspectRatio=true,
                     initialScale=0.1,
                     grid={5,5})),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",             revisions="<html>     
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -37018,7 +38328,13 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
                     preserveAspectRatio=true,
                     initialScale=0.1,
                     grid={5,5})),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",             revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -37050,13 +38366,18 @@ PI"),           Text(extent=  {{-40, 180}, {40, 140}}, lineColor=  {28, 108, 200
               [y] = [1; u1; u2; u3; u4];
               annotation (
                 Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>     
 <p>
 The output connector is the <b>concatenation</b> of the four input connectors.
 Note, that the dimensions of the input connector signals have to be
 explicitly defined via parameters n1, n2, n3 and n4.
 </p>
-</HTML>
-",             revisions="<html>
+</HTML>",             revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -37161,6 +38482,12 @@ explicitly defined via parameters n1, n2, n3 and n4.
                       textString="CP",
                       fontName="Arial")}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <p>
 Block has two continuous Real input vectors u1 and u2 and one
 continuous Real output vector y.
@@ -37611,7 +38938,13 @@ All vectors have the same number of elements.
                     preserveAspectRatio=true,
                     initialScale=0.1,
                     grid={5,5})),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",             revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -37904,7 +39237,13 @@ All vectors have the same number of elements.
                       extent={{-67.4924,-47.099},{67.4924,47.099}},
                       textString="Electrical Control",
                       fontName="Arial")}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",             revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -37989,6 +39328,12 @@ All vectors have the same number of elements.
                       textString="lim_exc_s1",
                       fontName="Arial")}),
                 Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <p>
 Block has two continuous Real input vectors u1 and u2 and one
 continuous Real output vector y.
@@ -38413,7 +39758,13 @@ All vectors have the same number of elements.
                       extent={{-64.7389,-33.1866},{64.7389,33.1866}},
                       textString="Generator",
                       fontName="Arial")}),
-                Documentation(revisions="<html>
+                Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",             revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -38866,6 +40217,12 @@ All vectors have the same number of elements.
                   grid={5,5})),
               Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p> 
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>GE Wind Turbine Generator<a href=\"http://doi.org/10.1109/PES.2003.1267470\"> http://doi.org/10.1109/PES.2003.1267470</a></p></td>
 </tr>
@@ -38971,7 +40328,13 @@ All vectors have the same number of elements.
                   lineThickness=0.5,
                   fillPattern=FillPattern.Solid,
                   textString="Kqv")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -39246,7 +40609,13 @@ All vectors have the same number of elements.
                   extent={{-26,-43},{26,-54}},
                   lineColor={0,0,255},
                   textString="Current Limitation Model")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -39350,7 +40719,13 @@ Gen Set"),        Text(
                   extent={{10,-17},{22,-23}},
                   lineColor={0,0,255},
                   textString="i_Qref")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -39405,7 +40780,13 @@ Gen Set"),        Text(
                   lineThickness=0.5,
                   fillPattern=FillPattern.Solid,
                   textString="IQLVRT
-Mode")}),   Documentation(revisions="<html>
+Mode")}),   Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -39464,7 +40845,13 @@ Mode")}),   Documentation(revisions="<html>
                   smooth=Smooth.None,
                   thickness=0.5)}),
             Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -39782,7 +41169,13 @@ Q Control"),        Text(
                   lineColor={0,0,255},
                   textString="iQcmd")}),
             Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{260,80}})),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -39924,7 +41317,13 @@ Q Control"),        Text(
                   extent={{24,-36},{52,-44}},
                   lineColor={0,0,255},
                   textString="w_gen")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -40029,7 +41428,13 @@ P Control"),        Text(
                   extent={{20,3},{40,-3}},
                   lineColor={0,0,255},
                   textString="iPcmd")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -40343,7 +41748,13 @@ P Control"),        Text(
                   fillColor={0,0,255},
                   fillPattern=FillPattern.Solid,
                   textString="IEC Type 4B")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -40381,7 +41792,13 @@ P Control"),        Text(
                   fillPattern=FillPattern.Solid,
                   textString="Voltage Droop
 (Rdroop+jXdroop)")}),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -40522,6 +41939,12 @@ P Control"),        Text(
                   textString="%Name")}),
             Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -40553,8 +41976,7 @@ P Control"),        Text(
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end STATCOM;
 
         model TCSCAlpha
@@ -40697,6 +42119,11 @@ P Control"),        Text(
                   fillPattern=FillPattern.Solid,
                   textString="%TCSC_Alpha%")}),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table>      
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -40728,8 +42155,7 @@ P Control"),        Text(
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end TCSCAlpha;
 
         model TCSCReactance
@@ -40820,6 +42246,12 @@ P Control"),        Text(
                   fillPattern=FillPattern.Solid,
                   textString="%TCSC_XC%")}),
             Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>PSAT Manual 2.1.8</p></td>
@@ -40851,8 +42283,7 @@ P Control"),        Text(
 
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
-</html>
-"));
+</html>"));
         end TCSCReactance;
       annotation (Documentation(revisions="<html>
 <!--DISCLAIMER-->
@@ -40923,7 +42354,13 @@ P Control"),        Text(
                   color={0,0,255},
                   smooth=Smooth.None)}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -40970,7 +42407,13 @@ P Control"),        Text(
                   color={0,0,255},
                   smooth=Smooth.None)}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41025,7 +42468,13 @@ P Control"),        Text(
                 color={0,0,255},
                 smooth=Smooth.None)}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41086,7 +42535,13 @@ P Control"),        Text(
                 lineColor={0,0,255},
                 textString="outp")}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41132,7 +42587,13 @@ P Control"),        Text(
                 lineColor={0,0,255},
                 textString="v")}),
           Diagram(graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41175,7 +42636,13 @@ P Control"),        Text(
                 textStyle={TextStyle.Bold},
                 textString="P/")}),
           Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41230,7 +42697,13 @@ P Control"),        Text(
                 lineColor={0,0,255},
                 textString="Ii")}),
           Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41327,7 +42800,13 @@ P Control"),        Text(
               extent={{-60,-60},{60,60}},
               preserveAspectRatio=true,
               initialScale=0.1), graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41396,7 +42875,13 @@ P Control"),        Text(
               extent={{-60,-60},{60,60}},
               preserveAspectRatio=true,
               initialScale=0.1), graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41500,7 +42985,13 @@ P Control"),        Text(
         annotation (
           Diagram(coordinateSystem(extent={{-80,-100},{100,100}})),
           Icon(coordinateSystem(extent={{-80,-100},{100,100}})),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41552,7 +43043,13 @@ P Control"),        Text(
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid)}),
           Diagram(coordinateSystem(extent={{-40,-40},{40,40}})),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41611,6 +43108,12 @@ P Control"),        Text(
                 fillPattern=FillPattern.Solid)}),
           Diagram(coordinateSystem(extent={{-40,-40},{40,40}})),
           Documentation(Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -41655,8 +43158,7 @@ This model allow change the voltage set point in a iPSL.NonElectrical.Eurostag.M
 
       partial model pfComponent
         "Partial model containing all the Data for entering Power Flow data"
-        outer iPSL.Electrical.SystemBase SysData
-          "Must add this line in all models";
+        inner outer SystemBase SysData "Must add this line in all models";
         parameter Real V_b=400 "Base voltage of the bus (kV)" annotation (Dialog(group="Power flow data"));
         parameter Real V_0=1 "Voltage magnitude (pu)" annotation (Dialog(group="Power flow data"));
         parameter Real angle_0=0 "Voltage angle (deg)" annotation (Dialog(group="Power flow data"));
@@ -41664,7 +43166,13 @@ This model allow change the voltage set point in a iPSL.NonElectrical.Eurostag.M
         parameter Real Q_0=0 "Reactive power (MVAr)" annotation (Dialog(group="Power flow data"));
         parameter Real S_b=SysData.S_b "System base power (MVA)" annotation (Dialog(group="Power flow data", enable=false));
         parameter Real fn=SysData.fn "System Frequency (Hz)" annotation (Dialog(group="Power flow data", enable=false));
-        annotation (Documentation(revisions="<html>
+        annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41725,7 +43233,13 @@ This model allow change the voltage set point in a iPSL.NonElectrical.Eurostag.M
         missingInnerMessage="
 No 'System Data' component is defined. A default component will be used, and generate a system base of 100 MVA, and a frequency of 50 Hz",
         Diagram(coordinateSystem(extent={{-100,-100},{140,100}})),
-        Documentation(revisions="<html>
+        Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",    revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41780,7 +43294,13 @@ No 'System Data' component is defined. A default component will be used, and gen
                 extent={{-52,46},{54,-42}},
                 lineColor={0,0,255},
                 textString="Negative Current Logic")}),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41812,7 +43332,13 @@ No 'System Data' component is defined. A default component will be used, and gen
                 extent={{-64,14},{-2,-14}},
                 lineColor={0,0,255},
                 textString="HV
-Gate")}), Documentation(revisions="<html>
+Gate")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41844,7 +43370,13 @@ Gate")}), Documentation(revisions="<html>
                 extent={{-60,20},{0,-20}},
                 lineColor={0,0,255},
                 textString="LV
-Gate")}), Documentation(revisions="<html>
+Gate")}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -41893,7 +43425,13 @@ Gate")}), Documentation(revisions="<html>
                 lineColor={0,0,255},
                 textString="%name")}),
           Diagram(coordinateSystem(extent={{-40,-40},{40,40}}, preserveAspectRatio=true)),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42090,7 +43628,13 @@ Gate")}), Documentation(revisions="<html>
                 lineColor={0,0,255},
                 textString="s"),Line(points={{-100,-140},{-60,-140},{-40,-100}}, color={0,0,0})}),
           Diagram,
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42135,7 +43679,13 @@ Gate")}), Documentation(revisions="<html>
         connect(TF.u, u) annotation (Line(points={{-10,0},{-120,0}}, color={0,0,127}));
         annotation (
           Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42199,6 +43749,12 @@ Gate")}), Documentation(revisions="<html>
                 thickness=0.5)}),
           Diagram(graphics),
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>    
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -42260,6 +43816,12 @@ Gate")}), Documentation(revisions="<html>
         end if;
          y = max(min(state, outMax), outMin);
         annotation (Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -42348,6 +43910,12 @@ Gate")}), Documentation(revisions="<html>
         end if;
         annotation (
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -42431,6 +43999,12 @@ Gate")}), Documentation(revisions="<html>
         y = if x > outMax then outMax elseif x < outMin then outMin else x;
         annotation (
           Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -42529,7 +44103,13 @@ Gate")}), Documentation(revisions="<html>
                 extent={{-70,-20},{70,-80}},
                 lineColor={0,0,255},
                 textString="1 + Ts"),Line(points={{-60,100},{-80,140},{-120,140}}, color={255,0,0}),Line(points={{120,-140},{80,-140},{60,-100}}, color={255,0,0})}),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42569,7 +44149,13 @@ Gate")}), Documentation(revisions="<html>
                 lineColor={0,0,255},
                 textString="K")}),
           Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}), graphics),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42612,7 +44198,13 @@ Gate")}), Documentation(revisions="<html>
         connect(TF.u, u) annotation (Line(points={{-10,0},{-120,0}}, color={0,0,127}));
         annotation (
           Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42706,8 +44298,12 @@ Gate")}), Documentation(revisions="<html>
                 textString="K")}),
           Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}})),
           Documentation(info="<html>
-
-</html>",       revisions="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p> </html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -42911,6 +44507,12 @@ Gate")}), Documentation(revisions="<html>
                 thickness=1)}),
           Documentation(info="<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= yellow><p> 2 </p></td>
+</tr> 
+</table> 
+<p></p>      
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td><p>Reference</p></td>
 <td><p>Ramp-tracking filter up to M*N &LT;=8</p></td>
 </tr>
@@ -42989,7 +44591,13 @@ All of the transfer functions found in this package are also available in the Mo
                 extent={{-62,28},{64,-30}},
                 lineColor={0,0,255},
                 textString="FEX=f(IN)")}),
-          Documentation(revisions="<html>
+          Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -43075,7 +44683,12 @@ All of the transfer functions found in this package are also available in the Mo
                 thickness=0.5,
                 smooth=Smooth.None)}),
           Documentation(info="<html>
-</html>",       revisions="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=cyan><p> 3 </p></td>
+</tr> 
+</table> 
+<p></p></html>",       revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -43299,6 +44912,12 @@ All of the transfer functions found in this package are also available in the Mo
                     fillColor={255,213,170},
                     fillPattern=FillPattern.Solid,
                     textString="x")}), Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>             
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43381,6 +45000,12 @@ This Block is equivalent to spesific MULTIPLIER Block from Eurostag.
                   lineColor={0,0,255},
                   textString="Set
           ")}),        Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>           
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43437,6 +45062,12 @@ This Block is equivalent to spesific SET POINT Block from Eurostag.
                     thickness=0.5,
                     smooth=  Smooth.None)}),
                     Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>             
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43499,6 +45130,12 @@ This Block is equivalent to spesific SET POINT Block from Eurostag.
                   lineColor={0,0,255},
                   textString=" (Bu)")}),
                   Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>           
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43580,8 +45217,14 @@ This Block is equivalent to spesific EXPONENTIAL Block from Eurostag.
                   Text(
                   extent={{-62,66},{58,-44}},
                   lineColor={0,0,255},
-                  textString="atan
- (N / D)")}),     Documentation(info="<html>
+                  textString="atan(N / D)")}),
+                  Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>           
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43607,15 +45250,13 @@ It uses a OFFSET parameter to obtain a value of Y in the [OFFSET - &#960;, OFFSE
 <p>
 This Block is equivalent to spesific ARC-TANGENT Block from Eurostag. 
 </p>
-</html>"),  Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                    {100,100}}),
-                            graphics={
-                Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}),
-                  Text(
+</html>"),
+        Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100}, {100,100}}),
+        graphics={Rectangle(extent={{-60,60},{60,-60}}, lineColor={0,0,255}), Text(
                   extent={{-46,42},{42,-26}},
                   lineColor={0,0,255},
-                  textString="atan
- (u1 / u2)"),   Line(points={{-100,40},{-60,40}}, color={28,108,200}),
+                  textString="atan(u1 / u2)"),
+                Line(points={{-100,40},{-60,40}}, color={28,108,200}),
                 Line(points={{-100,-40},{-60,-40}}, color={28,108,200}),
                 Line(points={{60,0},{100,0}}, color={28,108,200})}));
         end ImArcTangent;
@@ -43661,6 +45302,12 @@ This Block is equivalent to spesific ARC-TANGENT Block from Eurostag.
                 Line(points={{-100,40},{-60,40}}, color={28,108,200}),
                 Line(points={{-100,-40},{-60,-40}}, color={28,108,200})}),
                      Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>              
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43727,6 +45374,12 @@ This Block is equivalent to spesific SET RESET Block from Eurostag.
                 Line(points={{-60,0},{60,0}}, color={28,108,200}),
                 Line(points={{100,0},{60,0}}, color={28,108,200})}),
                       Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>               
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43771,6 +45424,12 @@ This Block is equivalent to spesific RESET SET Block from Eurostag.
                   lineColor={0,0,255},
                   textString="A")}),
            Documentation(info="<html>
+ <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43849,7 +45508,13 @@ This package contains specifics mathematical blocks from Eurostag
                 Line(points={{-90,0},{-60,0}}, color={28,108,200}),
                 Line(points={{60,0},{100,0}}, color={28,108,200}),                                       Text(extent={{
                       -38,20},{38,-16}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "AND")}),
-                          Documentation(info="<html>
+                      Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>                   
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43890,6 +45555,12 @@ This Block is equivalent to spesific AND Block from Eurostag.
                 Line(points={{-90,0},{-60,0}}, color={28,108,200}),
                 Line(points={{60,0},{100,0}}, color={28,108,200})}),
                  Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>          
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -43949,6 +45620,12 @@ This Block is equivalent to spesific OR Block from Eurostag.
                 Line(points={{-90,0},{-60,0}}, color={28,108,200}),
                 Line(points={{60,0},{100,0}}, color={28,108,200})}),
                  Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>          
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44065,6 +45742,12 @@ This package contains specifics logical blocks from Eurostag
                 Line(points={{60,0},{100,0}}, color={28,108,
                       200})}),
                        Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>                
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44136,6 +45819,12 @@ This Block is equivalent to spesific INTEGRATOR FOLLOWER Block from Eurostag.
                       -2,-8},{4,-14}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
                     fillPattern=                                                                                                    FillPattern.Solid)}),
                      Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>              
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44211,6 +45900,12 @@ This package contains specifics continuous blocks from Eurostag
                       -36,-2},{42,-40}},                                                                                                    lineColor=  {0, 0, 255},
                     horizontalAlignment=                                                                                                    TextAlignment.Left, textString=  "e^(-Ts) ", textStyle=  {TextStyle.Bold})}),
                     Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>             
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44270,6 +45965,12 @@ This Block is equivalent to spesific DELAY_2 Block from Eurostag.
                   thickness=0.5),                                                                          Text(extent={{
                       -20,-8},{22,-24}},                                                                                                   lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T")}),
                         Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>                
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44339,6 +46040,12 @@ This Block is equivalent to spesific PULSE Block from Eurostag.
                                                                                                     Text(extent={{
                       -52,-40},{-36,-56}},                                                                                                    lineColor=  {0, 0, 255}, textStyle=  {TextStyle.Bold}, textString=  "T")}),
                    Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>            
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44427,6 +46134,12 @@ Trigger")}),                            Icon(graphics={                         
                       255},
                   thickness=0.5)}),
                    Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>            
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>
@@ -44686,7 +46399,13 @@ This Package contains specifics non electrical blocks from Eurostag. The blocks 
               extent={{-100,98},{100,-102}},
               lineColor={0,0,255},
               fillColor={0,0,255},
-              fillPattern=FillPattern.Solid)}), Documentation(revisions="<html>
+              fillPattern=FillPattern.Solid)}), Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",     revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -44728,6 +46447,12 @@ This Package contains specifics non electrical blocks from Eurostag. The blocks 
               fillColor={0,0,127},
               fillPattern=FillPattern.Solid)}),
         Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <p>
 Connector of type V, I.
 </p>
@@ -44770,7 +46495,13 @@ Connector of type V, I.
               fillColor={0,0,255},
               fillPattern=FillPattern.None)}),
         Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics),
-        Documentation(revisions="<html>
+        Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",     revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -44817,7 +46548,13 @@ Connector of type V, I.
               extent={{-18,8},{18,-6}},
               lineColor={0,0,255},
               textString="Input")}),
-        Documentation(revisions="<html>
+        Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",    revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -44847,7 +46584,13 @@ Connector of type V, I.
               extent={{-18,10},{16,-8}},
               lineColor={0,0,255},
               textString="Out")}),
-        Documentation(revisions="<html>
+        Documentation(info="<html>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p></html>",    revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -44876,6 +46619,12 @@ Connector of type V, I.
               lineColor={0,0,255},
               textString="AddedConnector")}),
         Documentation(info="<HTML>
+<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+<td align=center  width=50%><p>Development level</p></td>
+<td align=center width=25% bgcolor=#00F00><p> 4 </p></td>
+</tr> 
+</table> 
+<p></p>  
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
 <tr>
 <td><p>Reference</p></td>

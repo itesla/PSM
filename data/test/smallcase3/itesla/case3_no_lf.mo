@@ -27,14 +27,12 @@ model case3
      X = 0.0438
      ) annotation (Placement(transformation()));
 // LOADS
-  iPSL.Electrical.Loads.Eurostag.PwLoadVoltFreqDependence load__GRID_____EC (
+  iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence load__GRID_____EC (
 	 V_0 = 1.0,
 	 P_0 = 475.0,
 	 Q_0 = 76.0,
 	 alpha = 2,
 	 beta = 2,
-	 gamma = 1,
-	 delta = 1,
 	 angle_0 = 0.0
 	 ) annotation (Placement(transformation()));
 
@@ -191,7 +189,6 @@ equation
 
 // Connecting LOADS
   connect(bus__GRID_____TN.p, load__GRID_____EC.p) annotation (Line());
-  connect(omegaRef.y, load__GRID_____EC.omegaRef);
 // Connecting GENERATORS
   connect(bus__GEN______TN.p, gen_pwGeneratorM2S__GEN______SM.sortie) annotation (Line());
 

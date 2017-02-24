@@ -3,6 +3,7 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
@@ -35,114 +36,114 @@ public class LoadFlowTest
 	@Test
 	public void hadesIeee14() throws WorkflowCreationException
 	{
-		hades("ieee14", "ieee14bus_EQ.xml");
+		hades("test", "ieee14", "ieee14bus_EQ.xml");
 	}
 
 	@Test
 	public void hadesIeee30() throws WorkflowCreationException
 	{
-		hades("ieee30", "ieee30bus_EQ.xml");
+		hades("test", "ieee30", "ieee30bus_EQ.xml");
 	}
 
 	@Test
 	public void hadesIeee57() throws WorkflowCreationException
 	{
-		hades("ieee57", "ieee57bus_EQ.xml");
+		hades("test", "ieee57", "ieee57bus_EQ.xml");
 	}
 
 	@Test
 	public void hadesIeee118() throws WorkflowCreationException
 	{
-		hades("ieee118", "ieee118bus_EQ.xml");
+		hades("test_private", "ieee118", "ieee118bus_EQ.xml");
 	}
 
 	@Test
 	public void hadesNordic32() throws WorkflowCreationException
 	{
-		hades("Nordic32", "Nordic32_EQ.xml");
+		hades("test", "Nordic32", "Nordic32_EQ.xml");
 	}
 
 	@Test
 	public void hades7buses() throws WorkflowCreationException
 	{
-		hades("7buses", "CIM_7buses_EQ.xml");
+		hades("test", "7buses", "CIM_7buses_EQ.xml");
 	}
 
 	@Test
 	public void hadesSmallcase1() throws WorkflowCreationException
 	{
-		hades("smallcase1", "case1_EQ.xml");
+		hades("test", "smallcase1", "case1_EQ.xml");
 	}
 
 	@Test
 	public void hadesSmallcase2() throws WorkflowCreationException
 	{
-		hades("smallcase2", "case2_EQ.xml");
+		hades("test", "smallcase2", "case2_EQ.xml");
 	}
 
 	@Test
 	public void hadesSmallcase3() throws WorkflowCreationException
 	{
-		hades("smallcase3", "case3_EQ.xml");
+		hades("test", "smallcase3", "case3_EQ.xml");
 	}
 
 	@Test
 	public void helmflowIeee14() throws WorkflowCreationException
 	{
-		helmflow("ieee14", "ieee14bus_EQ.xml");
+		helmflow("test", "ieee14", "ieee14bus_EQ.xml");
 	}
 
 	@Test
 	public void helmflowIeee30() throws WorkflowCreationException
 	{
-		helmflow("ieee30", "ieee30bus_EQ.xml");
+		helmflow("test", "ieee30", "ieee30bus_EQ.xml");
 	}
 
 	@Test
 	public void helmflowIeee57() throws WorkflowCreationException
 	{
-		helmflow("ieee57", "ieee57bus_EQ.xml");
+		helmflow("test", "ieee57", "ieee57bus_EQ.xml");
 	}
 
 	@Test
 	public void helmflowIeee118() throws WorkflowCreationException
 	{
-		helmflow("ieee118", "ieee118bus_EQ.xml");
+		helmflow("test_private", "ieee118", "ieee118bus_EQ.xml");
 	}
 
 	@Test
 	public void helmflowNordic32() throws WorkflowCreationException
 	{
-		helmflow("Nordic32", "Nordic32_EQ.xml");
+		helmflow("test", "Nordic32", "Nordic32_EQ.xml");
 	}
 
 	@Test
 	public void helmflow7buses() throws WorkflowCreationException
 	{
-		helmflow("7buses", "M7buses_EQ.xml");
+		helmflow("test", "7buses", "M7buses_EQ.xml");
 	}
 
 	@Test
 	public void helmflowSmallcase1() throws WorkflowCreationException
 	{
-		helmflow("smallcase1", "case1_EQ.xml");
+		helmflow("test", "smallcase1", "case1_EQ.xml");
 	}
 
 	@Test
 	public void helmflowSmallcase2() throws WorkflowCreationException
 	{
-		helmflow("smallcase2", "case2_EQ.xml");
+		helmflow("test", "smallcase2", "case2_EQ.xml");
 	}
 
 	@Test
 	public void helmflowSmallcase3() throws WorkflowCreationException
 	{
-		helmflow("smallcase3", "case3_EQ.xml");
+		helmflow("test", "smallcase3", "case3_EQ.xml");
 	}
 
-	public void helmflow(String caseFolder, String caseName) throws WorkflowCreationException
+	public void helmflow(String catalog, String caseFolder, String caseName) throws WorkflowCreationException
 	{
-		String case_ = TEST_SAMPLES.resolve(caseFolder).resolve(caseName).toString();
+		String case_ = DATA.resolve(catalog).resolve(caseFolder).resolve(caseName).toString();
 		String targetCsvFolder = DATA_TMP.resolve("helmflow").resolve(caseFolder).toString();
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",
@@ -157,11 +158,11 @@ public class LoadFlowTest
 		assertEquals(SUCCESS, wf.getTaskStates().get(1).state);
 	}
 
-	public void hades(String caseFolder, String caseName) throws WorkflowCreationException
+	public void hades(String catalog, String caseFolder, String caseName) throws WorkflowCreationException
 	{
 		if (!isHades2Available()) return;
 
-		String case_ = TEST_SAMPLES.resolve(caseFolder).resolve(caseName).toString();
+		String case_ = DATA.resolve(catalog).resolve(caseFolder).resolve(caseName).toString();
 		String targetCsvFolder = DATA_TMP.resolve("hades").resolve(caseFolder).toString();
 		Workflow wf = WF(
 				TD(StaticNetworkImporterTask.class, "importer0",

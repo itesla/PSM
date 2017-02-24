@@ -165,7 +165,7 @@ public class DymolaIntegrationTest
 		if (!isDymolaAvailable()) return;
 
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(), 
+				DATA_TMP.toString(),
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
@@ -178,8 +178,8 @@ public class DymolaIntegrationTest
 		if (!isDymolaAvailable()) return;
 
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(), 
-				DATA_TEST.resolve("library").toString(), 
+				DATA_TMP.toString(),
+				DATA_TEST.resolve("library").toString(),
 				"true");
 
 		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116);
@@ -191,10 +191,10 @@ public class DymolaIntegrationTest
 		if (!isDymolaAvailable()) return;
 
 		Configuration config = setConfiguration(
-				DATA_TMP.toString(), 
-				DATA_TEST.resolve("ieee118bus").resolve("library").toString(),
+				DATA_TMP.toString(),
+				DATA_TEST_PRIVATE.resolve("ieee118bus").resolve("library").toString(),
 				"true");
-		
+
 		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238);
 	}
 
@@ -210,7 +210,7 @@ public class DymolaIntegrationTest
 
 		try (DymolaEngine dymEngine = new DymolaEngine())
 		{
-            config.setParameter("depth", "0");
+			config.setParameter("depth", "0");
 			dymEngine.configure(config);
 			dymEngine.simulate(mo);
 
@@ -251,6 +251,10 @@ public class DymolaIntegrationTest
 		return Boolean.valueOf(System.getProperty("DymolaAvailable"));
 	}
 
-	private static final Path	DATA_TEST	= Paths.get(System.getenv("PSM_DATA")).resolve("test");
-	private static final Path	DATA_TMP	= Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
+	private static final Path	DATA_TEST			= Paths.get(System.getenv("PSM_DATA"))
+			.resolve("test");
+	private static final Path	DATA_TEST_PRIVATE	= Paths.get(System.getenv("PSM_DATA"))
+			.resolve("test");
+	private static final Path	DATA_TMP			= Paths.get(System.getenv("PSM_DATA"))
+			.resolve("tmp");
 }

@@ -1,8 +1,9 @@
 package org.power_systems_modelica.psm.mo2dyd.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 
@@ -42,7 +43,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildIeee14() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"ieee14",
 				"itesla/ieee14bus_no_lf.mo",
 				"itesla/init",
@@ -55,7 +56,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildIeee30() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"ieee30",
 				"itesla/ieee30bus_no_lf.mo",
 				"itesla/init",
@@ -68,7 +69,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildIeee57() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"ieee57",
 				"itesla/ieee57bus_no_lf.mo",
 				"itesla/init",
@@ -81,7 +82,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildIeee118() throws Exception
 	{
-		rebuild(
+		rebuild("test_private",
 				"ieee118",
 				"itesla/ieee118bus_no_lf.mo",
 				"itesla/init",
@@ -94,7 +95,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildSmallCase1() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"smallcase1",
 				"itesla/case1_no_lf.mo",
 				"itesla/init",
@@ -107,7 +108,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildSmallCase2() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"smallcase2",
 				"itesla/case2_no_lf.mo",
 				"itesla/init",
@@ -120,7 +121,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildSmallCase3() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"smallcase3",
 				"itesla/case3_no_lf.mo",
 				"itesla/init",
@@ -133,7 +134,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildSmallCase4() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"smallcase4",
 				"itesla/case4_no_lf.mo",
 				"itesla/init",
@@ -146,7 +147,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuild7buses() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"7buses",
 				"itesla/M7buses_no_lf.mo",
 				"itesla/init",
@@ -159,7 +160,7 @@ public class Mo2Dyd2MoTest
 	@Test
 	public void rebuildNordic32() throws Exception
 	{
-		rebuild(
+		rebuild("test",
 				"Nordic32",
 				"itesla/Nordic32_no_lf.mo",
 				"itesla/init",
@@ -170,6 +171,7 @@ public class Mo2Dyd2MoTest
 	}
 
 	protected void rebuild(
+			String catalog,
 			String folderName,
 			String moName,
 			String moInitPathName,
@@ -179,7 +181,7 @@ public class Mo2Dyd2MoTest
 			int expectedNumGenerators)
 			throws Exception
 	{
-		Path folder = TEST_SAMPLES.resolve(folderName);
+		Path folder = DATA.resolve(catalog).resolve(folderName);
 		Path moInput = folder.resolve(moName);
 		Path cim = folder.resolve(caseName);
 

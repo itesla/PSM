@@ -2,8 +2,8 @@ package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
 import static org.power_systems_modelica.psm.workflow.Workflow.TD;
@@ -39,6 +39,7 @@ public class Mo2Dyd2MoAsWorkflowTest extends Mo2Dyd2MoTest
 
 	@Override
 	protected void rebuild(
+			String catalog,
 			String foldername,
 			String moName,
 			String moInitPath,
@@ -49,7 +50,7 @@ public class Mo2Dyd2MoAsWorkflowTest extends Mo2Dyd2MoTest
 			throws Exception
 	{
 		// TODO Use ShrinkWrap filesystem for temporal files used in tests
-		Path folder = TEST_SAMPLES.resolve(foldername);
+		Path folder = DATA.resolve(catalog).resolve(foldername);
 		// ddr is created in tmp folder
 		Path ddrLocation = DATA_TMP.resolve(ddrName);
 		Files.createDirectories(ddrLocation);

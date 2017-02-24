@@ -39,64 +39,65 @@ public class ModelicaNetworkBuilderReferenceCases
 	@Test
 	public void buildIeee14() throws Exception
 	{
-		build("ieee14", "ieee14bus_EQ.xml", "ieee14/ddr", "itesla/ieee14bus_no_lf.mo", 14, 5);
+		build("test", "ieee14", "ieee14bus_EQ.xml", "ieee14/ddr", "itesla/ieee14bus_no_lf.mo", 14, 5);
 	}
 
 	@Test
 	public void buildIeee30() throws Exception
 	{
-		build("ieee30", "ieee30bus_EQ.xml", "ieee30/ddr", "itesla/ieee30bus_no_lf.mo", 30, 6);
+		build("test", "ieee30", "ieee30bus_EQ.xml", "ieee30/ddr", "itesla/ieee30bus_no_lf.mo", 30, 6);
 	}
 
 	@Test
 	public void buildIeee57() throws Exception
 	{
-		build("ieee57", "ieee57bus_EQ.xml", "ieee57/ddr", "itesla/ieee57bus_no_lf.mo", 57, 7);
+		build("test", "ieee57", "ieee57bus_EQ.xml", "ieee57/ddr", "itesla/ieee57bus_no_lf.mo", 57, 7);
 	}
 
 	@Test
 	public void buildIeee118() throws Exception
 	{
-		build("ieee118", "ieee118bus_EQ.xml", "ieee118/ddr", "itesla/ieee118bus_no_lf.mo", 118, 54);
+		build("test_private", "ieee118", "ieee118bus_EQ.xml", "ieee118/ddr", "itesla/ieee118bus_no_lf.mo", 118, 54);
 	}
 
 	@Test
 	public void buildSmallCase1() throws Exception
 	{
-		build("smallcase1", "case1_EQ.xml", "smallcase1/ddr", "itesla/case1_no_lf.mo", 3, 2);
+		build("test", "smallcase1", "case1_EQ.xml", "smallcase1/ddr", "itesla/case1_no_lf.mo", 3, 2);
 	}
 
 	@Test
 	public void buildSmallCase2() throws Exception
 	{
-		build("smallcase2", "case2_EQ.xml", "smallcase2/ddr", "itesla/case2_no_lf.mo", 3, 1);
+		build("test", "smallcase2", "case2_EQ.xml", "smallcase2/ddr", "itesla/case2_no_lf.mo", 3, 1);
 	}
 
 	@Test
 	public void buildSmallCase3() throws Exception
 	{
-		build("smallcase3", "case3_EQ.xml", "smallcase3/ddr", "itesla/case3_no_lf.mo", 3, 2);
+		build("test", "smallcase3", "case3_EQ.xml", "smallcase3/ddr", "itesla/case3_no_lf.mo", 3, 2);
 	}
 
 	@Test
 	public void buildSmallCase4() throws Exception
 	{
-		build("smallcase4", "case4_EQ.xml", "smallcase4/ddr", "itesla/case4_no_lf.mo", 3, 2);
+		build("test", "smallcase4", "case4_EQ.xml", "smallcase4/ddr", "itesla/case4_no_lf.mo", 3, 2);
 	}
 
 	@Test
 	public void build7buses() throws Exception
 	{
-		build("7buses", "M7buses_EQ.xml", "7buses/ddr", "itesla/M7buses_no_lf.mo", 7, 3);
+		build("test", "7buses", "M7buses_EQ.xml", "7buses/ddr", "itesla/M7buses_no_lf.mo", 7, 3);
 	}
 
 	@Test
 	public void buildNordic32() throws Exception
 	{
-		build("Nordic32", "Nordic32_EQ.xml", "Nordic32/ddr", "itesla/Nordic32_no_lf.mo", 52, 20);
+		build("test", "Nordic32", "Nordic32_EQ.xml", "Nordic32/ddr", "itesla/Nordic32_no_lf.mo", 52, 20);
 	}
 
 	public void build(
+			String catalog,
 			String foldername,
 			String casename,
 			String ddrname,
@@ -106,7 +107,7 @@ public class ModelicaNetworkBuilderReferenceCases
 			throws Exception
 	{
 		// TODO Use ShrinkWrap file system for temporal files used in tests
-		Path folder = TEST_SAMPLES.resolve(foldername);
+		Path folder = DATA.resolve(catalog).resolve(foldername);
 		Path cim = folder.resolve(casename);
 		String ddrLocation = TEST_SAMPLES.resolve(ddrname).toString();
 		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();

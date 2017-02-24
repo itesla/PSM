@@ -171,36 +171,32 @@ public class DynamicDataRepositoryTest
 
 	@Test
 	public void testIeee14() throws ConnectionException
-	{
-		String case_ = "ieee14";
-		
-		testIeee(TEST_SAMPLES.resolve(case_).resolve("ddr").toString(),case_);
+	{	
+		testIeee("test", "ieee14");
 	}
 
 	@Test
 	public void testIeee30() throws ConnectionException
 	{
-		String case_ ="ieee30";
-		testIeee(TEST_SAMPLES.resolve(case_).resolve("ddr").toString(),case_);
+		testIeee("test", "ieee30");
 	}
 
 	@Test
 	public void testIeee57() throws ConnectionException
 	{
-		String case_ = "ieee57"; 
-		testIeee(TEST_SAMPLES.resolve(case_).resolve("ddr").toString(),case_);
+		testIeee("test", "ieee57");
 	}
 
 	@Test
 	public void testIeee118() throws ConnectionException
 	{
-		String case_ = "ieee118";
-		testIeee(TEST_PRIVATE.resolve(case_).resolve("ddr").toString(), case_);
+		testIeee("test_private", "ieee118");
 	}
 
-	private void testIeee(String ddrLocation, String case_) throws ConnectionException
+	private void testIeee(String catalog, String case_) throws ConnectionException
 	{
-		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", ddrLocation);
+		String location = DATA.resolve(catalog).resolve(case_).resolve("ddr").toString();
+		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", location);
 		ddr.connect();
 		Collection<String> events = ddr.getEvents();
 		assertTrue(events.contains("BusFault"));

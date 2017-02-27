@@ -1,7 +1,7 @@
 @ECHO OFF
 ECHO.
 SET PSM_DATA=./data
-SET PATH=%PATH%:.\helmflow\windows
+SET PATH=%PATH%;.\helmflow\windows
 
 :Check1
 IF ["%OPENMODELICAHOME%"] == [] GOTO MissingOpenModelicaHome

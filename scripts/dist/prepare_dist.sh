@@ -40,12 +40,13 @@ then
 
 	echo "    Building jar with dependencies in GUI module"
 	mvnw -offline compile assembly:single --projects gui &> ${DIST_TMP_FOLDER}/gui.log
+	
 	echo "    Building jar with dependencies in DYMOLA-INTEGRATION-SERVICE module"
 	mvnw -offline compile assembly:single --projects dymola-integration-service &> ${DIST_TMP_FOLDER}/dymola.log
 fi
 
 echo "    Preparing data files"
-rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='*/validation/*' --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
+rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='*/validation/*' --prune-empty-dirs --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
 echo "    Override configuration files with distribution-specific ones"
 rsync -avP scripts/dist/cfg/* $DIST_TMP_FOLDER/data/test/cfg/. &> ${DIST_TMP_FOLDER}/data.log
 

@@ -41,6 +41,7 @@ import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.utils.CsvReader;
 import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
@@ -166,7 +167,7 @@ public class WorkflowServiceConfiguration
 	public static List<LoadflowEngine> getLoadflowEngines()
 	{
 		List<LoadflowEngine> engines = new ArrayList<>();
-		engines.add(LoadflowEngine.HADES2);
+		if (Utils.isHades2Available()) engines.add(LoadflowEngine.HADES2);
 		engines.add(LoadflowEngine.HELMFLOW);
 		engines.add(LoadflowEngine.NONE);
 

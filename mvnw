@@ -26,12 +26,13 @@ fi
 #export LF_TESTS=
 export LF_TESTS=,!LoadFlowTest
 export GUI_TESTS=,!CasesOverviewControllerTest,!DdrsOverviewControllerTest,!WorkflowStatusControllerTest,!ConversionNewControllerTest,!SimulationNewControllerTest,!SimulationDetailControllerTest,!CompareLoadflowsNewControllerTest,!CompareLoadflowsDetailControllerTest,!WorkflowTest
+export VAL_TESTS=,!ValidationTest
 
 mkdir -p $PSM_DATA/tmp
 
 mvn ${MAVEN_FLAGS} \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \
-	-Dtest='*'${LF_TESTS}${GUI_TESTS} \
+	-Dtest='*'${LF_TESTS}${GUI_TESTS}${VAL_TESTS} \
 	-Ditesla.config.dir=${PSM_DATA}/test/cfg \
 	$*

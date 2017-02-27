@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
 import org.power_systems_modelica.psm.commons.Version;
@@ -65,18 +66,13 @@ public class MenuLayoutController
 		DISABLECOMPARELOADFLOWS = Boolean.valueOf(Optional.ofNullable(p.getProperty("menu.disableCompareLoadflows")).orElse("false"));
 		DISABLESWTOSWVALIDATION = Boolean.valueOf(Optional.ofNullable(p.getProperty("menu.disableSwtoswValidation")).orElse("false"));
 		
-		if (!isHades2Available())
+		if (!Utils.isHades2Available())
 			DISABLECOMPARELOADFLOWS = true;
 
 		if (DISABLECOMPARELOADFLOWS)
 			buttonBar.getChildren().remove(compareLoadflowsBox);
 		if (DISABLESWTOSWVALIDATION)
 			buttonBar.getChildren().remove(swtoswValidationBox);
-	}
-
-	private boolean isHades2Available()
-	{
-		return System.getProperty("os.name").startsWith("Linux");
 	}
 
 	@FXML

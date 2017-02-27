@@ -44,6 +44,11 @@ import javafx.scene.input.MouseEvent;*/
 
 public class Utils
 {
+	public static boolean isHades2Available()
+	{
+		return System.getProperty("os.name").startsWith("Linux");
+	}
+
 	public static String padString(String message, int length)
 	{
 		int needed = length - message.length();

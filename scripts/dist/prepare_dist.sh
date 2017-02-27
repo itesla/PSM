@@ -1,8 +1,18 @@
 #!/bin/bash
 
-PSM_ZIP_FILE=$1
+if [[ "$1" == "" ]];
+then
+	echo "missing the name for distribution"
+	echo "As an example: 0.1-201702271000"
+	echo "will generate two files: psm-0.1-201702271000.zip and psm-0.1-201702271000-validation_data.zip"
+	exit
+fi
+
+PSM_ZIP_FILE="psm-$1.zip"
+PSM_VALIDATION_DATA_FILE="psm-$1-validation_data.zip"
 BUILD=$2
 DIST_TMP_FOLDER=dist_tmp
+VALIDATION_DATA_TMP_FOLDER=vdata_tmp
 
 echo ""
 echo "Creating ${PSM_ZIP_FILE}"
@@ -35,7 +45,7 @@ then
 fi
 
 echo "    Preparing data files"
-rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
+rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='*/validation/*' --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
 echo "    Override configuration files with distribution-specific ones"
 rsync -avP scripts/dist/cfg/* $DIST_TMP_FOLDER/data/test/cfg/. &> ${DIST_TMP_FOLDER}/data.log
 
@@ -57,6 +67,7 @@ mv psm-services.jar $DIST_TMP_FOLDER/lib/.
 
 echo "    Preparing scripts"
 rsync -avP scripts/dist/psmgui $DIST_TMP_FOLDER/. &> ${DIST_TMP_FOLDER}/scripts.log
+rsync -avP scripts/dist/psmgui.cmd $DIST_TMP_FOLDER/. &> ${DIST_TMP_FOLDER}/scripts.log
 rsync -avP scripts/dist/dymola_integration_service.cmd $DIST_TMP_FOLDER/. >> ${DIST_TMP_FOLDER}/scripts.log 2>&1
 
 echo "    Creating distribution package"
@@ -69,3 +80,21 @@ echo "    Delete temporal folder"
 #rm -rf $DIST_TMP_FOLDER
 
 echo ""
+echo "Creating ${PSM_VALIDATION_DATA_FILE}"
+echo "Using temporal folder ${VALIDATION_DATA_TMP_FOLDER}"
+
+echo "    Preparing temporal folder"
+rm -rf ${VALIDATION_DATA_TMP_FOLDER}
+mkdir -p ${VALIDATION_DATA_TMP_FOLDER}/data
+
+echo "    Copying data files"
+rsync -avP --include='*/' --include='validation/***' --exclude='*' --prune-empty-dirs data/ ${VALIDATION_DATA_TMP_FOLDER}/data/. &> ${VALIDATION_DATA_TMP_FOLDER}/data.log
+
+echo "    Creating validation data distributable package"
+cd ${VALIDATION_DATA_TMP_FOLDER} && zip -r psmdv.zip * --exclude \*.log &> zip.log
+cd $BAK_CD
+mv ${VALIDATION_DATA_TMP_FOLDER}/psmdv.zip ${PSM_VALIDATION_DATA_FILE}
+
+echo "    Delete temporal folder"
+#rm -rf ${PSM_VALIDATION_DATA_FILE}
+

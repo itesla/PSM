@@ -1,7 +1,7 @@
 @ECHO OFF
 ECHO.
 SET PSM_DATA=./data
-SET PATH=%PATH%;.\helmflow\windows
+SET "PATH=%PATH%;.\helmflow\windows"
 
 :Check1
 IF ["%OPENMODELICAHOME%"] == [] GOTO MissingOpenModelicaHome
@@ -28,6 +28,7 @@ EXIT
 ECHO.
 ECHO OPENMODELICAHOME is %OPENMODELICAHOME%
 ECHO DYMOLAHOME is %DYMOLAHOME%
+ECHO "PATH is %PATH%"
 ECHO.
 
 SET PSM_OPTIONS=-Ditesla.config.dir=%PSM_DATA%/test/cfg

@@ -769,7 +769,7 @@ public class WorkflowServiceConfiguration
 					elements.forEach(ke -> {
 
 						Element e = r.getElements().get(ke);
-						if (e.getRefName().contains(variable))
+						if (e.getRefName().endsWith(variable))
 						{
 							Validation val = new Validation();
 							val.setName(e.getModelicaName());

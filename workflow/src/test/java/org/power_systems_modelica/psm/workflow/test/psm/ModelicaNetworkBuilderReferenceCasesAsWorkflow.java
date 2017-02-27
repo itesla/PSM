@@ -52,8 +52,8 @@ public class ModelicaNetworkBuilderReferenceCasesAsWorkflow
 		// TODO Use ShrinkWrap file system for temporal files used in tests
 		Path folder = DATA.resolve(catalog).resolve(foldername);
 		String cim = folder.resolve(casename).toString();
-		String ddr = TEST_SAMPLES.resolve(ddrname).toString();
-		String fakeInit = TEST_SAMPLES.resolve(ddrname).resolve("fake_init.csv").toString();
+		String ddr = DATA.resolve(catalog).resolve(ddrname).toString();
+		String fakeInit = DATA.resolve(catalog).resolve(ddrname).resolve("fake_init.csv").toString();
 		String name = foldername;
 		String outname = DATA_TMP
 				.resolve("workflow_modelica_builder_output_" + name + ".mo").toString();

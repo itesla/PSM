@@ -1,7 +1,11 @@
 package org.power_systems_modelica.psm.gui.view;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.Rectangle;
 import java.util.Comparator;
 import java.util.List;
 
@@ -84,8 +88,28 @@ public class CasesOverviewController implements MainChildrenController
 		return null;
 	}
 
-	public void showCaseSummary(Point point, Case c, Network n)
+	public static Rectangle getDeviceBounds(GraphicsDevice device) {
+
+        GraphicsConfiguration gc = device.getDefaultConfiguration();
+        Rectangle bounds = gc.getBounds();
+        return bounds;
+    }
+	
+	public void showCaseSummary(PointerInfo info, Case c, Network n)
 	{
+		Point point = info.getLocation();
+		Rectangle bounds = getDeviceBounds(info.getDevice());
+		
+		Point virtualPoint = new Point(point);
+		virtualPoint.x -= bounds.x;
+		virtualPoint.y -= bounds.y;
+		if (virtualPoint.x < 0) {
+		    virtualPoint.x *= -1;
+		}
+		if (virtualPoint.y < 0) {
+		    virtualPoint.y *= -1;
+		}
+		
 		gridPane.getChildren().removeAll(gridPane.getChildren());
 
 		// Name
@@ -160,8 +184,8 @@ public class CasesOverviewController implements MainChildrenController
 		constraints.setPrefHeight(30);
 		gridPane.getRowConstraints().add(constraints);
 
-		summaryPane.setLayoutX(point.x - 200);
-		summaryPane.setLayoutY(point.y - 400);
+		summaryPane.setLayoutX(virtualPoint.x - 200);
+		summaryPane.setLayoutY(virtualPoint.y - 400);
 		summaryPane.setVisible(true);
 	}
 
@@ -246,7 +270,7 @@ public class CasesOverviewController implements MainChildrenController
 
 						Case c = row.getItem();
 						Network n = CaseService.getCaseSummary(c);
-						showCaseSummary(MouseInfo.getPointerInfo().getLocation(), c, n);
+						showCaseSummary(MouseInfo.getPointerInfo(), c, n);
 					}
 				});
 				contextMenu.getItems().add(summaryMenuItem);

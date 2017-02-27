@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import org.junit.Test;
 import org.power_systems_modelica.psm.case_validation.CaseValidation;
@@ -20,26 +19,96 @@ public class ValidationTest
 			.resolve("test");
 
 	@Test
-	public void caseValidation() throws IOException
+	public void validateSmallCase1() throws IOException
 	{
 		double stepSize = 0.0001;
-		Path validationPath = DATA_TEST.resolve("smallcase1").resolve("validation");
-		String pathNamesMapping = validationPath.resolve("NamesMapping.csv").toString();
-		String pathRefData = validationPath.resolve("expected").resolve("EurostagData.csv").toString();
-		String pathModelicaData = validationPath.resolve("actual").resolve("case1_res.csv").toString();
+		validateCase(stepSize, "smallcase1", "case1_withEvents_res.csv");
+	}
+	
+	@Test
+	public void validateSmallCase2() throws IOException
+	{
+		double stepSize = 0.0001;
+		validateCase(stepSize, "smallcase2", "case2_withEvents_res.csv");
+	}
+	
+	@Test
+	public void validateSmallCase3() throws IOException
+	{
+		double stepSize = 0.00001;
+		validateCase(stepSize, "smallcase3", "case3_withEvents_res.csv");
+	}
+	
+	@Test
+	public void validateSmallCase4() throws IOException
+	{
+		double stepSize = 0.0001;
+		validateCase(stepSize, "smallcase4", "case4_withEvents_res.csv");
+	}
+	
+	@Test
+	public void validate7buses() throws IOException
+	{
+		double stepSize = 0.0001;
+		validateCase(stepSize, "7buses", "M7buses_withEvents_res.csv");
+	}
+	
+	
+	@Test
+	public void validateIeee14() throws IOException
+	{
+		double stepSize = 0.0001;
+		validateCase(stepSize, "ieee14", "ieee14bus_withEvents_res.csv");
+	}
+	
+	
+	@Test
+	public void validateIeee30() throws IOException
+	{
+		double stepSize = 0.0001;
+		validateCase(stepSize, "ieee30", "ieee30bus_withEvents_res.csv");
+	}
+	
+	
+	@Test
+	public void validateIeee57() throws IOException
+	{
+		double stepSize = 0.001;
+		validateCase(stepSize, "ieee57", "ieee57bus_withEvents_res.csv");
+	}
+	
+	private void validateCase(
+			double stepSize,
+			String caseFolderName,
+			String caseCsvName
+			) 
+	{
+		System.out.println("---------------------TESTING CASE " + caseFolderName);
+		Path validationCasePath = DATA_TEST.resolve(caseFolderName).resolve("validation");
+		String namesMappingPath = validationCasePath.resolve("NamesMapping.csv").toString();
+		String referenceDataPath = validationCasePath.resolve("expected").resolve("ReferenceData.csv").toString();
+		String modelicaDataPath = validationCasePath.resolve("actual").resolve(caseCsvName).toString();
 		
 		Configuration tc = new Configuration();
 		tc.setParameter("stepSize", "" + stepSize);
-		tc.setParameter("pathNamesMapping", pathNamesMapping);
-		tc.setParameter("pathRefData", pathRefData);
-		tc.setParameter("pathModelicaData", pathModelicaData);
+		tc.setParameter("pathNamesMapping", namesMappingPath);
+		tc.setParameter("pathRefData", referenceDataPath);
+		tc.setParameter("pathModelicaData", modelicaDataPath);
 		
 		CaseValidation compare = new CaseValidation();
 		compare.configure(tc);
-		compare.calculate();
-		compare.validation();
-		ValidationResult r = compare.getResult();
+		try
+		{
+			compare.calculate();
+			compare.validation();
+			ValidationResult r = compare.getResult();
 
-		assertNotNull(r);
+			assertNotNull(r);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 }

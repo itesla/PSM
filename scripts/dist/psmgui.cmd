@@ -4,11 +4,11 @@ SET PSM_DATA=./data
 SET PATH=%PATH%:.\helmflow\windows
 
 :Check1
-IF [%OPENMODELICAHOME%] == [] GOTO MissingOpenModelicaHome
+IF ["%OPENMODELICAHOME%"] == [] GOTO MissingOpenModelicaHome
 :Check2
-IF [%DYMOLAHOME%] == [] GOTO MissingDymola
+IF ["%DYMOLAHOME%"] == [] GOTO MissingDymola
 :Check3
-IF [%OPENMODELICAHOME%%DYMOLAHOME%] == [] GOTO NoDynEngine
+IF ["%OPENMODELICAHOME%%DYMOLAHOME%"] == [] GOTO NoDynEngine
 GOTO Start
 
 :MissingOpenModelicaHome

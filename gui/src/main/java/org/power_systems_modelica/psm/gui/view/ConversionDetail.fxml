@@ -63,7 +63,8 @@
 		                                             <children>
 		                                                <Label layoutX="14.0" layoutY="163.0" text="Static elements without dynamic models" AnchorPane.topAnchor="14.0" />
                                                 		<ListView fx:id="staticTable" layoutX="14.0" layoutY="14.0" prefHeight="157.0" prefWidth="529.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="44.0" />
-		                                                <TreeTableView fx:id="modelsTable" layoutX="14.0" showRoot="false" styleClass="table table-bordered table-hover" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="220.0">
+		                                                <Label layoutX="14.0" layoutY="163.0" text="Mapping between static and dynamic models" AnchorPane.topAnchor="220.0" />
+		                                                <TreeTableView fx:id="modelsTable" layoutX="14.0" showRoot="false" styleClass="table table-bordered table-hover" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="250.0">
 		                                                  <columns>
 		                                                    <TreeTableColumn fx:id="staticIdColumn" prefWidth="75.0" text="Static Id" />
 		                                                    <TreeTableColumn fx:id="originColumn" prefWidth="75.0" text="Origin" />

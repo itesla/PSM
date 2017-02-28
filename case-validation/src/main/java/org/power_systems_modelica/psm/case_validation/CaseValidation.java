@@ -84,7 +84,7 @@ public class CaseValidation
 			elements.forEach(ke -> {
 
 				Element e = result.getElements().get(ke);
-				if (e.getRefName().contains(vv.getName()))
+				if (e.getRefName().endsWith(vv.getName()))
 				{
 					vv.addSteps(e.getValues().size());
 					vv.addAbsOffset(e.getAbsOffset());

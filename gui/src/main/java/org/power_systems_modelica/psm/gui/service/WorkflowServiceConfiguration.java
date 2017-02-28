@@ -750,8 +750,8 @@ public class WorkflowServiceConfiguration
 				total.setSelectable(false);
 				total.setName("Total");
 				total.setRmse("" + rmes);
-				total.setAd("" + rd);
-				total.setRd("" + ad);
+				total.setAd("" + ad);
+				total.setRd("" + rd);
 
 				list.add(total);
 				Validation space = new Validation();

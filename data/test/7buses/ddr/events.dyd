@@ -78,8 +78,8 @@
             <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
             <ref name="P_0" dataSource="IIDM" sourceName="P0"/>
             <ref name="Q_0" dataSource="IIDM" sourceName="Q0"/>
-            <par name="alpha" value="1.5" isGeneric="true"/>
-            <par name="beta" value="2.5" isGeneric="true"/>
+			<ref name="alpha" dataSource="PREVIOUS_DYNAMIC_MODEL" sourceName="alpha"/>
+            <ref name="beta" dataSource="PREVIOUS_DYNAMIC_MODEL" sourceName="beta"/>
 			<ref name="P_1" unit="MW" dataSource="EVENT" sourceName="P"/>
 			<ref name="Q_1" unit="MVAr" dataSource="EVENT" sourceName="Q"/>
 			<ref name="startTime" unit="s" dataSource="EVENT" sourceName="startTime"/>

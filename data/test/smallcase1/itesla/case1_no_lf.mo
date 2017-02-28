@@ -182,7 +182,7 @@ equation
   connect(bus__GEN______TN.p, gen_pwGeneratorM2S__GEN______SM.sortie) annotation (Line());
 
 // Connecting GENERATORS AS FIXED INYECTIONS
-  connect(bus__INF______TN.p, fixinj_pwLoadPQ_GEN__INF______SM.p) annotation (Line());
+  connect(busInf__INF______TN.n, fixinj_pwLoadPQ_GEN__INF______SM.p) annotation (Line());
 
 // Connecting FIXED TRANSFORMERS
   connect(bus__GEN______TN.p, trafo__GEN______GRID_____1_PT.p) annotation (Line());

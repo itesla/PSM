@@ -266,7 +266,7 @@ public class ConversionDetailController implements MainChildrenController
 				{
 					Catalog catalog = CatalogService.getCatalog("ddrs", catalogPath);
 					Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
-					ddrLabel = catalog.getName() + "\t" + ddr.getName();
+					ddrLabel = catalog.getName() + " - " + ddr.getName();
 				}
 				catch (IOException e)
 				{
@@ -486,7 +486,7 @@ public class ConversionDetailController implements MainChildrenController
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
 					Number newValue)
 			{
-				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue) - 15;
+				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue) - originColumn.getWidth() - 15;
 				dynamicIdColumn.setPrefWidth(dynamicIdColumnWidth);
 			}
 
@@ -498,6 +498,18 @@ public class ConversionDetailController implements MainChildrenController
 				return new ReadOnlyStringWrapper(param.getValue().getValue().getOrigin());
 			else
 				return new ReadOnlyStringWrapper("");
+		});
+		originColumn.widthProperty().addListener(new ChangeListener<Number>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+					Number newValue)
+			{
+				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue) - staticIdColumn.getWidth() -15;
+				dynamicIdColumn.setPrefWidth(dynamicIdColumnWidth);
+			}
+
 		});
 		dynamicIdColumn.setPrefWidth(680.0);
 		dynamicIdColumn.setCellValueFactory(

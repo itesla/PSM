@@ -47,7 +47,7 @@ public class DymolaEngine implements ModelicaEngine
 		this.libraryDir = Paths.get(Optional.ofNullable(config.getParameter("libraryDir"))
 				.orElse(this.properties.getProperty("libraryDir")));
 		this.resultVariables = Optional.ofNullable(config.getParameter("resultVariables"))
-				.orElse(this.properties.getProperty("libraryDir"));
+				.orElse(this.properties.getProperty("resultVariables"));
 
 		this.startTime = Double.valueOf(Optional.ofNullable(config.getParameter("startTime"))
 				.orElse(this.properties.getProperty("startTime")));
@@ -404,7 +404,6 @@ public class DymolaEngine implements ModelicaEngine
 					{
 						logs.newActivity(line);
 					}
-					else System.out.println("\t\t NOT ACTIVITY : " + line);
 				}
 				logReader.close();
 			}

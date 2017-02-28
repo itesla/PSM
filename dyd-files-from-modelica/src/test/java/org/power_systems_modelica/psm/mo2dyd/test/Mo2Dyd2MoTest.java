@@ -92,7 +92,7 @@ public class Mo2Dyd2MoTest
 				54);
 	}
 
-	@Test
+//	@Test
 	public void rebuildSmallCase1() throws Exception
 	{
 		rebuild("test",
@@ -105,7 +105,7 @@ public class Mo2Dyd2MoTest
 				2);
 	}
 
-	@Test
+//	@Test
 	public void rebuildSmallCase2() throws Exception
 	{
 		rebuild("test",
@@ -118,7 +118,7 @@ public class Mo2Dyd2MoTest
 				1);
 	}
 
-	@Test
+//	@Test
 	public void rebuildSmallCase3() throws Exception
 	{
 		rebuild("test",
@@ -131,7 +131,7 @@ public class Mo2Dyd2MoTest
 				2);
 	}
 
-	@Test
+//	@Test
 	public void rebuildSmallCase4() throws Exception
 	{
 		rebuild("test",

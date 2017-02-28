@@ -138,6 +138,11 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			if (bus != null)
 				targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
 		}
+		else 
+		{
+			// Assume the target model is referenced using the staticId of the element
+			targetModel = modelicaBuilder.getDynamicModelFor(targetItem);
+		}
 		if (targetModel == null)
 		{
 			LOG.error(

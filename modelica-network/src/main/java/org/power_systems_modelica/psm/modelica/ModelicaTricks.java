@@ -210,6 +210,7 @@ public class ModelicaTricks
 			"Bus-gen",
 			"bus-fixinj",
 			"Bus-fixinj",
+			"busInf-fixinj",
 			"bus-trafo",
 			// "trafo-bus" is equivalent to bus-trafo, we have normalized
 			"Bus-Transformer",

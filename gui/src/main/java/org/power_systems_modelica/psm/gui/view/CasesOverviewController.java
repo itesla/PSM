@@ -287,7 +287,7 @@ public class CasesOverviewController implements MainChildrenController
 					}
 				});
 				contextMenu.getItems().add(conversionMenuItem);
-				final MenuItem conversionResultMenuItem = new MenuItem("Conversion Results");
+				final MenuItem conversionResultMenuItem = new MenuItem("Conversion results");
 				conversionResultMenuItem.setOnAction(new EventHandler<ActionEvent>()
 				{
 					@Override
@@ -311,7 +311,7 @@ public class CasesOverviewController implements MainChildrenController
 					}
 				});
 				contextMenu.getItems().add(simluationMenuItem);
-				final MenuItem compareMenuItem = new MenuItem("Loadflow Comparison");
+				final MenuItem compareMenuItem = new MenuItem("Loadflow comparison");
 				compareMenuItem.setOnAction(new EventHandler<ActionEvent>()
 				{
 					@Override
@@ -332,14 +332,14 @@ public class CasesOverviewController implements MainChildrenController
 						for (MenuItem item : items)
 						{
 							if (item.getText().equals("Simulation")
-									|| item.getText().equals("Conversion Results"))
+									|| item.getText().equals("Conversion results"))
 							{
 								if (PathUtils.existsFile(c.getLocation(), c.getName() + ".mo"))
 									item.setDisable(false);
 								else
 									item.setDisable(true);
 							}
-							else if (item.getText().equals("Loadflow Comparison"))
+							else if (item.getText().equals("Loadflow comparison"))
 							{
 								if (!Utils.isHades2Available())
 									item.setDisable(true);

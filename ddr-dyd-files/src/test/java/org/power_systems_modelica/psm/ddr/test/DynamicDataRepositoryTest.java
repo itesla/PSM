@@ -46,7 +46,7 @@ public class DynamicDataRepositoryTest
 	@Test
 	public void testSample0() throws ConnectionException
 	{
-		String location = TEST_SAMPLES.resolve("12n").resolve("BDD").toString();
+		String location = TEST_PRIVATE.resolve("12n").resolve("BDD").toString();
 		DynamicDataRepository ddr = DynamicDataRepositoryMainFactory.create("DYD", location);
 		ddr.connect();
 		Identifiable<?> e = Mockito.mock(Identifiable.class);
@@ -218,7 +218,7 @@ public class DynamicDataRepositoryTest
 	@Test
 	public void testXmlReadWrite12n() throws ConnectionException, XMLStreamException, IOException
 	{
-		testXmlReadWrite(TEST_SAMPLES.resolve("12n").resolve("BDD").toString());
+		testXmlReadWrite(TEST_PRIVATE.resolve("12n").resolve("BDD").toString());
 	}
 
 	@Test

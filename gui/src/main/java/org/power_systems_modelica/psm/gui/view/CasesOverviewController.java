@@ -16,6 +16,7 @@ import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
+import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.Workflow;
@@ -310,7 +311,7 @@ public class CasesOverviewController implements MainChildrenController
 					}
 				});
 				contextMenu.getItems().add(simluationMenuItem);
-				final MenuItem compareMenuItem = new MenuItem("Compare Loadflows");
+				final MenuItem compareMenuItem = new MenuItem("Loadflow Comparison");
 				compareMenuItem.setOnAction(new EventHandler<ActionEvent>()
 				{
 					@Override
@@ -332,10 +333,19 @@ public class CasesOverviewController implements MainChildrenController
 						{
 							if (item.getText().equals("Simulation")
 									|| item.getText().equals("Conversion Results"))
+							{
 								if (PathUtils.existsFile(c.getLocation(), c.getName() + ".mo"))
 									item.setDisable(false);
-							else
+								else
 									item.setDisable(true);
+							}
+							else if (item.getText().equals("Loadflow Comparison"))
+							{
+								if (!Utils.isHades2Available())
+									item.setDisable(true);
+								else
+									item.setDisable(false);
+							}
 							else
 								item.setDisable(false);
 						}

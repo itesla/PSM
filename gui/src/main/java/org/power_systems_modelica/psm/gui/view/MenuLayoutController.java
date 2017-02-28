@@ -5,13 +5,13 @@ import java.util.Properties;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.power_systems_modelica.psm.commons.Version;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.workflow.Workflow;
 
-import org.power_systems_modelica.psm.commons.Version;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -66,13 +66,14 @@ public class MenuLayoutController
 		DISABLECOMPARELOADFLOWS = Boolean.valueOf(Optional.ofNullable(p.getProperty("menu.disableCompareLoadflows")).orElse("false"));
 		DISABLESWTOSWVALIDATION = Boolean.valueOf(Optional.ofNullable(p.getProperty("menu.disableSwtoswValidation")).orElse("false"));
 		
-		if (!Utils.isHades2Available())
-			DISABLECOMPARELOADFLOWS = true;
-
-		if (DISABLECOMPARELOADFLOWS)
-			buttonBar.getChildren().remove(compareLoadflowsBox);
 		if (DISABLESWTOSWVALIDATION)
 			buttonBar.getChildren().remove(swtoswValidationBox);
+		if (DISABLECOMPARELOADFLOWS)
+			buttonBar.getChildren().remove(compareLoadflowsBox);
+		else if (!Utils.isHades2Available())
+			compareLoadflowsBox.setDisable(true);
+		else
+			compareLoadflowsBox.setDisable(false);
 	}
 
 	@FXML

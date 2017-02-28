@@ -9642,6 +9642,7 @@ extends Modelica.Icons.Package;
       model InfiniteBusEuro "Infinite bus model 2016/05/12"
 
         iPSL.Connectors.PwPin p(vr(start=Vo_real), vi(start=Vo_img));
+        iPSL.Connectors.PwPin n(vr(start=Vo_real), vi(start=Vo_img));
         parameter Real R;
         parameter Real X;
         parameter Real Z2 = (R * R + X * X);
@@ -9653,13 +9654,17 @@ extends Modelica.Icons.Package;
           "Initial voltage at node in p.u. (Real part)";
         parameter Real Vo_img = V_0 * sin(angle_0 * Modelica.Constants.pi / 180)
           "Initial voltage at node in p.u. (Imaginary part)";
-        parameter Real Irn = Y1 * Vo_real + Y2 * Vo_img;
-        parameter Real Iin = Y1 * Vo_img - Y2 * Vo_real;
         Real V( start = V_0) "Bus voltage magnitude (pu)";
+        Real Irn;
+        Real Iin;
       equation
         V = sqrt(p.vr ^ 2 + p.vi ^ 2);
-        p.ii + Iin = (R * p.vi - X * p.vr) / Z2;
-        p.ir + Irn = (R * p.vr + X * p.vi) / Z2;
+        Irn = Y1 * Vo_real + Y2 * Vo_img + n.ir;
+        Iin = Y1 * Vo_img - Y2 * Vo_real + n.ii;
+        p.ii + Iin  = (R * p.vi - X * p.vr) / Z2;
+        p.ir + Irn  = (R * p.vr + X * p.vi) / Z2;
+        n.vr = p.vr;
+        n.vi = p.vi;
         annotation (
           Icon(coordinateSystem(
               extent={{-100,-100},{100,100}},
@@ -18154,7 +18159,34 @@ extends Modelica.Icons.Package;
                   extent={{58,-10},{-40,12}},
                   lineColor={0,0,255},
                   textString="AVR3")}),
-            Documentation(revisions="<html>
+            Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -18183,7 +18215,34 @@ extends Modelica.Icons.Package;
                   textStyle={TextStyle.Bold},
                   textString="EFD1")}),
             Diagram(graphics),
-            Documentation(revisions="<html>
+            Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -18245,7 +18304,34 @@ extends Modelica.Icons.Package;
                   extent={{-40,-2},{56,24}},
                   lineColor={0,0,255},
                   textString="GOVER1")}),
-            Documentation(revisions="<html>
+            Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -18261,7 +18347,7 @@ extends Modelica.Icons.Package;
 </html>"));
         end GOVER1;
 
-        model GOVER3 "Voltage governor. Developed by AIA. 2013"
+        model GOVER3 "Turbine-Governor model GOVER3. Developed by AIA. 2013"
           parameter Real init_V1;
           parameter Real init_V2;
           parameter Real init_V3;
@@ -18316,7 +18402,34 @@ extends Modelica.Icons.Package;
                   extent={{-20,-6},{38,8}},
                   lineColor={0,0,255},
                   textString="GOVER3")}),
-            Documentation(revisions="<html>
+            Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>",         revisions="<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>
@@ -18332,7 +18445,7 @@ extends Modelica.Icons.Package;
 </html>"));
         end GOVER3;
 
-        model gsteam0
+        model gsteam0 "Turbine-Governor model GSTEAM0"
         //GSTEAM0 GSTEAM0_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.,VMIN=0.);
         //GSTEAM0 GSTEAM0_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
         //GSTEAM0 GSTEAM0_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
@@ -18420,9 +18533,37 @@ extends Modelica.Icons.Package;
           connect(pin_CM, MultiSum_10.y);
           connect(pin_CMREF, ImSetPoint_11.y);
           MultiSum_7.u[2] = 1;
+           annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end gsteam0;
 
-        model gsteam0_Init
+        model gsteam0_Init "Initialiation model of GSTEAM0 regulator "
         //GSTEAM0 GSTEAM0_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.,VMIN=0.);
         //GSTEAM0 GSTEAM0_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
         //GSTEAM0 GSTEAM0_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
@@ -18476,9 +18617,37 @@ extends Modelica.Icons.Package;
           connect(pin_CM, ImMult5_2.u[2]);
           connect(pin_REF, Gain_1.y);
           connect(pin_PMECH, ImMult5_2.y);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end gsteam0_Init;
 
-        model gsteam1
+        model gsteam1 "Turbine-Governor model GSTEAM1"
         //GSTEAM1 GSTEAM1_1(F1={0.,0.,.4000000,0.75,0.5,.9100000,.6000000,.9800000,1.,1.},DB1=0.,DB2=0.,K=25.,K1=0.2,K2=0.,K3=.3000000,K4=0.,K5=0.5,K6=0.,K7=0.,K8=0.,PMAX=1.,PMIN=0.,SDB1=1.,SDB2=1.,T1=0.,T2=0.,T3=0.1,T4=.3000000,T5=5.,T6=0.5,T7=0.,UC=-10.,UO=1.,VALVE=0.);
         //GSTEAM1 GSTEAM1_2(F1={0.,0.,.4000000,0.75,0.5,.9100000,.6000000,.9800000,1.,1.},DB1=0.,DB2=0.,K=20.,K1=0.208,K2=0.,K3=.3320000,K4=0.,K5=0.461,K6=0.,K7=0.,K8=0.,PMAX=1.100000,PMIN=0.,SDB1=1.,SDB2=1.,T1=0.,T2=0.,T3=.1500000,T4=.4360000,T5=.2580000,T6=.5530000,T7=0.,UC=-0.012,UO=0.012,VALVE=0.);
         //GSTEAM1 GSTEAM1_3(F1={0.,0.,.4000000,0.75,0.5,.9100000,.6000000,.9800000,1.,1.},DB1=0.,DB2=0.,K=25.,K1=.3000000,K2=0.,K3=.4000000,K4=0.,K5=.3000000,K6=0.,K7=0.,K8=0.,PMAX=1.,PMIN=.3000000,SDB1=1.,SDB2=1.,T1=0.25,T2=0.001,T3=0.1,T4=.3000000,T5=10.,T6=.4000000,T7=0.001,UC=-0.1,UO=0.1,VALVE=0.);
@@ -18625,9 +18794,37 @@ extends Modelica.Icons.Package;
           connect(pin_CM, ImDiv2_24.y);
           connect(pin_At_A, Relay_28.y);
           MultiSum_13.u[2] = 1;
+           annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end gsteam1;
 
-        model gsteam1_Init
+        model gsteam1_Init "Initialization model of govern GSTEAM1"
         //GSTEAM1 GSTEAM1_1(F1={0.,0.,.4000000,0.75,0.5,.9100000,.6000000,.9800000,1.,1.},DB1=0.,DB2=0.,K=25.,K1=0.2,K2=0.,K3=.3000000,K4=0.,K5=0.5,K6=0.,K7=0.,K8=0.,PMAX=1.,PMIN=0.,SDB1=1.,SDB2=1.,T1=0.,T2=0.,T3=0.1,T4=.3000000,T5=5.,T6=0.5,T7=0.,UC=-10.,UO=1.,VALVE=0.);
         //GSTEAM1 GSTEAM1_2(F1={0.,0.,.4000000,0.75,0.5,.9100000,.6000000,.9800000,1.,1.},DB1=0.,DB2=0.,K=20.,K1=0.208,K2=0.,K3=.3320000,K4=0.,K5=0.461,K6=0.,K7=0.,K8=0.,PMAX=1.100000,PMIN=0.,SDB1=1.,SDB2=1.,T1=0.,T2=0.,T3=.1500000,T4=.4360000,T5=.2580000,T6=.5530000,T7=0.,UC=-0.012,UO=0.012,VALVE=0.);
         //GSTEAM1 GSTEAM1_3(F1={0.,0.,.4000000,0.75,0.5,.9100000,.6000000,.9800000,1.,1.},DB1=0.,DB2=0.,K=25.,K1=.3000000,K2=0.,K3=.4000000,K4=0.,K5=.3000000,K6=0.,K7=0.,K8=0.,PMAX=1.,PMIN=.3000000,SDB1=1.,SDB2=1.,T1=0.25,T2=0.001,T3=0.1,T4=.3000000,T5=10.,T6=.4000000,T7=0.001,UC=-0.1,UO=0.1,VALVE=0.);
@@ -18689,9 +18886,37 @@ extends Modelica.Icons.Package;
           connect(pin_OMEGREF, Gain_6.y);
           connect(pin_PGV, Relay_5.y);
           MultiSum_4.u[2] =1;
+           annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end gsteam1_Init;
 
-        model pssi3e2b
+        model pssi3e2b "PSSI3E2B stabilizer model"
         //PSSI3E2B PSSI3E2B_1(KS1=10.,KS2=0.1564,KS3=1.,T1=0.25,T10=0.,T11=0.,T2=0.03,T3=.1500000,T4=0.015,T6=0.,T7=2.,T8=0.,T9=0.,TW1=2.,TW2=2.,TW3=2.,VSI1MAX=999.,VSI1MIN=-999.,VSI2MAX=999.,VSI2MIN=-999.,VSTMAX=0.1,VSTMIN=-0.1);
           parameter Real init_3=0;
           parameter Real init_2=0;
@@ -18788,9 +19013,37 @@ extends Modelica.Icons.Package;
           connect(pin_VS, Limiter_10.y);
           connect(pin_At_OUT, SimpleLag_18.y);
           MultiSum_16.u[2] =1;
+           annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end pssi3e2b;
 
-        model pssi3e2b_Init
+        model pssi3e2b_Init "Initialization model of PSS3E2B stabilizer model"
         //PSSI3E2B PSSI3E2B_1(KS1=10.,KS2=0.1564,KS3=1.,T1=0.25,T10=0.,T11=0.,T2=0.03,T3=.1500000,T4=0.015,T6=0.,T7=2.,T8=0.,T9=0.,TW1=2.,TW2=2.,TW3=2.,VSI1MAX=999.,VSI1MIN=-999.,VSI2MAX=999.,VSI2MIN=-999.,VSTMAX=0.1,VSTMIN=-0.1);
           parameter Real KS1;
           parameter Real KS2;
@@ -18822,9 +19075,37 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_APREF; //isInitValue
         equation
           connect(pin_APREF, pin_ActivePowerSN);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end pssi3e2b_Init;
 
-        model pssi3e3b
+        model pssi3e3b "PSS13E3B stabilizer model"
         //PSSI3E3B PSSI3E3B_1(A1=0.359,A2=.5860000,A3=.4290000,A4=.5640000,A5=0.,A6=0.,A7=0.031,A8=0.000001,KS1=-0.602,KS2=30.12000,T1=0.012,T2=0.012,TW1=.3000000,TW2=.3000000,TW3=.6000000,VSTMAX=0.1,VSTMIN=-0.1);
           parameter Real init_3=init_P;
           parameter Real init_2=init_P;
@@ -18886,9 +19167,37 @@ extends Modelica.Icons.Package;
           connect(pin_VS, Limiter_10.y);
           MultiSum_16.u[2] =1;
           MultiSum_8.u[1] = 0;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end pssi3e3b;
 
-        model pssi3e3b_Init
+        model pssi3e3b_Init "Initialization model of PSS3E3B stabilizer model"
         //PSSI3E3B PSSI3E3B_1(A1=0.359,A2=.5860000,A3=.4290000,A4=.5640000,A5=0.,A6=0.,A7=0.031,A8=0.000001,KS1=-0.602,KS2=30.12000,T1=0.012,T2=0.012,TW1=.3000000,TW2=.3000000,TW3=.6000000,VSTMAX=0.1,VSTMIN=-0.1);
           parameter Real A1;
           parameter Real A2;
@@ -18915,9 +19224,37 @@ extends Modelica.Icons.Package;
           Modelica.Blocks.Interfaces.RealOutput pin_P; //isInitValue
         equation
           connect(pin_P, pin_ActivePowerSN);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end pssi3e3b_Init;
 
-        model pss2ab
+        model pss2ab "PSS2AB stabilizer model"
         //PSS2AB PSS2AB_1(KS1=12.,KS2=0.208,KS3=1.,M=2.,N=1.,T1=0.22,T2=0.03,T3=.2600000,T4=0.027,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
         //PSS2AB PSS2AB_2(KS1=10.,KS2=0.1538,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
         //PSS2AB PSS2AB_3(KS1=10.,KS2=0.162,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
@@ -19000,9 +19337,37 @@ extends Modelica.Icons.Package;
           connect(pin_At_20, LeadLag_20.y);
           MultiSum_9.u[3] =1;
           MultiSum_17.u[3] =1;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end pss2ab;
 
-        model pss2ab_Init
+        model pss2ab_Init "Initialization model of PSS2AB stabilizer model"
         //PSS2AB PSS2AB_1(KS1=12.,KS2=0.208,KS3=1.,M=2.,N=1.,T1=0.22,T2=0.03,T3=.2600000,T4=0.027,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
         //PSS2AB PSS2AB_2(KS1=10.,KS2=0.1538,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
         //PSS2AB PSS2AB_3(KS1=10.,KS2=0.162,KS3=1.,M=0.,N=0.,T1=0.25,T2=0.03,T3=.1500000,T4=0.015,T7=2.,TW1=2.,TW2=2.,TW3=2.,VSTMAX=0.1,VSTMIN=-0.1);
@@ -19042,9 +19407,37 @@ extends Modelica.Icons.Package;
           connect(pin_OMEGA, Gain_2.u);
           connect(pin_AP, pin_ActivePowerSN);
           connect(pin_IN, Gain_2.y);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end pss2ab_Init;
 
-        model sexs
+        model sexs "Excitation system model SEXS"
         //SEXS SEXS_1(EFDMAX=999.,EFDMIN=-999.,EMAX=4.,EMIN=0.,K=200.,KC=1.,TA=3.,TB=10.,TE=0.05);
         //SEXS SEXS_2(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=400.,KC=1.,TA=1.,TB=10.,TE=0.0001);
         //SEXS SEXS_3(EFDMAX=5.,EFDMIN=-5.,EMAX=4.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
@@ -19102,9 +19495,37 @@ extends Modelica.Icons.Package;
           connect(pin_At_VERR, MultiSum_13.y);
           connect(pin_PSSREF, ImSetPoint_6.y);
           connect(pin_EFD, Limiter_4.y);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end sexs;
 
-        model sexs_Init
+        model sexs_Init "Initialization model of SEXS model"
         //SEXS SEXS_1(EFDMAX=999.,EFDMIN=-999.,EMAX=4.,EMIN=0.,K=200.,KC=1.,TA=3.,TB=10.,TE=0.05);
         //SEXS SEXS_2(EFDMAX=5.,EFDMIN=-5.,EMAX=6.,EMIN=0.,K=400.,KC=1.,TA=1.,TB=10.,TE=0.0001);
         //SEXS SEXS_3(EFDMAX=5.,EFDMIN=-5.,EMAX=4.,EMIN=0.,K=100.,KC=1.,TA=1.,TB=10.,TE=0.0001);
@@ -19139,9 +19560,37 @@ extends Modelica.Icons.Package;
           connect(pin_YLL, Gain_1.y);
           connect(pin_VREF, MultiSum_2.y);
           connect(pin_At_V, pin_TerminalVoltage);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end sexs_Init;
 
-        model tgov1
+        model tgov1 "Turbine-Governor model TGOV1"
         //TGOV1 TGOV1_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.010000,VMIN=0.);
         //TGOV1 TGOV1_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
         //TGOV1 TGOV1_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
@@ -19229,9 +19678,37 @@ extends Modelica.Icons.Package;
           connect(pin_CM, MultiSum_10.y);
           connect(pin_CMREF, ImSetPoint_11.y);
           MultiSum_7.u[2] =1;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end tgov1;
 
-        model tgov1_Init
+        model tgov1_Init "Initialization model of govern TGOV1"
         //TGOV1 TGOV1_1(DT=0.,RR=0.05,T1=0.5,T2=3.,T3=10.,VMAX=1.010000,VMIN=0.);
         //TGOV1 TGOV1_2(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
         //TGOV1 TGOV1_3(DT=0.,RR=0.05,T1=.4900000,T2=2.100000,T3=7.,VMAX=1.,VMIN=0.);
@@ -19285,9 +19762,37 @@ extends Modelica.Icons.Package;
           connect(pin_CM, ImMult5_2.u[2]);
           connect(pin_REF, Gain_1.y);
           connect(pin_PMECH, ImMult5_2.y);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end tgov1_Init;
 
-        model htgpsat3
+        model htgpsat3 "Turbine-Governor model HTGPSAT3"
         //HTGPSAT3 HTGPSAT3_1(A11=0.5,A13=1.,A21=1.5,A23=1.,DELTA=.3000000,PMAX=1.,PMIN=0.,SIGMA=0.04,TG=0.2,TP=0.04,TR=5.,TW=1.,UC=-0.1,UO=0.1);
           parameter Real init_2=0.;
           parameter Real init_7=0;
@@ -19367,9 +19872,37 @@ extends Modelica.Icons.Package;
           MultiSum_10.u[2] =1;
           MultiSum_14.u[2] =1;
           MultiSum_15.u[2] =1;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end htgpsat3;
 
-        model htgpsat3_Init
+        model htgpsat3_Init "Initialization model of govern HTGPSAT3"
         //HTGPSAT3 HTGPSAT3_1(A11=0.5,A13=1.,A21=1.5,A23=1.,DELTA=.3000000,PMAX=1.,PMIN=0.,SIGMA=0.04,TG=0.2,TP=0.04,TR=5.,TW=1.,UC=-0.1,UO=0.1);
           parameter Real A11;
           parameter Real A13;
@@ -19406,9 +19939,37 @@ extends Modelica.Icons.Package;
           connect(pin_T1, MultiSum_5.y);
           connect(pin_OMEGREF, Gain_2.y);
           MultiSum_5.u[2] =1;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end htgpsat3_Init;
 
-        model oelpsat
+        model oelpsat "Excitation system model OELPAST"
         //OELPSAT OELPSAT_1(IFDLIM=3.,K0=120.,T0=10.,T1=5.,T2=50.,TE=0.1,TR=0.001,V0=0.,VFMAX=5.,VFMIN=0.,VOELMAX=1.100000);
         //OELPSAT OELPSAT_2(IFDLIM=3.,K0=50.,T0=10.,T1=4.,T2=20.,TE=0.1,TR=0.001,V0=0.,VFMAX=4.,VFMIN=0.,VOELMAX=1.100000);
           parameter Real init_2=0;
@@ -19543,9 +20104,37 @@ extends Modelica.Icons.Package;
           connect(pin_At_DP, Gain_6.y);
           connect(pin_At_DQ, Gain_29.y);
           MultiSum_17.u[2] =1;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end oelpsat;
 
-        model oelpsat_Init
+        model oelpsat_Init "Initialization model of model OELPSAT"
         //OELPSAT OELPSAT_1(IFDLIM=3.,K0=120.,T0=10.,T1=5.,T2=50.,TE=0.1,TR=0.001,V0=0.,VFMAX=5.,VFMIN=0.,VOELMAX=1.100000);
         //OELPSAT OELPSAT_2(IFDLIM=3.,K0=50.,T0=10.,T1=4.,T2=20.,TE=0.1,TR=0.001,V0=0.,VFMAX=4.,VFMIN=0.,VOELMAX=1.100000);
           parameter Real IFDLIM;
@@ -19571,9 +20160,37 @@ extends Modelica.Icons.Package;
           connect(pin_TerminalVoltage, Gain_1.u);
           connect(pin_VREF, Gain_1.y);
           connect(pin_VV, pin_TerminalVoltage);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end oelpsat_Init;
 
-        model govpsat1
+        model govpsat1 "Turbine-Governor model GOVPSAT1"
         //GOVPSAT1 GOVPSAT1_1(PMAX=.9500000,PMIN=0.,RD=0.04,T3=5.,T4=0.01,T5=6.,TC=0.2,TS=5.);
         //GOVPSAT1 GOVPSAT1_2(PMAX=.9500000,PMIN=-0.5,RD=0.04,T3=5.,T4=0.01,T5=6.,TC=0.2,TS=5.);
           parameter Real init_11 = init_CM;
@@ -19617,9 +20234,37 @@ extends Modelica.Icons.Package;
           connect(pin_CM, LeadLag_9.y);
           connect(pin_At_PREF, ImSetPoint_3.y);
           MultiSum_1.u[2] = 1;
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end govpsat1;
 
-        model govpsat1_Init
+        model govpsat1_Init "Initialization model of govern GOVPSAT1"
         //GOVPSAT1 GOVPSAT1_1(PMAX=.9500000,PMIN=0.,RD=0.04,T3=5.,T4=0.01,T5=6.,TC=0.2,TS=5.);
         //GOVPSAT1 GOVPSAT1_2(PMAX=.9500000,PMIN=-0.5,RD=0.04,T3=5.,T4=0.01,T5=6.,TC=0.2,TS=5.);
           parameter Real PMAX;
@@ -19640,6 +20285,34 @@ extends Modelica.Icons.Package;
         equation
           connect(pin_OMEGA, Gain_1.u);
           connect(pin_OMREF, Gain_1.y);
+          annotation(Documentation(info="<HTML>
+   <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
+   <td align=center  width=50%><p>Development level</p></td>
+   <td align=center width=25% bgcolor= #00FF00><p> 4 </p></td>
+   </tr> 
+   </table> 
+   <p></p>  
+	<table cellspacing=\"1\" cellpadding=\"1\" border=\"1\">
+	<tr>
+	<td><p>Reference</p></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td><p>Last update</p></td>
+	<td>Unknown</td>
+	</tr>
+	<tr>
+	<td><p>Author</p></td>
+	<td><p>AIA</p></td>
+	</tr>
+	<tr>
+	<td><p>Contact</p></td>
+	<td><p>modelica@aia.es<a href=\"mailto:modelica@aia.es\"></a></p></td>
+	</tr>
+	</table>
+	<p> 
+	</p>
+	</HTML>"));
         end govpsat1_Init;
 
 

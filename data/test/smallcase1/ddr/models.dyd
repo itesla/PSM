@@ -38,7 +38,7 @@
             <ref name="P" dataSource="IIDM" sourceName="P_pu"/>
             <ref name="Q" dataSource="IIDM" sourceName="Q_pu"/>
         </component>
-        <interconnection componentId="fixinj_pwLoadPQ_GEN_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
+        <interconnection componentId="fixinj_pwLoadPQ_GEN_{staticId}" componentVar="p" targetModel="{bus}" targetName="n"/>
     </model>
     <model id="DM_{staticId}" association="association1">
         <component type="iPSL.Electrical.Machines.Eurostag.PwGeneratorM2S" id="gen_pwGeneratorM2S_{staticId}" parFile="params.par" parId="gen_pwGeneratorM2S_{staticId}_SIMULATION"/>
@@ -86,6 +86,7 @@
         </component>
         <connection id1="bus__INF______TN" var1="p" id2="busInf__INF______TN" var2="p"/>
         <interconnection name="p" componentId="bus__INF______TN" componentVar="p"/>
+		<interconnection name="n" componentId="busInf__INF______TN" componentVar="n"/>
     </model>
     <association id="association0" pattern="_INF______SM"/>
     <association id="association1" pattern="_GEN______SM"/>

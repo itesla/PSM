@@ -88,6 +88,7 @@
         </component>
         <connection id1="bus__INF______TN" var1="p" id2="busInf__INF______TN" var2="p"/>
         <interconnection name="p" componentId="bus__INF______TN" componentVar="p"/>
+		<interconnection name="n" componentId="busInf__INF______TN" componentVar="n"/>
     </model>
     <association id="association0" pattern="_GEN______SM"/>
 </model_container>

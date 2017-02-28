@@ -16,13 +16,13 @@ public class CatalogServiceTest {
 	@Test
 	public void loadCasesCatalog() {
 		
-		loadCatalog("cases", 2);
+		loadCatalog("cases", 1);
 	}
 
 	@Test
 	public void loadDdrsCatalog() {
 		
-		loadCatalog("ddrs", 2);
+		loadCatalog("ddrs", 1);
 	}
 	
 	@Test

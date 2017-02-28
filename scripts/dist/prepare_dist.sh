@@ -46,7 +46,7 @@ then
 fi
 
 echo "    Preparing data files"
-rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='*/validation/*' --prune-empty-dirs --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
+rsync -avP --exclude='tmp/*' --exclude='test_private/*' --exclude='*/validation/*' --exclude='*/ddr/fake_init.csv' --prune-empty-dirs --exclude='kk*' --exclude='.*' data/* $DIST_TMP_FOLDER/data/. &> ${DIST_TMP_FOLDER}/data.log
 echo "    Override configuration files with distribution-specific ones"
 rsync -avP scripts/dist/cfg/* $DIST_TMP_FOLDER/data/test/cfg/. &> ${DIST_TMP_FOLDER}/data.log
 

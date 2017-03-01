@@ -3,21 +3,26 @@ package org.power_systems_modelica.psm.test.gui.view;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
+import org.power_systems_modelica.psm.commons.CsvReader;
+import org.power_systems_modelica.psm.commons.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.MainApp;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.DsData;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
-import org.power_systems_modelica.psm.gui.utils.CsvReader;
-import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController;
@@ -115,41 +120,52 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 
 		try
 		{
-			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					PathUtils.DATA_TEST.resolve("ieee14").resolve("expected").toString(), 
-					new CsvReaderPopulator<DsData>()
-					{
+			Optional<Path> path = Files
+					.walk(Paths.get(
+							PathUtils.DATA_TEST.resolve("ieee14").resolve("expected").toString()),
+							1, FileVisitOption.FOLLOW_LINKS)
+					.filter((p) -> !p.toFile().isDirectory()
+							&& p.toFile().getAbsolutePath().endsWith(".csv"))
+					.findFirst();
+			if (path.isPresent())
+			{
 
-						@Override
-						public void prepare(ICsvListReader listReader,
-								Map<String, List<DsData>> values)
+				Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
+						path.get().toFile(),
+						new CsvReaderPopulator<DsData>()
 						{
-							columns = listReader.length();
-							columnNames = new String[columns];
-							for (int i = 2; i <= columns; i++)
-							{
-								List<DsData> dsData = new ArrayList<DsData>();
-								columnNames[i - 1] = listReader.get(i);
-								values.put(columnNames[i - 1], dsData);
-							}
-						}
 
-						@Override
-						public void populate(List<Object> columnValues,
-								Map<String, List<DsData>> values)
-						{
-							Double time = (Double) columnValues.get(0);
-							for (int i = 1; i < columns; i++)
+							@Override
+							public void prepare(ICsvListReader listReader,
+									Map<String, List<DsData>> values)
 							{
-								List<DsData> dsData = values.get(columnNames[i]);
-								dsData.add(new DsData(time, (Double) columnValues.get(i)));
+								columns = listReader.length();
+								columnNames = new String[columns];
+								for (int i = 2; i <= columns; i++)
+								{
+									List<DsData> dsData = new ArrayList<DsData>();
+									columnNames[i - 1] = listReader.get(i);
+									values.put(columnNames[i - 1], dsData);
+								}
 							}
-						}
 
-						private int	columns;
-						private String[]	columnNames;
-					});
-			results.setDsValues(values);
+							@Override
+							public void populate(List<Object> columnValues,
+									Map<String, List<DsData>> values)
+							{
+								Double time = (Double) columnValues.get(0);
+								for (int i = 1; i < columns; i++)
+								{
+									List<DsData> dsData = values.get(columnNames[i]);
+									dsData.add(new DsData(time, (Double) columnValues.get(i)));
+								}
+							}
+
+							private int	columns;
+							private String[]	columnNames;
+						});
+				results.setDsValues(values);
+			}
 		}
 		catch (Exception e)
 		{

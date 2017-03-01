@@ -1,14 +1,10 @@
-package org.power_systems_modelica.psm.gui.utils;
+package org.power_systems_modelica.psm.commons;
 
+import java.io.File;
 import java.io.FileReader;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.StrReplace;
@@ -21,36 +17,29 @@ public class CsvReader
 {
 
 	public static <T> Map<String, List<T>> readVariableColumnsWithCsvListReader(
-			String location, CsvReaderPopulator<T> populator) throws Exception
+			File file, CsvReaderPopulator<T> csvReaderPopulator) throws Exception
 	{
 
 		Map<String, List<T>> values = new HashMap<String, List<T>>();
 		ICsvListReader listReader = null;
 		try
 		{
-			Optional<Path> path = Files
-					.walk(Paths.get(location), 1, FileVisitOption.FOLLOW_LINKS)
-					.filter((p) -> !p.toFile().isDirectory()
-							&& p.toFile().getAbsolutePath().endsWith(".csv"))
-					.findFirst();
-			if (!path.isPresent()) return null;
-
 			listReader = new CsvListReader(
-					new FileReader(path.get().toFile()),
+					new FileReader(file),
 					CsvPreference.STANDARD_PREFERENCE);
 
 			// Read and process the header
 			// https://super-csv.github.io/super-csv/apidocs/org/supercsv/io/ICsvReader.html#get-int-
 			// column indexes begin at 1
 			listReader.getHeader(true);
-			populator.prepare(listReader, values);
+			csvReaderPopulator.prepare(listReader, values);
 
 			final CellProcessor[] processors = getProcessors(listReader.length());
 
 			while ((listReader.read()) != null)
 			{
 				final List<Object> columnValues = listReader.executeProcessors(processors);
-				populator.populate(columnValues, values);
+				csvReaderPopulator.populate(columnValues, values);
 			}
 		}
 		finally

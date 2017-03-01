@@ -59,10 +59,6 @@
 			<artifactId>commons</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.supercsv</groupId>
-			<artifactId>super-csv</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.testfx</groupId>
 			<artifactId>testfx-core</artifactId>
 			<version>4.0.4-alpha</version>

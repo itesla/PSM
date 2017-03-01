@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 import org.power_systems_modelica.psm.case_validation.model.Element;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
 import org.power_systems_modelica.psm.case_validation.model.VariableValidation;
+import org.power_systems_modelica.psm.commons.CsvReader;
+import org.power_systems_modelica.psm.commons.CsvReaderPopulator;
 import org.power_systems_modelica.psm.commons.FileUtils;
 import org.power_systems_modelica.psm.commons.Logs;
 import org.power_systems_modelica.psm.ddr.ConnectionException;
@@ -38,8 +40,6 @@ import org.power_systems_modelica.psm.gui.model.Event;
 import org.power_systems_modelica.psm.gui.model.EventParamGui;
 import org.power_systems_modelica.psm.gui.model.Validation;
 import org.power_systems_modelica.psm.gui.model.WorkflowResult;
-import org.power_systems_modelica.psm.gui.utils.CsvReader;
-import org.power_systems_modelica.psm.gui.utils.CsvReaderPopulator;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.network.import_.StaticNetworkImporter;
@@ -499,41 +499,51 @@ public class WorkflowServiceConfiguration
 
 		try
 		{
-			Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
-					sim.getResults("simres_output").toString(),
-					new CsvReaderPopulator<DsData>()
-					{
+			Optional<Path> path = Files
+					.walk(Paths.get(sim.getResults("simres_output").toString()), 1,
+							FileVisitOption.FOLLOW_LINKS)
+					.filter((p) -> !p.toFile().isDirectory()
+							&& p.toFile().getAbsolutePath().endsWith(".csv"))
+					.findFirst();
+			if (path.isPresent())
+			{
 
-						@Override
-						public void prepare(ICsvListReader listReader,
-								Map<String, List<DsData>> values)
+				Map<String, List<DsData>> values = CsvReader.readVariableColumnsWithCsvListReader(
+						path.get().toFile(),
+						new CsvReaderPopulator<DsData>()
 						{
-							columns = listReader.length();
-							columnNames = new String[columns];
-							for (int i = 2; i <= columns; i++)
-							{
-								List<DsData> dsData = new ArrayList<DsData>();
-								columnNames[i - 1] = listReader.get(i);
-								values.put(columnNames[i - 1], dsData);
-							}
-						}
 
-						@Override
-						public void populate(List<Object> columnValues,
-								Map<String, List<DsData>> values)
-						{
-							Double time = (Double) columnValues.get(0);
-							for (int i = 1; i < columns; i++)
+							@Override
+							public void prepare(ICsvListReader listReader,
+									Map<String, List<DsData>> values)
 							{
-								List<DsData> dsData = values.get(columnNames[i]);
-								dsData.add(new DsData(time, (Double) columnValues.get(i)));
+								columns = listReader.length();
+								columnNames = new String[columns];
+								for (int i = 2; i <= columns; i++)
+								{
+									List<DsData> dsData = new ArrayList<DsData>();
+									columnNames[i - 1] = listReader.get(i);
+									values.put(columnNames[i - 1], dsData);
+								}
 							}
-						}
 
-						private int	columns;
-						private String[]	columnNames;
-					});
-			results.setDsValues(values);
+							@Override
+							public void populate(List<Object> columnValues,
+									Map<String, List<DsData>> values)
+							{
+								Double time = (Double) columnValues.get(0);
+								for (int i = 1; i < columns; i++)
+								{
+									List<DsData> dsData = values.get(columnNames[i]);
+									dsData.add(new DsData(time, (Double) columnValues.get(i)));
+								}
+							}
+
+							private int	columns;
+							private String[]	columnNames;
+						});
+				results.setDsValues(values);
+			}
 		}
 		catch (Exception e)
 		{
@@ -767,6 +777,9 @@ public class WorkflowServiceConfiguration
 
 				for (String variable : variables)
 				{
+					VariableValidation v = r.getVariable(variable);
+					if (v == null) continue;
+					
 					elements.forEach(ke -> {
 
 						Element e = r.getElements().get(ke);
@@ -775,8 +788,8 @@ public class WorkflowServiceConfiguration
 							Validation val = new Validation();
 							val.setName(e.getModelicaName());
 							val.setRmse("" + e.getAbsRmes());
-							val.setAd("" + e.getAbsOffset() / e.getValues().size());
-							val.setRd("" + e.getRelOffset() / e.getValues().size());
+							val.setAd("" + (1.0*e.getAbsOffset() / v.getSteps()));
+							val.setRd("" + (1.0*e.getRelOffset() / v.getSteps()));
 
 							list.add(val);
 						}

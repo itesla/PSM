@@ -1,4 +1,4 @@
-package org.power_systems_modelica.psm.gui.utils;
+package org.power_systems_modelica.psm.commons;
 
 import java.util.List;
 import java.util.Map;

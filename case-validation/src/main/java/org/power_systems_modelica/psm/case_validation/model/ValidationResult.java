@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ValidationResult
 {
@@ -33,6 +34,15 @@ public class ValidationResult
 		variables.add(e);
 	}
 	
+	public VariableValidation getVariable(String name)
+	{
+		Optional <VariableValidation> var = variables.stream().filter(v -> v.getName().equals(name)).findFirst();
+		if (var.isPresent())
+			return var.get();
+		
+		return null;
+	}
+
 	public List<VariableValidation> getVariables()
 	{
 		return variables;

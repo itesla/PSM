@@ -7,5 +7,5 @@ public class WorkflowCreationException extends Exception
 		super(e);
 	}
 
-	private static final long serialVersionUID = -1616272865503056173L;
+	private static final long	serialVersionUID	= -1616272865503056173L;
 }

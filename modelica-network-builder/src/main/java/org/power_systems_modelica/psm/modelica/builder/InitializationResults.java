@@ -28,5 +28,5 @@ public class InitializationResults
 	private final ModelicaSimulationFinalResults	results;
 
 	private static final Logger						LOG	= LoggerFactory
-			.getLogger(InitializationResults.class);
+																.getLogger(InitializationResults.class);
 }

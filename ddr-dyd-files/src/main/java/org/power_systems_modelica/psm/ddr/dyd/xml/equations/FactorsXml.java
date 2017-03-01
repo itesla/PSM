@@ -12,7 +12,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 
 public class FactorsXml
 {
-	private static final String FACTOR_ELEMENT_NAME = "factor";
+	private static final String	FACTOR_ELEMENT_NAME	= "factor";
 
 	public static Factors read(XMLStreamReader reader, String untilEnd) throws XMLStreamException
 	{

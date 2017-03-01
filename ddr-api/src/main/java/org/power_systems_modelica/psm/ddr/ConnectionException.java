@@ -7,5 +7,5 @@ public class ConnectionException extends Exception
 		super(e);
 	}
 
-	private static final long serialVersionUID = 6863089841833560790L;
+	private static final long	serialVersionUID	= 6863089841833560790L;
 }

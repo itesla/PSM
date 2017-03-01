@@ -16,7 +16,7 @@ public class CompareData
 	{
 		this.errorAbsTol = thresold;
 		this.errorRelTol = relThreshold;
-		this.tolerance = tol; 
+		this.tolerance = tol;
 		this.result = r;
 	}
 
@@ -62,6 +62,6 @@ public class CompareData
 	private double				errorAbsTol;
 	private double				errorRelTol;
 	private ValidationResult	result;
-	private static final Logger		LOG				= LoggerFactory
-			.getLogger(CompareData.class);
+	private static final Logger	LOG	= LoggerFactory
+											.getLogger(CompareData.class);
 }

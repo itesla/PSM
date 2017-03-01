@@ -43,5 +43,5 @@ public class ReflectionUtils
 		}
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
+	private static final Logger	LOG	= LoggerFactory.getLogger(ReflectionUtils.class);
 }

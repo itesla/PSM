@@ -16,7 +16,6 @@ import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.view.CompareLoadflowsNewController;
 import org.testfx.framework.junit.ApplicationTest;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;

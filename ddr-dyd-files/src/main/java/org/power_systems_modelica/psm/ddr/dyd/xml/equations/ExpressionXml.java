@@ -43,11 +43,8 @@ public class ExpressionXml
 
 	public static void write(Expression e, XMLStreamWriter w) throws XMLStreamException
 	{
-		if (e instanceof Folding)
-			FoldingXml.write((Folding) e, w);
-		else if (e instanceof Quotient)
-			QuotientXml.write((Quotient) e, w);
-		else if (e instanceof Literal)
-			LiteralXml.write((Literal) e, w);
+		if (e instanceof Folding) FoldingXml.write((Folding) e, w);
+		else if (e instanceof Quotient) QuotientXml.write((Quotient) e, w);
+		else if (e instanceof Literal) LiteralXml.write((Literal) e, w);
 	}
 }

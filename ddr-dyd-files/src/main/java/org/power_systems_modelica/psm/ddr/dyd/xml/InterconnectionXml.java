@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Interconnection;
 
 public class InterconnectionXml
 {
-	public static final String ROOT_ELEMENT_NAME = "interconnection";
+	public static final String	ROOT_ELEMENT_NAME	= "interconnection";
 
 	public static Interconnection read(XMLStreamReader r)
 	{

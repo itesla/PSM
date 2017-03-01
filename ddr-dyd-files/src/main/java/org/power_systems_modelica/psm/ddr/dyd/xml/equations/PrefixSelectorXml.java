@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.ddr.dyd.equations.PrefixSelector;
 
 public class PrefixSelectorXml
 {
-	public static final String ELEMENT_NAME = "startsWith";
+	public static final String	ELEMENT_NAME	= "startsWith";
 
 	public static void write(PrefixSelector s, XMLStreamWriter w) throws XMLStreamException
 	{

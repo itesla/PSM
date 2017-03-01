@@ -8,8 +8,8 @@
 package org.power_systems_modelica.psm.dymola.integration.service;
 
 import java.net.MalformedURLException;
-
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;

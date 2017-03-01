@@ -11,7 +11,6 @@ public class ComparisionData
 	{
 		this.time = time;
 	}
-	
 
 	public double getModelicaData()
 	{
@@ -52,7 +51,6 @@ public class ComparisionData
 	{
 		this.relDif = relDif;
 	}
-
 
 	private double	time;
 	private double	modelicaData;

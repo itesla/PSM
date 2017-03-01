@@ -1,9 +1,7 @@
 package org.power_systems_modelica.psm.case_validation.model;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class Element
 {

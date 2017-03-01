@@ -10,8 +10,8 @@ import java.util.Comparator;
 
 public class FileUtils
 {
-	   
-    public static void deleteDirectory(Path path) throws IOException 
+
+	public static void deleteDirectory(Path path) throws IOException 
     {
         if (Files.exists(path, LinkOption.NOFOLLOW_LINKS))
     	{

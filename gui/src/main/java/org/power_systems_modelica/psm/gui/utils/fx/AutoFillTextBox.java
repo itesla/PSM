@@ -2,8 +2,6 @@ package org.power_systems_modelica.psm.gui.utils.fx;
 
 import java.util.Comparator;
 
-import org.power_systems_modelica.psm.gui.model.Event;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

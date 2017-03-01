@@ -9,7 +9,7 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterSet;
 
 public class ParameterSetXml
 {
-	public static final String ROOT_ELEMENT_NAME = "set";
+	public static final String	ROOT_ELEMENT_NAME	= "set";
 
 	public static ParameterSet read(XMLStreamReader r)
 	{

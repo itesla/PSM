@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterValue;
 
 public class ParameterValueXml
 {
-	public static final String ROOT_ELEMENT_NAME = "par";
+	public static final String	ROOT_ELEMENT_NAME	= "par";
 
 	public static ParameterValue read(XMLStreamReader r)
 	{
@@ -32,9 +32,9 @@ public class ParameterValueXml
 		w.writeAttribute("name", p.getName());
 		// TODO Proper serialization of p.getValue()?
 		w.writeAttribute("value", p.getValue().toString());
-		if (p.isGeneric() != IS_GENERIC_DEFAULT)
-			w.writeAttribute("isGeneric", Boolean.toString(p.isGeneric()));
+		if (p.isGeneric() != IS_GENERIC_DEFAULT) w.writeAttribute("isGeneric",
+				Boolean.toString(p.isGeneric()));
 	}
 
-	private static final boolean IS_GENERIC_DEFAULT = false;
+	private static final boolean	IS_GENERIC_DEFAULT	= false;
 }

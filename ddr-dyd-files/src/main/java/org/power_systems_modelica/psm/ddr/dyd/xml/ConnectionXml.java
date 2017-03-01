@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Connection;
 
 public class ConnectionXml
 {
-	public static final String ROOT_ELEMENT_NAME = "connection";
+	public static final String	ROOT_ELEMENT_NAME	= "connection";
 
 	public static Connection read(XMLStreamReader r)
 	{

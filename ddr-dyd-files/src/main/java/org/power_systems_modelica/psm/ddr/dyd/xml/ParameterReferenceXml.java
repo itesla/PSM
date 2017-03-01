@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterReference;
 
 public class ParameterReferenceXml
 {
-	public static final String ROOT_ELEMENT_NAME = "ref";
+	public static final String	ROOT_ELEMENT_NAME	= "ref";
 
 	public static ParameterReference read(XMLStreamReader r)
 	{

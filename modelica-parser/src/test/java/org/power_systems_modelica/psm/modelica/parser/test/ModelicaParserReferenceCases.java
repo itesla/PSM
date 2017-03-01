@@ -3,8 +3,6 @@ package org.power_systems_modelica.psm.modelica.parser.test;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA_TMP;
 
-import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
-
 import java.nio.file.Path;
 
 import org.junit.Test;

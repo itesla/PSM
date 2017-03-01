@@ -11,9 +11,8 @@ public class ParameterXml
 {
 	public static void write(XMLStreamWriter w, Parameter p) throws XMLStreamException
 	{
-		if (p instanceof ParameterValue)
-			ParameterValueXml.write(w, (ParameterValue) p);
-		else if (p instanceof ParameterReference)
-			ParameterReferenceXml.write(w, (ParameterReference) p);
+		if (p instanceof ParameterValue) ParameterValueXml.write(w, (ParameterValue) p);
+		else if (p instanceof ParameterReference) ParameterReferenceXml.write(w,
+				(ParameterReference) p);
 	}
 }

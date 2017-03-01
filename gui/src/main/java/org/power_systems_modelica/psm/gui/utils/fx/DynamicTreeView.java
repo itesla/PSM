@@ -1,5 +1,8 @@
 package org.power_systems_modelica.psm.gui.utils.fx;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
@@ -12,9 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.WeakListChangeListener;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class DynamicTreeView<T extends HierarchyData<T>> extends TreeView<T> {
 

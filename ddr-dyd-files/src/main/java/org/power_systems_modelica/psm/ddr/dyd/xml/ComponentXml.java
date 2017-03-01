@@ -11,7 +11,7 @@ import org.power_systems_modelica.psm.ddr.dyd.ParameterSetReference;
 
 public class ComponentXml
 {
-	public static final String ROOT_ELEMENT_NAME = "component";
+	public static final String	ROOT_ELEMENT_NAME	= "component";
 
 	public static Component read(XMLStreamReader r)
 	{
@@ -69,5 +69,5 @@ public class ComponentXml
 		if (!isEmptyElement) w.writeEndElement();
 	}
 
-	private static final boolean IS_PARAMETER_DEFAULT = false;
+	private static final boolean	IS_PARAMETER_DEFAULT	= false;
 }

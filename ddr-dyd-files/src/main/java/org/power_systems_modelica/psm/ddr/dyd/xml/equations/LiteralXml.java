@@ -10,7 +10,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 
 public class LiteralXml
 {
-	public static final String ELEMENT_NAME = "literal";
+	public static final String	ELEMENT_NAME	= "literal";
 
 	public static void write(Literal e, XMLStreamWriter w) throws XMLStreamException
 	{

@@ -1,6 +1,6 @@
 package org.power_systems_modelica.psm.dymola.integration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.nio.file.DirectoryStream;
@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
 import org.power_systems_modelica.psm.dymola.integration.utils.ZipWriter;
 
 public class ZipWriterTest {

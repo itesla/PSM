@@ -2,10 +2,6 @@ package org.power_systems_modelica.psm.workflow.psm;
 
 import static org.power_systems_modelica.psm.workflow.Workflow.ResultsScope.SCOPE_GLOBAL;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
-
 import org.power_systems_modelica.psm.case_validation.CaseValidation;
 import org.power_systems_modelica.psm.commons.Configuration;
 import org.power_systems_modelica.psm.workflow.WorkflowTask;

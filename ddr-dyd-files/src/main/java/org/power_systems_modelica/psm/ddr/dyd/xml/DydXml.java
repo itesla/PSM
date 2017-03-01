@@ -73,16 +73,16 @@ public class DydXml
 	{
 		w.writeStartDocument();
 
-		if (dyd instanceof ModelContainer)
-			ModelContainerXml.write(w, (ModelContainer) dyd);
+		if (dyd instanceof ModelContainer) ModelContainerXml.write(w, (ModelContainer) dyd);
 
 		w.writeEndDocument();
 		w.flush();
 	}
 
-	public static final Stage DEFAULT_STAGE = Stage.SIMULATION;
+	public static final Stage	DEFAULT_STAGE	= Stage.SIMULATION;
 
-	public static void writeAttributeStage(XMLStreamWriter w, Stage stage) throws XMLStreamException
+	public static void writeAttributeStage(XMLStreamWriter w, Stage stage)
+			throws XMLStreamException
 	{
 		if (!stage.equals(DEFAULT_STAGE)) w.writeAttribute("stage", stage.name());
 	}
@@ -94,5 +94,5 @@ public class DydXml
 						.orElse(DEFAULT_STAGE.name()));
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(DydXml.class);
+	private static final Logger	LOG	= LoggerFactory.getLogger(DydXml.class);
 }

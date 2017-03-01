@@ -45,8 +45,7 @@ public class EquationXml
 	{
 		w.writeStartElement(ELEMENT_NAME);
 		DydXml.writeAttributeStage(w, eq.getStage());
-		if (eq instanceof Equal)
-			EqualXml.write((Equal) eq, w);
+		if (eq instanceof Equal) EqualXml.write((Equal) eq, w);
 		else if (eq instanceof UnparsedEquation)
 		{
 			w.writeStartElement(UNPARSED_EQUATION_ELEMENT_NAME);

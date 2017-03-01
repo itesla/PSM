@@ -34,8 +34,8 @@ public class ModelicaText
 			float num = Float.parseFloat(snum);
 			float num1 = Math.round(num * FLOATING_POINT_ROUNDING) / FLOATING_POINT_ROUNDING;
 			String replacement = "" + num1;
-			if (!snum.equals(replacement))
-				m.appendReplacement(result, m.group("pre") + replacement + m.group("post"));
+			if (!snum.equals(replacement)) m.appendReplacement(result, m.group("pre") + replacement
+					+ m.group("post"));
 		}
 		m.appendTail(result);
 		return result.toString();
@@ -83,16 +83,17 @@ public class ModelicaText
 	}
 
 	private static final Pattern	COMMENT					= Pattern.compile("//.*$",
-			Pattern.MULTILINE);
+																	Pattern.MULTILINE);
 	private static final Pattern	INDENT					= Pattern.compile("^[ \\t]+([^ \\t])",
-			Pattern.MULTILINE);
+																	Pattern.MULTILINE);
 	private static final Pattern	WHSP_END				= Pattern.compile("([^ \\t])[ \\t]+$",
-			Pattern.MULTILINE);
+																	Pattern.MULTILINE);
 	private static final Pattern	EMPTY_LINE				= Pattern
-			.compile("(\\n|\\r|\\r\\n){2,}+");
+																	.compile("(\\n|\\r|\\r\\n){2,}+");
 	private static final Pattern	ALL_LINE_SEPARATORS		= Pattern.compile("(\\n|\\r|\\r\\n)");
-	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern.compile(
-			"(?<pre>[^a-zA-Z_])(?<number>[\\+\\-]?([0-9]*[.])?[0-9]+([eE][\\+\\-]?[0-9]+)?)(?<post>[^a-zA-Z_])");
+	private static final Pattern	FLOATING_POINT_NUMBER	= Pattern
+																	.compile(
+																	"(?<pre>[^a-zA-Z_])(?<number>[\\+\\-]?([0-9]*[.])?[0-9]+([eE][\\+\\-]?[0-9]+)?)(?<post>[^a-zA-Z_])");
 	private static final float		FLOATING_POINT_ROUNDING	= 1e6f;
 
 	private static final String		LINE_SEPARATOR			= System.getProperty("line.separator");

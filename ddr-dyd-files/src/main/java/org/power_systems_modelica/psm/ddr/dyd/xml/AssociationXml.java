@@ -8,7 +8,7 @@ import org.power_systems_modelica.psm.ddr.dyd.Association;
 
 public class AssociationXml
 {
-	public static final String ROOT_ELEMENT_NAME = "association";
+	public static final String	ROOT_ELEMENT_NAME	= "association";
 
 	public static Association read(XMLStreamReader r)
 	{

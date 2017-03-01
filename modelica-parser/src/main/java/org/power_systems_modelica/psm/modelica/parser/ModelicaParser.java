@@ -8,8 +8,6 @@ import java.nio.file.Path;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.power_systems_modelica.psm.modelica.ModelicaDocument;
-import org.power_systems_modelica.psm.modelica.parser.MoLexer;
-import org.power_systems_modelica.psm.modelica.parser.MoParser;
 
 public class ModelicaParser
 {

@@ -2,9 +2,6 @@ package org.power_systems_modelica.psm.gui.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,24 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.power_systems_modelica.psm.gui.service.CaseService;
-import org.power_systems_modelica.psm.gui.utils.fx.GuiFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PathUtils {
+public class PathUtils
+{
 
-	public static final Path	DATA_TEST		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test");
+	public static final Path	DATA_TEST	= Paths
+													.get(System.getenv("PSM_DATA"))
+													.resolve("test");
 
-	public static final Path	DATA_TMP		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
-	
+	public static final Path	DATA_TMP	= Paths
+													.get(System.getenv("PSM_DATA"))
+													.resolve("tmp");
+
 	public static final Path	LIBRARY		= Paths
-			.get(System.getenv("PSM_DATA"))
-			.resolve("test").resolve("library");
+													.get(System.getenv("PSM_DATA"))
+													.resolve("test").resolve("library");
 
 	public static String translateLocation(String input)
 	{
@@ -89,7 +85,7 @@ public class PathUtils {
 	public static StringBuilder loadFile(String location, String file) throws IOException
 	{
 		Path path = Paths.get(location).resolve(file);
-		
+
 		return loadFile(path);
 	}
 
@@ -121,46 +117,47 @@ public class PathUtils {
 		bufferedWriter.close();
 		outputStream.close();
 	}
-	
-	public static Properties loadDefaultConversionFile() throws IOException{
+
+	public static Properties loadDefaultConversionFile() throws IOException
+	{
 		Path defaultFile = DATA_TEST.resolve("cfg").resolve("conversion.properties");
-		
+
 		Properties properties = new Properties();
 		InputStream is = Files.newInputStream(defaultFile);
 		properties.load(is);
 		is.close();
-		
+
 		String workflowFile = properties.getProperty("conversionPropertiesFile");
-		
+
 		Properties props = new Properties();
 		Path workflowPath = Paths.get(workflowFile);
-    	is = Files.newInputStream(workflowPath);
-    	props.load( is );
-    	is.close();
-    	
-    	return props;
+		is = Files.newInputStream(workflowPath);
+		props.load(is);
+		is.close();
+
+		return props;
 	}
-	
-	
-	public static Properties loadDefaultSimulationFile() throws IOException{
+
+	public static Properties loadDefaultSimulationFile() throws IOException
+	{
 		Path defaultFile = DATA_TEST.resolve("cfg").resolve("simulation.properties");
-		
+
 		Properties properties = new Properties();
 		InputStream is = Files.newInputStream(defaultFile);
 		properties.load(is);
 		is.close();
-		
+
 		String workflowFile = properties.getProperty("simulationPropertiesFile");
-		
+
 		Properties props = new Properties();
 		Path workflowPath = Paths.get(workflowFile);
-    	is = Files.newInputStream(workflowPath);
-    	props.load( is );
-    	is.close();
-    	
-    	return props;
+		is = Files.newInputStream(workflowPath);
+		props.load(is);
+		is.close();
+
+		return props;
 	}
-	
+
 	public static boolean existsFile(String location, String file)
 	{
 
@@ -188,5 +185,5 @@ public class PathUtils {
 		return properties;
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(PathUtils.class);
+	private static final Logger	LOG	= LoggerFactory.getLogger(PathUtils.class);
 }

@@ -102,7 +102,7 @@ public class VariableValidation
 	{
 		this.rmesKo++;
 	}
-	
+
 	public int getRmesElements()
 	{
 		return rmesElements;
@@ -112,7 +112,7 @@ public class VariableValidation
 	{
 		this.rmesElements++;
 	}
-	
+
 	public double getRmesAbove()
 	{
 		return rmesAbove;

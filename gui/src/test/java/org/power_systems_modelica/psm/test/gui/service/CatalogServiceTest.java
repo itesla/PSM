@@ -9,8 +9,6 @@ import org.junit.Test;
 import org.power_systems_modelica.psm.gui.model.Catalog;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 
-import javafx.collections.ObservableList;
-
 public class CatalogServiceTest {
 
 	@Test

@@ -4,8 +4,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.ddr.DynamicDataRepository.Injection;
+import org.power_systems_modelica.psm.ddr.StaticType;
 import org.power_systems_modelica.psm.ddr.dyd.Component;
 import org.power_systems_modelica.psm.ddr.dyd.Connection;
 import org.power_systems_modelica.psm.ddr.dyd.Interconnection;
@@ -19,7 +19,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.equations.EquationXml;
 
 public class ModelXml
 {
-	public static final String ROOT_ELEMENT_NAME = "model";
+	public static final String	ROOT_ELEMENT_NAME	= "model";
 
 	public static Model read(XMLStreamReader r)
 	{

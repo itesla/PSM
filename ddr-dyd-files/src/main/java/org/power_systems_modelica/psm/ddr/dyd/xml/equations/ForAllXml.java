@@ -11,7 +11,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 
 public class ForAllXml
 {
-	public static final String ELEMENT_NAME = "forAll";
+	public static final String	ELEMENT_NAME	= "forAll";
 
 	public static ForAll read(XMLStreamReader reader) throws XMLStreamException
 	{

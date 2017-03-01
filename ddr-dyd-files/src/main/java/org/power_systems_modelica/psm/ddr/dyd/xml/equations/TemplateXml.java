@@ -9,7 +9,7 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.XmlUtil;
 
 public class TemplateXml
 {
-	public static final String ELEMENT_NAME = "template";
+	public static final String	ELEMENT_NAME	= "template";
 
 	public static ExpressionTemplate read(XMLStreamReader reader)
 			throws XMLStreamException

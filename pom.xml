@@ -29,9 +29,9 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<java.version>1.8</java.version>
-		
+
 		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.findbugs.version>3.0.4</maven.findbugs.version>
 		<maven.javadoc.version>2.10.4</maven.javadoc.version>
@@ -44,7 +44,8 @@
 		<maven.coveralls.version>4.3.0</maven.coveralls.version>
 		<maven.exec.version>1.5.0</maven.exec.version>
 		<maven.buildhelper.version>1.12</maven.buildhelper.version>
-		
+		<maven.java.formatter>0.4</maven.java.formatter>
+
 		<junit.version>4.12</junit.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
@@ -52,21 +53,21 @@
 		<autoservice.version>1.0-rc2</autoservice.version>
 		<mockito.version>1.10.19</mockito.version>
 		<jodatime.version>2.9.6</jodatime.version>
-        <commonsmath3.version>3.6.1</commonsmath3.version>
+		<commonsmath3.version>3.6.1</commonsmath3.version>
 		<commonscli.version>1.3.1</commonscli.version>
-        <commonscompress.version>1.12</commonscompress.version>
+		<commonscompress.version>1.12</commonscompress.version>
 		<apache.commonsio.version>1.3.2</apache.commonsio.version>
 		<apache.commonlang.version>3.5</apache.commonlang.version>
 		<supercsv.version>2.4.0</supercsv.version>
-        <gdata.version>1.41.1_1</gdata.version>
-        <jgrapht.version>0.9.1</jgrapht.version>
-        <trove4j.version>3.0.3</trove4j.version>
-        <javacsv.version>2.0</javacsv.version>
-        <truevfs.version>0.11.1</truevfs.version>
+		<gdata.version>1.41.1_1</gdata.version>
+		<jgrapht.version>0.9.1</jgrapht.version>
+		<trove4j.version>3.0.3</trove4j.version>
+		<javacsv.version>2.0</javacsv.version>
+		<truevfs.version>0.11.1</truevfs.version>
 
 		<ipst.platform.version>0.1-SNAPSHOT</ipst.platform.version>
 		<ipst.core.version>0.1-SNAPSHOT</ipst.core.version>
-		
+
 		<hades2.integration.version>0.1</hades2.integration.version>
 		<helmflow.integration.version>0.1-SNAPSHOT</helmflow.integration.version>
 
@@ -141,19 +142,19 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${maven.jacoco.version}</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${maven.jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -212,10 +213,10 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven.surefire.version}</version>
 				</plugin>
-                <plugin>
-                    <groupId>org.eluder.coveralls</groupId>
-                    <artifactId>coveralls-maven-plugin</artifactId>
-                    <version>${maven.coveralls.version}</version>
+				<plugin>
+					<groupId>org.eluder.coveralls</groupId>
+					<artifactId>coveralls-maven-plugin</artifactId>
+					<version>${maven.coveralls.version}</version>
 					<configuration>
 						<serviceName>travis-pro</serviceName>
 						<repoToken>N0o73tI21OMUIoq6TFA1nUlw0l8acBjKv</repoToken>
@@ -224,7 +225,15 @@
 							<sourceDirectory>modelica-parser/target/generated-sources/antlr4</sourceDirectory>
 						</sourceDirectories>
 					</configuration>
-                </plugin>
+				</plugin>
+				<plugin>
+					<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+					<artifactId>maven-java-formatter-plugin</artifactId>
+					<version>${maven.java.formatter}</version>
+					<configuration>
+						<configFile>${project.basedir}/../data/test/cfg/code_formatter.xml</configFile>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -293,11 +302,11 @@
 				<artifactId>commons-io</artifactId>
 				<version>${apache.commonsio.version}</version>
 			</dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-math3</artifactId>
-                <version>${commonsmath3.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-math3</artifactId>
+				<version>${commonsmath3.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
@@ -400,48 +409,48 @@
 				<artifactId>helmflow-ipst-integration</artifactId>
 				<version>${helmflow.integration.version}</version>
 			</dependency>
-			
+
 			<!-- Temporal transitive dependencies -->
-	        <dependency>
-	            <groupId>eu.itesla_project</groupId>
-	            <artifactId>entsoe-util</artifactId>
-	            <version>${ipst.platform.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>eu.itesla_project</groupId>
-	            <artifactId>math</artifactId>
-	            <version>${ipst.core.version}</version>
-	        </dependency>
-            <dependency>
-                <groupId>org.apache.servicemix.bundles</groupId>
-                <artifactId>org.apache.servicemix.bundles.gdata</artifactId>
-                <version>${gdata.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jgrapht</groupId>
-                <artifactId>jgrapht-core</artifactId>
-                <version>${jgrapht.version}</version>
-            </dependency>
-	        <dependency>
-	            <groupId>net.sf.trove4j</groupId>
-	            <artifactId>trove4j</artifactId>
-	            <version>${trove4j.version}</version>
-	        </dependency>
-            <dependency>
-                <groupId>net.sourceforge.javacsv</groupId>
-                <artifactId>javacsv</artifactId>
-                <version>${javacsv.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-compress</artifactId>
-                <version>${commonscompress.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.java.truevfs</groupId>
-                <artifactId>truevfs-driver-zip</artifactId>
-                <version>${truevfs.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>entsoe-util</artifactId>
+				<version>${ipst.platform.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.itesla_project</groupId>
+				<artifactId>math</artifactId>
+				<version>${ipst.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.servicemix.bundles</groupId>
+				<artifactId>org.apache.servicemix.bundles.gdata</artifactId>
+				<version>${gdata.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jgrapht</groupId>
+				<artifactId>jgrapht-core</artifactId>
+				<version>${jgrapht.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.trove4j</groupId>
+				<artifactId>trove4j</artifactId>
+				<version>${trove4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sourceforge.javacsv</groupId>
+				<artifactId>javacsv</artifactId>
+				<version>${javacsv.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-compress</artifactId>
+				<version>${commonscompress.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.java.truevfs</groupId>
+				<artifactId>truevfs-driver-zip</artifactId>
+				<version>${truevfs.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

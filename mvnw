@@ -30,6 +30,8 @@ export VAL_TESTS=,!ValidationTest
 
 mkdir -p $PSM_DATA/tmp
 
+mvn java-formatter:format
+
 mvn ${MAVEN_FLAGS} \
 	-DskipTest.regex="(dymola-integration|openmodelica-integration)" \
 	-DfailIfNoTests=false \

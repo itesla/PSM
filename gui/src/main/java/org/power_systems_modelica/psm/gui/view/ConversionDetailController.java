@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.power_systems_modelica.psm.commons.Logs;
+import org.power_systems_modelica.psm.gui.MainApp.WorkflowType;
 import org.power_systems_modelica.psm.gui.model.BusData;
 import org.power_systems_modelica.psm.gui.model.Case;
 import org.power_systems_modelica.psm.gui.model.Catalog;
@@ -24,7 +25,11 @@ import org.power_systems_modelica.psm.gui.service.CaseService;
 import org.power_systems_modelica.psm.gui.service.CatalogService;
 import org.power_systems_modelica.psm.gui.service.DdrService;
 import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.DsEngine;
+import org.power_systems_modelica.psm.gui.service.WorkflowServiceConfiguration.LoadflowEngine;
 import org.power_systems_modelica.psm.gui.service.fx.MainService;
+import org.power_systems_modelica.psm.gui.service.fx.TaskService;
+import org.power_systems_modelica.psm.gui.service.fx.WorkflowService;
 import org.power_systems_modelica.psm.gui.utils.PathUtils;
 import org.power_systems_modelica.psm.gui.utils.Utils;
 import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor;
@@ -33,6 +38,7 @@ import org.power_systems_modelica.psm.gui.utils.fx.UtilsFX;
 import org.power_systems_modelica.psm.workflow.ProcessState;
 import org.power_systems_modelica.psm.workflow.TaskDefinition;
 import org.power_systems_modelica.psm.workflow.Workflow;
+import org.power_systems_modelica.psm.workflow.WorkflowCreationException;
 import org.power_systems_modelica.psm.workflow.psm.LoadFlowTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaExporterTask;
 import org.power_systems_modelica.psm.workflow.psm.ModelicaNetworkBuilderTask;
@@ -46,6 +52,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -69,8 +76,19 @@ public class ConversionDetailController implements MainChildrenController
 	@Override
 	public void handleMainAction()
 	{
+		if (isCheckDetail)
+			handleNewConversionEvent();
+		else
+			mainService.showSimulationWithCase(c);
+	}
 
-		mainService.showSimulationWithCase(c);
+	private void conversionFinish(Workflow w, boolean onlyCheck)
+	{
+		if (((WorkflowService) mainService.getConversionTask()).isCancelled())
+			mainService.getMainApp().showConversionNewView(w);
+		else
+			mainService.getMainApp().showConversionDetailView(mainService, true,
+					null, onlyCheck);
 	}
 
 	@Override
@@ -88,6 +106,8 @@ public class ConversionDetailController implements MainChildrenController
 	@Override
 	public String getMainAction()
 	{
+		if (isCheckDetail)
+			return "Conversion";
 
 		return "Simulate";
 	}
@@ -95,7 +115,8 @@ public class ConversionDetailController implements MainChildrenController
 	@Override
 	public List<String> getMenuActions()
 	{
-
+		if (isCheckDetail) return null;
+		
 		List<String> actions = new ArrayList();
 		actions.add("New conversion");
 		return actions;
@@ -265,7 +286,7 @@ public class ConversionDetailController implements MainChildrenController
 				try
 				{
 					Catalog catalog = CatalogService.getCatalog("ddrs", catalogPath);
-					Ddr ddr = DdrService.getDdr(catalog.getName(), ddrPath);
+					ddr = DdrService.getDdr(catalog.getName(), ddrPath);
 					ddrLabel = catalog.getName() + " - " + ddr.getName();
 				}
 				catch (IOException e)
@@ -273,17 +294,23 @@ public class ConversionDetailController implements MainChildrenController
 					ddrLabel = "";
 				}
 
-				onlyMainComponentLabel = td.getTaskConfiguration()
-						.getParameter("onlyMainConnectedComponent")
-						.equals("true") ? "Only main connected component"
-								: "All connected components";
-				fullModelInitializationLabel = Utils.getDsEngine(td.getTaskConfiguration()
-						.getParameter("modelicaEngine")).toString();
+				onlyMainConnectedComponent = td.getTaskConfiguration().getBoolean("onlyMainConnectedComponent");
+				onlyMainComponentLabel = onlyMainConnectedComponent
+						? "Only main connected component"
+						: "All connected components";
+				String fullModelInitialization = td.getTaskConfiguration()
+						.getParameter("modelicaEngine");
+				if (fullModelInitialization != null)
+				{
+					dse = Utils.getDsEngine(fullModelInitialization);
+					fullModelInitializationLabel = dse.toString();
+				}
 			}
 
 			if (td.getTaskClass().equals(LoadFlowTask.class))
 			{
-				loadflowLabel = Utils.getLoadflowEngine(td.getTaskId()).toString();
+				le = Utils.getLoadflowEngine(td.getTaskId());
+				loadflowLabel = le.toString();
 			}
 		}
 
@@ -344,20 +371,20 @@ public class ConversionDetailController implements MainChildrenController
 
 		if (models != null || (unmapped != null && !unmapped.isEmpty()))
 			modelsTab.setDisable(false);
-		
+
 		if (unmapped != null && !unmapped.isEmpty()) staticTable.getItems().addAll(unmapped);
-		if (models != null) 
+		if (models != null)
 		{
 			models.stream().forEach((model) -> {
 				Optional<TreeItem<ElementModel>> item = root.getChildren().stream().filter(t -> {
 					return ((ElementModel) ((TreeItem<ElementModel>) t).getValue()).getStaticId()
 							.equals(((ElementModel) model).getStaticId());
 				}).findFirst();
-	
+
 				TreeItem<ElementModel> treeItem = root;
 				if (item.isPresent())
 					treeItem = item.get();
-	
+
 				treeItem.getChildren().add(new TreeItem<ElementModel>((ElementModel) model));
 				treeItem.setExpanded(true);
 			});
@@ -486,7 +513,8 @@ public class ConversionDetailController implements MainChildrenController
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
 					Number newValue)
 			{
-				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue) - originColumn.getWidth() - 15;
+				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue)
+						- originColumn.getWidth() - 15;
 				dynamicIdColumn.setPrefWidth(dynamicIdColumnWidth);
 			}
 
@@ -506,7 +534,8 @@ public class ConversionDetailController implements MainChildrenController
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
 					Number newValue)
 			{
-				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue) - staticIdColumn.getWidth() -15;
+				double dynamicIdColumnWidth = modelsTable.getWidth() - ((double) newValue)
+						- staticIdColumn.getWidth() - 15;
 				dynamicIdColumn.setPrefWidth(dynamicIdColumnWidth);
 			}
 
@@ -624,9 +653,13 @@ public class ConversionDetailController implements MainChildrenController
 	private DateTime								date;
 	private String									pathLabel;
 	private Case									c;
+	private Ddr										ddr;
 	private String									caseLabel;
 	private String									ddrLabel;
+	private LoadflowEngine							le;
+	private DsEngine								dse;
 	private String									loadflowLabel;
+	private boolean									onlyMainConnectedComponent;
 	private String									onlyMainComponentLabel;
 	private String									fullModelInitializationLabel;
 	private boolean									isCheckDetail	= false;

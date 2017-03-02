@@ -153,7 +153,8 @@ public class ConversionNewController implements MainChildrenController
 			if (td.getTaskClass().equals(ModelicaNetworkBuilderTask.class))
 			{
 				String simulationEngine = td.getTaskConfiguration().getParameter("modelicaEngine");
-				dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
+				if (simulationEngine != null)
+					dsEngine.getSelectionModel().select(Utils.getDsEngine(simulationEngine));
 			}
 		}
 	}
@@ -386,7 +387,7 @@ public class ConversionNewController implements MainChildrenController
 
 		boolean onlyMainConnectedComponent = mainConnectedComponent.isSelected();
 
-		startConversion(cs, ddr, LoadflowEngine.NONE, onlyMainConnectedComponent, DsEngine.FAKE,
+		startConversion(cs, ddr, LoadflowEngine.NONE, onlyMainConnectedComponent, null,
 				true);
 	}
 

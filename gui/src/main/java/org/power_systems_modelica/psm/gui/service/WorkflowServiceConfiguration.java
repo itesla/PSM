@@ -438,10 +438,21 @@ public class WorkflowServiceConfiguration
 								"targetStateId", "resultsLoadFlow")));
 			}
 
-			String simulationEngine = dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica"
-					: dse.equals(DsEngine.DYMOLA) ? "Dymola" : "Fake";
+			String simulationEngine = dse != null && dse.equals(DsEngine.OPENMODELICA) ? "OpenModelica"
+					: dse != null && dse.equals(DsEngine.DYMOLA) ? "Dymola" : "Fake";
 
-			if (dse.equals(DsEngine.FAKE))
+			if (dse == null)
+			{
+				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
+						TC("ddrType", "DYD",
+								"ddrLocation", ddr0.getLocation(),
+								"onlyMainConnectedComponent",
+								Boolean.toString(onlyMainConnectedComponent),
+								"checkOnly",
+								Boolean.toString(checkOnly))));
+				
+			}
+			else if (dse.equals(DsEngine.FAKE))
 			{
 				tasks.add(TD(ModelicaNetworkBuilderTask.class, "modelica0",
 						TC("ddrType", "DYD",

@@ -6,27 +6,33 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.ComparisionData;
 import org.power_systems_modelica.psm.case_validation.model.Element;
+import org.power_systems_modelica.psm.case_validation.model.TimeValue;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
+import org.power_systems_modelica.psm.commons.CsvReader;
+import org.power_systems_modelica.psm.commons.CsvReaderPopulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.supercsv.io.ICsvListReader;
 
 public class CaseValidationLoader
 {
 
-	public static final Path	DATA_TMP		= Paths
+	public static final Path DATA_TMP = Paths
 			.get(System.getenv("PSM_DATA"))
 			.resolve("tmp");
 
@@ -34,6 +40,12 @@ public class CaseValidationLoader
 	{
 		this.r = result;
 		this.writeFile = writeFile;
+		this.postName = "";
+	}
+
+	public void setPostName(String postName)
+	{
+		this.postName = postName;
 	}
 
 	public void loadNamesMapping(double stepSize, String pathNamesMapping) throws IOException
@@ -79,52 +91,7 @@ public class CaseValidationLoader
 
 	}
 
-	public void loadModelicaData(double stepSize, String pathModelData) throws IOException
-	{
-		BufferedReader bufferValues;
-		try
-		{
-			bufferValues = new BufferedReader(new FileReader(pathModelData));
-			String dataRow = bufferValues.readLine();
-			List<String> names = Arrays.asList(dataRow.replaceAll("\"", "").split(","));
-			final int timeCol = getTimeIndex(names);
-
-			List<String> elements = new ArrayList<>();
-			elements.addAll(r.getElements().keySet());
-
-			double lastTime = Double.NEGATIVE_INFINITY;
-
-			while ((dataRow = bufferValues.readLine()) != null)
-			{
-				List<String> values = Arrays.asList(dataRow.split(","));
-				final double time = Double.parseDouble(values.get(timeCol)); 
-
-				if (Math.abs(Math.floor(10*time/stepSize) - Math.floor(10*lastTime/stepSize)) >= 9)
-				{
-					elements.forEach(k -> {
-						
-						Element e = r.getElements().get(k);
-						if (e == null) return;
-						
-						double value = Double
-								.parseDouble(values.get(names.indexOf(e.getModelicaName())));
-
-						e.addModelicaValue(time, value);
-					});
-					lastTime = time;
-				}
-			}
-
-			bufferValues.close();
-		}
-		catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadRefData(double stepSize, String pathRefData) throws IOException
+	public void prepareOutputNames(String pathRefData) throws IOException
 	{
 		BufferedReader bufferValues;
 		try
@@ -132,30 +99,6 @@ public class CaseValidationLoader
 			bufferValues = new BufferedReader(new FileReader(pathRefData));
 			String dataRow = bufferValues.readLine();
 			outputNames = Arrays.asList(dataRow.replaceAll("\"", "").split(","));
-			final int timeCol = getTimeIndex(outputNames);
-			Set<Double> times = ((Element) r.getElements().values().iterator().next()).getValues().keySet();
-
-			List<String> elements = new ArrayList<>();
-			elements.addAll(r.getElements().keySet());
-
-			while ((dataRow = bufferValues.readLine()) != null)
-			{
-				final List<String> values = Arrays.asList(dataRow.split(","));
-				final double time = getTimeKey(stepSize, times, Double.parseDouble(values.get(timeCol)));
-				if (time < 0.0)
-					continue;
-				
-				elements.forEach(k -> {
-					
-					Element e = r.getElements().get(k);
-					if (e == null) return;
-					
-					double value = Double.parseDouble(values.get(outputNames.indexOf(e.getRefName())));
-
-					e.addRefValue(time, value);
-				});
-			}
-
 			bufferValues.close();
 		}
 		catch (FileNotFoundException e)
@@ -164,41 +107,164 @@ public class CaseValidationLoader
 			e.printStackTrace();
 		}
 	}
-	
-	private double getTimeKey(double stepSize, Set<Double> times, double time)
+
+	public Map<String, List<TimeValue>> loadCvsData(String pathData, boolean refData)
+			throws IOException
 	{
-		Iterator<Double> it = times.iterator();
-		while (it.hasNext())
+		Map<String, List<TimeValue>> values = null;
+		try
 		{
-			double candidate = it.next();
-			if (Math.abs(candidate - time) < stepSize/2)
-				return candidate;
+			Optional<Path> path = Files
+					.walk(Paths.get(pathData), 1,
+							FileVisitOption.FOLLOW_LINKS)
+					.filter((p) -> !p.toFile().isDirectory()
+							&& p.toFile().getAbsolutePath().endsWith(".csv"))
+					.findFirst();
+			if (path.isPresent())
+			{
+
+				values = CsvReader.readVariableColumnsWithCsvListReader(
+						path.get().toFile(),
+						new CsvReaderPopulator<TimeValue>()
+						{
+
+							@Override
+							public void prepare(ICsvListReader listReader,
+									Map<String, List<TimeValue>> values)
+							{
+								columns = listReader.length();
+								columnNames = new String[columns];
+								for (int i = 1; i <= columns; i++)
+								{
+									String column = listReader.get(i);
+									if (column.equalsIgnoreCase("Time"))
+									{
+										timeColumn = i - 1;
+										continue;
+									}
+									List<TimeValue> timeValue = new ArrayList<TimeValue>();
+									columnNames[i - 1] = column;
+									values.put(column, timeValue);
+								}
+							}
+
+							@Override
+							public void populate(List<Object> columnValues,
+									Map<String, List<TimeValue>> values)
+							{
+								Double time = (Double) columnValues.get(timeColumn);
+								for (int i = 0; i < columns; i++)
+								{
+									if (i == timeColumn)
+									{
+										continue;
+									}
+									List<TimeValue> timeValue = values.get(columnNames[i]);
+									timeValue
+											.add(new TimeValue(time, (Double) columnValues.get(i)));
+
+								}
+							}
+
+							private int	timeColumn;
+							private int	columns;
+							private String[]	columnNames;
+						});
+			}
 		}
-		return -1.0;
+		catch (Exception e)
+		{
+			LOG.error(e.getMessage());
+		}
+
+		return values;
 	}
 
-	private int getTimeIndex(List<String> names)
+	public void calculateDiff(double stepSize, Map<String, List<TimeValue>> refData,
+			Map<String, List<TimeValue>> modelicaData) throws IOException
 	{
-		for (int i = 0; i <= names.size(); i++)
+		List<String> elements = new ArrayList<>();
+		elements.addAll(r.getElements().keySet());
+		elements.forEach(k -> {
+
+			if (k.equalsIgnoreCase("Time")) return;
+
+			Element e = r.getElements().get(k);
+			if (e == null) return;
+
+			List<TimeValue> refValues = refData.get(e.getRefName());
+			refValues.sort(Comparator.comparingDouble(TimeValue::getTime));
+			Double[] refTimes = refValues.stream().map(TimeValue::getTime).toArray(Double[]::new);
+
+			List<TimeValue> modelicaValues = modelicaData.get(e.getModelicaName());
+			modelicaValues.sort(Comparator.comparingDouble(TimeValue::getTime));
+			Double[] modelicaTimes = modelicaValues.stream().map(TimeValue::getTime)
+					.toArray(Double[]::new);
+
+			boolean nextTime = true;
+			double time = refValues.get(0).getTime();
+			while (nextTime)
+			{
+				int modIdx = getClosestTime(stepSize, modelicaTimes, time);
+				int refIdx = getClosestTime(stepSize, refTimes, time);
+				if (modIdx == modelicaTimes.length - 1 || refIdx == refTimes.length - 1)
+					nextTime = false;
+
+				TimeValue modelicaValue = modelicaValues.get(modIdx);
+				TimeValue refValue = refValues.get(refIdx);
+
+				ComparisionData data = new ComparisionData();
+
+				data.setTime(time);
+				data.setModelicaData(modelicaValue.getValue());
+				data.setRefData(refValue.getValue());
+
+				e.addValue(time, data);
+				time += stepSize;
+			}
+		});
+
+		calculateDiff();
+	}
+
+	private int getClosestTime(double stepSize, Double[] times, double time)
+	{
+		int id = Arrays.binarySearch(times, time);
+		if (id < 0)
 		{
-			String name = names.get(i);
-			if (name.equalsIgnoreCase("time"))
-				return i;
+			id *= -1;
+			if (id >= times.length)
+			{
+				double time1 = times[times.length - 1];
+				if (time - time1 > stepSize)
+					return -1;
+				else
+					return times.length - 1;
+			}
+			else
+			{
+				double time1 = times[id - 2];
+				double time2 = times[id - 1];
+				if (time - time1 < time2 - time)
+					return id - 2;
+				else
+					return id - 1;
+			}
 		}
-		return -1;
+		return id;
 	}
 
 	public void calculateDiff() throws IOException
 	{
 		List<String> elements = new ArrayList<>();
 		elements.addAll(r.getElements().keySet());
-		
+
 		elements.forEach(ke -> {
-			
+
 			Element e = r.getElements().get(ke);
 			Map<Double, ComparisionData> values = e.getValues();
 			values.keySet().forEach(k -> {
-				
+
 				ComparisionData v = values.get(k);
 				if (e.getRefName().equalsIgnoreCase("time"))
 				{
@@ -207,7 +273,8 @@ public class CaseValidationLoader
 				}
 				else if (e.getRefName().contains("angle"))
 				{
-					v.setAbsDif(Math.abs(v.getRefData() - (v.getModelicaData() * (Math.PI / 180.0))));
+					v.setAbsDif(
+							Math.abs(v.getRefData() - (v.getModelicaData() * (Math.PI / 180.0))));
 
 				}
 				else
@@ -231,30 +298,44 @@ public class CaseValidationLoader
 			sbMod.append(outputNames.stream().collect(Collectors.joining(",")) + "\n");
 
 			List<Double> keys = new ArrayList<>();
-			keys.addAll(((Element) r.getElements().values().iterator().next()).getValues().keySet());
+			keys.addAll(
+					((Element) r.getElements().values().iterator().next()).getValues().keySet());
 			Collections.sort(keys);
-			keys.forEach( k -> {
-				
+			keys.forEach(k -> {
+
 				final List<String> absDif = new ArrayList<>();
 				final List<String> relDif = new ArrayList<>();
 				final List<String> modData = new ArrayList<>();
-				
+
 				final double id = k;
 				outputNames.forEach(ke -> {
-					
-					Element e = r.getElements().get(ke);
-					absDif.add("" + e.getValues().get(id).getAbsDif());
-					relDif.add("" + e.getValues().get(id).getRelDif());
-					modData.add("" + e.getValues().get(id).getModelicaData());
+
+					if (ke.equalsIgnoreCase("Time"))
+					{
+						absDif.add("" + id);
+						relDif.add("" + id);
+						modData.add("" + id);
+					}
+					else
+					{
+						Element e = r.getElements().get(ke);
+						absDif.add("" + e.getValues().get(id).getAbsDif());
+						relDif.add("" + e.getValues().get(id).getRelDif());
+						modData.add("" + e.getValues().get(id).getModelicaData());
+					}
 				});
 				sb.append(absDif.stream().collect(Collectors.joining(",")) + "\n");
 				sbRel.append(relDif.stream().collect(Collectors.joining(",")) + "\n");
 				sbMod.append(modData.stream().collect(Collectors.joining(",")) + "\n");
 			});
-			
-			BufferedWriter br = new BufferedWriter(new FileWriter(DATA_TMP.resolve("DataDif.csv").toString()));
-			BufferedWriter brRel = new BufferedWriter(new FileWriter(DATA_TMP.resolve("DataDifRel.csv").toString()));
-			BufferedWriter brMod = new BufferedWriter(new FileWriter(DATA_TMP.resolve("DataModelica.csv").toString()));
+
+			BufferedWriter br = new BufferedWriter(
+					new FileWriter(DATA_TMP.resolve("DataDif" + postName + ".csv").toString()));
+			BufferedWriter brRel = new BufferedWriter(
+					new FileWriter(DATA_TMP.resolve("DataDifRel" + postName + ".csv").toString()));
+			BufferedWriter brMod = new BufferedWriter(
+					new FileWriter(
+							DATA_TMP.resolve("DataModelica" + postName + ".csv").toString()));
 			br.write(sb.toString());
 			brRel.write(sbRel.toString());
 			brMod.write(sbMod.toString());
@@ -263,15 +344,19 @@ public class CaseValidationLoader
 			brMod.close();
 		}
 	}
-	
+
 	public List<String> getOutputNames()
 	{
 		return outputNames;
 	}
 
-	private ValidationResult	r ;
+	private ValidationResult	r;
+	private List<String>		outputNames	= new ArrayList<>();;
+
+	private String				postName;
 	private boolean				writeFile;
-	private List<String> 		outputNames;
-	private static final Logger		LOG				= LoggerFactory
+
+	private static final Logger	LOG			= LoggerFactory
 			.getLogger(CaseValidationLoader.class);
+
 }

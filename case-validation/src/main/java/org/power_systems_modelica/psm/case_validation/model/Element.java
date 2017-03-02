@@ -25,6 +25,11 @@ public class Element
 		this.modelicaName = modelicaName;
 	}
 
+	public void addValue(double time, ComparisionData data)
+	{
+		values.put(time, data);
+	}
+
 	public void addModelicaValue(double time, double value)
 	{
 		ComparisionData data = new ComparisionData();
@@ -37,6 +42,8 @@ public class Element
 	public void addRefValue(double time, double value)
 	{
 		ComparisionData data = values.get(time);
+		if (data == null) return;
+		
 		data.setRefData(value);
 		
 	}

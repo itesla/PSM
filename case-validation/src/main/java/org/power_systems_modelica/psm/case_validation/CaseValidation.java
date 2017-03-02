@@ -10,11 +10,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.power_systems_modelica.psm.case_validation.model.Element;
+import org.power_systems_modelica.psm.case_validation.model.TimeValue;
 import org.power_systems_modelica.psm.case_validation.model.ValidationResult;
 import org.power_systems_modelica.psm.case_validation.model.VariableValidation;
 import org.power_systems_modelica.psm.commons.Configuration;
@@ -46,11 +48,13 @@ public class CaseValidation
 
 	public void calculate() throws IOException
 	{
-
 		rr.loadNamesMapping(stepSize, pathNamesMapping);
-		rr.loadModelicaData(stepSize, pathModelData);
-		rr.loadRefData(stepSize, pathRefDat);
-		rr.calculateDiff();
+
+		rr.prepareOutputNames(pathRefDat);
+		Map<String, List<TimeValue>> refData = rr.loadCvsData(pathRefDat, true);
+		Map<String, List<TimeValue>> modelicaData = rr.loadCvsData(pathModelData, false);
+
+		rr.calculateDiff(stepSize, refData, modelicaData);
 	}
 
 	public void validation()
@@ -165,9 +169,10 @@ public class CaseValidation
 		{
 			properties.load(inputStream);
 
-			this.writeFile = Boolean.parseBoolean(Optional.ofNullable(properties.getProperty("writeFile"))
-					.orElse("false"));
-			
+			this.writeFile = Boolean
+					.parseBoolean(Optional.ofNullable(properties.getProperty("writeFile"))
+							.orElse("false"));
+
 			this.stepSize = Double
 					.parseDouble(Optional.ofNullable(properties.getProperty("stepSize"))
 							.orElse("0.0001"));

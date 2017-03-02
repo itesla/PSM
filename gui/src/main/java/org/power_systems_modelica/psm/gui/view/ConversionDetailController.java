@@ -298,6 +298,7 @@ public class ConversionDetailController implements MainChildrenController
 				onlyMainComponentLabel = onlyMainConnectedComponent
 						? "Only main connected component"
 						: "All connected components";
+				isCheckDetail = td.getTaskConfiguration().getBoolean("checkOnly");
 				String fullModelInitialization = td.getTaskConfiguration()
 						.getParameter("modelicaEngine");
 				if (fullModelInitialization != null)

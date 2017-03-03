@@ -50,7 +50,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G10______SM.lambdaQ10"/>
@@ -128,7 +128,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G11______SM.lambdaQ10"/>
@@ -206,7 +206,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G12______SM.lambdaQ10"/>
@@ -284,7 +284,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.efd0"/>
-        <par name="WLMDVPu" value="1.4"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G13______SM.lambdaQ10"/>
@@ -360,7 +360,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G14______SM.lambdaQ10"/>
@@ -438,7 +438,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G15______SM.lambdaQ10"/>
@@ -516,7 +516,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G16______SM.lambdaQ10"/>
@@ -594,7 +594,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G17______SM.lambdaQ10"/>
@@ -672,7 +672,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G18______SM.lambdaQ10"/>
@@ -752,7 +752,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G19______SM.lambdaQ10"/>
@@ -830,7 +830,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G1_______SM.lambdaQ10"/>
@@ -908,7 +908,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G20______SM.lambdaQ10"/>
@@ -986,7 +986,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G2_______SM.lambdaQ10"/>
@@ -1064,7 +1064,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G3_______SM.lambdaQ10"/>
@@ -1142,7 +1142,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G4_______SM.lambdaQ10"/>
@@ -1220,7 +1220,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G5_______SM.lambdaQ10"/>
@@ -1296,7 +1296,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G6_______SM.lambdaQ10"/>
@@ -1374,7 +1374,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.efd0"/>
-        <par name="WLMDVPu" value="2.05"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G7_______SM.lambdaQ10"/>
@@ -1454,7 +1454,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G8_______SM.lambdaQ10"/>
@@ -1532,7 +1532,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.efd0"/>
-        <par name="WLMDVPu" value="0.9500000000000001"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__G9_______SM.lambdaQ10"/>

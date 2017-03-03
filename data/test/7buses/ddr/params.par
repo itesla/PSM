@@ -52,7 +52,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.efd0"/>
-        <par name="WLMDVPu" value="0.7226456114257552"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FSSV_T11_SM.lambdaQ10"/>
@@ -144,7 +144,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.efd0"/>
-        <par name="WLMDVPu" value="0.7448638277959367"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVALDT11_SM.lambdaQ10"/>
@@ -236,7 +236,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.efd0"/>
-        <par name="WLMDVPu" value="0.6686345878298443"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__FVERGT11_SM.lambdaQ10"/>
@@ -562,9 +562,7 @@
         <ref name="init_VREF" dataSource="INIT" sourceName="sexs__FSSV_T11_SM.pin_VREF"/>
         <ref name="init_YLL" dataSource="INIT" sourceName="sexs__FSSV_T11_SM.pin_YLL"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="K" value="200."/>
         <par name="EMIN" value="0."/>
         <par name="TA" value="3."/>
@@ -580,9 +578,7 @@
         <ref name="init_VREF" dataSource="INIT" sourceName="sexs__FVALDT11_SM.pin_VREF"/>
         <ref name="init_YLL" dataSource="INIT" sourceName="sexs__FVALDT11_SM.pin_YLL"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="K" value="200."/>
         <par name="EMIN" value="0."/>
         <par name="TA" value="3."/>
@@ -598,9 +594,7 @@
         <ref name="init_VREF" dataSource="INIT" sourceName="sexs__FVERGT11_SM.pin_VREF"/>
         <ref name="init_YLL" dataSource="INIT" sourceName="sexs__FVERGT11_SM.pin_YLL"/>
         <par name="TE" value="0.05"/>
-        <par name="EFDMIN" value="-999."/>
         <par name="KC" value="1."/>
-        <par name="EFDMAX" value="999."/>
         <par name="K" value="200."/>
         <par name="EMIN" value="0."/>
         <par name="TA" value="3."/>

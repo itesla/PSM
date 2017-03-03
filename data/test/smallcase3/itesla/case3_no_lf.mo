@@ -122,8 +122,6 @@ model case3
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
-	 EFDMAX = 999,
-	 EFDMIN = -999,		 
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
   iPSL.Electrical.Controls.Eurostag.tgov1 reg_tgov1__GEN______SM (

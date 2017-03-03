@@ -48,7 +48,7 @@
         <ref name="init_theta" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.teta0"/>
         <ref name="init_omega" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.omega_0"/>
         <ref name="init_efd" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.efd0"/>
-        <par name="WLMDVPu" value="1.85"/>
+        <ref name="WLMDVPu" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.mDVPu"/>
         <ref name="init_lambdaad" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.lambdaAD0"/>
         <ref name="init_cm" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.cm0"/>
         <ref name="init_lambdaq1" dataSource="INIT" sourceName="gen_pwGeneratorM2S__GEN______SM.lambdaQ10"/>
@@ -136,8 +136,6 @@
         <par name="EMIN" value="0."/>
         <par name="TA" value="3."/>
         <par name="TB" value="10."/>
-        <par name="EFDMAX" value="999"/>
-        <par name="EFDMIN" value="-999"/>
         <par name="EMAX" value="4."/>
     </set>
     <set id="reg_tgov1__GEN______SM_SIMULATION">

@@ -466,13 +466,18 @@ public class SimulationNewController implements MainChildrenController
 		}
 		if (actionEvent.getSelectionModel().getSelectedItem().equals("BusFault"))
 		{
-			if (parametersView.getItems().stream().filter(i -> {
-				return i.getNameWithoutUnit().equals("X")
-						&& Double.parseDouble(i.getValue()) < 1e-3;
-			}).findAny().isPresent())
+			EventParamGui R = parametersView.getItems().stream().filter(i -> {
+				return i.getNameWithoutUnit().equals("R");
+			}).findAny().get();
+			EventParamGui X = parametersView.getItems().stream().filter(i -> {
+				return i.getNameWithoutUnit().equals("X");
+			}).findAny().get();
+			
+			double Z = Math.pow(Double.parseDouble(R.getValue()),2) + Math.pow(Double.parseDouble(X.getValue()),2); 
+			if (Z < 1e-6)
 			{
 				UtilsFX.showWarning("Warning",
-						"Reactance parameter is too low.\nPlease a different value for X.");
+						"Impedance parameter is too low, the minimum limit is 0.001.\nPlease insert differents values for R or X.");
 				return;
 			}
 		}

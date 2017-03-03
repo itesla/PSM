@@ -207,6 +207,11 @@ public class CaseValidationLoader
 			{
 				int modIdx = getClosestTime(stepSize, modelicaTimes, time);
 				int refIdx = getClosestTime(stepSize, refTimes, time);
+				if (modIdx == - 1 || refIdx == -1)
+				{
+					nextTime = false;
+					continue;
+				}
 				if (modIdx == modelicaTimes.length - 1 || refIdx == refTimes.length - 1)
 					nextTime = false;
 

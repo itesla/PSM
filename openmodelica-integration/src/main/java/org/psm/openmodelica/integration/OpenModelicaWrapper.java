@@ -103,8 +103,8 @@ public class OpenModelicaWrapper extends SmartProxy
 				.append(", startTime=").append(tstart)
 				.append(", stopTime=").append(tstop)
 				.append(", numberOfIntervals=").append(numberOfIntervals)
-				.append(", method=").append(method)
-				.append(", tolerance=").append(tolerance)
+				.append(", method=\"").append(method)
+				.append("\", tolerance=").append(tolerance)
 				.append(", simflags=\"").append(simFlags).append("\"")
 				.append(")").toString());
 	}

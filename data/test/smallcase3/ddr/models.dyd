@@ -18,14 +18,14 @@
         <interconnection componentId="line_{staticId}" componentVar="n" targetModel="{bus2}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Load">
-        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence" id="load_{staticId}" parFile="params.par" parId="load_{staticId}_SIMULATION"/>
+        <component type="iPSL.Electrical.Loads.Eurostag.PwLoadVoltageDependence" id="load_{staticId}">
             <ref name="V_0" dataSource="IIDM" sourceName="V_pu"/>
             <ref name="P_0" dataSource="IIDM" sourceName="P0"/>
             <ref name="Q_0" dataSource="IIDM" sourceName="Q0"/>
             <par name="alpha" value="2" isGeneric="true"/>
             <par name="beta" value="2" isGeneric="true"/>
             <ref name="angle_0" dataSource="IIDM" sourceName="A"/>
-          </component>
+        </component>
         <interconnection componentId="load_{staticId}" componentVar="p" targetModel="{bus}" targetName="p"/>
     </model>
     <model id="DM{staticId}" type="Switch">

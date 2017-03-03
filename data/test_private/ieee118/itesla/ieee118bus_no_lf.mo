@@ -1,9 +1,9 @@
 within ;
 model ieee118bus
   parameter Real SNREF = 100.0;
-  Modelica.Blocks.Interfaces.RealOutput omegaRef;
-
-
+  iPSL.Electrical.Machines.Eurostag.omegaRef omegaRef (
+    nGenerators = 54
+    ) annotation (Placement(transformation()));
 // BUSES
   iPSL.Electrical.Buses.Bus bus__ADAM__20_TN (
 	 V_0 = 0.95799994,
@@ -5163,7 +5163,7 @@ model ieee118bus
 	 ) annotation (Placement(transformation()));
 
 // REGULATORS
-  pssi3e2b reg_pssi3e2b__GEN__100_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__100_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5192,7 +5192,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__100_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__100_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5201,16 +5201,14 @@ model ieee118bus
 	 init_VREF = 1.01870961986104,
 	 init_YLL = 0.001606432746262133,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN__100_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN__100_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5226,7 +5224,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__103_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__103_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5255,7 +5253,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__103_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__103_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5264,16 +5262,14 @@ model ieee118bus
 	 init_VREF = 1.00245824411611,
 	 init_YLL = 0.001455469696886557,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN__103_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN__103_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5289,7 +5285,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__104_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__104_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5318,7 +5314,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__104_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__104_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5327,16 +5323,14 @@ model ieee118bus
 	 init_VREF = 0.9724330942433392,
 	 init_YLL = 0.001433078507713055,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN__104_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN__104_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5352,7 +5346,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__105_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__105_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5381,7 +5375,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__105_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__105_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5390,16 +5384,14 @@ model ieee118bus
 	 init_VREF = 0.9664212775887242,
 	 init_YLL = 0.001421303814767861,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN__105_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN__105_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5415,7 +5407,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__107_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__107_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -5444,7 +5436,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__107_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__107_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -5453,23 +5445,21 @@ model ieee118bus
 	 init_VREF = 0.954308815673775,
 	 init_YLL = 0.00226391772911824,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN__107_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN__107_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
 	 PNALT = 228.0,
 	 init_CM = -0.09087378266977451
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__110_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__110_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -5498,7 +5488,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__110_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__110_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -5507,16 +5497,14 @@ model ieee118bus
 	 init_VREF = 0.9745912906908217,
 	 init_YLL = 0.001591300704401989,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN__110_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN__110_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -5532,7 +5520,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__111_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__111_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -5561,7 +5549,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__111_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__111_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -5570,16 +5558,14 @@ model ieee118bus
 	 init_VREF = 0.9816185922008298,
 	 init_YLL = 0.001613084553748289,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN__111_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN__111_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -5595,7 +5581,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__112_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__112_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5624,7 +5610,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__112_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__112_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5633,23 +5619,21 @@ model ieee118bus
 	 init_VREF = 0.9764488199144254,
 	 init_YLL = 0.001445132335215758,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN__112_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN__112_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
 	 PNALT = 1485.0,
 	 init_CM = -0.02895372051261449
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__113_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__113_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5678,7 +5662,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__113_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__113_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5687,23 +5671,21 @@ model ieee118bus
 	 init_VREF = 0.9944355436153245,
 	 init_YLL = 0.001435509833968592,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN__113_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN__113_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
 	 init_CM = -0.003898590043621592
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN__116_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN__116_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5732,7 +5714,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN__116_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN__116_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -5741,23 +5723,21 @@ model ieee118bus
 	 init_VREF = 1.006583835917299,
 	 init_YLL = 0.001526810743871662,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN__116_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN__116_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
 	 init_CM = -0.1195164408126235
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___10_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___10_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5786,7 +5766,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___10_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___10_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5795,16 +5775,14 @@ model ieee118bus
 	 init_VREF = 1.052265619589737,
 	 init_YLL = 0.001944454445106883,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___10_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___10_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5820,7 +5798,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___12_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___12_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -5849,7 +5827,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___12_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___12_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -5858,16 +5836,14 @@ model ieee118bus
 	 init_VREF = 0.993242903190928,
 	 init_YLL = 0.002647439609875907,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___12_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___12_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -5883,7 +5859,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___15_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___15_SM (
 	 SNREF = 100.0,
 	 SN = 270.0,
 	 PN = 252.0,
@@ -5912,7 +5888,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___15_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___15_SM (
 	 SNREF = 100.0,
 	 SN = 270.0,
 	 PN = 252.0,
@@ -5921,16 +5897,14 @@ model ieee118bus
 	 init_VREF = NaN,
 	 init_YLL = NaN,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___15_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___15_SM (
 	 SNREF = 100.0,
 	 SN = 270.0,
 	 PN = 252.0,
@@ -5946,7 +5920,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___18_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___18_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5975,7 +5949,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___18_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___18_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -5984,16 +5958,14 @@ model ieee118bus
 	 init_VREF = 0.9744370353945297,
 	 init_YLL = 0.00143704540811009,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___18_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___18_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6009,7 +5981,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___19_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___19_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6038,7 +6010,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___19_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___19_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6047,16 +6019,14 @@ model ieee118bus
 	 init_VREF = 0.964417419415446,
 	 init_YLL = 0.001417419892283312,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___19_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___19_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6072,7 +6042,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___24_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___24_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6101,7 +6071,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___24_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___24_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6110,23 +6080,21 @@ model ieee118bus
 	 init_VREF = 0.9936360762583808,
 	 init_YLL = 0.001635402412967713,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___24_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___24_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
 	 PNALT = 1008.0,
 	 init_CM = -0.01289628233029736
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___25_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___25_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6155,7 +6123,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___25_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___25_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6164,16 +6132,14 @@ model ieee118bus
 	 init_VREF = 1.052379781180001,
 	 init_YLL = 0.002237291157755236,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___25_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___25_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6189,7 +6155,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___26_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___26_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -6218,7 +6184,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___26_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___26_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -6227,16 +6193,14 @@ model ieee118bus
 	 init_VREF = 1.016826734263978,
 	 init_YLL = 0.001665533927270041,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___26_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___26_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -6252,7 +6216,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___27_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___27_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6281,7 +6245,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___27_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___27_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6290,23 +6254,21 @@ model ieee118bus
 	 init_VREF = 0.9695807653833431,
 	 init_YLL = 0.001580414675408002,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___27_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___27_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
 	 PNALT = 1008.0,
 	 init_CM = -0.008928298075492282
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___31_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___31_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6335,7 +6297,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___31_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___31_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6344,16 +6306,14 @@ model ieee118bus
 	 init_VREF = 0.9685783844661842,
 	 init_YLL = 0.001578160838377686,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___31_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___31_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6369,7 +6329,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___32_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___32_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6398,7 +6358,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___32_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___32_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6407,16 +6367,14 @@ model ieee118bus
 	 init_VREF = 0.9657541061586291,
 	 init_YLL = 0.001754119510069587,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___32_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___32_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6432,7 +6390,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___34_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___34_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6461,7 +6419,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___34_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___34_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6470,16 +6428,14 @@ model ieee118bus
 	 init_VREF = 0.987463316816333,
 	 init_YLL = 0.001463374990466331,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___34_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___34_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6495,7 +6451,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___36_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___36_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6524,7 +6480,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___36_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___36_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6533,16 +6489,14 @@ model ieee118bus
 	 init_VREF = 0.9816071601396881,
 	 init_YLL = 0.001607141066201883,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___36_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___36_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6558,7 +6512,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___40_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___40_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -6587,7 +6541,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___40_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___40_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -6596,23 +6550,21 @@ model ieee118bus
 	 init_VREF = 0.9713985631036743,
 	 init_YLL = 0.001394570094807404,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___40_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___40_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
 	 init_CM = -0.02988674001047319
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___42_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___42_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6641,7 +6593,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___42_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___42_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6650,23 +6602,21 @@ model ieee118bus
 	 init_VREF = 0.9864754853621435,
 	 init_YLL = 0.0014688411250937,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___42_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___42_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
 	 PNALT = 1485.0,
 	 init_CM = -0.03972601263701636
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___46_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___46_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6695,7 +6645,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___46_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___46_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6704,16 +6654,14 @@ model ieee118bus
 	 init_VREF = 1.00650520939764,
 	 init_YLL = 0.001504561018919442,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___46_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___46_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -6729,7 +6677,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___49_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___49_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6758,7 +6706,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___49_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___49_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6767,16 +6715,14 @@ model ieee118bus
 	 init_VREF = 1.027020743768338,
 	 init_YLL = 0.001866743006886585,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___49_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___49_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6792,7 +6738,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___54_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___54_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6821,7 +6767,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___54_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___54_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6830,16 +6776,14 @@ model ieee118bus
 	 init_VREF = 0.9565732530057703,
 	 init_YLL = 0.001562785333016904,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___54_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___54_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -6855,7 +6799,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___55_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___55_SM (
 	 SNREF = 100.0,
 	 SN = 270.0,
 	 PN = 252.0,
@@ -6884,7 +6828,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___55_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___55_SM (
 	 SNREF = 100.0,
 	 SN = 270.0,
 	 PN = 252.0,
@@ -6893,16 +6837,14 @@ model ieee118bus
 	 init_VREF = NaN,
 	 init_YLL = NaN,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___55_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___55_SM (
 	 SNREF = 100.0,
 	 SN = 270.0,
 	 PN = 252.0,
@@ -6918,7 +6860,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___56_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___56_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6947,7 +6889,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___56_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___56_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6956,16 +6898,14 @@ model ieee118bus
 	 init_VREF = 0.9557184422154497,
 	 init_YLL = 0.001718505634791739,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___56_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___56_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -6981,7 +6921,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___59_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___59_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7010,7 +6950,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___59_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___59_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7019,16 +6959,14 @@ model ieee118bus
 	 init_VREF = 0.9869849342407229,
 	 init_YLL = 0.001899272284698089,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___59_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___59_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7044,7 +6982,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___61_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___61_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7073,7 +7011,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___61_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___61_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7082,16 +7020,14 @@ model ieee118bus
 	 init_VREF = 0.9965849509054791,
 	 init_YLL = 0.001537219326074282,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___61_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___61_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7107,7 +7043,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___62_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___62_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7136,7 +7072,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___62_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___62_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7145,16 +7081,14 @@ model ieee118bus
 	 init_VREF = 0.999488549751352,
 	 init_YLL = 0.001488583606790116,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___62_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___62_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7170,7 +7104,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___65_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___65_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7199,7 +7133,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___65_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___65_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7208,16 +7142,14 @@ model ieee118bus
 	 init_VREF = 1.0070022617638,
 	 init_YLL = 0.001744766382649578,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___65_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___65_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7233,7 +7165,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___66_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___66_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7262,7 +7194,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___66_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___66_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7271,16 +7203,14 @@ model ieee118bus
 	 init_VREF = 1.052041600797593,
 	 init_YLL = 0.001814695889523461,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___66_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___66_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7296,7 +7226,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___69_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___69_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -7325,7 +7255,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___69_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___69_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -7334,16 +7264,14 @@ model ieee118bus
 	 init_VREF = 1.031270575689488,
 	 init_YLL = 0.002340836298717345,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___69_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___69_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -7359,7 +7287,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___70_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___70_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -7388,7 +7316,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___70_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___70_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -7397,16 +7325,14 @@ model ieee118bus
 	 init_VREF = 0.9856163134921986,
 	 init_YLL = 0.001616286312480639,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___70_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___70_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -7422,7 +7348,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___72_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___72_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7451,7 +7377,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___72_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___72_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7460,23 +7386,21 @@ model ieee118bus
 	 init_VREF = 0.9818151017255179,
 	 init_YLL = 0.001814561018090165,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___72_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___72_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
 	 init_CM = -0.01100885671459143
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___73_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___73_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7505,7 +7429,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___73_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___73_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7514,23 +7438,21 @@ model ieee118bus
 	 init_VREF = 0.9928582351366203,
 	 init_YLL = 0.001858112360500333,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___73_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___73_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
 	 init_CM = -0.005504509509492535
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___74_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___74_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7559,7 +7481,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___74_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___74_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7568,16 +7490,14 @@ model ieee118bus
 	 init_VREF = 0.9594077407343196,
 	 init_YLL = 0.001407796047429919,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___74_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___74_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7593,7 +7513,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___76_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___76_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -7622,7 +7542,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___76_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___76_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -7631,16 +7551,14 @@ model ieee118bus
 	 init_VREF = NaN,
 	 init_YLL = NaN,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___76_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___76_SM (
 	 SNREF = 100.0,
 	 SN = 250.0,
 	 PN = 242.0,
@@ -7656,7 +7574,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___77_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___77_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7685,7 +7603,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___77_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___77_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7694,16 +7612,14 @@ model ieee118bus
 	 init_VREF = 1.007921338028219,
 	 init_YLL = 0.001921296066549083,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___77_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___77_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7719,7 +7635,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___80_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___80_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7748,7 +7664,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___80_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___80_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7757,16 +7673,14 @@ model ieee118bus
 	 init_VREF = 1.042338650738597,
 	 init_YLL = 0.001967153160678496,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___80_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___80_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7782,7 +7696,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___85_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___85_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7811,7 +7725,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___85_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___85_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7820,16 +7734,14 @@ model ieee118bus
 	 init_VREF = NaN,
 	 init_YLL = NaN,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___85_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___85_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -7845,7 +7757,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___87_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___87_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7874,7 +7786,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___87_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___87_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7883,16 +7795,14 @@ model ieee118bus
 	 init_VREF = 1.016482254187548,
 	 init_YLL = 0.00148212311965345,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___87_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___87_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -7908,7 +7818,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___89_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___89_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7937,7 +7847,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___89_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___89_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7946,16 +7856,14 @@ model ieee118bus
 	 init_VREF = 1.008934199506815,
 	 init_YLL = 0.002697420511521442,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___89_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___89_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -7971,7 +7879,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___90_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___90_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8000,7 +7908,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___90_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___90_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8009,23 +7917,21 @@ model ieee118bus
 	 init_VREF = 0.9868783260555997,
 	 init_YLL = 0.001852595964508777,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___90_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___90_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
 	 init_CM = -0.07796587773499833
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___91_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___91_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8054,7 +7960,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___91_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___91_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8063,23 +7969,21 @@ model ieee118bus
 	 init_VREF = 0.9818148393773124,
 	 init_YLL = 0.001814458058004042,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___91_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___91_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
 	 PNALT = 1090.0,
 	 init_CM = -0.009174091372900522
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___92_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___92_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8108,7 +8012,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___92_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___92_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8117,16 +8021,14 @@ model ieee118bus
 	 init_VREF = 0.9948662353404824,
 	 init_YLL = 0.001866264427548989,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN___92_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN___92_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8142,7 +8044,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN___99_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN___99_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -8171,7 +8073,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN___99_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN___99_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -8180,23 +8082,21 @@ model ieee118bus
 	 init_VREF = 1.011477440508228,
 	 init_YLL = 0.001474522445730074,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN___99_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN___99_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
 	 PNALT = 1539.0,
 	 init_CM = -0.02728829639189495
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____1_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____1_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8225,7 +8125,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____1_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____1_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8234,16 +8134,14 @@ model ieee118bus
 	 init_VREF = NaN,
 	 init_YLL = NaN,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN____1_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN____1_SM (
 	 SNREF = 100.0,
 	 SN = 1211.0,
 	 PN = 1090.0,
@@ -8259,7 +8157,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____4_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____4_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -8288,7 +8186,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____4_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____4_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
@@ -8297,23 +8195,21 @@ model ieee118bus
 	 init_VREF = 0.9996494100542359,
 	 init_YLL = 0.00164911910121775,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN____4_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN____4_SM (
 	 SNREF = 100.0,
 	 SN = 1120.0,
 	 PN = 1008.0,
 	 PNALT = 1008.0,
 	 init_CM = -0.008928314262525673
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____6_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____6_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -8342,7 +8238,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____6_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____6_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -8351,16 +8247,14 @@ model ieee118bus
 	 init_VREF = NaN,
 	 init_YLL = NaN,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  gsteam0 reg_gsteam0__GEN____6_SM (
+  iPSL.Electrical.Controls.Eurostag.gsteam0 reg_gsteam0__GEN____6_SM (
 	 SNREF = 100.0,
 	 SN = 1650.0,
 	 PN = 1485.0,
@@ -8376,7 +8270,7 @@ model ieee118bus
 	 T2 = 3.,
 	 T3 = 10.
 	 ) annotation (Placement(transformation()));
-  pssi3e2b reg_pssi3e2b__GEN____8_SM (
+  iPSL.Electrical.Controls.Eurostag.pssi3e2b reg_pssi3e2b__GEN____8_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -8405,7 +8299,7 @@ model ieee118bus
 	 T2 = 0.03,
 	 T3 = .1500000
 	 ) annotation (Placement(transformation()));
-  sexs reg_sexs__GEN____8_SM (
+  iPSL.Electrical.Controls.Eurostag.sexs reg_sexs__GEN____8_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -8414,16 +8308,14 @@ model ieee118bus
 	 init_VREF = 1.016484761587736,
 	 init_YLL = 0.001483493870893205,
 	 TE = 0.05,
-	 EFDMIN = -999.,
 	 KC = 1.,
-	 EFDMAX = 999.,
 	 K = 200.,
 	 EMIN = 0.,
 	 TA = 3.,
 	 TB = 10.,
 	 EMAX = 4.
 	 ) annotation (Placement(transformation()));
-  cmconst reg_cmconst__GEN____8_SM (
+  iPSL.Electrical.Controls.Eurostag.cmconst reg_cmconst__GEN____8_SM (
 	 SNREF = 100.0,
 	 SN = 1710.0,
 	 PN = 1539.0,
@@ -8432,62 +8324,222 @@ model ieee118bus
 	 ) annotation (Placement(transformation()));
 
 equation
-  omegaRef = (gen_pwGeneratorM2S__GEN__100_SM.omega*gen_pwGeneratorM2S__GEN__100_SM.SN*gen_pwGeneratorM2S__GEN__100_SM.HIn + gen_pwGeneratorM2S__GEN__103_SM.omega*gen_pwGeneratorM2S__GEN__103_SM.SN*gen_pwGeneratorM2S__GEN__103_SM.HIn + gen_pwGeneratorM2S__GEN__104_SM.omega*gen_pwGeneratorM2S__GEN__104_SM.SN*gen_pwGeneratorM2S__GEN__104_SM.HIn + gen_pwGeneratorM2S__GEN__105_SM.omega*gen_pwGeneratorM2S__GEN__105_SM.SN*gen_pwGeneratorM2S__GEN__105_SM.HIn + gen_pwGeneratorM2S__GEN__107_SM.omega*gen_pwGeneratorM2S__GEN__107_SM.SN*gen_pwGeneratorM2S__GEN__107_SM.HIn + gen_pwGeneratorM2S__GEN__110_SM.omega*gen_pwGeneratorM2S__GEN__110_SM.SN*gen_pwGeneratorM2S__GEN__110_SM.HIn + gen_pwGeneratorM2S__GEN__111_SM.omega*gen_pwGeneratorM2S__GEN__111_SM.SN*gen_pwGeneratorM2S__GEN__111_SM.HIn + gen_pwGeneratorM2S__GEN__112_SM.omega*gen_pwGeneratorM2S__GEN__112_SM.SN*gen_pwGeneratorM2S__GEN__112_SM.HIn + gen_pwGeneratorM2S__GEN__113_SM.omega*gen_pwGeneratorM2S__GEN__113_SM.SN*gen_pwGeneratorM2S__GEN__113_SM.HIn + gen_pwGeneratorM2S__GEN__116_SM.omega*gen_pwGeneratorM2S__GEN__116_SM.SN*gen_pwGeneratorM2S__GEN__116_SM.HIn + gen_pwGeneratorM2S__GEN___10_SM.omega*gen_pwGeneratorM2S__GEN___10_SM.SN*gen_pwGeneratorM2S__GEN___10_SM.HIn + gen_pwGeneratorM2S__GEN___12_SM.omega*gen_pwGeneratorM2S__GEN___12_SM.SN*gen_pwGeneratorM2S__GEN___12_SM.HIn + gen_pwGeneratorM2S__GEN___15_SM.omega*gen_pwGeneratorM2S__GEN___15_SM.SN*gen_pwGeneratorM2S__GEN___15_SM.HIn + gen_pwGeneratorM2S__GEN___18_SM.omega*gen_pwGeneratorM2S__GEN___18_SM.SN*gen_pwGeneratorM2S__GEN___18_SM.HIn + gen_pwGeneratorM2S__GEN___19_SM.omega*gen_pwGeneratorM2S__GEN___19_SM.SN*gen_pwGeneratorM2S__GEN___19_SM.HIn + gen_pwGeneratorM2S__GEN___24_SM.omega*gen_pwGeneratorM2S__GEN___24_SM.SN*gen_pwGeneratorM2S__GEN___24_SM.HIn + gen_pwGeneratorM2S__GEN___25_SM.omega*gen_pwGeneratorM2S__GEN___25_SM.SN*gen_pwGeneratorM2S__GEN___25_SM.HIn + gen_pwGeneratorM2S__GEN___26_SM.omega*gen_pwGeneratorM2S__GEN___26_SM.SN*gen_pwGeneratorM2S__GEN___26_SM.HIn + gen_pwGeneratorM2S__GEN___27_SM.omega*gen_pwGeneratorM2S__GEN___27_SM.SN*gen_pwGeneratorM2S__GEN___27_SM.HIn + gen_pwGeneratorM2S__GEN___31_SM.omega*gen_pwGeneratorM2S__GEN___31_SM.SN*gen_pwGeneratorM2S__GEN___31_SM.HIn + gen_pwGeneratorM2S__GEN___32_SM.omega*gen_pwGeneratorM2S__GEN___32_SM.SN*gen_pwGeneratorM2S__GEN___32_SM.HIn + gen_pwGeneratorM2S__GEN___34_SM.omega*gen_pwGeneratorM2S__GEN___34_SM.SN*gen_pwGeneratorM2S__GEN___34_SM.HIn + gen_pwGeneratorM2S__GEN___36_SM.omega*gen_pwGeneratorM2S__GEN___36_SM.SN*gen_pwGeneratorM2S__GEN___36_SM.HIn + gen_pwGeneratorM2S__GEN___40_SM.omega*gen_pwGeneratorM2S__GEN___40_SM.SN*gen_pwGeneratorM2S__GEN___40_SM.HIn + gen_pwGeneratorM2S__GEN___42_SM.omega*gen_pwGeneratorM2S__GEN___42_SM.SN*gen_pwGeneratorM2S__GEN___42_SM.HIn + gen_pwGeneratorM2S__GEN___46_SM.omega*gen_pwGeneratorM2S__GEN___46_SM.SN*gen_pwGeneratorM2S__GEN___46_SM.HIn + gen_pwGeneratorM2S__GEN___49_SM.omega*gen_pwGeneratorM2S__GEN___49_SM.SN*gen_pwGeneratorM2S__GEN___49_SM.HIn + gen_pwGeneratorM2S__GEN___54_SM.omega*gen_pwGeneratorM2S__GEN___54_SM.SN*gen_pwGeneratorM2S__GEN___54_SM.HIn + gen_pwGeneratorM2S__GEN___55_SM.omega*gen_pwGeneratorM2S__GEN___55_SM.SN*gen_pwGeneratorM2S__GEN___55_SM.HIn + gen_pwGeneratorM2S__GEN___56_SM.omega*gen_pwGeneratorM2S__GEN___56_SM.SN*gen_pwGeneratorM2S__GEN___56_SM.HIn + gen_pwGeneratorM2S__GEN___59_SM.omega*gen_pwGeneratorM2S__GEN___59_SM.SN*gen_pwGeneratorM2S__GEN___59_SM.HIn + gen_pwGeneratorM2S__GEN___61_SM.omega*gen_pwGeneratorM2S__GEN___61_SM.SN*gen_pwGeneratorM2S__GEN___61_SM.HIn + gen_pwGeneratorM2S__GEN___62_SM.omega*gen_pwGeneratorM2S__GEN___62_SM.SN*gen_pwGeneratorM2S__GEN___62_SM.HIn + gen_pwGeneratorM2S__GEN___65_SM.omega*gen_pwGeneratorM2S__GEN___65_SM.SN*gen_pwGeneratorM2S__GEN___65_SM.HIn + gen_pwGeneratorM2S__GEN___66_SM.omega*gen_pwGeneratorM2S__GEN___66_SM.SN*gen_pwGeneratorM2S__GEN___66_SM.HIn + gen_pwGeneratorM2S__GEN___69_SM.omega*gen_pwGeneratorM2S__GEN___69_SM.SN*gen_pwGeneratorM2S__GEN___69_SM.HIn + gen_pwGeneratorM2S__GEN___70_SM.omega*gen_pwGeneratorM2S__GEN___70_SM.SN*gen_pwGeneratorM2S__GEN___70_SM.HIn + gen_pwGeneratorM2S__GEN___72_SM.omega*gen_pwGeneratorM2S__GEN___72_SM.SN*gen_pwGeneratorM2S__GEN___72_SM.HIn + gen_pwGeneratorM2S__GEN___73_SM.omega*gen_pwGeneratorM2S__GEN___73_SM.SN*gen_pwGeneratorM2S__GEN___73_SM.HIn + gen_pwGeneratorM2S__GEN___74_SM.omega*gen_pwGeneratorM2S__GEN___74_SM.SN*gen_pwGeneratorM2S__GEN___74_SM.HIn + gen_pwGeneratorM2S__GEN___76_SM.omega*gen_pwGeneratorM2S__GEN___76_SM.SN*gen_pwGeneratorM2S__GEN___76_SM.HIn + gen_pwGeneratorM2S__GEN___77_SM.omega*gen_pwGeneratorM2S__GEN___77_SM.SN*gen_pwGeneratorM2S__GEN___77_SM.HIn + gen_pwGeneratorM2S__GEN___80_SM.omega*gen_pwGeneratorM2S__GEN___80_SM.SN*gen_pwGeneratorM2S__GEN___80_SM.HIn + gen_pwGeneratorM2S__GEN___85_SM.omega*gen_pwGeneratorM2S__GEN___85_SM.SN*gen_pwGeneratorM2S__GEN___85_SM.HIn + gen_pwGeneratorM2S__GEN___87_SM.omega*gen_pwGeneratorM2S__GEN___87_SM.SN*gen_pwGeneratorM2S__GEN___87_SM.HIn + gen_pwGeneratorM2S__GEN___89_SM.omega*gen_pwGeneratorM2S__GEN___89_SM.SN*gen_pwGeneratorM2S__GEN___89_SM.HIn + gen_pwGeneratorM2S__GEN___90_SM.omega*gen_pwGeneratorM2S__GEN___90_SM.SN*gen_pwGeneratorM2S__GEN___90_SM.HIn + gen_pwGeneratorM2S__GEN___91_SM.omega*gen_pwGeneratorM2S__GEN___91_SM.SN*gen_pwGeneratorM2S__GEN___91_SM.HIn + gen_pwGeneratorM2S__GEN___92_SM.omega*gen_pwGeneratorM2S__GEN___92_SM.SN*gen_pwGeneratorM2S__GEN___92_SM.HIn + gen_pwGeneratorM2S__GEN___99_SM.omega*gen_pwGeneratorM2S__GEN___99_SM.SN*gen_pwGeneratorM2S__GEN___99_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.omega*gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____4_SM.omega*gen_pwGeneratorM2S__GEN____4_SM.SN*gen_pwGeneratorM2S__GEN____4_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.omega*gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.omega*gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn) / (gen_pwGeneratorM2S__GEN__100_SM.SN*gen_pwGeneratorM2S__GEN__100_SM.HIn + gen_pwGeneratorM2S__GEN__103_SM.SN*gen_pwGeneratorM2S__GEN__103_SM.HIn + gen_pwGeneratorM2S__GEN__104_SM.SN*gen_pwGeneratorM2S__GEN__104_SM.HIn + gen_pwGeneratorM2S__GEN__105_SM.SN*gen_pwGeneratorM2S__GEN__105_SM.HIn + gen_pwGeneratorM2S__GEN__107_SM.SN*gen_pwGeneratorM2S__GEN__107_SM.HIn + gen_pwGeneratorM2S__GEN__110_SM.SN*gen_pwGeneratorM2S__GEN__110_SM.HIn + gen_pwGeneratorM2S__GEN__111_SM.SN*gen_pwGeneratorM2S__GEN__111_SM.HIn + gen_pwGeneratorM2S__GEN__112_SM.SN*gen_pwGeneratorM2S__GEN__112_SM.HIn + gen_pwGeneratorM2S__GEN__113_SM.SN*gen_pwGeneratorM2S__GEN__113_SM.HIn + gen_pwGeneratorM2S__GEN__116_SM.SN*gen_pwGeneratorM2S__GEN__116_SM.HIn + gen_pwGeneratorM2S__GEN___10_SM.SN*gen_pwGeneratorM2S__GEN___10_SM.HIn + gen_pwGeneratorM2S__GEN___12_SM.SN*gen_pwGeneratorM2S__GEN___12_SM.HIn + gen_pwGeneratorM2S__GEN___15_SM.SN*gen_pwGeneratorM2S__GEN___15_SM.HIn + gen_pwGeneratorM2S__GEN___18_SM.SN*gen_pwGeneratorM2S__GEN___18_SM.HIn + gen_pwGeneratorM2S__GEN___19_SM.SN*gen_pwGeneratorM2S__GEN___19_SM.HIn + gen_pwGeneratorM2S__GEN___24_SM.SN*gen_pwGeneratorM2S__GEN___24_SM.HIn + gen_pwGeneratorM2S__GEN___25_SM.SN*gen_pwGeneratorM2S__GEN___25_SM.HIn + gen_pwGeneratorM2S__GEN___26_SM.SN*gen_pwGeneratorM2S__GEN___26_SM.HIn + gen_pwGeneratorM2S__GEN___27_SM.SN*gen_pwGeneratorM2S__GEN___27_SM.HIn + gen_pwGeneratorM2S__GEN___31_SM.SN*gen_pwGeneratorM2S__GEN___31_SM.HIn + gen_pwGeneratorM2S__GEN___32_SM.SN*gen_pwGeneratorM2S__GEN___32_SM.HIn + gen_pwGeneratorM2S__GEN___34_SM.SN*gen_pwGeneratorM2S__GEN___34_SM.HIn + gen_pwGeneratorM2S__GEN___36_SM.SN*gen_pwGeneratorM2S__GEN___36_SM.HIn + gen_pwGeneratorM2S__GEN___40_SM.SN*gen_pwGeneratorM2S__GEN___40_SM.HIn + gen_pwGeneratorM2S__GEN___42_SM.SN*gen_pwGeneratorM2S__GEN___42_SM.HIn + gen_pwGeneratorM2S__GEN___46_SM.SN*gen_pwGeneratorM2S__GEN___46_SM.HIn + gen_pwGeneratorM2S__GEN___49_SM.SN*gen_pwGeneratorM2S__GEN___49_SM.HIn + gen_pwGeneratorM2S__GEN___54_SM.SN*gen_pwGeneratorM2S__GEN___54_SM.HIn + gen_pwGeneratorM2S__GEN___55_SM.SN*gen_pwGeneratorM2S__GEN___55_SM.HIn + gen_pwGeneratorM2S__GEN___56_SM.SN*gen_pwGeneratorM2S__GEN___56_SM.HIn + gen_pwGeneratorM2S__GEN___59_SM.SN*gen_pwGeneratorM2S__GEN___59_SM.HIn + gen_pwGeneratorM2S__GEN___61_SM.SN*gen_pwGeneratorM2S__GEN___61_SM.HIn + gen_pwGeneratorM2S__GEN___62_SM.SN*gen_pwGeneratorM2S__GEN___62_SM.HIn + gen_pwGeneratorM2S__GEN___65_SM.SN*gen_pwGeneratorM2S__GEN___65_SM.HIn + gen_pwGeneratorM2S__GEN___66_SM.SN*gen_pwGeneratorM2S__GEN___66_SM.HIn + gen_pwGeneratorM2S__GEN___69_SM.SN*gen_pwGeneratorM2S__GEN___69_SM.HIn + gen_pwGeneratorM2S__GEN___70_SM.SN*gen_pwGeneratorM2S__GEN___70_SM.HIn + gen_pwGeneratorM2S__GEN___72_SM.SN*gen_pwGeneratorM2S__GEN___72_SM.HIn + gen_pwGeneratorM2S__GEN___73_SM.SN*gen_pwGeneratorM2S__GEN___73_SM.HIn + gen_pwGeneratorM2S__GEN___74_SM.SN*gen_pwGeneratorM2S__GEN___74_SM.HIn + gen_pwGeneratorM2S__GEN___76_SM.SN*gen_pwGeneratorM2S__GEN___76_SM.HIn + gen_pwGeneratorM2S__GEN___77_SM.SN*gen_pwGeneratorM2S__GEN___77_SM.HIn + gen_pwGeneratorM2S__GEN___80_SM.SN*gen_pwGeneratorM2S__GEN___80_SM.HIn + gen_pwGeneratorM2S__GEN___85_SM.SN*gen_pwGeneratorM2S__GEN___85_SM.HIn + gen_pwGeneratorM2S__GEN___87_SM.SN*gen_pwGeneratorM2S__GEN___87_SM.HIn + gen_pwGeneratorM2S__GEN___89_SM.SN*gen_pwGeneratorM2S__GEN___89_SM.HIn + gen_pwGeneratorM2S__GEN___90_SM.SN*gen_pwGeneratorM2S__GEN___90_SM.HIn + gen_pwGeneratorM2S__GEN___91_SM.SN*gen_pwGeneratorM2S__GEN___91_SM.HIn + gen_pwGeneratorM2S__GEN___92_SM.SN*gen_pwGeneratorM2S__GEN___92_SM.HIn + gen_pwGeneratorM2S__GEN___99_SM.SN*gen_pwGeneratorM2S__GEN___99_SM.HIn + gen_pwGeneratorM2S__GEN____1_SM.SN*gen_pwGeneratorM2S__GEN____1_SM.HIn + gen_pwGeneratorM2S__GEN____4_SM.SN*gen_pwGeneratorM2S__GEN____4_SM.HIn + gen_pwGeneratorM2S__GEN____6_SM.SN*gen_pwGeneratorM2S__GEN____6_SM.HIn + gen_pwGeneratorM2S__GEN____8_SM.SN*gen_pwGeneratorM2S__GEN____8_SM.HIn);
-
-  connect(gen_pwGeneratorM2S__GEN__100_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__103_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__104_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__105_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__107_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__110_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__111_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__112_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__113_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN__116_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___10_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___12_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___15_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___18_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___19_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___24_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___25_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___26_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___27_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___31_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___32_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___34_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___36_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___40_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___42_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___46_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___49_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___54_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___55_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___56_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___59_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___61_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___62_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___65_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___66_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___69_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___70_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___72_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___73_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___74_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___76_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___77_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___80_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___85_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___87_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___89_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___90_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___91_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___92_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN___99_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____1_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____4_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____6_SM.omegaRef, omegaRef);
-  connect(gen_pwGeneratorM2S__GEN____8_SM.omegaRef, omegaRef);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__100_SM.omegaRef);
+  connect(omegaRef.pin_HIn[1], gen_pwGeneratorM2S__GEN__100_SM.pin_HIn);
+  connect(omegaRef.pin_SN[1], gen_pwGeneratorM2S__GEN__100_SM.pin_SN);
+  connect(omegaRef.pin_omega[1], gen_pwGeneratorM2S__GEN__100_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__103_SM.omegaRef);
+  connect(omegaRef.pin_HIn[2], gen_pwGeneratorM2S__GEN__103_SM.pin_HIn);
+  connect(omegaRef.pin_SN[2], gen_pwGeneratorM2S__GEN__103_SM.pin_SN);
+  connect(omegaRef.pin_omega[2], gen_pwGeneratorM2S__GEN__103_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__104_SM.omegaRef);
+  connect(omegaRef.pin_HIn[3], gen_pwGeneratorM2S__GEN__104_SM.pin_HIn);
+  connect(omegaRef.pin_SN[3], gen_pwGeneratorM2S__GEN__104_SM.pin_SN);
+  connect(omegaRef.pin_omega[3], gen_pwGeneratorM2S__GEN__104_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__105_SM.omegaRef);
+  connect(omegaRef.pin_HIn[4], gen_pwGeneratorM2S__GEN__105_SM.pin_HIn);
+  connect(omegaRef.pin_SN[4], gen_pwGeneratorM2S__GEN__105_SM.pin_SN);
+  connect(omegaRef.pin_omega[4], gen_pwGeneratorM2S__GEN__105_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__107_SM.omegaRef);
+  connect(omegaRef.pin_HIn[5], gen_pwGeneratorM2S__GEN__107_SM.pin_HIn);
+  connect(omegaRef.pin_SN[5], gen_pwGeneratorM2S__GEN__107_SM.pin_SN);
+  connect(omegaRef.pin_omega[5], gen_pwGeneratorM2S__GEN__107_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__110_SM.omegaRef);
+  connect(omegaRef.pin_HIn[6], gen_pwGeneratorM2S__GEN__110_SM.pin_HIn);
+  connect(omegaRef.pin_SN[6], gen_pwGeneratorM2S__GEN__110_SM.pin_SN);
+  connect(omegaRef.pin_omega[6], gen_pwGeneratorM2S__GEN__110_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__111_SM.omegaRef);
+  connect(omegaRef.pin_HIn[7], gen_pwGeneratorM2S__GEN__111_SM.pin_HIn);
+  connect(omegaRef.pin_SN[7], gen_pwGeneratorM2S__GEN__111_SM.pin_SN);
+  connect(omegaRef.pin_omega[7], gen_pwGeneratorM2S__GEN__111_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__112_SM.omegaRef);
+  connect(omegaRef.pin_HIn[8], gen_pwGeneratorM2S__GEN__112_SM.pin_HIn);
+  connect(omegaRef.pin_SN[8], gen_pwGeneratorM2S__GEN__112_SM.pin_SN);
+  connect(omegaRef.pin_omega[8], gen_pwGeneratorM2S__GEN__112_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__113_SM.omegaRef);
+  connect(omegaRef.pin_HIn[9], gen_pwGeneratorM2S__GEN__113_SM.pin_HIn);
+  connect(omegaRef.pin_SN[9], gen_pwGeneratorM2S__GEN__113_SM.pin_SN);
+  connect(omegaRef.pin_omega[9], gen_pwGeneratorM2S__GEN__113_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN__116_SM.omegaRef);
+  connect(omegaRef.pin_HIn[10], gen_pwGeneratorM2S__GEN__116_SM.pin_HIn);
+  connect(omegaRef.pin_SN[10], gen_pwGeneratorM2S__GEN__116_SM.pin_SN);
+  connect(omegaRef.pin_omega[10], gen_pwGeneratorM2S__GEN__116_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___10_SM.omegaRef);
+  connect(omegaRef.pin_HIn[11], gen_pwGeneratorM2S__GEN___10_SM.pin_HIn);
+  connect(omegaRef.pin_SN[11], gen_pwGeneratorM2S__GEN___10_SM.pin_SN);
+  connect(omegaRef.pin_omega[11], gen_pwGeneratorM2S__GEN___10_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___12_SM.omegaRef);
+  connect(omegaRef.pin_HIn[12], gen_pwGeneratorM2S__GEN___12_SM.pin_HIn);
+  connect(omegaRef.pin_SN[12], gen_pwGeneratorM2S__GEN___12_SM.pin_SN);
+  connect(omegaRef.pin_omega[12], gen_pwGeneratorM2S__GEN___12_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___15_SM.omegaRef);
+  connect(omegaRef.pin_HIn[13], gen_pwGeneratorM2S__GEN___15_SM.pin_HIn);
+  connect(omegaRef.pin_SN[13], gen_pwGeneratorM2S__GEN___15_SM.pin_SN);
+  connect(omegaRef.pin_omega[13], gen_pwGeneratorM2S__GEN___15_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___18_SM.omegaRef);
+  connect(omegaRef.pin_HIn[14], gen_pwGeneratorM2S__GEN___18_SM.pin_HIn);
+  connect(omegaRef.pin_SN[14], gen_pwGeneratorM2S__GEN___18_SM.pin_SN);
+  connect(omegaRef.pin_omega[14], gen_pwGeneratorM2S__GEN___18_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___19_SM.omegaRef);
+  connect(omegaRef.pin_HIn[15], gen_pwGeneratorM2S__GEN___19_SM.pin_HIn);
+  connect(omegaRef.pin_SN[15], gen_pwGeneratorM2S__GEN___19_SM.pin_SN);
+  connect(omegaRef.pin_omega[15], gen_pwGeneratorM2S__GEN___19_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___24_SM.omegaRef);
+  connect(omegaRef.pin_HIn[16], gen_pwGeneratorM2S__GEN___24_SM.pin_HIn);
+  connect(omegaRef.pin_SN[16], gen_pwGeneratorM2S__GEN___24_SM.pin_SN);
+  connect(omegaRef.pin_omega[16], gen_pwGeneratorM2S__GEN___24_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___25_SM.omegaRef);
+  connect(omegaRef.pin_HIn[17], gen_pwGeneratorM2S__GEN___25_SM.pin_HIn);
+  connect(omegaRef.pin_SN[17], gen_pwGeneratorM2S__GEN___25_SM.pin_SN);
+  connect(omegaRef.pin_omega[17], gen_pwGeneratorM2S__GEN___25_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___26_SM.omegaRef);
+  connect(omegaRef.pin_HIn[18], gen_pwGeneratorM2S__GEN___26_SM.pin_HIn);
+  connect(omegaRef.pin_SN[18], gen_pwGeneratorM2S__GEN___26_SM.pin_SN);
+  connect(omegaRef.pin_omega[18], gen_pwGeneratorM2S__GEN___26_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___27_SM.omegaRef);
+  connect(omegaRef.pin_HIn[19], gen_pwGeneratorM2S__GEN___27_SM.pin_HIn);
+  connect(omegaRef.pin_SN[19], gen_pwGeneratorM2S__GEN___27_SM.pin_SN);
+  connect(omegaRef.pin_omega[19], gen_pwGeneratorM2S__GEN___27_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___31_SM.omegaRef);
+  connect(omegaRef.pin_HIn[20], gen_pwGeneratorM2S__GEN___31_SM.pin_HIn);
+  connect(omegaRef.pin_SN[20], gen_pwGeneratorM2S__GEN___31_SM.pin_SN);
+  connect(omegaRef.pin_omega[20], gen_pwGeneratorM2S__GEN___31_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___32_SM.omegaRef);
+  connect(omegaRef.pin_HIn[21], gen_pwGeneratorM2S__GEN___32_SM.pin_HIn);
+  connect(omegaRef.pin_SN[21], gen_pwGeneratorM2S__GEN___32_SM.pin_SN);
+  connect(omegaRef.pin_omega[21], gen_pwGeneratorM2S__GEN___32_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___34_SM.omegaRef);
+  connect(omegaRef.pin_HIn[22], gen_pwGeneratorM2S__GEN___34_SM.pin_HIn);
+  connect(omegaRef.pin_SN[22], gen_pwGeneratorM2S__GEN___34_SM.pin_SN);
+  connect(omegaRef.pin_omega[22], gen_pwGeneratorM2S__GEN___34_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___36_SM.omegaRef);
+  connect(omegaRef.pin_HIn[23], gen_pwGeneratorM2S__GEN___36_SM.pin_HIn);
+  connect(omegaRef.pin_SN[23], gen_pwGeneratorM2S__GEN___36_SM.pin_SN);
+  connect(omegaRef.pin_omega[23], gen_pwGeneratorM2S__GEN___36_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___40_SM.omegaRef);
+  connect(omegaRef.pin_HIn[24], gen_pwGeneratorM2S__GEN___40_SM.pin_HIn);
+  connect(omegaRef.pin_SN[24], gen_pwGeneratorM2S__GEN___40_SM.pin_SN);
+  connect(omegaRef.pin_omega[24], gen_pwGeneratorM2S__GEN___40_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___42_SM.omegaRef);
+  connect(omegaRef.pin_HIn[25], gen_pwGeneratorM2S__GEN___42_SM.pin_HIn);
+  connect(omegaRef.pin_SN[25], gen_pwGeneratorM2S__GEN___42_SM.pin_SN);
+  connect(omegaRef.pin_omega[25], gen_pwGeneratorM2S__GEN___42_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___46_SM.omegaRef);
+  connect(omegaRef.pin_HIn[26], gen_pwGeneratorM2S__GEN___46_SM.pin_HIn);
+  connect(omegaRef.pin_SN[26], gen_pwGeneratorM2S__GEN___46_SM.pin_SN);
+  connect(omegaRef.pin_omega[26], gen_pwGeneratorM2S__GEN___46_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___49_SM.omegaRef);
+  connect(omegaRef.pin_HIn[27], gen_pwGeneratorM2S__GEN___49_SM.pin_HIn);
+  connect(omegaRef.pin_SN[27], gen_pwGeneratorM2S__GEN___49_SM.pin_SN);
+  connect(omegaRef.pin_omega[27], gen_pwGeneratorM2S__GEN___49_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___54_SM.omegaRef);
+  connect(omegaRef.pin_HIn[28], gen_pwGeneratorM2S__GEN___54_SM.pin_HIn);
+  connect(omegaRef.pin_SN[28], gen_pwGeneratorM2S__GEN___54_SM.pin_SN);
+  connect(omegaRef.pin_omega[28], gen_pwGeneratorM2S__GEN___54_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___55_SM.omegaRef);
+  connect(omegaRef.pin_HIn[29], gen_pwGeneratorM2S__GEN___55_SM.pin_HIn);
+  connect(omegaRef.pin_SN[29], gen_pwGeneratorM2S__GEN___55_SM.pin_SN);
+  connect(omegaRef.pin_omega[29], gen_pwGeneratorM2S__GEN___55_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___56_SM.omegaRef);
+  connect(omegaRef.pin_HIn[30], gen_pwGeneratorM2S__GEN___56_SM.pin_HIn);
+  connect(omegaRef.pin_SN[30], gen_pwGeneratorM2S__GEN___56_SM.pin_SN);
+  connect(omegaRef.pin_omega[30], gen_pwGeneratorM2S__GEN___56_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___59_SM.omegaRef);
+  connect(omegaRef.pin_HIn[31], gen_pwGeneratorM2S__GEN___59_SM.pin_HIn);
+  connect(omegaRef.pin_SN[31], gen_pwGeneratorM2S__GEN___59_SM.pin_SN);
+  connect(omegaRef.pin_omega[31], gen_pwGeneratorM2S__GEN___59_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___61_SM.omegaRef);
+  connect(omegaRef.pin_HIn[32], gen_pwGeneratorM2S__GEN___61_SM.pin_HIn);
+  connect(omegaRef.pin_SN[32], gen_pwGeneratorM2S__GEN___61_SM.pin_SN);
+  connect(omegaRef.pin_omega[32], gen_pwGeneratorM2S__GEN___61_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___62_SM.omegaRef);
+  connect(omegaRef.pin_HIn[33], gen_pwGeneratorM2S__GEN___62_SM.pin_HIn);
+  connect(omegaRef.pin_SN[33], gen_pwGeneratorM2S__GEN___62_SM.pin_SN);
+  connect(omegaRef.pin_omega[33], gen_pwGeneratorM2S__GEN___62_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___65_SM.omegaRef);
+  connect(omegaRef.pin_HIn[34], gen_pwGeneratorM2S__GEN___65_SM.pin_HIn);
+  connect(omegaRef.pin_SN[34], gen_pwGeneratorM2S__GEN___65_SM.pin_SN);
+  connect(omegaRef.pin_omega[34], gen_pwGeneratorM2S__GEN___65_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___66_SM.omegaRef);
+  connect(omegaRef.pin_HIn[35], gen_pwGeneratorM2S__GEN___66_SM.pin_HIn);
+  connect(omegaRef.pin_SN[35], gen_pwGeneratorM2S__GEN___66_SM.pin_SN);
+  connect(omegaRef.pin_omega[35], gen_pwGeneratorM2S__GEN___66_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___69_SM.omegaRef);
+  connect(omegaRef.pin_HIn[36], gen_pwGeneratorM2S__GEN___69_SM.pin_HIn);
+  connect(omegaRef.pin_SN[36], gen_pwGeneratorM2S__GEN___69_SM.pin_SN);
+  connect(omegaRef.pin_omega[36], gen_pwGeneratorM2S__GEN___69_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___70_SM.omegaRef);
+  connect(omegaRef.pin_HIn[37], gen_pwGeneratorM2S__GEN___70_SM.pin_HIn);
+  connect(omegaRef.pin_SN[37], gen_pwGeneratorM2S__GEN___70_SM.pin_SN);
+  connect(omegaRef.pin_omega[37], gen_pwGeneratorM2S__GEN___70_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___72_SM.omegaRef);
+  connect(omegaRef.pin_HIn[38], gen_pwGeneratorM2S__GEN___72_SM.pin_HIn);
+  connect(omegaRef.pin_SN[38], gen_pwGeneratorM2S__GEN___72_SM.pin_SN);
+  connect(omegaRef.pin_omega[38], gen_pwGeneratorM2S__GEN___72_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___73_SM.omegaRef);
+  connect(omegaRef.pin_HIn[39], gen_pwGeneratorM2S__GEN___73_SM.pin_HIn);
+  connect(omegaRef.pin_SN[39], gen_pwGeneratorM2S__GEN___73_SM.pin_SN);
+  connect(omegaRef.pin_omega[39], gen_pwGeneratorM2S__GEN___73_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___74_SM.omegaRef);
+  connect(omegaRef.pin_HIn[40], gen_pwGeneratorM2S__GEN___74_SM.pin_HIn);
+  connect(omegaRef.pin_SN[40], gen_pwGeneratorM2S__GEN___74_SM.pin_SN);
+  connect(omegaRef.pin_omega[40], gen_pwGeneratorM2S__GEN___74_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___76_SM.omegaRef);
+  connect(omegaRef.pin_HIn[41], gen_pwGeneratorM2S__GEN___76_SM.pin_HIn);
+  connect(omegaRef.pin_SN[41], gen_pwGeneratorM2S__GEN___76_SM.pin_SN);
+  connect(omegaRef.pin_omega[41], gen_pwGeneratorM2S__GEN___76_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___77_SM.omegaRef);
+  connect(omegaRef.pin_HIn[42], gen_pwGeneratorM2S__GEN___77_SM.pin_HIn);
+  connect(omegaRef.pin_SN[42], gen_pwGeneratorM2S__GEN___77_SM.pin_SN);
+  connect(omegaRef.pin_omega[42], gen_pwGeneratorM2S__GEN___77_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___80_SM.omegaRef);
+  connect(omegaRef.pin_HIn[43], gen_pwGeneratorM2S__GEN___80_SM.pin_HIn);
+  connect(omegaRef.pin_SN[43], gen_pwGeneratorM2S__GEN___80_SM.pin_SN);
+  connect(omegaRef.pin_omega[43], gen_pwGeneratorM2S__GEN___80_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___85_SM.omegaRef);
+  connect(omegaRef.pin_HIn[44], gen_pwGeneratorM2S__GEN___85_SM.pin_HIn);
+  connect(omegaRef.pin_SN[44], gen_pwGeneratorM2S__GEN___85_SM.pin_SN);
+  connect(omegaRef.pin_omega[44], gen_pwGeneratorM2S__GEN___85_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___87_SM.omegaRef);
+  connect(omegaRef.pin_HIn[45], gen_pwGeneratorM2S__GEN___87_SM.pin_HIn);
+  connect(omegaRef.pin_SN[45], gen_pwGeneratorM2S__GEN___87_SM.pin_SN);
+  connect(omegaRef.pin_omega[45], gen_pwGeneratorM2S__GEN___87_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___89_SM.omegaRef);
+  connect(omegaRef.pin_HIn[46], gen_pwGeneratorM2S__GEN___89_SM.pin_HIn);
+  connect(omegaRef.pin_SN[46], gen_pwGeneratorM2S__GEN___89_SM.pin_SN);
+  connect(omegaRef.pin_omega[46], gen_pwGeneratorM2S__GEN___89_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___90_SM.omegaRef);
+  connect(omegaRef.pin_HIn[47], gen_pwGeneratorM2S__GEN___90_SM.pin_HIn);
+  connect(omegaRef.pin_SN[47], gen_pwGeneratorM2S__GEN___90_SM.pin_SN);
+  connect(omegaRef.pin_omega[47], gen_pwGeneratorM2S__GEN___90_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___91_SM.omegaRef);
+  connect(omegaRef.pin_HIn[48], gen_pwGeneratorM2S__GEN___91_SM.pin_HIn);
+  connect(omegaRef.pin_SN[48], gen_pwGeneratorM2S__GEN___91_SM.pin_SN);
+  connect(omegaRef.pin_omega[48], gen_pwGeneratorM2S__GEN___91_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___92_SM.omegaRef);
+  connect(omegaRef.pin_HIn[49], gen_pwGeneratorM2S__GEN___92_SM.pin_HIn);
+  connect(omegaRef.pin_SN[49], gen_pwGeneratorM2S__GEN___92_SM.pin_SN);
+  connect(omegaRef.pin_omega[49], gen_pwGeneratorM2S__GEN___92_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN___99_SM.omegaRef);
+  connect(omegaRef.pin_HIn[50], gen_pwGeneratorM2S__GEN___99_SM.pin_HIn);
+  connect(omegaRef.pin_SN[50], gen_pwGeneratorM2S__GEN___99_SM.pin_SN);
+  connect(omegaRef.pin_omega[50], gen_pwGeneratorM2S__GEN___99_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____1_SM.omegaRef);
+  connect(omegaRef.pin_HIn[51], gen_pwGeneratorM2S__GEN____1_SM.pin_HIn);
+  connect(omegaRef.pin_SN[51], gen_pwGeneratorM2S__GEN____1_SM.pin_SN);
+  connect(omegaRef.pin_omega[51], gen_pwGeneratorM2S__GEN____1_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____4_SM.omegaRef);
+  connect(omegaRef.pin_HIn[52], gen_pwGeneratorM2S__GEN____4_SM.pin_HIn);
+  connect(omegaRef.pin_SN[52], gen_pwGeneratorM2S__GEN____4_SM.pin_SN);
+  connect(omegaRef.pin_omega[52], gen_pwGeneratorM2S__GEN____4_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____6_SM.omegaRef);
+  connect(omegaRef.pin_HIn[53], gen_pwGeneratorM2S__GEN____6_SM.pin_HIn);
+  connect(omegaRef.pin_SN[53], gen_pwGeneratorM2S__GEN____6_SM.pin_SN);
+  connect(omegaRef.pin_omega[53], gen_pwGeneratorM2S__GEN____6_SM.pin_OMEGA);
+  connect(omegaRef.omegaRef, gen_pwGeneratorM2S__GEN____8_SM.omegaRef);
+  connect(omegaRef.pin_HIn[54], gen_pwGeneratorM2S__GEN____8_SM.pin_HIn);
+  connect(omegaRef.pin_SN[54], gen_pwGeneratorM2S__GEN____8_SM.pin_SN);
+  connect(omegaRef.pin_omega[54], gen_pwGeneratorM2S__GEN____8_SM.pin_OMEGA);
 
 // Connecting REGULATORS and MACHINES
   connect(reg_pssi3e2b__GEN__100_SM.pin_ActivePowerSN, gen_pwGeneratorM2S__GEN__100_SM.pin_ActivePowerSN) annotation (Line());

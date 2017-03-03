@@ -26,7 +26,7 @@ public class DymolaStepsTest
 	private Configuration	config				= setConfiguration(
 			"http://localhost:8888/dymservice?wsdl",
 			DATA_TMP.toString(),
-			DATA_TEST.resolve("singlegen").resolve("library").toString(),
+			DATA_TEST_PRIVATE.resolve("singlegen").resolve("library").toString(),
 			filterResVariables, "0.0", "1.0", "0.000001", "500");
 
 	@Test
@@ -36,7 +36,7 @@ public class DymolaStepsTest
 
 		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+				.parse(DATA_TEST_PRIVATE.resolve(folderName).resolve("itesla").resolve(moFileName));
 
 		try (DymolaEngine dymEngine = new DymolaEngine())
 		{
@@ -61,7 +61,7 @@ public class DymolaStepsTest
 
 		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+				.parse(DATA_TEST_PRIVATE.resolve(folderName).resolve("itesla").resolve(moFileName));
 
 		try (DymolaEngine dymEngine = new DymolaEngine())
 		{
@@ -87,7 +87,7 @@ public class DymolaStepsTest
 
 		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+				.parse(DATA_TEST_PRIVATE.resolve(folderName).resolve("itesla").resolve(moFileName));
 
 		try (DymolaEngine dymEngine = new DymolaEngine())
 		{
@@ -148,5 +148,6 @@ public class DymolaStepsTest
 	}
 
 	private static final Path	DATA_TEST	= Paths.get(System.getenv("PSM_DATA")).resolve("test");
+	private static final Path	DATA_TEST_PRIVATE = Paths.get("PSM_DATA").resolve("test_private");
 	private static final Path	DATA_TMP	= Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
 }

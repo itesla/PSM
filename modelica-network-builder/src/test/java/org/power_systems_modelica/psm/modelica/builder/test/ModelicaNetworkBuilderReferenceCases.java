@@ -57,7 +57,7 @@ public class ModelicaNetworkBuilderReferenceCases
 				7);
 	}
 
-	@Test
+//	@Test
 	public void buildIeee118() throws Exception
 	{
 		build("test_private", "ieee118", "ieee118bus_EQ.xml", "ieee118/ddr",

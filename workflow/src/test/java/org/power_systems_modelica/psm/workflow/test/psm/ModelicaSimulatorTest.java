@@ -1,7 +1,9 @@
 package org.power_systems_modelica.psm.workflow.test.psm;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
+import static org.power_systems_modelica.psm.commons.test.TestUtil.DATA;
 import static org.power_systems_modelica.psm.commons.test.TestUtil.TEST_SAMPLES;
 import static org.power_systems_modelica.psm.workflow.ProcessState.SUCCESS;
 import static org.power_systems_modelica.psm.workflow.Workflow.TC;
@@ -29,7 +31,7 @@ public class ModelicaSimulatorTest
 		if (!isOpenModelicaAvailable()) return;
 		String varResults = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 
-		testBuild(
+		testBuild("test_private",
 				"singlegen",
 				"itesla/singlegen.mo",
 				"singlegen/library",
@@ -44,7 +46,7 @@ public class ModelicaSimulatorTest
 		if (!isOpenModelicaAvailable()) return;
 		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 
-		testBuild(
+		testBuild("test",
 				"ieee14",
 				"itesla/ieee14bus_no_lf.mo",
 				"library",
@@ -60,7 +62,7 @@ public class ModelicaSimulatorTest
 		if (!isOpenModelicaAvailable()) return;
 		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 
-		testBuild(
+		testBuild("test",
 				"ieee30",
 				"itesla/ieee30bus_no_lf.mo",
 				"library",
@@ -75,7 +77,7 @@ public class ModelicaSimulatorTest
 		if (!isOpenModelicaAvailable()) return;
 		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 
-		testBuild(
+		testBuild("test",
 				"ieee57",
 				"itesla/ieee57bus_no_lf.mo",
 				"library",
@@ -90,7 +92,7 @@ public class ModelicaSimulatorTest
 		if (!isOpenModelicaAvailable()) return;
 		String varResults = "bus[a-zA-Z0-9_]*.(V|angle)";
 
-		testBuild(
+		testBuild("test",
 				"ieee118",
 				"itesla/ieee118bus_no_lf.mo",
 				"library",
@@ -100,6 +102,7 @@ public class ModelicaSimulatorTest
 	}
 
 	public void testBuild(
+			String catalog,
 			String folderName,
 			String caseName,
 			String libFolderName,
@@ -107,10 +110,10 @@ public class ModelicaSimulatorTest
 			String resultVariables,
 			String webServicem) throws WorkflowCreationException, IOException
 	{
-		Path folder = TEST_SAMPLES.resolve(folderName);
+		Path folder = DATA.resolve(catalog).resolve(folderName);
 		Path modelicaEngineWorkingDir = Paths.get(System.getenv("PSM_DATA")).resolve("tmp");
 		Files.createDirectories(modelicaEngineWorkingDir);
-		Path libraryDir = TEST_SAMPLES.resolve(libFolderName);
+		Path libraryDir = DATA.resolve(catalog).resolve(libFolderName);
 		String moInput = folder.resolve(caseName).toString();
 
 		Workflow wf = WF(

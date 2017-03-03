@@ -28,11 +28,11 @@ public class DymolaIntegrationTest
 		String varResults = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 		Configuration config = setConfiguration(
 				DATA_TMP.toString(),
-				DATA_TEST.resolve("singlegen").resolve("library").toString(),
+				DATA_TEST_PRIVATE.resolve("singlegen").resolve("library").toString(),
 				"true");
 		config.setParameter("resultVariables", varResults);
 
-		testBuild(config, "singlegen", "singlegen.mo", 6);
+		testBuild("test_private", config, "singlegen", "singlegen.mo", 6);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -45,7 +45,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "smallcase1", "case1_no_lf.mo", 8);
+		testBuild("test", config, "smallcase1", "case1_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -58,7 +58,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "smallcase2", "case2_no_lf.mo", 8);
+		testBuild("test", config, "smallcase2", "case2_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -71,7 +71,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "smallcase3", "case3.mo", 8);
+		testBuild("test", config, "smallcase3", "case3.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -84,7 +84,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "7buses", "M7buses_no_lf.mo", 8);
+		testBuild("test", config, "7buses", "M7buses_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -97,7 +97,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "Nordic32", "Nordic32_no_lf.mo", 8);
+		testBuild("test", config, "Nordic32", "Nordic32_no_lf.mo", 8);
 	}
 
 	// @Test //TODO Pending for now because these systems do not simulate with Dymola Trial Version
@@ -156,7 +156,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30);
+		testBuild("test", config, "ieee14", "ieee14bus_no_lf.mo", 30);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -169,7 +169,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "ieee30", "ieee30bus_no_lf.mo", 60);
+		testBuild("test", config, "ieee30", "ieee30bus_no_lf.mo", 60);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -182,7 +182,7 @@ public class DymolaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"true");
 
-		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116);
+		testBuild("test", config, "ieee57", "ieee57bus_no_lf.mo", 116);
 	}
 
 	// @Test //TODO Pending for now because this system does not simulate with Dymola Trial Version
@@ -195,10 +195,11 @@ public class DymolaIntegrationTest
 				DATA_TEST_PRIVATE.resolve("ieee118bus").resolve("library").toString(),
 				"true");
 
-		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238);
+		testBuild("test_private", config, "ieee118", "ieee118bus_no_lf.mo", 238);
 	}
 
 	private void testBuild(
+			String catalog,
 			Configuration config,
 			String folderName,
 			String moFileName,
@@ -206,7 +207,7 @@ public class DymolaIntegrationTest
 	{
 		String moName = moFileName.substring(0, moFileName.indexOf("."));
 		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+				.parse(DATA.resolve(catalog).resolve(folderName).resolve("itesla").resolve(moFileName));
 
 		try (DymolaEngine dymEngine = new DymolaEngine())
 		{
@@ -251,10 +252,8 @@ public class DymolaIntegrationTest
 		return Boolean.valueOf(System.getProperty("DymolaAvailable"));
 	}
 
-	private static final Path	DATA_TEST			= Paths.get(System.getenv("PSM_DATA"))
-			.resolve("test");
-	private static final Path	DATA_TEST_PRIVATE	= Paths.get(System.getenv("PSM_DATA"))
-			.resolve("test");
-	private static final Path	DATA_TMP			= Paths.get(System.getenv("PSM_DATA"))
-			.resolve("tmp");
+	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));
+	private static final Path	DATA_TEST			= DATA.resolve("test");
+	private static final Path	DATA_TEST_PRIVATE	= DATA.resolve("test_private");
+	private static final Path	DATA_TMP			= DATA.resolve("tmp");
 }

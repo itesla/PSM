@@ -61,7 +61,7 @@ public class ModelicaParserTest
 	@Test
 	public void testParseSingleGen() throws FileNotFoundException, IOException
 	{
-		ModelicaDocument mo = parse("singlegen/itesla", "singlegen.mo");
+		ModelicaDocument mo = parse("test_private", "singlegen/itesla", "singlegen.mo");
 		Path output = Paths.get(System.getenv("PSM_DATA")).resolve("tmp").resolve("singlegen.mo");
 
 		assertEquals("singlegen", mo.getSystemModel().getId());
@@ -83,11 +83,11 @@ public class ModelicaParserTest
 		return ModelicaParser.parse(mo);
 	}
 
-	private ModelicaDocument parse(String folder, String name)
+	private ModelicaDocument parse(String catalog, String folder, String name)
 			throws FileNotFoundException, IOException
 	{
 		Path mo = Paths.get(System.getenv("PSM_DATA"))
-				.resolve("test")
+				.resolve(catalog)
 				.resolve(folder)
 				.resolve(name);
 		return ModelicaParser.parse(mo);

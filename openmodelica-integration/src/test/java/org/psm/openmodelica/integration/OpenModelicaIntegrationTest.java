@@ -29,12 +29,12 @@ public class OpenModelicaIntegrationTest
 		String filterResVariables = "[a-zA-Z0-9_]*.(pin_EFD|pin_OMEGA|pin_CM|omegaRef)";
 		Configuration config = setConfiguration(
 				DATA_TMP.toString(),
-				DATA_TEST.resolve("singlegen").resolve("library").toString(),
+				DATA_TEST_PRIVATE.resolve("singlegen").resolve("library").toString(),
 				"false");
 		config.setParameter("simFlags", "-lv LOG_STATS");
 		config.setParameter("resultVariables", filterResVariables);
 
-		testBuild(config, "singlegen", "singlegen.mo", 6, false);
+		testBuild(config, "test_private", "singlegen", "singlegen.mo", 6, false);
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "smallcase1", "case1_no_lf.mo", 8, false);
+		testBuild(config, "test", "smallcase1", "case1_no_lf.mo", 8, false);
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "smallcase2", "case2_no_lf.mo", 8, false);
+		testBuild(config, "test", "smallcase2", "case2_no_lf.mo", 8, false);
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "smallcase3", "case3_no_lf.mo", 8, true);
+		testBuild(config, "test", "smallcase3", "case3_no_lf.mo", 8, true);
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "smallcase4", "case4_no_lf.mo", 8, false);
+		testBuild(config, "test", "smallcase4", "case4_no_lf.mo", 8, false);
 	}
 
 	@Test
@@ -140,7 +140,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "7buses", "M7buses_no_lf.mo", 16, false);
+		testBuild(config, "test", "7buses", "M7buses_no_lf.mo", 16, false);
 	}
 
 	@Test
@@ -153,7 +153,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "Nordic32", "Nordic32_no_lf.mo", 106, false);
+		testBuild(config, "test", "Nordic32", "Nordic32_no_lf.mo", 106, false);
 	}
 
 	@Test
@@ -207,7 +207,7 @@ public class OpenModelicaIntegrationTest
 
 		config.setParameter("stopTime", "1.0");
 
-		testBuild(config, "ieee14", "ieee14bus_no_lf.mo", 30, false);
+		testBuild(config, "test", "ieee14", "ieee14bus_no_lf.mo", 30, false);
 	}
 
 	@Test
@@ -220,7 +220,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "ieee30", "ieee30bus_no_lf.mo", 62, false);
+		testBuild(config, "test", "ieee30", "ieee30bus_no_lf.mo", 62, false);
 	}
 
 	@Test
@@ -233,7 +233,7 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST.resolve("library").toString(),
 				"false");
 
-		testBuild(config, "ieee57", "ieee57bus_no_lf.mo", 116, false);
+		testBuild(config, "test", "ieee57", "ieee57bus_no_lf.mo", 116, false);
 	}
 
 	@Test // TODO PENDING
@@ -247,10 +247,11 @@ public class OpenModelicaIntegrationTest
 				DATA_TEST_PRIVATE.resolve("ieee118").resolve("library").toString(),
 				"false");
 
-		testBuild(config, "ieee118", "ieee118bus_no_lf.mo", 238, true);
+		testBuild(config, "test_private", "ieee118", "ieee118bus_no_lf.mo", 238, true);
 	}
 
 	private void testBuild(Configuration config,
+			String catalog,
 			String folderName,
 			String moFileName,
 			int numOfResults,
@@ -258,7 +259,7 @@ public class OpenModelicaIntegrationTest
 	{
 
 		ModelicaDocument mo = ModelicaParser
-				.parse(DATA_TEST.resolve(folderName).resolve("itesla").resolve(moFileName));
+				.parse(DATA.resolve(catalog).resolve(folderName).resolve("itesla").resolve(moFileName));
 		String moName = mo.getSystemModel().getId();
 
 		try (OpenModelicaEngine omEngine = new OpenModelicaEngine())
@@ -312,6 +313,7 @@ public class OpenModelicaIntegrationTest
 		return Boolean.valueOf(System.getProperty("OpenModelicaAvailable"));
 	}
 
+	private static final Path	DATA			= Paths.get(System.getenv("PSM_DATA"));
 	private static final Path	DATA_TEST			= Paths.get(System.getenv("PSM_DATA"))
 			.resolve("test");
 	private static final Path	DATA_TEST_PRIVATE	= Paths.get(System.getenv("PSM_DATA"))

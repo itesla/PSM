@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2017-2018, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@/css/bootstrap3.css" />
+      <URL value="@/css/MainApp.css" />
+   </stylesheets>
+</BorderPane>

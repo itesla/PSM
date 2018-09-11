@@ -1,0 +1,27 @@
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+FILE_PATH=powsybl-adn-export-1.0.jar
+GROUP=com.rte_france.powsybl
+ARTIFACT=powsybl-adn-export
+VERSION=1.0
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+FILE_PATH=powsybl-hades2-integration-1.0.jar
+GROUP=com.rte_france.powsybl
+ARTIFACT=powsybl-hades2-integration
+VERSION=1.0
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+FILE_PATH=powsybl-iidm-cvg-extensions-1.0.jar
+GROUP=com.rte_france.powsybl
+ARTIFACT=powsybl-iidm-cvg-extensions
+VERSION=1.0
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar

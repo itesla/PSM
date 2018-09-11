@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<model_container xmlns="http://www.power_systems_on_modelica.org/schema/dyd/1_0">
+    <model stage="SIMULATION" id="DM__SYSTEM_" staticId="_SYSTEM_">
+		<component type="inner iPSL.Electrical.SystemBase" id="SysData">
+			<par name="S_b" value="100"/>
+			<par name="fn" value="50"/>
+        </component>
+        <component type="iPSL.Electrical.Machines.Eurostag.omegaRef" id="omegaRef">
+            <ref name="nGenerators" dataSource="DYNN" sourceName="numModelsConnectToTarget({system},omegaRef)"/>
+        </component>
+        <interconnection name="omegaRef" componentId="omegaRef" componentVar="omegaRef"/>
+        <interconnection name="omegaRef_HIn[]" componentId="omegaRef" componentVar="pin_HIn[]"/>
+        <interconnection name="omegaRef_SN[]" componentId="omegaRef" componentVar="pin_SN[]"/>
+        <interconnection name="omegaRef_omega[]" componentId="omegaRef" componentVar="pin_omega[]"/>
+    </model>
+</model_container>

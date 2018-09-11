@@ -1,0 +1,16 @@
+expected,actual
+Time,time
+bus__GEN______TN.V,bus__GEN______TN.V
+bus__GEN______TN.angle,bus__GEN______TN.angle
+bus__GRID_____TN.V,bus__GRID_____TN.V
+bus__GRID_____TN.angle,bus__GRID_____TN.angle
+bus__INF______TN.V,bus__INF______TN.V
+bus__INF______TN.angle,bus__INF______TN.angle
+gen___GEN______SM.cm,gen_pwGeneratorM2S__GEN______SM.cm
+gen___GEN______SM.efd,gen_pwGeneratorM2S__GEN______SM.efd
+gen___GEN______SM.lambdad,gen_pwGeneratorM2S__GEN______SM.lambdad
+gen___GEN______SM.lambdaf,gen_pwGeneratorM2S__GEN______SM.lambdaf
+gen___GEN______SM.lambdaq1,gen_pwGeneratorM2S__GEN______SM.lambdaq1
+gen___GEN______SM.lambdaq2,gen_pwGeneratorM2S__GEN______SM.lambdaq2
+load__GRID_____EC.P,load__GRID_____EC.P
+load__GRID_____EC.Q,load__GRID_____EC.Q

@@ -1,0 +1,13 @@
+psm.log
+.project
+.classpath
+.settings/
+**kk*
+.metadata/
+**coveralls.json
+**convertedCase.properties
+gui-*-SNAPSHOT.jar
+psm-*-*.zip
+*.iml
+dist_tmp/
+vdata_tmp/

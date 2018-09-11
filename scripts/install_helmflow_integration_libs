@@ -1,0 +1,33 @@
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+FILE_PATH=helmflow-core-2.3.0.jar
+GROUP=com.elequant.helmflow
+ARTIFACT=helmflow-core
+VERSION=2.3.0
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+FILE_PATH=helmflow-api-1.0-SNAPSHOT.jar
+GROUP=com.elequant.helmflow
+ARTIFACT=helmflow-api
+VERSION=1.0-SNAPSHOT
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+FILE_PATH=helmflow-api-impl-1.0-SNAPSHOT.jar
+GROUP=com.elequant.helmflow
+ARTIFACT=helmflow-api-impl
+VERSION=1.0-SNAPSHOT
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar
+
+FILE_PATH=helmflow-powsybl-integration-1.0-SNAPSHOT.jar
+GROUP=com.elequant.helmflow
+ARTIFACT=helmflow-powsybl-integration
+VERSION=1.0-SNAPSHOT
+mvn install:install-file -Dfile=$FILE_PATH -DgroupId=$GROUP -DartifactId=$ARTIFACT -Dversion=$VERSION -Dpackaging=jar

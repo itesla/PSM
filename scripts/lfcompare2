@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+CASE=$1
+
+if [ "$CASE" = "" ];
+then
+	echo ""
+	echo "Missing case"
+	echo ""
+	exit 1
+fi
+
+if [ "$PSM_DATA" = "" ];
+then
+    echo ""
+    echo "Missing PSM_DATA variable"
+    echo "will assume current data folder"
+    export PSM_DATA=data
+fi
+mkdir -p $PSM_DATA/tmp
+
+function wftest {
+	mvn -DfailIfNoTests=false \
+	    -Ditools.config.dir=${PSM_DATA}/cfg \
+		$* \
+	    test \
+		--projects workflow
+}
+
+echo ""
+echo "Running comparison HELM Flow after Hades2 results ..."
+echo ""
+wftest -Dtest=LoadFlowTest#compareHelmflowHades2${CASE} -DloadFlowTest.helmSourceStateId=resultsHades2 -DloadFlowTest.targetCsvFolder=${PSM_DATA}/tmp/lfcomparehh 2>&1 \
+	| tee kkhh.log \
+	| grep LF_DIFF_STATS \
+	| grep "HF-HD"
+echo ""
+echo "Running comparison both Loadflow engines from initial case ..."
+echo ""
+wftest -Dtest=LoadFlowTest#compareHelmflowHades2${CASE} -DloadFlowTest.targetCsvFolder=${PSM_DATA}/tmp/lfcompare0h 2>&1 \
+	| tee kk0h.log \
+	| grep LF_DIFF_STATS \
+	| grep "HF-HD"
+echo ""
+echo "Detailed results available at ${PSM_DATA}/tmp/lfcompare0h, ${PSM_DATA}/tmp/lfcomparehh"
+echo ""

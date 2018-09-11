@@ -1,0 +1,86 @@
+#!/bin/bash
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+echo ""
+export PSM_DATA=./data
+
+function get_system_name {
+    if [[ "$(uname)" == "Linux" ]];
+    then
+        echo "linux"
+    fi
+    if [[ "$(uname)" == CYGWIN* ]];
+    then
+        echo "windows"
+    fi
+}
+
+# Check Java version
+version=$(java -version 2>&1 >/dev/null | grep 'java version' | awk '{print $3}' | tr -d \"\.\_)
+if [[ ${version} < 18000 ]]; 
+then
+  echo "At least Java 1.8 is needed"
+  exit
+fi
+
+# Create configuration for Hades2
+echo "homeDir=$(pwd)/hades2LF" > ${PSM_DATA}/cfg/hades2.properties
+echo "debug=true" >> ${PSM_DATA}/cfg/hades2.properties
+echo "Using Hades2 from $(grep homeDir ${PSM_DATA}/cfg/hades2.properties)"
+
+# Access HELM Flow through the path
+if [[ -z "$(which helmflow)" ]]; 
+then
+	export PATH=${PATH}:$(pwd)/helmflow/$(get_system_name)
+	if [[ -z "$(which helmflow)" ]]; 
+	then
+		echo "Missing HELM Flow binaries"
+	fi
+fi
+echo "Using HELM Flow binary $(which helmflow)"
+
+if [[ -z "${OPENMODELICAHOME}" ]];
+then
+	if [[ -z "$(which omc)" ]];
+	then
+		echo "Missing Open Modelica environment variable OPENMODELICAHOME"
+		echo ""
+	else
+		echo "Missing Open Modelica"
+		echo ""
+	fi
+else
+	echo "Using Open Modelica from ${OPENMODELICAHOME}"
+	echo ""
+fi
+
+if [[ -z "${DYMOLAHOME}" ]];
+then
+	echo "Missing Dymola LOCALLY"
+else
+	echo "Using Dymola from ${DYMOLAHOME}"
+fi
+echo ""
+
+PSM_OPTIONS="-Ditools.config.dir=${PSM_DATA}/cfg"
+CPSEP=":"
+if [[ "$(get_system_name)" == "windows" ]];
+then
+	CPSEP=";"
+fi
+PSM_CLASSPATH="-cp ""./lib/*""${CPSEP}${PSM_DATA}/cfg"
+PSM_MAIN=org.power_systems_modelica.psm.gui.MainApp
+echo "Java options    : ${PSM_OPTIONS}"
+echo "Java classpath  : ${PSM_CLASSPATH}"
+echo "Java main class : ${PSM_MAIN}"
+echo ""
+
+java ${PSM_CLASSPATH} ${PSM_OPTIONS} ${PSM_MAIN} >& psm.log

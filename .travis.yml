@@ -1,0 +1,18 @@
+language: java
+# Following lines are required to install latest JDK 8 for JavaFX features
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+# Use Java JDK 8
+jdk: 
+  - oraclejdk8
+before_install:
+#  - ./scripts/download_and_install_libs
+  - sed -i 's/DEBUG/INFO/' data/cfg/logback.xml
+after_success:
+#  - ./mvnw jacoco:report coveralls:report
+  - ./mvnw jacoco:report
+after_failure:
+  - ./scripts/dump_surefire_reports

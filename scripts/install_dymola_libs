@@ -1,0 +1,26 @@
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+export DYMOLAHOME_PATH=
+export DYMOLA_VERSION=2016
+export DYMOLA_GROUP=com.dassault_systemes.dymola
+export DYMOLA_ARTIFACT=dymola_interface
+
+if [[ -z "$DYMOLAHOME" ]];
+then
+	DYMOLAHOME_PATH=dymola_interface.jar
+else 
+	DYMOLAHOME_PATH="${DYMOLAHOME}\Modelica\Library\java_interface\dymola_interface.jar"
+fi
+echo "Using Dymola from ${DYMOLAHOME_PATH}"
+echo ""
+
+mvn install:install-file -Dfile="${DYMOLAHOME_PATH}" -DgroupId=${DYMOLA_GROUP} -DartifactId=${DYMOLA_ARTIFACT} -Dversion=${DYMOLA_VERSION} -Dpackaging=jar
+

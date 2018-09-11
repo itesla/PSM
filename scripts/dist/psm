@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+echo ""
+export PSM_DATA=./data
+
+function get_system_name {
+    if [[ "$(uname)" == "Linux" ]];
+    then
+        echo "linux"
+    fi
+    if [[ "$(uname)" == CYGWIN* ]];
+    then
+        echo "windows"
+    fi
+}
+
+CPSEP=":"
+if [[ "$(get_system_name)" == "windows" ]];
+then
+	CPSEP=";"
+fi
+PSM_CLASSPATH="-cp ""./lib/*""${CPSEP}${PSM_DATA}/cfg"
+PSM_OPTIONS="-Ditools.config.dir=${PSM_DATA}/cfg"
+PSM_MAIN_CLASS="org.power_systems_modelica.psm.tools.Main"
+PSM_ARGS="$*"
+
+echo "Java options    : ${PSM_OPTIONS}"
+echo "Java classpath  : ${PSM_CLASSPATH}"
+echo "Java main class : ${PSM_MAIN_CLASS}"
+echo ""
+
+java ${PSM_CLASSPATH} ${PSM_OPTIONS} ${PSM_MAIN_CLASS} ${PSM_ARGS}

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2017-2018, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBox?>
+
+<AnchorPane prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.SimulationNewController">
+	<children>
+		<ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: white;">
+					<children>
+						<TitledPane animated="false" collapsible="false" layoutY="0.0" text="Source" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="578.0">
+									<children>
+                              <GridPane layoutY="29.6" prefHeight="30.0" prefWidth="538.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
+                                <columnConstraints>
+                                    <ColumnConstraints prefWidth="80.0" />
+                                  <ColumnConstraints hgrow="ALWAYS" />
+                                  <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                                </rowConstraints>
+                                 <padding>
+                                    <Insets left="14.0" right="50.0" />
+                                 </padding>
+                                 <children>
+      										<Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="Case:" />
+                                    <AnchorPane prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                       <children>
+            										<ComboBox fx:id="catalogCaseSource" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <children>
+            										<ComboBox fx:id="caseSource" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </GridPane>
+									</children>
+								</AnchorPane>
+							</content>
+							<padding>
+								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+							</padding>
+						</TitledPane>
+						<TitledPane animated="false" collapsible="false" layoutY="110.0" text="Events" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0">
+									<children>
+										<ListView fx:id="addedEvents" layoutX="175.0" layoutY="14.0" prefHeight="140.0" prefWidth="300.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="4.0" />
+										<Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="130.0" text="Added events:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+										<Button fx:id="addEvents" layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenAddEvent" prefWidth="80.0" styleClass="btn-default" text="New" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="4.0" />
+										<Button fx:id="removeEvent" layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleRemoveEvent" prefWidth="80.0" styleClass="btn-default" text="Remove" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="44.0" />
+										<Button fx:id="editEvent" layoutX="480.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleEditEvent" prefWidth="80.0" styleClass="btn-default" text="Edit" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="84.0" />
+									</children>
+								</AnchorPane>
+							</content>
+							<padding>
+								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+							</padding>
+						</TitledPane>
+						<TitledPane animated="false" collapsible="false" layoutY="310.0" text="Dynamic simulation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="155.0" prefWidth="200.0">
+									<children>
+										<Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="Engine:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+										<ComboBox fx:id="dsEngine" prefWidth="300.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="4.0" />
+		                                <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="Stop time:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="44.0" />
+			                            <TextField fx:id="stopTimeText" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0" />
+		                                <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="Steps per second:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="79.0" />
+			                            <TextField fx:id="stepBySecondText" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="79.0" />
+			                            <CheckBox fx:id="createFilteredMatCheck" mnemonicParsing="false" prefHeight="30.0" text="Create filtered MAT" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="109.0" />
+									</children>
+								</AnchorPane>
+							</content>
+							<padding>
+								<Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+							</padding>
+						</TitledPane>
+                  <TitledPane fx:id="addEventPane" focusTraversable="false" animated="false" collapsible="false" layoutX="50.0" layoutY="150.0" prefHeight="353.0" prefWidth="498.0" text="Add event" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                    <content>
+                      <AnchorPane focusTraversable="false" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label focusTraversable="false" layoutX="50.0" layoutY="33.0" prefHeight="30.0" text="Type:" AnchorPane.leftAnchor="40.0" />
+                              <ComboBox fx:id="actionEvent" layoutX="110.0" layoutY="33.0" onAction="#handleActionSelectedEvent" prefWidth="150.0" AnchorPane.leftAnchor="80.0" />
+                              <Label focusTraversable="false" layoutX="122.0" layoutY="33.0" prefHeight="30.0" text="Element:" AnchorPane.leftAnchor="260.0" />
+                              <AutoFillTextBox  fx:id="elementEvent" layoutX="122.0" layoutY="33.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="40.0" />
+                              <TableView fx:id="parametersView" layoutX="50.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
+                                <columns>
+                                  <TableColumn fx:id="nameParamColumn" editable="false" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="valueParamColumn" onEditCommit="#handleEditCommitEvent" prefWidth="75.0" text="Value" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <HBox focusTraversable="false" layoutX="110.0" layoutY="114.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                 <children>
+                                    <Button fx:id="add" mnemonicParsing="false" onAction="#handleAddEvent" styleClass="btn-primary" text="Add" />
+                                    <Button fx:id="cancel" mnemonicParsing="false" onAction="#handleCancelEvent" styleClass="btn-default" text="Cancel" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+					</children>
+				</AnchorPane>
+			</content>
+		</ScrollPane>
+	</children>
+	<stylesheets>
+		<URL value="@/css/bootstrap3.css" />
+		<URL value="@/css/MainApp.css" />
+	</stylesheets>
+</AnchorPane>

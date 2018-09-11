@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2017-2018, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane fx:id="casesView" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.CasesOverviewController">
+   <children>
+      <SplitPane dividerPositions="0.5" layoutX="173.0" layoutY="164.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" layoutX="83.0" layoutY="14.0" prefHeight="296.0" prefWidth="598.0" styleClass="panel-default" text="Catalogs" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="catalogs" layoutX="39.0" layoutY="14.0" prefHeight="250.0" prefWidth="576.0" styleClass="table table-bordered table-hover" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="nameCatalogColumn" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="descriptionCatalogColumn" prefWidth="75.0" text="Description" />
+                                    <TableColumn fx:id="locationCatalogColumn" prefWidth="75.0" text="Location" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" layoutX="97.0" layoutY="14.0" prefHeight="296.0" prefWidth="598.0" styleClass="panel-default" text="Cases" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="cases" layoutX="106.0" layoutY="14.0" prefHeight="250.0" prefWidth="576.0" styleClass="table table-bordered table-hover" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="nameCaseColumn" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="descriptionCaseColumn" prefWidth="75.0" text="Description" />
+                                    <TableColumn fx:id="locationCaseColumn" prefWidth="75.0" text="Location" />
+                                    <TableColumn fx:id="formatCaseColumn" prefWidth="75.0" text="Format" />
+                                    <TableColumn fx:id="sizeCaseColumn" prefWidth="75.0" text="Size" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <TitledPane fx:id="summaryPane" animated="false" collapsible="false" layoutX="100.0" layoutY="100.0" prefHeight="400.0" prefWidth="450.0" text="Summary">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: white;">
+               <children>
+                  <GridPane fx:id="gridPane" layoutX="40.0" layoutY="74.6" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="228.0" prefWidth="228.0" />
+                    </columnConstraints>
+                  </GridPane>
+                  <Pane nodeOrientation="RIGHT_TO_LEFT" prefHeight="61.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox spacing="10.0" style="-fx-background-color: white;">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleCloseSummaryEvent" styleClass="btn-default" text="Close" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+   </children>
+   <stylesheets>
+      <URL value="@/css/bootstrap3.css" />
+      <URL value="@/css/MainApp.css" />
+   </stylesheets>
+</AnchorPane>

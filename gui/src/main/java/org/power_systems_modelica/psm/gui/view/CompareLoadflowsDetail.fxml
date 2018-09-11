@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2017-2018, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.ScatterChart?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.CompareLoadflowsDetailController">
+   <children>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane style="-fx-background-color: white;">
+            	<children>
+            		<TitledPane fx:id="loadflowPane" animated="false" collapsible="false" layoutY="0.0" text="Loadflows comparison" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            			<content>
+            				<AnchorPane minHeight="0.0" minWidth="0.0">
+            					<children>
+            						<TabPane fx:id="tabPane" layoutX="18.6" layoutY="14.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.0">
+            							<tabs>
+            								<Tab fx:id="voltageTab" closable="false" text="Voltage">
+            									<content>
+            										<AnchorPane minHeight="0.0" minWidth="0.0">
+            											<Label fx:id="avgVoltageDiffTitle" layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
+            											<Label fx:id="avgVoltageDiffLabel" layoutX="110.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+            											<Label fx:id="maxVoltageDiffTitle" layoutX="24.0" layoutY="44.0" prefHeight="30.0" text="Max Dif:" />
+            											<Label fx:id="maxVoltageDiffLabel" layoutX="110.0" layoutY="44.0" prefHeight="30.0" text="Label" />
+            											<ScatterChart fx:id="voltageDiffChart" layoutX="14.0" layoutY="74.0" title="Voltage differences" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+            												<xAxis>
+            													<CategoryAxis side="BOTTOM" fx:id="xVoltageDiffAxis" />
+            												</xAxis>
+            												<yAxis>
+            													<NumberAxis fx:id="yVoltageDiffAxis" side="LEFT" />
+            												</yAxis>
+            											</ScatterChart>
+			                                             <ScatterChart fx:id="voltageCurvesChart" layoutX="14.0" layoutY="474.0" title="Voltage values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                                <xAxis>
+			                                                   <CategoryAxis side="BOTTOM" fx:id="xVoltageCurvesAxis" />
+			                                                </xAxis>
+			                                                <yAxis>
+			                                                   <NumberAxis fx:id="yVoltageCurvesAxis" side="LEFT" />
+			                                                </yAxis>
+			                                             </ScatterChart>
+			                                             <TableView fx:id="voltageTable" layoutX="14.0" layoutY="874.0" prefHeight="336.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0">
+			                                                <columns>
+			                                                   <TableColumn fx:id="elementVoltageColumn" prefWidth="75.0" text="Element" />
+			                                                   <TableColumn fx:id="hadesVoltageColumn" prefWidth="75.0" text="Hades2" />
+			                                                   <TableColumn fx:id="helmflowVoltageColumn" prefWidth="75.0" text="HELM-Flow" />
+			                                                   <TableColumn fx:id="differenceVoltageColumn" prefWidth="75.0" text="Absolute Differences" />
+			                                                </columns>
+			                                                <columnResizePolicy>
+			                                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			                                                </columnResizePolicy>
+			                                             </TableView>
+            										</AnchorPane>
+            									</content>
+            								</Tab>
+            								<Tab fx:id="phaseTab" closable="false" text="Phase">
+            									<content>
+            										<AnchorPane minHeight="0.0" minWidth="0.0">
+            											<Label fx:id="avgPhaseDiffTitle" layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
+            											<Label fx:id="avgPhaseDiffLabel" layoutX="110.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+            											<Label fx:id="maxPhaseDiffTitle" layoutX="24.0" layoutY="44.0" prefHeight="30.0" text="Max Dif:" />
+            											<Label fx:id="maxPhaseDiffLabel" layoutX="110.0" layoutY="44.0" prefHeight="30.0" text="Label" />
+            											<ScatterChart fx:id="phaseDiffChart" layoutX="14.0" layoutY="74.0" title="Phase differences" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+            												<xAxis>
+            													<CategoryAxis side="BOTTOM" fx:id="xPhaseDiffAxis" />
+            												</xAxis>
+            												<yAxis>
+            													<NumberAxis fx:id="yPhaseDiffAxis" side="LEFT" />
+            												</yAxis>
+            											</ScatterChart>
+			                                             <ScatterChart fx:id="phaseCurvesChart" layoutX="14.0" layoutY="474.0" title="Phase values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                                <xAxis>
+			                                                   <CategoryAxis side="BOTTOM" fx:id="xPhaseCurvesAxis" />
+			                                                </xAxis>
+			                                                <yAxis>
+			                                                   <NumberAxis fx:id="yPhaseCurvesAxis" side="LEFT" />
+			                                                </yAxis>
+			                                             </ScatterChart>
+			                                             <TableView fx:id="phaseTable" layoutX="14.0" layoutY="874.0" prefHeight="336.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0">
+			                                                <columns>
+			                                                   <TableColumn fx:id="elementPhaseColumn" prefWidth="75.0" text="Element" />
+			                                                   <TableColumn fx:id="hadesPhaseColumn" prefWidth="75.0" text="Hades2" />
+			                                                   <TableColumn fx:id="helmflowPhaseColumn" prefWidth="75.0" text="HELM-Flow" />
+			                                                   <TableColumn fx:id="differencePhaseColumn" prefWidth="75.0" text="Differences" />
+			                                                </columns>
+			                                                <columnResizePolicy>
+			                                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			                                                </columnResizePolicy>
+			                                             </TableView>
+            										</AnchorPane>
+            									</content>
+            								</Tab>
+            								<Tab fx:id="activeTab" closable="false" text="Active Power">
+            									<content>
+            										<AnchorPane minHeight="0.0" minWidth="0.0">
+            											<Label fx:id="avgActiveDiffTitle" layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
+            											<Label fx:id="avgActiveDiffLabel" layoutX="110.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+            											<Label fx:id="maxActiveDiffTitle" layoutX="24.0" layoutY="44.0" prefHeight="30.0" text="Max Dif:" />
+            											<Label fx:id="maxActiveDiffLabel" layoutX="110.0" layoutY="44.0" prefHeight="30.0" text="Label" />
+            											<ScatterChart fx:id="activeDiffChart" layoutX="14.0" layoutY="74.0" title="Active power differences" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+            												<xAxis>
+            													<CategoryAxis side="BOTTOM" fx:id="xActiveDiffAxis" />
+            												</xAxis>
+            												<yAxis>
+            													<NumberAxis fx:id="yActiveDiffAxis" side="LEFT" />
+            												</yAxis>
+            											</ScatterChart>
+			                                             <ScatterChart fx:id="activeCurvesChart" layoutX="14.0" layoutY="474.0" title="Active power values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                                <xAxis>
+			                                                   <CategoryAxis side="BOTTOM" fx:id="xActiveCurvesAxis" />
+			                                                </xAxis>
+			                                                <yAxis>
+			                                                   <NumberAxis fx:id="yActiveCurvesAxis" side="LEFT" />
+			                                                </yAxis>
+			                                             </ScatterChart>
+			                                             <TableView fx:id="activeTable" layoutX="14.0" layoutY="874.0" prefHeight="336.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0">
+			                                                <columns>
+			                                                   <TableColumn fx:id="elementActiveColumn" prefWidth="75.0" text="Element" />
+			                                                   <TableColumn fx:id="hadesActiveColumn" prefWidth="75.0" text="Hades2" />
+			                                                   <TableColumn fx:id="helmflowActiveColumn" prefWidth="75.0" text="HELM-Flow" />
+			                                                   <TableColumn fx:id="differenceActiveColumn" prefWidth="75.0" text="Differences" />
+			                                                </columns>
+			                                                <columnResizePolicy>
+			                                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			                                                </columnResizePolicy>
+			                                             </TableView>
+            										</AnchorPane>
+            									</content>
+            								</Tab>
+            								<Tab fx:id="reactiveTab" closable="false" text="Reactive Power">
+            									<content>
+            										<AnchorPane minHeight="0.0" minWidth="0.0">
+            											<Label fx:id="avgReactiveDiffTitle" layoutX="24.0" layoutY="14.0" prefHeight="30.0" text="Avg Dif:" />
+            											<Label fx:id="avgReactiveDiffLabel" layoutX="110.0" layoutY="14.0" prefHeight="30.0" text="Label" />
+            											<Label fx:id="maxReactiveDiffTitle" layoutX="24.0" layoutY="44.0" prefHeight="30.0" text="Max Dif:" />
+            											<Label fx:id="maxReactiveDiffLabel" layoutX="110.0" layoutY="44.0" prefHeight="30.0" text="Label" />
+            											<ScatterChart fx:id="reactiveDiffChart" layoutX="14.0" layoutY="74.0" title="Reactive power differences" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+            												<xAxis>
+            													<CategoryAxis side="BOTTOM" fx:id="xReactiveDiffAxis" />
+            												</xAxis>
+            												<yAxis>
+            													<NumberAxis fx:id="yReactiveDiffAxis" side="LEFT" />
+            												</yAxis>
+            											</ScatterChart>
+			                                             <ScatterChart fx:id="reactiveCurvesChart" layoutX="14.0" layoutY="474.0" title="Reactive power values" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0">
+			                                                <xAxis>
+			                                                   <CategoryAxis side="BOTTOM" fx:id="xReactiveCurvesAxis" />
+			                                                </xAxis>
+			                                                <yAxis>
+			                                                   <NumberAxis fx:id="yReactiveCurvesAxis" side="LEFT" />
+			                                                </yAxis>
+			                                             </ScatterChart>
+			                                             <TableView fx:id="reactiveTable" layoutX="14.0" layoutY="874.0" prefHeight="336.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0">
+			                                                <columns>
+			                                                   <TableColumn fx:id="elementReactiveColumn" prefWidth="75.0" text="Element" />
+			                                                   <TableColumn fx:id="hadesReactiveColumn" prefWidth="75.0" text="Hades2" />
+			                                                   <TableColumn fx:id="helmflowReactiveColumn" prefWidth="75.0" text="HELM-Flow" />
+			                                                   <TableColumn fx:id="differenceReactiveColumn" prefWidth="75.0" text="Differences" />
+			                                                </columns>
+			                                                <columnResizePolicy>
+			                                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			                                                </columnResizePolicy>
+			                                             </TableView>
+            										</AnchorPane>
+            									</content>
+            								</Tab>
+			                              <Tab fx:id="logTab" closable="false" text="Logs">
+			                                   <content>
+												<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+												   <children>
+												      <TextArea fx:id="logArea" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+												   </children>
+												</AnchorPane>
+			                                   </content>
+			                              </Tab>
+            							</tabs>
+            						</TabPane>
+            					</children>
+            				</AnchorPane>
+            			</content>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+            		</TitledPane>
+            	</children>
+            	<stylesheets>
+            		<URL value="@/css/bootstrap3.css" />
+            		<URL value="@/css/MainApp.css" />
+            	</stylesheets>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

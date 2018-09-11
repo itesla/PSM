@@ -1,0 +1,32 @@
+PSM Version 1.0.0 build 2017-06-09 13:00
+
+
+Changes and improvements:
+-	The check DDR (inside the conversion process) checks if there are static IDs associated to different dynamic models and following a criteria (from more specific to more general) chooses one of the associations in order to do the conversion and informs about it in the Logs window.
+-	The check DDR checks if there are more than one associations having the same name because PSM does not allow duplicated names.
+-	The configuration folder cfg has been moved from /data/test/ to data/.
+-	The curves in the Case Validation are plotted in an ‘intelligent’ way because there are a lot of point and to plot all of them takes a lot of time.
+-	The SNREF value is now retrieved from the DDR files because it is not a constant value.
+-	The criteria to consider that a branch has low reactance has been changed from X < 2x10-4 to|X| = 2x10-4.
+-	In the DDR files the floating notation has been changed from .XX to 0.XX.
+-	The Loadflow Comparison tab has been changed to Loadfow. PSM allow the user to run a Loaflow independently (using one of the two engines) or to do a Loadflow comparison of results obtained with both engines.
+-	Plots for Case Validation have been modified in order to improve their visualization: different type of lines and different shapes have been added to distinguish the different curves.
+-	Command line tools have been added to PSM.
+-	Improvement of Dymola integration in order to simplify the service connection and the exchange between server and client (only the needed information).
+-	Modification of the dynamic simulators integration to be able to load a library in a folder structure (like iPSL), not only a single Modelica file.
+-	Add SETLOCAL / ENDLOCAL commands to the psmgui scripts in order to avoid changing global environment variables.
+-	"Loadflow results" tab has been changed to "Steady state values".
+-	"Loadflow" and "Case validation" views can be enabled/disabled by the user.
+-	Two scripts have been added to PSM (for Windows and Linux) in order to allow the user to use the command line tools.
+-	Public RTE-22 has been added to the PSM Reference cases.
+-	Merging of annotations in generated Modelica files to be compliant with Modelica grammar.
+-	Jacobian integration method has been set to the configuration parameter "simFlags".
+-	Modification of the file chooser to open the last selected folder (by default).
+-	Multiple library paths could be defined in the modelicaengine.properties file.
+-	The solver for the dynamic simulation has been added as a configuration parameter to the modelicaengine.properties file.
+
+
+Fixed issues:
+-	If the user added the same event to different devices the generated Modelica file contained two elements with the same name and the checkModel method in OpenModelica and/or Dymola crashed. In the current version, a numerical index is added as a suffix to the element names.
+-	Avoid NaN values when displaying data in plots.
+-	Throw an exception for the invalid license of HELMFlow.

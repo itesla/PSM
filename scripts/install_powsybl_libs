@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Copyright (c) 2017 - 2018, RTE (http://www.rte-france.com)
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# @author Luma Zamarreño <zamarrenolm at aia.es>
+#
+
+
+VERSION=1.0.0
+PLUGIN="org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file"
+
+function install_one_file {
+	mvn ${PLUGIN} -Dfile=$1-${VERSION}.jar 
+}
+
+install_one_file powsybl-cim1-converter
+install_one_file powsybl-cim1-model
+install_one_file powsybl-commons
+install_one_file powsybl-commons
+install_one_file powsybl-computation
+install_one_file powsybl-computation-local
+install_one_file powsybl-computation-mpi
+install_one_file powsybl-contingency-api
+install_one_file powsybl-entsoe-util
+install_one_file powsybl-iidm-api
+install_one_file powsybl-iidm-converter-api
+install_one_file powsybl-iidm-impl
+install_one_file powsybl-iidm-xml-converter
+install_one_file powsybl-loadflow-api
+install_one_file powsybl-math
+install_one_file powsybl-simulation-api
+install_one_file powsybl-tools

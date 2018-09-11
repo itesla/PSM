@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2017-2018, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.power-systems-modelica.psm</groupId>
+		<artifactId>psm</artifactId>
+		<version>1.0.1</version>
+	</parent>
+	<artifactId>workflow</artifactId>
+	<name>Power systems on Modelica workflow</name>
+	<description>Execution of a workflow as a sequence of tasks: import of static model, computation of a Loadflow, convertion to dynamic model, full model initalization, addition of events, simulation</description>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>static-network-importer</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ddr-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ddr-dyd-files</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dyd-files-from-modelica</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-network-builder</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-event-adder</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dymola-integration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>case-validation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.powsybl</groupId>
+			<artifactId>powsybl-loadflow-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.powsybl</groupId>
+			<artifactId>powsybl-computation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.powsybl</groupId>
+			<artifactId>powsybl-computation-local</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.powsybl</groupId>
+			<artifactId>powsybl-contingency-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>commons</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-network</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-network-builder</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-event-adder</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>modelica-parser</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dyd-files-from-modelica</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>case-validation</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Hades2 integration -->
+		<!--dependency>
+			<groupId>com.rte_france.powsybl</groupId>
+			<artifactId>powsybl-hades2-integration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.rte_france.powsybl</groupId>
+			<artifactId>powsybl-adn-export</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.rte_france.powsybl</groupId>
+			<artifactId>powsybl-iidm-cvg-extensions</artifactId>
+		</dependency-->
+
+		<!-- HELM Flow integration -->
+		<!--dependency>
+			<groupId>com.elequant.helmflow</groupId>
+			<artifactId>helmflow-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.elequant.helmflow</groupId>
+			<artifactId>helmflow-api-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.elequant.helmflow</groupId>
+			<artifactId>helmflow-powsybl-integration</artifactId>
+		</dependency-->
+
+		<!-- helmflow-core dependencies -->
+		<!--dependency>
+			<groupId>com.elequant.helmflow</groupId>
+			<artifactId>helmflow-core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency-->
+		
+		<!-- Temporal transitive dependencies -->
+        <dependency>
+            <groupId>net.sourceforge.javacsv</groupId>
+            <artifactId>javacsv</artifactId>
+        </dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>openmodelica</id>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>openmodelica-integration</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<configuration>
+					<licenseResolver>${project.baseUri}../src/license</licenseResolver>
+					<excludes>
+						<exclude>**/logback-test.xml</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<directory>${project.basedir}/../data/cfg</directory>
+			</testResource>
+		</testResources>
+	</build>
+</project>

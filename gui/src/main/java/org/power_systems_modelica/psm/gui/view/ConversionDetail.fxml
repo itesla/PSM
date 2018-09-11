@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2017-2018, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.ScatterChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<?import org.power_systems_modelica.psm.gui.utils.fx.CodeEditor?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.power_systems_modelica.psm.gui.view.ConversionDetailController">
+   <children>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane style="-fx-background-color: white;">
+            	<children>
+			      <TitledPane animated="false" collapsible="false" text="Conversion detail" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			        <content>
+			          <AnchorPane minHeight="0.0" minWidth="0.0">
+			               <children>
+			                    <TabPane fx:id="tabPane" layoutY="14.0" minHeight="420.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			                         <tabs>
+			                              <Tab fx:id="resultTab" closable="false" text="Results">
+			                                   <content>
+													<AnchorPane fx:id="resultPane" minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="200.0">
+														<children>
+													      <ImageView fx:id="resultIcon" fitHeight="150.0" fitWidth="200.0" layoutX="7.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="60.0" />
+													      <Label fx:id="resultText" layoutX="14.0" layoutY="21.0" text="Label" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="21.0" />
+														</children>
+													</AnchorPane>
+			                                   </content>
+			                              </Tab>
+			                              <Tab fx:id="moTab" closable="false" text="Modelica File">
+			                                   <content>
+													<AnchorPane fx:id="editorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+														<children>
+										                    <HBox layoutX="448.3999938964844" layoutY="19.600000381469727" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+										                       <children>
+										                          <Button fx:id="findEditor" mnemonicParsing="false" onAction="#handleFindContentEvent" styleClass="btn-default" text="Find" />
+										                       </children>
+										                    </HBox>
+					                                        <CodeEditor fx:id="codeEditor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+														</children>
+													</AnchorPane>
+			                                   </content>
+			                              </Tab>
+			                              <Tab fx:id="modelsTab" closable="false" text="Models">
+			                                   <content>
+													<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+		                                             <children>
+		                                                <Label layoutX="14.0" layoutY="163.0" text="Static elements without dynamic models" AnchorPane.topAnchor="14.0" />
+                                                		<ListView fx:id="staticTable" layoutX="14.0" layoutY="14.0" prefHeight="157.0" prefWidth="529.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="44.0" />
+		                                                <Label layoutX="14.0" layoutY="163.0" text="Mapping between static and dynamic models" AnchorPane.topAnchor="220.0" />
+		                                                <TreeTableView fx:id="modelsTable" layoutX="14.0" showRoot="false" styleClass="table table-bordered table-hover" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="250.0">
+		                                                  <columns>
+		                                                    <TreeTableColumn fx:id="staticIdColumn" prefWidth="75.0" text="Static Id" />
+		                                                    <TreeTableColumn fx:id="originColumn" prefWidth="75.0" text="Origin" />
+		                                                    <TreeTableColumn fx:id="dynamicIdColumn" prefWidth="105.0" text="Dynamic Type" />
+		                                                  </columns>
+		                                                </TreeTableView>
+		                                             </children>
+													</AnchorPane>
+			                                   </content>
+			                              </Tab>
+			                              <Tab fx:id="curvesTab" closable="false" text="Steady state values">
+			                                   <content>
+														<AnchorPane>
+															<children>
+																<TabPane layoutY="14.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+																	<tabs>
+																		<Tab closable="false" text="Voltage">
+																			<content>
+																				<ScatterChart fx:id="voltageChart">
+																					<xAxis>
+																						<CategoryAxis side="BOTTOM" fx:id="xVoltageAxis" />
+																					</xAxis>
+																					<yAxis>
+																						<NumberAxis fx:id="yVoltageAxis" side="LEFT" />
+																					</yAxis>
+																				</ScatterChart>
+																			</content>
+																		</Tab>
+																		<Tab closable="false" text="Phase">
+																			<content>
+																				<ScatterChart fx:id="phaseChart">
+																					<xAxis>
+																						<CategoryAxis side="BOTTOM" fx:id="xPhaseAxis" />
+																					</xAxis>
+																					<yAxis>
+																						<NumberAxis fx:id="yPhaseAxis" side="LEFT" />
+																					</yAxis>
+																				</ScatterChart>
+																			</content>
+																		</Tab>
+																		<Tab closable="false" text="Active Power">
+																			<content>
+																				<ScatterChart fx:id="activeChart">
+																					<xAxis>
+																						<CategoryAxis side="BOTTOM" fx:id="xActiveAxis" />
+																					</xAxis>
+																					<yAxis>
+																						<NumberAxis fx:id="yActiveAxis" side="LEFT" />
+																					</yAxis>
+																				</ScatterChart>
+																			</content>
+																		</Tab>
+																		<Tab closable="false" text="Reactive Power">
+																			<content>
+																				<ScatterChart fx:id="reactiveChart">
+																					<xAxis>
+																						<CategoryAxis side="BOTTOM" fx:id="xReactiveAxis" />
+																					</xAxis>
+																					<yAxis>
+																						<NumberAxis fx:id="yReactiveAxis" side="LEFT" />
+																					</yAxis>
+																				</ScatterChart>
+																			</content>
+																		</Tab>
+																	</tabs>
+																</TabPane>
+															</children>
+														</AnchorPane>
+			                                   </content>
+			                              </Tab>
+			                              <Tab fx:id="logTab" closable="false" text="Logs">
+			                                   <content>
+												<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+												   <children>
+												      <TextArea fx:id="logArea" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+												   </children>
+												</AnchorPane>
+			                                   </content>
+			                              </Tab>
+			                         </tabs>
+			                    </TabPane>
+			               </children>
+			            </AnchorPane>
+			        </content>
+			         <padding>
+			            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+			         </padding>
+			      </TitledPane>
+            	</children>
+            	<stylesheets>
+            		<URL value="@/css/bootstrap3.css" />
+            		<URL value="@/css/MainApp.css" />
+            	</stylesheets>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

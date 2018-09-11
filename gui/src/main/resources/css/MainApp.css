@@ -1,0 +1,126 @@
+/*menu*/
+.btn-menu {
+	-fx-background-color: #f0f0f0;
+	-fx-border-color: #e6e6e6 #e6e6e6 #acacac #e6e6e6;
+	-fx-text-fill: #666666;
+	-fx-background-radius: 4 4 0 0;
+	-fx-border-radius: 4 4 0 0;
+	-fx-border-width: 1;
+	}
+
+.btn-menu.active {
+	-fx-background-color: #fff;
+	-fx-border-color: #acacac;
+	-fx-text-fill: #333333;
+	-fx-background-radius: 4 4 0 0;
+	-fx-border-radius: 4 4 0 0;
+	-fx-border-width: 1 1 0 1;
+}
+
+/*hover state*/
+.btn-menu.active:hover {
+	-fx-background-color: #fff;
+	-fx-border-color: #acacac;
+	-fx-text-fill: #333333;
+	-fx-background-radius: 4 4 0 0;
+	-fx-border-radius: 4 4 0 0;
+	-fx-border-width: 1 1 0 1;
+}
+
+/*default*/
+.btn-default {
+	-fx-background-color: transparent;
+	-fx-border-color: #005fac;
+}
+
+/*hover state*/
+.btn-default:hover, .btn-default .menu-item:hover, .btn-default .menu-item:hover .label {
+	-fx-background-color: #005fac;
+	-fx-border-color: #005fac;
+	-fx-text-fill: white;
+}
+
+.btn-default > .arrow-button {
+    -fx-padding: 0;
+}
+
+.btn-default > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+
+/*primary*/
+.btn-primary {
+	-fx-background-color: #005fac;
+	-fx-border-color: #005fac;
+	-fx-text-fill: white;
+}
+
+/*hover state*/
+.btn-primary:hover {
+	-fx-background-color: transparent;
+	-fx-border-color: #005fac;
+	-fx-text-fill: #005fac;
+}
+
+/* hidden tab bar */
+.hidden-bar {
+    -fx-tab-max-height: 0 ;
+} 
+.hidden-bar .tab-header-area {
+    visibility: hidden ;
+}
+
+/* titled panel title */
+.titled-pane > .title 
+{
+	-fx-font-weight: bold;
+	-fx-padding: 5
+}
+
+/* progressLog */
+.treeViewItem {
+	-fx-font-family: 'monospace';
+}
+
+/* tab pane header color */
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: white;
+	-fx-effect: null;
+}
+
+.tree-table-row-cell .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-image: none;
+}
+.tree-table-row-cell:expanded .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-image: none;
+}
+
+/* default chart colors */
+.default-color0.chart-series-line { -fx-stroke: red; }
+.default-color1.chart-series-line { -fx-stroke: blue; -fx-stroke-dash-array: 2 12 12 2; }
+.default-color2.chart-series-line { -fx-stroke: green; -fx-stroke-dash-array: 0 12 2 0; }
+.default-color3.chart-series-line { -fx-stroke: black; -fx-stroke-dash-array: 12 8 12; }
+
+.default-color0.chart-line-symbol { -fx-background-color: red; }
+.default-color1.chart-line-symbol { -fx-background-color: blue; }
+.default-color2.chart-line-symbol { -fx-background-color: green; }
+.default-color3.chart-line-symbol { -fx-background-color: black; }
+
+.default-color0.chart-symbol { /* solid square */
+    -fx-background-color: red;
+    -fx-background-radius: 0;
+}
+.default-color1.chart-symbol { /* solid triangle */
+    -fx-background-color: blue;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-shape: "M5,0 L10,8 L0,8 Z";
+}
+
+.autofill-text {
+	-fx-skin: "org.power_systems_modelica.psm.gui.utils.fx.AutoFillTextBoxSkin";
+}

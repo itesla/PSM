@@ -89,11 +89,11 @@ public class SimulationDetailControllerTest extends ApplicationTest
 		List<BusData> allBusesValues = new ArrayList<>();
 		for (int i = 1; i <= 14; i++)
 		{
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[1];
-			float[] As = new float[1];
-			float[] Ps = new float[1];
-			float[] Qs = new float[1];
+			Map<String, double[]> bvalues = new HashMap<>();
+			double[] Vs = new double[1];
+			double[] As = new double[1];
+			double[] Ps = new double[1];
+			double[] Qs = new double[1];
 
 			Vs[0] = 1.0f;
 			As[0] = 2.0f;

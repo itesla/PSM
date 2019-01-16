@@ -34,9 +34,11 @@ import org.power_systems_modelica.psm.ddr.dyd.xml.equations.EquationXml;
  */
 public class ModelXml
 {
-	public static final String	ROOT_ELEMENT_NAME	= "model";
+	public static final String	ROOT_ELEMENT_NAME_AIA	= "model";
+	public static final String	ROOT_ELEMENT_NAME_DYN	= "modelicaModel";
+	public static final String	ROOT_TEMPLATE_NAME_DYN	= "modelTemplateExpansion";
 
-	public static Model read(XMLStreamReader r)
+	public static Model readAia(XMLStreamReader r)
 	{
 		String id = r.getAttributeValue(null, "id");
 
@@ -64,9 +66,50 @@ public class ModelXml
 		return m;
 	}
 
-	public static void write(XMLStreamWriter w, Model m) throws XMLStreamException
+	public static Model readDynamo(XMLStreamReader r)
 	{
-		w.writeStartElement(ROOT_ELEMENT_NAME);
+		String id = r.getAttributeValue(null, "id");
+
+		// The model applies either to a staticId, an association, a type or an event
+		String staticId = r.getAttributeValue(null, "staticId");
+		if (staticId == null) staticId = id;
+
+		Model m = null;
+		if (id.endsWith("FAULT"))
+			m = new ModelForEvent(id, Injection.ADD, id);
+		else
+			m = new ModelForElement(staticId, id);
+		
+		m.setStage(DydXml.readAttributeStage(r));
+
+		return m;
+	}
+
+	public static Model modelForAssociation(XMLStreamReader r) {
+		String id = r.getAttributeValue(null, "id");
+		String staticId = r.getAttributeValue(null, "id");
+		if (id == null)
+		{
+			id = r.getAttributeValue(null, "id1");
+			staticId = r.getAttributeValue(null, "id2");
+	    }
+		Model model = new ModelForAssociation(staticId, id);
+		return model;
+	}
+
+	public static Model SystemModel(XMLStreamReader r) {
+	    String staticId = "_SYSTEM_";
+		String id = "DM__SYSTEM_";
+		Model model = new ModelForElement(staticId, id);
+		return model;
+	}
+
+	public static void write(XMLStreamWriter w, Model m, boolean dynamo) throws XMLStreamException
+	{
+		if (dynamo)
+			w.writeStartElement(ROOT_ELEMENT_NAME_DYN);
+		else
+			w.writeStartElement(ROOT_ELEMENT_NAME_AIA);
 		DydXml.writeAttributeStage(w, m.getStage());
 		w.writeAttribute("id", m.getId());
 
@@ -92,9 +135,9 @@ public class ModelXml
 		}
 
 		for (Component mc : m.getComponents())
-			ComponentXml.write(w, mc);
+			ComponentXml.write(w, mc, dynamo);
 		for (Connection mcn : m.getConnections())
-			ConnectionXml.write(w, mcn);
+			ConnectionXml.write(w, mcn, dynamo);
 		for (Interconnection mcr : m.getInterconnections())
 			InterconnectionXml.write(w, mcr);
 		for (Equation meq : m.getOtherEquations())

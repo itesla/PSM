@@ -17,18 +17,25 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.power_systems_modelica.psm.dd.Component;
+import org.power_systems_modelica.psm.dd.Model;
+import org.power_systems_modelica.psm.dd.ModelForElement;
 import org.power_systems_modelica.psm.dd.Parameter;
+import org.power_systems_modelica.psm.dd.ParameterReference;
 import org.power_systems_modelica.psm.dd.ParameterSet;
 import org.power_systems_modelica.psm.dd.ParameterSetReference;
+import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 /**
  * @author Luma Zamarreño <zamarrenolm at aia.es>
  */
 public class ComponentXml
 {
-	public static final String	ROOT_ELEMENT_NAME	= "component";
+	public static final String	ROOT_ELEMENT_NAME_AIA	= "component";
+	public static final String	ROOT_ELEMENT_NAME_DYN	= "unitDynamicModel";
+	public static final String	BLACKBOX_MODEL_NAME		= "blackBoxModel";
+	public static final String	MACRO_CONNECTOR_NAME	= "macroConnector";
 
-	public static Component read(XMLStreamReader r)
+	public static Component readAia(XMLStreamReader r)
 	{
 		String id = r.getAttributeValue(null, "id");
 		String type = r.getAttributeValue(null, "type");
@@ -50,25 +57,101 @@ public class ComponentXml
 		return c;
 	}
 
-	public static void write(XMLStreamWriter w, Component c) throws XMLStreamException
+	public static Component readDynamo(XMLStreamReader r)
+	{
+		String id = r.getAttributeValue(null, "id");
+		String type = r.getAttributeValue(null, "name");
+		Component c = new Component(id, type);
+
+		String initName = r.getAttributeValue(null, "initName");
+		if (initName != null) c.setInitName(initName);
+		
+		String parFile = r.getAttributeValue(null, "parFile");
+		String parId = r.getAttributeValue(null, "parId");
+		ParameterSetReference pref = null;
+		if (parFile != null && parId != null) pref = new ParameterSetReference(parFile, parId);
+		if (pref != null) c.setParameterSetReference(pref);
+
+		String svalue = r.getAttributeValue(null, "value");
+		if (svalue != null) c.setValue(svalue);
+		boolean isParameter = IS_PARAMETER_DEFAULT;
+		String sIsParameter = r.getAttributeValue(null, "isParameter");
+		if (sIsParameter != null) isParameter = Boolean.valueOf(sIsParameter);
+		c.setParameter(isParameter);
+
+		return c;
+	}
+
+	public static Component readDynamoTemplate(XMLStreamReader r) {
+		String id = r.getAttributeValue(null, "templateId");
+		String type = id + ".so";
+		Component c = new Component(id, type);
+
+		String parFile = r.getAttributeValue(null, "parFile");
+		String parId = r.getAttributeValue(null, "parId");
+		ParameterSetReference pref = null;
+		if (parFile != null && parId != null) pref = new ParameterSetReference(parFile, parId);
+		if (pref != null) c.setParameterSetReference(pref);
+
+		return c;
+	}
+
+	public static Component readBlackBoxModel(XMLStreamReader r)
+	{
+		String id = r.getAttributeValue(null, "id");
+		if (!ModelicaUtil.containsOmegaRef(id) && !id.contains("SysData")) return null;
+		
+		String type = r.getAttributeValue(null, "lib");
+		Component c = new Component(id, type);
+		
+		String parFile = r.getAttributeValue(null, "parFile");
+		String parId = r.getAttributeValue(null, "parId");
+		ParameterSetReference pref = null;
+		if (parFile != null && parId != null) pref = new ParameterSetReference(parFile, parId);
+		if (pref != null) c.setParameterSetReference(pref);
+
+		return c;
+	}
+
+	public static void write(XMLStreamWriter w, Component c, boolean dynamo) throws XMLStreamException
 	{
 		ParameterSet set = c.getParameterSet();
 		boolean isEmptyElement = set == null ||
 				set.getParameters() == null ||
 				set.getParameters().isEmpty();
 
-		if (isEmptyElement) w.writeEmptyElement(ROOT_ELEMENT_NAME);
-		else w.writeStartElement(ROOT_ELEMENT_NAME);
-		w.writeAttribute("type", c.getType());
+		if (isEmptyElement) 
+		{
+			if (dynamo)
+			{
+				if (c.getLib() != null) w.writeEmptyElement(BLACKBOX_MODEL_NAME);
+				else w.writeEmptyElement(ROOT_ELEMENT_NAME_DYN);
+			}
+			else w.writeEmptyElement(ROOT_ELEMENT_NAME_AIA);
+		}
+		else 
+		{
+			if (dynamo)
+			{
+				if (c.getLib() != null) w.writeStartElement(BLACKBOX_MODEL_NAME);
+				else w.writeStartElement(ROOT_ELEMENT_NAME_DYN);
+			}
+			else w.writeStartElement(ROOT_ELEMENT_NAME_AIA);
+		}
+		if (dynamo) w.writeAttribute("name", c.getType());
+		else w.writeAttribute("type", c.getType());
 		if (c.getId() != null) w.writeAttribute("id", c.getId());
+		if (c.getLib() != null) w.writeAttribute("lib", c.getLib());
 		if (set != null)
 		{
 			for (Parameter p : set.getParameters())
-				ParameterXml.write(w, p);
+				ParameterXml.write(w, p, dynamo);
 		}
 		else
 		{
 			ParameterSetReference pref = c.getParameterSetReference();
+			String initName = c.getInitName();
+			if (initName != null) w.writeAttribute("initName", initName);
 			if (pref != null)
 			{
 				w.writeAttribute("parFile", pref.getContainer());

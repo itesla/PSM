@@ -17,11 +17,17 @@ package org.power_systems_modelica.psm.dd;
  */
 public class ParameterReference extends Parameter
 {
-	public ParameterReference(String name, String unit, String dataSource, String sourceName)
+	public ParameterReference(String name, String sourceName)
+	{
+		this(null, name, null, null, sourceName);
+	}
+
+	public ParameterReference(String type, String name, String unit, String dataSource, String sourceName)
 	{
 		super(name, unit);
 		this.dataSource = dataSource;
 		this.sourceName = sourceName;
+		this.type = type;
 	}
 
 	public String getDataSource()
@@ -34,6 +40,11 @@ public class ParameterReference extends Parameter
 		return sourceName;
 	}
 
+	public String getType()
+	{
+		return type;
+	}
+	
 	@Override
 	public boolean isGeneric()
 	{
@@ -50,6 +61,7 @@ public class ParameterReference extends Parameter
         return (this.getName().equals(p.getName()));
     }
 
+	private final String	type;
 	private final String	dataSource;
 	private final String	sourceName;
 }

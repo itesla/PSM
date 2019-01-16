@@ -33,12 +33,12 @@ public class ParameterSetXml
 		return set;
 	}
 
-	public static void write(XMLStreamWriter w, ParameterSet set) throws XMLStreamException
+	public static void write(XMLStreamWriter w, ParameterSet set, boolean dynamo) throws XMLStreamException
 	{
 		w.writeStartElement(ROOT_ELEMENT_NAME);
 		w.writeAttribute("id", set.getId());
 		for (Parameter p : set.getParameters())
-			ParameterXml.write(w, p);
+			ParameterXml.write(w, p, dynamo);
 		w.writeEndElement();
 	}
 }

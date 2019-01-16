@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import com.google.auto.service.AutoService;
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 import com.powsybl.computation.ComputationManager;
 import com.powsybl.computation.local.LocalComputationManager;
 import com.powsybl.iidm.network.Bus;
@@ -45,10 +46,10 @@ import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.ShuntCompensator;
-import com.powsybl.iidm.network.StateManager;
+import com.powsybl.iidm.network.StateManagerConstants;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
-import com.powsybl.iidm.network.TwoTerminalsConnectable;
+import com.powsybl.iidm.network.Branch;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.xml.NetworkXml;
 import com.powsybl.loadflow.LoadFlow;
@@ -129,7 +130,7 @@ public class LoadFlowComputationTool implements Tool
 	}
 
 	@Override
-	public void run(CommandLine cmd) throws Exception
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception
 	{
 		String iidmFile = cmd.getOptionValue("i-iidm");
 		if (iidmFile == null)
@@ -179,7 +180,7 @@ public class LoadFlowComputationTool implements Tool
 
 		// Option sourceStateId and targetStateId not available. Default:INITIAL_STATE_ID
 		String sourceStateId = Optional.ofNullable(cmd.getOptionValue("sourceStateId"))
-				.orElse(StateManager.INITIAL_STATE_ID);
+				.orElse(StateManagerConstants.INITIAL_STATE_ID);
 		String targetStateId = Optional.ofNullable(cmd.getOptionValue("targetStateId"))
 				.orElse(sourceStateId);
 		if (cmd.hasOption("Compare"))
@@ -236,18 +237,18 @@ public class LoadFlowComputationTool implements Tool
 
 	}
 
-	static private Map<String, Map<String, Float>> gatherBusesValues(
+	static private Map<String, Map<String, Double>> gatherBusesValues(
 			Network n,
 			String caseId0,
 			String caseId1)
 	{
-		Map<String, Map<String, Float>> allBusesValues = new HashMap<>();
+		Map<String, Map<String, Double>> allBusesValues = new HashMap<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, Float> bvalues = new HashMap<>();
-			Float Vs = (float) 0.0;
-			Float As = (float) 0.0;
-			Float Ps = (float) 0.0;
-			Float Qs = (float) 0.0;
+			Map<String, Double> bvalues = new HashMap<>();
+			double Vs = (double) 0.0;
+			double As = (double) 0.0;
+			double Ps = (double) 0.0;
+			double Qs = (double) 0.0;
 			try
 			{
 				n.getStateManager().setWorkingState(caseId0);
@@ -286,7 +287,7 @@ public class LoadFlowComputationTool implements Tool
 					Paths.get(workingDirectory));
 			int priority = 1;
 			LoadFlow lf = loadFlowFactory.create(network, computationManager, priority);
-			LoadFlowResult r = lf.run(loadFlowParams);
+			LoadFlowResult r = lf.run(network.getStateManager().getWorkingStateId(), loadFlowParams).join();
 			// After run the LF export result data even if the result is not ok (in this case the exported iidm will have the initial values)
 			if (r.isOk())
 			{
@@ -307,7 +308,7 @@ public class LoadFlowComputationTool implements Tool
 		}
 	}
 
-	public static float calcRelativeErrorOrAbsoluteIfSmallValues(float v0, float v1)
+	public static double calcRelativeErrorOrAbsoluteIfSmallValues(float v0, float v1)
 	{
 		float absoluteError = Math.abs(v0 - v1);
 		if (isAlmostZero(v0) || isAlmostZero(v1)) return absoluteError;
@@ -334,22 +335,22 @@ public class LoadFlowComputationTool implements Tool
 			{
 				void updateBalance(String type, String id, Terminal t)
 				{
-					float p = t.getP();
-					float q = t.getQ();
+					double p = t.getP();
+					double q = t.getQ();
 					LOG.info(String.format("LFBB     %-5s %12.5f %12.5f %-64s", type, p, q, id));
-					delta[0] += Float.isNaN(p) ? 0.0f : p;
-					delta[1] += Float.isNaN(q) ? 0.0f : q;
+					delta[0] += Double.isNaN(p) ? 0.0f : p;
+					delta[1] += Double.isNaN(q) ? 0.0f : q;
 				}
 
 				@Override
-				public void visitLine(Line line, TwoTerminalsConnectable.Side side)
+				public void visitLine(Line line, Branch.Side side)
 				{
 					updateBalance("Line", line.getId(), line.getTerminal(side));
 				}
 
 				@Override
 				public void visitTwoWindingsTransformer(TwoWindingsTransformer transformer,
-						TwoTerminalsConnectable.Side side)
+						Branch.Side side)
 				{
 					updateBalance("2W", transformer.getId(), transformer.getTerminal(side));
 				}
@@ -400,14 +401,14 @@ public class LoadFlowComputationTool implements Tool
 		return deltaMax;
 	}
 
-	static private boolean isAlmostZero(float value)
+	static private boolean isAlmostZero(double value)
 	{
 		return Math.abs(value) < 1e-4f;
 	}
 
-	static private float zeroIfNaN(float value)
+	static private double zeroIfNaN(double value)
 	{
-		return Float.isNaN(value) ? 0.0f : value;
+		return Double.isNaN(value) ? 0.0f : value;
 	}
 
 	private static boolean isHades2Available()

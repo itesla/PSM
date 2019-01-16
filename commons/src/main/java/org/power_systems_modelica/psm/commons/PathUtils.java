@@ -96,7 +96,9 @@ public class PathUtils
 			{
 				if (entry.toString().endsWith("ME.xml"))
 					return entry;
-				else if (entry.toString().endsWith("EQ.xml"))
+				else if (entry.toString().endsWith("EQ.xml") && !entry.getFileName().toString().startsWith("ENTSO"))
+					return entry;
+				else if (entry.toString().endsWith(".iidm"))
 					return entry;
 			}
 		}

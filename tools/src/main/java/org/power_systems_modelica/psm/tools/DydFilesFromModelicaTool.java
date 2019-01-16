@@ -24,13 +24,14 @@ import com.google.auto.service.AutoService;
 
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 
 // We do not want to make this class public
 // @AutoService(Tool.class)
 //public class DydFilesFromModelicaTool implements Tool
 abstract class HiddenTool {
 	public Command getCommand() {return null;}
-	public void run(CommandLine cmd) throws Exception {}
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception {}
 }
 /**
  * @author Luma Zamarreño <zamarrenolm at aia.es>
@@ -99,7 +100,7 @@ public class DydFilesFromModelicaTool extends HiddenTool
 	}
 
 	@Override
-	public void run(CommandLine cmd) throws Exception
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception
 	{
 		String modelicaFile = cmd.getOptionValue("i-mo");
 		if (modelicaFile == null)

@@ -71,7 +71,32 @@ public class XmlUtil
 
 	public static void validate(Path file)
 	{
-		String schemaName = DYD_SCHEMA_RESOUCE;
+		String schemaName = DYD_AIA_SCHEMA_RESOUCE;
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Source sschema = new StreamSource(XmlUtil.class.getResourceAsStream(schemaName));
+		try (InputStream is = Files.newInputStream(file))
+		{
+			Source xml = new StreamSource(Files.newInputStream(file));
+			Schema schema = factory.newSchema(sschema);
+			Validator validator = schema.newValidator();
+			validator.validate(xml);
+			LOG.info("validated {} against schema {}",
+					file.toAbsolutePath().toString(),
+					schemaName);
+		}
+		catch (SAXException | IOException e)
+		{
+			LOG.error("validating {} against schema {}, reason {}",
+					file.toAbsolutePath().toString(),
+					schemaName,
+					e.getMessage());
+			validateDynamo(file);
+		}
+	}
+
+	public static void validateDynamo(Path file)
+	{
+		String schemaName = DYD_DYN_SCHEMA_RESOUCE;
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Source sschema = new StreamSource(XmlUtil.class.getResourceAsStream(schemaName));
 		try (InputStream is = Files.newInputStream(file))
@@ -126,7 +151,8 @@ public class XmlUtil
 	}
 
 	public static final String						NAMESPACE					= "http://www.power_systems_on_modelica.org/schema/dyd/1_0";
-	private static final String						DYD_SCHEMA_RESOUCE			= "/xsd/dyd.xsd";
+	private static final String						DYD_AIA_SCHEMA_RESOUCE			= "/xsd/dyd_aia.xsd";
+	private static final String						DYD_DYN_SCHEMA_RESOUCE			= "/xsd/dyd_dyn.xsd";
 	private static final Supplier<XMLInputFactory>	XML_INPUT_FACTORY_SUPPLIER	= Suppliers
 			.memoize(XMLInputFactory::newInstance);
 	private static final Supplier<XMLOutputFactory>	XML_OUTPUT_FACTORY_SUPPLIER	= Suppliers

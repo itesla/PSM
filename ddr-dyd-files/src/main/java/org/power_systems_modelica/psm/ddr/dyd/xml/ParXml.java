@@ -33,7 +33,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ParXml
 {
-	public static final String ROOT_ELEMENT_NAME = "parameters";
+	public static final String ROOT_ELEMENT_NAME_AIA = "parameters";
+	public static final String ROOT_ELEMENT_NAME_DYN = "parametersSet";
 
 	public static ParameterSetContainer read(Path file) throws XMLStreamException, IOException
 	{
@@ -64,6 +65,12 @@ public class ParXml
 			case XMLEvent.START_ELEMENT:
 				switch (r.getLocalName())
 				{
+				case ROOT_ELEMENT_NAME_AIA:
+					container.setDynamo(false);
+					break;
+				case ROOT_ELEMENT_NAME_DYN:
+					container.setDynamo(true);
+					break;
 				case ParameterSetXml.ROOT_ELEMENT_NAME:
 					set = ParameterSetXml.read(r);
 					container.add(set);
@@ -71,8 +78,11 @@ public class ParXml
 				case ParameterValueXml.ROOT_ELEMENT_NAME:
 					set.add(ParameterValueXml.read(r));
 					break;
-				case ParameterReferenceXml.ROOT_ELEMENT_NAME:
-					set.add(ParameterReferenceXml.read(r));
+				case ParameterReferenceXml.ROOT_ELEMENT_NAME_AIA:
+					set.add(ParameterReferenceXml.readAia(r));
+					break;
+				case ParameterReferenceXml.ROOT_ELEMENT_NAME_DYN:
+					set.add(ParameterReferenceXml.readDynamo(r));
 					break;
 				}
 				break;
@@ -109,10 +119,13 @@ public class ParXml
 			throws XMLStreamException
 	{
 		w.writeStartDocument();
-		w.writeStartElement(ROOT_ELEMENT_NAME);
+		if (container.isDynamo()) 
+			w.writeStartElement(ROOT_ELEMENT_NAME_DYN);
+		else
+			w.writeStartElement(ROOT_ELEMENT_NAME_AIA);
 		w.writeDefaultNamespace(XmlUtil.NAMESPACE);
 		for (ParameterSet set : sortedSets(container.getSets()))
-			ParameterSetXml.write(w, set);
+			ParameterSetXml.write(w, set, container.isDynamo());
 		w.writeEndElement();
 		w.writeEndDocument();
 		w.flush();

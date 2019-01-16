@@ -22,12 +22,11 @@ import org.power_systems_modelica.psm.dd.ParameterValue;
 /**
  * @author Luma Zamarreño <zamarrenolm at aia.es>
  */
-public class ParameterXml
-{
-	public static void write(XMLStreamWriter w, Parameter p) throws XMLStreamException
-	{
-		if (p instanceof ParameterValue) ParameterValueXml.write(w, (ParameterValue) p);
-		else if (p instanceof ParameterReference) ParameterReferenceXml.write(w,
-				(ParameterReference) p);
+public class ParameterXml {
+	public static void write(XMLStreamWriter w, Parameter p, boolean dynamo) throws XMLStreamException {
+		if (p instanceof ParameterValue)
+			ParameterValueXml.write(w, (ParameterValue) p);
+		else if (p instanceof ParameterReference) 
+			ParameterReferenceXml.write(w, (ParameterReference) p, dynamo);
 	}
 }

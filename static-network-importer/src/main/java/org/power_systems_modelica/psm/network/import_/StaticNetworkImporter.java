@@ -22,7 +22,7 @@ import com.powsybl.commons.datasource.ZipFileDataSource;
 import com.powsybl.iidm.import_.Importer;
 import com.powsybl.iidm.import_.Importers;
 import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.TwoTerminalsConnectable;
+import com.powsybl.iidm.network.Branch;
 import com.powsybl.iidm.parameters.Parameter;
 
 /**
@@ -43,6 +43,7 @@ public class StaticNetworkImporter
 		String basename1 = basename.toString().replaceFirst("_(ME|EQ|SV|TP).xml", "");
 		basename1 = basename1.replaceFirst(".zip", "");
 		basename1 = basename1.replaceFirst(".uct", "");
+		basename1 = basename1.replaceFirst(".iidm", "");
 
 		Properties parameters = new Properties();
 		parameters.put("usePsseNamingStrategy", "true");
@@ -53,6 +54,8 @@ public class StaticNetworkImporter
 			LOG.info("importing file [" + basename1 + "]");
 			if (basename.toString().endsWith(".xml"))
 				n = Importers.importData("CIM1", path.toString(), basename1, parameters);
+			else if (basename.toString().endsWith(".iidm"))
+				n = Importers.importData("XIIDM", path.toString(), basename1, parameters);
 			else if (basename.toString().endsWith(".zip"))
 			{
 				ZipFileDataSource zipDataSource = new ZipFileDataSource(path, basename.toString(),
@@ -92,29 +95,29 @@ public class StaticNetworkImporter
 				.forEach(tr -> tr.setX(fixedReactanceForLowImpedance(tr, minXpu, tr.getX())));
 	}
 	
-	private static double getXpu(TwoTerminalsConnectable<?> branch, float R, float X)
+	private static double getXpu(Branch<?> branch, double R, double X)
 	{
 		final float SNREF = 100.0f;
-		float V = branch.getTerminal2().getVoltageLevel().getNominalV();
-		if (Float.isNaN(V)) return Float.NaN;
-		float K = (V * V) / SNREF;
-		float Xpu = X / K;
+		double V = branch.getTerminal2().getVoltageLevel().getNominalV();
+		if (Double.isNaN(V)) return Float.NaN;
+		double K = (V * V) / SNREF;
+		double Xpu = X / K;
 		return Math.abs(Xpu);
 	}
 
-	private static float fixedReactanceForLowImpedance(
-			TwoTerminalsConnectable<?> branch,
-			float Xpu,
-			float X0)
+	private static double fixedReactanceForLowImpedance(
+			Branch<?> branch,
+			double Xpu,
+			double X0)
 	{
 		final float SNREF = 100.0f;
-		float V = branch.getTerminal2().getVoltageLevel().getNominalV();
-		if (Float.isNaN(V)) return Float.NaN;
+		double V = branch.getTerminal2().getVoltageLevel().getNominalV();
+		if (Double.isNaN(V)) return Float.NaN;
 
 		// Set the new value to the minimum allowed reactance
 		// (it comes expressed in pu base SNREF, and we want to store it in Siemens)
-		float Z = (V * V) / SNREF;
-		float X1 = Xpu * Z;
+		double Z = (V * V) / SNREF;
+		double X1 = Xpu * Z;
 
 		// Preserve the sign of X0
 		X1 *= Math.signum(X0);

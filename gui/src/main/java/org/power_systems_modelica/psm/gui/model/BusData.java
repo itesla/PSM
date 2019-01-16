@@ -16,8 +16,8 @@ import java.util.HashMap;
 
 import java.util.Map;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -27,7 +27,7 @@ import javafx.beans.property.StringProperty;
 @SuppressWarnings("restriction")
 public class BusData
 {
-	public BusData(String id, String name, Map<String, float[]> data)
+	public BusData(String id, String name, Map<String, double[]> data)
 	{
 		this.id = id;
 		this.name = name;
@@ -50,47 +50,47 @@ public class BusData
 		return new SimpleStringProperty(name);
 	}
 
-	public Map<String, float[]> getData()
+	public Map<String, double[]> getData()
 	{
 		return data;
 	}
 
-	public FloatProperty dataProperty(String variable, int id) {
+	public DoubleProperty dataProperty(String variable, int id) {
 		
-		return new SimpleFloatProperty(data.get(variable)[id]);
+		return new SimpleDoubleProperty(data.get(variable)[id]);
 	}
 
-	public Float getData(String variable, int id)
+	public Double getData(String variable, int id)
 	{
-		if (Float.isNaN(data.get(variable)[id])) return null;
+		if (Double.isNaN(data.get(variable)[id])) return null;
 		return data.get(variable)[id];
 	}
 
-	public void setError(String variable, float err)
+	public void setError(String variable, double err)
 	{
-		float[] input = new float[1];
+		double[] input = new double[1];
 		input[0] = err;
 
 		this.err.put(variable, input);
 	}
 
-	public float getError(String variable)
+	public double getError(String variable)
 	{
 		return err.get(variable)[0];
 	}
 
-	public FloatProperty errorProperty(String variable)
+	public DoubleProperty errorProperty(String variable)
 	{
-		return new SimpleFloatProperty(err.get(variable)[0]);
+		return new SimpleDoubleProperty(err.get(variable)[0]);
 	}
 
-	public float getAbsError(String variable)
+	public double getAbsError(String variable)
 	{
 		return Math.abs(err.get(variable)[0]);
 	}
 
 	private String					id;
 	private String					name;
-	private Map<String, float[]>	data;
-	private Map<String, float[]>	err;
+	private Map<String, double[]>	data;
+	private Map<String, double[]>	err;
 }

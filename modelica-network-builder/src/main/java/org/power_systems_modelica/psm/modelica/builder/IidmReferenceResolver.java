@@ -31,8 +31,8 @@ import com.powsybl.iidm.network.PhaseTapChangerStep;
 import com.powsybl.iidm.network.RatioTapChanger;
 import com.powsybl.iidm.network.RatioTapChangerStep;
 import com.powsybl.iidm.network.ShuntCompensator;
-import com.powsybl.iidm.network.SingleTerminalConnectable;
-import com.powsybl.iidm.network.TwoTerminalsConnectable;
+import com.powsybl.iidm.network.Injection;
+import com.powsybl.iidm.network.Branch;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.VoltageLevel;
 
@@ -135,48 +135,56 @@ public class IidmReferenceResolver implements ReferenceResolver
 			switch (name)
 			{
 			case "V_pu":
+			case "v_pu":
 				return b.getV() / b.getVoltageLevel().getNominalV();
 			case "A_rad":
-				return (float) Math.toRadians(b.getAngle());
+			case "a_rad":
+				return (double) Math.toRadians(b.getAngle());
 			case "V":
 				return b.getV();
 			case "A":
 				return b.getAngle();
 			}
 		}
-		if (element instanceof SingleTerminalConnectable<?>)
+		if (element instanceof Injection<?>)
 		{
-			SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) element;
+			Injection<?> e = (Injection<?>) element;
 			Bus b = e.getTerminal().getBusView().getBus();
 			switch (name)
 			{
 			case "V_pu":
-				float v = Float.NaN;
+			case "v_pu":
+				double v = Double.NaN;
 				if (b != null) v = b.getV() / e.getTerminal().getVoltageLevel().getNominalV();
 				return v;
 			case "A_rad":
-				float a = Float.NaN;
-				if (b != null) a = (float) Math.toRadians(b.getAngle());
+				double a = Double.NaN;
+				if (b != null) a = (double) Math.toRadians(b.getAngle());
 				return a;
 			case "V":
-				return (b != null ? b.getV() : Float.NaN);
+				return (b != null ? b.getV() : Double.NaN);
 			case "A":
-				return (b != null ? b.getAngle() : Float.NaN);
+			case "angle_pu":
+				return (b != null ? b.getAngle() : Double.NaN);
 			case "Vnom":
 				return e.getTerminal().getVoltageLevel().getNominalV();
 			case "P":
+			case "p":
 				return e.getTerminal().getP();
 			case "-P":
 				return -e.getTerminal().getP();
 			case "Q":
+			case "q":
 				return e.getTerminal().getQ();
 			case "-Q":
 				return -e.getTerminal().getQ();
 			case "P_pu":
+			case "p_pu":
 				return e.getTerminal().getP() / this.snref;
 			case "-P_pu":
 				return -e.getTerminal().getP() / this.snref;
 			case "Q_pu":
+			case "q_pu":
 				return e.getTerminal().getQ() / this.snref;
 			case "-Q_pu":
 				return -e.getTerminal().getQ() / this.snref;
@@ -185,17 +193,17 @@ public class IidmReferenceResolver implements ReferenceResolver
 		if (element instanceof ShuntCompensator)
 		{
 			ShuntCompensator s = (ShuntCompensator) element;
-			float V = s.getTerminal().getVoltageLevel().getNominalV();
-			float sectionB = s.getbPerSection();
+			double V = s.getTerminal().getVoltageLevel().getNominalV();
+			double sectionB = s.getbPerSection();
 			switch (name)
 			{
 			case "B_pu":
-				float B = sectionB * s.getCurrentSectionCount();
+				double B = sectionB * s.getCurrentSectionCount();
 				// As a reactive injection at the nominal voltage
 				B = B * V * V;
 				return B / this.snref;
 			case "B0_pu":
-				float B0 = sectionB;
+				double B0 = sectionB;
 				// As a reactive injection at the nominal voltage
 				B0 = B0 * V * V;
 				return B0 / this.snref;
@@ -206,59 +214,61 @@ public class IidmReferenceResolver implements ReferenceResolver
 			Generator g = (Generator) element;
 			Bus b = g.getTerminal().getBusView().getBus();
 
-			float v = Float.NaN;
+			double v = Double.NaN;
 			if (b != null) v = b.getV() / g.getTerminal().getVoltageLevel().getNominalV();
-			float a = Float.NaN;
-			if (b != null) a = (float) Math.toRadians(b.getAngle());
+			double a = Double.NaN;
+			if (b != null) a = (double) Math.toRadians(b.getAngle());
 			Complex u = ComplexUtils.polar2Complex(v, a);
 
 			switch (name)
 			{
+			case "state":
+				return g.getTerminal().isConnected();
 			case "u0_re":
 				return u.getReal();
 			case "u0_im":
 				return u.getImaginary();
 			}
 		}
-		if (element instanceof TwoTerminalsConnectable<?>)
+		if (element instanceof Branch<?>)
 		{
-			TwoTerminalsConnectable<?> e = (TwoTerminalsConnectable<?>) element;
+			Branch<?> e = (Branch<?>) element;
 			Bus b1 = e.getTerminal1().getBusView().getBus();
 			Bus b2 = e.getTerminal2().getBusView().getBus();
 			switch (name)
 			{
 			case "V1_pu":
-				float v1 = Float.NaN;
+				double v1 = Double.NaN;
 				if (b1 != null) v1 = b1.getV() / e.getTerminal1().getVoltageLevel().getNominalV();
 				return v1;
 			case "A1_rad":
-				float a1 = Float.NaN;
-				if (b1 != null) a1 = (float) Math.toRadians(b1.getAngle());
+				double a1 = Double.NaN;
+				if (b1 != null) a1 = (double) Math.toRadians(b1.getAngle());
 				return a1;
 			case "V1":
-				return (b1 != null ? b1.getV() : Float.NaN);
+				return (b1 != null ? b1.getV() : Double.NaN);
 			case "A1":
-				return (b1 != null ? b1.getAngle() : Float.NaN);
+				return (b1 != null ? b1.getAngle() : Double.NaN);
 			case "V2_pu":
-				float v2 = Float.NaN;
+				double v2 = Double.NaN;
 				if (b2 != null) v2 = b2.getV() / e.getTerminal1().getVoltageLevel().getNominalV();
 				return v2;
 			case "A2_rad":
-				float a2 = Float.NaN;
-				if (b2 != null) a2 = (float) Math.toRadians(b2.getAngle());
+				double a2 = Double.NaN;
+				if (b2 != null) a2 = (double) Math.toRadians(b2.getAngle());
 				return a2;
 			case "V2":
-				return (b2 != null ? b2.getV() : Float.NaN);
+				return (b2 != null ? b2.getV() : Double.NaN);
 			case "A2":
-				return (b2 != null ? b2.getAngle() : Float.NaN);
+				return (b2 != null ? b2.getAngle() : Double.NaN);
 			}
 		}
 		if (element instanceof Line)
 		{
 			Line l = (Line) element;
-			float nominalV = l.getTerminal2().getVoltageLevel().getNominalV();
-			if (Float.isNaN(nominalV)) nominalV = 0;
-			float Z = (nominalV * nominalV) / this.snref;
+			double nominalV = l.getTerminal2().getVoltageLevel().getNominalV();
+			if (Double.isNaN(nominalV)) nominalV = 0;
+			double Z = (nominalV * nominalV) / this.snref;
 			switch (name)
 			{
 			case "R_pu":
@@ -277,22 +287,22 @@ public class IidmReferenceResolver implements ReferenceResolver
 
 			// TODO Compute only data that is needed for answering the value of the queried property
 			// TODO These small transformations should be moved to the iPST library
-			float nominalV1 = tx.getTerminal1().getVoltageLevel().getNominalV();
-			float nominalV2 = tx.getTerminal2().getVoltageLevel().getNominalV();
-			if (Float.isNaN(nominalV1)) nominalV1 = 0;
-			if (Float.isNaN(nominalV2)) nominalV2 = 0;
-			float V1 = tx.getRatedU1();
-			float V2 = tx.getRatedU2();
-			if (Float.isNaN(V1)) V1 = 0;
-			if (Float.isNaN(V2)) V2 = 0;
-			float Zbase = (float) Math.pow(nominalV2, 2) / this.snref;
+			double nominalV1 = tx.getTerminal1().getVoltageLevel().getNominalV();
+			double nominalV2 = tx.getTerminal2().getVoltageLevel().getNominalV();
+			if (Double.isNaN(nominalV1)) nominalV1 = 0;
+			if (Double.isNaN(nominalV2)) nominalV2 = 0;
+			double V1 = tx.getRatedU1();
+			double V2 = tx.getRatedU2();
+			if (Double.isNaN(V1)) V1 = 0;
+			if (Double.isNaN(V2)) V2 = 0;
+			double Zbase = (double) Math.pow(nominalV2, 2) / this.snref;
 
-			float r = tx.getR() / Zbase;
-			float x = tx.getX() / Zbase;
-			float g = tx.getG() * Zbase;
-			float b = tx.getB() * Zbase;
+			double r = tx.getR() / Zbase;
+			double x = tx.getX() / Zbase;
+			double g = tx.getG() * Zbase;
+			double b = tx.getB() * Zbase;
 
-			float dx = 0, dr = 0;
+			double dx = 0, dr = 0;
 			RatioTapChanger rtc = tx.getRatioTapChanger();
 			PhaseTapChanger ptc = tx.getPhaseTapChanger();
 			if (rtc != null)
@@ -302,7 +312,7 @@ public class IidmReferenceResolver implements ReferenceResolver
 				dr += rtcs.getR();
 				dx += rtcs.getX();
 			}
-			float theta = 0.0f;
+			double theta = 0.0f;
 			if (ptc != null)
 			{
 				PhaseTapChangerStep ptcs = ptc.getCurrentStep();
@@ -315,9 +325,9 @@ public class IidmReferenceResolver implements ReferenceResolver
 			x *= (1 + dx / 100);
 
 			// FIXME ratio computed according to helmflow (legacy comment)
-			float endV = V1 / nominalV1;
-			float sourceV = V2 / nominalV2;
-			float ratio = sourceV / endV;
+			double endV = V1 / nominalV1;
+			double sourceV = V2 / nominalV2;
+			double ratio = sourceV / endV;
 
 			switch (name)
 			{

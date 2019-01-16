@@ -28,9 +28,9 @@ import org.slf4j.LoggerFactory;
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.SingleTerminalConnectable;
+import com.powsybl.iidm.network.Injection;
 import com.powsybl.iidm.network.Switch;
-import com.powsybl.iidm.network.TwoTerminalsConnectable;
+import com.powsybl.iidm.network.Branch;
 import com.powsybl.iidm.network.VoltageLevel.BusBreakerView;
 
 /**
@@ -78,6 +78,8 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			}
 			else
 				throw new IncompleteReferenceException(a);
+		case "connectRef":
+			return null;
 		default:
 			throw new UnresolvedReferenceException(a);
 		}
@@ -93,7 +95,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		if (sourceElement == null) return null;
 
 		ModelicaModel targetModel = null;
-		if (targetItem.equals("{system}"))
+		if (targetItem.equals("{system}") || ModelicaUtil.containsOmegaRef(targetItem))
 		{
 			// A direct reference to a "system pin" (omegaRef)
 			targetModel = modelicaBuilder.getSystemModel();
@@ -118,7 +120,7 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 			// If sourceElement is not a Bus,
 			// Then it should be a SingleTerminalConnectable element
 			// Someone that wants to connect to "its unique" bus
-			SingleTerminalConnectable<?> e = (SingleTerminalConnectable<?>) sourceElement;
+			Injection<?> e = (Injection<?>) sourceElement;
 			Bus bus = e.getTerminal().getBusBreakerView().getBus();
 			targetModel = modelicaBuilder.getDynamicModelFor(bus.getId());
 		}
@@ -126,15 +128,15 @@ public class DynamicNetworkReferenceResolver extends IidmReferenceResolver
 		{
 			// We assume targetItem is either bus1 or bus2
 			// We do not rely on ordinal of the enumeration items
-			TwoTerminalsConnectable.Side side;
-			if (targetItem.endsWith("1}")) side = TwoTerminalsConnectable.Side.ONE;
-			else if (targetItem.endsWith("2}")) side = TwoTerminalsConnectable.Side.TWO;
+			Branch.Side side;
+			if (targetItem.endsWith("1}")) side = Branch.Side.ONE;
+			else if (targetItem.endsWith("2}")) side = Branch.Side.TWO;
 			else return null;
 
 			Bus bus = null;
-			if (sourceElement instanceof TwoTerminalsConnectable)
+			if (sourceElement instanceof Branch)
 			{
-				TwoTerminalsConnectable<?> e = (TwoTerminalsConnectable<?>) sourceElement;
+				Branch<?> e = (Branch<?>) sourceElement;
 				bus = e.getTerminal(side).getBusBreakerView().getBus();
 			}
 			else if (sourceElement instanceof Switch)

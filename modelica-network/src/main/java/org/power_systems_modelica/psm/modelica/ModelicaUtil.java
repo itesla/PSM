@@ -26,6 +26,19 @@ import java.util.stream.Collectors;
  */
 public class ModelicaUtil
 {
+	public static boolean containsOmegaRef(String code) {
+		if (code.contains("OMEGA_REF")) return true;
+		if (code.contains("omegaRef")) return true;
+		
+		return false;
+	}
+
+	public static boolean isNetwork(String code) {
+		if (code.equals("NETWORK")) return true;
+		
+		return false;
+	}
+
 	public static String idvar2ref(String id, String var)
 	{
 		if (id == null) return var;

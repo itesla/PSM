@@ -60,8 +60,10 @@ public class DydXml
 			case XMLEvent.START_ELEMENT:
 				switch (r.getLocalName())
 				{
-				case ModelContainerXml.MODEL_CONTAINER_ELEMENT_NAME:
-					return ModelContainerXml.read(r);
+				case ModelContainerXml.MODEL_CONTAINER_ELEMENT_NAME_AIA:
+					return ModelContainerXml.readAia(r);
+				case ModelContainerXml.MODEL_CONTAINER_ELEMENT_NAME_DYN:
+					return ModelContainerXml.readDynamo(r);
 				}
 			}
 		}

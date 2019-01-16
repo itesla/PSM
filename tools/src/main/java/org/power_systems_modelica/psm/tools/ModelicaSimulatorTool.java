@@ -37,6 +37,7 @@ import com.google.auto.service.AutoService;
 
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 
 /**
  * @author Luma Zamarreño <zamarrenolm at aia.es>
@@ -137,7 +138,7 @@ public class ModelicaSimulatorTool implements Tool
 	}
 
 	@Override
-	public void run(CommandLine cmd) throws Exception
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception
 	{
 		String moFile = cmd.getOptionValue("i-mo");
 		if (moFile == null)

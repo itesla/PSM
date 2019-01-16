@@ -40,6 +40,7 @@ import com.google.auto.service.AutoService;
 
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.xml.NetworkXml;
@@ -127,7 +128,7 @@ public class ModelicaEventAdderTool implements Tool
 	}
 
 	@Override
-	public void run(CommandLine cmd) throws Exception
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception
 	{
 		String moInput = cmd.getOptionValue("i-mo");
 		if (moInput == null)

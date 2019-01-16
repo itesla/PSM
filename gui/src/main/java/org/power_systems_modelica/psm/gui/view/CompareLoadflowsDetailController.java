@@ -308,8 +308,8 @@ public class CompareLoadflowsDetailController extends MainChildrenController
 				reactiveCurvesChart.setLegendVisible(true);
 
 				DoubleSummaryStatistics voltageStats = wr.getAllBusesValues().stream()
-						.map(bus -> bus.getAbsError("V")).filter(value -> !Float.isNaN(value))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
+						.map(bus -> bus.getAbsError("V")).filter(value -> !Double.isNaN(value))
+						.collect(Collectors.summarizingDouble(Double::doubleValue));
 
 				DecimalFormat df = new DecimalFormat("0.0###");
 				if (voltageStats.getAverage() < 0.0001)
@@ -319,8 +319,8 @@ public class CompareLoadflowsDetailController extends MainChildrenController
 				maxVoltageDiffLabel.setText(df.format(voltageStats.getMax()));
 
 				DoubleSummaryStatistics phaseStats = wr.getAllBusesValues().stream()
-						.map(bus -> bus.getAbsError("A")).filter(value -> !Float.isNaN(value))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
+						.map(bus -> bus.getAbsError("A")).filter(value -> !Double.isNaN(value))
+						.collect(Collectors.summarizingDouble(Double::doubleValue));
 
 				df = new DecimalFormat("0.0###");
 				if (phaseStats.getAverage() < 0.0001)
@@ -330,8 +330,8 @@ public class CompareLoadflowsDetailController extends MainChildrenController
 				maxPhaseDiffLabel.setText(df.format(phaseStats.getMax()));
 
 				DoubleSummaryStatistics activeStats = wr.getAllBusesValues().stream()
-						.map(bus -> bus.getAbsError("P")).filter(value -> !Float.isNaN(value))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
+						.map(bus -> bus.getAbsError("P")).filter(value -> !Double.isNaN(value))
+						.collect(Collectors.summarizingDouble(Double::doubleValue));
 
 				df = new DecimalFormat("0.0###");
 				if (activeStats.getAverage() < 0.0001)
@@ -341,8 +341,8 @@ public class CompareLoadflowsDetailController extends MainChildrenController
 				maxActiveDiffLabel.setText(df.format(activeStats.getMax()));
 
 				DoubleSummaryStatistics reactiveStats = wr.getAllBusesValues().stream()
-						.map(bus -> bus.getAbsError("Q")).filter(value -> !Float.isNaN(value))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
+						.map(bus -> bus.getAbsError("Q")).filter(value -> !Double.isNaN(value))
+						.collect(Collectors.summarizingDouble(Double::doubleValue));
 
 				df = new DecimalFormat("0.0###");
 				if (reactiveStats.getAverage() < 0.0001)

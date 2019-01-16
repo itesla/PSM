@@ -38,6 +38,7 @@ import com.google.auto.service.AutoService;
 
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.xml.NetworkXml;
 
@@ -122,7 +123,7 @@ public class ModelicaNetworkBuilderTool implements Tool
 	}
 
 	@Override
-	public void run(CommandLine cmd) throws Exception
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception
 	{
 		String ddrLocation = cmd.getOptionValue("i-ddr");
 		if (ddrLocation == null)

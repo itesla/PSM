@@ -88,6 +88,11 @@ public class Model
 		interconnections.add(c);
 	}
 
+	public void delConnector(String id, String var)
+	{
+		interconnections.removeIf(c -> c.getComponentId().equals(id) && c.getComponentVar().equals(var));
+	}
+
 	public void addInterconnections(List<Interconnection> c)
 	{
 		interconnections.addAll(c);

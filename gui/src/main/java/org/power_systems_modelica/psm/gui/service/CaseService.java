@@ -183,6 +183,8 @@ public class CaseService {
 					sv = true;
 				else if (entry.toString().endsWith("TP.xml"))
 					tp = true;
+				else if (entry.toString().endsWith(".iidm"))
+					return true;
 			}
 		}
 		if (eq && sv && tp)

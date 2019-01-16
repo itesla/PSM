@@ -95,11 +95,11 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 		List<BusData> allBusesValues = new ArrayList<>();
 		for (int i = 1; i <= 14; i++)
 		{
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
+			Map<String, double[]> bvalues = new HashMap<>();
+			double[] Vs = new double[2];
+			double[] As = new double[2];
+			double[] Ps = new double[2];
+			double[] Qs = new double[2];
 
 			Vs[0] = 1.0f;
 			As[0] = 2.0f;
@@ -117,8 +117,8 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 		}
 
 		allBusesValues.forEach(bv -> {
-			float[] values = bv.getData().get("V");
-			float err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
+			double[] values = bv.getData().get("V");
+			double err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
 			bv.setError("V", err);
 			values = bv.getData().get("A");
 			err = (values[0] - values[1]) / (values[0] != 0.0f ? values[0] : 1.0f);
@@ -213,7 +213,7 @@ public class CompareLoadflowsDetailControllerTest extends ApplicationTest
 
 				DoubleSummaryStatistics voltageStats = results.getAllBusesValues().stream()
 						.map(bus -> bus.getAbsError("V"))
-						.collect(Collectors.summarizingDouble(Float::doubleValue));
+						.collect(Collectors.summarizingDouble(Double::doubleValue));
 				avgVoltageDiffLabel
 						.setText(String.format("%,.4f%%", voltageStats.getAverage() * 100));
 				maxVoltageDiffLabel.setText(String.format("%,.4f%%", voltageStats.getMax() * 100));

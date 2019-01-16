@@ -41,6 +41,16 @@ public class ParameterSetContainer implements DydContent
 		return name;
 	}
 
+	public void setDynamo(boolean dynamo)
+	{
+		this.dynamo = dynamo;
+	}
+
+	public boolean isDynamo()
+	{
+		return dynamo;
+	}
+
 	public ParameterSet newParameterSet()
 	{
 		int id = ++setCounter;
@@ -73,6 +83,7 @@ public class ParameterSetContainer implements DydContent
 
 	private String							name;
 	private int								setCounter;
+	private boolean							dynamo;
 
 	private final Map<String, ParameterSet>	parameterSets			= new HashMap<>();
 	private final List<ParameterSet>		duplicatedParameterSets	= new ArrayList<>();

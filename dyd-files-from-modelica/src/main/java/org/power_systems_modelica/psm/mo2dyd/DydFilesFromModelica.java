@@ -635,7 +635,7 @@ public class DydFilesFromModelica
 					initResult.var);
 
 			String defaultUnit = null;
-			return new ParameterReference(a.getName(), defaultUnit, "INIT", initResultsReference);
+			return new ParameterReference(null, a.getName(), defaultUnit, "INIT", initResultsReference);
 		}
 		return null;
 	}
@@ -646,7 +646,7 @@ public class DydFilesFromModelica
 		if (iidmAttribute != null)
 		{
 			String defaultUnit = null;
-			return new ParameterReference(a.getName(), defaultUnit, "IIDM", iidmAttribute);
+			return new ParameterReference(null, a.getName(), defaultUnit, "IIDM", iidmAttribute);
 		}
 		return null;
 	}
@@ -661,7 +661,7 @@ public class DydFilesFromModelica
 			{
 				String defaultUnit = null;
 				String dynnName = DYNN_PARAMETERS.get(dynnParameterKey);
-				return new ParameterReference(a.getName(), defaultUnit, "DYNN", dynnName);
+				return new ParameterReference(null, a.getName(), defaultUnit, "DYNN", dynnName);
 			}
 		}
 		return null;

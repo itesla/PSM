@@ -639,11 +639,11 @@ public class WorkflowServiceConfiguration
 
 		List<BusData> allBusesValues = new ArrayList<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[1];
-			float[] As = new float[1];
-			float[] Ps = new float[1];
-			float[] Qs = new float[1];
+			Map<String, double[]> bvalues = new HashMap<>();
+			double[] Vs = new double[1];
+			double[] As = new double[1];
+			double[] Ps = new double[1];
+			double[] Qs = new double[1];
 
 			Vs[0] = b.getV() / b.getVoltageLevel().getNominalV();
 			As[0] = b.getAngle();
@@ -659,9 +659,9 @@ public class WorkflowServiceConfiguration
 		results.setAllBusesValues(allBusesValues);
 	}
 
-	private static float zeroIfNaN(float value)
+	private static double zeroIfNaN(double value)
 	{
-		return Float.isNaN(value) ? 0.0f : value;
+		return Double.isNaN(value) ? 0.0f : value;
 	}
 
 	public static Workflow createCompareLoadflows(Case cs, LoadflowEngine le,
@@ -716,7 +716,7 @@ public class WorkflowServiceConfiguration
 		WorkflowResult results = new WorkflowResult();
 		Network n = (Network) cl.getResults("network");
 		List<BusData> allBusesValues = new ArrayList<>();
-		Map<String, Map<String, float[]>> busValues = LoadFlowTask.gatherBusesValues(
+		Map<String, Map<String, double[]>> busValues = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHelmflow",
 				"resultsHades2",
@@ -730,7 +730,7 @@ public class WorkflowServiceConfiguration
 		});
 
 		allBusesValues.forEach(bv -> {
-			float[] values = bv.getData().get("V");
+			double[] values = bv.getData().get("V");
 			bv.setError("V", LoadFlowTask.calcDifference(values[0], values[1]));
 			values = bv.getData().get("A");
 			bv.setError("A", LoadFlowTask.calcDifference(values[0], values[1]));

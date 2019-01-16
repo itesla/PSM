@@ -32,6 +32,7 @@ import com.google.auto.service.AutoService;
 
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 
 /**
  * @author Luma Zamarreño <zamarrenolm at aia.es>
@@ -127,7 +128,7 @@ public class CaseValidationTool implements Tool
 	}
 
 	@Override
-	public void run(CommandLine cmd) throws Exception
+	public void run(CommandLine cmd, ToolRunningContext context) throws Exception
 	{
 		String mappingFile = cmd.getOptionValue("i-mapping");
 		if (mappingFile == null)

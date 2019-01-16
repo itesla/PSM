@@ -44,7 +44,8 @@ public class DD
 	public static ModelicaModel buildModelicaModelFromDynamicModelDefinition(
 			Model mdef,
 			String staticId,
-			ParameterSetProvider parameters)
+			ParameterSetProvider parameters,
+			ModelProvider dynamicModels)
 	{
 		ModelicaModel m = new ModelicaModel(dynamicId(mdef.getId(), staticId));
 		m.setStaticId(staticId);
@@ -81,9 +82,22 @@ public class DD
 		List<ModelicaEquation> meqs = new ArrayList<>(mdef.getConnections().size());
 		for (Connection c : mdef.getConnections())
 		{
-			String ref1 = ModelicaUtil.idvar2ref(dynamicId(c.getId1(), staticId), c.getVar1());
-			String ref2 = ModelicaUtil.idvar2ref(dynamicId(c.getId2(), staticId), c.getVar2());
-			meqs.add(new ModelicaConnect(ref1, ref2));
+			if (c.getIdMacro() == null) 
+			{
+				String ref1 = ModelicaUtil.idvar2ref(dynamicId(c.getId1(), staticId), c.getVar1());
+				String ref2 = ModelicaUtil.idvar2ref(dynamicId(c.getId2(), staticId), c.getVar2());
+				meqs.add(new ModelicaConnect(ref1, ref2));
+			}
+			else
+			{
+				Model association = getDynamicModelForAssociation(dynamicModels, c.getIdMacro());
+				for (Connection cx : association.getConnections())
+				{
+					String ref1 = ModelicaUtil.idvar2ref(dynamicId(c.getId1(), staticId), cx.getVar1());
+					String ref2 = ModelicaUtil.idvar2ref(dynamicId(c.getId2(), staticId), cx.getVar2());
+					meqs.add(new ModelicaConnect(ref1, ref2));
+				}
+			}
 		}
 		m.addEquations(meqs);
 
@@ -96,6 +110,35 @@ public class DD
 			ParameterSetProvider parameters)
 	{
 		ParameterSet set = getParameterSet(c, staticId, parameters);
+		List<ModelicaArgument> arguments = null;
+		if (set != null) 
+		{
+			arguments = new ArrayList<>(set.getParameters().size());
+			for (Parameter p : set.getParameters())
+			{
+				ModelicaArgument a = null;
+				if (p instanceof ParameterValue) a = new ModelicaArgument(
+						p.getName(),
+						((ParameterValue) p).getValue());
+				else if (p instanceof ParameterReference) a = new ModelicaArgumentReference(
+						p.getName(),
+						((ParameterReference) p).getDataSource(),
+						((ParameterReference) p).getSourceName());
+				if (a != null) arguments.add(a);
+			}
+		}
+		List<ModelicaArgument> args = buildModelicaReferenceArguments(c, staticId, parameters);
+		if (arguments == null) arguments = args;
+		else if (args != null) arguments.addAll(args);
+		return arguments;
+	}
+
+	private static List<ModelicaArgument> buildModelicaReferenceArguments(
+			Component c,
+			String staticId,
+			ParameterSetProvider parameters)
+	{
+		ParameterSet set = getParameterSetReference(c, staticId, parameters);
 		if (set == null) return null;
 
 		List<ModelicaArgument> arguments = new ArrayList<>(set.getParameters().size());
@@ -114,17 +157,28 @@ public class DD
 		return arguments;
 	}
 
+	private static Model getDynamicModelForAssociation(ModelProvider dynamicModels, String associationId)
+	{
+		return dynamicModels.getDynamicModelForAssociation(associationId);
+	}
+
 	private static ParameterSet getParameterSet(
 			Component c,
 			String staticId,
 			ParameterSetProvider parameters)
 	{
 		ParameterSet set = c.getParameterSet();
-		if (set == null)
-		{
-			ParameterSetReference psetRef = c.getParameterSetReference();
-			if (psetRef != null) set = parameters.get(psetRef, staticId);
-		}
+		return set;
+	}
+
+	private static ParameterSet getParameterSetReference(
+			Component c,
+			String staticId,
+			ParameterSetProvider parameters)
+	{
+		ParameterSet set = null;
+		ParameterSetReference psetRef = c.getParameterSetReference();
+		if (psetRef != null) set = parameters.get(psetRef, staticId);
 		return set;
 	}
 }

@@ -188,6 +188,7 @@ public class ModelicaTextPrinter
 
 	private void printArgument(ModelicaArgument a, String indent)
 	{
+		if (a == null) return;
 		pw.printf("%s%s%s = %s", indent, INDENT, a.getName(), a.getValue());
 	}
 

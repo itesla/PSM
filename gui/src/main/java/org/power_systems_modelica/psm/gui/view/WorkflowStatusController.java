@@ -129,7 +129,7 @@ public class WorkflowStatusController extends MainChildrenController
 			{
 				String uri = td.getTaskConfiguration().getParameter("source");
 				Path casePath;
-				if (uri.endsWith(".xml"))
+				if (uri.endsWith(".xml") || uri.endsWith(".iidm"))
 				{
 					Path path = Paths.get(uri);
 					casePath = path.getParent();

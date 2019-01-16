@@ -33,6 +33,26 @@ public class Component
 		return type;
 	}
 
+	public void setLib(String lib) 
+	{
+		this.lib = lib;
+	}
+
+	public String getLib()
+	{
+		return lib;
+	}
+
+	public void setInitName(String initName)
+	{
+		this.initName = initName;
+	}
+
+	public String getInitName()
+	{
+		return this.initName;
+	}
+
 	public void setValue(Object value)
 	{
 		this.value = value;
@@ -77,6 +97,8 @@ public class Component
 
 	private final String			id;
 	private final String			type;
+	private String					lib;
+	private String					initName;
 	private Object					value;
 	private boolean					isParameter;
 	private ParameterSetReference	parameterSetReference;

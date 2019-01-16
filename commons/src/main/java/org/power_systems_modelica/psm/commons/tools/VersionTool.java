@@ -26,6 +26,7 @@ import com.google.auto.service.AutoService;
 
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
+import com.powsybl.tools.ToolRunningContext;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -79,7 +80,7 @@ public class VersionTool implements Tool
 	}
 
 	@Override
-	public void run(CommandLine line) throws Exception
+	public void run(CommandLine line, ToolRunningContext context) throws Exception
 	{
 		System.out.println(Version.VERSION);
 	}

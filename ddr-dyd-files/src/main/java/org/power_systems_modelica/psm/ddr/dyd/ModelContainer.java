@@ -19,6 +19,7 @@ import java.util.List;
 import org.power_systems_modelica.psm.dd.Association;
 import org.power_systems_modelica.psm.dd.Model;
 import org.power_systems_modelica.psm.dd.ModelForElement;
+import org.power_systems_modelica.psm.dd.Stage;
 import org.power_systems_modelica.psm.modelica.ModelicaUtil;
 
 /**
@@ -46,9 +47,30 @@ public class ModelContainer implements DydContent
 		return name;
 	}
 
+	public void setDynamo(boolean dynamo)
+	{
+		this.dynamo = dynamo;
+	}
+
+	public boolean isDynamo()
+	{
+		return dynamo;
+	}
+
 	public List<Model> getModels()
 	{
 		return this.models;
+	}
+
+	public Model getModel(String id, Stage stage)
+	{
+		if (ModelicaUtil.containsOmegaRef(id)) id = "DM__SYSTEM_";
+		for (Model m : getModels())
+		{
+			if (m.getId().equals(id) && m.getStage().equals(stage))
+				return m;
+		}
+		return null;
 	}
 
 	public void add(Collection<Model> ms)
@@ -90,6 +112,7 @@ public class ModelContainer implements DydContent
 	
 
 	private String					name;
+	private boolean					dynamo;
 	private final List<Model>		models			= new ArrayList<>();
 	private final List<Association>	associations	= new ArrayList<>();
 }

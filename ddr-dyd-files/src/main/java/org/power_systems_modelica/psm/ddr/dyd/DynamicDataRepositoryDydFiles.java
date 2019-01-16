@@ -163,11 +163,13 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	public Optional<ModelicaModel> getSystemModel(Stage stage)
 	{
 		String systemId = ModelicaUtil.getSystemStaticId();
+		ModelProvider dynamicModels = modelsByStage.get(stage);
 		Optional<ModelicaModel> mo = Optional.ofNullable(getDynamicModelForSystem(stage))
 				.map(mdef -> DD.buildModelicaModelFromDynamicModelDefinition(
 						mdef,
 						systemId,
-						parameters))
+						parameters,
+						dynamicModels))
 				.map(mo0 -> {
 					mo0.setStaticId(systemId);
 					return mo0;
@@ -185,8 +187,9 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 	public ModelicaModel getModelicaModel(Identifiable<?> e, Stage stage)
 	{
 		Model mdef = modelsByStage.get(stage).getModel(e);
+		ModelProvider dynamicModels = modelsByStage.get(stage);
 		if (mdef != null)
-			return DD.buildModelicaModelFromDynamicModelDefinition(mdef, e.getId(), parameters);
+			return DD.buildModelicaModelFromDynamicModelDefinition(mdef, e.getId(), parameters, dynamicModels);
 		return null;
 	}
 
@@ -231,7 +234,7 @@ public class DynamicDataRepositoryDydFiles implements DynamicDataRepository
 				//FIXME clone also connections? others?
 				mdef1.setAppliesTo(appliesTo);
 			}
-			return DD.buildModelicaModelFromDynamicModelDefinition(mdef1, event.getElement().getId(), parameters);
+			return DD.buildModelicaModelFromDynamicModelDefinition(mdef1, event.getElement().getId(), parameters, dynamicModels);
 		}
 		return null;
 	}

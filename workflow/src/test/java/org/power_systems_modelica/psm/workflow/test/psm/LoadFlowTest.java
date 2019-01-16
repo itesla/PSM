@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.StateManager;
+import com.powsybl.iidm.network.StateManagerConstants;
 
 /**
  * @author Luma Zamarreño <zamarrenolm at aia.es>
@@ -293,10 +293,10 @@ public class LoadFlowTest
 		n.getStateManager().allowStateMultiThreadAccess(false);
 
 		// Compare HELM Flow results with inputs but do not assert
-		Map<String, Map<String, float[]>> allBusesValuesHF0 = LoadFlowTask.gatherBusesValues(
+		Map<String, Map<String, double[]>> allBusesValuesHF0 = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHelmflow",
-				StateManager.INITIAL_STATE_ID,
+				StateManagerConstants.INITIAL_STATE_ID,
 				true);
 		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "P");
 		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "Q");
@@ -304,10 +304,10 @@ public class LoadFlowTest
 		checkResults(caseFolder, "HF-0 ", allBusesValuesHF0, "V");
 
 		// Compare Hades2 results with inputs but do not assert
-		Map<String, Map<String, float[]>> allBusesValuesHD20 = LoadFlowTask.gatherBusesValues(
+		Map<String, Map<String, double[]>> allBusesValuesHD20 = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHades2",
-				StateManager.INITIAL_STATE_ID,
+				StateManagerConstants.INITIAL_STATE_ID,
 				true);
 		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "P");
 		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "Q");
@@ -315,7 +315,7 @@ public class LoadFlowTest
 		checkResults(caseFolder, "HD2-0", allBusesValuesHD20, "V");
 
 		// Compare between HELM Flow and Hades2 and assert differences should be lower than ...
-		Map<String, Map<String, float[]>> allBusesValues = LoadFlowTask.gatherBusesValues(
+		Map<String, Map<String, double[]>> allBusesValues = LoadFlowTask.gatherBusesValues(
 				n,
 				"resultsHelmflow",
 				"resultsHades2",
@@ -334,15 +334,15 @@ public class LoadFlowTest
 	private DoubleSummaryStatistics checkResults(
 			String case_,
 			String label,
-			Map<String, Map<String, float[]>> allBusesValues,
+			Map<String, Map<String, double[]>> allBusesValues,
 			String variable)
 	{
 		float maxDiffAverage = getMaxDiffAverage(variable);
 		float maxDiffMax = getMaxDiffMax(variable);
 
-		List<Float> diffs = calcDifferences(allBusesValues, variable);
+		List<Double> diffs = calcDifferences(allBusesValues, variable);
 		DoubleSummaryStatistics stats = diffs.stream()
-				.collect(Collectors.summarizingDouble(Float::doubleValue));
+				.collect(Collectors.summarizingDouble(Double::doubleValue));
 
 		debugValues(case_, allBusesValues, variable, diffs);
 		System.err.printf("LF_DIFF_STATS_AVG\t%s\t%s\t%s\t%f\t%f\t%s%n",
@@ -364,14 +364,14 @@ public class LoadFlowTest
 
 	private void debugValues(
 			String case_,
-			Map<String, Map<String, float[]>> allBusesValues,
+			Map<String, Map<String, double[]>> allBusesValues,
 			String variable,
-			List<Float> diffs)
+			List<Double> diffs)
 	{
-		List<Float> values0 = allBusesValues.values().stream()
+		List<Double> values0 = allBusesValues.values().stream()
 				.map(bv -> bv.get(variable)[0])
 				.collect(Collectors.toList());
-		List<Float> values1 = allBusesValues.values().stream()
+		List<Double> values1 = allBusesValues.values().stream()
 				.map(bv -> bv.get(variable)[1])
 				.collect(Collectors.toList());
 
@@ -388,12 +388,12 @@ public class LoadFlowTest
 		}
 	}
 
-	private List<Float> calcDifferences(
-			Map<String, Map<String, float[]>> allBusesValues,
+	private List<Double> calcDifferences(
+			Map<String, Map<String, double[]>> allBusesValues,
 			String variable)
 	{
 		return allBusesValues.values().stream().map(bv -> {
-			float[] values = bv.get(variable);
+			double[] values = bv.get(variable);
 			return LoadFlowTask.calcDifference(values[0], values[1]);
 		}).collect(Collectors.toList());
 	}

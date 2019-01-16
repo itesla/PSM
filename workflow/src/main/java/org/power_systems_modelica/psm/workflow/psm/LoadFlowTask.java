@@ -33,10 +33,10 @@ import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.ShuntCompensator;
-import com.powsybl.iidm.network.StateManager;
+import com.powsybl.iidm.network.StateManagerConstants;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
-import com.powsybl.iidm.network.TwoTerminalsConnectable;
+import com.powsybl.iidm.network.Branch;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.util.Networks;
 import com.powsybl.iidm.xml.NetworkXml;
@@ -69,7 +69,7 @@ public class LoadFlowTask extends WorkflowTask
 		// and other task has changed the state id, this will reset
 
 		sourceStateId = Optional.ofNullable(config.getParameter("sourceStateId"))
-				.orElse(StateManager.INITIAL_STATE_ID);
+				.orElse(StateManagerConstants.INITIAL_STATE_ID);
 		targetStateId = Optional.ofNullable(config.getParameter("targetStateId"))
 				.orElse(sourceStateId);
 		workingDirectory = Optional.ofNullable(config.getParameter("workingDirectory")).orElse(".");
@@ -115,7 +115,7 @@ public class LoadFlowTask extends WorkflowTask
 			ComputationManager computationManager = new LocalComputationManager();
 			int priority = 1;
 			LoadFlow lf = loadFlowFactory.create(network, computationManager, priority);
-			LoadFlowResult r = lf.run(loadFlowParams);
+			LoadFlowResult r = lf.run(network.getStateManager().getWorkingStateId(), loadFlowParams).join();
 
 			// After run the LF export result data even if the result is not ok (in this case the exported iidm will have the initial values).
 			NetworkXml.write(network, Paths.get(workingDirectory)
@@ -163,22 +163,22 @@ public class LoadFlowTask extends WorkflowTask
 			{
 				void updateBalance(String type, String id, Terminal t)
 				{
-					float p = t.getP();
-					float q = t.getQ();
+					double p = t.getP();
+					double q = t.getQ();
 					LOG.info(String.format("LFBB     %-5s %12.5f %12.5f %-64s", type, p, q, id));
-					delta[0] += Float.isNaN(p) ? 0.0f : p;
-					delta[1] += Float.isNaN(q) ? 0.0f : q;
+					delta[0] += Double.isNaN(p) ? 0.0f : p;
+					delta[1] += Double.isNaN(q) ? 0.0f : q;
 				}
 
 				@Override
-				public void visitLine(Line line, TwoTerminalsConnectable.Side side)
+				public void visitLine(Line line, Branch.Side side)
 				{
 					updateBalance("Line", line.getId(), line.getTerminal(side));
 				}
 
 				@Override
 				public void visitTwoWindingsTransformer(TwoWindingsTransformer transformer,
-						TwoTerminalsConnectable.Side side)
+						Branch.Side side)
 				{
 					updateBalance("2W", transformer.getId(), transformer.getTerminal(side));
 				}
@@ -230,19 +230,19 @@ public class LoadFlowTask extends WorkflowTask
 	}
 
 	// Helper function to be used from GUI and from Tests
-	static public Map<String, Map<String, float[]>> gatherBusesValues(
+	static public Map<String, Map<String, double[]>> gatherBusesValues(
 			Network n,
 			String caseId0,
 			String caseId1,
 			boolean comparision)
 	{
-		Map<String, Map<String, float[]>> allBusesValues = new HashMap<>();
+		Map<String, Map<String, double[]>> allBusesValues = new HashMap<>();
 		n.getBusBreakerView().getBuses().forEach(b -> {
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
+			Map<String, double[]> bvalues = new HashMap<>();
+			double[] Vs = new double[2];
+			double[] As = new double[2];
+			double[] Ps = new double[2];
+			double[] Qs = new double[2];
 			try
 			{
 				n.getStateManager().setWorkingState(caseId0);
@@ -283,7 +283,7 @@ public class LoadFlowTask extends WorkflowTask
 		ABS_ERROR, RELATIVE_ERROR_DIFF_SUM, RELATIVE_ERROR_ABS_IF_SMALL
 	}
 
-	public static float calcDifference(float v0, float v1)
+	public static double calcDifference(double v0, double v1)
 	{
 		switch (diffMethod)
 		{
@@ -297,22 +297,22 @@ public class LoadFlowTask extends WorkflowTask
 		}
 	}
 
-	public static float calcRelativeErrorOrAbsoluteIfSmallValues(float v0, float v1)
+	public static double calcRelativeErrorOrAbsoluteIfSmallValues(double v0, double v1)
 	{
-		float absoluteError = Math.abs(v0 - v1);
+		double absoluteError = Math.abs(v0 - v1);
 		if (isAlmostZero(v0) || isAlmostZero(v1)) return absoluteError;
-		float err = absoluteError / Math.abs(v0);
+		double err = absoluteError / Math.abs(v0);
 		return err;
 	}
 
-	static private boolean isAlmostZero(float value)
+	static private boolean isAlmostZero(double value)
 	{
 		return Math.abs(value) < 1e-4f;
 	}
 
-	static private float zeroIfNaN(float value)
+	static private double zeroIfNaN(double value)
 	{
-		return Float.isNaN(value) ? 0.0f : value;
+		return Double.isNaN(value) ? 0.0 : value;
 	}
 
 	@Override

@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.SingleTerminalConnectable;
-import com.powsybl.iidm.network.TwoTerminalsConnectable;
+import com.powsybl.iidm.network.Injection;
+import com.powsybl.iidm.network.Branch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -130,16 +130,16 @@ public class SimulationCurveDetailController implements SimulationResultDetailCo
 		{
 			return key.contains(ModelicaUtil.normalizedIdentifier(i.getId()));
 		}
-		else if (i instanceof SingleTerminalConnectable)
+		else if (i instanceof Injection)
 		{
-			return key.contains(ModelicaUtil.normalizedIdentifier(((SingleTerminalConnectable<?>) i).getTerminal().getBusBreakerView().getBus()
+			return key.contains(ModelicaUtil.normalizedIdentifier(((Injection<?>) i).getTerminal().getBusBreakerView().getBus()
 					.getId()));
 		}
-		else if (i instanceof TwoTerminalsConnectable)
+		else if (i instanceof Branch)
 		{
-			return key.contains(ModelicaUtil.normalizedIdentifier(((TwoTerminalsConnectable<?>) i).getTerminal1().getBusBreakerView().getBus()
+			return key.contains(ModelicaUtil.normalizedIdentifier(((Branch<?>) i).getTerminal1().getBusBreakerView().getBus()
 					.getId()))
-					|| key.contains(ModelicaUtil.normalizedIdentifier(((TwoTerminalsConnectable<?>) i).getTerminal2().getBusBreakerView().getBus()
+					|| key.contains(ModelicaUtil.normalizedIdentifier(((Branch<?>) i).getTerminal2().getBusBreakerView().getBus()
 							.getId()));
 		}
 

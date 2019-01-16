@@ -46,11 +46,11 @@ public class ModelTest
 		List<BusData> buses = new ArrayList<>();
 		for (int i = 1; i < 10; i++)
 		{
-			Map<String, float[]> bvalues = new HashMap<>();
-			float[] Vs = new float[2];
-			float[] As = new float[2];
-			float[] Ps = new float[2];
-			float[] Qs = new float[2];
+			Map<String, double[]> bvalues = new HashMap<>();
+			double[] Vs = new double[2];
+			double[] As = new double[2];
+			double[] Ps = new double[2];
+			double[] Qs = new double[2];
 
 			Vs[0] = 0.9f;
 			As[0] = 10.0f;
@@ -66,7 +66,7 @@ public class ModelTest
 			bvalues.put("Q", Qs);
 
 			BusData bus = new BusData("id" + i, "name" + i, bvalues);
-			float err = (bus.getData("V", 0) - bus.getData("V", 1))
+			double err = (bus.getData("V", 0) - bus.getData("V", 1))
 					/ (bus.getData("V", 0) != 0.0f ? bus.getData("V", 0) : 1.0f);
 			bus.setError("V", err);
 			err = (bus.getData("A", 0) - bus.getData("A", 1))
